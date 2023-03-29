@@ -30,6 +30,7 @@
     "vitest": "^0.29.8"
   },
   "dependencies": {
+    "class-transformer": "^0.5.1",
     "neverthrow": "^6.0.0"
   }
 }

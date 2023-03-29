@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { InformationRequest, InformationResponse } from "models";
 import { RadixEngineToolkitWasmWrapper } from "./wasm_wrapper";
 
 /**
@@ -29,6 +30,13 @@ const RET: Promise<RadixEngineToolkitWasmWrapper> =
  * process away from the developer.
  */
 class RadixEngineToolkit {
+  public static async information(): Promise<InformationResponse> {
+    return RadixEngineToolkit.callFunction(
+      new InformationRequest(),
+      (await RET).exports.information
+    );
+  }
+
   private static async callFunction<I, O>(
     request: I,
     fn: (pointer: number) => number

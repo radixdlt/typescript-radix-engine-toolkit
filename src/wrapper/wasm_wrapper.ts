@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { instanceToPlain, plainToInstance } from "class-transformer";
 import wasmInit from "../../resources/radix-engine-toolkit.wasm?init";
 
 /**
@@ -24,15 +25,14 @@ import wasmInit from "../../resources/radix-engine-toolkit.wasm?init";
 class RadixEngineToolkitWasmWrapper {
   /**
    * An object containing objects and functions exported by the Radix Engine Toolkit WASM module.
-   * @private
    */
-  private exports: RadixEngineToolkitExports;
+  public exports: RadixEngineToolkitExports;
 
   /**
    * An instance created from the Radix Engine Toolkit module.
-   * @private
+   * @protected
    */
-  private instance: WebAssembly.Instance;
+  protected instance: WebAssembly.Instance;
 
   constructor(instance: WebAssembly.Instance) {
     this.instance = instance;
@@ -106,7 +106,7 @@ class RadixEngineToolkitWasmWrapper {
    * @private
    */
   private serializeObject(object: Object): string {
-    return JSON.stringify(object);
+    return instanceToPlain(object).toString();
   }
 
   /**
@@ -116,7 +116,8 @@ class RadixEngineToolkitWasmWrapper {
    * @private
    */
   private deserializeString<T>(string: string): T {
-    return JSON.parse(string) as T;
+    // @ts-ignore
+    return plainToInstance(T, string);
   }
 
   /**
@@ -267,4 +268,4 @@ interface RadixEngineToolkitExports {
   toolkit_free_c_string(pointer: number): void;
 }
 
-export { RadixEngineToolkitWasmWrapper, RadixEngineToolkitExports };
+export { RadixEngineToolkitWasmWrapper };
