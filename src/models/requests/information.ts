@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Expose, instanceToPlain } from "class-transformer";
+import { Expose } from "class-transformer";
 
 /**
  * The request provides information information on the currently in-use radix engine toolkit such as

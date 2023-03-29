@@ -16,6 +16,7 @@
 // under the License.
 
 import { instanceToPlain, plainToInstance } from "class-transformer";
+import { err, ok, Result } from "neverthrow";
 import wasmInit from "../../resources/radix-engine-toolkit.wasm?init";
 
 /**
@@ -33,6 +34,16 @@ class RadixEngineToolkitWasmWrapper {
    * @protected
    */
   protected instance: WebAssembly.Instance;
+
+  /**
+   * The encoder used to UTF-8 encode strings
+   */
+  private encoder: TextEncoder = new TextEncoder();
+
+  /**
+   * The decoder used to decode strings from UTF-8 bytes.
+   */
+  private decoder: TextDecoder = new TextDecoder();
 
   constructor(instance: WebAssembly.Instance) {
     this.instance = instance;
@@ -58,17 +69,18 @@ class RadixEngineToolkitWasmWrapper {
    * @return A generic object of type `O` of the response to the request
    * @private
    */
-  public callFunction<I, O>(request: I, fn: (pointer: number) => number): O {
+  public callFunction<I, O>(
+    request: I,
+    fn: (pointer: number) => number
+  ): Result<O, RadixEngineToolkitWrapperError> {
     // Write the request object to memory and get a pointer to where it was written
-    let requestPointer: number = this.writeObjectToMemory(
-      request as unknown as object
-    );
+    let requestPointer = this.writeObjectToMemory(request);
 
     // Call the WASM function with the request pointer
-    let responsePointer: number = fn(requestPointer);
+    let responsePointer = fn(requestPointer);
 
     // Read and deserialize the response
-    let response: O = this.readObjectFromMemory(responsePointer);
+    let response = this.readObjectFromMemory<O>(responsePointer);
 
     // Deallocate the request and response pointers
     this.deallocateMemory(requestPointer);
@@ -115,9 +127,15 @@ class RadixEngineToolkitWasmWrapper {
    * @return A generic object of type T deserialized from the JSON string.
    * @private
    */
-  private deserializeString<T>(string: string): T {
-    // @ts-ignore
-    return plainToInstance(T, string);
+  private deserializeString<T>(
+    string: string
+  ): Result<T, RadixEngineToolkitWrapperError> {
+    try {
+      // @ts-ignore
+      return ok(plainToInstance(T, string));
+    } catch {
+      return err(RadixEngineToolkitWrapperError.FailedToDeserializeJson);
+    }
   }
 
   /**
@@ -164,23 +182,31 @@ class RadixEngineToolkitWasmWrapper {
    * @return A JS string of the read and decoded string
    * @private
    */
-  private readStringFromMemory(pointer: number): string {
+  private readStringFromMemory(
+    pointer: number
+  ): Result<string, RadixEngineToolkitWrapperError> {
     // Determine the length of the string based on the first null terminator
-    const view: Uint8Array = new Uint8Array(
-      this.exports.memory.buffer,
-      pointer
-    );
-    const length: number = view.findIndex((byte) => byte === 0);
+    let view = new Uint8Array(this.exports.memory.buffer, pointer);
+    let length = view.findIndex((byte) => byte === 0);
 
-    // Read the UTF-8 encoded string from memory
-    let nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array(
-      this.exports.memory.buffer,
-      pointer,
-      length
-    );
+    if (length == -1) {
+      return err(RadixEngineToolkitWrapperError.NoNullTerminatorFound);
+    } else {
+      // Read the UTF-8 encoded string from memory
+      let nullTerminatedUtf8EncodedString = new Uint8Array(
+        this.exports.memory.buffer,
+        pointer,
+        length
+      );
 
-    // Decode the string and return it back to the caller
-    return new TextDecoder().decode(nullTerminatedUtf8EncodedString);
+      try {
+        // Decode the string and return it back to the caller
+        let str = this.decoder.decode(nullTerminatedUtf8EncodedString);
+        return ok(str);
+      } catch {
+        return err(RadixEngineToolkitWrapperError.Utf8DecodeError);
+      }
+    }
   }
 
   /**
@@ -189,7 +215,7 @@ class RadixEngineToolkitWasmWrapper {
    * @return A pointer to the location of the object in memory
    * @private
    */
-  private writeObjectToMemory(obj: object): number {
+  private writeObjectToMemory(obj: any): number {
     // Serialize the object to json
     let serializedObject: string = this.serializeObject(obj);
 
@@ -203,12 +229,12 @@ class RadixEngineToolkitWasmWrapper {
    * @return An object of type `T` of the deserialized object
    * @private
    */
-  private readObjectFromMemory<T>(pointer: number): T {
-    // Read the UTF-8 encoded null-terminated string from memory
-    let serializedObject: string = this.readStringFromMemory(pointer);
-
-    // Deserialize and return to the caller
-    return this.deserializeString(serializedObject);
+  private readObjectFromMemory<T>(
+    pointer: number
+  ): Result<T, RadixEngineToolkitWrapperError> {
+    return this.readStringFromMemory(pointer).andThen((str: string) =>
+      this.deserializeString<T>(str)
+    );
   }
 }
 
@@ -268,4 +294,22 @@ interface RadixEngineToolkitExports {
   toolkit_free_c_string(pointer: number): void;
 }
 
-export { RadixEngineToolkitWasmWrapper };
+enum RadixEngineToolkitWrapperError {
+  /**
+   * Attempted to read a null terminated string from memory but no null terminator could be found in
+   * the given buffer.
+   */
+  NoNullTerminatorFound = "NoNullTerminatorFound",
+
+  /**
+   * Attempted to decode some bytes as a UTF8 string but failed.
+   */
+  Utf8DecodeError = "Utf8DecodeError",
+
+  /**
+   * Attempted to deserialize a JSON string but failed.
+   */
+  FailedToDeserializeJson = "FailedToDeserializeJson",
+}
+
+export { RadixEngineToolkitWasmWrapper, RadixEngineToolkitWrapperError };

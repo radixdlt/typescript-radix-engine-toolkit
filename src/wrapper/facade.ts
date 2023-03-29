@@ -15,8 +15,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { InformationRequest, InformationResponse } from "models";
-import { RadixEngineToolkitWasmWrapper } from "./wasm_wrapper";
+import { InformationRequest, InformationResponse } from "../models";
+import { Result } from "neverthrow";
+import {
+  RadixEngineToolkitWasmWrapper,
+  RadixEngineToolkitWrapperError,
+} from "./wasm_wrapper";
 
 /**
  * A global instance of the Radix Engine Toolkit.
@@ -30,7 +34,9 @@ const RET: Promise<RadixEngineToolkitWasmWrapper> =
  * process away from the developer.
  */
 class RadixEngineToolkit {
-  public static async information(): Promise<InformationResponse> {
+  public static async information(): Promise<
+    Result<InformationResponse, RadixEngineToolkitWrapperError>
+  > {
     return RadixEngineToolkit.callFunction(
       new InformationRequest(),
       (await RET).exports.information
@@ -40,7 +46,7 @@ class RadixEngineToolkit {
   private static async callFunction<I, O>(
     request: I,
     fn: (pointer: number) => number
-  ): Promise<O> {
+  ): Promise<Result<O, RadixEngineToolkitWrapperError>> {
     return (await RET).callFunction(request, fn);
   }
 }
