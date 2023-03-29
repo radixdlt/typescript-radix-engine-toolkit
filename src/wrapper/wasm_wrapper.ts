@@ -38,12 +38,12 @@ class RadixEngineToolkitWasmWrapper {
   /**
    * The encoder used to UTF-8 encode strings
    */
-  private encoder: TextEncoder = new TextEncoder();
+  public encoder: TextEncoder = new TextEncoder();
 
   /**
    * The decoder used to decode strings from UTF-8 bytes.
    */
-  private decoder: TextDecoder = new TextDecoder();
+  public decoder: TextDecoder = new TextDecoder();
 
   constructor(instance: WebAssembly.Instance) {
     this.instance = instance;
@@ -55,20 +55,6 @@ class RadixEngineToolkitWasmWrapper {
     return new RadixEngineToolkitWasmWrapper(instance);
   }
 
-  /**
-   * A high-level method for calling functions from the `RadixEngineToolkitFFI` through a simple
-   * interface.
-   *
-   * The main purpose of this method is to provide a higher-level interface for calling into the
-   * `RadixEngineToolkit`,
-   * as such, this method performs all required memory allocation, deallocation, object
-   * serialization, deserialization
-   * encoding, and decoding required for any call into the RadixEngineToolkit
-   * @param request An object containing the request payload
-   * @param fn The function to call of the `RadixEngineToolkitFFI`
-   * @return A generic object of type `O` of the response to the request
-   * @private
-   */
   public callFunction<I, O>(
     request: I,
     fn: (pointer: number) => number
@@ -80,7 +66,11 @@ class RadixEngineToolkitWasmWrapper {
     let responsePointer = fn(requestPointer);
 
     // Read and deserialize the response
-    let response = this.readObjectFromMemory<O>(responsePointer);
+    let response: Result<O, RadixEngineToolkitWrapperError> =
+      this.readStringFromMemory(responsePointer).map(
+        // @ts-ignore
+        (str: string) => plainToInstance(O, str)
+      );
 
     // Deallocate the request and response pointers
     this.deallocateMemory(requestPointer);
@@ -95,9 +85,8 @@ class RadixEngineToolkitWasmWrapper {
    * `RadixEngineToolkit`'s internal memory allocator
    * @param capacity The capacity of the memory to allocate
    * @return A memory pointer of the allocated memory
-   * @private
    */
-  private allocateMemory(capacity: number): number {
+  public allocateMemory(capacity: number): number {
     return this.exports.toolkit_alloc(capacity);
   }
 
@@ -105,9 +94,8 @@ class RadixEngineToolkitWasmWrapper {
    * Deallocates memory beginning from the provided memory pointer and ending at the first
    * null-terminator found
    * @param pointer A memory pointer to the starting location of the memory to deallocate
-   * @private
    */
-  private deallocateMemory(pointer: number) {
+  public deallocateMemory(pointer: number) {
     this.exports.toolkit_free_c_string(pointer);
   }
 
@@ -115,27 +103,9 @@ class RadixEngineToolkitWasmWrapper {
    * Serializes an object to a JSON string
    * @param object The object to serialize
    * @return A string of the serialized representation
-   * @private
    */
-  private serializeObject(object: Object): string {
-    return instanceToPlain(object).toString();
-  }
-
-  /**
-   * Deserializes a JSON string to an object of the generic type `T`.
-   * @param string The JSON string to deserialize.
-   * @return A generic object of type T deserialized from the JSON string.
-   * @private
-   */
-  private deserializeString<T>(
-    string: string
-  ): Result<T, RadixEngineToolkitWrapperError> {
-    try {
-      // @ts-ignore
-      return ok(plainToInstance(T, string));
-    } catch {
-      return err(RadixEngineToolkitWrapperError.FailedToDeserializeJson);
-    }
+  public serializeObject(object: Object): string {
+    return JSON.stringify(instanceToPlain(object));
   }
 
   /**
@@ -150,9 +120,8 @@ class RadixEngineToolkitWasmWrapper {
    *
    * @param str A string to write to memory
    * @return A pointer to the memory location containing the null-terminated UTF-8 encoded string
-   * @private
    */
-  private writeStringToMemory(str: string): number {
+  public writeStringToMemory(str: string): number {
     // UTF-8 encode the string and add the null terminator to it.
     let nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array([
       ...new TextEncoder().encode(str),
@@ -180,9 +149,8 @@ class RadixEngineToolkitWasmWrapper {
    * as a JS string.
    * @param pointer A pointer to the memory location containing the string
    * @return A JS string of the read and decoded string
-   * @private
    */
-  private readStringFromMemory(
+  public readStringFromMemory(
     pointer: number
   ): Result<string, RadixEngineToolkitWrapperError> {
     // Determine the length of the string based on the first null terminator
@@ -213,28 +181,13 @@ class RadixEngineToolkitWasmWrapper {
    * Writes an object to memory by serializing it to JSON and UTF-8 encoding the serialized string.
    * @param obj The object to write to the instance's linear memory.
    * @return A pointer to the location of the object in memory
-   * @private
    */
-  private writeObjectToMemory(obj: any): number {
+  public writeObjectToMemory(obj: any): number {
     // Serialize the object to json
     let serializedObject: string = this.serializeObject(obj);
 
     // Write the string to memory and return the pointer
     return this.writeStringToMemory(serializedObject);
-  }
-
-  /**
-   * Reads a UTF-8 encoded JSON string from memory and deserializes it as `T`.
-   * @param pointer A memory pointer to the location of the linear memory where the object lives.
-   * @return An object of type `T` of the deserialized object
-   * @private
-   */
-  private readObjectFromMemory<T>(
-    pointer: number
-  ): Result<T, RadixEngineToolkitWrapperError> {
-    return this.readStringFromMemory(pointer).andThen((str: string) =>
-      this.deserializeString<T>(str)
-    );
   }
 }
 

@@ -15,10 +15,18 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { instanceToPlain } from "class-transformer";
 import { describe, expect, it } from "vitest";
+import { RadixEngineToolkit, InformationResponse } from "../dist/index.es";
 
-describe("placeholder", () => {
-  it("placeholder", async () => {
-    expect(true).toBeTruthy();
+describe("essential", () => {
+  it("essential", async () => {
+    let information = (await RadixEngineToolkit.information())._unsafeUnwrap();
+    let expected = new InformationResponse(
+      "0.9.0",
+      "9d140797d5641179fa78566b0f3e66fc6fe01e4c"
+    );
+
+    expect(information).toEqual(expected);
   });
 });

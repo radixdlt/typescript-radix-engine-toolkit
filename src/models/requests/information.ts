@@ -40,11 +40,11 @@ export class InformationResponse {
    * The hash of the commit that this build of the Radix Engine Toolkit was built against. This is
    * useful when doing any form of debugging and trying to determine the version of the library
    */
-  @Expose({ name: "git_hash" })
-  gitHash: string;
+  @Expose({ name: "last_commit_hash" })
+  lastCommitHash: string;
 
-  constructor(packageVersion: string, gitHash: string) {
+  constructor(packageVersion: string, lastCommitHash: string) {
     this.packageVersion = packageVersion;
-    this.gitHash = gitHash;
+    this.lastCommitHash = lastCommitHash;
   }
 }
