@@ -1,0 +1,9 @@
+{
+  "name": "node-example",
+  "version": "1.0.0",
+  "description": "An example of using the TypeScript Radix Engine Toolkit with NodeJS",
+  "main": "main.js",
+  "dependencies": {
+    "@radixdlt/radix-engine-toolkit": "../../"
+  }
+}
