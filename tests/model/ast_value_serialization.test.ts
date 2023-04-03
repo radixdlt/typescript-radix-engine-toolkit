@@ -16,11 +16,7 @@
 // under the License.
 
 import { ManifestAstValue } from "../../src";
-import { describe, expect, it, test } from "vitest";
-
-describe("essential", () => {
-  it("essential", async () => {});
-});
+import { describe, expect, test } from "vitest";
 
 describe.each([
   {
