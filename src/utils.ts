@@ -57,7 +57,9 @@ export const stringToBigInt = (num: string): BigInt => {
  * @returns The decimal Uint8Array represented as a bigInt
  */
 export const uint8ArrayToString = (array: Uint8Array): string => {
-  return Buffer.from(array).toString("hex");
+  return Array.from(array)
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
 };
 
 /**
@@ -66,5 +68,7 @@ export const uint8ArrayToString = (array: Uint8Array): string => {
  * @returns The decimal string represented as a `Uint8Array`
  */
 export const stringToUint8Array = (str: string): Uint8Array => {
-  return Uint8Array.from(Buffer.from(str, "hex"));
+  return Uint8Array.from(
+    str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
+  );
 };

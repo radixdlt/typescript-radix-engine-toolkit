@@ -420,19 +420,35 @@ export class Tuple {
 
 export class Decimal {
   type: Kind = Kind.Decimal;
-  value: BigInt;
+  value: string;
+
+  get val(): BigInt {
+    return stringToBigInt(this.value);
+  }
+
+  set val(value: BigInt) {
+    this.value = bigIntToString(value);
+  }
 
   constructor(value: BigInt) {
-    this.value = value;
+    this.value = bigIntToString(value);
   }
 }
 
 export class PreciseDecimal {
   type: Kind = Kind.PreciseDecimal;
-  value: BigInt;
+  value: string;
+
+  get val(): BigInt {
+    return stringToBigInt(this.value);
+  }
+
+  set val(value: BigInt) {
+    this.value = bigIntToString(value);
+  }
 
   constructor(value: BigInt) {
-    this.value = value;
+    this.value = bigIntToString(value);
   }
 }
 
@@ -538,10 +554,18 @@ export class Integer {
 
 export class UUID {
   type: string = "UUID";
-  value: BigInt;
+  value: string;
+
+  get val(): BigInt {
+    return stringToBigInt(this.value);
+  }
+
+  set val(value: BigInt) {
+    this.value = bigIntToString(value);
+  }
 
   constructor(value: BigInt) {
-    this.value = value;
+    this.value = bigIntToString(value);
   }
 }
 

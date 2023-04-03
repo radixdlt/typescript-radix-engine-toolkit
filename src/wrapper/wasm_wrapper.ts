@@ -16,7 +16,7 @@
 // under the License.
 
 import { err, ok, Result } from "neverthrow";
-import wasmInit from "../../resources/radix-engine-toolkit.wasm?init";
+import radixEngineToolkitWasm from "../../resources/radix-engine-toolkit.wasm";
 
 /**
  * Wraps a Radix Engine Toolkit WASM instance providing a high level API for making calls to the
@@ -50,8 +50,8 @@ class RadixEngineToolkitWasmWrapper {
   }
 
   public static async new(): Promise<RadixEngineToolkitWasmWrapper> {
-    let instance = await wasmInit({});
-    return new RadixEngineToolkitWasmWrapper(instance);
+    let instance = await radixEngineToolkitWasm({});
+    return new RadixEngineToolkitWasmWrapper(instance.instance);
   }
 
   /**

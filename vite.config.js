@@ -1,8 +1,9 @@
+/// <reference types="vitest" />
+
 /* eslint-disable @typescript-eslint/no-require-imports */
 const path = require("path");
+const wasm = require("@rollup/plugin-wasm");
 const { defineConfig } = require("vite");
-const wasm = require("vite-plugin-wasm");
-const topLevelAwait = require("vite-plugin-top-level-await");
 
 module.exports = defineConfig({
   build: {
@@ -11,6 +12,14 @@ module.exports = defineConfig({
       entry: path.resolve(__dirname, "src/index.ts"),
       fileName: (format) => `index.${format}.js`,
     },
+    assetsInlineLimit: 1048576,
   },
-  plugins: [wasm.default(), topLevelAwait.default()],
+  plugins: [wasm.default({ targetEnv: "auto-inline" })],
+  test: {
+    globals: true,
+    environment: "happy-dom",
+    deps: {
+      interopDefault: true,
+    },
+  },
 });

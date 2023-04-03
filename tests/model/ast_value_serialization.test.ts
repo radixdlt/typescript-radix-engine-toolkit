@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { ManifestAstValue } from "../../dist/index.es";
+import { ManifestAstValue } from "../../src";
 import { describe, expect, it, test } from "vitest";
 
 describe("essential", () => {
@@ -48,7 +48,7 @@ describe.each([
     expectedSerialization: `{"type":"U64","value":"1"}`,
   },
   {
-    expectedObject: new ManifestAstValue.U128(1),
+    expectedObject: new ManifestAstValue.U128(BigInt("1")),
     expectedSerialization: `{"type":"U128","value":"1"}`,
   },
   {
@@ -68,7 +68,7 @@ describe.each([
     expectedSerialization: `{"type":"I64","value":"1"}`,
   },
   {
-    expectedObject: new ManifestAstValue.I128(1),
+    expectedObject: new ManifestAstValue.I128(BigInt("1")),
     expectedSerialization: `{"type":"I128","value":"1"}`,
   },
   {
@@ -161,11 +161,11 @@ describe.each([
     expectedSerialization: `{"type":"Tuple","elements":[{"type":"Tuple","elements":[{"type":"U8","value":"1"},{"type":"String","value":"Something"}]}]}`,
   },
   {
-    expectedObject: new ManifestAstValue.Decimal("1"),
+    expectedObject: new ManifestAstValue.Decimal(BigInt("1")),
     expectedSerialization: `{"type":"Decimal","value":"1"}`,
   },
   {
-    expectedObject: new ManifestAstValue.PreciseDecimal("1"),
+    expectedObject: new ManifestAstValue.PreciseDecimal(BigInt("1")),
     expectedSerialization: `{"type":"PreciseDecimal","value":"1"}`,
   },
   {
@@ -208,7 +208,9 @@ describe.each([
   },
   {
     expectedObject: new ManifestAstValue.NonFungibleLocalId(
-      new ManifestAstValue.UUID("241008287272164729465721528295504357972")
+      new ManifestAstValue.UUID(
+        BigInt("241008287272164729465721528295504357972")
+      )
     ),
     expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"UUID","value":"241008287272164729465721528295504357972"}}`,
   },
@@ -237,7 +239,9 @@ describe.each([
         "resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs3ydc4g"
       ),
       new ManifestAstValue.NonFungibleLocalId(
-        new ManifestAstValue.UUID("241008287272164729465721528295504357972")
+        new ManifestAstValue.UUID(
+          BigInt("241008287272164729465721528295504357972")
+        )
       )
     ),
     expectedSerialization: `{"type":"NonFungibleGlobalId","resource_address":{"type":"Address","address":"resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs3ydc4g"},"non_fungible_local_id":{"type":"NonFungibleLocalId","value":{"type":"UUID","value":"241008287272164729465721528295504357972"}}}`,

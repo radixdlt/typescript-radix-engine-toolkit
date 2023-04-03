@@ -61,7 +61,6 @@ class RadixEngineToolkit {
     ret.deallocateMemory(responsePointer);
 
     // Return the object back to the caller
-    // @ts-ignore
     return response;
   }
 }
