@@ -21,7 +21,6 @@ import {
   RadixEngineToolkitWasmWrapper,
   RadixEngineToolkitWrapperError,
 } from "./wasm_wrapper";
-import { plainToInstance } from "class-transformer";
 
 /**
  * A global instance of the Radix Engine Toolkit.
@@ -54,7 +53,7 @@ class RadixEngineToolkit {
     let response = ret
       .readStringFromMemory(responsePointer)
       .map((str: string) =>
-        plainToInstance(InformationResponse, JSON.parse(str))
+        Object.setPrototypeOf(JSON.parse(str), InformationResponse.prototype)
       );
 
     // Deallocate the request and response pointers

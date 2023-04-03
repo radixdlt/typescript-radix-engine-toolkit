@@ -15,7 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { instanceToPlain, plainToInstance } from "class-transformer";
 import { err, ok, Result } from "neverthrow";
 import wasmInit from "../../resources/radix-engine-toolkit.wasm?init";
 
@@ -38,12 +37,12 @@ class RadixEngineToolkitWasmWrapper {
   /**
    * The encoder used to UTF-8 encode strings
    */
-  public encoder: TextEncoder = new TextEncoder();
+  private encoder: TextEncoder = new TextEncoder();
 
   /**
    * The decoder used to decode strings from UTF-8 bytes.
    */
-  public decoder: TextDecoder = new TextDecoder();
+  private decoder: TextDecoder = new TextDecoder();
 
   constructor(instance: WebAssembly.Instance) {
     this.instance = instance;
@@ -55,38 +54,13 @@ class RadixEngineToolkitWasmWrapper {
     return new RadixEngineToolkitWasmWrapper(instance);
   }
 
-  public callFunction<I, O>(
-    request: I,
-    fn: (pointer: number) => number
-  ): Result<O, RadixEngineToolkitWrapperError> {
-    // Write the request object to memory and get a pointer to where it was written
-    let requestPointer = this.writeObjectToMemory(request);
-
-    // Call the WASM function with the request pointer
-    let responsePointer = fn(requestPointer);
-
-    // Read and deserialize the response
-    let response: Result<O, RadixEngineToolkitWrapperError> =
-      this.readStringFromMemory(responsePointer).map(
-        // @ts-ignore
-        (str: string) => plainToInstance(O, str)
-      );
-
-    // Deallocate the request and response pointers
-    this.deallocateMemory(requestPointer);
-    this.deallocateMemory(responsePointer);
-
-    // Return the object back to the caller
-    return response;
-  }
-
   /**
    * Allocates memory of a certain capacity on the WebAssembly instance's linear memory through the
    * `RadixEngineToolkit`'s internal memory allocator
    * @param capacity The capacity of the memory to allocate
    * @return A memory pointer of the allocated memory
    */
-  public allocateMemory(capacity: number): number {
+  private allocateMemory(capacity: number): number {
     return this.exports.toolkit_alloc(capacity);
   }
 
@@ -104,8 +78,8 @@ class RadixEngineToolkitWasmWrapper {
    * @param object The object to serialize
    * @return A string of the serialized representation
    */
-  public serializeObject(object: Object): string {
-    return JSON.stringify(instanceToPlain(object));
+  private serializeObject(object: Object): string {
+    return JSON.stringify(object);
   }
 
   /**
@@ -121,7 +95,7 @@ class RadixEngineToolkitWasmWrapper {
    * @param str A string to write to memory
    * @return A pointer to the memory location containing the null-terminated UTF-8 encoded string
    */
-  public writeStringToMemory(str: string): number {
+  private writeStringToMemory(str: string): number {
     // UTF-8 encode the string and add the null terminator to it.
     let nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array([
       ...new TextEncoder().encode(str),

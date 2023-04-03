@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["radixdlt"],
+  "cSpell.words": ["fullwide", "radixdlt"],
   "[typescript]": {
     "editor.tabSize": 2,
     "editor.defaultFormatter": "esbenp.prettier-vscode"

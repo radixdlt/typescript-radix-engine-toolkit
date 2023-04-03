@@ -15,7 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { instanceToPlain } from "class-transformer";
 import { describe, expect, it } from "vitest";
 import { RadixEngineToolkit, InformationResponse } from "../dist/index.es";
 

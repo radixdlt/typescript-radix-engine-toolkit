@@ -1,5 +1,5 @@
 {
-  "name": "radix-engine-toolkit",
+  "name": "@radixdlt/radix-engine-toolkit",
   "version": "0.1.0",
   "description": "A TypeScript wrapper for the Radix Engine Toolkit that provides an idiomatic interface for the toolkit",
   "main": "./dist/index.umd.js",
@@ -30,7 +30,6 @@
     "vitest": "^0.29.8"
   },
   "dependencies": {
-    "class-transformer": "^0.5.1",
     "neverthrow": "^6.0.0"
   }
 }

@@ -15,8 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Expose } from "class-transformer";
-
 /**
  * The request provides information information on the currently in-use radix engine toolkit such as
  * the version of the radix engine toolkit. In most cases, this is the first function written when
@@ -33,18 +31,32 @@ export class InformationResponse {
    * A SemVer string of the version of the Radix Engine Toolkit. Ideally, if the toolkit is version
    * X then that means that it is compatible with version X of Scrypto.
    */
-  @Expose({ name: "package_version" })
-  packageVersion: string;
+  private package_version: string;
 
   /**
    * The hash of the commit that this build of the Radix Engine Toolkit was built against. This is
    * useful when doing any form of debugging and trying to determine the version of the library
    */
-  @Expose({ name: "last_commit_hash" })
-  lastCommitHash: string;
+  private last_commit_hash: string;
+
+  get packageVersion(): string {
+    return this.package_version;
+  }
+
+  set packageVersion(packageVersion: string) {
+    this.package_version = packageVersion;
+  }
+
+  get lastCommitHash(): string {
+    return this.last_commit_hash;
+  }
+
+  set lastCommitHash(lastCommitHash: string) {
+    this.last_commit_hash = lastCommitHash;
+  }
 
   constructor(packageVersion: string, lastCommitHash: string) {
-    this.packageVersion = packageVersion;
-    this.lastCommitHash = lastCommitHash;
+    this.package_version = packageVersion;
+    this.last_commit_hash = lastCommitHash;
   }
 }
