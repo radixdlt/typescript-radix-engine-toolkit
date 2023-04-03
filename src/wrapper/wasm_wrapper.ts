@@ -98,7 +98,7 @@ class RadixEngineToolkitWasmWrapper {
   private writeStringToMemory(str: string): number {
     // UTF-8 encode the string and add the null terminator to it.
     let nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array([
-      ...new TextEncoder().encode(str),
+      ...this.encoder.encode(str),
       0,
     ]);
 
