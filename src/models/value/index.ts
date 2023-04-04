@@ -16,3 +16,5 @@
 // under the License.
 
 export * as ManifestAstValue from "./manifest_ast";
+export * as ScryptoSborValue from "./scrypto_sbor";
+export * as ManifestSborValue from "./manifest_sbor";
