@@ -17,6 +17,7 @@
 
 import { ManifestAstValue } from "../../src";
 import { describe, expect, test } from "vitest";
+import { deserialize, serialize } from "../../src/utils";
 
 describe.each([
   {
@@ -304,7 +305,7 @@ describe.each([
   ({ expectedObject, expectedSerialization }) => {
     test(`${expectedObject} is serialized as expected`, () => {
       // Act
-      let actual_serialization = JSON.stringify(expectedObject);
+      let actual_serialization = serialize(expectedObject);
 
       // Assert
       expect(actual_serialization).toEqual(expectedSerialization);
@@ -312,7 +313,11 @@ describe.each([
 
     test(`${expectedSerialization} is deserialized as expected`, () => {
       // Act
-      let actualObject = JSON.parse(expectedSerialization);
+      let actualObject = deserialize(
+        expectedSerialization,
+        // @ts-ignore
+        expectedObject.constructor
+      );
 
       // Assert
       expect(actualObject).toEqual(expectedObject);

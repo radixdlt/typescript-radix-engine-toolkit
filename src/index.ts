@@ -17,3 +17,4 @@
 
 export * from "./wrapper";
 export * from "./models";
+export * as utils from "./utils";

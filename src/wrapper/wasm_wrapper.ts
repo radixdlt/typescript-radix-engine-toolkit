@@ -17,6 +17,7 @@
 
 import { err, ok, Result } from "neverthrow";
 import radixEngineToolkitWasm from "../../resources/radix-engine-toolkit.wasm";
+import { toSnakeCase, traverseObjectForKeys, trim } from "../utils";
 
 /**
  * Wraps a Radix Engine Toolkit WASM instance providing a high level API for making calls to the
@@ -55,67 +56,12 @@ class RadixEngineToolkitWasmWrapper {
   }
 
   /**
-   * Allocates memory of a certain capacity on the WebAssembly instance's linear memory through the
-   * `RadixEngineToolkit`'s internal memory allocator
-   * @param capacity The capacity of the memory to allocate
-   * @return A memory pointer of the allocated memory
-   */
-  private allocateMemory(capacity: number): number {
-    return this.exports.toolkit_alloc(capacity);
-  }
-
-  /**
    * Deallocates memory beginning from the provided memory pointer and ending at the first
    * null-terminator found
    * @param pointer A memory pointer to the starting location of the memory to deallocate
    */
   public deallocateMemory(pointer: number) {
     this.exports.toolkit_free_c_string(pointer);
-  }
-
-  /**
-   * Serializes an object to a JSON string
-   * @param object The object to serialize
-   * @return A string of the serialized representation
-   */
-  private serializeObject(object: Object): string {
-    return JSON.stringify(object);
-  }
-
-  /**
-   * A method to write strings to memory in the way expected by the Radix Engine Toolkit.
-   *
-   * This method first UTF-8 encodes the passed string and adds a null-terminator to it. It then
-   * allocates enough memory for the encoded string and writes it to memory. Finally, this method
-   * returns the pointer back to the caller to use.
-   *
-   * Note: Since the pointer is returned to the caller, it is now the caller's burden to deallocate
-   * this memory when it is no longer needed.
-   *
-   * @param str A string to write to memory
-   * @return A pointer to the memory location containing the null-terminated UTF-8 encoded string
-   */
-  private writeStringToMemory(str: string): number {
-    // UTF-8 encode the string and add the null terminator to it.
-    let nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array([
-      ...this.encoder.encode(str),
-      0,
-    ]);
-
-    // Allocate memory for the string
-    let memoryPointer: number = this.allocateMemory(
-      nullTerminatedUtf8EncodedString.length
-    );
-
-    // Write the string to the instance's linear memory
-    const view: Uint8Array = new Uint8Array(
-      this.exports.memory.buffer,
-      memoryPointer
-    );
-    view.set(nullTerminatedUtf8EncodedString);
-
-    // return the memory pointer back to the caller
-    return memoryPointer;
   }
 
   /**
@@ -163,6 +109,62 @@ class RadixEngineToolkitWasmWrapper {
     // Write the string to memory and return the pointer
     return this.writeStringToMemory(serializedObject);
   }
+
+  /**
+   * Allocates memory of a certain capacity on the WebAssembly instance's linear memory through the
+   * `RadixEngineToolkit`'s internal memory allocator
+   * @param capacity The capacity of the memory to allocate
+   * @return A memory pointer of the allocated memory
+   */
+  private allocateMemory(capacity: number): number {
+    return this.exports.toolkit_alloc(capacity);
+  }
+
+  /**
+   * Serializes an object to a JSON string
+   * @param object The object to serialize
+   * @return A string of the serialized representation
+   */
+  private serializeObject(obj: Object): string {
+    let object = traverseObjectForKeys(obj, [trim("_"), toSnakeCase]);
+    return JSON.stringify(object);
+  }
+
+  /**
+   * A method to write strings to memory in the way expected by the Radix Engine Toolkit.
+   *
+   * This method first UTF-8 encodes the passed string and adds a null-terminator to it. It then
+   * allocates enough memory for the encoded string and writes it to memory. Finally, this method
+   * returns the pointer back to the caller to use.
+   *
+   * Note: Since the pointer is returned to the caller, it is now the caller's burden to deallocate
+   * this memory when it is no longer needed.
+   *
+   * @param str A string to write to memory
+   * @return A pointer to the memory location containing the null-terminated UTF-8 encoded string
+   */
+  private writeStringToMemory(str: string): number {
+    // UTF-8 encode the string and add the null terminator to it.
+    let nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array([
+      ...this.encoder.encode(str),
+      0,
+    ]);
+
+    // Allocate memory for the string
+    let memoryPointer: number = this.allocateMemory(
+      nullTerminatedUtf8EncodedString.length
+    );
+
+    // Write the string to the instance's linear memory
+    const view: Uint8Array = new Uint8Array(
+      this.exports.memory.buffer,
+      memoryPointer
+    );
+    view.set(nullTerminatedUtf8EncodedString);
+
+    // return the memory pointer back to the caller
+    return memoryPointer;
+  }
 }
 
 /**
@@ -176,25 +178,45 @@ interface RadixEngineToolkitExports {
   memory: WebAssembly.Memory;
 
   information(pointer: number): number;
+
   convert_manifest(pointer: number): number;
+
   analyze_manifest(pointer: number): number;
+
   compile_transaction_intent(pointer: number): number;
+
   compile_signed_transaction_intent(pointer: number): number;
+
   compile_notarized_transaction(pointer: number): number;
+
   decompile_transaction_intent(pointer: number): number;
+
   decompile_signed_transaction_intent(pointer: number): number;
+
   decompile_notarized_transaction(pointer: number): number;
+
   decompile_unknown_transaction_intent(pointer: number): number;
+
   derive_babylon_address_from_olympia_address(pointer: number): number;
+
   derive_virtual_account_address(pointer: number): number;
+
   derive_virtual_identity_address(pointer: number): number;
+
   derive_non_fungible_global_id_from_public_key(pointer: number): number;
+
   encode_address(pointer: number): number;
+
   decode_address(pointer: number): number;
+
   sbor_encode(pointer: number): number;
+
   sbor_decode(pointer: number): number;
+
   known_entity_addresses(pointer: number): number;
+
   statically_validate_transaction(pointer: number): number;
+
   hash(pointer: number): number;
 
   /**

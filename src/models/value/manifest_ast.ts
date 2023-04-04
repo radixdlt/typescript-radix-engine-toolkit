@@ -15,7 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-// TODO: Add getters and setters to all of the models in here
 // TODO: Add to string methods
 // TODO: Convert U64 and I64 to use BigInt
 
@@ -94,203 +93,283 @@ export enum Kind {
 }
 
 export class Bool {
-  type: Kind = Kind.Bool;
-  value: boolean;
+  private _type: Kind = Kind.Bool;
+  private _value: boolean;
+
+  public get value(): boolean {
+    return this._value;
+  }
+  public set value(value: boolean) {
+    this._value = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(value: boolean) {
-    this.value = value;
+    this._value = value;
   }
 }
 
 export class U8 {
-  type: Kind = Kind.U8;
-  value: string;
+  private _type: Kind = Kind.U8;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class U16 {
-  type: Kind = Kind.U16;
-  value: string;
+  private _type: Kind = Kind.U16;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class U32 {
-  type: Kind = Kind.U32;
-  value: string;
+  private _type: Kind = Kind.U32;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class U64 {
-  type: Kind = Kind.U64;
-  value: string;
+  private _type: Kind = Kind.U64;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class U128 {
-  type: Kind = Kind.U128;
-  value: string;
+  private _type: Kind = Kind.U128;
+  private _value: string;
 
-  get val(): BigInt {
-    return stringToBigInt(this.value);
+  get value(): BigInt {
+    return stringToBigInt(this._value);
   }
 
-  set val(value: BigInt) {
-    this.value = bigIntToString(value);
+  set value(value: BigInt) {
+    this._value = bigIntToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: BigInt) {
-    this.value = bigIntToString(value);
+    this._value = bigIntToString(value);
   }
 }
 
 export class I8 {
-  type: Kind = Kind.I8;
-  value: string;
+  private _type: Kind = Kind.I8;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class I16 {
-  type: Kind = Kind.I16;
-  value: string;
+  private _type: Kind = Kind.I16;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class I32 {
-  type: Kind = Kind.I32;
-  value: string;
+  private _type: Kind = Kind.I32;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class I64 {
-  type: Kind = Kind.I64;
-  value: string;
+  private _type: Kind = Kind.I64;
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class I128 {
-  type: Kind = Kind.I128;
-  value: string;
+  private _type: Kind = Kind.I128;
+  private _value: string;
 
-  get val(): BigInt {
-    return stringToBigInt(this.value);
+  get value(): BigInt {
+    return stringToBigInt(this._value);
   }
 
-  set val(value: BigInt) {
-    this.value = bigIntToString(value);
+  set value(value: BigInt) {
+    this._value = bigIntToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: BigInt) {
-    this.value = bigIntToString(value);
+    this._value = bigIntToString(value);
   }
 }
 
 export class String {
-  type: Kind = Kind.String;
-  value: string;
+  private _type: Kind = Kind.String;
+  private _value: string;
+
+  public get value(): string {
+    return this._value;
+  }
+  public set value(value: string) {
+    this._value = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(value: string) {
-    this.value = value;
+    this._value = value;
   }
 }
 
 export class Enum {
-  type: Kind = Kind.Enum;
-  variant: EnumDiscriminator;
-  fields: globalThis.Array<Value> = [];
+  private _type: Kind = Kind.Enum;
+  private _variant: EnumDiscriminator;
+  private _fields: globalThis.Array<Value> = [];
+
+  public get variant(): EnumDiscriminator {
+    return this._variant;
+  }
+  public set variant(value: EnumDiscriminator) {
+    this._variant = value;
+  }
+
+  public get fields(): globalThis.Array<Value> {
+    return this._fields;
+  }
+  public set fields(value: globalThis.Array<Value>) {
+    this._fields = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(
     variant: EnumDiscriminator,
     fields: globalThis.Array<Value> = []
   ) {
-    this.variant = variant;
+    this._variant = variant;
     this.fields = fields;
   }
 }
@@ -299,119 +378,208 @@ export class Enum {
 export type EnumDiscriminator = EnumStringDiscriminator | EnumU8Discriminator;
 
 export class EnumStringDiscriminator {
-  type: Kind = Kind.String;
-  discriminator: string;
+  private _type: Kind = Kind.String;
+  private _discriminator: string;
+
+  public get discriminator(): string {
+    return this._discriminator;
+  }
+  public set discriminator(value: string) {
+    this._discriminator = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(discriminator: string) {
-    this.discriminator = discriminator;
+    this._discriminator = discriminator;
   }
 }
 
 export class EnumU8Discriminator {
-  type: Kind = Kind.U8;
-  discriminator: string;
+  private _type: Kind = Kind.U8;
+  private _discriminator: string;
 
-  get val(): number {
-    return stringToNumber(this.discriminator);
+  public get discriminator(): string {
+    return this._discriminator;
+  }
+  public set discriminator(value: string) {
+    this._discriminator = value;
   }
 
-  set val(value: number) {
-    this.discriminator = numberToString(value);
+  get value(): number {
+    return stringToNumber(this._discriminator);
+  }
+
+  set value(value: number) {
+    this._discriminator = numberToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: number) {
-    this.discriminator = numberToString(value);
+    this._discriminator = numberToString(value);
   }
 }
 
 export class Some {
-  type: Kind = Kind.Some;
-  value: Value;
+  private _type: Kind = Kind.Some;
+  private _value: Value;
+
+  public get value(): Value {
+    return this._value;
+  }
+  public set value(value: Value) {
+    this._value = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(value: Value) {
-    this.value = value;
+    this._value = value;
   }
 }
 
 export class None {
-  type: Kind = Kind.None;
+  private _type: Kind = Kind.None;
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor() {}
 }
 
 export class Ok {
-  type: Kind = Kind.Ok;
-  value: Value;
+  private _type: Kind = Kind.Ok;
+  private _value: Value;
+
+  public get value(): Value {
+    return this._value;
+  }
+  public set value(value: Value) {
+    this._value = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(value: Value) {
-    this.value = value;
+    this._value = value;
   }
 }
 
 export class Err {
-  type: Kind = Kind.Err;
-  value: Value;
+  private _type: Kind = Kind.Err;
+  private _value: Value;
+
+  public get value(): Value {
+    return this._value;
+  }
+  public set value(value: Value) {
+    this._value = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(value: Value) {
-    this.value = value;
+    this._value = value;
   }
 }
 
 export class Array {
-  type: Kind = Kind.Array;
-  element_kind: Kind;
-  elements: globalThis.Array<Value>;
+  private _type: Kind = Kind.Array;
+  private _elementKind: Kind;
+  private _elements: globalThis.Array<Value>;
 
-  constructor(element_kind: Kind, elements: globalThis.Array<Value>) {
-    this.element_kind = element_kind;
-    this.elements = elements;
+  public get elementKind(): Kind {
+    return this._elementKind;
+  }
+  public set elementKind(value: Kind) {
+    this._elementKind = value;
+  }
+
+  public get elements(): globalThis.Array<Value> {
+    return this._elements;
+  }
+  public set elements(value: globalThis.Array<Value>) {
+    this._elements = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
+
+  constructor(elementKind: Kind, elements: globalThis.Array<Value>) {
+    this._elementKind = elementKind;
+    this._elements = elements;
   }
 }
 
 export class Map {
-  type: Kind = Kind.Map;
-  key_value_kind: Kind;
-  value_value_kind: Kind;
-  entries: globalThis.Array<[Value, Value]> = [];
+  private _type: Kind = Kind.Map;
+  private _keyValueKind: Kind;
+  private _valueValueKind: Kind;
+  private _entries: globalThis.Array<[Value, Value]> = [];
 
-  get keyValueKind(): Kind {
-    return this.key_value_kind;
+  public get keyValueKind(): Kind {
+    return this._keyValueKind;
+  }
+  public set keyValueKind(value: Kind) {
+    this._keyValueKind = value;
   }
 
-  set keyValueKind(keyValueKind: Kind) {
-    this.key_value_kind = keyValueKind;
+  public get valueValueKind(): Kind {
+    return this._valueValueKind;
+  }
+  public set valueValueKind(value: Kind) {
+    this._valueValueKind = value;
   }
 
-  get valueValueKind(): Kind {
-    return this.value_value_kind;
+  public get entries(): globalThis.Array<[Value, Value]> {
+    return this._entries;
+  }
+  public set entries(value: globalThis.Array<[Value, Value]>) {
+    this._entries = value;
   }
 
-  set valueValueKind(valueValueKind: Kind) {
-    this.value_value_kind = valueValueKind;
-  }
-
-  get items(): globalThis.Array<[Value, Value]> {
-    return this.entries;
-  }
-
-  set items(elements: globalThis.Array<[Value, Value]>) {
-    this.entries = elements;
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(
-    key_value_kind: Kind,
-    value_value_kind: Kind,
+    keyValueKind: Kind,
+    valueValueKind: Kind,
     elements: globalThis.Array<[Value, Value]> = []
   ) {
-    this.key_value_kind = key_value_kind;
-    this.value_value_kind = value_value_kind;
-    this.entries = elements;
+    this._keyValueKind = keyValueKind;
+    this._valueValueKind = valueValueKind;
+    this._entries = elements;
   }
 }
 
 export class Tuple {
-  type: Kind = Kind.Tuple;
-  elements: globalThis.Array<Value> = [];
+  private _type: Kind = Kind.Tuple;
+  private _elements: globalThis.Array<Value> = [];
+
+  public get elements(): globalThis.Array<Value> {
+    return this._elements;
+  }
+  public set elements(value: globalThis.Array<Value>) {
+    this._elements = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(elements: globalThis.Array<Value> = []) {
     this.elements = elements;
@@ -419,72 +587,124 @@ export class Tuple {
 }
 
 export class Decimal {
-  type: Kind = Kind.Decimal;
-  value: string;
+  private _type: Kind = Kind.Decimal;
+  private _value: string;
 
-  get val(): BigInt {
-    return stringToBigInt(this.value);
+  get value(): BigInt {
+    return stringToBigInt(this._value);
   }
 
-  set val(value: BigInt) {
-    this.value = bigIntToString(value);
+  set value(value: BigInt) {
+    this._value = bigIntToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: BigInt) {
-    this.value = bigIntToString(value);
+    this._value = bigIntToString(value);
   }
 }
 
 export class PreciseDecimal {
-  type: Kind = Kind.PreciseDecimal;
-  value: string;
+  private _type: Kind = Kind.PreciseDecimal;
+  private _value: string;
 
-  get val(): BigInt {
-    return stringToBigInt(this.value);
+  get value(): BigInt {
+    return stringToBigInt(this._value);
   }
 
-  set val(value: BigInt) {
-    this.value = bigIntToString(value);
+  set value(value: BigInt) {
+    this._value = bigIntToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: BigInt) {
-    this.value = bigIntToString(value);
+    this._value = bigIntToString(value);
   }
 }
 
 export class Address {
-  type: Kind = Kind.Address;
-  address: string;
+  private _type: Kind = Kind.Address;
+  private _address: string;
+
+  public get address(): string {
+    return this._address;
+  }
+  public set address(value: string) {
+    this._address = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(address: string) {
-    this.address = address;
+    this._address = address;
   }
 }
 
 export class Bucket {
-  type: Kind = Kind.Bucket;
-  identifier: String | U32;
+  private _type: Kind = Kind.Bucket;
+  private _identifier: String | U32;
+
+  public get identifier(): String | U32 {
+    return this._identifier;
+  }
+  public set identifier(value: String | U32) {
+    this._identifier = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(identifier: String | U32) {
-    this.identifier = identifier;
+    this._identifier = identifier;
   }
 }
 
 export class Proof {
-  type: Kind = Kind.Proof;
-  identifier: String | U32;
+  private _type: Kind = Kind.Proof;
+  private _identifier: String | U32;
+
+  public get identifier(): String | U32 {
+    return this._identifier;
+  }
+  public set identifier(value: String | U32) {
+    this._identifier = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(identifier: String | U32) {
-    this.identifier = identifier;
+    this._identifier = identifier;
   }
 }
 
 export class Expression {
-  type: Kind = Kind.Expression;
-  value: string;
+  private _type: Kind = Kind.Expression;
+  private _value: string;
+
+  public get value(): string {
+    return this._value;
+  }
+  public set value(value: string) {
+    this._value = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(expression: string) {
-    this.value = expression;
+    this._value = expression;
   }
 
   static entireWorktop(): Expression {
@@ -497,108 +717,129 @@ export class Expression {
 }
 
 export class NonFungibleLocalId {
-  type: Kind = Kind.NonFungibleLocalId;
-  value: UUID | Integer | String | Bytes;
+  private _type: Kind = Kind.NonFungibleLocalId;
+  private _value: UUID | Integer | String | Bytes;
+
+  public get value(): UUID | Integer | String | Bytes {
+    return this._value;
+  }
+  public set value(value: UUID | Integer | String | Bytes) {
+    this._value = value;
+  }
+
+  public get type(): Kind {
+    return this._type;
+  }
 
   constructor(value: UUID | Integer | String | Bytes) {
-    this.value = value;
+    this._value = value;
   }
 }
 
 export class NonFungibleGlobalId {
-  type: Kind = Kind.NonFungibleGlobalId;
-  resource_address: Address;
-  non_fungible_local_id: NonFungibleLocalId;
+  private _type: Kind = Kind.NonFungibleGlobalId;
+  private _resourceAddress: Address;
+  private _nonFungibleLocalId: NonFungibleLocalId;
 
-  get resourceAddress(): Address {
-    return this.resource_address;
+  public get resourceAddress(): Address {
+    return this._resourceAddress;
+  }
+  public set resourceAddress(value: Address) {
+    this._resourceAddress = value;
   }
 
-  set resourceAddress(address: Address) {
-    this.resource_address = address;
+  public get nonFungibleLocalId(): NonFungibleLocalId {
+    return this._nonFungibleLocalId;
+  }
+  public set nonFungibleLocalId(value: NonFungibleLocalId) {
+    this._nonFungibleLocalId = value;
   }
 
-  get nonFungibleLocalId(): NonFungibleLocalId {
-    return this.nonFungibleLocalId;
-  }
-
-  set nonFungibleLocalId(nonFungibleLocalId: NonFungibleLocalId) {
-    this.non_fungible_local_id = nonFungibleLocalId;
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(
     resourceAddress: Address,
     nonFungibleLocalId: NonFungibleLocalId
   ) {
-    this.resource_address = resourceAddress;
-    this.non_fungible_local_id = nonFungibleLocalId;
+    this._resourceAddress = resourceAddress;
+    this._nonFungibleLocalId = nonFungibleLocalId;
   }
 }
 
 export class Integer {
-  type: string = "Integer";
-  value: string;
+  private _type: string = "Integer";
+  private _value: string;
 
-  get val(): number {
-    return stringToNumber(this.value);
+  get value(): number {
+    return stringToNumber(this._value);
   }
 
-  set val(value: number) {
-    this.value = numberToString(value);
+  set value(value: number) {
+    this._value = numberToString(value);
   }
 
   constructor(value: number) {
-    this.value = numberToString(value);
+    this._value = numberToString(value);
   }
 }
 
 export class UUID {
-  type: string = "UUID";
-  value: string;
+  private _type: string = "UUID";
+  private _value: string;
 
-  get val(): BigInt {
-    return stringToBigInt(this.value);
+  get value(): BigInt {
+    return stringToBigInt(this._value);
   }
 
-  set val(value: BigInt) {
-    this.value = bigIntToString(value);
+  set value(value: BigInt) {
+    this._value = bigIntToString(value);
   }
 
   constructor(value: BigInt) {
-    this.value = bigIntToString(value);
+    this._value = bigIntToString(value);
   }
 }
 
 export class Blob {
-  type: Kind = Kind.Blob;
-  hash: string;
+  private _type: Kind = Kind.Blob;
+  private _hash: string;
 
-  get val(): Uint8Array {
-    return stringToUint8Array(this.hash);
+  get value(): Uint8Array {
+    return stringToUint8Array(this._hash);
   }
 
-  set val(hash: Uint8Array) {
-    this.hash = uint8ArrayToString(hash);
+  set value(hash: Uint8Array) {
+    this._hash = uint8ArrayToString(hash);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(hash: Uint8Array) {
-    this.hash = uint8ArrayToString(hash);
+    this._hash = uint8ArrayToString(hash);
   }
 }
 
 export class Bytes {
-  type: Kind = Kind.Bytes;
-  value: string;
+  private _type: Kind = Kind.Bytes;
+  private _value: string;
 
-  get val(): Uint8Array {
-    return stringToUint8Array(this.value);
+  get value(): Uint8Array {
+    return stringToUint8Array(this._value);
   }
 
-  set val(value: Uint8Array) {
-    this.value = uint8ArrayToString(value);
+  set value(value: Uint8Array) {
+    this._value = uint8ArrayToString(value);
+  }
+
+  public get type(): Kind {
+    return this._type;
   }
 
   constructor(value: Uint8Array) {
-    this.value = uint8ArrayToString(value);
+    this._value = uint8ArrayToString(value);
   }
 }

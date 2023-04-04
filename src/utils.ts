@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import * as changeCase from "change-case";
+
 /**
  * Converts a number to a string
  * @param num The number to convert to a string
@@ -72,3 +74,82 @@ export const stringToUint8Array = (str: string): Uint8Array => {
     str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
   );
 };
+
+export const toSnakeCase = (input: string): string => {
+  return changeCase.snakeCase(input);
+};
+
+export const toCamelCase = (input: string): string => {
+  return changeCase.camelCase(input);
+};
+
+export const trim = (character: string): ((input: string) => string) => {
+  return (input: string) =>
+    input
+      .replace(new RegExp(`^${character}+`), "")
+      .replace(new RegExp(`${character}+$`), "");
+};
+
+export const prefix = (prefix: string): ((input: string) => string) => {
+  return (input: string) => prefix + input;
+};
+
+export const replace = (
+  old: string,
+  replacement: string
+): ((input: string) => string) => {
+  return (input: string) => (input === old ? replacement : old);
+};
+
+export const traverseObjectForKeys = <T>(
+  input: T,
+  callbacks: Array<(key: string) => string>
+): T => {
+  if (Array.isArray(input)) {
+    return input.map((value) => traverseObjectForKeys(value, callbacks)) as T;
+  } else if (typeof input === "object" && input !== null) {
+    const updatedObject: any = {};
+    for (const [key, value] of Object.entries(input)) {
+      let updatedKey = key;
+      for (const callback of callbacks) {
+        updatedKey = callback(updatedKey);
+      }
+      updatedObject[updatedKey] = traverseObjectForKeys(value, callbacks);
+    }
+    return updatedObject as T;
+  } else {
+    return input;
+  }
+};
+
+/**
+ * This function serializes objects through the serialization strategy followed by the Radix Engine
+ * toolkit. This strategy performs the following before the serialization is done:
+ *    - trims any underscore ('_') symbol from the beginning or end of the keys of the objects
+ *    - converts the key names from any casing to being in snake case.
+ * @param object The object to JSON serialize
+ * @returns A string of the object after it has been JSON serialized
+ */
+export const serialize = (object: Object): string =>
+  JSON.stringify(traverseObjectForKeys(object, [trim("_"), toSnakeCase]));
+
+/**
+ * This function deserializes strings to objects through the Radix Engine Toolkit's deserialization
+ * strategy which is composed of the following:
+ *    - prefixing all keys in objects with an underscore ('_').
+ *    - converting the keys from snake case to camelCase.
+ *    - replacing the key `_type` with `type` since `type` is special
+ * @param str The string to deserialize as an object of the generic type T
+ * @param constructorFn The constructor function. This constructor will not actually be used to
+ * construct any objects. Rather, it will be used as the type to cast the object to after it has
+ * been deserialized.
+ * @returns The deserialized object
+ */
+export const deserialize = <T>(
+  str: string,
+  constructorFn: new (...args: any) => T
+): T =>
+  Object.setPrototypeOf(
+    traverseObjectForKeys(JSON.parse(str), [toCamelCase, prefix("_")]),
+    constructorFn.prototype
+  );

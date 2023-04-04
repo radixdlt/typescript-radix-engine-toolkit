@@ -21,6 +21,7 @@ import {
   RadixEngineToolkitWasmWrapper,
   RadixEngineToolkitWrapperError,
 } from "./wasm_wrapper";
+import { deserialize } from "../utils";
 
 /**
  * A global instance of the Radix Engine Toolkit.
@@ -52,9 +53,7 @@ class RadixEngineToolkit {
     // Read and deserialize the response
     let response = ret
       .readStringFromMemory(responsePointer)
-      .map((str: string) =>
-        Object.setPrototypeOf(JSON.parse(str), InformationResponse.prototype)
-      );
+      .map((str: string) => deserialize(str, InformationResponse));
 
     // Deallocate the request and response pointers
     ret.deallocateMemory(requestPointer);

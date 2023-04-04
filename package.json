@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "@rollup/plugin-wasm": "^6.1.2",
-    "babel-preset-vite": "^1.1.0",
     "happy-dom": "^9.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
@@ -31,6 +30,8 @@
     "vitest": "^0.29.8"
   },
   "dependencies": {
-    "neverthrow": "^6.0.0"
+    "change-case": "^4.1.2",
+    "neverthrow": "^6.0.0",
+    "reflect-metadata": "^0.1.13"
   }
 }
