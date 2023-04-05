@@ -2,13 +2,13 @@
 
 import { wasm } from "@rollup/plugin-wasm";
 import { defineConfig } from "vite";
-import path from "path";
+import pathe from "pathe";
 
 module.exports = defineConfig({
   build: {
     lib: {
       name: "radix-engine-toolkit",
-      entry: path.resolve(__dirname, "src/index.ts"),
+      entry: pathe.resolve(__dirname, "src/index.ts"),
       fileName: (format) => `index.${format}.js`,
     },
   },
