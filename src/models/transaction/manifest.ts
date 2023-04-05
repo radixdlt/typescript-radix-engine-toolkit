@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { stringToUint8Array, uint8ArrayToString } from "utils";
+import { stringToUint8Array, uint8ArrayToString } from "../../utils";
 import { InstructionList } from ".";
 
 export class TransactionManifest {
