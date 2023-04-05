@@ -17,7 +17,7 @@
 
 import { Instruction } from "./instruction";
 
-export type InstructionList = StringInstructions | ParsedInstructions;
+export type Any = StringInstructions | ParsedInstructions;
 
 export enum Kind {
   String = "String",

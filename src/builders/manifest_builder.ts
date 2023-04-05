@@ -1,3 +1,20 @@
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
 import {
   Instruction,
   CallFunction,
@@ -71,7 +88,7 @@ export class ManifestBuilder {
     packageAddress: ManifestAstValue.Address,
     blueprintName: ManifestAstValue.String,
     functionName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Value> | null
+    args: Array<ManifestAstValue.Any> | null
   ) {
     let instruction = new CallFunction(
       packageAddress,
@@ -96,7 +113,7 @@ export class ManifestBuilder {
   callMethod(
     componentAddress: ManifestAstValue.Address,
     methodName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Value> | null
+    args: Array<ManifestAstValue.Any> | null
   ) {
     let instruction = new CallMethod(componentAddress, methodName, args);
     this.instructions.push(instruction);
@@ -434,7 +451,7 @@ export class ManifestBuilder {
     schema: Uint8Array,
     royaltyConfig: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
-    accessRules: ManifestAstValue.Value
+    accessRules: ManifestAstValue.Any
   ) {
     let instruction = new PublishPackage(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
@@ -717,7 +734,7 @@ export class ManifestBuilder {
     schema: ManifestAstValue.Blob,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
-    initialSupply: ManifestAstValue.Value
+    initialSupply: ManifestAstValue.Any
   ) {
     let instruction = new CreateNonFungibleResourceWithInitialSupply(
       idType,

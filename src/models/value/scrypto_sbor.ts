@@ -24,7 +24,7 @@ import {
   uint8ArrayToString,
 } from "../../utils";
 
-export type Value =
+export type Any =
   | Bool
   | U8
   | U16
@@ -326,7 +326,7 @@ export class String {
 export class Enum {
   private _type: Kind = Kind.Enum;
   private _variant: string;
-  private _fields: globalThis.Array<Value> = [];
+  private _fields: globalThis.Array<Any> = [];
 
   public get variant(): number {
     return stringToNumber(this._variant);
@@ -335,10 +335,10 @@ export class Enum {
     this._variant = numberToString(value);
   }
 
-  public get fields(): globalThis.Array<Value> {
+  public get fields(): globalThis.Array<Any> {
     return this._fields;
   }
-  public set fields(value: globalThis.Array<Value>) {
+  public set fields(value: globalThis.Array<Any>) {
     this._fields = value;
   }
 
@@ -346,7 +346,7 @@ export class Enum {
     return this._type;
   }
 
-  constructor(variant: number, fields: globalThis.Array<Value> = []) {
+  constructor(variant: number, fields: globalThis.Array<Any> = []) {
     this._variant = numberToString(variant);
     this.fields = fields;
   }
@@ -355,7 +355,7 @@ export class Enum {
 export class Array {
   private _type: Kind = Kind.Array;
   private _elementKind: Kind;
-  private _elements: globalThis.Array<Value>;
+  private _elements: globalThis.Array<Any>;
 
   public get elementKind(): Kind {
     return this._elementKind;
@@ -364,10 +364,10 @@ export class Array {
     this._elementKind = value;
   }
 
-  public get elements(): globalThis.Array<Value> {
+  public get elements(): globalThis.Array<Any> {
     return this._elements;
   }
-  public set elements(value: globalThis.Array<Value>) {
+  public set elements(value: globalThis.Array<Any>) {
     this._elements = value;
   }
 
@@ -375,7 +375,7 @@ export class Array {
     return this._type;
   }
 
-  constructor(elementKind: Kind, elements: globalThis.Array<Value>) {
+  constructor(elementKind: Kind, elements: globalThis.Array<Any>) {
     this._elementKind = elementKind;
     this._elements = elements;
   }
@@ -385,7 +385,7 @@ export class Map {
   private _type: Kind = Kind.Map;
   private _keyValueKind: Kind;
   private _valueValueKind: Kind;
-  private _entries: globalThis.Array<[Value, Value]> = [];
+  private _entries: globalThis.Array<[Any, Any]> = [];
 
   public get keyValueKind(): Kind {
     return this._keyValueKind;
@@ -401,10 +401,10 @@ export class Map {
     this._valueValueKind = value;
   }
 
-  public get entries(): globalThis.Array<[Value, Value]> {
+  public get entries(): globalThis.Array<[Any, Any]> {
     return this._entries;
   }
-  public set entries(value: globalThis.Array<[Value, Value]>) {
+  public set entries(value: globalThis.Array<[Any, Any]>) {
     this._entries = value;
   }
 
@@ -415,7 +415,7 @@ export class Map {
   constructor(
     keyValueKind: Kind,
     valueValueKind: Kind,
-    elements: globalThis.Array<[Value, Value]> = []
+    elements: globalThis.Array<[Any, Any]> = []
   ) {
     this._keyValueKind = keyValueKind;
     this._valueValueKind = valueValueKind;
@@ -425,12 +425,12 @@ export class Map {
 
 export class Tuple {
   private _type: Kind = Kind.Tuple;
-  private _elements: globalThis.Array<Value> = [];
+  private _elements: globalThis.Array<Any> = [];
 
-  public get elements(): globalThis.Array<Value> {
+  public get elements(): globalThis.Array<Any> {
     return this._elements;
   }
-  public set elements(value: globalThis.Array<Value>) {
+  public set elements(value: globalThis.Array<Any>) {
     this._elements = value;
   }
 
@@ -438,7 +438,7 @@ export class Tuple {
     return this._type;
   }
 
-  constructor(elements: globalThis.Array<Value> = []) {
+  constructor(elements: globalThis.Array<Any> = []) {
     this.elements = elements;
   }
 }
