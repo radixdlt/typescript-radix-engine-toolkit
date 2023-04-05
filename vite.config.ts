@@ -1,9 +1,8 @@
 /// <reference types="vitest" />
 
-/* eslint-disable @typescript-eslint/no-require-imports */
-const path = require("path");
-const { wasm } = require("@rollup/plugin-wasm");
-const { defineConfig } = require("vite");
+import { wasm } from "@rollup/plugin-wasm";
+import { defineConfig } from "vite";
+import path from "path";
 
 module.exports = defineConfig({
   build: {
@@ -13,7 +12,7 @@ module.exports = defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
   },
-  plugins: [wasm.default({ targetEnv: "auto-inline" })],
+  plugins: [wasm({ targetEnv: "auto-inline" })],
   test: {
     globals: true,
     environment: "happy-dom",
