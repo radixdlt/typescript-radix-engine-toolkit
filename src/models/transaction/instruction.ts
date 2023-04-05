@@ -115,7 +115,7 @@ export class CallFunction {
   private _packageAddress: ManifestAstValue.Address;
   private _blueprintName: ManifestAstValue.String;
   private _functionName: ManifestAstValue.String;
-  private _arguments: Array<ManifestAstValue.Value> | undefined;
+  private _arguments: Array<ManifestAstValue.Value> | null;
 
   public get instruction(): Kind {
     return this._instruction;
@@ -176,7 +176,7 @@ export class CallFunction {
    * An optional array of `ManifestAstValue` arguments to call the function with. If this array is
    * empty or is not provided, then the function is called with no arguments.
    */
-  public set arguments(value: Array<ManifestAstValue.Value> | undefined) {
+  public set arguments(value: Array<ManifestAstValue.Value> | null) {
     this._arguments = value;
   }
 
@@ -184,7 +184,7 @@ export class CallFunction {
     packageAddress: ManifestAstValue.Address,
     blueprintName: ManifestAstValue.String,
     functionName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Value> | undefined
+    args: Array<ManifestAstValue.Value> | null = null
   ) {
     this._packageAddress = packageAddress;
     this._blueprintName = blueprintName;
@@ -201,7 +201,7 @@ export class CallMethod {
   private _instruction: Kind = Kind.CallMethod;
   private _componentAddress: ManifestAstValue.Address;
   private _methodName: ManifestAstValue.String;
-  private _arguments: Array<ManifestAstValue.Value> | undefined;
+  private _arguments: Array<ManifestAstValue.Value> | null;
 
   public get instruction(): Kind {
     return this._instruction;
@@ -247,14 +247,14 @@ export class CallMethod {
    * An optional array of `ManifestAstValue` arguments to call the method with. If this array is
    * empty or is not provided, then the method is called with no arguments.
    */
-  public set arguments(value: Array<ManifestAstValue.Value> | undefined) {
+  public set arguments(value: Array<ManifestAstValue.Value> | null) {
     this._arguments = value;
   }
 
   constructor(
     componentAddress: ManifestAstValue.Address,
     methodName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Value> | undefined
+    args: Array<ManifestAstValue.Value> | null = null
   ) {
     this._componentAddress = componentAddress;
     this._methodName = methodName;
@@ -389,7 +389,7 @@ export class TakeFromWorktopByAmount {
 export class TakeFromWorktopByIds {
   private _instruction: Kind = Kind.TakeFromWorktopByIds;
   private _resourceAddress: ManifestAstValue.Address;
-  private _ids: Set<ManifestAstValue.NonFungibleLocalId>;
+  private _ids: Array<ManifestAstValue.NonFungibleLocalId>;
   private _intoBucket: ManifestAstValue.Bucket;
 
   public get instruction(): Kind {
@@ -421,7 +421,7 @@ export class TakeFromWorktopByIds {
    * The non-fungible ids to take from the worktop. This is a set (serialized as a JSON array) of
    * `NonFungibleLocalId`s from the ManifestAstValue model.
    */
-  public set ids(value: Set<ManifestAstValue.NonFungibleLocalId>) {
+  public set ids(value: Array<ManifestAstValue.NonFungibleLocalId>) {
     this._ids = value;
   }
 
@@ -442,7 +442,7 @@ export class TakeFromWorktopByIds {
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
-    ids: Set<ManifestAstValue.NonFungibleLocalId>,
+    ids: Array<ManifestAstValue.NonFungibleLocalId>,
     intoBucket: ManifestAstValue.Bucket
   ) {
     this._resourceAddress = resourceAddress;
@@ -566,7 +566,7 @@ export class AssertWorktopContainsByAmount {
 export class AssertWorktopContainsByIds {
   private _instruction: Kind = Kind.AssertWorktopContainsByIds;
   private _resourceAddress: ManifestAstValue.Address;
-  private _ids: Set<ManifestAstValue.NonFungibleLocalId>;
+  private _ids: Array<ManifestAstValue.NonFungibleLocalId>;
 
   public get instruction(): Kind {
     return this._instruction;
@@ -597,13 +597,13 @@ export class AssertWorktopContainsByIds {
    * The non-fungible ids of the resource to assert their existence in the worktop. This is a set
    * (serialized as a JSON array) of `NonFungibleLocalId`s from the ManifestAstValue model.
    */
-  public set ids(value: Set<ManifestAstValue.NonFungibleLocalId>) {
+  public set ids(value: Array<ManifestAstValue.NonFungibleLocalId>) {
     this._ids = value;
   }
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
-    ids: Set<ManifestAstValue.NonFungibleLocalId>
+    ids: Array<ManifestAstValue.NonFungibleLocalId>
   ) {
     this._resourceAddress = resourceAddress;
     this._ids = ids;
@@ -820,7 +820,7 @@ export class CreateProofFromAuthZoneByAmount {
 export class CreateProofFromAuthZoneByIds {
   private _instruction: Kind = Kind.CreateProofFromAuthZoneByIds;
   private _resourceAddress: ManifestAstValue.Address;
-  private _ids: Set<ManifestAstValue.NonFungibleLocalId>;
+  private _ids: Array<ManifestAstValue.NonFungibleLocalId>;
   private _intoProof: ManifestAstValue.Proof;
 
   public get instruction(): Kind {
@@ -852,7 +852,7 @@ export class CreateProofFromAuthZoneByIds {
    * The non-fungible ids to create a proof of. This is a set (serialized as a JSON array) of
    * `NonFungibleLocalId`s from the ManifestAstValue model.
    */
-  public set ids(value: Set<ManifestAstValue.NonFungibleLocalId>) {
+  public set ids(value: Array<ManifestAstValue.NonFungibleLocalId>) {
     this._ids = value;
   }
 
@@ -873,7 +873,7 @@ export class CreateProofFromAuthZoneByIds {
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
-    ids: Set<ManifestAstValue.NonFungibleLocalId>,
+    ids: Array<ManifestAstValue.NonFungibleLocalId>,
     intoProof: ManifestAstValue.Proof
   ) {
     this._resourceAddress = resourceAddress;

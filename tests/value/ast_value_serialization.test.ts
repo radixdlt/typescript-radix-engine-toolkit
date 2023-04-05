@@ -305,10 +305,10 @@ describe.each([
   ({ expectedObject, expectedSerialization }) => {
     test(`${expectedObject} is serialized as expected`, () => {
       // Act
-      let actual_serialization = serialize(expectedObject);
+      let actualSerialization = serialize(expectedObject);
 
       // Assert
-      expect(actual_serialization).toEqual(expectedSerialization);
+      expect(actualSerialization).toEqual(expectedSerialization);
     });
 
     test(`${expectedSerialization} is deserialized as expected`, () => {
