@@ -25,11 +25,11 @@ export enum Kind {
 }
 
 export class StringInstructions {
-  private _instruction: Kind = Kind.String;
+  private _type: Kind = Kind.String;
   private _value: string;
 
-  public get instruction(): Kind {
-    return this._instruction;
+  public get type(): Kind {
+    return this._type;
   }
 
   public get value(): string {
@@ -45,11 +45,11 @@ export class StringInstructions {
 }
 
 export class ParsedInstructions {
-  private _instruction: Kind = Kind.Parsed;
+  private _type: Kind = Kind.Parsed;
   private _value: Array<Instruction>;
 
-  public get instruction(): Kind {
-    return this._instruction;
+  public get type(): Kind {
+    return this._type;
   }
 
   public get value(): Array<Instruction> {
