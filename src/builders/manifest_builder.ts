@@ -44,6 +44,7 @@ import {
   CreateAccount,
 } from "../models/transaction/instruction";
 import { ManifestAstValue } from "../models";
+import { blake2b } from "blakejs";
 
 export class ManifestBuilder {
   private instructions: Array<Instruction> = [];
@@ -416,32 +417,35 @@ export class ManifestBuilder {
     return this;
   }
 
-  // TODO: Take in the code and schema data and convert them to blobs.
   /**
    * An instruction to publish a package and set it's associated royalty configs, metadata, and
    * access rules.
-   * @param code The blob of the package code.
-   * @param schema The blob of the package ABI.
+   * @param code The code of the package. Note that this isn't the code blob or the blob hash, this
+   * is the actual code of the package.
+   * @param schema The schema of the package. Note that this isn't the schema blob or the blob hash,
+   * this is the actual schema of the package.
    * @param royaltyConfig The configurations of the royalty for the package
    * @param metadata The metadata to use for the package
    * @param accessRules The access rules to use for the package.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   publishPackage(
-    code: ManifestAstValue.Blob,
-    schema: ManifestAstValue.Blob,
+    code: Uint8Array,
+    schema: Uint8Array,
     royaltyConfig: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Value
   ) {
     let instruction = new PublishPackage(
-      code,
-      schema,
+      new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
+      new ManifestAstValue.Blob(blake2b(schema, undefined, 32)),
       royaltyConfig,
       metadata,
       accessRules
     );
     this.instructions.push(instruction);
+    this.blobs.push(code);
+    this.blobs.push(schema);
     return this;
   }
 
