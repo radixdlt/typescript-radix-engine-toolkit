@@ -15,13 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { InformationRequest, InformationResponse } from "../models";
 import { Result } from "neverthrow";
+import { InformationRequest, InformationResponse } from "../models";
+import { deserialize } from "../utils";
 import {
   RadixEngineToolkitWasmWrapper,
   RadixEngineToolkitWrapperError,
 } from "./wasm_wrapper";
-import { deserialize } from "../utils";
 
 /**
  * A global instance of the Radix Engine Toolkit.

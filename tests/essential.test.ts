@@ -16,7 +16,7 @@
 // under the License.
 
 import { describe, expect, it } from "vitest";
-import { RadixEngineToolkit, InformationResponse } from "../src";
+import { InformationResponse, RadixEngineToolkit } from "../src";
 
 describe("essential", () => {
   it("essential", async () => {

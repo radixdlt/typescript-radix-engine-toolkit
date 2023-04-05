@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 
 import { wasm } from "@rollup/plugin-wasm";
-import { defineConfig } from "vite";
 import pathe from "pathe";
+import { defineConfig } from "vite";
 
 module.exports = defineConfig({
   build: {

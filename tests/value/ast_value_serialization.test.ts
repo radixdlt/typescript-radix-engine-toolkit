@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { ManifestAstValue } from "../../src";
 import { describe, expect, test } from "vitest";
+import { ManifestAstValue } from "../../src";
 import { deserialize, serialize } from "../../src/utils";
 
 describe.each([

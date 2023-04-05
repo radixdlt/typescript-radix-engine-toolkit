@@ -15,6 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./transaction";
 export * from "./requests";
+export * from "./transaction";
 export * from "./value";

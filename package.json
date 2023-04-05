@@ -24,6 +24,8 @@
   "devDependencies": {
     "@rollup/plugin-wasm": "^6.1.2",
     "happy-dom": "^9.1.0",
+    "prettier": "^2.8.7",
+    "prettier-plugin-organize-imports": "^3.2.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.2",
     "vite": "^4.2.1",

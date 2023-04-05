@@ -1,6 +1,6 @@
+import { RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 import { useEffect, useState } from "react";
 import "./App.css";
-import { RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 
 function App() {
   const [informationResponse, setInformationResponse] = useState("");

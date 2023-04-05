@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { InstructionList, TransactionManifest } from "../../src";
-import { describe, expect, test } from "vitest";
-import { deserialize, serialize } from "../../src/utils";
 import { blake2b } from "blakejs";
+import { describe, expect, test } from "vitest";
+import { InstructionList, TransactionManifest } from "../../src";
+import { deserialize, serialize } from "../../src/utils";
 
 describe.each([
   {
