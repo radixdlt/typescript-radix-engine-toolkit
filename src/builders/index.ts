@@ -15,5 +15,4 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * as Instruction from "./instruction";
-export * as InstructionList from "./instruction_list";
+export { ManifestBuilder } from "./manifest_builder";
