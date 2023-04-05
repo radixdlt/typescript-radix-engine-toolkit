@@ -36,7 +36,10 @@ export class TransactionManifest {
     this._blobs = value.map(uint8ArrayToString);
   }
 
-  constructor(instructions: InstructionList.Any, blobs: Array<Uint8Array>) {
+  constructor(
+    instructions: InstructionList.Any,
+    blobs: Array<Uint8Array> = []
+  ) {
     this._instructions = instructions;
     this._blobs = blobs.map(uint8ArrayToString);
   }
