@@ -17,7 +17,6 @@
 
 import { Result } from "neverthrow";
 import { InformationRequest, InformationResponse } from "../models";
-import { deserialize } from "../utils";
 import {
   RadixEngineToolkitWasmWrapper,
   RadixEngineToolkitWrapperError,
@@ -44,23 +43,8 @@ class RadixEngineToolkit {
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
-    // Write the request object to memory and get a pointer to where it was written
-    let requestPointer = ret.writeObjectToMemory(request);
-
-    // Call the WASM function with the request pointer
-    let responsePointer = ret.exports.information(requestPointer);
-
-    // Read and deserialize the response
-    let response = ret
-      .readStringFromMemory(responsePointer)
-      .map((str: string) => deserialize(str, InformationResponse));
-
-    // Deallocate the request and response pointers
-    ret.deallocateMemory(requestPointer);
-    ret.deallocateMemory(responsePointer);
-
-    // Return the object back to the caller
-    return response;
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(request, ret.exports.information, InformationResponse);
   }
 }
 

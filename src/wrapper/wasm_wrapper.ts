@@ -17,7 +17,12 @@
 
 import { err, ok, Result } from "neverthrow";
 import radixEngineToolkitWasm from "../../resources/radix-engine-toolkit.wasm";
-import { toSnakeCase, traverseObjectForKeys, trim } from "../utils";
+import {
+  deserialize,
+  toSnakeCase,
+  traverseObjectForKeys,
+  trim,
+} from "../utils";
 
 /**
  * Wraps a Radix Engine Toolkit WASM instance providing a high level API for making calls to the
@@ -31,9 +36,9 @@ class RadixEngineToolkitWasmWrapper {
 
   /**
    * An instance created from the Radix Engine Toolkit module.
-   * @protected
+   * @private
    */
-  protected instance: WebAssembly.Instance;
+  private instance: WebAssembly.Instance;
 
   /**
    * The encoder used to UTF-8 encode strings
@@ -56,11 +61,51 @@ class RadixEngineToolkitWasmWrapper {
   }
 
   /**
+   * A high-level method for calling functions from the `RadixEngineToolkitFFI` through a simple
+   * interface.
+   *
+   * The main purpose of this method is to provide a higher-level interface for calling into the
+   * `RadixEngineToolkit`, as such, this method performs all required memory allocation,
+   * deallocation, object serialization, deserialization encoding, and decoding required for any
+   * call into the RadixEngineToolkit
+   * @param request An object containing the request payload
+   * @param fn The function to call of the `RadixEngineToolkitFFI`
+   * @param constructorFn The constructor function. This constructor will not actually be used to
+   * construct any objects. Rather, it will be used as the type to cast the object to after it has
+   * been deserialized.
+   * @return A generic object of type `O` of the response to the request
+   * @private
+   */
+  public invoke<I, O>(
+    request: I,
+    fn: (pointer: number) => number,
+    constructorFn: new (...args: any) => O
+  ): Result<O, RadixEngineToolkitWrapperError> {
+    // Write the request object to memory and get a pointer to where it was written
+    let requestPointer = this.writeObjectToMemory(request);
+
+    // Call the WASM function with the request pointer
+    let responsePointer = fn(requestPointer);
+
+    // Read and deserialize the response
+    let response = this.readStringFromMemory(responsePointer).map(
+      (str: string) => deserialize(str, constructorFn)
+    );
+
+    // Deallocate the request and response pointers
+    this.deallocateMemory(requestPointer);
+    this.deallocateMemory(responsePointer);
+
+    // Return the object back to the caller
+    return response;
+  }
+
+  /**
    * Deallocates memory beginning from the provided memory pointer and ending at the first
    * null-terminator found
    * @param pointer A memory pointer to the starting location of the memory to deallocate
    */
-  public deallocateMemory(pointer: number) {
+  private deallocateMemory(pointer: number) {
     this.exports.toolkit_free_c_string(pointer);
   }
 
@@ -70,7 +115,7 @@ class RadixEngineToolkitWasmWrapper {
    * @param pointer A pointer to the memory location containing the string
    * @return A JS string of the read and decoded string
    */
-  public readStringFromMemory(
+  private readStringFromMemory(
     pointer: number
   ): Result<string, RadixEngineToolkitWrapperError> {
     // Determine the length of the string based on the first null terminator
@@ -102,7 +147,7 @@ class RadixEngineToolkitWasmWrapper {
    * @param obj The object to write to the instance's linear memory.
    * @return A pointer to the location of the object in memory
    */
-  public writeObjectToMemory(obj: any): number {
+  private writeObjectToMemory(obj: any): number {
     // Serialize the object to json
     let serializedObject: string = this.serializeObject(obj);
 
@@ -203,7 +248,7 @@ interface RadixEngineToolkitExports {
 
   derive_virtual_identity_address(pointer: number): number;
 
-  derive_non_fungible_global_id_from_public_key(pointer: number): number;
+  derive_non_fungible_global_id_from_private_key(pointer: number): number;
 
   encode_address(pointer: number): number;
 

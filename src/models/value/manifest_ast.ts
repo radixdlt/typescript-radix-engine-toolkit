@@ -625,6 +625,7 @@ export class PreciseDecimal {
   }
 }
 
+// TODO: implement an address base class for the functionalities needed for this.
 export class Address {
   private _type: Kind = Kind.Address;
   private _address: string;

@@ -63,3 +63,5 @@ export class ParsedInstructions {
     this._value = instructions;
   }
 }
+
+// TODO: Expose high level APIs for instructions (e.g. convert to string, instructions array, etc...)
