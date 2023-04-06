@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./crypto";
-export * from "./requests";
-export * from "./transaction";
-export * from "./value";
+export enum Curve {
+  EcdsaSecp256k1 = "EcdsaSecp256k1",
+  EddsaEd25519 = "EddsaEd25519",
+}

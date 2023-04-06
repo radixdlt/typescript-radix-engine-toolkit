@@ -15,7 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./crypto";
-export * from "./requests";
-export * from "./transaction";
-export * from "./value";
+export { Curve } from "./curve";
+export * as PrivateKey from "./private_key";
+export * as PublicKey from "./public_key";
+export * as Signature from "./signature";
+export * as SignatureWithPublicKey from "./signature_with_public_key";
