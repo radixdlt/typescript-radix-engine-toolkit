@@ -16,7 +16,11 @@
 // under the License.
 
 import { blake2b } from "blakejs";
-import { ManifestAstValue } from "../models";
+import {
+  InstructionList,
+  ManifestAstValue,
+  TransactionManifest,
+} from "../models";
 import {
   AssertAccessRule,
   AssertWorktopContains,
@@ -89,7 +93,7 @@ export class ManifestBuilder {
     blueprintName: ManifestAstValue.String,
     functionName: ManifestAstValue.String,
     args: Array<ManifestAstValue.Any> | null
-  ) {
+  ): ManifestBuilder {
     let instruction = new CallFunction(
       packageAddress,
       blueprintName,
@@ -114,7 +118,7 @@ export class ManifestBuilder {
     componentAddress: ManifestAstValue.Address,
     methodName: ManifestAstValue.String,
     args: Array<ManifestAstValue.Any> | null
-  ) {
+  ): ManifestBuilder {
     let instruction = new CallMethod(componentAddress, methodName, args);
     this.instructions.push(instruction);
     return this;
@@ -133,7 +137,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Bucket
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
     let instruction = new TakeFromWorktop(resourceAddress, bucket);
     this.instructions.push(instruction);
@@ -156,7 +160,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Bucket
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
     let instruction = new TakeFromWorktopByAmount(
       resourceAddress,
@@ -184,7 +188,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Bucket
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
     let instruction = new TakeFromWorktopByIds(resourceAddress, ids, bucket);
     this.instructions.push(instruction);
@@ -197,7 +201,7 @@ export class ManifestBuilder {
    * @param bucket The bucket to return to the worktop.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  returnToWorktop(bucket: ManifestAstValue.Bucket) {
+  returnToWorktop(bucket: ManifestAstValue.Bucket): ManifestBuilder {
     let instruction = new ReturnToWorktop(bucket);
     this.instructions.push(instruction);
     return this;
@@ -208,7 +212,9 @@ export class ManifestBuilder {
    * @param resourceAddress The address of the resource to perform the assertion on.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  assertWorktopContains(resourceAddress: ManifestAstValue.Address) {
+  assertWorktopContains(
+    resourceAddress: ManifestAstValue.Address
+  ): ManifestBuilder {
     let instruction = new AssertWorktopContains(resourceAddress);
     this.instructions.push(instruction);
     return this;
@@ -224,7 +230,7 @@ export class ManifestBuilder {
   assertWorktopContainsByAmount(
     resourceAddress: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
-  ) {
+  ): ManifestBuilder {
     let instruction = new AssertWorktopContainsByAmount(
       resourceAddress,
       amount
@@ -243,7 +249,7 @@ export class ManifestBuilder {
   assertWorktopContainsByIds(
     resourceAddress: ManifestAstValue.Address,
     ids: Array<ManifestAstValue.NonFungibleLocalId>
-  ) {
+  ): ManifestBuilder {
     let instruction = new AssertWorktopContainsByIds(resourceAddress, ids);
     this.instructions.push(instruction);
     return this;
@@ -259,7 +265,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
     let instruction = new PopFromAuthZone(proof);
     this.instructions.push(instruction);
@@ -272,7 +278,7 @@ export class ManifestBuilder {
    * @param proof The proof to push to the auth zone stack.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  pushToAuthZone(proof: ManifestAstValue.Proof) {
+  pushToAuthZone(proof: ManifestAstValue.Proof): ManifestBuilder {
     let instruction = new PushToAuthZone(proof);
     this.instructions.push(instruction);
     return this;
@@ -282,7 +288,7 @@ export class ManifestBuilder {
    * An instruction which clears the auth zone stack by dropping all of the proofs in that stack.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  clearAuthZone() {
+  clearAuthZone(): ManifestBuilder {
     let instruction = new ClearAuthZone();
     this.instructions.push(instruction);
     return this;
@@ -292,7 +298,7 @@ export class ManifestBuilder {
    * Clears all the proofs of signature virtual badges.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  clearSignatureProofs() {
+  clearSignatureProofs(): ManifestBuilder {
     let instruction = new ClearSignatureProofs();
     this.instructions.push(instruction);
     return this;
@@ -311,7 +317,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
     let instruction = new CreateProofFromAuthZone(resourceAddress, proof);
     this.instructions.push(instruction);
@@ -334,7 +340,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
     let instruction = new CreateProofFromAuthZoneByAmount(
       resourceAddress,
@@ -362,7 +368,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
     let instruction = new CreateProofFromAuthZoneByIds(
       resourceAddress,
@@ -386,7 +392,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
     let instruction = new CreateProofFromBucket(bucket, proof);
     this.instructions.push(instruction);
@@ -406,7 +412,7 @@ export class ManifestBuilder {
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
     ) => ManifestBuilder
-  ) {
+  ): ManifestBuilder {
     let instruction = new CloneProof(proof, proof);
     this.instructions.push(instruction);
     andThen(this, proof);
@@ -418,7 +424,7 @@ export class ManifestBuilder {
    * @param proof The proof to drop.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  dropProof(proof: ManifestAstValue.Proof) {
+  dropProof(proof: ManifestAstValue.Proof): ManifestBuilder {
     let instruction = new DropProof(proof);
     this.instructions.push(instruction);
     return this;
@@ -428,7 +434,7 @@ export class ManifestBuilder {
    * An instruction to drop all proofs currently present in the transaction context.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  dropAllProofs() {
+  dropAllProofs(): ManifestBuilder {
     let instruction = new DropAllProofs();
     this.instructions.push(instruction);
     return this;
@@ -452,7 +458,7 @@ export class ManifestBuilder {
     royaltyConfig: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Any
-  ) {
+  ): ManifestBuilder {
     let instruction = new PublishPackage(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
       new ManifestAstValue.Blob(blake2b(schema, undefined, 32)),
@@ -471,7 +477,7 @@ export class ManifestBuilder {
    * @param bucket The bucket of tokens to burn.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  burnResource(bucket: ManifestAstValue.Bucket) {
+  burnResource(bucket: ManifestAstValue.Bucket): ManifestBuilder {
     let instruction = new BurnResource(bucket);
     this.instructions.push(instruction);
     return this;
@@ -486,7 +492,7 @@ export class ManifestBuilder {
   recallResource(
     vaultId: ManifestAstValue.Bytes,
     amount: ManifestAstValue.Decimal
-  ) {
+  ): ManifestBuilder {
     let instruction = new RecallResource(vaultId, amount);
     this.instructions.push(instruction);
     return this;
@@ -505,7 +511,7 @@ export class ManifestBuilder {
     entityAddress: ManifestAstValue.Address,
     key: ManifestAstValue.String,
     value: ManifestAstValue.Enum
-  ) {
+  ): ManifestBuilder {
     let instruction = new SetMetadata(entityAddress, key, value);
     this.instructions.push(instruction);
     return this;
@@ -522,7 +528,7 @@ export class ManifestBuilder {
   removeMetadata(
     entityAddress: ManifestAstValue.Address,
     key: ManifestAstValue.String
-  ) {
+  ): ManifestBuilder {
     let instruction = new RemoveMetadata(entityAddress, key);
     this.instructions.push(instruction);
     return this;
@@ -537,7 +543,7 @@ export class ManifestBuilder {
   setPackageRoyaltyConfig(
     packageAddress: ManifestAstValue.Address,
     royaltyConfig: ManifestAstValue.Map
-  ) {
+  ): ManifestBuilder {
     let instruction = new SetPackageRoyaltyConfig(
       packageAddress,
       royaltyConfig
@@ -556,7 +562,7 @@ export class ManifestBuilder {
   setComponentRoyaltyConfig(
     componentAddress: ManifestAstValue.Address,
     royaltyConfig: ManifestAstValue.Tuple
-  ) {
+  ): ManifestBuilder {
     let instruction = new SetComponentRoyaltyConfig(
       componentAddress,
       royaltyConfig
@@ -570,7 +576,9 @@ export class ManifestBuilder {
    * @param packageAddress The package address of the package to claim royalties for.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  claimPackageRoyalty(packageAddress: ManifestAstValue.Address) {
+  claimPackageRoyalty(
+    packageAddress: ManifestAstValue.Address
+  ): ManifestBuilder {
     let instruction = new ClaimPackageRoyalty(packageAddress);
     this.instructions.push(instruction);
     return this;
@@ -581,7 +589,9 @@ export class ManifestBuilder {
    * @param componentAddress The component address of the component to claim royalties for.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  claimComponentRoyalty(componentAddress: ManifestAstValue.Address) {
+  claimComponentRoyalty(
+    componentAddress: ManifestAstValue.Address
+  ): ManifestBuilder {
     let instruction = new ClaimComponentRoyalty(componentAddress);
     this.instructions.push(instruction);
     return this;
@@ -598,7 +608,7 @@ export class ManifestBuilder {
     entityAddress: ManifestAstValue.Address,
     key: ManifestAstValue.String,
     rule: ManifestAstValue.Enum
-  ) {
+  ): ManifestBuilder {
     let instruction = new SetMethodAccessRule(entityAddress, key, rule);
     this.instructions.push(instruction);
     return this;
@@ -613,7 +623,7 @@ export class ManifestBuilder {
   mintFungible(
     resourceAddress: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
-  ) {
+  ): ManifestBuilder {
     let instruction = new MintFungible(resourceAddress, amount);
     this.instructions.push(instruction);
     return this;
@@ -628,7 +638,7 @@ export class ManifestBuilder {
   mintNonFungible(
     resourceAddress: ManifestAstValue.Address,
     entries: ManifestAstValue.Map
-  ) {
+  ): ManifestBuilder {
     let instruction = new MintNonFungible(resourceAddress, entries);
     this.instructions.push(instruction);
     return this;
@@ -644,7 +654,7 @@ export class ManifestBuilder {
   mintUuidNonFungible(
     resourceAddress: ManifestAstValue.Address,
     entries: ManifestAstValue.Array
-  ) {
+  ): ManifestBuilder {
     let instruction = new MintUuidNonFungible(resourceAddress, entries);
     this.instructions.push(instruction);
     return this;
@@ -661,7 +671,7 @@ export class ManifestBuilder {
     divisibility: ManifestAstValue.U8,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
-  ) {
+  ): ManifestBuilder {
     let instruction = new CreateFungibleResource(
       divisibility,
       metadata,
@@ -685,7 +695,7 @@ export class ManifestBuilder {
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
     initialSupply: ManifestAstValue.Decimal
-  ) {
+  ): ManifestBuilder {
     let instruction = new CreateFungibleResourceWithInitialSupply(
       divisibility,
       metadata,
@@ -709,7 +719,7 @@ export class ManifestBuilder {
     schema: ManifestAstValue.Blob,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
-  ) {
+  ): ManifestBuilder {
     let instruction = new CreateNonFungibleResource(
       idType,
       schema,
@@ -735,7 +745,7 @@ export class ManifestBuilder {
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
     initialSupply: ManifestAstValue.Any
-  ) {
+  ): ManifestBuilder {
     let instruction = new CreateNonFungibleResourceWithInitialSupply(
       idType,
       schema,
@@ -764,7 +774,7 @@ export class ManifestBuilder {
       | ManifestAstValue.Some
       | ManifestAstValue.None
       | ManifestAstValue.Enum
-  ) {
+  ): ManifestBuilder {
     let instruction = new CreateAccessController(
       controlledAsset,
       ruleSet,
@@ -779,7 +789,7 @@ export class ManifestBuilder {
    * @param accessRule The access rule to protect the identity with
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createIdentity(accessRule: ManifestAstValue.Enum) {
+  createIdentity(accessRule: ManifestAstValue.Enum): ManifestBuilder {
     let instruction = new CreateIdentity(accessRule);
     this.instructions.push(instruction);
     return this;
@@ -791,7 +801,7 @@ export class ManifestBuilder {
    * @param accessRule The access rule to assert
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  assertAccessRule(accessRule: ManifestAstValue.Enum) {
+  assertAccessRule(accessRule: ManifestAstValue.Enum): ManifestBuilder {
     let instruction = new AssertAccessRule(accessRule);
     this.instructions.push(instruction);
     return this;
@@ -806,7 +816,7 @@ export class ManifestBuilder {
   createValidator(
     key: ManifestAstValue.String,
     ownerAccessRule: ManifestAstValue.Enum
-  ) {
+  ): ManifestBuilder {
     let instruction = new CreateValidator(key, ownerAccessRule);
     this.instructions.push(instruction);
     return this;
@@ -817,13 +827,22 @@ export class ManifestBuilder {
    * @param withdrawRule The withdraw rule to associate with the account.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createAccount(withdrawRule: ManifestAstValue.Enum) {
+  createAccount(withdrawRule: ManifestAstValue.Enum): ManifestBuilder {
     let instruction = new CreateAccount(withdrawRule);
     this.instructions.push(instruction);
     return this;
   }
 
-  // TODO: Add a build function that returns a manifest
+  /**
+   * Builds the transaction manifest
+   * @returns The transaction manifest
+   */
+  build(): TransactionManifest {
+    return new TransactionManifest(
+      new InstructionList.ParsedInstructions(this.instructions),
+      this.blobs
+    );
+  }
 }
 
 class SequentialIdAllocator {
