@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+export { TransactionHeader } from "./header";
 export * as Instruction from "./instruction";
 export * as InstructionList from "./instruction_list";
 export { TransactionManifest } from "./manifest";
