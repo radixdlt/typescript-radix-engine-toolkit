@@ -16,7 +16,14 @@
 // under the License.
 
 import { Result } from "neverthrow";
-import { InformationRequest, InformationResponse } from "../models";
+import {
+  ConvertManifestRequest,
+  ConvertManifestResponse,
+  InformationRequest,
+  InformationResponse,
+  InstructionList,
+  TransactionManifest,
+} from "../models";
 import {
   RadixEngineToolkitWasmWrapper,
   RadixEngineToolkitWrapperError,
@@ -45,6 +52,29 @@ class RadixEngineToolkit {
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(request, ret.exports.information, InformationResponse);
+  }
+
+  public static async convertManifest(
+    manifest: TransactionManifest,
+    instructionsOutputKind: InstructionList.Kind,
+    networkId: number
+  ): Promise<Result<ConvertManifestResponse, RadixEngineToolkitWrapperError>> {
+    // Construct the request
+    let request = new ConvertManifestRequest(
+      networkId,
+      instructionsOutputKind,
+      manifest
+    );
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      request,
+      ret.exports.convert_manifest,
+      TransactionManifest
+    );
   }
 }
 

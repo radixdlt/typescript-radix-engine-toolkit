@@ -266,7 +266,7 @@ interface RadixEngineToolkitExports {
 
   /**
    * A foreign function interface for the toolkit function responsible for all allocation of memory
-   * used in thetoolkit
+   * used in the toolkit
    * @param capacity The capacity of the memory to allocate.
    * @return A memory pointer pointing to the start of the allocated memory
    */

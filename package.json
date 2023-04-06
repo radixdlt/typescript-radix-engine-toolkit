@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-wasm": "^6.1.2",
+    "@types/node": "^18.15.11",
     "happy-dom": "^9.1.0",
     "prettier": "^2.8.7",
     "prettier-plugin-organize-imports": "^3.2.2",
