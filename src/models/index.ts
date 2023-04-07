@@ -16,6 +16,7 @@
 // under the License.
 
 export * from "./crypto";
+export * as EntityAddress from "./entity_address";
 export * from "./requests";
 export * from "./transaction";
 export * from "./value";
