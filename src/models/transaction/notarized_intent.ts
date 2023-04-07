@@ -15,10 +15,32 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export { TransactionHeader } from "./header";
-export * as Instruction from "./instruction";
-export * as InstructionList from "./instruction_list";
-export { TransactionIntent } from "./intent";
-export { TransactionManifest } from "./manifest";
-export { NotarizedTransaction } from "./notarized_intent";
-export { SignedTransactionIntent } from "./signed_intent";
+import { Signature } from "models/crypto";
+import { SignedTransactionIntent } from "./signed_intent";
+
+export class NotarizedTransaction {
+  private _signedIntent: SignedTransactionIntent;
+  private _notarySignature: Signature.Any;
+
+  public get signedIntent(): SignedTransactionIntent {
+    return this._signedIntent;
+  }
+  public set signedIntent(value: SignedTransactionIntent) {
+    this._signedIntent = value;
+  }
+
+  public get notarySignature(): Signature.Any {
+    return this._notarySignature;
+  }
+  public set notarySignature(value: Signature.Any) {
+    this._notarySignature = value;
+  }
+
+  constructor(
+    signedIntent: SignedTransactionIntent,
+    notarySignature: Signature.Any
+  ) {
+    this._signedIntent = signedIntent;
+    this._notarySignature = notarySignature;
+  }
+}

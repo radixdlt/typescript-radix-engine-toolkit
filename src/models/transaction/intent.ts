@@ -15,10 +15,29 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export { TransactionHeader } from "./header";
-export * as Instruction from "./instruction";
-export * as InstructionList from "./instruction_list";
-export { TransactionIntent } from "./intent";
-export { TransactionManifest } from "./manifest";
-export { NotarizedTransaction } from "./notarized_intent";
-export { SignedTransactionIntent } from "./signed_intent";
+import { TransactionHeader } from "./header";
+import { TransactionManifest } from "./manifest";
+
+export class TransactionIntent {
+  private _header: TransactionHeader;
+  private _manifest: TransactionManifest;
+
+  public get header(): TransactionHeader {
+    return this._header;
+  }
+  public set header(value: TransactionHeader) {
+    this._header = value;
+  }
+
+  public get manifest(): TransactionManifest {
+    return this._manifest;
+  }
+  public set manifest(value: TransactionManifest) {
+    this._manifest = value;
+  }
+
+  constructor(header: TransactionHeader, manifest: TransactionManifest) {
+    this._header = header;
+    this._manifest = manifest;
+  }
+}
