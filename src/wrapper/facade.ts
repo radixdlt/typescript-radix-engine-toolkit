@@ -22,6 +22,8 @@ import {
   CompileTransactionIntentResponse,
   ConvertManifestRequest,
   ConvertManifestResponse,
+  DecodeAddressRequest,
+  DecodeAddressResponse,
   DecompileNotarizedTransactionIntentRequest,
   DecompileNotarizedTransactionIntentResponse,
   DecompileSignedTransactionIntentRequest,
@@ -30,6 +32,9 @@ import {
   DecompileTransactionIntentResponse,
   DecompileUnknownTransactionIntentRequest,
   DecompileUnknownTransactionIntentResponse,
+  EncodeAddressRequest,
+  EncodeAddressResponse,
+  EntityAddress,
   InformationRequest,
   InformationResponse,
   InstructionList,
@@ -249,6 +254,51 @@ class RadixEngineToolkit {
       request,
       ret.exports.decompile_unknown_transaction_intent,
       DecompileUnknownTransactionIntentResponse
+    );
+  }
+
+  public static async encodeAddress(
+    addressBytes: Uint8Array,
+    networkId: number
+  ): Promise<Result<EncodeAddressResponse, RadixEngineToolkitWrapperError>> {
+    // Construct the request
+    let request = new EncodeAddressRequest(addressBytes, networkId);
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret
+      .invoke(request, ret.exports.encode_address, Object)
+      .map((object: Object) => {
+        // @ts-ignore
+        let type: string | undefined = object?.["_type"];
+        if (type === EntityAddress.Kind.ComponentAddress.toString()) {
+          return Object.setPrototypeOf(object, EntityAddress.ComponentAddress);
+        } else if (type === EntityAddress.Kind.PackageAddress.toString()) {
+          return Object.setPrototypeOf(object, EntityAddress.PackageAddress);
+        } else if (type === EntityAddress.Kind.ResourceAddress.toString()) {
+          return Object.setPrototypeOf(object, EntityAddress.ResourceAddress);
+        } else {
+          throw new Error("no _type key found for address");
+        }
+      });
+  }
+
+  public static async decodeAddress(
+    address: string
+  ): Promise<Result<DecodeAddressResponse, RadixEngineToolkitWrapperError>> {
+    // Construct the request
+    let request = new DecodeAddressRequest(address);
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      request,
+      ret.exports.decode_address,
+      DecodeAddressResponse
     );
   }
 }
