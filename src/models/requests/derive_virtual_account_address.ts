@@ -43,7 +43,7 @@ export class DeriveVirtualAccountAddressRequest {
   }
 }
 
-export class DeriveVirtualAccountAddress {
+export class DeriveVirtualAccountAddressResponse {
   private _virtualAccountAddress: EntityAddress.ComponentAddress;
 
   public get virtualAccountAddress(): EntityAddress.ComponentAddress {

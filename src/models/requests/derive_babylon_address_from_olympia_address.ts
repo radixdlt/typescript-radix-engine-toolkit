@@ -42,7 +42,7 @@ export class DeriveBabylonAddressFromOlympiaAddressRequest {
   }
 }
 
-export class DeriveBabylonAddressFromOlympiaAddress {
+export class DeriveBabylonAddressFromOlympiaAddressResponse {
   private _babylonAccountAddress: EntityAddress.ComponentAddress;
   private _publicKey: PublicKey.Any;
 

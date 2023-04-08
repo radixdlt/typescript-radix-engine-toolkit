@@ -32,6 +32,12 @@ import {
   DecompileTransactionIntentResponse,
   DecompileUnknownTransactionIntentRequest,
   DecompileUnknownTransactionIntentResponse,
+  DeriveBabylonAddressFromOlympiaAddressRequest,
+  DeriveBabylonAddressFromOlympiaAddressResponse,
+  DeriveVirtualAccountAddressRequest,
+  DeriveVirtualAccountAddressResponse,
+  DeriveVirtualIdentityAddressRequest,
+  DeriveVirtualIdentityAddressResponse,
   EncodeAddressRequest,
   EncodeAddressResponse,
   EntityAddress,
@@ -39,7 +45,9 @@ import {
   InformationResponse,
   InstructionList,
   NotarizedTransaction,
+  PublicKey,
   SborDecodeRequest,
+  SborDecodeResponse,
   SborEncodeResponse,
   SborValue,
   SignedTransactionIntent,
@@ -323,7 +331,7 @@ class RadixEngineToolkit {
   public static async sborDecode(
     encodedValue: Uint8Array,
     networkId: number
-  ): Promise<Result<SborEncodeResponse, RadixEngineToolkitWrapperError>> {
+  ): Promise<Result<SborDecodeResponse, RadixEngineToolkitWrapperError>> {
     // Construct the request
     let request = new SborDecodeRequest(encodedValue, networkId);
 
@@ -346,6 +354,72 @@ class RadixEngineToolkit {
           throw new Error("no _type key found for address");
         }
       });
+  }
+
+  public static async deriveVirtualAccountAddress(
+    networkId: number,
+    publicKey: PublicKey.Any
+  ): Promise<
+    Result<DeriveVirtualAccountAddressResponse, RadixEngineToolkitWrapperError>
+  > {
+    // Construct the request
+    let request = new DeriveVirtualAccountAddressRequest(networkId, publicKey);
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      request,
+      ret.exports.derive_virtual_account_address,
+      DeriveVirtualAccountAddressResponse
+    );
+  }
+
+  public static async deriveVirtualIdentityAddress(
+    networkId: number,
+    publicKey: PublicKey.Any
+  ): Promise<
+    Result<DeriveVirtualIdentityAddressResponse, RadixEngineToolkitWrapperError>
+  > {
+    // Construct the request
+    let request = new DeriveVirtualIdentityAddressRequest(networkId, publicKey);
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      request,
+      ret.exports.derive_virtual_identity_address,
+      DeriveVirtualIdentityAddressResponse
+    );
+  }
+
+  public static async deriveBabylonAddressFromOlympiaAddress(
+    networkId: number,
+    olympiaAddress: string
+  ): Promise<
+    Result<
+      DeriveBabylonAddressFromOlympiaAddressResponse,
+      RadixEngineToolkitWrapperError
+    >
+  > {
+    // Construct the request
+    let request = new DeriveBabylonAddressFromOlympiaAddressRequest(
+      networkId,
+      olympiaAddress
+    );
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      request,
+      ret.exports.derive_babylon_address_from_olympia_address,
+      DeriveBabylonAddressFromOlympiaAddressResponse
+    );
   }
 }
 
