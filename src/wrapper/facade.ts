@@ -39,6 +39,9 @@ import {
   InformationResponse,
   InstructionList,
   NotarizedTransaction,
+  SborDecodeRequest,
+  SborEncodeResponse,
+  SborValue,
   SignedTransactionIntent,
   TransactionIntent,
   TransactionManifest,
@@ -272,12 +275,14 @@ class RadixEngineToolkit {
       .invoke(request, ret.exports.encode_address, Object)
       .map((object: Object) => {
         // @ts-ignore
-        let type: string | undefined = object?.["_type"];
-        if (type === EntityAddress.Kind.ComponentAddress.toString()) {
+        let type: EntityAddress.Kind | undefined = object?.[
+          "_type"
+        ] as EntityAddress.Kind;
+        if (type === EntityAddress.Kind.ComponentAddress) {
           return Object.setPrototypeOf(object, EntityAddress.ComponentAddress);
-        } else if (type === EntityAddress.Kind.PackageAddress.toString()) {
+        } else if (type === EntityAddress.Kind.PackageAddress) {
           return Object.setPrototypeOf(object, EntityAddress.PackageAddress);
-        } else if (type === EntityAddress.Kind.ResourceAddress.toString()) {
+        } else if (type === EntityAddress.Kind.ResourceAddress) {
           return Object.setPrototypeOf(object, EntityAddress.ResourceAddress);
         } else {
           throw new Error("no _type key found for address");
@@ -300,6 +305,47 @@ class RadixEngineToolkit {
       ret.exports.decode_address,
       DecodeAddressResponse
     );
+  }
+
+  public static async sborEncode(
+    sbor_value: SborValue.Any
+  ): Promise<Result<SborEncodeResponse, RadixEngineToolkitWrapperError>> {
+    // Construct the request
+    let request = sbor_value;
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(request, ret.exports.sbor_encode, SborEncodeResponse);
+  }
+
+  public static async sborDecode(
+    encodedValue: Uint8Array,
+    networkId: number
+  ): Promise<Result<SborEncodeResponse, RadixEngineToolkitWrapperError>> {
+    // Construct the request
+    let request = new SborDecodeRequest(encodedValue, networkId);
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret
+      .invoke(request, ret.exports.sbor_decode, Object)
+      .map((object: Object) => {
+        // @ts-ignore
+        let type: SborValue.Kind | undefined = object?.[
+          "_type"
+        ] as SborValue.Kind;
+        if (type === SborValue.Kind.ScryptoSbor) {
+          return Object.setPrototypeOf(object, SborValue.ScryptoSbor);
+        } else if (type === SborValue.Kind.ManifestSbor) {
+          return Object.setPrototypeOf(object, SborValue.ManifestSbor);
+        } else {
+          throw new Error("no _type key found for address");
+        }
+      });
   }
 }
 
