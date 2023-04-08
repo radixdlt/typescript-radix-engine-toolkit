@@ -19,7 +19,7 @@ import {
   InstructionList,
   SignedTransactionIntent,
   TransactionIntent,
-} from "models/transaction";
+} from "../../models/transaction";
 import { stringToUint8Array, uint8ArrayToString } from "../../utils";
 import { DecompileNotarizedTransactionIntentResponse } from "./decompile_notarized_transaction_intent";
 import { DecompileSignedTransactionIntentResponse } from "./decompile_signed_transaction_intent";
@@ -45,10 +45,10 @@ export class DecompileUnknownTransactionIntentRequest {
 
   constructor(
     instructionOutputKind: InstructionList.Kind,
-    compiledUnknownIntent: string
+    compiledUnknownIntent: Uint8Array
   ) {
     this._instructionOutputKind = instructionOutputKind;
-    this._compiledUnknownIntent = compiledUnknownIntent;
+    this._compiledUnknownIntent = uint8ArrayToString(compiledUnknownIntent);
   }
 }
 

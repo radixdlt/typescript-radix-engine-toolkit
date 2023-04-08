@@ -38,10 +38,10 @@ export class DecompileSignedTransactionIntentRequest {
 
   constructor(
     instructionOutputKind: InstructionList.Kind,
-    compiledSignedIntent: string
+    compiledSignedIntent: Uint8Array
   ) {
     this._instructionOutputKind = instructionOutputKind;
-    this._compiledSignedIntent = compiledSignedIntent;
+    this._compiledSignedIntent = uint8ArrayToString(compiledSignedIntent);
   }
 }
 
