@@ -53,8 +53,14 @@ import {
   SborEncodeResponse,
   SborValue,
   SignedTransactionIntent,
+  StaticallyValidateTransactionRequest,
+  StaticallyValidateTransactionResponse,
+  StaticallyValidateTransactionResponseInvalid,
+  StaticallyValidateTransactionResponseKind,
+  StaticallyValidateTransactionResponseValid,
   TransactionIntent,
   TransactionManifest,
+  ValidationConfig,
 } from "../models";
 import {
   RadixEngineToolkitWasmWrapper,
@@ -289,11 +295,20 @@ class RadixEngineToolkit {
           "_type"
         ] as EntityAddress.Kind;
         if (type === EntityAddress.Kind.ComponentAddress) {
-          return Object.setPrototypeOf(object, EntityAddress.ComponentAddress);
+          return Object.setPrototypeOf(
+            object,
+            EntityAddress.ComponentAddress.prototype
+          );
         } else if (type === EntityAddress.Kind.PackageAddress) {
-          return Object.setPrototypeOf(object, EntityAddress.PackageAddress);
+          return Object.setPrototypeOf(
+            object,
+            EntityAddress.PackageAddress.prototype
+          );
         } else if (type === EntityAddress.Kind.ResourceAddress) {
-          return Object.setPrototypeOf(object, EntityAddress.ResourceAddress);
+          return Object.setPrototypeOf(
+            object,
+            EntityAddress.ResourceAddress.prototype
+          );
         } else {
           throw new Error("no _type key found for address");
         }
@@ -349,9 +364,12 @@ class RadixEngineToolkit {
           "_type"
         ] as SborValue.Kind;
         if (type === SborValue.Kind.ScryptoSbor) {
-          return Object.setPrototypeOf(object, SborValue.ScryptoSbor);
+          return Object.setPrototypeOf(object, SborValue.ScryptoSbor.prototype);
         } else if (type === SborValue.Kind.ManifestSbor) {
-          return Object.setPrototypeOf(object, SborValue.ManifestSbor);
+          return Object.setPrototypeOf(
+            object,
+            SborValue.ManifestSbor.prototype
+          );
         } else {
           throw new Error("no _type key found for address");
         }
@@ -441,6 +459,50 @@ class RadixEngineToolkit {
       ret.exports.known_entity_addresses,
       KnownEntityAddressesResponse
     );
+  }
+
+  public static async staticallyValidateTransaction(
+    compiledNotarizedIntent: Uint8Array,
+    validationConfig: ValidationConfig
+  ): Promise<
+    Result<
+      StaticallyValidateTransactionResponse,
+      RadixEngineToolkitWrapperError
+    >
+  > {
+    // Construct the request
+    let request = new StaticallyValidateTransactionRequest(
+      compiledNotarizedIntent,
+      validationConfig
+    );
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret
+      .invoke(request, ret.exports.statically_validate_transaction, Object)
+      .map((object: Object) => {
+        // @ts-ignore
+        let validity: StaticallyValidateTransactionResponseKind | undefined =
+          // @ts-ignore
+          object?.["_validity"] as StaticallyValidateTransactionResponseKind;
+        if (validity === StaticallyValidateTransactionResponseKind.Valid) {
+          return Object.setPrototypeOf(
+            object,
+            StaticallyValidateTransactionResponseValid.prototype
+          );
+        } else if (
+          validity === StaticallyValidateTransactionResponseKind.Invalid
+        ) {
+          return Object.setPrototypeOf(
+            object,
+            StaticallyValidateTransactionResponseInvalid.prototype
+          );
+        } else {
+          throw new Error("no _type key found for address");
+        }
+      });
   }
 }
 

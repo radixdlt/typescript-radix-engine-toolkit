@@ -88,7 +88,7 @@ export class ValidationConfig {
     this._maxEpochRange = numberToString(maxEpochRange);
   }
 
-  public default(networkId: number): ValidationConfig {
+  public static default(networkId: number): ValidationConfig {
     return new ValidationConfig(
       networkId,
       1_000_000,

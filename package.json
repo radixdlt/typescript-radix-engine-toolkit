@@ -19,7 +19,8 @@
     "build": "rm -rf dist; vite build && yarn build:types",
     "build:types": "tsc --project tsconfig.types.json --emitDeclarationOnly",
     "format": "prettier --write .",
-    "test": "vitest"
+    "test": "vitest",
+    "prep": "yarn run format; yarn run build; yarn run test"
   },
   "devDependencies": {
     "@rollup/plugin-wasm": "^6.1.2",
