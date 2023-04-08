@@ -153,13 +153,13 @@ class RadixEngineToolkit {
 
   public static async decompileTransactionIntent(
     compiledIntent: Uint8Array,
-    instructionOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<
     Result<DecompileTransactionIntentResponse, RadixEngineToolkitWrapperError>
   > {
     // Construct the request
     let request = new DecompileTransactionIntentRequest(
-      instructionOutputKind,
+      instructionsOutputKind,
       compiledIntent
     );
 
@@ -176,7 +176,7 @@ class RadixEngineToolkit {
 
   public static async decompileSignedTransactionIntent(
     compiledIntent: Uint8Array,
-    instructionOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<
     Result<
       DecompileSignedTransactionIntentResponse,
@@ -185,7 +185,7 @@ class RadixEngineToolkit {
   > {
     // Construct the request
     let request = new DecompileSignedTransactionIntentRequest(
-      instructionOutputKind,
+      instructionsOutputKind,
       compiledIntent
     );
 
@@ -202,7 +202,7 @@ class RadixEngineToolkit {
 
   public static async decompileNotarizedTransactionIntent(
     compiledIntent: Uint8Array,
-    instructionOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<
     Result<
       DecompileNotarizedTransactionIntentResponse,
@@ -211,7 +211,7 @@ class RadixEngineToolkit {
   > {
     // Construct the request
     let request = new DecompileNotarizedTransactionIntentRequest(
-      instructionOutputKind,
+      instructionsOutputKind,
       compiledIntent
     );
 
@@ -228,7 +228,7 @@ class RadixEngineToolkit {
 
   public static async decompileUnknownTransactionIntent(
     compiledIntent: Uint8Array,
-    instructionOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<
     Result<
       DecompileUnknownTransactionIntentResponse,
@@ -237,7 +237,7 @@ class RadixEngineToolkit {
   > {
     // Construct the request
     let request = new DecompileUnknownTransactionIntentRequest(
-      instructionOutputKind,
+      instructionsOutputKind,
       compiledIntent
     );
 

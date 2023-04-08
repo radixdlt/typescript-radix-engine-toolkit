@@ -19,14 +19,14 @@ import { InstructionList, NotarizedTransaction } from "models/transaction";
 import { stringToUint8Array, uint8ArrayToString } from "../../utils";
 
 export class DecompileNotarizedTransactionIntentRequest {
-  private _instructionOutputKind: InstructionList.Kind;
+  private _instructionsOutputKind: InstructionList.Kind;
   private _compiledNotarizedIntent: string;
 
-  public get instructionOutputKind(): InstructionList.Kind {
-    return this._instructionOutputKind;
+  public get instructionsOutputKind(): InstructionList.Kind {
+    return this._instructionsOutputKind;
   }
-  public set instructionOutputKind(value: InstructionList.Kind) {
-    this._instructionOutputKind = value;
+  public set instructionsOutputKind(value: InstructionList.Kind) {
+    this._instructionsOutputKind = value;
   }
 
   public get compiledNotarizedIntent(): Uint8Array {
@@ -37,10 +37,10 @@ export class DecompileNotarizedTransactionIntentRequest {
   }
 
   constructor(
-    instructionOutputKind: InstructionList.Kind,
+    instructionsOutputKind: InstructionList.Kind,
     compiledNotarizedIntent: Uint8Array
   ) {
-    this._instructionOutputKind = instructionOutputKind;
+    this._instructionsOutputKind = instructionsOutputKind;
     this._compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
   }
 }

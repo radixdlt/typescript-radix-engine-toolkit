@@ -19,14 +19,14 @@ import { InstructionList, SignedTransactionIntent } from "models/transaction";
 import { stringToUint8Array, uint8ArrayToString } from "../../utils";
 
 export class DecompileSignedTransactionIntentRequest {
-  private _instructionOutputKind: InstructionList.Kind;
+  private _instructionsOutputKind: InstructionList.Kind;
   private _compiledSignedIntent: string;
 
-  public get instructionOutputKind(): InstructionList.Kind {
-    return this._instructionOutputKind;
+  public get instructionsOutputKind(): InstructionList.Kind {
+    return this._instructionsOutputKind;
   }
-  public set instructionOutputKind(value: InstructionList.Kind) {
-    this._instructionOutputKind = value;
+  public set instructionsOutputKind(value: InstructionList.Kind) {
+    this._instructionsOutputKind = value;
   }
 
   public get compiledSignedIntent(): Uint8Array {
@@ -37,10 +37,10 @@ export class DecompileSignedTransactionIntentRequest {
   }
 
   constructor(
-    instructionOutputKind: InstructionList.Kind,
+    instructionsOutputKind: InstructionList.Kind,
     compiledSignedIntent: Uint8Array
   ) {
-    this._instructionOutputKind = instructionOutputKind;
+    this._instructionsOutputKind = instructionsOutputKind;
     this._compiledSignedIntent = uint8ArrayToString(compiledSignedIntent);
   }
 }

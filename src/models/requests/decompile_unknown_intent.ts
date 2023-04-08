@@ -26,14 +26,14 @@ import { DecompileSignedTransactionIntentResponse } from "./decompile_signed_tra
 import { DecompileTransactionIntentResponse } from "./decompile_transaction_intent";
 
 export class DecompileUnknownTransactionIntentRequest {
-  private _instructionOutputKind: InstructionList.Kind;
+  private _instructionsOutputKind: InstructionList.Kind;
   private _compiledUnknownIntent: string;
 
-  public get instructionOutputKind(): InstructionList.Kind {
-    return this._instructionOutputKind;
+  public get instructionsOutputKind(): InstructionList.Kind {
+    return this._instructionsOutputKind;
   }
-  public set instructionOutputKind(value: InstructionList.Kind) {
-    this._instructionOutputKind = value;
+  public set instructionsOutputKind(value: InstructionList.Kind) {
+    this._instructionsOutputKind = value;
   }
 
   public get compiledUnknownIntent(): Uint8Array {
@@ -44,10 +44,10 @@ export class DecompileUnknownTransactionIntentRequest {
   }
 
   constructor(
-    instructionOutputKind: InstructionList.Kind,
+    instructionsOutputKind: InstructionList.Kind,
     compiledUnknownIntent: Uint8Array
   ) {
-    this._instructionOutputKind = instructionOutputKind;
+    this._instructionsOutputKind = instructionsOutputKind;
     this._compiledUnknownIntent = uint8ArrayToString(compiledUnknownIntent);
   }
 }
