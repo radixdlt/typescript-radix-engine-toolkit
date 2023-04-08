@@ -18,7 +18,7 @@
 import { EntityAddress, PublicKey } from "..";
 import { numberToString, stringToNumber } from "../../utils";
 
-export class DeriveVirtualAccountAddressRequest {
+export class DeriveBabylonAddressFromOlympiaAddressRequest {
   private _networkId: string;
   private _olympiaAccountAddress: string;
 
@@ -42,7 +42,7 @@ export class DeriveVirtualAccountAddressRequest {
   }
 }
 
-export class DeriveVirtualAccountAddress {
+export class DeriveBabylonAddressFromOlympiaAddress {
   private _babylonAccountAddress: EntityAddress.ComponentAddress;
   private _publicKey: PublicKey.Any;
 
