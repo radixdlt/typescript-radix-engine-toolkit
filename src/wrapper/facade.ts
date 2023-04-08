@@ -44,6 +44,8 @@ import {
   InformationRequest,
   InformationResponse,
   InstructionList,
+  KnownEntityAddressesRequest,
+  KnownEntityAddressesResponse,
   NotarizedTransaction,
   PublicKey,
   SborDecodeRequest,
@@ -419,6 +421,25 @@ class RadixEngineToolkit {
       request,
       ret.exports.derive_babylon_address_from_olympia_address,
       DeriveBabylonAddressFromOlympiaAddressResponse
+    );
+  }
+
+  public static async knownEntityAddresses(
+    networkId: number
+  ): Promise<
+    Result<KnownEntityAddressesResponse, RadixEngineToolkitWrapperError>
+  > {
+    // Construct the request
+    let request = new KnownEntityAddressesRequest(networkId);
+
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      request,
+      ret.exports.known_entity_addresses,
+      KnownEntityAddressesResponse
     );
   }
 }
