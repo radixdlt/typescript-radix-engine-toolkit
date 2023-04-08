@@ -15,14 +15,31 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./analyze_manifest";
-export * from "./compile_notarized_transaction_intent";
-export * from "./compile_signed_transaction_intent";
-export * from "./compile_transaction_intent";
-export * from "./convert_manifest";
-export * from "./decode_address";
-export * from "./decompile_notarized_transaction_intent";
-export * from "./decompile_signed_transaction_intent";
-export * from "./decompile_transaction_intent";
-export * from "./encode_address";
-export * from "./information";
+import { EntityAddress } from "../../models";
+import { numberToString, stringToNumber } from "../../utils";
+
+export class EncodeAddressRequest {
+  private _addressBytes: string;
+  private _networkId: string;
+
+  public get addressBytes(): string {
+    return this._addressBytes;
+  }
+  public set addressBytes(value: string) {
+    this._addressBytes = value;
+  }
+
+  public get networkId(): number {
+    return stringToNumber(this._networkId);
+  }
+  public set networkId(value: number) {
+    this._networkId = numberToString(value);
+  }
+
+  constructor(addressBytes: number, networkId: number) {
+    this._addressBytes = numberToString(addressBytes);
+    this._networkId = numberToString(networkId);
+  }
+}
+
+export type EncodeAddressResponse = EntityAddress.Any;

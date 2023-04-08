@@ -15,14 +15,22 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./analyze_manifest";
-export * from "./compile_notarized_transaction_intent";
-export * from "./compile_signed_transaction_intent";
-export * from "./compile_transaction_intent";
-export * from "./convert_manifest";
-export * from "./decode_address";
-export * from "./decompile_notarized_transaction_intent";
-export * from "./decompile_signed_transaction_intent";
-export * from "./decompile_transaction_intent";
-export * from "./encode_address";
-export * from "./information";
+import { NotarizedTransaction } from "..";
+import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+
+export type CompileNotarizedTransactionRequest = NotarizedTransaction;
+
+export class CompileNotarizedTransactionResponse {
+  private _compiledIntent: string;
+
+  public get compiledIntent(): Uint8Array {
+    return stringToUint8Array(this._compiledIntent);
+  }
+  public set compiledIntent(value: Uint8Array) {
+    this._compiledIntent = uint8ArrayToString(value);
+  }
+
+  constructor(compiledIntent: Uint8Array) {
+    this._compiledIntent = uint8ArrayToString(compiledIntent);
+  }
+}

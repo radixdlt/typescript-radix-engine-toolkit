@@ -15,14 +15,22 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./analyze_manifest";
-export * from "./compile_notarized_transaction_intent";
-export * from "./compile_signed_transaction_intent";
-export * from "./compile_transaction_intent";
-export * from "./convert_manifest";
-export * from "./decode_address";
-export * from "./decompile_notarized_transaction_intent";
-export * from "./decompile_signed_transaction_intent";
-export * from "./decompile_transaction_intent";
-export * from "./encode_address";
-export * from "./information";
+import { SborValue } from "models/value";
+import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+
+export type SborEncodeRequest = SborValue.Any;
+
+export class SborEncodeResponse {
+  private _encodedValue: string;
+
+  public get encodedValue(): Uint8Array {
+    return stringToUint8Array(this._encodedValue);
+  }
+  public set encodedValue(value: Uint8Array) {
+    this._encodedValue = uint8ArrayToString(value);
+  }
+
+  constructor(encodedValue: Uint8Array) {
+    this._encodedValue = uint8ArrayToString(encodedValue);
+  }
+}

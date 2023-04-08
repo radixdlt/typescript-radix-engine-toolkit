@@ -82,3 +82,20 @@ export class PackageAddress {
     this._address = address;
   }
 }
+
+export enum EntityType {
+  FungibleResource = "FungibleResource",
+  NonFungibleResource = "NonFungibleResource",
+  Package = "Package",
+  NormalComponent = "NormalComponent",
+  AccountComponent = "AccountComponent",
+  EcdsaSecp256k1VirtualAccountComponent = "EcdsaSecp256k1VirtualAccountComponent",
+  EddsaEd25519VirtualAccountComponent = "EddsaEd25519VirtualAccountComponent",
+  EpochManager = "EpochManager",
+  Clock = "Clock",
+  Validator = "Validator",
+  IdentityComponent = "IdentityComponent",
+  EcdsaSecp256k1VirtualIdentityComponent = "EcdsaSecp256k1VirtualIdentityComponent",
+  EddsaEd25519VirtualIdentityComponent = "EddsaEd25519VirtualIdentityComponent",
+  AccessControllerComponent = "AccessControllerComponent",
+}

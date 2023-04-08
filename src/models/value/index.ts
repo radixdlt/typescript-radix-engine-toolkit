@@ -17,4 +17,5 @@
 
 export * as ManifestAstValue from "./manifest_ast";
 export * as ManifestSborValue from "./manifest_sbor";
+export * as SborValue from "./sbor";
 export * as ScryptoSborValue from "./scrypto_sbor";
