@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { blake2b } from "blakejs";
 import * as changeCase from "change-case";
 
 /**
@@ -153,3 +154,6 @@ export const deserialize = <T>(
     traverseObjectForKeys(JSON.parse(str), [toCamelCase, prefix("_")]),
     constructorFn.prototype
   );
+
+export const hash = (data: Uint8Array): Uint8Array =>
+  blake2b(data, undefined, 32);

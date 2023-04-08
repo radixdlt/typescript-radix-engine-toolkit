@@ -16,3 +16,4 @@
 // under the License.
 
 export { ManifestBuilder } from "./manifest_builder";
+export { TransactionBuilder } from "./transaction_builder";

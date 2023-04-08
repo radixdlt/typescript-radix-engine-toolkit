@@ -64,7 +64,7 @@ import {
 /**
  * A global instance of the Radix Engine Toolkit.
  */
-const RET: Promise<RadixEngineToolkitWasmWrapper> =
+export const RET: Promise<RadixEngineToolkitWasmWrapper> =
   RadixEngineToolkitWasmWrapper.new();
 
 /**
