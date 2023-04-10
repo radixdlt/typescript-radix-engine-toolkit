@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { BaseAddress } from "../../base";
 import {
   bigIntToString,
   numberToString,
@@ -485,23 +486,15 @@ export class PreciseDecimal {
   }
 }
 
-export class Address {
+export class Address extends BaseAddress {
   private _type: Kind = Kind.Address;
-  private _address: string;
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
 
   public get type(): Kind {
     return this._type;
   }
 
   constructor(address: string) {
-    this._address = address;
+    super(address);
   }
 }
 

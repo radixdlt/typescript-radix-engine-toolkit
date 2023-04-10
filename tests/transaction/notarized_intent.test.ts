@@ -29,6 +29,7 @@ import {
 } from "../../src";
 import { DropAllProofs } from "../../src/models/transaction/instruction";
 import { deserialize, serialize, stringToUint8Array } from "../../src/utils";
+import { assertSerializationEquals } from "../test_utils";
 
 describe.each([
   {
@@ -133,7 +134,7 @@ describe.each([
       let actualSerialization = serialize(expectedObject);
 
       // Assert
-      expect(actualSerialization).toEqual(expectedSerialization);
+      assertSerializationEquals(actualSerialization, expectedSerialization);
     });
 
     test(`${expectedSerialization} is deserialized as expected`, () => {

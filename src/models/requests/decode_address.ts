@@ -40,7 +40,7 @@ export class DecodeAddressRequest {
 
 export class DecodeAddressResponse {
   private _networkId: string;
-  private _networkName: String;
+  private _networkName: string;
   private _entityType: EntityAddress.EntityType;
   private _data: string;
   private _hrp: string;
@@ -52,10 +52,10 @@ export class DecodeAddressResponse {
     this._networkId = numberToString(value);
   }
 
-  public get networkName(): String {
+  public get networkName(): string {
     return this._networkName;
   }
-  public set networkName(value: String) {
+  public set networkName(value: string) {
     this._networkName = value;
   }
 
@@ -82,7 +82,7 @@ export class DecodeAddressResponse {
 
   constructor(
     networkId: number,
-    networkName: String,
+    networkName: string,
     entityType: EntityAddress.EntityType,
     data: Uint8Array,
     hrp: string

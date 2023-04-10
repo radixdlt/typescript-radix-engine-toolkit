@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { BaseAddress } from "../base";
+
 export type Any = ComponentAddress | ResourceAddress | PackageAddress;
 
 export enum Kind {
@@ -23,63 +25,39 @@ export enum Kind {
   PackageAddress = "PackageAddress",
 }
 
-export class ComponentAddress {
+export class ComponentAddress extends BaseAddress {
   private _type: Kind = Kind.ComponentAddress;
-  private _address: string;
 
   public get type(): Kind {
     return this._type;
   }
 
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
-
   constructor(address: string) {
-    this._address = address;
+    super(address);
   }
 }
 
-export class ResourceAddress {
+export class ResourceAddress extends BaseAddress {
   private _type: Kind = Kind.ResourceAddress;
-  private _address: string;
 
   public get type(): Kind {
     return this._type;
   }
 
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
-
   constructor(address: string) {
-    this._address = address;
+    super(address);
   }
 }
 
-export class PackageAddress {
+export class PackageAddress extends BaseAddress {
   private _type: Kind = Kind.PackageAddress;
-  private _address: string;
 
   public get type(): Kind {
     return this._type;
   }
 
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
-
   constructor(address: string) {
-    this._address = address;
+    super(address);
   }
 }
 

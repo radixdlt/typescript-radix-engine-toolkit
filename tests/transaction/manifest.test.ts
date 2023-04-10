@@ -19,6 +19,7 @@ import { blake2b } from "blakejs";
 import { describe, expect, test } from "vitest";
 import { InstructionList, TransactionManifest } from "../../src";
 import { deserialize, serialize } from "../../src/utils";
+import { assertSerializationEquals } from "../test_utils";
 
 describe.each([
   {
@@ -42,7 +43,7 @@ describe.each([
       let actualSerialization = serialize(expectedObject);
 
       // Assert
-      expect(actualSerialization).toEqual(expectedSerialization);
+      assertSerializationEquals(actualSerialization, expectedSerialization);
     });
 
     test(`${expectedSerialization} is deserialized as expected`, () => {

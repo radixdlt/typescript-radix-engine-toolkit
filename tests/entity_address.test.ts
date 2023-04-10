@@ -18,6 +18,7 @@
 import { describe, expect, test } from "vitest";
 import { EntityAddress } from "../src";
 import { deserialize, serialize } from "../src/utils";
+import { assertSerializationEquals } from "./test_utils";
 
 describe.each([
   {
@@ -25,28 +26,31 @@ describe.each([
       "component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn"
     ),
     expectedSerialization: `{"type":"ComponentAddress","address":"component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn"}`,
+    expectedNetworkId: 0xf2,
   },
   {
     expectedObject: new EntityAddress.ResourceAddress(
       "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
     ),
     expectedSerialization: `{"type":"ResourceAddress","address":"resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"}`,
+    expectedNetworkId: 0xf2,
   },
   {
     expectedObject: new EntityAddress.PackageAddress(
       "package_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqs767h4"
     ),
     expectedSerialization: `{"type":"PackageAddress","address":"package_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqs767h4"}`,
+    expectedNetworkId: 0x1,
   },
 ])(
   "Serialization test for $expectedSerialization",
-  ({ expectedObject, expectedSerialization }) => {
+  ({ expectedObject, expectedSerialization, expectedNetworkId }) => {
     test(`${expectedObject} is serialized as expected`, () => {
       // Act
       let actualSerialization = serialize(expectedObject);
 
       // Assert
-      expect(actualSerialization).toEqual(expectedSerialization);
+      assertSerializationEquals(actualSerialization, expectedSerialization);
     });
 
     test(`${expectedSerialization} is deserialized as expected`, () => {
@@ -59,6 +63,14 @@ describe.each([
 
       // Assert
       expect(actualObject).toEqual(expectedObject);
+    });
+
+    test(`Network id of ${expectedObject.address} is ${expectedNetworkId}`, async () => {
+      // Act
+      let networkId = await expectedObject.networkId();
+
+      // Assert
+      expect(networkId).toEqual(expectedNetworkId);
     });
   }
 );

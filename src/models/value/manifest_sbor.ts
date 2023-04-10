@@ -18,6 +18,7 @@
 // TODO: Add to string methods
 // TODO: Convert U64 and I64 to use BigInt
 
+import { BaseAddress } from "../../base";
 import {
   bigIntToString,
   numberToString,
@@ -492,23 +493,15 @@ export class PreciseDecimal {
   }
 }
 
-export class Address {
+export class Address extends BaseAddress {
   private _type: Kind = Kind.Address;
-  private _address: string;
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
 
   public get type(): Kind {
     return this._type;
   }
 
   constructor(address: string) {
-    this._address = address;
+    super(address);
   }
 }
 
