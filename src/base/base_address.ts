@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { DecodeAddressResponse, EntityAddress } from "../models";
-import { RadixEngineToolkit } from "../wrapper";
+import { EntityAddress } from "../models";
+import { AddressInformation, RadixEngineToolkit } from "../wrapper/default";
 
 export class BaseAddress {
   private _address: string;
@@ -52,7 +52,7 @@ export class BaseAddress {
     return (await this.addressInformation()).hrp;
   }
 
-  private async addressInformation(): Promise<DecodeAddressResponse> {
+  private async addressInformation(): Promise<AddressInformation> {
     return RadixEngineToolkit.decodeAddress(this.address);
   }
 }

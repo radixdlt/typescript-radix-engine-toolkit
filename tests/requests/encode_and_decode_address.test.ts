@@ -16,7 +16,12 @@
 // under the License.
 
 import { describe, expect, test } from "vitest";
-import { EntityAddress, RadixEngineToolkit } from "../../src";
+import {
+  DecodeAddressRequest,
+  EncodeAddressRequest,
+  EntityAddress,
+  RawRadixEngineToolkit,
+} from "../../src";
 import { stringToUint8Array } from "../../src/utils";
 
 describe.each([
@@ -33,9 +38,8 @@ describe.each([
   ({ expectedAddressBytes, expectedAddress }) => {
     test(`${expectedAddressBytes} encodes to ${expectedAddress}`, async () => {
       // Act
-      let encodedAddress = await RadixEngineToolkit.encodeAddress(
-        expectedAddressBytes,
-        0xf2
+      let encodedAddress = await RawRadixEngineToolkit.encodeAddress(
+        new EncodeAddressRequest(expectedAddressBytes, 0xf2)
       );
 
       // Assert
@@ -44,8 +48,8 @@ describe.each([
 
     test(`${expectedAddress} decodes to ${expectedAddressBytes}`, async () => {
       // Act
-      let address = await RadixEngineToolkit.decodeAddress(
-        expectedAddress.address
+      let address = await RawRadixEngineToolkit.decodeAddress(
+        new DecodeAddressRequest(expectedAddress.address)
       );
 
       // Assert

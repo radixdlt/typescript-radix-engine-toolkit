@@ -16,7 +16,12 @@
 // under the License.
 
 import { describe, expect, test } from "vitest";
-import { RadixEngineToolkit, SborValue, ScryptoSborValue } from "../../src";
+import {
+  RawRadixEngineToolkit,
+  SborDecodeRequest,
+  SborValue,
+  ScryptoSborValue,
+} from "../../src";
 import { stringToUint8Array } from "../../src/utils";
 
 describe.each([
@@ -29,7 +34,7 @@ describe.each([
   ({ expectedEncoding, expectedValue }) => {
     test(`${expectedValue} encodes to ${expectedEncoding}`, async () => {
       // Act
-      let encoding = await RadixEngineToolkit.sborEncode(expectedValue);
+      let encoding = await RawRadixEngineToolkit.sborEncode(expectedValue);
 
       // Assert
       expect(encoding.encodedValue).toEqual(expectedEncoding);
@@ -37,7 +42,9 @@ describe.each([
 
     test(`${expectedEncoding} decodes to ${expectedValue}`, async () => {
       // Act
-      let value = await RadixEngineToolkit.sborDecode(expectedEncoding, 0xf2);
+      let value = await RawRadixEngineToolkit.sborDecode(
+        new SborDecodeRequest(expectedEncoding, 0xf2)
+      );
 
       // Assert
       expect(value).toEqual(expectedValue);

@@ -17,10 +17,12 @@
 
 import { describe, expect, test } from "vitest";
 import {
+  DecompileNotarizedTransactionIntentRequest,
+  DecompileUnknownTransactionIntentRequest,
   InstructionList,
   NotarizedTransaction,
   PublicKey,
-  RadixEngineToolkit,
+  RawRadixEngineToolkit,
   Signature,
   SignatureWithPublicKey,
   SignedTransactionIntent,
@@ -134,7 +136,7 @@ describe.each([
     test(`${expectedIntent} is compiled as expected`, async () => {
       // Act
       let compiledIntent = (
-        await RadixEngineToolkit.compileNotarizedTransactionIntent(
+        await RawRadixEngineToolkit.compileNotarizedTransactionIntent(
           expectedIntent
         )
       ).compiledIntent;
@@ -145,10 +147,13 @@ describe.each([
 
     test(`${expectedIntent} is decompiled as expected`, async () => {
       // Act
-      let intent = await RadixEngineToolkit.decompileNotarizedTransactionIntent(
-        expectedCompiledIntent,
-        InstructionList.Kind.Parsed
-      );
+      let intent =
+        await RawRadixEngineToolkit.decompileNotarizedTransactionIntent(
+          new DecompileNotarizedTransactionIntentRequest(
+            InstructionList.Kind.Parsed,
+            expectedCompiledIntent
+          )
+        );
 
       // Assert
       expect(intent).toEqual(expectedIntent);
@@ -156,10 +161,13 @@ describe.each([
 
     test(`${expectedIntent} as unknown is decompiled as expected`, async () => {
       // Act
-      let intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
-        expectedCompiledIntent,
-        InstructionList.Kind.Parsed
-      );
+      let intent =
+        await RawRadixEngineToolkit.decompileUnknownTransactionIntent(
+          new DecompileUnknownTransactionIntentRequest(
+            InstructionList.Kind.Parsed,
+            expectedCompiledIntent
+          )
+        );
 
       // Assert
       expect(intent.value).toEqual(expectedIntent);

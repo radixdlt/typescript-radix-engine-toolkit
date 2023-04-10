@@ -19,8 +19,9 @@ import * as fs from "fs";
 import * as path from "path";
 import { describe, expect, test } from "vitest";
 import {
+  ConvertManifestRequest,
   InstructionList,
-  RadixEngineToolkit,
+  RawRadixEngineToolkit,
   TransactionManifest,
 } from "../../src";
 import { StringInstructions } from "../../src/models/transaction/instruction_list";
@@ -55,10 +56,8 @@ describe.each([
     let manifest = prepareManifest(path);
 
     // Act
-    let convertedManifest = await RadixEngineToolkit.convertManifest(
-      manifest,
-      InstructionList.Kind.String,
-      0xf2
+    let convertedManifest = await RawRadixEngineToolkit.convertManifest(
+      new ConvertManifestRequest(0xf2, InstructionList.Kind.String, manifest)
     );
 
     // Act
@@ -70,10 +69,8 @@ describe.each([
     let manifest = prepareManifest(path);
 
     // Act
-    let convertedManifest = await RadixEngineToolkit.convertManifest(
-      manifest,
-      InstructionList.Kind.Parsed,
-      0xf2
+    let convertedManifest = await RawRadixEngineToolkit.convertManifest(
+      new ConvertManifestRequest(0xf2, InstructionList.Kind.Parsed, manifest)
     );
 
     // Act
@@ -88,8 +85,9 @@ const prepareManifest = (manifestPath: string): TransactionManifest => {
     "utf-8"
   );
 
-  // Perform replaceAllments on the manifest string
+  // Perform replacements on the manifest string
   let stringManifest = fileContent
+    // @ts-ignore
     .replaceAll("${", "{")
     .replaceAll(
       "{xrd_resource_address}",

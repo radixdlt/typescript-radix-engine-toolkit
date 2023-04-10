@@ -28,7 +28,7 @@ import {
   TransactionManifest,
 } from "../models";
 import { hash } from "../utils";
-import { RET } from "../wrapper/facade";
+import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 
 export class TransactionBuilder {

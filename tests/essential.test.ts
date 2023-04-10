@@ -16,11 +16,17 @@
 // under the License.
 
 import { describe, expect, it } from "vitest";
-import { InformationResponse, RadixEngineToolkit } from "../src";
+import {
+  InformationRequest,
+  InformationResponse,
+  RawRadixEngineToolkit,
+} from "../src";
 
 describe("essential", () => {
   it("essential", async () => {
-    let information = await RadixEngineToolkit.information();
+    let information = await RawRadixEngineToolkit.information(
+      new InformationRequest()
+    );
     let expected = new InformationResponse(
       "0.9.0",
       "9d140797d5641179fa78566b0f3e66fc6fe01e4c"

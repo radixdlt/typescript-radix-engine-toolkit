@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { InstructionList, TransactionHeader, TransactionManifest } from ".";
+import { DecompileTransactionIntentRequest } from "../../models/requests";
 import { hash } from "../../utils";
-import { RadixEngineToolkit } from "../../wrapper";
-import { TransactionHeader } from "./header";
-import { TransactionManifest } from "./manifest";
+import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class TransactionIntent {
   private _header: TransactionHeader;
@@ -44,15 +44,21 @@ export class TransactionIntent {
   }
 
   async compile(): Promise<Uint8Array> {
-    return RadixEngineToolkit.compileTransactionIntent(this).then(
+    return RawRadixEngineToolkit.compileTransactionIntent(this).then(
       (response) => response.compiledIntent
     );
   }
 
   static async decompile(
-    compiledIntent: Uint8Array
+    compiledIntent: Uint8Array,
+    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<TransactionIntent> {
-    return RadixEngineToolkit.decompileTransactionIntent(compiledIntent);
+    return RawRadixEngineToolkit.decompileTransactionIntent(
+      new DecompileTransactionIntentRequest(
+        instructionsOutputKind,
+        compiledIntent
+      )
+    );
   }
 
   async transactionId(): Promise<Uint8Array> {

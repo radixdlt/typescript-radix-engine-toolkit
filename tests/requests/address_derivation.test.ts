@@ -16,7 +16,14 @@
 // under the License.
 
 import { describe, expect, test } from "vitest";
-import { EntityAddress, PublicKey, RadixEngineToolkit } from "../../src";
+import {
+  DeriveBabylonAddressFromOlympiaAddressRequest,
+  DeriveVirtualAccountAddressRequest,
+  DeriveVirtualIdentityAddressRequest,
+  EntityAddress,
+  PublicKey,
+  RawRadixEngineToolkit,
+} from "../../src";
 import { stringToUint8Array } from "../../src/utils";
 
 describe.each([
@@ -46,9 +53,8 @@ describe.each([
     test(`account address for ${expectedPublicKey} should be ${expectedAccountAddress}`, async () => {
       // Act
       let virtualAddress = (
-        await RadixEngineToolkit.deriveVirtualAccountAddress(
-          0xf2,
-          expectedPublicKey
+        await RawRadixEngineToolkit.deriveVirtualAccountAddress(
+          new DeriveVirtualAccountAddressRequest(0xf2, expectedPublicKey)
         )
       ).virtualAccountAddress;
 
@@ -59,9 +65,8 @@ describe.each([
     test(`identity address for ${expectedPublicKey} should be ${expectedIdentityAddress}`, async () => {
       // Act
       let virtualAddress = (
-        await RadixEngineToolkit.deriveVirtualIdentityAddress(
-          0xf2,
-          expectedPublicKey
+        await RawRadixEngineToolkit.deriveVirtualIdentityAddress(
+          new DeriveVirtualIdentityAddressRequest(0xf2, expectedPublicKey)
         )
       ).virtualIdentityAddress;
 
@@ -72,9 +77,11 @@ describe.each([
     test(`Olympia address for ${expectedPublicKey} should be ${expectedOlympiaAddress}`, async () => {
       // Act
       let publicKey = (
-        await RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
-          0xf2,
-          expectedOlympiaAddress
+        await RawRadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
+          new DeriveBabylonAddressFromOlympiaAddressRequest(
+            0xf2,
+            expectedOlympiaAddress
+          )
         )
       ).publicKey;
 

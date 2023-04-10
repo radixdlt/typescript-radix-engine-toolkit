@@ -16,8 +16,13 @@
 // under the License.
 
 import {
+  AnalyzeManifestRequest,
+  AnalyzeManifestResponse,
+  CompileNotarizedTransactionRequest,
   CompileNotarizedTransactionResponse,
+  CompileSignedTransactionIntentRequest,
   CompileSignedTransactionIntentResponse,
+  CompileTransactionIntentRequest,
   CompileTransactionIntentResponse,
   ConvertManifestRequest,
   ConvertManifestResponse,
@@ -42,13 +47,12 @@ import {
   EntityAddress,
   InformationRequest,
   InformationResponse,
-  InstructionList,
   KnownEntityAddressesRequest,
   KnownEntityAddressesResponse,
   NotarizedTransaction,
-  PublicKey,
   SborDecodeRequest,
   SborDecodeResponse,
+  SborEncodeRequest,
   SborEncodeResponse,
   SborValue,
   SignedTransactionIntent,
@@ -59,7 +63,6 @@ import {
   StaticallyValidateTransactionResponseValid,
   TransactionIntent,
   TransactionManifest,
-  ValidationConfig,
 } from "../models";
 import { RadixEngineToolkitWasmWrapper } from "./wasm_wrapper";
 
@@ -74,11 +77,10 @@ export const RET: Promise<RadixEngineToolkitWasmWrapper> =
  * from the developers consuming the class. Additionally, this class abstracts the toolkit's invoke
  * process away from the developer.
  */
-class RadixEngineToolkit {
-  public static async information(): Promise<InformationResponse> {
-    // Construct the request
-    let request = new InformationRequest();
-
+export class RawRadixEngineToolkit {
+  public static async information(
+    request: InformationRequest
+  ): Promise<InformationResponse> {
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -86,18 +88,23 @@ class RadixEngineToolkit {
     return ret.invoke(request, ret.exports.information, InformationResponse);
   }
 
-  public static async convertManifest(
-    manifest: TransactionManifest,
-    instructionsOutputKind: InstructionList.Kind,
-    networkId: number
-  ): Promise<ConvertManifestResponse> {
-    // Construct the request
-    let request = new ConvertManifestRequest(
-      networkId,
-      instructionsOutputKind,
-      manifest
-    );
+  public static async analyzeManifest(
+    request: AnalyzeManifestRequest
+  ): Promise<AnalyzeManifestResponse> {
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
 
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      request,
+      ret.exports.information,
+      AnalyzeManifestResponse
+    );
+  }
+
+  public static async convertManifest(
+    request: ConvertManifestRequest
+  ): Promise<ConvertManifestResponse> {
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -110,11 +117,8 @@ class RadixEngineToolkit {
   }
 
   public static async compileTransactionIntent(
-    transactionIntent: TransactionIntent
+    request: CompileTransactionIntentRequest
   ): Promise<CompileTransactionIntentResponse> {
-    // Construct the request
-    let request = transactionIntent;
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -127,11 +131,8 @@ class RadixEngineToolkit {
   }
 
   public static async compileSignedTransactionIntent(
-    signedTransactionIntent: SignedTransactionIntent
+    request: CompileSignedTransactionIntentRequest
   ): Promise<CompileSignedTransactionIntentResponse> {
-    // Construct the request
-    let request = signedTransactionIntent;
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -144,11 +145,8 @@ class RadixEngineToolkit {
   }
 
   public static async compileNotarizedTransactionIntent(
-    notarizedTransactionIntent: NotarizedTransaction
+    request: CompileNotarizedTransactionRequest
   ): Promise<CompileNotarizedTransactionResponse> {
-    // Construct the request
-    let request = notarizedTransactionIntent;
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -161,15 +159,8 @@ class RadixEngineToolkit {
   }
 
   public static async decompileTransactionIntent(
-    compiledIntent: Uint8Array,
-    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    request: DecompileTransactionIntentRequest
   ): Promise<DecompileTransactionIntentResponse> {
-    // Construct the request
-    let request = new DecompileTransactionIntentRequest(
-      instructionsOutputKind,
-      compiledIntent
-    );
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -182,15 +173,8 @@ class RadixEngineToolkit {
   }
 
   public static async decompileSignedTransactionIntent(
-    compiledIntent: Uint8Array,
-    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    request: DecompileSignedTransactionIntentRequest
   ): Promise<DecompileSignedTransactionIntentResponse> {
-    // Construct the request
-    let request = new DecompileSignedTransactionIntentRequest(
-      instructionsOutputKind,
-      compiledIntent
-    );
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -203,15 +187,8 @@ class RadixEngineToolkit {
   }
 
   public static async decompileNotarizedTransactionIntent(
-    compiledIntent: Uint8Array,
-    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    request: DecompileNotarizedTransactionIntentRequest
   ): Promise<DecompileNotarizedTransactionIntentResponse> {
-    // Construct the request
-    let request = new DecompileNotarizedTransactionIntentRequest(
-      instructionsOutputKind,
-      compiledIntent
-    );
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -224,15 +201,8 @@ class RadixEngineToolkit {
   }
 
   public static async decompileUnknownTransactionIntent(
-    compiledIntent: Uint8Array,
-    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
+    request: DecompileUnknownTransactionIntentRequest
   ): Promise<DecompileUnknownTransactionIntentResponse> {
-    // Construct the request
-    let request = new DecompileUnknownTransactionIntentRequest(
-      instructionsOutputKind,
-      compiledIntent
-    );
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -245,12 +215,8 @@ class RadixEngineToolkit {
   }
 
   public static async encodeAddress(
-    addressBytes: Uint8Array,
-    networkId: number
+    request: EncodeAddressRequest
   ): Promise<EncodeAddressResponse> {
-    // Construct the request
-    let request = new EncodeAddressRequest(addressBytes, networkId);
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -281,11 +247,8 @@ class RadixEngineToolkit {
   }
 
   public static async decodeAddress(
-    address: string
+    request: DecodeAddressRequest
   ): Promise<DecodeAddressResponse> {
-    // Construct the request
-    let request = new DecodeAddressRequest(address);
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -298,11 +261,8 @@ class RadixEngineToolkit {
   }
 
   public static async sborEncode(
-    sbor_value: SborValue.Any
+    request: SborEncodeRequest
   ): Promise<SborEncodeResponse> {
-    // Construct the request
-    let request = sbor_value;
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -311,12 +271,8 @@ class RadixEngineToolkit {
   }
 
   public static async sborDecode(
-    encodedValue: Uint8Array,
-    networkId: number
+    request: SborDecodeRequest
   ): Promise<SborDecodeResponse> {
-    // Construct the request
-    let request = new SborDecodeRequest(encodedValue, networkId);
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -336,12 +292,8 @@ class RadixEngineToolkit {
   }
 
   public static async deriveVirtualAccountAddress(
-    networkId: number,
-    publicKey: PublicKey.Any
+    request: DeriveVirtualAccountAddressRequest
   ): Promise<DeriveVirtualAccountAddressResponse> {
-    // Construct the request
-    let request = new DeriveVirtualAccountAddressRequest(networkId, publicKey);
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -354,12 +306,8 @@ class RadixEngineToolkit {
   }
 
   public static async deriveVirtualIdentityAddress(
-    networkId: number,
-    publicKey: PublicKey.Any
+    request: DeriveVirtualIdentityAddressRequest
   ): Promise<DeriveVirtualIdentityAddressResponse> {
-    // Construct the request
-    let request = new DeriveVirtualIdentityAddressRequest(networkId, publicKey);
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -372,15 +320,8 @@ class RadixEngineToolkit {
   }
 
   public static async deriveBabylonAddressFromOlympiaAddress(
-    networkId: number,
-    olympiaAddress: string
+    request: DeriveBabylonAddressFromOlympiaAddressRequest
   ): Promise<DeriveBabylonAddressFromOlympiaAddressResponse> {
-    // Construct the request
-    let request = new DeriveBabylonAddressFromOlympiaAddressRequest(
-      networkId,
-      olympiaAddress
-    );
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -393,11 +334,8 @@ class RadixEngineToolkit {
   }
 
   public static async knownEntityAddresses(
-    networkId: number
+    request: KnownEntityAddressesRequest
   ): Promise<KnownEntityAddressesResponse> {
-    // Construct the request
-    let request = new KnownEntityAddressesRequest(networkId);
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -410,15 +348,8 @@ class RadixEngineToolkit {
   }
 
   public static async staticallyValidateTransaction(
-    compiledNotarizedIntent: Uint8Array,
-    validationConfig: ValidationConfig
+    request: StaticallyValidateTransactionRequest
   ): Promise<StaticallyValidateTransactionResponse> {
-    // Construct the request
-    let request = new StaticallyValidateTransactionRequest(
-      compiledNotarizedIntent,
-      validationConfig
-    );
-
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -447,5 +378,3 @@ class RadixEngineToolkit {
     }
   }
 }
-
-export { RadixEngineToolkit };

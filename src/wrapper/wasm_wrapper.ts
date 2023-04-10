@@ -103,9 +103,11 @@ class RadixEngineToolkitWasmWrapper {
     this.deallocateMemory(responsePointer);
 
     // Ensure that the responseObject is not an error object.
-    if (isRetInvocationError(responseObject?.["error"])) {
+    if (isRetInvocationError(responseObject?.["_error"])) {
       throw new Error(
-        `Invocation Error. Invocation: ${request}. Response: ${responseObject}`
+        `Invocation Error. Invocation: """${JSON.stringify(
+          request
+        )}""". Response: """${JSON.stringify(responseObject)}"""`
       );
     }
 

@@ -16,11 +16,13 @@
 // under the License.
 
 import { describe, expect, it } from "vitest";
-import { RadixEngineToolkit } from "../../src";
+import { KnownEntityAddressesRequest, RawRadixEngineToolkit } from "../../src";
 
 describe("Known Entity Addresses", () => {
   it("Known Entity Addresses", async () => {
-    let response = await RadixEngineToolkit.knownEntityAddresses(0x01);
+    let response = await RawRadixEngineToolkit.knownEntityAddresses(
+      new KnownEntityAddressesRequest(0x01)
+    );
 
     expect(response.xrdResourceAddress).toBeDefined();
   });

@@ -15,10 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Signature } from "models/crypto";
+import { InstructionList, SignedTransactionIntent } from ".";
+import { Signature } from "../../models/crypto";
+import { DecompileNotarizedTransactionIntentRequest } from "../../models/requests";
 import { hash } from "../../utils";
-import { RadixEngineToolkit } from "../../wrapper";
-import { SignedTransactionIntent } from "./signed_intent";
+import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class NotarizedTransaction {
   private _signedIntent: SignedTransactionIntent;
@@ -47,16 +48,20 @@ export class NotarizedTransaction {
   }
 
   async compile(): Promise<Uint8Array> {
-    return RadixEngineToolkit.compileNotarizedTransactionIntent(this).then(
+    return RawRadixEngineToolkit.compileNotarizedTransactionIntent(this).then(
       (response) => response.compiledIntent
     );
   }
 
   static async decompile(
-    compiledIntent: Uint8Array
+    compiledIntent: Uint8Array,
+    instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<NotarizedTransaction> {
-    return RadixEngineToolkit.decompileNotarizedTransactionIntent(
-      compiledIntent
+    return RawRadixEngineToolkit.decompileNotarizedTransactionIntent(
+      new DecompileNotarizedTransactionIntentRequest(
+        instructionsOutputKind,
+        compiledIntent
+      )
     );
   }
 

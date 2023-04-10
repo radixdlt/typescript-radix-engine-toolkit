@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+
 /**
  * The request provides information on the currently in-use radix engine toolkit such as the version
  * of the radix engine toolkit. In most cases, this is the first function written when integrating
@@ -46,11 +48,11 @@ export class InformationResponse {
     this._packageVersion = value;
   }
 
-  public get lastCommitHash(): string {
-    return this._lastCommitHash;
+  public get lastCommitHash(): Uint8Array {
+    return stringToUint8Array(this._lastCommitHash);
   }
-  public set lastCommitHash(value: string) {
-    this._lastCommitHash = value;
+  public set lastCommitHash(value: Uint8Array) {
+    this._lastCommitHash = uint8ArrayToString(value);
   }
 
   constructor(packageVersion: string, lastCommitHash: string) {

@@ -15,4 +15,5 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export { RadixEngineToolkit } from "./facade";
+export { RadixEngineToolkit } from "./default";
+export { RawRadixEngineToolkit } from "./raw";
