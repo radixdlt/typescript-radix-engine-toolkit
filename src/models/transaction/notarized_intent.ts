@@ -16,6 +16,8 @@
 // under the License.
 
 import { Signature } from "models/crypto";
+import { hash } from "../../utils";
+import { RadixEngineToolkit } from "../../wrapper";
 import { SignedTransactionIntent } from "./signed_intent";
 
 export class NotarizedTransaction {
@@ -42,5 +44,31 @@ export class NotarizedTransaction {
   ) {
     this._signedIntent = signedIntent;
     this._notarySignature = notarySignature;
+  }
+
+  async compile(): Promise<Uint8Array> {
+    return RadixEngineToolkit.compileNotarizedTransactionIntent(this).then(
+      (response) => response.compiledIntent
+    );
+  }
+
+  static async decompile(
+    compiledIntent: Uint8Array
+  ): Promise<NotarizedTransaction> {
+    return RadixEngineToolkit.decompileNotarizedTransactionIntent(
+      compiledIntent
+    );
+  }
+
+  async transactionId(): Promise<Uint8Array> {
+    return this.signedIntent.intent.transactionId();
+  }
+
+  async signedIntentHash(): Promise<Uint8Array> {
+    return this.signedIntent.signedIntentHash();
+  }
+
+  async notarizedIntentHash(): Promise<Uint8Array> {
+    return this.compile().then(hash);
   }
 }

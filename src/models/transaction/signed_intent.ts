@@ -16,6 +16,8 @@
 // under the License.
 
 import { SignatureWithPublicKey } from "models/crypto";
+import { hash } from "../../utils";
+import { RadixEngineToolkit } from "../../wrapper";
 import { TransactionIntent } from "./intent";
 
 export class SignedTransactionIntent {
@@ -42,5 +44,25 @@ export class SignedTransactionIntent {
   ) {
     this._intent = intent;
     this._intentSignatures = intentSignatures;
+  }
+
+  async compile(): Promise<Uint8Array> {
+    return RadixEngineToolkit.compileSignedTransactionIntent(this).then(
+      (response) => response.compiledIntent
+    );
+  }
+
+  static async decompile(
+    compiledIntent: Uint8Array
+  ): Promise<SignedTransactionIntent> {
+    return RadixEngineToolkit.decompileSignedTransactionIntent(compiledIntent);
+  }
+
+  async transactionId(): Promise<Uint8Array> {
+    return this.intent.transactionId();
+  }
+
+  async signedIntentHash(): Promise<Uint8Array> {
+    return this.compile().then(hash);
   }
 }

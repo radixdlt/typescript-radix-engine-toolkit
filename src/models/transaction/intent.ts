@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { hash } from "../../utils";
+import { RadixEngineToolkit } from "../../wrapper";
 import { TransactionHeader } from "./header";
 import { TransactionManifest } from "./manifest";
 
@@ -39,5 +41,21 @@ export class TransactionIntent {
   constructor(header: TransactionHeader, manifest: TransactionManifest) {
     this._header = header;
     this._manifest = manifest;
+  }
+
+  async compile(): Promise<Uint8Array> {
+    return RadixEngineToolkit.compileTransactionIntent(this).then(
+      (response) => response.compiledIntent
+    );
+  }
+
+  static async decompile(
+    compiledIntent: Uint8Array
+  ): Promise<TransactionIntent> {
+    return RadixEngineToolkit.decompileTransactionIntent(compiledIntent);
+  }
+
+  async transactionId(): Promise<Uint8Array> {
+    return this.compile().then(hash);
   }
 }

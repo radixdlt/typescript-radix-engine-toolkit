@@ -85,5 +85,15 @@ describe.each([
       // Assert
       expect(intent.value).toEqual(expectedIntent);
     });
+
+    test(`Shorthand decompile transaction intent succeeds`, async () => {
+      // Act
+      let recompiled = await TransactionIntent.decompile(
+        expectedCompiledIntent
+      ).then((intent) => intent.compile());
+
+      // Assert
+      expect(recompiled).toEqual(expectedCompiledIntent);
+    });
   }
 );

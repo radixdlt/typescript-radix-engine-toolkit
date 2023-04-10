@@ -164,5 +164,15 @@ describe.each([
       // Assert
       expect(intent.value).toEqual(expectedIntent);
     });
+
+    test(`Shorthand decompile notarized transaction intent succeeds`, async () => {
+      // Act
+      let recompiled = await NotarizedTransaction.decompile(
+        expectedCompiledIntent
+      ).then((intent) => intent.compile());
+
+      // Assert
+      expect(recompiled).toEqual(expectedCompiledIntent);
+    });
   }
 );
