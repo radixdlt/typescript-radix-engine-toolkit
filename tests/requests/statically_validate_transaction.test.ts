@@ -16,11 +16,20 @@
 // under the License.
 
 import { describe, expect, it } from "vitest";
-import { RadixEngineToolkit, ValidationConfig } from "../../src";
+import {
+  ManifestBuilder,
+  PrivateKey,
+  RadixEngineToolkit,
+  StaticallyValidateTransactionResponseInvalid,
+  StaticallyValidateTransactionResponseValid,
+  TransactionBuilder,
+  TransactionHeader,
+  ValidationConfig,
+} from "../../src";
 import { stringToUint8Array } from "../../src/utils";
 
 describe("Statically Validate Transaction", () => {
-  it("Statically Validate Transaction", async () => {
+  it("static validation succeeds", async () => {
     let response = (
       await RadixEngineToolkit.staticallyValidateTransaction(
         stringToUint8Array(
@@ -30,9 +39,70 @@ describe("Statically Validate Transaction", () => {
       )
     )._unsafeUnwrap();
 
-    // @ts-ignore
-    expect(response.error).toEqual(
-      "SignatureValidationError(InvalidNotarySignature)"
+    expect(
+      response instanceof StaticallyValidateTransactionResponseInvalid
+    ).toBeTruthy();
+    expect(
+      (response as StaticallyValidateTransactionResponseInvalid).error
+    ).toEqual("SignatureValidationError(InvalidNotarySignature)");
+  });
+
+  it("transactions produced by transaction builder are valid", async () => {
+    // Arrange
+    let notaryPrivateKey = new PrivateKey.EddsaEd25519(
+      stringToUint8Array(
+        "2342d54a97214bd669640acab5de23d6f44028f1232386d3f9d3a60a50d6f7b3"
+      )
     );
+
+    let signatory1PrivateKey = new PrivateKey.EddsaEd25519(
+      stringToUint8Array(
+        "4293dd008ada84274fd828dde7f6662cbe6f38e4a2718266f08e5006d5b3c283"
+      )
+    );
+    let signatory2PrivateKey = new PrivateKey.EcdsaSecp256k1(
+      stringToUint8Array(
+        "f13c26917d52df6339ffa59c289bc4b6384a8b341413242a16272e7c168c72cc"
+      )
+    );
+
+    // Act
+    let notarizedTransaction = (await TransactionBuilder.new())
+      .header(
+        new TransactionHeader(
+          1,
+          1,
+          100,
+          105,
+          5144,
+          notaryPrivateKey.publicKey(),
+          false,
+          100000000,
+          12
+        )
+      )
+      .manifest(new ManifestBuilder().dropAllProofs().build())
+      .sign(signatory1PrivateKey)
+      .sign(signatory2PrivateKey)
+      .notarize(notaryPrivateKey);
+    let compiledNotarizedTransaction = (
+      await RadixEngineToolkit.compileNotarizedTransactionIntent(
+        notarizedTransaction
+      )
+    )._unsafeUnwrap().compiledIntent;
+
+    let validationResult = (
+      await (
+        await RadixEngineToolkit
+      ).staticallyValidateTransaction(
+        compiledNotarizedTransaction,
+        ValidationConfig.default(1)
+      )
+    )._unsafeUnwrap();
+
+    // Assert
+    expect(
+      validationResult instanceof StaticallyValidateTransactionResponseValid
+    ).toBeTruthy();
   });
 });

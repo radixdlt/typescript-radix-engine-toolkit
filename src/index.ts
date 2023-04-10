@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+export * from "./builders";
 export * from "./models";
 export * as utils from "./utils";
 export * from "./wrapper";
