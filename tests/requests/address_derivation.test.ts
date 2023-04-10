@@ -50,7 +50,7 @@ describe.each([
           0xf2,
           expectedPublicKey
         )
-      )._unsafeUnwrap().virtualAccountAddress;
+      ).virtualAccountAddress;
 
       // Assert
       expect(virtualAddress).toEqual(expectedAccountAddress);
@@ -63,7 +63,7 @@ describe.each([
           0xf2,
           expectedPublicKey
         )
-      )._unsafeUnwrap().virtualIdentityAddress;
+      ).virtualIdentityAddress;
 
       // Assert
       expect(virtualAddress).toEqual(expectedIdentityAddress);
@@ -76,7 +76,7 @@ describe.each([
           0xf2,
           expectedOlympiaAddress
         )
-      )._unsafeUnwrap().publicKey;
+      ).publicKey;
 
       // Assert
       expect(publicKey).toEqual(expectedPublicKey);

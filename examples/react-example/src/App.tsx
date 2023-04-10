@@ -7,9 +7,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      let informationResponse = (
-        await RadixEngineToolkit.information()
-      )._unsafeUnwrap();
+      let informationResponse = (await RadixEngineToolkit.information())();
       setInformationResponse(JSON.stringify(informationResponse));
     })();
   }, [informationResponse]);

@@ -20,9 +20,7 @@ import { RadixEngineToolkit } from "../../src";
 
 describe("Known Entity Addresses", () => {
   it("Known Entity Addresses", async () => {
-    let response = (
-      await RadixEngineToolkit.knownEntityAddresses(0x01)
-    )._unsafeUnwrap();
+    let response = await RadixEngineToolkit.knownEntityAddresses(0x01);
 
     expect(response.xrdResourceAddress).toBeDefined();
   });

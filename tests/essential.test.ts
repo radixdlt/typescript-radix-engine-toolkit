@@ -20,7 +20,7 @@ import { InformationResponse, RadixEngineToolkit } from "../src";
 
 describe("essential", () => {
   it("essential", async () => {
-    let information = (await RadixEngineToolkit.information())._unsafeUnwrap();
+    let information = await RadixEngineToolkit.information();
     let expected = new InformationResponse(
       "0.9.0",
       "9d140797d5641179fa78566b0f3e66fc6fe01e4c"

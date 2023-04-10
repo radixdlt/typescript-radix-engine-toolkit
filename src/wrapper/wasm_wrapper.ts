@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { err, ok, Result } from "neverthrow";
 import radixEngineToolkitWasm from "../../resources/radix-engine-toolkit.wasm";
 import {
-  deserialize,
+  prefix,
+  toCamelCase,
   toSnakeCase,
   traverseObjectForKeys,
   trim,
@@ -80,7 +80,7 @@ class RadixEngineToolkitWasmWrapper {
     request: I,
     fn: (pointer: number) => number,
     constructorFn: new (...args: any) => O
-  ): Result<O, RadixEngineToolkitWrapperError> {
+  ): O {
     // Write the request object to memory and get a pointer to where it was written
     let requestPointer = this.writeObjectToMemory(request);
 
@@ -88,13 +88,26 @@ class RadixEngineToolkitWasmWrapper {
     let responsePointer = fn(requestPointer);
 
     // Read and deserialize the response
-    let response = this.readStringFromMemory(responsePointer).map(
-      (str: string) => deserialize(str, constructorFn)
+    let responseString = this.readStringFromMemory(responsePointer);
+    let responseObject = traverseObjectForKeys(JSON.parse(responseString), [
+      toCamelCase,
+      prefix("_"),
+    ]);
+    let response = Object.setPrototypeOf(
+      responseObject,
+      constructorFn.prototype
     );
 
     // Deallocate the request and response pointers
     this.deallocateMemory(requestPointer);
     this.deallocateMemory(responsePointer);
+
+    // Ensure that the responseObject is not an error object.
+    if (isRetInvocationError(responseObject?.["error"])) {
+      throw new Error(
+        `Invocation Error. Invocation: ${request}. Response: ${responseObject}`
+      );
+    }
 
     // Return the object back to the caller
     return response;
@@ -115,15 +128,13 @@ class RadixEngineToolkitWasmWrapper {
    * @param pointer A pointer to the memory location containing the string
    * @return A JS string of the read and decoded string
    */
-  private readStringFromMemory(
-    pointer: number
-  ): Result<string, RadixEngineToolkitWrapperError> {
+  private readStringFromMemory(pointer: number): string {
     // Determine the length of the string based on the first null terminator
     let view = new Uint8Array(this.exports.memory.buffer, pointer);
     let length = view.findIndex((byte) => byte === 0);
 
     if (length == -1) {
-      return err(RadixEngineToolkitWrapperError.NoNullTerminatorFound);
+      throw new Error("No null terminator found");
     } else {
       // Read the UTF-8 encoded string from memory
       let nullTerminatedUtf8EncodedString = new Uint8Array(
@@ -134,10 +145,9 @@ class RadixEngineToolkitWasmWrapper {
 
       try {
         // Decode the string and return it back to the caller
-        let str = this.decoder.decode(nullTerminatedUtf8EncodedString);
-        return ok(str);
+        return this.decoder.decode(nullTerminatedUtf8EncodedString);
       } catch {
-        return err(RadixEngineToolkitWrapperError.Utf8DecodeError);
+        throw new Error("Failed to decode string in UTF-8");
       }
     }
   }
@@ -288,22 +298,39 @@ interface RadixEngineToolkitExports {
   toolkit_free_c_string(pointer: number): void;
 }
 
-enum RadixEngineToolkitWrapperError {
-  /**
-   * Attempted to read a null terminated string from memory but no null terminator could be found in
-   * the given buffer.
-   */
-  NoNullTerminatorFound = "NoNullTerminatorFound",
+const isRetInvocationError = (str: string | undefined) =>
+  str === undefined
+    ? false
+    : [
+        "FailedToDecodeHex",
+        "InvalidLength ",
+        "AddressError",
+        "InvalidKind ",
+        "InvalidEnumDiscriminator",
+        "SborEncodeError",
+        "SborDecodeError",
+        "InvalidSborPrefix",
+        "EmptyPayloadError",
+        "UnexpectedAstContents",
+        "ParseError",
+        "InvalidExpressionString",
+        "ManifestCompileError",
+        "ManifestDecompileError",
+        "ManifestGenerationError",
+        "NetworkMismatchError",
+        "UnrecognizedCompiledIntentFormat",
+        "UnrecognizedAddressFormat",
+        "ContentValidationError",
+        "InvalidRequestString",
+        "Infallible",
+        "InvalidConversion",
+        "NoResourceChangesForInstruction",
+        "InvalidBucketId",
+        "BucketExistsError",
+        "TransactionRejectionOrCommitFailure",
+        "NotAnOlympiaAddress",
+        "TransactionNotCommitted",
+        "InvalidPublicKeyType",
+      ].includes(str);
 
-  /**
-   * Attempted to decode some bytes as a UTF8 string but failed.
-   */
-  Utf8DecodeError = "Utf8DecodeError",
-
-  /**
-   * Attempted to deserialize a JSON string but failed.
-   */
-  FailedToDeserializeJson = "FailedToDeserializeJson",
-}
-
-export { RadixEngineToolkitWasmWrapper, RadixEngineToolkitWrapperError };
+export { RadixEngineToolkitWasmWrapper };

@@ -95,7 +95,7 @@ export class TransactionBuilderIntentSignaturesStep {
       this.retWrapper.exports.compile_transaction_intent,
       CompileTransactionIntentResponse
     );
-    let compiledIntent = response._unsafeUnwrap().compiledIntent;
+    let compiledIntent = response.compiledIntent;
 
     // If the key is a function, then invoke that function with the hashed compiled transaction
     // intent, otherwise, call the private key to sign.
@@ -124,7 +124,7 @@ export class TransactionBuilderIntentSignaturesStep {
       this.retWrapper.exports.compile_signed_transaction_intent,
       CompileSignedTransactionIntentResponse
     );
-    let compiledIntent = response._unsafeUnwrap().compiledIntent;
+    let compiledIntent = response.compiledIntent;
 
     // If the key is a function, then invoke that function with the hashed compiled transaction
     // intent, otherwise, call the private key to sign.

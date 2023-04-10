@@ -29,9 +29,7 @@ describe.each([
   ({ expectedEncoding, expectedValue }) => {
     test(`${expectedValue} encodes to ${expectedEncoding}`, async () => {
       // Act
-      let encoding = (
-        await RadixEngineToolkit.sborEncode(expectedValue)
-      )._unsafeUnwrap();
+      let encoding = await RadixEngineToolkit.sborEncode(expectedValue);
 
       // Assert
       expect(encoding.encodedValue).toEqual(expectedEncoding);
@@ -39,9 +37,7 @@ describe.each([
 
     test(`${expectedEncoding} decodes to ${expectedValue}`, async () => {
       // Act
-      let value = (
-        await RadixEngineToolkit.sborDecode(expectedEncoding, 0xf2)
-      )._unsafeUnwrap();
+      let value = await RadixEngineToolkit.sborDecode(expectedEncoding, 0xf2);
 
       // Assert
       expect(value).toEqual(expectedValue);

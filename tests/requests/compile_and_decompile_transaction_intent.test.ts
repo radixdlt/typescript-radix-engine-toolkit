@@ -60,7 +60,7 @@ describe.each([
       // Act
       let compiledIntent = (
         await RadixEngineToolkit.compileTransactionIntent(expectedIntent)
-      )._unsafeUnwrap().compiledIntent;
+      ).compiledIntent;
 
       // Assert
       expect(compiledIntent).toEqual(expectedCompiledIntent);
@@ -68,11 +68,9 @@ describe.each([
 
     test(`${expectedIntent} is decompiled as expected`, async () => {
       // Act
-      let intent = (
-        await RadixEngineToolkit.decompileTransactionIntent(
-          expectedCompiledIntent
-        )
-      )._unsafeUnwrap();
+      let intent = await RadixEngineToolkit.decompileTransactionIntent(
+        expectedCompiledIntent
+      );
 
       // Assert
       expect(intent).toEqual(expectedIntent);
@@ -80,11 +78,9 @@ describe.each([
 
     test(`${expectedIntent} as unknown is decompiled as expected`, async () => {
       // Act
-      let intent = (
-        await RadixEngineToolkit.decompileUnknownTransactionIntent(
-          expectedCompiledIntent
-        )
-      )._unsafeUnwrap();
+      let intent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
+        expectedCompiledIntent
+      );
 
       // Assert
       expect(intent.value).toEqual(expectedIntent);

@@ -15,7 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Result } from "neverthrow";
 import {
   CompileNotarizedTransactionResponse,
   CompileSignedTransactionIntentResponse,
@@ -62,10 +61,7 @@ import {
   TransactionManifest,
   ValidationConfig,
 } from "../models";
-import {
-  RadixEngineToolkitWasmWrapper,
-  RadixEngineToolkitWrapperError,
-} from "./wasm_wrapper";
+import { RadixEngineToolkitWasmWrapper } from "./wasm_wrapper";
 
 /**
  * A global instance of the Radix Engine Toolkit.
@@ -79,9 +75,7 @@ export const RET: Promise<RadixEngineToolkitWasmWrapper> =
  * process away from the developer.
  */
 class RadixEngineToolkit {
-  public static async information(): Promise<
-    Result<InformationResponse, RadixEngineToolkitWrapperError>
-  > {
+  public static async information(): Promise<InformationResponse> {
     // Construct the request
     let request = new InformationRequest();
 
@@ -96,7 +90,7 @@ class RadixEngineToolkit {
     manifest: TransactionManifest,
     instructionsOutputKind: InstructionList.Kind,
     networkId: number
-  ): Promise<Result<ConvertManifestResponse, RadixEngineToolkitWrapperError>> {
+  ): Promise<ConvertManifestResponse> {
     // Construct the request
     let request = new ConvertManifestRequest(
       networkId,
@@ -117,9 +111,7 @@ class RadixEngineToolkit {
 
   public static async compileTransactionIntent(
     transactionIntent: TransactionIntent
-  ): Promise<
-    Result<CompileTransactionIntentResponse, RadixEngineToolkitWrapperError>
-  > {
+  ): Promise<CompileTransactionIntentResponse> {
     // Construct the request
     let request = transactionIntent;
 
@@ -136,12 +128,7 @@ class RadixEngineToolkit {
 
   public static async compileSignedTransactionIntent(
     signedTransactionIntent: SignedTransactionIntent
-  ): Promise<
-    Result<
-      CompileSignedTransactionIntentResponse,
-      RadixEngineToolkitWrapperError
-    >
-  > {
+  ): Promise<CompileSignedTransactionIntentResponse> {
     // Construct the request
     let request = signedTransactionIntent;
 
@@ -158,9 +145,7 @@ class RadixEngineToolkit {
 
   public static async compileNotarizedTransactionIntent(
     notarizedTransactionIntent: NotarizedTransaction
-  ): Promise<
-    Result<CompileNotarizedTransactionResponse, RadixEngineToolkitWrapperError>
-  > {
+  ): Promise<CompileNotarizedTransactionResponse> {
     // Construct the request
     let request = notarizedTransactionIntent;
 
@@ -178,9 +163,7 @@ class RadixEngineToolkit {
   public static async decompileTransactionIntent(
     compiledIntent: Uint8Array,
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
-  ): Promise<
-    Result<DecompileTransactionIntentResponse, RadixEngineToolkitWrapperError>
-  > {
+  ): Promise<DecompileTransactionIntentResponse> {
     // Construct the request
     let request = new DecompileTransactionIntentRequest(
       instructionsOutputKind,
@@ -201,12 +184,7 @@ class RadixEngineToolkit {
   public static async decompileSignedTransactionIntent(
     compiledIntent: Uint8Array,
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
-  ): Promise<
-    Result<
-      DecompileSignedTransactionIntentResponse,
-      RadixEngineToolkitWrapperError
-    >
-  > {
+  ): Promise<DecompileSignedTransactionIntentResponse> {
     // Construct the request
     let request = new DecompileSignedTransactionIntentRequest(
       instructionsOutputKind,
@@ -227,12 +205,7 @@ class RadixEngineToolkit {
   public static async decompileNotarizedTransactionIntent(
     compiledIntent: Uint8Array,
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
-  ): Promise<
-    Result<
-      DecompileNotarizedTransactionIntentResponse,
-      RadixEngineToolkitWrapperError
-    >
-  > {
+  ): Promise<DecompileNotarizedTransactionIntentResponse> {
     // Construct the request
     let request = new DecompileNotarizedTransactionIntentRequest(
       instructionsOutputKind,
@@ -253,12 +226,7 @@ class RadixEngineToolkit {
   public static async decompileUnknownTransactionIntent(
     compiledIntent: Uint8Array,
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
-  ): Promise<
-    Result<
-      DecompileUnknownTransactionIntentResponse,
-      RadixEngineToolkitWrapperError
-    >
-  > {
+  ): Promise<DecompileUnknownTransactionIntentResponse> {
     // Construct the request
     let request = new DecompileUnknownTransactionIntentRequest(
       instructionsOutputKind,
@@ -279,7 +247,7 @@ class RadixEngineToolkit {
   public static async encodeAddress(
     addressBytes: Uint8Array,
     networkId: number
-  ): Promise<Result<EncodeAddressResponse, RadixEngineToolkitWrapperError>> {
+  ): Promise<EncodeAddressResponse> {
     // Construct the request
     let request = new EncodeAddressRequest(addressBytes, networkId);
 
@@ -287,37 +255,34 @@ class RadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    return ret
-      .invoke(request, ret.exports.encode_address, Object)
-      .map((object: Object) => {
-        // @ts-ignore
-        let type: EntityAddress.Kind | undefined = object?.[
-          "_type"
-        ] as EntityAddress.Kind;
-        if (type === EntityAddress.Kind.ComponentAddress) {
-          return Object.setPrototypeOf(
-            object,
-            EntityAddress.ComponentAddress.prototype
-          );
-        } else if (type === EntityAddress.Kind.PackageAddress) {
-          return Object.setPrototypeOf(
-            object,
-            EntityAddress.PackageAddress.prototype
-          );
-        } else if (type === EntityAddress.Kind.ResourceAddress) {
-          return Object.setPrototypeOf(
-            object,
-            EntityAddress.ResourceAddress.prototype
-          );
-        } else {
-          throw new Error("no _type key found for address");
-        }
-      });
+    let response = ret.invoke(request, ret.exports.encode_address, Object);
+    // @ts-ignore
+    let type: EntityAddress.Kind | undefined = response?.[
+      "_type"
+    ] as EntityAddress.Kind;
+    if (type === EntityAddress.Kind.ComponentAddress) {
+      return Object.setPrototypeOf(
+        response,
+        EntityAddress.ComponentAddress.prototype
+      );
+    } else if (type === EntityAddress.Kind.PackageAddress) {
+      return Object.setPrototypeOf(
+        response,
+        EntityAddress.PackageAddress.prototype
+      );
+    } else if (type === EntityAddress.Kind.ResourceAddress) {
+      return Object.setPrototypeOf(
+        response,
+        EntityAddress.ResourceAddress.prototype
+      );
+    } else {
+      throw new Error("no _type key found for address");
+    }
   }
 
   public static async decodeAddress(
     address: string
-  ): Promise<Result<DecodeAddressResponse, RadixEngineToolkitWrapperError>> {
+  ): Promise<DecodeAddressResponse> {
     // Construct the request
     let request = new DecodeAddressRequest(address);
 
@@ -334,7 +299,7 @@ class RadixEngineToolkit {
 
   public static async sborEncode(
     sbor_value: SborValue.Any
-  ): Promise<Result<SborEncodeResponse, RadixEngineToolkitWrapperError>> {
+  ): Promise<SborEncodeResponse> {
     // Construct the request
     let request = sbor_value;
 
@@ -348,7 +313,7 @@ class RadixEngineToolkit {
   public static async sborDecode(
     encodedValue: Uint8Array,
     networkId: number
-  ): Promise<Result<SborDecodeResponse, RadixEngineToolkitWrapperError>> {
+  ): Promise<SborDecodeResponse> {
     // Construct the request
     let request = new SborDecodeRequest(encodedValue, networkId);
 
@@ -356,32 +321,24 @@ class RadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    return ret
-      .invoke(request, ret.exports.sbor_decode, Object)
-      .map((object: Object) => {
-        // @ts-ignore
-        let type: SborValue.Kind | undefined = object?.[
-          "_type"
-        ] as SborValue.Kind;
-        if (type === SborValue.Kind.ScryptoSbor) {
-          return Object.setPrototypeOf(object, SborValue.ScryptoSbor.prototype);
-        } else if (type === SborValue.Kind.ManifestSbor) {
-          return Object.setPrototypeOf(
-            object,
-            SborValue.ManifestSbor.prototype
-          );
-        } else {
-          throw new Error("no _type key found for address");
-        }
-      });
+    let response = ret.invoke(request, ret.exports.sbor_decode, Object);
+    // @ts-ignore
+    let type: SborValue.Kind | undefined = response?.[
+      "_type"
+    ] as SborValue.Kind;
+    if (type === SborValue.Kind.ScryptoSbor) {
+      return Object.setPrototypeOf(response, SborValue.ScryptoSbor.prototype);
+    } else if (type === SborValue.Kind.ManifestSbor) {
+      return Object.setPrototypeOf(response, SborValue.ManifestSbor.prototype);
+    } else {
+      throw new Error("no _type key found for address");
+    }
   }
 
   public static async deriveVirtualAccountAddress(
     networkId: number,
     publicKey: PublicKey.Any
-  ): Promise<
-    Result<DeriveVirtualAccountAddressResponse, RadixEngineToolkitWrapperError>
-  > {
+  ): Promise<DeriveVirtualAccountAddressResponse> {
     // Construct the request
     let request = new DeriveVirtualAccountAddressRequest(networkId, publicKey);
 
@@ -399,9 +356,7 @@ class RadixEngineToolkit {
   public static async deriveVirtualIdentityAddress(
     networkId: number,
     publicKey: PublicKey.Any
-  ): Promise<
-    Result<DeriveVirtualIdentityAddressResponse, RadixEngineToolkitWrapperError>
-  > {
+  ): Promise<DeriveVirtualIdentityAddressResponse> {
     // Construct the request
     let request = new DeriveVirtualIdentityAddressRequest(networkId, publicKey);
 
@@ -419,12 +374,7 @@ class RadixEngineToolkit {
   public static async deriveBabylonAddressFromOlympiaAddress(
     networkId: number,
     olympiaAddress: string
-  ): Promise<
-    Result<
-      DeriveBabylonAddressFromOlympiaAddressResponse,
-      RadixEngineToolkitWrapperError
-    >
-  > {
+  ): Promise<DeriveBabylonAddressFromOlympiaAddressResponse> {
     // Construct the request
     let request = new DeriveBabylonAddressFromOlympiaAddressRequest(
       networkId,
@@ -444,9 +394,7 @@ class RadixEngineToolkit {
 
   public static async knownEntityAddresses(
     networkId: number
-  ): Promise<
-    Result<KnownEntityAddressesResponse, RadixEngineToolkitWrapperError>
-  > {
+  ): Promise<KnownEntityAddressesResponse> {
     // Construct the request
     let request = new KnownEntityAddressesRequest(networkId);
 
@@ -464,12 +412,7 @@ class RadixEngineToolkit {
   public static async staticallyValidateTransaction(
     compiledNotarizedIntent: Uint8Array,
     validationConfig: ValidationConfig
-  ): Promise<
-    Result<
-      StaticallyValidateTransactionResponse,
-      RadixEngineToolkitWrapperError
-    >
-  > {
+  ): Promise<StaticallyValidateTransactionResponse> {
     // Construct the request
     let request = new StaticallyValidateTransactionRequest(
       compiledNotarizedIntent,
@@ -480,29 +423,28 @@ class RadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    return ret
-      .invoke(request, ret.exports.statically_validate_transaction, Object)
-      .map((object: Object) => {
-        // @ts-ignore
-        let validity: StaticallyValidateTransactionResponseKind | undefined =
-          // @ts-ignore
-          object?.["_validity"] as StaticallyValidateTransactionResponseKind;
-        if (validity === StaticallyValidateTransactionResponseKind.Valid) {
-          return Object.setPrototypeOf(
-            object,
-            StaticallyValidateTransactionResponseValid.prototype
-          );
-        } else if (
-          validity === StaticallyValidateTransactionResponseKind.Invalid
-        ) {
-          return Object.setPrototypeOf(
-            object,
-            StaticallyValidateTransactionResponseInvalid.prototype
-          );
-        } else {
-          throw new Error("no _type key found for address");
-        }
-      });
+    let response = ret.invoke(
+      request,
+      ret.exports.statically_validate_transaction,
+      Object
+    );
+    // @ts-ignore
+    let validity: StaticallyValidateTransactionResponseKind | undefined =
+      // @ts-ignore
+      response?.["_validity"] as StaticallyValidateTransactionResponseKind;
+    if (validity === StaticallyValidateTransactionResponseKind.Valid) {
+      return Object.setPrototypeOf(
+        response,
+        StaticallyValidateTransactionResponseValid.prototype
+      );
+    } else if (validity === StaticallyValidateTransactionResponseKind.Invalid) {
+      return Object.setPrototypeOf(
+        response,
+        StaticallyValidateTransactionResponseInvalid.prototype
+      );
+    } else {
+      throw new Error("no _type key found for address");
+    }
   }
 }
 

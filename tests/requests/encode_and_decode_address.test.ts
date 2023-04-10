@@ -33,9 +33,10 @@ describe.each([
   ({ expectedAddressBytes, expectedAddress }) => {
     test(`${expectedAddressBytes} encodes to ${expectedAddress}`, async () => {
       // Act
-      let encodedAddress = (
-        await RadixEngineToolkit.encodeAddress(expectedAddressBytes, 0xf2)
-      )._unsafeUnwrap();
+      let encodedAddress = await RadixEngineToolkit.encodeAddress(
+        expectedAddressBytes,
+        0xf2
+      );
 
       // Assert
       expect(encodedAddress).toEqual(expectedAddress);
@@ -43,9 +44,9 @@ describe.each([
 
     test(`${expectedAddress} decodes to ${expectedAddressBytes}`, async () => {
       // Act
-      let address = (
-        await RadixEngineToolkit.decodeAddress(expectedAddress.address)
-      )._unsafeUnwrap();
+      let address = await RadixEngineToolkit.decodeAddress(
+        expectedAddress.address
+      );
 
       // Assert
       expect(address.data).toEqual(expectedAddressBytes);

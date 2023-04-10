@@ -62,10 +62,7 @@ describe.each([
     );
 
     // Act
-    expect(convertedManifest.isOk()).toBeTruthy();
-    expect(convertedManifest._unsafeUnwrap().blobs).toEqual([
-      new Uint8Array([10]),
-    ]);
+    expect(convertedManifest.blobs).toEqual([new Uint8Array([10])]);
   });
 
   test(`${path} can be converted to Parsed`, async () => {
@@ -80,10 +77,7 @@ describe.each([
     );
 
     // Act
-    expect(convertedManifest.isOk()).toBeTruthy();
-    expect(convertedManifest._unsafeUnwrap().blobs).toEqual([
-      new Uint8Array([10]),
-    ]);
+    expect(convertedManifest.blobs).toEqual([new Uint8Array([10])]);
   });
 });
 
