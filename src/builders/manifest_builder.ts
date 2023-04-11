@@ -16,6 +16,7 @@
 // under the License.
 
 import { blake2b } from "blakejs";
+import Decimal from "decimal.js";
 import {
   Instruction,
   InstructionList,
@@ -90,15 +91,15 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   callFunction(
-    packageAddress: ManifestAstValue.Address,
-    blueprintName: ManifestAstValue.String,
-    functionName: ManifestAstValue.String,
+    packageAddress: ManifestAstValue.Address | string,
+    blueprintName: ManifestAstValue.String | string,
+    functionName: ManifestAstValue.String | string,
     args: Array<ManifestAstValue.Any> | null
   ): ManifestBuilder {
     let instruction = new CallFunction(
-      packageAddress,
-      blueprintName,
-      functionName,
+      resolveAddress(packageAddress),
+      resolveString(blueprintName),
+      resolveString(functionName),
       args
     );
     this.instructions.push(instruction);
@@ -116,11 +117,15 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   callMethod(
-    componentAddress: ManifestAstValue.Address,
-    methodName: ManifestAstValue.String,
+    componentAddress: ManifestAstValue.Address | string,
+    methodName: ManifestAstValue.String | string,
     args: Array<ManifestAstValue.Any> | null
   ): ManifestBuilder {
-    let instruction = new CallMethod(componentAddress, methodName, args);
+    let instruction = new CallMethod(
+      resolveAddress(componentAddress),
+      resolveString(methodName),
+      args
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -133,14 +138,17 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   takeFromWorktop(
-    resourceAddress: ManifestAstValue.Address,
+    resourceAddress: ManifestAstValue.Address | string,
     andThen: (
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Bucket
     ) => ManifestBuilder
   ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
-    let instruction = new TakeFromWorktop(resourceAddress, bucket);
+    let instruction = new TakeFromWorktop(
+      resolveAddress(resourceAddress),
+      bucket
+    );
     this.instructions.push(instruction);
     andThen(this, bucket);
     return this;
@@ -155,8 +163,8 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   takeFromWorktopByAmount(
-    resourceAddress: ManifestAstValue.Address,
-    amount: ManifestAstValue.Decimal,
+    resourceAddress: ManifestAstValue.Address | string,
+    amount: Decimal | number | string | ManifestAstValue.Decimal,
     andThen: (
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Bucket
@@ -164,8 +172,8 @@ export class ManifestBuilder {
   ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
     let instruction = new TakeFromWorktopByAmount(
-      resourceAddress,
-      amount,
+      resolveAddress(resourceAddress),
+      resolveDecimal(amount),
       bucket
     );
     this.instructions.push(instruction);
@@ -183,7 +191,7 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   takeFromWorktopByIds(
-    resourceAddress: ManifestAstValue.Address,
+    resourceAddress: ManifestAstValue.Address | string,
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     andThen: (
       builder: ManifestBuilder,
@@ -191,7 +199,11 @@ export class ManifestBuilder {
     ) => ManifestBuilder
   ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
-    let instruction = new TakeFromWorktopByIds(resourceAddress, ids, bucket);
+    let instruction = new TakeFromWorktopByIds(
+      resolveAddress(resourceAddress),
+      ids,
+      bucket
+    );
     this.instructions.push(instruction);
     andThen(this, bucket);
     return this;
@@ -214,9 +226,11 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   assertWorktopContains(
-    resourceAddress: ManifestAstValue.Address
+    resourceAddress: ManifestAstValue.Address | string
   ): ManifestBuilder {
-    let instruction = new AssertWorktopContains(resourceAddress);
+    let instruction = new AssertWorktopContains(
+      resolveAddress(resourceAddress)
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -229,12 +243,12 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   assertWorktopContainsByAmount(
-    resourceAddress: ManifestAstValue.Address,
-    amount: ManifestAstValue.Decimal
+    resourceAddress: ManifestAstValue.Address | string,
+    amount: Decimal | number | string | ManifestAstValue.Decimal
   ): ManifestBuilder {
     let instruction = new AssertWorktopContainsByAmount(
-      resourceAddress,
-      amount
+      resolveAddress(resourceAddress),
+      resolveDecimal(amount)
     );
     this.instructions.push(instruction);
     return this;
@@ -248,10 +262,13 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   assertWorktopContainsByIds(
-    resourceAddress: ManifestAstValue.Address,
+    resourceAddress: ManifestAstValue.Address | string,
     ids: Array<ManifestAstValue.NonFungibleLocalId>
   ): ManifestBuilder {
-    let instruction = new AssertWorktopContainsByIds(resourceAddress, ids);
+    let instruction = new AssertWorktopContainsByIds(
+      resolveAddress(resourceAddress),
+      ids
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -313,14 +330,17 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createProofFromAuthZone(
-    resourceAddress: ManifestAstValue.Address,
+    resourceAddress: ManifestAstValue.Address | string,
     andThen: (
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
     ) => ManifestBuilder
   ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
-    let instruction = new CreateProofFromAuthZone(resourceAddress, proof);
+    let instruction = new CreateProofFromAuthZone(
+      resolveAddress(resourceAddress),
+      proof
+    );
     this.instructions.push(instruction);
     andThen(this, proof);
     return this;
@@ -335,8 +355,8 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createProofFromAuthZoneByAmount(
-    resourceAddress: ManifestAstValue.Address,
-    amount: ManifestAstValue.Decimal,
+    resourceAddress: ManifestAstValue.Address | string,
+    amount: Decimal | number | string | ManifestAstValue.Decimal,
     andThen: (
       builder: ManifestBuilder,
       bucket: ManifestAstValue.Proof
@@ -344,8 +364,8 @@ export class ManifestBuilder {
   ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
     let instruction = new CreateProofFromAuthZoneByAmount(
-      resourceAddress,
-      amount,
+      resolveAddress(resourceAddress),
+      resolveDecimal(amount),
       proof
     );
     this.instructions.push(instruction);
@@ -363,7 +383,7 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createProofFromAuthZoneByIds(
-    resourceAddress: ManifestAstValue.Address,
+    resourceAddress: ManifestAstValue.Address | string,
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     andThen: (
       builder: ManifestBuilder,
@@ -372,7 +392,7 @@ export class ManifestBuilder {
   ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
     let instruction = new CreateProofFromAuthZoneByIds(
-      resourceAddress,
+      resolveAddress(resourceAddress),
       ids,
       proof
     );
@@ -492,9 +512,9 @@ export class ManifestBuilder {
    */
   recallResource(
     vaultId: ManifestAstValue.Bytes,
-    amount: ManifestAstValue.Decimal
+    amount: Decimal | number | string | ManifestAstValue.Decimal
   ): ManifestBuilder {
-    let instruction = new RecallResource(vaultId, amount);
+    let instruction = new RecallResource(vaultId, resolveDecimal(amount));
     this.instructions.push(instruction);
     return this;
   }
@@ -509,11 +529,15 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   setMetadata(
-    entityAddress: ManifestAstValue.Address,
+    entityAddress: ManifestAstValue.Address | string,
     key: ManifestAstValue.String,
     value: ManifestAstValue.Enum
   ): ManifestBuilder {
-    let instruction = new SetMetadata(entityAddress, key, value);
+    let instruction = new SetMetadata(
+      resolveAddress(entityAddress),
+      key,
+      value
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -527,10 +551,10 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   removeMetadata(
-    entityAddress: ManifestAstValue.Address,
+    entityAddress: ManifestAstValue.Address | string,
     key: ManifestAstValue.String
   ): ManifestBuilder {
-    let instruction = new RemoveMetadata(entityAddress, key);
+    let instruction = new RemoveMetadata(resolveAddress(entityAddress), key);
     this.instructions.push(instruction);
     return this;
   }
@@ -542,11 +566,11 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   setPackageRoyaltyConfig(
-    packageAddress: ManifestAstValue.Address,
+    packageAddress: ManifestAstValue.Address | string,
     royaltyConfig: ManifestAstValue.Map
   ): ManifestBuilder {
     let instruction = new SetPackageRoyaltyConfig(
-      packageAddress,
+      resolveAddress(packageAddress),
       royaltyConfig
     );
     this.instructions.push(instruction);
@@ -561,11 +585,11 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   setComponentRoyaltyConfig(
-    componentAddress: ManifestAstValue.Address,
+    componentAddress: ManifestAstValue.Address | string,
     royaltyConfig: ManifestAstValue.Tuple
   ): ManifestBuilder {
     let instruction = new SetComponentRoyaltyConfig(
-      componentAddress,
+      resolveAddress(componentAddress),
       royaltyConfig
     );
     this.instructions.push(instruction);
@@ -578,9 +602,9 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   claimPackageRoyalty(
-    packageAddress: ManifestAstValue.Address
+    packageAddress: ManifestAstValue.Address | string
   ): ManifestBuilder {
-    let instruction = new ClaimPackageRoyalty(packageAddress);
+    let instruction = new ClaimPackageRoyalty(resolveAddress(packageAddress));
     this.instructions.push(instruction);
     return this;
   }
@@ -591,9 +615,11 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   claimComponentRoyalty(
-    componentAddress: ManifestAstValue.Address
+    componentAddress: ManifestAstValue.Address | string
   ): ManifestBuilder {
-    let instruction = new ClaimComponentRoyalty(componentAddress);
+    let instruction = new ClaimComponentRoyalty(
+      resolveAddress(componentAddress)
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -606,11 +632,15 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   setMethodAccessRule(
-    entityAddress: ManifestAstValue.Address,
+    entityAddress: ManifestAstValue.Address | string,
     key: ManifestAstValue.String,
     rule: ManifestAstValue.Enum
   ): ManifestBuilder {
-    let instruction = new SetMethodAccessRule(entityAddress, key, rule);
+    let instruction = new SetMethodAccessRule(
+      resolveAddress(entityAddress),
+      key,
+      rule
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -622,10 +652,13 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   mintFungible(
-    resourceAddress: ManifestAstValue.Address,
-    amount: ManifestAstValue.Decimal
+    resourceAddress: ManifestAstValue.Address | string,
+    amount: Decimal | number | string | ManifestAstValue.Decimal
   ): ManifestBuilder {
-    let instruction = new MintFungible(resourceAddress, amount);
+    let instruction = new MintFungible(
+      resolveAddress(resourceAddress),
+      resolveDecimal(amount)
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -637,10 +670,13 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   mintNonFungible(
-    resourceAddress: ManifestAstValue.Address,
+    resourceAddress: ManifestAstValue.Address | string,
     entries: ManifestAstValue.Map
   ): ManifestBuilder {
-    let instruction = new MintNonFungible(resourceAddress, entries);
+    let instruction = new MintNonFungible(
+      resolveAddress(resourceAddress),
+      entries
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -653,10 +689,13 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   mintUuidNonFungible(
-    resourceAddress: ManifestAstValue.Address,
+    resourceAddress: ManifestAstValue.Address | string,
     entries: ManifestAstValue.Array
   ): ManifestBuilder {
-    let instruction = new MintUuidNonFungible(resourceAddress, entries);
+    let instruction = new MintUuidNonFungible(
+      resolveAddress(resourceAddress),
+      entries
+    );
     this.instructions.push(instruction);
     return this;
   }
@@ -695,13 +734,13 @@ export class ManifestBuilder {
     divisibility: ManifestAstValue.U8,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
-    initialSupply: ManifestAstValue.Decimal
+    initialSupply: Decimal | number | string | ManifestAstValue.Decimal
   ): ManifestBuilder {
     let instruction = new CreateFungibleResourceWithInitialSupply(
       divisibility,
       metadata,
       accessRules,
-      initialSupply
+      resolveDecimal(initialSupply)
     );
     this.instructions.push(instruction);
     return this;
@@ -868,3 +907,43 @@ class SequentialIdAllocator {
     return proof;
   }
 }
+
+const resolveAddress = (
+  address: string | ManifestAstValue.Address
+): ManifestAstValue.Address => {
+  if (typeof address === "string") {
+    return new ManifestAstValue.Address(address);
+  } else if (address instanceof ManifestAstValue.Address) {
+    return address;
+  } else {
+    throw new TypeError("Invalid type passed in as an address");
+  }
+};
+
+const resolveString = (
+  str: string | ManifestAstValue.String
+): ManifestAstValue.String => {
+  if (typeof str === "string") {
+    return new ManifestAstValue.String(str);
+  } else if (str instanceof ManifestAstValue.String) {
+    return str;
+  } else {
+    throw new TypeError("Invalid type passed in as an string");
+  }
+};
+
+const resolveDecimal = (
+  decimal: Decimal | number | string | ManifestAstValue.Decimal
+): ManifestAstValue.Decimal => {
+  if (decimal instanceof ManifestAstValue.Decimal) {
+    return decimal;
+  } else if (
+    typeof decimal === "number" ||
+    typeof decimal === "string" ||
+    decimal instanceof Decimal
+  ) {
+    return new ManifestAstValue.Decimal(decimal);
+  } else {
+    throw new TypeError("Invalid type passed in as an decimal");
+  }
+};
