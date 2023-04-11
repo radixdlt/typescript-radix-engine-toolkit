@@ -36,30 +36,25 @@ import {
   RadixEngineToolkit,
 } from "../../wrapper/default";
 import { PublicKey } from "../crypto";
+import { ISborValueConvertible, ScryptoSbor } from "./sbor";
 
-export type Any =
-  | Bool
-  | U8
-  | U16
-  | U32
-  | U64
-  | U128
-  | I8
-  | I16
-  | I32
-  | I64
-  | I128
-  | String
-  | Enum
-  | Array
-  | Map
-  | Tuple
-  | Address
-  | Own
-  | Decimal
-  | PreciseDecimal
-  | NonFungibleLocalId
-  | Reference;
+export abstract class Value implements ISborValueConvertible {
+  private _type: Kind;
+
+  get type(): Kind {
+    return this._type;
+  }
+
+  constructor(type: Kind) {
+    this._type = type;
+  }
+
+  abstract toString(): string;
+
+  toSborValue(): ScryptoSbor {
+    return new ScryptoSbor(this);
+  }
+}
 
 export enum Kind {
   Bool = "Bool",
@@ -86,8 +81,7 @@ export enum Kind {
   Reference = "Reference",
 }
 
-export class Bool {
-  private _type: Kind = Kind.Bool;
+export class Bool extends Value {
   private _value: boolean;
 
   public get value(): boolean {
@@ -97,11 +91,8 @@ export class Bool {
     this._value = value;
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: boolean) {
+    super(Kind.Bool);
     this._value = value;
   }
 
@@ -110,8 +101,7 @@ export class Bool {
   }
 }
 
-export class U8 {
-  private _type: Kind = Kind.U8;
+export class U8 extends Value {
   private _value: string;
 
   get value(): number {
@@ -122,11 +112,8 @@ export class U8 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.U8);
     this._value = numberToString(value);
   }
 
@@ -135,8 +122,7 @@ export class U8 {
   }
 }
 
-export class U16 {
-  private _type: Kind = Kind.U16;
+export class U16 extends Value {
   private _value: string;
 
   get value(): number {
@@ -147,11 +133,8 @@ export class U16 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.U16);
     this._value = numberToString(value);
   }
 
@@ -160,8 +143,7 @@ export class U16 {
   }
 }
 
-export class U32 {
-  private _type: Kind = Kind.U32;
+export class U32 extends Value {
   private _value: string;
 
   get value(): number {
@@ -172,11 +154,8 @@ export class U32 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.U32);
     this._value = numberToString(value);
   }
 
@@ -185,8 +164,7 @@ export class U32 {
   }
 }
 
-export class U64 {
-  private _type: Kind = Kind.U64;
+export class U64 extends Value {
   private _value: string;
 
   get value(): number {
@@ -197,11 +175,8 @@ export class U64 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.U64);
     this._value = numberToString(value);
   }
 
@@ -210,8 +185,7 @@ export class U64 {
   }
 }
 
-export class U128 {
-  private _type: Kind = Kind.U128;
+export class U128 extends Value {
   private _value: string;
 
   get value(): BigInt {
@@ -222,11 +196,8 @@ export class U128 {
     this._value = bigIntToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: BigInt) {
+    super(Kind.U128);
     this._value = bigIntToString(value);
   }
 
@@ -235,8 +206,7 @@ export class U128 {
   }
 }
 
-export class I8 {
-  private _type: Kind = Kind.I8;
+export class I8 extends Value {
   private _value: string;
 
   get value(): number {
@@ -247,11 +217,8 @@ export class I8 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.I8);
     this._value = numberToString(value);
   }
 
@@ -260,8 +227,7 @@ export class I8 {
   }
 }
 
-export class I16 {
-  private _type: Kind = Kind.I16;
+export class I16 extends Value {
   private _value: string;
 
   get value(): number {
@@ -272,11 +238,8 @@ export class I16 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.I16);
     this._value = numberToString(value);
   }
 
@@ -285,8 +248,7 @@ export class I16 {
   }
 }
 
-export class I32 {
-  private _type: Kind = Kind.I32;
+export class I32 extends Value {
   private _value: string;
 
   get value(): number {
@@ -297,11 +259,8 @@ export class I32 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.I32);
     this._value = numberToString(value);
   }
 
@@ -310,8 +269,7 @@ export class I32 {
   }
 }
 
-export class I64 {
-  private _type: Kind = Kind.I64;
+export class I64 extends Value {
   private _value: string;
 
   get value(): number {
@@ -322,11 +280,8 @@ export class I64 {
     this._value = numberToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: number) {
+    super(Kind.I64);
     this._value = numberToString(value);
   }
 
@@ -335,8 +290,7 @@ export class I64 {
   }
 }
 
-export class I128 {
-  private _type: Kind = Kind.I128;
+export class I128 extends Value {
   private _value: string;
 
   get value(): BigInt {
@@ -347,11 +301,8 @@ export class I128 {
     this._value = bigIntToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: BigInt) {
+    super(Kind.I128);
     this._value = bigIntToString(value);
   }
 
@@ -360,8 +311,7 @@ export class I128 {
   }
 }
 
-export class String {
-  private _type: Kind = Kind.String;
+export class String extends Value {
   private _value: string;
 
   public get value(): string {
@@ -371,11 +321,8 @@ export class String {
     this._value = value;
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: string) {
+    super(Kind.String);
     this._value = value;
   }
 
@@ -384,10 +331,9 @@ export class String {
   }
 }
 
-export class Enum {
-  private _type: Kind = Kind.Enum;
+export class Enum extends Value {
   private _variant: string;
-  private _fields: globalThis.Array<Any> = [];
+  private _fields: globalThis.Array<Value> = [];
 
   public get variant(): number {
     return stringToNumber(this._variant);
@@ -396,18 +342,15 @@ export class Enum {
     this._variant = numberToString(value);
   }
 
-  public get fields(): globalThis.Array<Any> {
+  public get fields(): globalThis.Array<Value> {
     return this._fields;
   }
-  public set fields(value: globalThis.Array<Any>) {
+  public set fields(value: globalThis.Array<Value>) {
     this._fields = value;
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
-  constructor(variant: number, fields: globalThis.Array<Any> = []) {
+  constructor(variant: number, fields: globalThis.Array<Value> = []) {
+    super(Kind.Enum);
     this._variant = numberToString(variant);
     this.fields = fields;
   }
@@ -417,10 +360,9 @@ export class Enum {
   }
 }
 
-export class Array {
-  private _type: Kind = Kind.Array;
+export class Array extends Value {
   private _elementKind: Kind;
-  private _elements: globalThis.Array<Any>;
+  private _elements: globalThis.Array<Value>;
 
   public get elementKind(): Kind {
     return this._elementKind;
@@ -429,18 +371,15 @@ export class Array {
     this._elementKind = value;
   }
 
-  public get elements(): globalThis.Array<Any> {
+  public get elements(): globalThis.Array<Value> {
     return this._elements;
   }
-  public set elements(value: globalThis.Array<Any>) {
+  public set elements(value: globalThis.Array<Value>) {
     this._elements = value;
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
-  constructor(elementKind: Kind, elements: globalThis.Array<Any>) {
+  constructor(elementKind: Kind, elements: globalThis.Array<Value>) {
+    super(Kind.Array);
     this._elementKind = elementKind;
     this._elements = elements;
   }
@@ -450,11 +389,10 @@ export class Array {
   }
 }
 
-export class Map {
-  private _type: Kind = Kind.Map;
+export class Map extends Value {
   private _keyValueKind: Kind;
   private _valueValueKind: Kind;
-  private _entries: globalThis.Array<[Any, Any]> = [];
+  private _entries: globalThis.Array<[Value, Value]> = [];
 
   public get keyValueKind(): Kind {
     return this._keyValueKind;
@@ -470,22 +408,19 @@ export class Map {
     this._valueValueKind = value;
   }
 
-  public get entries(): globalThis.Array<[Any, Any]> {
+  public get entries(): globalThis.Array<[Value, Value]> {
     return this._entries;
   }
-  public set entries(value: globalThis.Array<[Any, Any]>) {
+  public set entries(value: globalThis.Array<[Value, Value]>) {
     this._entries = value;
-  }
-
-  public get type(): Kind {
-    return this._type;
   }
 
   constructor(
     keyValueKind: Kind,
     valueValueKind: Kind,
-    elements: globalThis.Array<[Any, Any]> = []
+    elements: globalThis.Array<[Value, Value]> = []
   ) {
+    super(Kind.Map);
     this._keyValueKind = keyValueKind;
     this._valueValueKind = valueValueKind;
     this._entries = elements;
@@ -496,22 +431,18 @@ export class Map {
   }
 }
 
-export class Tuple {
-  private _type: Kind = Kind.Tuple;
-  private _elements: globalThis.Array<Any> = [];
+export class Tuple extends Value {
+  private _elements: globalThis.Array<Value> = [];
 
-  public get elements(): globalThis.Array<Any> {
+  public get elements(): globalThis.Array<Value> {
     return this._elements;
   }
-  public set elements(value: globalThis.Array<Any>) {
+  public set elements(value: globalThis.Array<Value>) {
     this._elements = value;
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
-  constructor(elements: globalThis.Array<Any> = []) {
+  constructor(elements: globalThis.Array<Value> = []) {
+    super(Kind.Tuple);
     this.elements = elements;
   }
 
@@ -520,8 +451,7 @@ export class Tuple {
   }
 }
 
-export class Decimal {
-  private _type: Kind = Kind.Decimal;
+export class Decimal extends Value {
   private _value: string;
 
   get value(): DecimalJs {
@@ -540,11 +470,8 @@ export class Decimal {
     }
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: DecimalJs | string | number) {
+    super(Kind.Decimal);
     if (typeof value === "string") {
       this._value = value;
     } else if (typeof value === "number") {
@@ -561,8 +488,7 @@ export class Decimal {
   }
 }
 
-export class PreciseDecimal {
-  private _type: Kind = Kind.PreciseDecimal;
+export class PreciseDecimal extends Value {
   private _value: string;
 
   get value(): DecimalJs {
@@ -581,11 +507,8 @@ export class PreciseDecimal {
     }
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: DecimalJs | string | number) {
+    super(Kind.PreciseDecimal);
     if (typeof value === "string") {
       this._value = value;
     } else if (typeof value === "number") {
@@ -602,13 +525,8 @@ export class PreciseDecimal {
   }
 }
 
-export class Address implements IAddress {
-  private _type: Kind = Kind.Address;
+export class Address extends Value implements IAddress {
   private _address: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
 
   public get address(): string {
     return this._address;
@@ -618,6 +536,7 @@ export class Address implements IAddress {
   }
 
   constructor(address: string) {
+    super(Kind.Address);
     this._address = address;
   }
 
@@ -760,16 +679,8 @@ export class Address implements IAddress {
   }
 }
 
-export class Own {
-  private _type: Kind = Kind.Own;
+export class Own extends Value {
   private _value: Bucket | Proof | Vault | ObjectNode | KeyValueStore;
-
-  public get type(): Kind {
-    return this._type;
-  }
-  public set type(value: Kind) {
-    this._type = value;
-  }
 
   public get value(): Bucket | Proof | Vault | ObjectNode | KeyValueStore {
     return this._value;
@@ -779,6 +690,7 @@ export class Own {
   }
 
   constructor(value: Bucket | Proof | Vault | ObjectNode | KeyValueStore) {
+    super(Kind.Own);
     this._value = value;
   }
 
@@ -915,8 +827,7 @@ export class KeyValueStore {
   }
 }
 
-export class NonFungibleLocalId {
-  private _type: Kind = Kind.NonFungibleLocalId;
+export class NonFungibleLocalId extends Value {
   private _value: UUID | Integer | String | Bytes;
 
   public get value(): UUID | Integer | String | Bytes {
@@ -926,11 +837,8 @@ export class NonFungibleLocalId {
     this._value = value;
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: UUID | Integer | String | Bytes) {
+    super(Kind.NonFungibleLocalId);
     this._value = value;
   }
 
@@ -1006,8 +914,7 @@ export class Bytes {
   }
 }
 
-export class Reference {
-  private _type: Kind = Kind.Reference;
+export class Reference extends Value {
   private _value: string;
 
   public get value(): Uint8Array {
@@ -1017,11 +924,8 @@ export class Reference {
     this._value = uint8ArrayToString(value);
   }
 
-  public get type(): Kind {
-    return this._type;
-  }
-
   constructor(value: Uint8Array) {
+    super(Kind.Reference);
     this._value = uint8ArrayToString(value);
   }
 

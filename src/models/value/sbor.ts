@@ -25,50 +25,62 @@ export enum Kind {
   ManifestSbor = "ManifestSbor",
 }
 
-export class ScryptoSbor {
+export class ScryptoSbor implements ISborValueConvertible {
   private _type: Kind = Kind.ScryptoSbor;
-  private _value: ScryptoSborValue.Any;
+  private _value: ScryptoSborValue.Value;
 
   public get type(): Kind {
     return this._type;
   }
 
-  public get value(): ScryptoSborValue.Any {
+  public get value(): ScryptoSborValue.Value {
     return this._value;
   }
-  public set value(value: ScryptoSborValue.Any) {
+  public set value(value: ScryptoSborValue.Value) {
     this._value = value;
   }
 
-  constructor(value: ScryptoSborValue.Any) {
+  constructor(value: ScryptoSborValue.Value) {
     this._value = value;
   }
 
   toString(): string {
     return serialize(this);
+  }
+
+  toSborValue(): ScryptoSbor | ManifestSbor {
+    return this;
   }
 }
 
-export class ManifestSbor {
+export class ManifestSbor implements ISborValueConvertible {
   private _type: Kind = Kind.ManifestSbor;
-  private _value: ManifestSborValue.Any;
+  private _value: ManifestSborValue.Value;
 
   public get type(): Kind {
     return this._type;
   }
 
-  public get value(): ManifestSborValue.Any {
+  public get value(): ManifestSborValue.Value {
     return this._value;
   }
-  public set value(value: ManifestSborValue.Any) {
+  public set value(value: ManifestSborValue.Value) {
     this._value = value;
   }
 
-  constructor(value: ManifestSborValue.Any) {
+  constructor(value: ManifestSborValue.Value) {
     this._value = value;
   }
 
   toString(): string {
     return serialize(this);
   }
+
+  toSborValue(): ScryptoSbor | ManifestSbor {
+    return this;
+  }
+}
+
+export interface ISborValueConvertible {
+  toSborValue: () => ScryptoSbor | ManifestSbor;
 }

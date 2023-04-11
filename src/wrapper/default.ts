@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { ISborValueConvertible } from "models/value/sbor";
 import {
   AnalyzeManifestRequest,
   ConvertManifestRequest,
@@ -31,10 +32,12 @@ import {
   InformationRequest,
   InstructionList,
   KnownEntityAddressesRequest,
+  ManifestSborValue,
   NotarizedTransaction,
   PublicKey,
   SborDecodeRequest,
   SborValue,
+  ScryptoSborValue,
   SignedTransactionIntent,
   StaticallyValidateTransactionRequest,
   StaticallyValidateTransactionResponseInvalid,
@@ -288,9 +291,8 @@ export class RadixEngineToolkit {
    * @param value The value to SBOR encode.
    * @returns The SBOR encoded value
    */
-  static async sborEncode(value: SborValue.Any): Promise<Uint8Array> {
-    // TODO: Refactor so that this takes in any ManifestSborValue or ScryptoSborValue
-    return RawRadixEngineToolkit.sborEncode(value).then(
+  static async sborEncode(value: ISborValueConvertible): Promise<Uint8Array> {
+    return RawRadixEngineToolkit.sborEncode(value.toSborValue()).then(
       ({ encodedValue }) => encodedValue
     );
   }
@@ -416,6 +418,13 @@ export class RadixEngineToolkit {
     );
   }
 
+  /**
+   * Performs static validation on the passed transaction and determines its validity.
+   * @param notarizedTransaction A compiled or un-compiled notarized transaction to statically
+   * validate
+   * @param validationConfig The configuration to use for validation
+   * @returns The validity of the passed transaction.
+   */
   static async staticallyValidateTransaction(
     notarizedTransaction: Uint8Array | NotarizedTransaction,
     validationConfig: ValidationConfig
@@ -444,6 +453,60 @@ export class RadixEngineToolkit {
         return { isValid: true, errorMessage: undefined };
       }
     });
+  }
+
+  //================
+  // No 1:1 Mapping
+  //================
+
+  /**
+   * The equivalent of the Rust `scrypto_decode`. This function decodes a given payload using the
+   * Scrypto SBOR flavor.
+   * @param encodedValue A `Uint8Array` or hex-encoded string of the bytes of the SBOR encoded value
+   * @param networkId The ID the network that this SBOR value is meant for. This is primarily used
+   * for the Bech32m encoding of addresses
+   * @returns A `ScryptoSborValue` SBOR Value
+   */
+  static async ScryptoDecode(
+    encodedValue: Uint8Array | string,
+    networkId: number
+  ): Promise<ScryptoSborValue.Value> {
+    return RadixEngineToolkit.sborDecode(encodedValue, networkId).then(
+      (sborValue) => {
+        if (sborValue instanceof SborValue.ScryptoSbor) {
+          return sborValue.value;
+        } else {
+          throw new TypeError(
+            `Passed SBOR payload is not of the Scrypto SBOR flavor`
+          );
+        }
+      }
+    );
+  }
+
+  /**
+   * The equivalent of the Rust `manifest_decode`. This function decodes a given payload using the
+   * manifest SBOR flavor.
+   * @param encodedValue A `Uint8Array` or hex-encoded string of the bytes of the SBOR encoded value
+   * @param networkId The ID the network that this SBOR value is meant for. This is primarily used
+   * for the Bech32m encoding of addresses
+   * @returns A `ManifestSborValue` SBOR Value
+   */
+  static async manifestDecode(
+    encodedValue: Uint8Array | string,
+    networkId: number
+  ): Promise<ManifestSborValue.Value> {
+    return RadixEngineToolkit.sborDecode(encodedValue, networkId).then(
+      (sborValue) => {
+        if (sborValue instanceof SborValue.ManifestSbor) {
+          return sborValue.value;
+        } else {
+          throw new TypeError(
+            `Passed SBOR payload is not of the Manifest SBOR flavor`
+          );
+        }
+      }
+    );
   }
 }
 

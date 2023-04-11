@@ -116,7 +116,7 @@ export class CallFunction {
   private _packageAddress: ManifestAstValue.Address;
   private _blueprintName: ManifestAstValue.String;
   private _functionName: ManifestAstValue.String;
-  private _arguments: Array<ManifestAstValue.Any> | null;
+  private _arguments: Array<ManifestAstValue.Value> | null;
 
   public get instruction(): Kind {
     return this._instruction;
@@ -177,7 +177,7 @@ export class CallFunction {
    * An optional array of `ManifestAstValue` arguments to call the function with. If this array is
    * empty or is not provided, then the function is called with no arguments.
    */
-  public set arguments(value: Array<ManifestAstValue.Any> | null) {
+  public set arguments(value: Array<ManifestAstValue.Value> | null) {
     this._arguments = value;
   }
 
@@ -185,7 +185,7 @@ export class CallFunction {
     packageAddress: ManifestAstValue.Address,
     blueprintName: ManifestAstValue.String,
     functionName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Any> | null = null
+    args: Array<ManifestAstValue.Value> | null = null
   ) {
     this._packageAddress = packageAddress;
     this._blueprintName = blueprintName;
@@ -206,7 +206,7 @@ export class CallMethod {
   private _instruction: Kind = Kind.CallMethod;
   private _componentAddress: ManifestAstValue.Address;
   private _methodName: ManifestAstValue.String;
-  private _arguments: Array<ManifestAstValue.Any> | null;
+  private _arguments: Array<ManifestAstValue.Value> | null;
 
   public get instruction(): Kind {
     return this._instruction;
@@ -252,14 +252,14 @@ export class CallMethod {
    * An optional array of `ManifestAstValue` arguments to call the method with. If this array is
    * empty or is not provided, then the method is called with no arguments.
    */
-  public set arguments(value: Array<ManifestAstValue.Any> | null) {
+  public set arguments(value: Array<ManifestAstValue.Value> | null) {
     this._arguments = value;
   }
 
   constructor(
     componentAddress: ManifestAstValue.Address,
     methodName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Any> | null = null
+    args: Array<ManifestAstValue.Value> | null = null
   ) {
     this._componentAddress = componentAddress;
     this._methodName = methodName;
@@ -1101,7 +1101,7 @@ export class PublishPackage {
   private _schema: ManifestAstValue.Blob;
   private _royaltyConfig: ManifestAstValue.Tuple;
   private _metadata: ManifestAstValue.Map;
-  private _accessRules: ManifestAstValue.Any;
+  private _accessRules: ManifestAstValue.Value;
 
   public get instruction(): Kind {
     return this._instruction;
@@ -1179,7 +1179,7 @@ export class PublishPackage {
    * The access rules to use for the package. This is serialized as a `Tuple` from the
    * ManifestAstValue model.
    */
-  public set accessRules(value: ManifestAstValue.Any) {
+  public set accessRules(value: ManifestAstValue.Value) {
     this._accessRules = value;
   }
 
@@ -1188,7 +1188,7 @@ export class PublishPackage {
     schema: ManifestAstValue.Blob,
     royaltyConfig: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
-    accessRules: ManifestAstValue.Any
+    accessRules: ManifestAstValue.Value
   ) {
     this._code = code;
     this._schema = schema;
@@ -2098,7 +2098,7 @@ export class CreateNonFungibleResourceWithInitialSupply {
   private _schema: ManifestAstValue.Blob;
   private _metadata: ManifestAstValue.Map;
   private _accessRules: ManifestAstValue.Map;
-  private _initialSupply: ManifestAstValue.Any;
+  private _initialSupply: ManifestAstValue.Value;
 
   public get instruction(): Kind {
     return this._instruction;
@@ -2176,7 +2176,7 @@ export class CreateNonFungibleResourceWithInitialSupply {
    * this is a map which maps a `NonFungibleLocalId` to a tuple of two `ManifestAstValue` elements
    * where each element is a struct of the immutable and mutable parts of the non-fungible data.
    */
-  public set initialSupply(value: ManifestAstValue.Any) {
+  public set initialSupply(value: ManifestAstValue.Value) {
     this._initialSupply = value;
   }
 
@@ -2185,7 +2185,7 @@ export class CreateNonFungibleResourceWithInitialSupply {
     schema: ManifestAstValue.Blob,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
-    initialSupply: ManifestAstValue.Any
+    initialSupply: ManifestAstValue.Value
   ) {
     this._idType = idType;
     this._schema = schema;

@@ -94,7 +94,7 @@ export class ManifestBuilder {
     packageAddress: ManifestAstValue.Address | string,
     blueprintName: ManifestAstValue.String | string,
     functionName: ManifestAstValue.String | string,
-    args: Array<ManifestAstValue.Any> | null
+    args: Array<ManifestAstValue.Value> | null
   ): ManifestBuilder {
     let instruction = new CallFunction(
       resolveAddress(packageAddress),
@@ -119,7 +119,7 @@ export class ManifestBuilder {
   callMethod(
     componentAddress: ManifestAstValue.Address | string,
     methodName: ManifestAstValue.String | string,
-    args: Array<ManifestAstValue.Any> | null
+    args: Array<ManifestAstValue.Value> | null
   ): ManifestBuilder {
     let instruction = new CallMethod(
       resolveAddress(componentAddress),
@@ -478,7 +478,7 @@ export class ManifestBuilder {
     schema: Uint8Array | string,
     royaltyConfig: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
-    accessRules: ManifestAstValue.Any
+    accessRules: ManifestAstValue.Value
   ): ManifestBuilder {
     let instruction = new PublishPackage(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
@@ -784,7 +784,7 @@ export class ManifestBuilder {
     schema: ManifestAstValue.Blob,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
-    initialSupply: ManifestAstValue.Any
+    initialSupply: ManifestAstValue.Value
   ): ManifestBuilder {
     let instruction = new CreateNonFungibleResourceWithInitialSupply(
       idType,
