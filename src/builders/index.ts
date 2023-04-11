@@ -15,5 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
+export { ActionTransactionBuilder } from "./action_transaction_builder";
 export { ManifestBuilder } from "./manifest_builder";
 export { TransactionBuilder } from "./transaction_builder";

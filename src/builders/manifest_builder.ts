@@ -854,7 +854,7 @@ class SequentialIdAllocator {
 
   newBucket(): ManifestAstValue.Bucket {
     let bucket = new ManifestAstValue.Bucket(
-      new ManifestAstValue.U32(this.bucketId)
+      new ManifestAstValue.String(`bucket${this.bucketId}`)
     );
     this.bucketId++;
     return bucket;
@@ -862,7 +862,7 @@ class SequentialIdAllocator {
 
   newProof(): ManifestAstValue.Proof {
     let proof = new ManifestAstValue.Proof(
-      new ManifestAstValue.U32(this.proofId)
+      new ManifestAstValue.String(`proof${this.proofId}`)
     );
     this.proofId++;
     return proof;
