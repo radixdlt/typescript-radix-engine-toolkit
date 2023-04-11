@@ -56,3 +56,13 @@ export class BaseAddress {
     return RadixEngineToolkit.decodeAddress(this.address);
   }
 }
+
+// TODO: Document
+export interface IAddress {
+  address: string;
+  networkId: () => Promise<number>;
+  networkName: () => Promise<string>;
+  entityType: () => Promise<EntityAddress.EntityType>;
+  data: () => Promise<Uint8Array>;
+  hrp: () => Promise<string>;
+}

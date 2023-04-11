@@ -15,10 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-// TODO: Add to string methods
 // TODO: Convert U64 and I64 to use BigInt
 
-import { BaseAddress } from "../../base";
+import { EntityAddress } from "..";
+import { IAddress } from "../../base/base_address";
 import {
   bigIntToString,
   numberToString,
@@ -29,6 +29,12 @@ import {
   stringToUint8Array,
   uint8ArrayToString,
 } from "../../utils";
+import {
+  AddressBook,
+  AddressInformation,
+  RadixEngineToolkit,
+} from "../../wrapper/default";
+import { PublicKey } from "../crypto";
 
 export type Any =
   | Bool
@@ -567,15 +573,157 @@ export class PreciseDecimal {
   }
 }
 
-export class Address extends BaseAddress {
+export class Address implements IAddress {
   private _type: Kind = Kind.Address;
+  private _address: string;
 
   public get type(): Kind {
     return this._type;
   }
 
+  public get address(): string {
+    return this._address;
+  }
+  public set address(value: string) {
+    this._address = value;
+  }
+
   constructor(address: string) {
-    super(address);
+    this._address = address;
+  }
+
+  static async virtualAccountAddress(
+    publicKey: PublicKey.Any,
+    networkId: number
+  ): Promise<Address> {
+    return RadixEngineToolkit.deriveVirtualAccountAddress(
+      publicKey,
+      networkId
+    ).then((address) => new Address(address));
+  }
+
+  static async virtualIdentityAddress(
+    publicKey: PublicKey.Any,
+    networkId: number
+  ): Promise<Address> {
+    return RadixEngineToolkit.deriveVirtualIdentityAddress(
+      publicKey,
+      networkId
+    ).then((address) => new Address(address));
+  }
+
+  static async fromOlympiaAccountAddress(
+    olympiaAccountAddress: string,
+    networkId: number
+  ): Promise<Address> {
+    return RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
+      olympiaAccountAddress,
+      networkId
+    ).then(({ babylonAccountAddress }) => new Address(babylonAccountAddress));
+  }
+
+  static async decode(
+    bytes: Uint8Array | string,
+    networkId: number
+  ): Promise<Address> {
+    return RadixEngineToolkit.encodeAddress(bytes, networkId).then(
+      (response) => new Address(response)
+    );
+  }
+
+  static async faucetComponentAddress(networkId: number): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ faucetComponentAddress }) => faucetComponentAddress)
+      .then((address) => new Address(address));
+  }
+  static async faucetPackageAddress(networkId: number): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ faucetPackageAddress }) => faucetPackageAddress)
+      .then((address) => new Address(address));
+  }
+  static async accountPackageAddress(networkId: number): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ accountPackageAddress }) => accountPackageAddress)
+      .then((address) => new Address(address));
+  }
+  static async xrdResourceAddress(networkId: number): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ xrdResourceAddress }) => xrdResourceAddress)
+      .then((address) => new Address(address));
+  }
+  static async systemTokenResourceAddress(networkId: number): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ systemTokenResourceAddress }) => systemTokenResourceAddress)
+      .then((address) => new Address(address));
+  }
+  static async ecdsaSecp256k1TokenResourceAddress(
+    networkId: number
+  ): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(
+        ({ ecdsaSecp256k1TokenResourceAddress }) =>
+          ecdsaSecp256k1TokenResourceAddress
+      )
+      .then((address) => new Address(address));
+  }
+  static async eddsaEd25519TokenResourceAddress(
+    networkId: number
+  ): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(
+        ({ eddsaEd25519TokenResourceAddress }) =>
+          eddsaEd25519TokenResourceAddress
+      )
+      .then((address) => new Address(address));
+  }
+  static async packageTokenResourceAddress(
+    networkId: number
+  ): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ packageTokenResourceAddress }) => packageTokenResourceAddress)
+      .then((address) => new Address(address));
+  }
+  static async epochManagerComponentAddress(
+    networkId: number
+  ): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ epochManagerComponentAddress }) => epochManagerComponentAddress)
+      .then((address) => new Address(address));
+  }
+  static async clockComponentAddress(networkId: number): Promise<Address> {
+    return Address.knownEntityAddresses(networkId)
+      .then(({ clockComponentAddress }) => clockComponentAddress)
+      .then((address) => new Address(address));
+  }
+
+  async networkId(): Promise<number> {
+    return (await this.addressInformation()).networkId;
+  }
+
+  async networkName(): Promise<string> {
+    return (await this.addressInformation()).networkName;
+  }
+
+  async entityType(): Promise<EntityAddress.EntityType> {
+    return (await this.addressInformation()).entityType;
+  }
+
+  async data(): Promise<Uint8Array> {
+    return (await this.addressInformation()).data;
+  }
+
+  async hrp(): Promise<string> {
+    return (await this.addressInformation()).hrp;
+  }
+
+  private static async knownEntityAddresses(
+    networkId: number
+  ): Promise<AddressBook> {
+    return RadixEngineToolkit.knownEntityAddresses(networkId);
+  }
+
+  private async addressInformation(): Promise<AddressInformation> {
+    return RadixEngineToolkit.decodeAddress(this.address);
   }
 
   toString(): string {

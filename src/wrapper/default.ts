@@ -503,7 +503,7 @@ export interface OlympiaToBabylonAddressMapping {
   babylonAccountAddress: string;
 }
 
-interface AddressBook {
+export interface AddressBook {
   /**
    * The address of the Faucet
    */
