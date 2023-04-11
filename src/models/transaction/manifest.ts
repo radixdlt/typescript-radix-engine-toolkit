@@ -16,7 +16,7 @@
 // under the License.
 
 import { InstructionList } from ".";
-import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
 
 export class TransactionManifest {
   private _instructions: InstructionList.Any;
@@ -42,5 +42,9 @@ export class TransactionManifest {
   ) {
     this._instructions = instructions;
     this._blobs = blobs.map(uint8ArrayToString);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

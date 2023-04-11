@@ -16,7 +16,7 @@
 // under the License.
 
 import { InstructionList, TransactionManifest } from "../../models/transaction";
-import { numberToString, stringToNumber } from "../../utils";
+import { numberToString, serialize, stringToNumber } from "../../utils";
 
 /**
  * Clients have a need to be able to read, parse, understand, and interrogate transaction manifests
@@ -85,6 +85,10 @@ export class ConvertManifestRequest {
     this._networkId = numberToString(networkId);
     this._instructionsOutputKind = instructionsOutputKind;
     this._manifest = manifest;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 

@@ -16,6 +16,7 @@
 // under the License.
 
 import { BaseAddress } from "../base";
+import { serialize } from "../utils";
 
 export type Any = ComponentAddress | ResourceAddress | PackageAddress;
 
@@ -35,6 +36,10 @@ export class ComponentAddress extends BaseAddress {
   constructor(address: string) {
     super(address);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class ResourceAddress extends BaseAddress {
@@ -47,6 +52,10 @@ export class ResourceAddress extends BaseAddress {
   constructor(address: string) {
     super(address);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class PackageAddress extends BaseAddress {
@@ -58,6 +67,10 @@ export class PackageAddress extends BaseAddress {
 
   constructor(address: string) {
     super(address);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 

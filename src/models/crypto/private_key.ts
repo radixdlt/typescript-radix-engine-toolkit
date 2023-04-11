@@ -20,7 +20,7 @@ import { sha512 } from "@noble/hashes/sha512";
 import { blake2b } from "blakejs";
 import { ecdsaSign, publicKeyCreate } from "secp256k1";
 import { PublicKey, Signature, SignatureWithPublicKey } from ".";
-import { uint8ArrayToString } from "../../utils";
+import { serialize, uint8ArrayToString } from "../../utils";
 
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
@@ -57,6 +57,10 @@ export class EcdsaSecp256k1 implements IPrivateKey {
     data: Uint8Array
   ): SignatureWithPublicKey.EcdsaSecp256k1 {
     return new SignatureWithPublicKey.EcdsaSecp256k1(this.sign(data));
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -96,6 +100,10 @@ export class EddsaEd25519 implements IPrivateKey {
       this.sign(data),
       this.publicKeyBytes()
     );
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 

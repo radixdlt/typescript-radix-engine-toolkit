@@ -18,6 +18,7 @@
 import { EntityAddress } from "../../models";
 import {
   numberToString,
+  serialize,
   stringToNumber,
   stringToUint8Array,
   uint8ArrayToString,
@@ -44,6 +45,10 @@ export class EncodeAddressRequest {
   constructor(addressBytes: Uint8Array, networkId: number) {
     this._addressBytes = uint8ArrayToString(addressBytes);
     this._networkId = numberToString(networkId);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 

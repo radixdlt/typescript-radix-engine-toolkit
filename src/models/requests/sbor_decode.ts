@@ -18,6 +18,7 @@
 import { SborValue } from "models/value";
 import {
   numberToString,
+  serialize,
   stringToNumber,
   stringToUint8Array,
   uint8ArrayToString,
@@ -44,6 +45,10 @@ export class SborDecodeRequest {
   constructor(encodedValue: Uint8Array, networkId: number) {
     this._encodedValue = uint8ArrayToString(encodedValue);
     this._networkId = numberToString(networkId);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 

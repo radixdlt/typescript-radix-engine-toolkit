@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { numberToString, stringToNumber } from "../../utils";
+import { numberToString, serialize, stringToNumber } from "../../utils";
 import { PublicKey } from "../crypto";
 
 /**
@@ -183,5 +183,9 @@ export class TransactionHeader {
     this._notaryAsSignatory = notaryAsSignatory;
     this._costUnitLimit = numberToString(costUnitLimit);
     this._tipPercentage = numberToString(tipPercentage);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

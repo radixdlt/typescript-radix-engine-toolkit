@@ -20,7 +20,7 @@ import {
   SignedTransactionIntent,
   TransactionIntent,
 } from "../../models/transaction";
-import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
 import { DecompileNotarizedTransactionIntentResponse } from "./decompile_notarized_transaction_intent";
 import { DecompileSignedTransactionIntentResponse } from "./decompile_signed_transaction_intent";
 import { DecompileTransactionIntentResponse } from "./decompile_transaction_intent";
@@ -49,6 +49,10 @@ export class DecompileUnknownTransactionIntentRequest {
   ) {
     this._instructionsOutputKind = instructionsOutputKind;
     this._compiledUnknownIntent = uint8ArrayToString(compiledUnknownIntent);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -102,5 +106,9 @@ export class DecompileUnknownTransactionIntentResponse {
       this._type =
         DecompileUnknownTransactionIntentResponseKind.NotarizedTransactionIntent;
     }
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

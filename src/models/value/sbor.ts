@@ -16,6 +16,7 @@
 // under the License.
 
 import { ManifestSborValue, ScryptoSborValue } from ".";
+import { serialize } from "../../utils";
 
 export type Any = ScryptoSbor | ManifestSbor;
 
@@ -42,6 +43,10 @@ export class ScryptoSbor {
   constructor(value: ScryptoSborValue.Any) {
     this._value = value;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class ManifestSbor {
@@ -61,5 +66,9 @@ export class ManifestSbor {
 
   constructor(value: ManifestSborValue.Any) {
     this._value = value;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

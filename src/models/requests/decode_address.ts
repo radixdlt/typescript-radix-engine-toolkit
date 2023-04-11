@@ -18,6 +18,7 @@
 import { EntityAddress } from "../../";
 import {
   numberToString,
+  serialize,
   stringToNumber,
   stringToUint8Array,
   uint8ArrayToString,
@@ -92,5 +93,9 @@ export class DecodeAddressResponse {
     this._entityType = entityType;
     this._data = uint8ArrayToString(data);
     this._hrp = hrp;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

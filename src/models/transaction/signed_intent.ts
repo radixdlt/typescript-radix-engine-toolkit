@@ -18,7 +18,7 @@
 import { InstructionList, TransactionIntent } from ".";
 import { SignatureWithPublicKey } from "../../models/crypto";
 import { DecompileSignedTransactionIntentRequest } from "../../models/requests";
-import { hash } from "../../utils";
+import { hash, serialize } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class SignedTransactionIntent {
@@ -71,5 +71,9 @@ export class SignedTransactionIntent {
 
   async signedIntentHash(): Promise<Uint8Array> {
     return this.compile().then(hash);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

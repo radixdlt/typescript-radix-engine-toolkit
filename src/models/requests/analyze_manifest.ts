@@ -16,7 +16,7 @@
 // under the License.
 
 import { EntityAddress, TransactionManifest } from "../../models";
-import { numberToString, stringToNumber } from "../../utils";
+import { numberToString, serialize, stringToNumber } from "../../utils";
 
 export class AnalyzeManifestRequest {
   private _networkId: string;
@@ -39,6 +39,10 @@ export class AnalyzeManifestRequest {
   constructor(networkId: number, transactionManifest: TransactionManifest) {
     this._networkId = numberToString(networkId);
     this._transactionManifest = transactionManifest;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -116,5 +120,9 @@ export class AnalyzeManifestResponse {
     this._accountsRequiringAuth = accountsRequiringAuth;
     this._accountsWithdrawnFrom = accountsWithdrawnFrom;
     this._accountsDepositedInto = accountsDepositedInto;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

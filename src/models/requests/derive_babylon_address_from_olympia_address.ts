@@ -16,7 +16,7 @@
 // under the License.
 
 import { EntityAddress, PublicKey } from "..";
-import { numberToString, stringToNumber } from "../../utils";
+import { numberToString, serialize, stringToNumber } from "../../utils";
 
 export class DeriveBabylonAddressFromOlympiaAddressRequest {
   private _networkId: string;
@@ -39,6 +39,10 @@ export class DeriveBabylonAddressFromOlympiaAddressRequest {
   constructor(networkId: number, olympiaAccountAddress: string) {
     this._networkId = numberToString(networkId);
     this._olympiaAccountAddress = olympiaAccountAddress;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -66,5 +70,9 @@ export class DeriveBabylonAddressFromOlympiaAddressResponse {
   ) {
     this._babylonAccountAddress = babylonAccountAddress;
     this._publicKey = publicKey;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

@@ -17,6 +17,7 @@
 
 import {
   numberToString,
+  serialize,
   stringToNumber,
   stringToUint8Array,
   uint8ArrayToString,
@@ -98,6 +99,10 @@ export class ValidationConfig {
       100
     );
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class StaticallyValidateTransactionRequest {
@@ -125,6 +130,10 @@ export class StaticallyValidateTransactionRequest {
     this._compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
     this._validationConfig = validationConfig;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export type StaticallyValidateTransactionResponse =
@@ -141,6 +150,10 @@ export class StaticallyValidateTransactionResponseValid {
     StaticallyValidateTransactionResponseKind.Valid;
 
   constructor() {}
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class StaticallyValidateTransactionResponseInvalid {
@@ -157,5 +170,9 @@ export class StaticallyValidateTransactionResponseInvalid {
 
   constructor(error: string) {
     this._error = error;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

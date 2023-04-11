@@ -16,7 +16,7 @@
 // under the License.
 
 import { EntityAddress } from "../../models";
-import { numberToString, stringToNumber } from "../../utils";
+import { numberToString, serialize, stringToNumber } from "../../utils";
 
 export class KnownEntityAddressesRequest {
   private _networkId: string;
@@ -153,5 +153,9 @@ export class KnownEntityAddressesResponse {
     this._packageTokenResourceAddress = packageTokenResourceAddress;
     this._epochManagerSystemAddress = epochManagerSystemAddress;
     this._clockSystemAddress = clockSystemAddress;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

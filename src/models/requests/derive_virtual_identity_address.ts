@@ -16,7 +16,7 @@
 // under the License.
 
 import { EntityAddress } from "..";
-import { numberToString, stringToNumber } from "../../utils";
+import { numberToString, serialize, stringToNumber } from "../../utils";
 import { PublicKey } from "../crypto";
 
 export class DeriveVirtualIdentityAddressRequest {
@@ -41,6 +41,10 @@ export class DeriveVirtualIdentityAddressRequest {
     this._networkId = numberToString(networkId);
     this._publicKey = publicKey;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class DeriveVirtualIdentityAddressResponse {
@@ -55,5 +59,9 @@ export class DeriveVirtualIdentityAddressResponse {
 
   constructor(virtualIdentityAddress: EntityAddress.ComponentAddress) {
     this._virtualIdentityAddress = virtualIdentityAddress;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

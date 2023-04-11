@@ -17,7 +17,7 @@
 
 import { InstructionList, TransactionHeader, TransactionManifest } from ".";
 import { DecompileTransactionIntentRequest } from "../../models/requests";
-import { hash } from "../../utils";
+import { hash, serialize } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class TransactionIntent {
@@ -63,5 +63,9 @@ export class TransactionIntent {
 
   async transactionId(): Promise<Uint8Array> {
     return this.compile().then(hash);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

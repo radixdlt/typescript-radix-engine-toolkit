@@ -22,6 +22,7 @@ import { BaseAddress } from "../../base";
 import {
   bigIntToString,
   numberToString,
+  serialize,
   stringToBigInt,
   stringToNumber,
   stringToUint8Array,
@@ -111,6 +112,10 @@ export class Bool {
   constructor(value: boolean) {
     this._value = value;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class U8 {
@@ -131,6 +136,10 @@ export class U8 {
 
   constructor(value: number) {
     this._value = numberToString(value);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -153,6 +162,10 @@ export class U16 {
   constructor(value: number) {
     this._value = numberToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class U32 {
@@ -173,6 +186,10 @@ export class U32 {
 
   constructor(value: number) {
     this._value = numberToString(value);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -195,6 +212,10 @@ export class U64 {
   constructor(value: number) {
     this._value = numberToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class U128 {
@@ -215,6 +236,10 @@ export class U128 {
 
   constructor(value: BigInt) {
     this._value = bigIntToString(value);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -237,6 +262,10 @@ export class I8 {
   constructor(value: number) {
     this._value = numberToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class I16 {
@@ -257,6 +286,10 @@ export class I16 {
 
   constructor(value: number) {
     this._value = numberToString(value);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -279,6 +312,10 @@ export class I32 {
   constructor(value: number) {
     this._value = numberToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class I64 {
@@ -299,6 +336,10 @@ export class I64 {
 
   constructor(value: number) {
     this._value = numberToString(value);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -321,6 +362,10 @@ export class I128 {
   constructor(value: BigInt) {
     this._value = bigIntToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class String {
@@ -340,6 +385,10 @@ export class String {
 
   constructor(value: string) {
     this._value = value;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -370,6 +419,10 @@ export class Enum {
     this._variant = variant;
     this.fields = fields;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 // TODO: Remove once toolkit uses regular U8 and String for the discriminator
@@ -392,6 +445,10 @@ export class EnumStringDiscriminator {
 
   constructor(discriminator: string) {
     this._discriminator = discriminator;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -421,6 +478,10 @@ export class EnumU8Discriminator {
   constructor(value: number) {
     this._discriminator = numberToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class Some {
@@ -440,6 +501,10 @@ export class Some {
 
   constructor(value: Any) {
     this._value = value;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -471,6 +536,10 @@ export class Ok {
   constructor(value: Any) {
     this._value = value;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class Err {
@@ -490,6 +559,10 @@ export class Err {
 
   constructor(value: Any) {
     this._value = value;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -519,6 +592,10 @@ export class Array {
   constructor(elementKind: Kind, elements: globalThis.Array<Any>) {
     this._elementKind = elementKind;
     this._elements = elements;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -562,6 +639,10 @@ export class Map {
     this._valueValueKind = valueValueKind;
     this._entries = elements;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class Tuple {
@@ -581,6 +662,10 @@ export class Tuple {
 
   constructor(elements: globalThis.Array<Any> = []) {
     this.elements = elements;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -603,6 +688,10 @@ export class Decimal {
   constructor(value: BigInt) {
     this._value = bigIntToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class PreciseDecimal {
@@ -624,6 +713,10 @@ export class PreciseDecimal {
   constructor(value: BigInt) {
     this._value = bigIntToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 // TODO: implement an address base class for the functionalities needed for this.
@@ -636,6 +729,10 @@ export class Address extends BaseAddress {
 
   constructor(address: string) {
     super(address);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -657,6 +754,10 @@ export class Bucket {
   constructor(identifier: String | U32) {
     this._identifier = identifier;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class Proof {
@@ -676,6 +777,10 @@ export class Proof {
 
   constructor(identifier: String | U32) {
     this._identifier = identifier;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -705,6 +810,10 @@ export class Expression {
   static entireAuthZone(): Expression {
     return new Expression("ENTIRE_AUTH_ZONE");
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class NonFungibleLocalId {
@@ -724,6 +833,10 @@ export class NonFungibleLocalId {
 
   constructor(value: UUID | Integer | String | Bytes) {
     this._value = value;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -757,6 +870,10 @@ export class NonFungibleGlobalId {
     this._resourceAddress = resourceAddress;
     this._nonFungibleLocalId = nonFungibleLocalId;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class Integer {
@@ -774,6 +891,10 @@ export class Integer {
   constructor(value: number) {
     this._value = numberToString(value);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class UUID {
@@ -790,6 +911,10 @@ export class UUID {
 
   constructor(value: BigInt) {
     this._value = bigIntToString(value);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -812,6 +937,10 @@ export class Blob {
   constructor(hash: Uint8Array) {
     this._hash = uint8ArrayToString(hash);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class Bytes {
@@ -832,5 +961,9 @@ export class Bytes {
 
   constructor(value: Uint8Array) {
     this._value = uint8ArrayToString(value);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

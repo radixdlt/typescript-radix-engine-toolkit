@@ -18,7 +18,7 @@
 import { InstructionList, SignedTransactionIntent } from ".";
 import { Signature } from "../../models/crypto";
 import { DecompileNotarizedTransactionIntentRequest } from "../../models/requests";
-import { hash } from "../../utils";
+import { hash, serialize } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class NotarizedTransaction {
@@ -75,5 +75,9 @@ export class NotarizedTransaction {
 
   async notarizedIntentHash(): Promise<Uint8Array> {
     return this.compile().then(hash);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

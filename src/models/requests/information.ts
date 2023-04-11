@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
 
 /**
  * The request provides information on the currently in-use radix engine toolkit such as the version
@@ -58,5 +58,9 @@ export class InformationResponse {
   constructor(packageVersion: string, lastCommitHash: string) {
     this._packageVersion = packageVersion;
     this._lastCommitHash = lastCommitHash;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

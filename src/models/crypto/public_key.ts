@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
 import { Curve } from "./curve";
 
 export type Any = EcdsaSecp256k1 | EddsaEd25519;
@@ -38,6 +38,10 @@ export class EcdsaSecp256k1 {
   constructor(publicKey: Uint8Array) {
     this._publicKey = uint8ArrayToString(publicKey);
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class EddsaEd25519 {
@@ -57,5 +61,9 @@ export class EddsaEd25519 {
 
   constructor(publicKey: Uint8Array) {
     this._publicKey = uint8ArrayToString(publicKey);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

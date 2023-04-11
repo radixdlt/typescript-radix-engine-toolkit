@@ -16,6 +16,7 @@
 // under the License.
 
 import { ManifestAstValue } from "models/value";
+import { serialize } from "../../utils";
 
 export type Instruction =
   | CallFunction
@@ -191,6 +192,10 @@ export class CallFunction {
     this._functionName = functionName;
     this._arguments = args;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -260,6 +265,10 @@ export class CallMethod {
     this._methodName = methodName;
     this._arguments = args;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -310,6 +319,10 @@ export class TakeFromWorktop {
   ) {
     this._resourceAddress = resourceAddress;
     this._intoBucket = intoBucket;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -380,6 +393,10 @@ export class TakeFromWorktopByAmount {
     this._amount = amount;
     this._intoBucket = intoBucket;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -449,6 +466,10 @@ export class TakeFromWorktopByIds {
     this._ids = ids;
     this._intoBucket = intoBucket;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -476,6 +497,10 @@ export class ReturnToWorktop {
 
   constructor(bucket: ManifestAstValue.Bucket) {
     this._bucket = bucket;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -506,6 +531,10 @@ export class AssertWorktopContains {
 
   constructor(resourceAddress: ManifestAstValue.Address) {
     this._resourceAddress = resourceAddress;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -558,6 +587,10 @@ export class AssertWorktopContainsByAmount {
     this._resourceAddress = resourceAddress;
     this._amount = amount;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -608,6 +641,10 @@ export class AssertWorktopContainsByIds {
     this._resourceAddress = resourceAddress;
     this._ids = ids;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -638,6 +675,10 @@ export class PopFromAuthZone {
   constructor(intoProof: ManifestAstValue.Proof) {
     this._intoProof = intoProof;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -667,6 +708,10 @@ export class PushToAuthZone {
 
   constructor(proof: ManifestAstValue.Proof) {
     this._proof = proof;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -743,6 +788,10 @@ export class CreateProofFromAuthZone {
     this._resourceAddress = resourceAddress;
     this._intoProof = intoProof;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -810,6 +859,10 @@ export class CreateProofFromAuthZoneByAmount {
     this._resourceAddress = resourceAddress;
     this._amount = amount;
     this._intoProof = intoProof;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -880,6 +933,10 @@ export class CreateProofFromAuthZoneByIds {
     this._ids = ids;
     this._intoProof = intoProof;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -929,6 +986,10 @@ export class CreateProofFromBucket {
   ) {
     this._bucket = bucket;
     this._intoProof = intoProof;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -980,6 +1041,10 @@ export class CloneProof {
     this._proof = proof;
     this._intoProof = intoProof;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1007,6 +1072,10 @@ export class DropProof {
 
   constructor(proof: ManifestAstValue.Proof) {
     this._proof = proof;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1127,6 +1196,10 @@ export class PublishPackage {
     this._metadata = metadata;
     this._accessRules = accessRules;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1154,6 +1227,10 @@ export class BurnResource {
 
   constructor(bucket: ManifestAstValue.Bucket) {
     this._bucket = bucket;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1204,6 +1281,10 @@ export class RecallResource {
   ) {
     this._vaultId = vaultId;
     this._amount = amount;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1275,6 +1356,10 @@ export class SetMetadata {
     this._key = key;
     this._value = value;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1326,6 +1411,10 @@ export class RemoveMetadata {
   ) {
     this._entityAddress = entityAddress;
     this._key = key;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1379,6 +1468,10 @@ export class SetPackageRoyaltyConfig {
     this._packageAddress = packageAddress;
     this._royaltyConfig = royaltyConfig;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1429,6 +1522,10 @@ export class SetComponentRoyaltyConfig {
     this._componentAddress = componentAddress;
     this._royaltyConfig = royaltyConfig;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1459,6 +1556,10 @@ export class ClaimPackageRoyalty {
   constructor(packageAddress: ManifestAstValue.Address) {
     this._packageAddress = packageAddress;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1488,6 +1589,10 @@ export class ClaimComponentRoyalty {
 
   constructor(componentAddress: ManifestAstValue.Address) {
     this._componentAddress = componentAddress;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1555,6 +1660,10 @@ export class SetMethodAccessRule {
     this._key = key;
     this._rule = rule;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1604,6 +1713,10 @@ export class MintFungible {
   ) {
     this._resourceAddress = resourceAddress;
     this._amount = amount;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1657,6 +1770,10 @@ export class MintNonFungible {
     this._resourceAddress = resourceAddress;
     this._entries = entries;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1709,6 +1826,10 @@ export class MintUuidNonFungible {
   ) {
     this._resourceAddress = resourceAddress;
     this._entries = entries;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1779,6 +1900,10 @@ export class CreateFungibleResource {
     this._divisibility = divisibility;
     this._metadata = metadata;
     this._accessRules = accessRules;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -1868,6 +1993,10 @@ export class CreateFungibleResourceWithInitialSupply {
     this._accessRules = accessRules;
     this._initialSupply = initialSupply;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -1953,6 +2082,10 @@ export class CreateNonFungibleResource {
     this._schema = schema;
     this._metadata = metadata;
     this._accessRules = accessRules;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -2060,6 +2193,10 @@ export class CreateNonFungibleResourceWithInitialSupply {
     this._accessRules = accessRules;
     this._initialSupply = initialSupply;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -2137,6 +2274,10 @@ export class CreateAccessController {
     this._ruleSet = ruleSet;
     this._timedRecoveryDelayInMinutes = timedRecoveryDelayInMinutes;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -2166,6 +2307,10 @@ export class CreateIdentity {
 
   constructor(accessRule: ManifestAstValue.Enum) {
     this._accessRule = accessRule;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -2197,6 +2342,10 @@ export class AssertAccessRule {
 
   constructor(accessRule: ManifestAstValue.Enum) {
     this._accessRule = accessRule;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 
@@ -2248,6 +2397,10 @@ export class CreateValidator {
     this._key = key;
     this._ownerAccessRule = ownerAccessRule;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 /**
@@ -2275,5 +2428,9 @@ export class CreateAccount {
 
   constructor(withdrawRule: ManifestAstValue.Enum) {
     this._withdrawRule = withdrawRule;
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

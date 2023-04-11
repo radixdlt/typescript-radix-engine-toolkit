@@ -16,7 +16,7 @@
 // under the License.
 
 import { SborValue } from "models/value";
-import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
 
 export type SborEncodeRequest = SborValue.Any;
 
@@ -32,5 +32,9 @@ export class SborEncodeResponse {
 
   constructor(encodedValue: Uint8Array) {
     this._encodedValue = uint8ArrayToString(encodedValue);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

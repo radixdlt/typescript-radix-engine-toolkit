@@ -16,7 +16,7 @@
 // under the License.
 
 import { TransactionIntent } from "..";
-import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
 
 export type CompileTransactionIntentRequest = TransactionIntent;
 
@@ -32,5 +32,9 @@ export class CompileTransactionIntentResponse {
 
   constructor(compiledIntent: Uint8Array) {
     this._compiledIntent = uint8ArrayToString(compiledIntent);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }

@@ -16,7 +16,7 @@
 // under the License.
 
 import { InstructionList, NotarizedTransaction } from "models/transaction";
-import { stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
 
 export class DecompileNotarizedTransactionIntentRequest {
   private _instructionsOutputKind: InstructionList.Kind;
@@ -42,6 +42,10 @@ export class DecompileNotarizedTransactionIntentRequest {
   ) {
     this._instructionsOutputKind = instructionsOutputKind;
     this._compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
+  }
+
+  toString(): string {
+    return serialize(this);
   }
 }
 

@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { serialize } from "../../utils";
 import { Instruction } from "./instruction";
 
 export type Any = StringInstructions | ParsedInstructions;
@@ -42,6 +43,10 @@ export class StringInstructions {
   constructor(instructions: string) {
     this._value = instructions;
   }
+
+  toString(): string {
+    return serialize(this);
+  }
 }
 
 export class ParsedInstructions {
@@ -62,6 +67,8 @@ export class ParsedInstructions {
   constructor(instructions: Array<Instruction>) {
     this._value = instructions;
   }
-}
 
-// TODO: Expose high level APIs for instructions (e.g. convert to string, instructions array, etc...)
+  toString(): string {
+    return serialize(this);
+  }
+}
