@@ -15,8 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Instruction } from ".";
 import { serialize } from "../../utils";
-import { Instruction } from "./instruction";
 
 export type Any = StringInstructions | ParsedInstructions;
 
@@ -51,20 +51,20 @@ export class StringInstructions {
 
 export class ParsedInstructions {
   private _type: Kind = Kind.Parsed;
-  private _value: Array<Instruction>;
+  private _value: Array<Instruction.Any>;
 
   public get type(): Kind {
     return this._type;
   }
 
-  public get value(): Array<Instruction> {
+  public get value(): Array<Instruction.Any> {
     return this._value;
   }
-  public set value(value: Array<Instruction>) {
+  public set value(value: Array<Instruction.Any>) {
     this._value = value;
   }
 
-  constructor(instructions: Array<Instruction>) {
+  constructor(instructions: Array<Instruction.Any>) {
     this._value = instructions;
   }
 

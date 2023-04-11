@@ -17,6 +17,7 @@
 
 import { blake2b } from "blakejs";
 import {
+  Instruction,
   InstructionList,
   ManifestAstValue,
   TransactionManifest,
@@ -48,7 +49,6 @@ import {
   CreateValidator,
   DropAllProofs,
   DropProof,
-  Instruction,
   MintFungible,
   MintNonFungible,
   MintUuidNonFungible,
@@ -69,11 +69,11 @@ import {
 import { resolveBytes } from "../utils";
 
 export class ManifestBuilder {
-  private instructions: Array<Instruction> = [];
+  private instructions: Array<Instruction.Any> = [];
   private idAllocator: SequentialIdAllocator = new SequentialIdAllocator();
   private blobs: Array<Uint8Array> = [];
 
-  constructor(instructions: Array<Instruction> = []) {
+  constructor(instructions: Array<Instruction.Any> = []) {
     this.instructions = instructions;
   }
 

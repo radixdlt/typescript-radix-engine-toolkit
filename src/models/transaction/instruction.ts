@@ -18,7 +18,7 @@
 import { ManifestAstValue } from "models/value";
 import { serialize } from "../../utils";
 
-export type Instruction =
+export type Any =
   | CallFunction
   | CallMethod
   | TakeFromWorktop

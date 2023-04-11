@@ -76,9 +76,6 @@ describe("Action Builder Tests", () => {
       )
       .build();
 
-    console.log("actual", transaction.signedIntent.intent.manifest.toString());
-    console.log("expected", expectedManifest.toString());
-
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
   });
@@ -148,9 +145,6 @@ describe("Action Builder Tests", () => {
       )
       .build();
 
-    console.log("actual", transaction.signedIntent.intent.manifest.toString());
-    console.log("expected", expectedManifest.toString());
-
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
   });
@@ -216,9 +210,6 @@ describe("Action Builder Tests", () => {
         }
       )
       .build();
-
-    console.log("actual", transaction.signedIntent.intent.manifest.toString());
-    console.log("expected", expectedManifest.toString());
 
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
