@@ -16,4 +16,5 @@
 // under the License.
 
 export { RadixEngineToolkit } from "./default";
+export { LTSRadixEngineToolkit } from "./lts";
 export { RawRadixEngineToolkit } from "./raw";
