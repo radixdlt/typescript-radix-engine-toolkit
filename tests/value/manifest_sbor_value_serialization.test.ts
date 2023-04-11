@@ -123,11 +123,11 @@ describe.each([
     expectedSerialization: `{"type":"Tuple","elements":[{"type":"Tuple","elements":[{"type":"U8","value":"1"},{"type":"String","value":"Something"}]}]}`,
   },
   {
-    expectedObject: new ManifestSborValue.Decimal(BigInt("1")),
+    expectedObject: new ManifestSborValue.Decimal("1"),
     expectedSerialization: `{"type":"Decimal","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.PreciseDecimal(BigInt("1")),
+    expectedObject: new ManifestSborValue.PreciseDecimal("1"),
     expectedSerialization: `{"type":"PreciseDecimal","value":"1"}`,
   },
   {

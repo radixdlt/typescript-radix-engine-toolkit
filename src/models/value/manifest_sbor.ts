@@ -17,14 +17,17 @@
 
 // TODO: Convert U64 and I64 to use BigInt
 
+import { Decimal as DecimalJs } from "decimal.js";
 import { EntityAddress } from "..";
 import { IAddress } from "../../base/base_address";
 import {
   bigIntToString,
+  decimalToString,
   numberToString,
   resolveBytes,
   serialize,
   stringToBigInt,
+  stringToDecimal,
   stringToNumber,
   stringToUint8Array,
   uint8ArrayToString,
@@ -527,20 +530,36 @@ export class Decimal {
   private _type: Kind = Kind.Decimal;
   private _value: string;
 
-  get value(): BigInt {
-    return stringToBigInt(this._value);
+  get value(): DecimalJs {
+    return stringToDecimal(this._value);
   }
 
-  set value(value: BigInt) {
-    this._value = bigIntToString(value);
+  set value(value: DecimalJs | string | number) {
+    if (typeof value === "string") {
+      this._value = value;
+    } else if (typeof value === "number") {
+      this._value = numberToString(value);
+    } else if (value instanceof DecimalJs) {
+      this._value = decimalToString(value);
+    } else {
+      throw new TypeError("Invalid type passed as decimal");
+    }
   }
 
   public get type(): Kind {
     return this._type;
   }
 
-  constructor(value: BigInt) {
-    this._value = bigIntToString(value);
+  constructor(value: DecimalJs | string | number) {
+    if (typeof value === "string") {
+      this._value = value;
+    } else if (typeof value === "number") {
+      this._value = numberToString(value);
+    } else if (value instanceof DecimalJs) {
+      this._value = decimalToString(value);
+    } else {
+      throw new TypeError("Invalid type passed as decimal");
+    }
   }
 
   toString(): string {
@@ -552,20 +571,36 @@ export class PreciseDecimal {
   private _type: Kind = Kind.PreciseDecimal;
   private _value: string;
 
-  get value(): BigInt {
-    return stringToBigInt(this._value);
+  get value(): DecimalJs {
+    return stringToDecimal(this._value);
   }
 
-  set value(value: BigInt) {
-    this._value = bigIntToString(value);
+  set value(value: DecimalJs | string | number) {
+    if (typeof value === "string") {
+      this._value = value;
+    } else if (typeof value === "number") {
+      this._value = numberToString(value);
+    } else if (value instanceof DecimalJs) {
+      this._value = decimalToString(value);
+    } else {
+      throw new TypeError("Invalid type passed as decimal");
+    }
   }
 
   public get type(): Kind {
     return this._type;
   }
 
-  constructor(value: BigInt) {
-    this._value = bigIntToString(value);
+  constructor(value: DecimalJs | string | number) {
+    if (typeof value === "string") {
+      this._value = value;
+    } else if (typeof value === "number") {
+      this._value = numberToString(value);
+    } else if (value instanceof DecimalJs) {
+      this._value = decimalToString(value);
+    } else {
+      throw new TypeError("Invalid type passed as decimal");
+    }
   }
 
   toString(): string {

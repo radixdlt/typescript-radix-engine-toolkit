@@ -17,6 +17,7 @@
 
 import { blake2b } from "blakejs";
 import * as changeCase from "change-case";
+import Decimal from "decimal.js";
 
 /**
  * Converts a number to a string
@@ -55,9 +56,9 @@ export const stringToBigInt = (num: string): BigInt => {
 };
 
 /**
- * Converts a Uint8Array to a bigInt
- * @param num The Uint8Array to convert to a bigInt
- * @returns The decimal Uint8Array represented as a bigInt
+ * Converts a Uint8Array to a string
+ * @param num The Uint8Array to convert to a string
+ * @returns The decimal Uint8Array represented as a string
  */
 export const uint8ArrayToString = (array: Uint8Array): string => {
   return Array.from(array)
@@ -74,6 +75,24 @@ export const stringToUint8Array = (str: string): Uint8Array => {
   return Uint8Array.from(
     str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
   );
+};
+
+/**
+ * Converts a Uint8Array to a string
+ * @param num The Uint8Array to convert to a string
+ * @returns The decimal Uint8Array represented as a string
+ */
+export const decimalToString = (decimal: Decimal): string => {
+  return decimal.toFixed();
+};
+
+/**
+ * Converts a string to a `Decimal`
+ * @param num The string to convert to a `Decimal`
+ * @returns The decimal string represented as a `Decimal`
+ */
+export const stringToDecimal = (str: string): Decimal => {
+  return new Decimal(str);
 };
 
 export const toSnakeCase = (input: string): string => {

@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import Decimal from "decimal.js";
 import { describe, expect, test } from "vitest";
 import { ManifestAstValue } from "../../src";
 import { deserialize, serialize } from "../../src/utils";
@@ -159,12 +160,30 @@ describe.each([
     expectedSerialization: `{"type":"Tuple","elements":[{"type":"Tuple","elements":[{"type":"U8","value":"1"},{"type":"String","value":"Something"}]}]}`,
   },
   {
-    expectedObject: new ManifestAstValue.Decimal(BigInt("1")),
+    expectedObject: new ManifestAstValue.Decimal("1"),
     expectedSerialization: `{"type":"Decimal","value":"1"}`,
   },
   {
-    expectedObject: new ManifestAstValue.PreciseDecimal(BigInt("1")),
+    expectedObject: new ManifestAstValue.Decimal(
+      "57896044618658097711785492504343953926634992332820282019728.792003956564819967"
+    ),
+    expectedSerialization: `{"type":"Decimal","value":"57896044618658097711785492504343953926634992332820282019728.792003956564819967"}`,
+  },
+  {
+    expectedObject: new ManifestAstValue.Decimal(
+      new Decimal(
+        "57896044618658097711785492504343953926634992332820282019728.792003956564819967"
+      )
+    ),
+    expectedSerialization: `{"type":"Decimal","value":"57896044618658097711785492504343953926634992332820282019728.792003956564819967"}`,
+  },
+  {
+    expectedObject: new ManifestAstValue.PreciseDecimal("1"),
     expectedSerialization: `{"type":"PreciseDecimal","value":"1"}`,
+  },
+  {
+    expectedObject: new ManifestAstValue.PreciseDecimal("1.11111111111"),
+    expectedSerialization: `{"type":"PreciseDecimal","value":"1.11111111111"}`,
   },
   {
     expectedObject: new ManifestAstValue.Address(

@@ -28,7 +28,7 @@ describe.each([
       ),
       new ManifestAstValue.String("Faucet"),
       new ManifestAstValue.String("new"),
-      [new ManifestAstValue.Decimal(BigInt(1))]
+      [new ManifestAstValue.Decimal(1)]
     ),
     expectedSerialization: `{"instruction":"CALL_FUNCTION","package_address":{"type":"Address","address":"package_rdx1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqzrhqe8"},"blueprint_name":{"type":"String","value":"Faucet"},"function_name":{"type":"String","value":"new"},"arguments":[{"type":"Decimal","value":"1"}]}`,
   },
@@ -38,7 +38,7 @@ describe.each([
         "component_rdx1qtkryz5scup945usk39qjc2yjh6l5zsyuh8t7v5pk0tsrdcazt"
       ),
       new ManifestAstValue.String("free"),
-      [new ManifestAstValue.Decimal(BigInt(1))]
+      [new ManifestAstValue.Decimal(1)]
     ),
     expectedSerialization: `{"instruction":"CALL_METHOD","component_address":{"type":"Address","address":"component_rdx1qtkryz5scup945usk39qjc2yjh6l5zsyuh8t7v5pk0tsrdcazt"},"method_name":{"type":"String","value":"free"},"arguments":[{"type":"Decimal","value":"1"}]}`,
   },
@@ -66,7 +66,7 @@ describe.each([
       new ManifestAstValue.Address(
         "resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"
       ),
-      new ManifestAstValue.Decimal(BigInt("1")),
+      new ManifestAstValue.Decimal("1"),
       new ManifestAstValue.Bucket(new ManifestAstValue.String("ident"))
     ),
     expectedSerialization: `{"instruction":"TAKE_FROM_WORKTOP_BY_AMOUNT","resource_address":{"type":"Address","address":"resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"},"amount":{"type":"Decimal","value":"1"},"into_bucket":{"type":"Bucket","identifier":{"type":"String","value":"ident"}}}`,
@@ -104,7 +104,7 @@ describe.each([
       new ManifestAstValue.Address(
         "resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"
       ),
-      new ManifestAstValue.Decimal(BigInt(1))
+      new ManifestAstValue.Decimal(1)
     ),
     expectedSerialization: `{"instruction":"ASSERT_WORKTOP_CONTAINS_BY_AMOUNT","resource_address":{"type":"Address","address":"resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"},"amount":{"type":"Decimal","value":"1"}}`,
   },
@@ -143,7 +143,7 @@ describe.each([
       new ManifestAstValue.Address(
         "resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"
       ),
-      new ManifestAstValue.Decimal(BigInt(1)),
+      new ManifestAstValue.Decimal(1),
       new ManifestAstValue.Proof(new ManifestAstValue.String("ident"))
     ),
     expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE_BY_AMOUNT","resource_address":{"type":"Address","address":"resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"},"amount":{"type":"Decimal","value":"1"},"into_proof":{"type":"Proof","identifier":{"type":"String","value":"ident"}}}`,
@@ -209,7 +209,7 @@ describe.each([
           146,
         ])
       ),
-      new ManifestAstValue.Decimal(BigInt(1))
+      new ManifestAstValue.Decimal(1)
     ),
     expectedSerialization: `{"instruction":"RECALL_RESOURCE","vault_id":{"type":"Bytes","value":"a9d55474c4fe9b04a5f39dc8164b9a9c22dae66a34e1417162c327912cc492"},"amount":{"type":"Decimal","value":"1"}}`,
   },
@@ -286,7 +286,7 @@ describe.each([
       new ManifestAstValue.Address(
         "resource_sim1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqz8qety"
       ),
-      new ManifestAstValue.Decimal(BigInt(1))
+      new ManifestAstValue.Decimal(1)
     ),
     expectedSerialization: `{"instruction":"MINT_FUNGIBLE","resource_address":{"type":"Address","address":"resource_sim1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqz8qety"},"amount":{"type":"Decimal","value":"1"}}`,
   },
@@ -332,7 +332,7 @@ describe.each([
         ManifestAstValue.Kind.Tuple,
         []
       ),
-      new ManifestAstValue.Decimal(BigInt(1))
+      new ManifestAstValue.Decimal(1)
     ),
     expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY","divisibility":{"type":"U8","value":"18"},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_value_kind":"Enum","value_value_kind":"Tuple","entries":[]},"initial_supply":{"type":"Decimal","value":"1"}}`,
   },
