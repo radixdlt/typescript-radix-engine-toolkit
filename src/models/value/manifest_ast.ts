@@ -22,6 +22,7 @@ import { BaseAddress } from "../../base";
 import {
   bigIntToString,
   numberToString,
+  resolveBytes,
   serialize,
   stringToBigInt,
   stringToNumber,
@@ -934,8 +935,8 @@ export class Blob {
     return this._type;
   }
 
-  constructor(hash: Uint8Array) {
-    this._hash = uint8ArrayToString(hash);
+  constructor(hash: Uint8Array | string) {
+    this._hash = uint8ArrayToString(resolveBytes(hash));
   }
 
   toString(): string {
@@ -959,8 +960,8 @@ export class Bytes {
     return this._type;
   }
 
-  constructor(value: Uint8Array) {
-    this._value = uint8ArrayToString(value);
+  constructor(value: Uint8Array | string) {
+    this._value = uint8ArrayToString(resolveBytes(value));
   }
 
   toString(): string {

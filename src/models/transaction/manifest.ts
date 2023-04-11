@@ -16,7 +16,12 @@
 // under the License.
 
 import { InstructionList } from ".";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import {
+  resolveBytes,
+  serialize,
+  stringToUint8Array,
+  uint8ArrayToString,
+} from "../../utils";
 
 export class TransactionManifest {
   private _instructions: InstructionList.Any;
@@ -38,10 +43,10 @@ export class TransactionManifest {
 
   constructor(
     instructions: InstructionList.Any,
-    blobs: Array<Uint8Array> = []
+    blobs: Array<Uint8Array | string> = []
   ) {
     this._instructions = instructions;
-    this._blobs = blobs.map(uint8ArrayToString);
+    this._blobs = blobs.map(resolveBytes).map(uint8ArrayToString);
   }
 
   toString(): string {

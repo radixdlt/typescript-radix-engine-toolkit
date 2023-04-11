@@ -42,7 +42,7 @@ import {
   TransactionManifest,
   ValidationConfig,
 } from "../models";
-import { stringToUint8Array } from "../utils";
+import { resolveBytes } from "../utils";
 import { RawRadixEngineToolkit } from "./raw";
 
 export class RadixEngineToolkit {
@@ -597,13 +597,3 @@ export interface AddressAnalysis {
    */
   accountsDepositedInto: Array<string>;
 }
-
-const resolveBytes = (bytes: Uint8Array | string) => {
-  if (typeof bytes === "string") {
-    return stringToUint8Array(bytes);
-  } else if (bytes instanceof Uint8Array) {
-    return bytes;
-  } else {
-    throw new TypeError("Passed argument is not of a valid type");
-  }
-};

@@ -157,3 +157,13 @@ export const deserialize = <T>(
 
 export const hash = (data: Uint8Array): Uint8Array =>
   blake2b(data, undefined, 32);
+
+export const resolveBytes = (bytes: Uint8Array | string) => {
+  if (typeof bytes === "string") {
+    return stringToUint8Array(bytes);
+  } else if (bytes instanceof Uint8Array) {
+    return bytes;
+  } else {
+    throw new TypeError("Passed argument is not of a valid type");
+  }
+};

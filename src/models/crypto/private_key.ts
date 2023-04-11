@@ -17,18 +17,17 @@
 
 import * as ed from "@noble/ed25519";
 import { sha512 } from "@noble/hashes/sha512";
-import { blake2b } from "blakejs";
 import { ecdsaSign, publicKeyCreate } from "secp256k1";
 import { PublicKey, Signature, SignatureWithPublicKey } from ".";
-import { serialize, uint8ArrayToString } from "../../utils";
+import { hash, resolveBytes, serialize, uint8ArrayToString } from "../../utils";
 
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
 export class EcdsaSecp256k1 implements IPrivateKey {
   public readonly bytes: Uint8Array;
 
-  constructor(privateKey: Uint8Array) {
-    this.bytes = privateKey;
+  constructor(privateKey: Uint8Array | string) {
+    this.bytes = resolveBytes(privateKey);
   }
 
   publicKey(): PublicKey.EcdsaSecp256k1 {
@@ -44,7 +43,7 @@ export class EcdsaSecp256k1 implements IPrivateKey {
   }
 
   sign(data: Uint8Array): Uint8Array {
-    let messageHash = blake2b(data, undefined, 32);
+    let messageHash = hash(data);
     let { signature, recid } = ecdsaSign(messageHash, this.bytes);
     return new Uint8Array([recid, ...signature]);
   }
@@ -67,8 +66,8 @@ export class EcdsaSecp256k1 implements IPrivateKey {
 export class EddsaEd25519 implements IPrivateKey {
   public readonly bytes: Uint8Array;
 
-  constructor(privateKey: Uint8Array) {
-    this.bytes = privateKey;
+  constructor(privateKey: Uint8Array | string) {
+    this.bytes = resolveBytes(privateKey);
   }
 
   publicKey(): PublicKey.EddsaEd25519 {
@@ -84,7 +83,7 @@ export class EddsaEd25519 implements IPrivateKey {
   }
 
   sign(data: Uint8Array): Uint8Array {
-    let messageHash = blake2b(data, undefined, 32);
+    let messageHash = hash(data);
     let signature = ed.sign(messageHash, this.bytes);
     return signature;
   }

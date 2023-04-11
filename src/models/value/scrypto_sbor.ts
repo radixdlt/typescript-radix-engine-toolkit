@@ -19,6 +19,7 @@ import { BaseAddress } from "../../base";
 import {
   bigIntToString,
   numberToString,
+  resolveBytes,
   serialize,
   stringToBigInt,
   stringToNumber,
@@ -812,8 +813,8 @@ export class Bytes {
     return this._type;
   }
 
-  constructor(value: Uint8Array) {
-    this._value = uint8ArrayToString(value);
+  constructor(value: Uint8Array | string) {
+    this._value = uint8ArrayToString(resolveBytes(value));
   }
 
   toString(): string {

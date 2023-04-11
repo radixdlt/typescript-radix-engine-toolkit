@@ -66,6 +66,7 @@ import {
   TakeFromWorktopByAmount,
   TakeFromWorktopByIds,
 } from "../models/transaction/instruction";
+import { resolveBytes } from "../utils";
 
 export class ManifestBuilder {
   private instructions: Array<Instruction> = [];
@@ -453,8 +454,8 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   publishPackage(
-    code: Uint8Array,
-    schema: Uint8Array,
+    code: Uint8Array | string,
+    schema: Uint8Array | string,
     royaltyConfig: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Any
@@ -467,8 +468,8 @@ export class ManifestBuilder {
       accessRules
     );
     this.instructions.push(instruction);
-    this.blobs.push(code);
-    this.blobs.push(schema);
+    this.blobs.push(resolveBytes(code));
+    this.blobs.push(resolveBytes(schema));
     return this;
   }
 
