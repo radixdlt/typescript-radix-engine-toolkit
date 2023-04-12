@@ -510,11 +510,6 @@ describe.each([
       // Act
       let actualSerialization = serialize(expectedObject);
 
-      if (expectedObject instanceof Instruction.CreateAccessController) {
-        console.log("actual   :", actualSerialization);
-        console.log("expected :", expectedSerialization);
-      }
-
       // Assert
       assertSerializationEquals(actualSerialization, expectedSerialization);
     });

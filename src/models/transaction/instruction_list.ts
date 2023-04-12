@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { instanceToPlain } from "class-transformer";
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { Instruction } from ".";
 
 export class InstructionList {
@@ -26,14 +26,13 @@ export class InstructionList {
   }
 }
 
-export type Any = StringInstructions | ParsedInstructions;
-
 export enum Kind {
   String = "String",
   Parsed = "Parsed",
 }
 
 export class StringInstructions extends InstructionList {
+  @Expose()
   value: string;
 
   constructor(instructions: string) {
@@ -47,6 +46,8 @@ export class StringInstructions extends InstructionList {
 }
 
 export class ParsedInstructions extends InstructionList {
+  @Expose()
+  @Type(() => Instruction.Instruction, Instruction.valueTypeOptions)
   value: Array<Instruction.Instruction>;
 
   constructor(instructions: Array<Instruction.Instruction>) {

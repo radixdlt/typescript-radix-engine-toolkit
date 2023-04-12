@@ -32,9 +32,11 @@ export namespace String {
 
 export namespace HexString {
   export const toUint8Array = (str: string): globalThis.Uint8Array =>
-    globalThis.Uint8Array.from(
-      str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
-    );
+    str === undefined || str === null
+      ? new globalThis.Uint8Array()
+      : globalThis.Uint8Array.from(
+          str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
+        );
 }
 
 export namespace Uint8Array {

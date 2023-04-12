@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, SignedTransactionIntent } from ".";
 import { Signature } from "../../models/crypto";
 import { DecompileNotarizedTransactionIntentRequest } from "../../models/requests";
@@ -22,7 +23,20 @@ import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class NotarizedTransaction {
+  @Expose({ name: "signed_intent" })
+  @Type(() => SignedTransactionIntent)
   signedIntent: SignedTransactionIntent;
+
+  @Expose({ name: "notary_signature" })
+  @Type(() => Signature.Signature, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: Signature.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: Signature.EddsaEd25519 },
+      ],
+    },
+  })
   notarySignature: Signature.Signature;
 
   constructor(

@@ -29,6 +29,14 @@ export namespace ByteArrayAsHexString {
     Convert.HexString.toUint8Array(value as string);
 }
 
+export namespace TwoDimensionalByteArrayAsArrayOfHexString {
+  export const serialize: TransformFn = ({ value }: TransformFnParams): any =>
+    value.map(Convert.Uint8Array.toHexString);
+
+  export const deserialize: TransformFn = ({ value }: TransformFnParams): any =>
+    value.map(Convert.HexString.toUint8Array);
+}
+
 export namespace NumberAsString {
   export const serialize: TransformFn = ({ value }: TransformFnParams): any =>
     Convert.Number.toString(value as number);

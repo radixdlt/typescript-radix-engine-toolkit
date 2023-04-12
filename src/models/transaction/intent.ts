@@ -15,13 +15,19 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionHeader, TransactionManifest } from ".";
 import { DecompileTransactionIntentRequest } from "../../models/requests";
 import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class TransactionIntent {
+  @Expose()
+  @Type(() => TransactionHeader)
   header: TransactionHeader;
+
+  @Expose()
+  @Type(() => TransactionManifest)
   manifest: TransactionManifest;
 
   constructor(header: TransactionHeader, manifest: TransactionManifest) {

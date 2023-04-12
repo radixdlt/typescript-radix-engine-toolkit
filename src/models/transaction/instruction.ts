@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Expose, Type, instanceToPlain } from "class-transformer";
+import { Expose, Type, TypeOptions, instanceToPlain } from "class-transformer";
 import { ManifestAstValue } from "../../models/value";
 
 export abstract class Instruction {
@@ -1197,3 +1197,77 @@ export class CreateAccount extends Instruction {
     return JSON.stringify(instanceToPlain(this));
   }
 }
+
+export const valueTypeOptions: TypeOptions = {
+  discriminator: {
+    property: "instruction",
+    subTypes: [
+      { name: "CALL_FUNCTION", value: CallFunction },
+      { name: "CALL_METHOD", value: CallMethod },
+      { name: "TAKE_FROM_WORKTOP", value: TakeFromWorktop },
+      { name: "TAKE_FROM_WORKTOP_BY_AMOUNT", value: TakeFromWorktopByAmount },
+      { name: "TAKE_FROM_WORKTOP_BY_IDS", value: TakeFromWorktopByIds },
+      { name: "RETURN_TO_WORKTOP", value: ReturnToWorktop },
+      { name: "ASSERT_WORKTOP_CONTAINS", value: AssertWorktopContains },
+      {
+        name: "AssertWorktopContainsByAmount",
+        value: AssertWorktopContainsByAmount,
+      },
+      {
+        name: "ASSERT_WORKTOP_CONTAINS_BY_IDS",
+        value: AssertWorktopContainsByIds,
+      },
+      { name: "POP_FROM_AUTH_ZONE", value: PopFromAuthZone },
+      { name: "PUSH_TO_AUTH_ZONE", value: PushToAuthZone },
+      { name: "CLEAR_AUTH_ZONE", value: ClearAuthZone },
+      { name: "CLEAR_SIGNATURE_PROOFS", value: ClearSignatureProofs },
+      { name: "CREATE_PROOF_FROM_AUTH_ZONE", value: CreateProofFromAuthZone },
+      {
+        name: "CreateProofFromAuthZoneByAmount",
+        value: CreateProofFromAuthZoneByAmount,
+      },
+      {
+        name: "CreateProofFromAuthZoneByIds",
+        value: CreateProofFromAuthZoneByIds,
+      },
+      { name: "CREATE_PROOF_FROM_BUCKET", value: CreateProofFromBucket },
+      { name: "CLONE_PROOF", value: CloneProof },
+      { name: "DROP_PROOF", value: DropProof },
+      { name: "DROP_ALL_PROOFS", value: DropAllProofs },
+      { name: "PUBLISH_PACKAGE", value: PublishPackage },
+      { name: "BURN_RESOURCE", value: BurnResource },
+      { name: "RECALL_RESOURCE", value: RecallResource },
+      { name: "SET_METADATA", value: SetMetadata },
+      { name: "REMOVE_METADATA", value: RemoveMetadata },
+      { name: "SET_PACKAGE_ROYALTY_CONFIG", value: SetPackageRoyaltyConfig },
+      {
+        name: "SET_COMPONENT_ROYALTY_CONFIG",
+        value: SetComponentRoyaltyConfig,
+      },
+      { name: "CLAIM_PACKAGE_ROYALTY", value: ClaimPackageRoyalty },
+      { name: "CLAIM_COMPONENT_ROYALTY", value: ClaimComponentRoyalty },
+      { name: "SET_METHOD_ACCESS_RULE", value: SetMethodAccessRule },
+      { name: "MINT_FUNGIBLE", value: MintFungible },
+      { name: "MINT_NON_FUNGIBLE", value: MintNonFungible },
+      { name: "MINT_UUID_NON_FUNGIBLE", value: MintUuidNonFungible },
+      { name: "CREATE_FUNGIBLE_RESOURCE", value: CreateFungibleResource },
+      {
+        name: "CreateFungibleResourceWithInitialSupply",
+        value: CreateFungibleResourceWithInitialSupply,
+      },
+      {
+        name: "CREATE_NON_FUNGIBLE_RESOURCE",
+        value: CreateNonFungibleResource,
+      },
+      {
+        name: "CreateNonFungibleResourceWithInitialSupply",
+        value: CreateNonFungibleResourceWithInitialSupply,
+      },
+      { name: "CREATE_ACCESS_CONTROLLER", value: CreateAccessController },
+      { name: "CREATE_IDENTITY", value: CreateIdentity },
+      { name: "ASSERT_ACCESS_RULE", value: AssertAccessRule },
+      { name: "CREATE_VALIDATOR", value: CreateValidator },
+      { name: "CREATE_ACCOUNT", value: CreateAccount },
+    ],
+  },
+};

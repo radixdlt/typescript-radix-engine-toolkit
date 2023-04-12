@@ -61,9 +61,6 @@ describe.each([
       // Act
       let actualSerialization = serialize(expectedObject);
 
-      console.log("actual   :", actualSerialization);
-      console.log("expected :", expectedSerialization);
-
       // Assert
       assertSerializationEquals(actualSerialization, expectedSerialization);
     });

@@ -15,19 +15,43 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { InstructionList } from ".";
-import { resolveBytes, uint8ArrayToString } from "../../utils";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
 export class TransactionManifest {
-  instructions: InstructionList.Any;
-  blobs: Array<string>;
+  @Expose()
+  @Type(() => InstructionList.InstructionList, {
+    discriminator: {
+      property: "type",
+      subTypes: [
+        { name: "String", value: InstructionList.StringInstructions },
+        { name: "Parsed", value: InstructionList.ParsedInstructions },
+      ],
+    },
+  })
+  instructions: InstructionList.InstructionList;
+
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.TwoDimensionalByteArrayAsArrayOfHexString.serialize, {
+    toPlainOnly: true,
+  })
+  @Transform(
+    Serializers.TwoDimensionalByteArrayAsArrayOfHexString.deserialize,
+    {
+      toClassOnly: true,
+    }
+  )
+  blobs: Array<Uint8Array>;
 
   constructor(
-    instructions: InstructionList.Any,
+    instructions: InstructionList.InstructionList,
     blobs: Array<Uint8Array | string> = []
   ) {
     this.instructions = instructions;
-    this.blobs = blobs.map(resolveBytes).map(uint8ArrayToString);
+    this.blobs = blobs.map(Convert.Uint8Array.from);
   }
 
   toString(): string {
