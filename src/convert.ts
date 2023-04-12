@@ -15,24 +15,26 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Decimal as DecimalJs } from "decimal.js";
+
 export namespace Number {
-  export const toString = (num: number): string => {
-    return num.toLocaleString("fullwide", { useGrouping: false });
-  };
+  export const toString = (num: number): string =>
+    num.toLocaleString("fullwide", { useGrouping: false });
 }
 
 export namespace String {
-  export const toNumber = (str: string): number => {
-    return globalThis.Number(str);
-  };
+  export const toNumber = (str: string): number => globalThis.Number(str);
+
+  export const toBigInt = (str: string): bigint => globalThis.BigInt(str);
+
+  export const toDecimal = (str: string): DecimalJs => new DecimalJs(str);
 }
 
 export namespace HexString {
-  export const toUint8Array = (str: string): globalThis.Uint8Array => {
-    return globalThis.Uint8Array.from(
+  export const toUint8Array = (str: string): globalThis.Uint8Array =>
+    globalThis.Uint8Array.from(
       str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16))
     );
-  };
 }
 
 export namespace Uint8Array {
@@ -50,9 +52,17 @@ export namespace Uint8Array {
     }
   };
 
-  export const toHexString = (array: globalThis.Uint8Array): string => {
-    return Array.from(array)
+  export const toHexString = (array: globalThis.Uint8Array): string =>
+    Array.from(array)
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
-  };
+}
+
+export namespace BigInt {
+  export const toString = (num: bigint): string =>
+    num.toLocaleString("fullwide", { useGrouping: false });
+}
+
+export namespace Decimal {
+  export const toString = (decimal: DecimalJs): string => decimal.toFixed();
 }

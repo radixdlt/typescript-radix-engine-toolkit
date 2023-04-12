@@ -15,26 +15,36 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import {
+  Convert,
   InstructionList,
   SignedTransactionIntent,
   TransactionIntent,
-} from "../../models/transaction";
-import { uint8ArrayToString } from "../../utils";
+} from "../..";
+import * as Serializers from "../serializers";
 import { DecompileNotarizedTransactionIntentResponse } from "./decompile_notarized_transaction_intent";
 import { DecompileSignedTransactionIntentResponse } from "./decompile_signed_transaction_intent";
 import { DecompileTransactionIntentResponse } from "./decompile_transaction_intent";
 
 export class DecompileUnknownTransactionIntentRequest {
+  @Expose({ name: "instructions_output_kind" })
   instructionsOutputKind: InstructionList.Kind;
-  compiledUnknownIntent: string;
+
+  @Expose({ name: "compiled_unknown_intent" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  compiledUnknownIntent: Uint8Array;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
-    compiledUnknownIntent: Uint8Array
+    compiledUnknownIntent: Uint8Array | string
   ) {
     this.instructionsOutputKind = instructionsOutputKind;
-    this.compiledUnknownIntent = uint8ArrayToString(compiledUnknownIntent);
+    this.compiledUnknownIntent = Convert.Uint8Array.from(compiledUnknownIntent);
   }
 
   toString(): string {
@@ -50,7 +60,7 @@ export enum DecompileUnknownTransactionIntentResponseKind {
 
 export class DecompileUnknownTransactionIntentResponse {
   readonly type: DecompileUnknownTransactionIntentResponseKind;
-  private value:
+  public value:
     | DecompileTransactionIntentResponse
     | DecompileSignedTransactionIntentResponse
     | DecompileNotarizedTransactionIntentResponse;

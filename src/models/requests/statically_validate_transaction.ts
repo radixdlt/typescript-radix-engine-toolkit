@@ -15,15 +15,52 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { numberToString, uint8ArrayToString } from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
 export class ValidationConfig {
-  networkId: string;
-  minCostUnitLimit: string;
-  maxCostUnitLimit: string;
-  minTipPercentage: string;
-  maxTipPercentage: string;
-  maxEpochRange: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
+
+  @Expose({ name: "min_cost_unit_limit" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  minCostUnitLimit: number;
+
+  @Expose({ name: "max_cost_unit_limit" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  maxCostUnitLimit: number;
+
+  @Expose({ name: "min_tip_percentage" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  minTipPercentage: number;
+
+  @Expose({ name: "max_tip_percentage" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  maxTipPercentage: number;
+
+  @Expose({ name: "max_epoch_range" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  maxEpochRange: number;
 
   constructor(
     networkId: number,
@@ -33,12 +70,12 @@ export class ValidationConfig {
     maxTipPercentage: number,
     maxEpochRange: number
   ) {
-    this.networkId = numberToString(networkId);
-    this.minCostUnitLimit = numberToString(minCostUnitLimit);
-    this.maxCostUnitLimit = numberToString(maxCostUnitLimit);
-    this.minTipPercentage = numberToString(minTipPercentage);
-    this.maxTipPercentage = numberToString(maxTipPercentage);
-    this.maxEpochRange = numberToString(maxEpochRange);
+    this.networkId = networkId;
+    this.minCostUnitLimit = minCostUnitLimit;
+    this.maxCostUnitLimit = maxCostUnitLimit;
+    this.minTipPercentage = minTipPercentage;
+    this.maxTipPercentage = maxTipPercentage;
+    this.maxEpochRange = maxEpochRange;
   }
 
   public static default(networkId: number): ValidationConfig {
@@ -58,14 +95,21 @@ export class ValidationConfig {
 }
 
 export class StaticallyValidateTransactionRequest {
-  compiledNotarizedIntent: string;
+  @Expose({ name: "compiled_notarized_intent" })
+  @Type(() => Uint8Array)
+  compiledNotarizedIntent: Uint8Array;
+
+  @Expose({ name: "validation_config" })
+  @Type(() => ValidationConfig)
   validationConfig: ValidationConfig;
 
   constructor(
-    compiledNotarizedIntent: Uint8Array,
+    compiledNotarizedIntent: Uint8Array | string,
     validationConfig: ValidationConfig
   ) {
-    this.compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
+    this.compiledNotarizedIntent = Convert.Uint8Array.from(
+      compiledNotarizedIntent
+    );
     this.validationConfig = validationConfig;
   }
 

@@ -41,7 +41,7 @@ export class ComponentAddress implements IAddress {
   }
 
   static async virtualAccountAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<ComponentAddress> {
     return RadixEngineToolkit.deriveVirtualAccountAddress(
@@ -51,7 +51,7 @@ export class ComponentAddress implements IAddress {
   }
 
   static async virtualIdentityAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<ComponentAddress> {
     return RadixEngineToolkit.deriveVirtualIdentityAddress(

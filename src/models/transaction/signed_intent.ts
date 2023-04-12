@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionIntent } from ".";
 import { SignatureWithPublicKey } from "../../models/crypto";
 import { DecompileSignedTransactionIntentRequest } from "../../models/requests";
@@ -22,12 +23,28 @@ import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class SignedTransactionIntent {
+  @Expose()
+  @Type(() => TransactionIntent)
   intent: TransactionIntent;
-  intentSignatures: Array<SignatureWithPublicKey.Any>;
+
+  @Expose({ name: "intent_signatures" })
+  @Type(() => SignatureWithPublicKey.SignatureWithPublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        {
+          name: "EcdsaSecp256k1",
+          value: SignatureWithPublicKey.EcdsaSecp256k1,
+        },
+        { name: "EddsaEd25519", value: SignatureWithPublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey>;
 
   constructor(
     intent: TransactionIntent,
-    intentSignatures: Array<SignatureWithPublicKey.Any>
+    intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey>
   ) {
     this.intent = intent;
     this.intentSignatures = intentSignatures;

@@ -42,7 +42,7 @@ describe.each([
     expectedSerialization: `{"type":"U32","value":"1"}`,
   },
   {
-    expectedObject: new ScryptoSborValue.U64(1),
+    expectedObject: new ScryptoSborValue.U64(BigInt(1)),
     expectedSerialization: `{"type":"U64","value":"1"}`,
   },
   {
@@ -62,7 +62,7 @@ describe.each([
     expectedSerialization: `{"type":"I32","value":"1"}`,
   },
   {
-    expectedObject: new ScryptoSborValue.I64(1),
+    expectedObject: new ScryptoSborValue.I64(BigInt(1)),
     expectedSerialization: `{"type":"I64","value":"1"}`,
   },
   {
@@ -94,22 +94,26 @@ describe.each([
       ScryptoSborValue.Kind.U8,
       ScryptoSborValue.Kind.String,
       [
-        [new ScryptoSborValue.U8(65), new ScryptoSborValue.String("A")],
-        [new ScryptoSborValue.U8(66), new ScryptoSborValue.String("B")],
+        new ScryptoSborValue.U8(65),
+        new ScryptoSborValue.String("A"),
+        new ScryptoSborValue.U8(66),
+        new ScryptoSborValue.String("B"),
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
   },
   {
     expectedObject: new ScryptoSborValue.Map(
       ScryptoSborValue.Kind.U8,
       ScryptoSborValue.Kind.String,
       [
-        [new ScryptoSborValue.U8(65), new ScryptoSborValue.String("A")],
-        [new ScryptoSborValue.U8(66), new ScryptoSborValue.String("B")],
+        new ScryptoSborValue.U8(65),
+        new ScryptoSborValue.String("A"),
+        new ScryptoSborValue.U8(66),
+        new ScryptoSborValue.String("B"),
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
   },
   {
     expectedObject: new ScryptoSborValue.Tuple([
@@ -212,7 +216,7 @@ describe.each([
   },
   {
     expectedObject: new ScryptoSborValue.NonFungibleLocalId(
-      new ScryptoSborValue.Integer(1)
+      new ScryptoSborValue.Integer(BigInt(1))
     ),
     expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"Integer","value":"1"}}`,
   },

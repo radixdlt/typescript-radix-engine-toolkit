@@ -23,11 +23,11 @@ import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class NotarizedTransaction {
   signedIntent: SignedTransactionIntent;
-  notarySignature: Signature.Any;
+  notarySignature: Signature.Signature;
 
   constructor(
     signedIntent: SignedTransactionIntent,
-    notarySignature: Signature.Any
+    notarySignature: Signature.Signature
   ) {
     this.signedIntent = signedIntent;
     this.notarySignature = notarySignature;

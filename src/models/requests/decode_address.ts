@@ -15,8 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { EntityAddress } from "../../";
-import { numberToString, uint8ArrayToString } from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert, EntityAddress } from "../../";
+import * as Serializers from "../serializers";
 
 export class DecodeAddressRequest {
   address: string;
@@ -27,23 +28,41 @@ export class DecodeAddressRequest {
 }
 
 export class DecodeAddressResponse {
-  networkId: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
+
+  @Expose({ name: "network_name" })
   networkName: string;
+
+  @Expose({ name: "entity_type" })
   entityType: EntityAddress.EntityType;
-  data: string;
+
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  data: Uint8Array;
+
+  @Expose()
   hrp: string;
 
   constructor(
     networkId: number,
     networkName: string,
     entityType: EntityAddress.EntityType,
-    data: Uint8Array,
+    data: Uint8Array | string,
     hrp: string
   ) {
-    this.networkId = numberToString(networkId);
+    this.networkId = networkId;
     this.networkName = networkName;
     this.entityType = entityType;
-    this.data = uint8ArrayToString(data);
+    this.data = Convert.Uint8Array.from(data);
     this.hrp = hrp;
   }
 

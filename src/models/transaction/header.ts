@@ -15,22 +15,77 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { numberToString } from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { PublicKey } from "../crypto";
+import * as Serializers from "../serializers";
 
 /**
  * A transaction header containing metadata and other transaction information.
  */
 export class TransactionHeader {
-  version: string;
-  networkId: string;
-  startEpochInclusive: string;
-  endEpochExclusive: string;
-  nonce: string;
-  notaryPublicKey: PublicKey.Any;
+  @Expose({ name: "version" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  version: number;
+
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
+
+  @Expose({ name: "start_epoch_inclusive" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  startEpochInclusive: number;
+
+  @Expose({ name: "end_epoch_exclusive" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  endEpochExclusive: number;
+
+  @Expose({ name: "nonce" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  nonce: number;
+
+  @Expose({ name: "notary_public_key" })
+  @Type(() => PublicKey.PublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  notaryPublicKey: PublicKey.PublicKey;
+
+  @Expose({ name: "notary_as_signatory" })
   notaryAsSignatory: boolean;
-  costUnitLimit: string;
-  tipPercentage: string;
+
+  @Expose({ name: "cost_unit_limit" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  costUnitLimit: number;
+
+  @Expose({ name: "tip_percentage" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  tipPercentage: number;
 
   constructor(
     version: number,
@@ -38,20 +93,20 @@ export class TransactionHeader {
     startEpochInclusive: number,
     endEpochExclusive: number,
     nonce: number,
-    notaryPublicKey: PublicKey.Any,
+    notaryPublicKey: PublicKey.PublicKey,
     notaryAsSignatory: boolean,
     costUnitLimit: number,
     tipPercentage: number
   ) {
-    this.version = numberToString(version);
-    this.networkId = numberToString(networkId);
-    this.startEpochInclusive = numberToString(startEpochInclusive);
-    this.endEpochExclusive = numberToString(endEpochExclusive);
-    this.nonce = numberToString(nonce);
+    this.version = version;
+    this.networkId = networkId;
+    this.startEpochInclusive = startEpochInclusive;
+    this.endEpochExclusive = endEpochExclusive;
+    this.nonce = nonce;
     this.notaryPublicKey = notaryPublicKey;
     this.notaryAsSignatory = notaryAsSignatory;
-    this.costUnitLimit = numberToString(costUnitLimit);
-    this.tipPercentage = numberToString(tipPercentage);
+    this.costUnitLimit = costUnitLimit;
+    this.tipPercentage = tipPercentage;
   }
 
   toString(): string {

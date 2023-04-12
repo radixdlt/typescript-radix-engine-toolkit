@@ -15,7 +15,16 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { instanceToPlain } from "class-transformer";
 import { Instruction } from ".";
+
+export class InstructionList {
+  readonly type: Kind;
+
+  constructor(type: Kind) {
+    this.type = type;
+  }
+}
 
 export type Any = StringInstructions | ParsedInstructions;
 
@@ -24,11 +33,11 @@ export enum Kind {
   Parsed = "Parsed",
 }
 
-export class StringInstructions {
-  readonly type: Kind = Kind.String;
+export class StringInstructions extends InstructionList {
   value: string;
 
   constructor(instructions: string) {
+    super(Kind.String);
     this.value = instructions;
   }
 
@@ -37,11 +46,11 @@ export class StringInstructions {
   }
 }
 
-export class ParsedInstructions {
-  readonly type: Kind = Kind.Parsed;
+export class ParsedInstructions extends InstructionList {
   value: Array<Instruction.Any>;
 
   constructor(instructions: Array<Instruction.Any>) {
+    super(Kind.Parsed);
     this.value = instructions;
   }
 

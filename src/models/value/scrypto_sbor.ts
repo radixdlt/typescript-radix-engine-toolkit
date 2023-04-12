@@ -15,23 +15,32 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import {
+  Expose,
+  Transform,
+  Type,
+  TypeOptions,
+  instanceToPlain,
+} from "class-transformer";
 import { Decimal as DecimalJs } from "decimal.js";
 import { EntityAddress } from "..";
+import { Convert } from "../..";
 import { IAddress } from "../../base/base_address";
-import {
-  bigIntToString,
-  decimalToString,
-  numberToString,
-  resolveBytes,
-  uint8ArrayToString,
-} from "../../utils";
 import {
   AddressBook,
   AddressInformation,
   RadixEngineToolkit,
 } from "../../wrapper/default";
 import { PublicKey } from "../crypto";
+import * as Serializers from "../serializers";
 import { ISborValueConvertible, ScryptoSbor } from "./sbor";
+
+export let valueTypeOptions: TypeOptions = {
+  discriminator: {
+    property: "type",
+    subTypes: [],
+  },
+};
 
 export abstract class Value implements ISborValueConvertible {
   readonly type: Kind;
@@ -73,6 +82,7 @@ export enum Kind {
 }
 
 export class Bool extends Value {
+  @Expose()
   value: boolean;
 
   constructor(value: boolean) {
@@ -86,11 +96,16 @@ export class Bool extends Value {
 }
 
 export class U8 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: number;
 
   constructor(value: number) {
     super(Kind.U8);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -99,11 +114,16 @@ export class U8 extends Value {
 }
 
 export class U16 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: number;
 
   constructor(value: number) {
     super(Kind.U16);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -112,11 +132,16 @@ export class U16 extends Value {
 }
 
 export class U32 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: number;
 
   constructor(value: number) {
     super(Kind.U32);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -125,11 +150,16 @@ export class U32 extends Value {
 }
 
 export class U64 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.BigIntAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: bigint;
 
-  constructor(value: number) {
+  constructor(value: bigint) {
     super(Kind.U64);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -138,11 +168,16 @@ export class U64 extends Value {
 }
 
 export class U128 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.BigIntAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: bigint;
 
-  constructor(value: BigInt) {
+  constructor(value: bigint) {
     super(Kind.U128);
-    this.value = bigIntToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -151,11 +186,16 @@ export class U128 extends Value {
 }
 
 export class I8 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: number;
 
   constructor(value: number) {
     super(Kind.I8);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -164,11 +204,16 @@ export class I8 extends Value {
 }
 
 export class I16 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: number;
 
   constructor(value: number) {
     super(Kind.I16);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -177,11 +222,16 @@ export class I16 extends Value {
 }
 
 export class I32 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: number;
 
   constructor(value: number) {
     super(Kind.I32);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -190,11 +240,16 @@ export class I32 extends Value {
 }
 
 export class I64 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.BigIntAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: bigint;
 
-  constructor(value: number) {
+  constructor(value: bigint) {
     super(Kind.I64);
-    this.value = numberToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -203,11 +258,16 @@ export class I64 extends Value {
 }
 
 export class I128 extends Value {
-  value: string;
+  @Expose()
+  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.BigIntAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: bigint;
 
-  constructor(value: BigInt) {
+  constructor(value: bigint) {
     super(Kind.I128);
-    this.value = bigIntToString(value);
+    this.value = value;
   }
 
   toString(): string {
@@ -216,6 +276,7 @@ export class I128 extends Value {
 }
 
 export class String extends Value {
+  @Expose()
   value: string;
 
   constructor(value: string) {
@@ -229,12 +290,20 @@ export class String extends Value {
 }
 
 export class Enum extends Value {
-  variant: string;
+  @Expose()
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  variant: number;
+
+  @Expose()
+  @Type(() => Value, valueTypeOptions)
   fields: globalThis.Array<Value> = [];
 
   constructor(variant: number, fields: globalThis.Array<Value> = []) {
     super(Kind.Enum);
-    this.variant = numberToString(variant);
+    this.variant = variant;
     this.fields = fields;
   }
 
@@ -244,7 +313,11 @@ export class Enum extends Value {
 }
 
 export class Array extends Value {
+  @Expose({ name: "element_kind" })
   elementKind: Kind;
+
+  @Expose()
+  @Type(() => Value, valueTypeOptions)
   elements: globalThis.Array<Value>;
 
   constructor(elementKind: Kind, elements: globalThis.Array<Value>) {
@@ -259,14 +332,20 @@ export class Array extends Value {
 }
 
 export class Map extends Value {
+  @Expose({ name: "key_value_kind" })
   keyValueKind: Kind;
+
+  @Expose({ name: "value_value_kind" })
   valueValueKind: Kind;
-  entries: globalThis.Array<[Value, Value]> = [];
+
+  @Expose({ name: "entries" })
+  @Type(() => Value, valueTypeOptions)
+  entries: globalThis.Array<Value> = [];
 
   constructor(
     keyValueKind: Kind,
     valueValueKind: Kind,
-    elements: globalThis.Array<[Value, Value]> = []
+    elements: globalThis.Array<Value> = []
   ) {
     super(Kind.Map);
     this.keyValueKind = keyValueKind;
@@ -280,7 +359,9 @@ export class Map extends Value {
 }
 
 export class Tuple extends Value {
-  elements: globalThis.Array<Value> = [];
+  @Expose()
+  @Type(() => Value, valueTypeOptions)
+  elements: globalThis.Array<Value>;
 
   constructor(elements: globalThis.Array<Value> = []) {
     super(Kind.Tuple);
@@ -293,28 +374,24 @@ export class Tuple extends Value {
 }
 
 export class Decimal extends Value {
-  value: string;
-
-  set value(value: DecimalJs | string | number) {
-    if (typeof value === "string") {
-      this.value = value;
-    } else if (typeof value === "number") {
-      this.value = numberToString(value);
-    } else if (value instanceof DecimalJs) {
-      this.value = decimalToString(value);
-    } else {
-      throw new TypeError("Invalid type passed as decimal");
-    }
-  }
+  @Expose()
+  @Type(() => DecimalJs)
+  @Transform(Serializers.DecimalAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.DecimalAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: DecimalJs;
 
   constructor(value: DecimalJs | string | number) {
     super(Kind.Decimal);
-    if (typeof value === "string") {
-      this.value = value;
+    if (value == null || value == undefined) {
+      this.value = new DecimalJs(0);
+    } else if (typeof value === "string") {
+      this.value = new DecimalJs(value);
     } else if (typeof value === "number") {
-      this.value = numberToString(value);
+      this.value = new DecimalJs(value);
     } else if (value instanceof DecimalJs) {
-      this.value = decimalToString(value);
+      this.value = value;
     } else {
       throw new TypeError("Invalid type passed as decimal");
     }
@@ -326,28 +403,24 @@ export class Decimal extends Value {
 }
 
 export class PreciseDecimal extends Value {
-  value: string;
-
-  set value(value: DecimalJs | string | number) {
-    if (typeof value === "string") {
-      this.value = value;
-    } else if (typeof value === "number") {
-      this.value = numberToString(value);
-    } else if (value instanceof DecimalJs) {
-      this.value = decimalToString(value);
-    } else {
-      throw new TypeError("Invalid type passed as decimal");
-    }
-  }
+  @Expose()
+  @Type(() => DecimalJs)
+  @Transform(Serializers.DecimalAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.DecimalAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: DecimalJs;
 
   constructor(value: DecimalJs | string | number) {
     super(Kind.PreciseDecimal);
-    if (typeof value === "string") {
-      this.value = value;
+    if (value == null || value == undefined) {
+      this.value = new DecimalJs(0);
+    } else if (typeof value === "string") {
+      this.value = new DecimalJs(value);
     } else if (typeof value === "number") {
-      this.value = numberToString(value);
+      this.value = new DecimalJs(value);
     } else if (value instanceof DecimalJs) {
-      this.value = decimalToString(value);
+      this.value = value;
     } else {
       throw new TypeError("Invalid type passed as decimal");
     }
@@ -359,6 +432,7 @@ export class PreciseDecimal extends Value {
 }
 
 export class Address extends Value implements IAddress {
+  @Expose()
   address: string;
 
   constructor(address: string) {
@@ -367,7 +441,7 @@ export class Address extends Value implements IAddress {
   }
 
   static async virtualAccountAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<Address> {
     return RadixEngineToolkit.deriveVirtualAccountAddress(
@@ -377,7 +451,7 @@ export class Address extends Value implements IAddress {
   }
 
   static async virtualIdentityAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<Address> {
     return RadixEngineToolkit.deriveVirtualIdentityAddress(
@@ -505,7 +579,120 @@ export class Address extends Value implements IAddress {
   }
 }
 
+export class Bucket {
+  readonly type: OwnKind = OwnKind.Bucket;
+
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
+
+  constructor(value: Uint8Array) {
+    this.value = value;
+  }
+
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
+}
+
+export class Proof {
+  readonly type: OwnKind = OwnKind.Proof;
+
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
+
+  constructor(value: Uint8Array) {
+    this.value = value;
+  }
+
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
+}
+
+export class Vault {
+  readonly type: OwnKind = OwnKind.Vault;
+
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
+
+  constructor(value: Uint8Array) {
+    this.value = value;
+  }
+
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
+}
+
+export class ObjectNode {
+  readonly type: OwnKind = OwnKind.ObjectNode;
+
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
+
+  constructor(value: Uint8Array) {
+    this.value = value;
+  }
+
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
+}
+
+export class KeyValueStore {
+  readonly type: OwnKind = OwnKind.KeyValueStore;
+
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
+
+  constructor(value: Uint8Array) {
+    this.value = value;
+  }
+
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
+}
+
 export class Own extends Value {
+  @Expose()
+  @Type(Object, {
+    discriminator: {
+      property: "type",
+      subTypes: [
+        { name: "Bucket", value: Bucket },
+        { name: "Proof", value: Proof },
+        { name: "Vault", value: Vault },
+        { name: "Object", value: ObjectNode },
+        { name: "KeyValueStore", value: KeyValueStore },
+      ],
+    },
+  })
   value: Bucket | Proof | Vault | ObjectNode | KeyValueStore;
 
   constructor(value: Bucket | Proof | Vault | ObjectNode | KeyValueStore) {
@@ -526,12 +713,19 @@ export enum OwnKind {
   KeyValueStore = "KeyValueStore",
 }
 
-export class Bucket {
-  readonly type: OwnKind = OwnKind.Bucket;
-  value: string;
+export class Integer {
+  @Expose()
+  readonly type: string = "Integer";
 
-  constructor(value: Uint8Array) {
-    this.value = uint8ArrayToString(value);
+  @Expose()
+  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.BigIntAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: bigint;
+
+  constructor(value: bigint) {
+    this.value = value;
   }
 
   toString(): string {
@@ -539,12 +733,19 @@ export class Bucket {
   }
 }
 
-export class Proof {
-  readonly type: OwnKind = OwnKind.Proof;
-  value: string;
+export class UUID {
+  @Expose()
+  readonly type: string = "UUID";
 
-  constructor(value: Uint8Array) {
-    this.value = uint8ArrayToString(value);
+  @Expose()
+  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.BigIntAsString.deserialize, {
+    toClassOnly: true,
+  })
+  value: bigint;
+
+  constructor(value: bigint) {
+    this.value = value;
   }
 
   toString(): string {
@@ -552,38 +753,19 @@ export class Proof {
   }
 }
 
-export class Vault {
-  readonly type: OwnKind = OwnKind.Vault;
-  value: string;
+export class Bytes {
+  readonly type: string = "Bytes";
 
-  constructor(value: Uint8Array) {
-    this.value = uint8ArrayToString(value);
-  }
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
 
-  toString(): string {
-    return JSON.stringify(instanceToPlain(this));
-  }
-}
-
-export class ObjectNode {
-  readonly type: OwnKind = OwnKind.ObjectNode;
-  value: string;
-
-  constructor(value: Uint8Array) {
-    this.value = uint8ArrayToString(value);
-  }
-
-  toString(): string {
-    return JSON.stringify(instanceToPlain(this));
-  }
-}
-
-export class KeyValueStore {
-  readonly type: OwnKind = OwnKind.KeyValueStore;
-  value: string;
-
-  constructor(value: Uint8Array) {
-    this.value = uint8ArrayToString(value);
+  constructor(value: Uint8Array | string) {
+    this.value = Convert.Uint8Array.from(value);
   }
 
   toString(): string {
@@ -592,6 +774,19 @@ export class KeyValueStore {
 }
 
 export class NonFungibleLocalId extends Value {
+  @Expose()
+  @Type(() => Object, {
+    discriminator: {
+      property: "type",
+      subTypes: [
+        { name: "UUID", value: UUID },
+        { name: "Integer", value: Integer },
+        { name: "String", value: String },
+        { name: "Bytes", value: Bytes },
+      ],
+    },
+    keepDiscriminatorProperty: true,
+  })
   value: UUID | Integer | String | Bytes;
 
   constructor(value: UUID | Integer | String | Bytes) {
@@ -604,54 +799,46 @@ export class NonFungibleLocalId extends Value {
   }
 }
 
-export class Integer {
-  readonly type: string = "Integer";
-  value: string;
-
-  constructor(value: number) {
-    this.value = numberToString(value);
-  }
-
-  toString(): string {
-    return JSON.stringify(instanceToPlain(this));
-  }
-}
-
-export class UUID {
-  readonly type: string = "UUID";
-  value: string;
-
-  constructor(value: BigInt) {
-    this.value = bigIntToString(value);
-  }
-
-  toString(): string {
-    return JSON.stringify(instanceToPlain(this));
-  }
-}
-
-export class Bytes {
-  readonly type: string = "Bytes";
-  value: string;
-
-  constructor(value: Uint8Array | string) {
-    this.value = uint8ArrayToString(resolveBytes(value));
-  }
-
-  toString(): string {
-    return JSON.stringify(instanceToPlain(this));
-  }
-}
-
 export class Reference extends Value {
-  value: string;
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
 
   constructor(value: Uint8Array) {
     super(Kind.Reference);
-    this.value = uint8ArrayToString(value);
+    this.value = value;
   }
 
   toString(): string {
     return JSON.stringify(instanceToPlain(this));
   }
 }
+
+valueTypeOptions.discriminator!.subTypes = [
+  { name: "Bool", value: Bool },
+  { name: "U8", value: U8 },
+  { name: "U16", value: U16 },
+  { name: "U32", value: U32 },
+  { name: "U64", value: U64 },
+  { name: "U128", value: U128 },
+  { name: "I8", value: I8 },
+  { name: "I16", value: I16 },
+  { name: "I32", value: I32 },
+  { name: "I64", value: I64 },
+  { name: "I128", value: I128 },
+  { name: "String", value: String },
+  { name: "Enum", value: Enum },
+  { name: "Array", value: Array },
+  { name: "Map", value: Map },
+  { name: "Tuple", value: Tuple },
+  { name: "Address", value: Address },
+  { name: "Own", value: Own },
+  { name: "Decimal", value: Decimal },
+  { name: "PreciseDecimal", value: PreciseDecimal },
+  { name: "NonFungibleLocalId", value: NonFungibleLocalId },
+  { name: "Reference", value: Reference },
+];

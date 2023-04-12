@@ -20,12 +20,15 @@ import { Convert } from "../..";
 import * as Serializers from "../serializers";
 import { Curve } from "./curve";
 
-export type Any = EcdsaSecp256k1 | EddsaEd25519;
+export class Signature {
+  readonly curve: Curve;
 
-export class EcdsaSecp256k1 {
-  @Expose()
-  curve: Curve = Curve.EcdsaSecp256k1;
+  constructor(curve: Curve) {
+    this.curve = curve;
+  }
+}
 
+export class EcdsaSecp256k1 extends Signature {
   @Expose()
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
@@ -35,6 +38,7 @@ export class EcdsaSecp256k1 {
   signature: Uint8Array;
 
   constructor(signature: Uint8Array | string) {
+    super(Curve.EcdsaSecp256k1);
     this.signature = Convert.Uint8Array.from(signature);
   }
 
@@ -43,10 +47,7 @@ export class EcdsaSecp256k1 {
   }
 }
 
-export class EddsaEd25519 {
-  @Expose()
-  curve: Curve = Curve.EddsaEd25519;
-
+export class EddsaEd25519 extends Signature {
   @Expose()
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
@@ -56,6 +57,7 @@ export class EddsaEd25519 {
   signature: Uint8Array;
 
   constructor(signature: Uint8Array | string) {
+    super(Curve.EddsaEd25519);
     this.signature = Convert.Uint8Array.from(signature);
   }
 

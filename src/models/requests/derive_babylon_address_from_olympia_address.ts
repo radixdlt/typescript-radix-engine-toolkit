@@ -15,15 +15,23 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { EntityAddress, PublicKey } from "..";
-import { numberToString } from "../../utils";
+import * as Serializers from "../serializers";
 
 export class DeriveBabylonAddressFromOlympiaAddressRequest {
-  networkId: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
+
+  @Expose({ name: "olympia_account_address" })
   olympiaAccountAddress: string;
 
   constructor(networkId: number, olympiaAccountAddress: string) {
-    this.networkId = numberToString(networkId);
+    this.networkId = networkId;
     this.olympiaAccountAddress = olympiaAccountAddress;
   }
 
@@ -33,12 +41,25 @@ export class DeriveBabylonAddressFromOlympiaAddressRequest {
 }
 
 export class DeriveBabylonAddressFromOlympiaAddressResponse {
+  @Expose({ name: "babylon_account_address" })
+  @Type(() => EntityAddress.ComponentAddress)
   babylonAccountAddress: EntityAddress.ComponentAddress;
-  publicKey: PublicKey.Any;
+
+  @Expose({ name: "public_key" })
+  @Type(() => PublicKey.PublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  publicKey: PublicKey.PublicKey;
 
   constructor(
     babylonAccountAddress: EntityAddress.ComponentAddress,
-    publicKey: PublicKey.Any
+    publicKey: PublicKey.PublicKey
   ) {
     this.babylonAccountAddress = babylonAccountAddress;
     this.publicKey = publicKey;

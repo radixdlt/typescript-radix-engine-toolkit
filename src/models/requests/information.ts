@@ -36,7 +36,6 @@ export class InformationResponse {
    * X then that means that it is compatible with version X of Scrypto.
    */
   @Expose({ name: "package_version" })
-  @Type(() => String)
   packageVersion: string;
 
   /**

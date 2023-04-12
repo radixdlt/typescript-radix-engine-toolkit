@@ -16,6 +16,7 @@
 // under the License.
 
 import { ISborValueConvertible } from "models/value/sbor";
+import { Convert } from "..";
 import {
   AnalyzeManifestRequest,
   ConvertManifestRequest,
@@ -45,7 +46,6 @@ import {
   TransactionManifest,
   ValidationConfig,
 } from "../models";
-import { resolveBytes } from "../utils";
 import { RawRadixEngineToolkit } from "./raw";
 
 export class RadixEngineToolkit {
@@ -179,7 +179,7 @@ export class RadixEngineToolkit {
     return RawRadixEngineToolkit.decompileTransactionIntent(
       new DecompileTransactionIntentRequest(
         instructionsOutputKind,
-        resolveBytes(compiledIntent)
+        Convert.Uint8Array.from(compiledIntent)
       )
     );
   }
@@ -199,7 +199,7 @@ export class RadixEngineToolkit {
     return RawRadixEngineToolkit.decompileSignedTransactionIntent(
       new DecompileSignedTransactionIntentRequest(
         instructionsOutputKind,
-        resolveBytes(compiledIntent)
+        Convert.Uint8Array.from(compiledIntent)
       )
     );
   }
@@ -219,7 +219,7 @@ export class RadixEngineToolkit {
     return RawRadixEngineToolkit.decompileNotarizedTransactionIntent(
       new DecompileNotarizedTransactionIntentRequest(
         instructionsOutputKind,
-        resolveBytes(compiledIntent)
+        Convert.Uint8Array.from(compiledIntent)
       )
     );
   }
@@ -244,7 +244,7 @@ export class RadixEngineToolkit {
     return RawRadixEngineToolkit.decompileUnknownTransactionIntent(
       new DecompileUnknownTransactionIntentRequest(
         instructionsOutputKind,
-        resolveBytes(compiledIntent)
+        Convert.Uint8Array.from(compiledIntent)
       )
     ).then(({ value }) => value);
   }
@@ -262,7 +262,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<string> {
     return RawRadixEngineToolkit.encodeAddress(
-      new EncodeAddressRequest(resolveBytes(addressBytes), networkId)
+      new EncodeAddressRequest(Convert.Uint8Array.from(addressBytes), networkId)
     ).then(({ address }) => address);
   }
 
@@ -311,7 +311,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<SborValue.Any> {
     return RawRadixEngineToolkit.sborDecode(
-      new SborDecodeRequest(resolveBytes(encodedValue), networkId)
+      new SborDecodeRequest(Convert.Uint8Array.from(encodedValue), networkId)
     );
   }
 
@@ -325,7 +325,7 @@ export class RadixEngineToolkit {
    * @returns The address of the virtual account as a string.
    */
   static async deriveVirtualAccountAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<string> {
     return RawRadixEngineToolkit.deriveVirtualAccountAddress(
@@ -343,7 +343,7 @@ export class RadixEngineToolkit {
    * @returns The address of the virtual identity as a string.
    */
   static async deriveVirtualIdentityAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<string> {
     return RawRadixEngineToolkit.deriveVirtualIdentityAddress(
@@ -553,7 +553,7 @@ export interface OlympiaToBabylonAddressMapping {
   /**
    * The underling public key encoded in the Olympia account address.
    */
-  publicKey: PublicKey.Any;
+  publicKey: PublicKey.PublicKey;
 
   /**
    * The Olympia account address associated with the given public key.

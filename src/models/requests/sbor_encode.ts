@@ -15,16 +15,18 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, instanceToPlain } from "class-transformer";
 import { SborValue } from "models/value";
-import { uint8ArrayToString } from "../../utils";
+import { Convert } from "../..";
 
 export type SborEncodeRequest = SborValue.Any;
 
 export class SborEncodeResponse {
-  encodedValue: string;
+  @Expose({ name: "encoded_value" })
+  encodedValue: Uint8Array;
 
   constructor(encodedValue: Uint8Array) {
-    this.encodedValue = uint8ArrayToString(encodedValue);
+    this.encodedValue = Convert.Uint8Array.from(encodedValue);
   }
 
   toString(): string {

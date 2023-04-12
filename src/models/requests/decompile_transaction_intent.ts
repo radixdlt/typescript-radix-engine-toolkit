@@ -15,19 +15,28 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { InstructionList, TransactionIntent } from "models/transaction";
-import { uint8ArrayToString } from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert, InstructionList, TransactionIntent } from "../..";
+import * as Serializers from "../serializers";
 
 export class DecompileTransactionIntentRequest {
+  @Expose({ name: "instructions_output_kind" })
   instructionsOutputKind: InstructionList.Kind;
-  compiledIntent: string;
+
+  @Expose({ name: "compiled_intent" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  compiledIntent: Uint8Array;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
-    compiledIntent: Uint8Array
+    compiledIntent: Uint8Array | string
   ) {
     this.instructionsOutputKind = instructionsOutputKind;
-    this.compiledIntent = uint8ArrayToString(compiledIntent);
+    this.compiledIntent = Convert.Uint8Array.from(compiledIntent);
   }
 
   toString(): string {

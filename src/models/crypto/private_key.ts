@@ -109,12 +109,12 @@ export class EddsaEd25519 implements IPrivateKey {
 }
 
 export interface IPrivateKey {
-  publicKey: () => PublicKey.Any;
+  publicKey: () => PublicKey.PublicKey;
   publicKeyBytes: () => Uint8Array;
   publicKeyHex: () => string;
   sign: (data: Uint8Array) => Uint8Array;
-  signToSignature: (data: Uint8Array) => Signature.Any;
+  signToSignature: (data: Uint8Array) => Signature.Signature;
   signToSignatureWithPublicKey: (
     data: Uint8Array
-  ) => SignatureWithPublicKey.Any;
+  ) => SignatureWithPublicKey.SignatureWithPublicKey;
 }

@@ -15,16 +15,33 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { EntityAddress } from "..";
-import { numberToString } from "../../utils";
 import { PublicKey } from "../crypto";
+import * as Serializers from "../serializers";
 
 export class DeriveVirtualIdentityAddressRequest {
-  networkId: string;
-  publicKey: PublicKey.Any;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
-  constructor(networkId: number, publicKey: PublicKey.Any) {
-    this.networkId = numberToString(networkId);
+  @Expose({ name: "public_key" })
+  @Type(() => PublicKey.PublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  publicKey: PublicKey.PublicKey;
+
+  constructor(networkId: number, publicKey: PublicKey.PublicKey) {
+    this.networkId = networkId;
     this.publicKey = publicKey;
   }
 
@@ -34,6 +51,8 @@ export class DeriveVirtualIdentityAddressRequest {
 }
 
 export class DeriveVirtualIdentityAddressResponse {
+  @Expose({ name: "virtual_identity_address" })
+  @Type(() => EntityAddress.ComponentAddress)
   virtualIdentityAddress: EntityAddress.ComponentAddress;
 
   constructor(virtualIdentityAddress: EntityAddress.ComponentAddress) {

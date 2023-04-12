@@ -43,7 +43,7 @@ describe.each([
     expectedSerialization: `{"type":"U32","value":"1"}`,
   },
   {
-    expectedObject: new ManifestAstValue.U64(1),
+    expectedObject: new ManifestAstValue.U64(BigInt(1)),
     expectedSerialization: `{"type":"U64","value":"1"}`,
   },
   {
@@ -63,7 +63,7 @@ describe.each([
     expectedSerialization: `{"type":"I32","value":"1"}`,
   },
   {
-    expectedObject: new ManifestAstValue.I64(1),
+    expectedObject: new ManifestAstValue.I64(BigInt(1)),
     expectedSerialization: `{"type":"I64","value":"1"}`,
   },
   {
@@ -133,22 +133,26 @@ describe.each([
       ManifestAstValue.Kind.U8,
       ManifestAstValue.Kind.String,
       [
-        [new ManifestAstValue.U8(65), new ManifestAstValue.String("A")],
-        [new ManifestAstValue.U8(66), new ManifestAstValue.String("B")],
+        new ManifestAstValue.U8(65),
+        new ManifestAstValue.String("A"),
+        new ManifestAstValue.U8(66),
+        new ManifestAstValue.String("B"),
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
   },
   {
     expectedObject: new ManifestAstValue.Map(
       ManifestAstValue.Kind.U8,
       ManifestAstValue.Kind.String,
       [
-        [new ManifestAstValue.U8(65), new ManifestAstValue.String("A")],
-        [new ManifestAstValue.U8(66), new ManifestAstValue.String("B")],
+        new ManifestAstValue.U8(65),
+        new ManifestAstValue.String("A"),
+        new ManifestAstValue.U8(66),
+        new ManifestAstValue.String("B"),
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
   },
   {
     expectedObject: new ManifestAstValue.Tuple([
@@ -233,7 +237,7 @@ describe.each([
   },
   {
     expectedObject: new ManifestAstValue.NonFungibleLocalId(
-      new ManifestAstValue.Integer(1)
+      new ManifestAstValue.Integer(BigInt(1))
     ),
     expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"Integer","value":"1"}}`,
   },
@@ -268,7 +272,9 @@ describe.each([
       new ManifestAstValue.Address(
         "resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs3ydc4g"
       ),
-      new ManifestAstValue.NonFungibleLocalId(new ManifestAstValue.Integer(1))
+      new ManifestAstValue.NonFungibleLocalId(
+        new ManifestAstValue.Integer(BigInt(1))
+      )
     ),
     expectedSerialization: `{"type":"NonFungibleGlobalId","resource_address":{"type":"Address","address":"resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs3ydc4g"},"non_fungible_local_id":{"type":"NonFungibleLocalId","value":{"type":"Integer","value":"1"}}}`,
   },

@@ -15,16 +15,25 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, instanceToPlain } from "class-transformer";
 import { SborValue } from "models/value";
-import { numberToString, uint8ArrayToString } from "../../utils";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
 export class SborDecodeRequest {
-  encodedValue: string;
-  networkId: string;
+  @Expose({ name: "encoded_value" })
+  encodedValue: Uint8Array;
 
-  constructor(encodedValue: Uint8Array, networkId: number) {
-    this.encodedValue = uint8ArrayToString(encodedValue);
-    this.networkId = numberToString(networkId);
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
+
+  constructor(encodedValue: Uint8Array | string, networkId: number) {
+    this.encodedValue = Convert.Uint8Array.from(encodedValue);
+    this.networkId = networkId;
   }
 
   toString(): string {

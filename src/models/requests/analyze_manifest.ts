@@ -15,15 +15,24 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { EntityAddress, TransactionManifest } from "../../models";
-import { numberToString } from "../../utils";
+import * as Serializers from "../serializers";
 
 export class AnalyzeManifestRequest {
-  networkId: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
+
+  @Expose({ name: "transaction_manifest" })
+  @Type(() => TransactionManifest)
   transactionManifest: TransactionManifest;
 
   constructor(networkId: number, transactionManifest: TransactionManifest) {
-    this.networkId = numberToString(networkId);
+    this.networkId = networkId;
     this.transactionManifest = transactionManifest;
   }
 

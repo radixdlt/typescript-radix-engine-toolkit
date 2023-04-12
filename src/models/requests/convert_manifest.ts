@@ -15,8 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionManifest } from "../../models/transaction";
-import { numberToString } from "../../utils";
+import * as Serializers from "../serializers";
 
 /**
  * Clients have a need to be able to read, parse, understand, and interrogate transaction manifests
@@ -43,17 +44,25 @@ export class ConvertManifestRequest {
    * the manifest will be used on. The primary use of this is for any Bech32m encoding or decoding
    * of addresses
    */
-  networkId: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
   /**
    * Defines the output format that we would like the manifest to be in after this request is
    * performed.
    */
+  @Expose({ name: "instructions_output_kind" })
   instructionsOutputKind: InstructionList.Kind;
 
   /**
    * The manifest to convert to the format described by `instructions_output_kind`
    */
+  @Expose()
+  @Type(() => TransactionManifest)
   manifest: TransactionManifest;
 
   constructor(
@@ -61,7 +70,7 @@ export class ConvertManifestRequest {
     instructionsOutputKind: InstructionList.Kind,
     manifest: TransactionManifest
   ) {
-    this.networkId = numberToString(networkId);
+    this.networkId = networkId;
     this.instructionsOutputKind = instructionsOutputKind;
     this.manifest = manifest;
   }
