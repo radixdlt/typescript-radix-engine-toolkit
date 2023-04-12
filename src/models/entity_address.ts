@@ -16,7 +16,6 @@
 // under the License.
 
 import { instanceToPlain } from "class-transformer";
-import { EntityAddress } from ".";
 import { IAddress } from "../base/base_address";
 import {
   AddressBook,
@@ -25,19 +24,19 @@ import {
 } from "../wrapper/default";
 import { PublicKey } from "./crypto";
 
-export type Any = ComponentAddress | ResourceAddress | PackageAddress;
+export class EntityAddress {
+  readonly type: "ComponentAddress" | "ResourceAddress" | "PackageAddress";
 
-export enum Kind {
-  ComponentAddress = "ComponentAddress",
-  ResourceAddress = "ResourceAddress",
-  PackageAddress = "PackageAddress",
+  constructor(type: "ComponentAddress" | "ResourceAddress" | "PackageAddress") {
+    this.type = type;
+  }
 }
 
-export class ComponentAddress implements IAddress {
-  readonly type: Kind = Kind.ComponentAddress;
+export class ComponentAddress extends EntityAddress implements IAddress {
   address: string;
 
   constructor(address: string) {
+    super("ComponentAddress");
     this.address = address;
   }
 
@@ -112,7 +111,7 @@ export class ComponentAddress implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 
@@ -139,11 +138,11 @@ export class ComponentAddress implements IAddress {
   }
 }
 
-export class ResourceAddress implements IAddress {
-  readonly type: Kind = Kind.ResourceAddress;
+export class ResourceAddress extends EntityAddress implements IAddress {
   address: string;
 
   constructor(address: string) {
+    super("ResourceAddress");
     this.address = address;
   }
 
@@ -204,7 +203,7 @@ export class ResourceAddress implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 
@@ -231,11 +230,11 @@ export class ResourceAddress implements IAddress {
   }
 }
 
-export class PackageAddress implements IAddress {
-  readonly type: Kind = Kind.PackageAddress;
+export class PackageAddress extends EntityAddress implements IAddress {
   address: string;
 
   constructor(address: string) {
+    super("PackageAddress");
     this.address = address;
   }
 
@@ -271,7 +270,7 @@ export class PackageAddress implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 

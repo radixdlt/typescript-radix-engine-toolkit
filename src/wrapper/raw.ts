@@ -249,29 +249,29 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let response = ret.invoke(request, ret.exports.encode_address, Object);
-    // @ts-ignore
-    let type: EntityAddress.Kind | undefined = response?.[
-      "type"
-    ] as EntityAddress.Kind;
-    if (type === EntityAddress.Kind.ComponentAddress) {
-      return Object.setPrototypeOf(
-        response,
-        EntityAddress.ComponentAddress.prototype
+    let response = ret.invoke(
+      request,
+      ret.exports.encode_address,
+      EntityAddress.EntityAddress
+    );
+    if (response.type === "ComponentAddress") {
+      response = plainToInstance(
+        EntityAddress.ComponentAddress,
+        instanceToPlain(response)
       );
-    } else if (type === EntityAddress.Kind.PackageAddress) {
-      return Object.setPrototypeOf(
-        response,
-        EntityAddress.PackageAddress.prototype
+    } else if (response.type === "ResourceAddress") {
+      response = plainToInstance(
+        EntityAddress.ResourceAddress,
+        instanceToPlain(response)
       );
-    } else if (type === EntityAddress.Kind.ResourceAddress) {
-      return Object.setPrototypeOf(
-        response,
-        EntityAddress.ResourceAddress.prototype
+    } else if (response.type === "PackageAddress") {
+      response = plainToInstance(
+        EntityAddress.PackageAddress,
+        instanceToPlain(response)
       );
-    } else {
-      throw new Error("no type key found for address");
     }
+
+    return response;
   }
 
   public static async decodeAddress(
