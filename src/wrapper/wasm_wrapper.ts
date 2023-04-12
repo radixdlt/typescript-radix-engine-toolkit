@@ -15,14 +15,12 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import radixEngineToolkitWasm from "../../resources/radix-engine-toolkit.wasm";
 import {
-  prefix,
-  toCamelCase,
-  toSnakeCase,
-  traverseObjectForKeys,
-  trim,
-} from "../utils";
+  ClassConstructor,
+  instanceToPlain,
+  plainToInstance,
+} from "class-transformer";
+import radixEngineToolkitWasm from "../../resources/radix-engine-toolkit.wasm";
 
 /**
  * Wraps a Radix Engine Toolkit WASM instance providing a high level API for making calls to the
@@ -70,7 +68,7 @@ class RadixEngineToolkitWasmWrapper {
    * call into the RadixEngineToolkit
    * @param request An object containing the request payload
    * @param fn The function to call of the `RadixEngineToolkitFFI`
-   * @param constructorFn The constructor function. This constructor will not actually be used to
+   * @param Response The constructor function. This constructor will not actually be used to
    * construct any objects. Rather, it will be used as the type to cast the object to after it has
    * been deserialized.
    * @return A generic object of type `O` of the response to the request
@@ -79,7 +77,7 @@ class RadixEngineToolkitWasmWrapper {
   public invoke<I, O>(
     request: I,
     fn: (pointer: number) => number,
-    constructorFn: new (...args: any) => O
+    Response: ClassConstructor<O>
   ): O {
     // Write the request object to memory and get a pointer to where it was written
     let requestPointer = this.writeObjectToMemory(request);
@@ -89,30 +87,24 @@ class RadixEngineToolkitWasmWrapper {
 
     // Read and deserialize the response
     let responseString = this.readStringFromMemory(responsePointer);
-    let responseObject = traverseObjectForKeys(JSON.parse(responseString), [
-      toCamelCase,
-      prefix("_"),
-    ]);
-    let response = Object.setPrototypeOf(
-      responseObject,
-      constructorFn.prototype
-    );
+    let response = plainToInstance(Response, JSON.parse(responseString));
 
     // Deallocate the request and response pointers
     this.deallocateMemory(requestPointer);
     this.deallocateMemory(responsePointer);
 
     // Ensure that the responseObject is not an error object.
-    if (isRetInvocationError(responseObject?.["_error"])) {
+    // @ts-ignore
+    if (isRetInvocationError(response?.["error"])) {
       throw new Error(
         `Invocation Error. Invocation: """${JSON.stringify(
           request
-        )}""". Response: """${JSON.stringify(responseObject)}"""`
+        )}""". Response: """${JSON.stringify(response)}"""`
       );
     }
 
     // Return the object back to the caller
-    return response;
+    return response as O;
   }
 
   /**
@@ -182,9 +174,8 @@ class RadixEngineToolkitWasmWrapper {
    * @param object The object to serialize
    * @return A string of the serialized representation
    */
-  private serializeObject(obj: Object): string {
-    let object = traverseObjectForKeys(obj, [trim("_"), toSnakeCase]);
-    return JSON.stringify(object);
+  private serializeObject(obj: any): string {
+    return JSON.stringify(instanceToPlain(obj));
   }
 
   /**
@@ -300,7 +291,7 @@ interface RadixEngineToolkitExports {
   toolkit_free_c_string(pointer: number): void;
 }
 
-const isRetInvocationError = (str: string | undefined) =>
+const isRetInvocationError = (str: any) =>
   str === undefined
     ? false
     : [

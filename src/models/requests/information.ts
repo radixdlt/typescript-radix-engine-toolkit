@@ -15,6 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
+
 /**
  * The request provides information on the currently in-use radix engine toolkit such as the version
  * of the radix engine toolkit. In most cases, this is the first function written when integrating
@@ -31,17 +35,25 @@ export class InformationResponse {
    * A SemVer string of the version of the Radix Engine Toolkit. Ideally, if the toolkit is version
    * X then that means that it is compatible with version X of Scrypto.
    */
+  @Expose({ name: "package_version" })
+  @Type(() => String)
   packageVersion: string;
 
   /**
    * The hash of the commit that this build of the Radix Engine Toolkit was built against. This is
    * useful when doing any form of debugging and trying to determine the version of the library
    */
-  lastCommitHash: string;
+  @Expose({ name: "last_commit_hash" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  lastCommitHash: Uint8Array;
 
-  constructor(packageVersion: string, lastCommitHash: string) {
+  constructor(packageVersion: string, lastCommitHash: string | Uint8Array) {
     this.packageVersion = packageVersion;
-    this.lastCommitHash = lastCommitHash;
+    this.lastCommitHash = Convert.Uint8Array.from(lastCommitHash);
   }
 
   toString(): string {
