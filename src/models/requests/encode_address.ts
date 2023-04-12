@@ -46,4 +46,4 @@ export class EncodeAddressRequest {
   }
 }
 
-export type EncodeAddressResponse = EntityAddress.Any;
+export type EncodeAddressResponse = EntityAddress.EntityAddress;

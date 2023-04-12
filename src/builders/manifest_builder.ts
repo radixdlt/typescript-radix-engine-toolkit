@@ -17,6 +17,7 @@
 
 import { blake2b } from "blakejs";
 import Decimal from "decimal.js";
+import { Convert } from "..";
 import {
   Instruction,
   InstructionList,
@@ -67,7 +68,6 @@ import {
   TakeFromWorktopByAmount,
   TakeFromWorktopByIds,
 } from "../models/transaction/instruction";
-import { resolveBytes } from "../utils";
 
 export class ManifestBuilder {
   private instructions: Array<Instruction.Instruction> = [];
@@ -476,7 +476,7 @@ export class ManifestBuilder {
   publishPackage(
     code: Uint8Array | string,
     schema: Uint8Array | string,
-    royaltyConfig: ManifestAstValue.Tuple,
+    royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Value
   ): ManifestBuilder {
@@ -488,8 +488,8 @@ export class ManifestBuilder {
       accessRules
     );
     this.instructions.push(instruction);
-    this.blobs.push(resolveBytes(code));
-    this.blobs.push(resolveBytes(schema));
+    this.blobs.push(Convert.Uint8Array.from(code));
+    this.blobs.push(Convert.Uint8Array.from(schema));
     return this;
   }
 
@@ -633,7 +633,7 @@ export class ManifestBuilder {
    */
   setMethodAccessRule(
     entityAddress: ManifestAstValue.Address | string,
-    key: ManifestAstValue.String,
+    key: ManifestAstValue.Tuple,
     rule: ManifestAstValue.Enum
   ): ManifestBuilder {
     let instruction = new SetMethodAccessRule(
@@ -756,7 +756,7 @@ export class ManifestBuilder {
    */
   createNonFungibleResource(
     idType: ManifestAstValue.Enum,
-    schema: ManifestAstValue.Blob,
+    schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
   ): ManifestBuilder {
@@ -854,7 +854,7 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createValidator(
-    key: ManifestAstValue.String,
+    key: ManifestAstValue.Bytes,
     ownerAccessRule: ManifestAstValue.Enum
   ): ManifestBuilder {
     let instruction = new CreateValidator(key, ownerAccessRule);

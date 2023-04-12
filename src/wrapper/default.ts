@@ -263,7 +263,8 @@ export class RadixEngineToolkit {
   ): Promise<string> {
     return RawRadixEngineToolkit.encodeAddress(
       new EncodeAddressRequest(Convert.Uint8Array.from(addressBytes), networkId)
-    ).then(({ address }) => address);
+      // @ts-ignore
+    ).then((response) => response.address);
   }
 
   /**

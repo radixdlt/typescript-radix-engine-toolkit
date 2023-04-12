@@ -16,45 +16,7 @@
 // under the License.
 
 import { EntityAddress } from "../models";
-import { AddressInformation, RadixEngineToolkit } from "../wrapper/default";
 
-export class BaseAddress {
-  private address: string;
-
-  public get address(): string {
-    return this._address;
-  }
-
-  constructor(address: string) {
-    this._address = address;
-  }
-
-  async networkId(): Promise<number> {
-    return (await this.addressInformation()).networkId;
-  }
-
-  async networkName(): Promise<string> {
-    return (await this.addressInformation()).networkName;
-  }
-
-  async entityType(): Promise<EntityAddress.EntityType> {
-    return (await this.addressInformation()).entityType;
-  }
-
-  async data(): Promise<Uint8Array> {
-    return (await this.addressInformation()).data;
-  }
-
-  async hrp(): Promise<string> {
-    return (await this.addressInformation()).hrp;
-  }
-
-  private async addressInformation(): Promise<AddressInformation> {
-    return RadixEngineToolkit.decodeAddress(this.address);
-  }
-}
-
-// TODO: Document
 export interface IAddress {
   address: string;
   networkId: () => Promise<number>;

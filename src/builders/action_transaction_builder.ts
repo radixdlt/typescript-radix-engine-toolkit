@@ -38,21 +38,21 @@ import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 export class ActionTransactionBuilder {
   private retWrapper: RadixEngineToolkitWasmWrapper;
 
-  private startEpoch: number;
-  private endEpoch: number;
-  private networkId: number;
+  private _startEpoch: number;
+  private _endEpoch: number;
+  private _networkId: number;
 
-  private version: number = 1;
-  private nonce: number = new DataView(
+  private _version: number = 1;
+  private _nonce: number = new DataView(
     secureRandom.randomBuffer(4).buffer,
     0
   ).getUint32(0, true);
-  private costUnitLimit: number = 100_000_000;
-  private tipPercentage: number = 0;
+  private _costUnitLimit: number = 100_000_000;
+  private _tipPercentage: number = 0;
 
-  private feePayer: string;
-  private feeAmount: Decimal | undefined;
-  private actions: Array<Action> = [];
+  private _feePayer: string;
+  private _feeAmount: Decimal | undefined;
+  private _actions: Array<Action> = [];
 
   constructor(
     retWrapper: RadixEngineToolkitWasmWrapper,

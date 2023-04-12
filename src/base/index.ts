@@ -15,4 +15,4 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export { BaseAddress } from "./base_address";
+export { IAddress } from "./base_address";
