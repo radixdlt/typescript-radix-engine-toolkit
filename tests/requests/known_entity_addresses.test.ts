@@ -16,7 +16,12 @@
 // under the License.
 
 import { describe, expect, it } from "vitest";
-import { KnownEntityAddressesRequest, RawRadixEngineToolkit } from "../../src";
+import {
+  KnownEntityAddressesRequest,
+  LTSRadixEngineToolkit,
+  RadixEngineToolkit,
+  RawRadixEngineToolkit,
+} from "../../src";
 
 describe("Known Entity Addresses", () => {
   it("Known Entity Addresses", async () => {
@@ -25,5 +30,19 @@ describe("Known Entity Addresses", () => {
     );
 
     expect(response.xrdResourceAddress).toBeDefined();
+  });
+
+  it("Known entity addresses through default wrapper succeeds", async () => {
+    let xrdResourceAddress = await RadixEngineToolkit.knownEntityAddresses(
+      0x01
+    ).then((response) => response.xrdResourceAddress);
+    expect(xrdResourceAddress).toBeDefined();
+  });
+
+  it("Known entity addresses through LTS wrapper succeeds", async () => {
+    let xrdResourceAddress = await LTSRadixEngineToolkit.Derive.knownAddresses(
+      0x01
+    ).then((response) => response.resources.xrdResource);
+    expect(xrdResourceAddress).toBeDefined();
   });
 });
