@@ -94,26 +94,22 @@ describe.each([
       ScryptoSborValue.Kind.U8,
       ScryptoSborValue.Kind.String,
       [
-        new ScryptoSborValue.U8(65),
-        new ScryptoSborValue.String("A"),
-        new ScryptoSborValue.U8(66),
-        new ScryptoSborValue.String("B"),
+        [new ScryptoSborValue.U8(65), new ScryptoSborValue.String("A")],
+        [new ScryptoSborValue.U8(66), new ScryptoSborValue.String("B")],
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
   },
   {
     expectedObject: new ScryptoSborValue.Map(
       ScryptoSborValue.Kind.U8,
       ScryptoSborValue.Kind.String,
       [
-        new ScryptoSborValue.U8(65),
-        new ScryptoSborValue.String("A"),
-        new ScryptoSborValue.U8(66),
-        new ScryptoSborValue.String("B"),
+        [new ScryptoSborValue.U8(65), new ScryptoSborValue.String("A")],
+        [new ScryptoSborValue.U8(66), new ScryptoSborValue.String("B")],
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
   },
   {
     expectedObject: new ScryptoSborValue.Tuple([

@@ -96,26 +96,22 @@ describe.each([
       ManifestSborValue.Kind.U8,
       ManifestSborValue.Kind.String,
       [
-        new ManifestSborValue.U8(65),
-        new ManifestSborValue.String("A"),
-        new ManifestSborValue.U8(66),
-        new ManifestSborValue.String("B"),
+        [new ManifestSborValue.U8(65), new ManifestSborValue.String("A")],
+        [new ManifestSborValue.U8(66), new ManifestSborValue.String("B")],
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
   },
   {
     expectedObject: new ManifestSborValue.Map(
       ManifestSborValue.Kind.U8,
       ManifestSborValue.Kind.String,
       [
-        new ManifestSborValue.U8(65),
-        new ManifestSborValue.String("A"),
-        new ManifestSborValue.U8(66),
-        new ManifestSborValue.String("B"),
+        [new ManifestSborValue.U8(65), new ManifestSborValue.String("A")],
+        [new ManifestSborValue.U8(66), new ManifestSborValue.String("B")],
       ]
     ),
-    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[{"type":"U8","value":"65"},{"type":"String","value":"A"},{"type":"U8","value":"66"},{"type":"String","value":"B"}]}`,
+    expectedSerialization: `{"type":"Map","key_value_kind":"U8","value_value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
   },
   {
     expectedObject: new ManifestSborValue.Tuple([

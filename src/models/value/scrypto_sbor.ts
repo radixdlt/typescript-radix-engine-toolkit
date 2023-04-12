@@ -349,27 +349,34 @@ export class Map extends Value {
 
   @Expose({ name: "entries" })
   @Type(() => Object)
-  internalEntries: globalThis.Array<Object>;
+  internalEntries: globalThis.Array<[Object, Object]>;
 
-  get entries(): globalThis.Array<Value> {
-    return this.internalEntries.map(resolveValue);
+  get entries(): globalThis.Array<[Value, Value]> {
+    return this.internalEntries.map(([key, value]) => [
+      resolveValue(key),
+      resolveValue(value),
+    ]);
   }
 
-  set entries(entries: globalThis.Array<Value>) {
-    this.internalEntries = entries.map((instance) => instanceToPlain(instance));
+  set entries(entries: globalThis.Array<[Value, Value]>) {
+    this.internalEntries = entries.map(([key, value]) => [
+      instanceToPlain(key),
+      instanceToPlain(value),
+    ]);
   }
 
   constructor(
     keyValueKind: Kind,
     valueValueKind: Kind,
-    entries: globalThis.Array<Value> = []
+    entries: globalThis.Array<[Value, Value]> = []
   ) {
     super(Kind.Map);
     this.keyValueKind = keyValueKind;
     this.valueValueKind = valueValueKind;
-    this.internalEntries = entries?.map((instance) =>
-      instanceToPlain(instance)
-    );
+    this.internalEntries = entries?.map(([key, value]) => [
+      instanceToPlain(key),
+      instanceToPlain(value),
+    ]);
   }
 
   toString(): string {
