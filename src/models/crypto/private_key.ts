@@ -17,9 +17,11 @@
 
 import * as ed from "@noble/ed25519";
 import { sha512 } from "@noble/hashes/sha512";
+import { instanceToPlain } from "class-transformer";
 import { ecdsaSign, publicKeyCreate } from "secp256k1";
 import { PublicKey, Signature, SignatureWithPublicKey } from ".";
-import { hash, resolveBytes, uint8ArrayToString } from "../../utils";
+import { Convert } from "../..";
+import { hash } from "../../utils";
 
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
@@ -27,7 +29,7 @@ export class EcdsaSecp256k1 implements IPrivateKey {
   public readonly bytes: Uint8Array;
 
   constructor(privateKey: Uint8Array | string) {
-    this.bytes = resolveBytes(privateKey);
+    this.bytes = Convert.Uint8Array.from(privateKey);
   }
 
   publicKey(): PublicKey.EcdsaSecp256k1 {
@@ -39,7 +41,7 @@ export class EcdsaSecp256k1 implements IPrivateKey {
   }
 
   publicKeyHex(): string {
-    return uint8ArrayToString(this.publicKeyBytes());
+    return Convert.Uint8Array.toHexString(this.publicKeyBytes());
   }
 
   sign(data: Uint8Array): Uint8Array {
@@ -67,7 +69,7 @@ export class EddsaEd25519 implements IPrivateKey {
   public readonly bytes: Uint8Array;
 
   constructor(privateKey: Uint8Array | string) {
-    this.bytes = resolveBytes(privateKey);
+    this.bytes = Convert.Uint8Array.from(privateKey);
   }
 
   publicKey(): PublicKey.EddsaEd25519 {
@@ -79,7 +81,7 @@ export class EddsaEd25519 implements IPrivateKey {
   }
 
   publicKeyHex(): string {
-    return uint8ArrayToString(this.publicKeyBytes());
+    return Convert.Uint8Array.toHexString(this.publicKeyBytes());
   }
 
   sign(data: Uint8Array): Uint8Array {
