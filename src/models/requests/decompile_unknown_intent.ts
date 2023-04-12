@@ -18,14 +18,14 @@
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import {
   Convert,
+  DecompileNotarizedTransactionIntentResponse,
+  DecompileSignedTransactionIntentResponse,
+  DecompileTransactionIntentResponse,
   InstructionList,
   SignedTransactionIntent,
   TransactionIntent,
 } from "../..";
 import * as Serializers from "../serializers";
-import { DecompileNotarizedTransactionIntentResponse } from "./decompile_notarized_transaction_intent";
-import { DecompileSignedTransactionIntentResponse } from "./decompile_signed_transaction_intent";
-import { DecompileTransactionIntentResponse } from "./decompile_transaction_intent";
 
 export class DecompileUnknownTransactionIntentRequest {
   @Expose({ name: "instructions_output_kind" })
@@ -59,7 +59,10 @@ export enum DecompileUnknownTransactionIntentResponseKind {
 }
 
 export class DecompileUnknownTransactionIntentResponse {
+  @Expose()
   readonly type: DecompileUnknownTransactionIntentResponseKind;
+
+  @Expose()
   public value:
     | DecompileTransactionIntentResponse
     | DecompileSignedTransactionIntentResponse

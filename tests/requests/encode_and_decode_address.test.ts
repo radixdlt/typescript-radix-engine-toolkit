@@ -17,16 +17,16 @@
 
 import { describe, expect, test } from "vitest";
 import {
+  Convert,
   DecodeAddressRequest,
   EncodeAddressRequest,
   EntityAddress,
   RawRadixEngineToolkit,
 } from "../../src";
-import { stringToUint8Array } from "../../src/utils";
 
 describe.each([
   {
-    expectedAddressBytes: stringToUint8Array(
+    expectedAddressBytes: Convert.Uint8Array.from(
       "000000000000000000000000000000000000000000000000000002"
     ),
     expectedAddress: new EntityAddress.PackageAddress(

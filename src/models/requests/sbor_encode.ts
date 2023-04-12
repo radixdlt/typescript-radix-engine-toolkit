@@ -15,14 +15,20 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Expose, instanceToPlain } from "class-transformer";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { SborValue } from "models/value";
 import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
-export type SborEncodeRequest = SborValue.Any;
+export type SborEncodeRequest = SborValue.Value;
 
 export class SborEncodeResponse {
   @Expose({ name: "encoded_value" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
   encodedValue: Uint8Array;
 
   constructor(encodedValue: Uint8Array) {

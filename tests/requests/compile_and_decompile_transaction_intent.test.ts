@@ -17,6 +17,7 @@
 
 import { describe, expect, test } from "vitest";
 import {
+  Convert,
   DecompileTransactionIntentRequest,
   DecompileUnknownTransactionIntentRequest,
   InstructionList,
@@ -26,7 +27,7 @@ import {
   TransactionIntent,
   TransactionManifest,
 } from "../../src";
-import { stringToUint8Array } from "../../src/utils";
+import {} from "../../src/utils";
 
 describe.each([
   {
@@ -38,9 +39,7 @@ describe.each([
         105,
         5144,
         new PublicKey.EcdsaSecp256k1(
-          stringToUint8Array(
-            "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
-          )
+          "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
         ),
         false,
         100000000,
@@ -51,7 +50,7 @@ describe.each([
         []
       )
     ),
-    expectedCompiledIntent: stringToUint8Array(
+    expectedCompiledIntent: Convert.Uint8Array.from(
       "4d21022109070107010a64000000000000000a69000000000000000a18140000000000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f8179801000900e1f505080c0021022022011000202000"
     ),
   },

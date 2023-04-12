@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { instanceToPlain } from "class-transformer";
 import { EntityAddress } from ".";
 import { IAddress } from "../base/base_address";
 import {

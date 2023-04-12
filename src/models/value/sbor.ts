@@ -15,21 +15,26 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { instanceToPlain } from "class-transformer";
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { ManifestSborValue, ScryptoSborValue } from ".";
+import { valueTypeOptions as manifestSborValueTypeOptions } from "./manifest_sbor";
+import { valueTypeOptions as scryptoSborValueTypeOptions } from "./scrypto_sbor";
 
-export type Any = ScryptoSbor | ManifestSbor;
+export class Value {
+  readonly type: "ScryptoSbor" | "ManifestSbor";
 
-export enum Kind {
-  ScryptoSbor = "ScryptoSbor",
-  ManifestSbor = "ManifestSbor",
+  constructor(type: "ScryptoSbor" | "ManifestSbor") {
+    this.type = type;
+  }
 }
 
-export class ScryptoSbor implements ISborValueConvertible {
-  readonly type: Kind = Kind.ScryptoSbor;
+export class ScryptoSbor extends Value implements ISborValueConvertible {
+  @Expose()
+  @Type(() => ScryptoSborValue.Value, scryptoSborValueTypeOptions)
   value: ScryptoSborValue.Value;
 
   constructor(value: ScryptoSborValue.Value) {
+    super("ScryptoSbor");
     this.value = value;
   }
 
@@ -42,11 +47,13 @@ export class ScryptoSbor implements ISborValueConvertible {
   }
 }
 
-export class ManifestSbor implements ISborValueConvertible {
-  readonly type: Kind = Kind.ManifestSbor;
+export class ManifestSbor extends Value implements ISborValueConvertible {
+  @Expose()
+  @Type(() => ManifestSborValue.Value, manifestSborValueTypeOptions)
   value: ManifestSborValue.Value;
 
   constructor(value: ManifestSborValue.Value) {
+    super("ManifestSbor");
     this.value = value;
   }
 

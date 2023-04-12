@@ -96,6 +96,10 @@ export class ValidationConfig {
 
 export class StaticallyValidateTransactionRequest {
   @Expose({ name: "compiled_notarized_intent" })
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
   @Type(() => Uint8Array)
   compiledNotarizedIntent: Uint8Array;
 
@@ -118,32 +122,30 @@ export class StaticallyValidateTransactionRequest {
   }
 }
 
-export type StaticallyValidateTransactionResponse =
-  | StaticallyValidateTransactionResponseValid
-  | StaticallyValidateTransactionResponseInvalid;
+export class StaticallyValidateTransactionResponse {
+  readonly validity: "Valid" | "Invalid";
 
-export enum StaticallyValidateTransactionResponseKind {
-  Valid = "Valid",
-  Invalid = "Invalid",
+  constructor(validity: "Valid" | "Invalid") {
+    this.validity = validity;
+  }
 }
 
-export class StaticallyValidateTransactionResponseValid {
-  validity: StaticallyValidateTransactionResponseKind =
-    StaticallyValidateTransactionResponseKind.Valid;
-
-  constructor() {}
+export class StaticallyValidateTransactionResponseValid extends StaticallyValidateTransactionResponse {
+  constructor() {
+    super("Valid");
+  }
 
   toString(): string {
     return JSON.stringify(instanceToPlain(this));
   }
 }
 
-export class StaticallyValidateTransactionResponseInvalid {
-  validity: StaticallyValidateTransactionResponseKind =
-    StaticallyValidateTransactionResponseKind.Invalid;
+export class StaticallyValidateTransactionResponseInvalid extends StaticallyValidateTransactionResponse {
+  @Expose()
   error: string;
 
   constructor(error: string) {
+    super("Invalid");
     this.error = error;
   }
 

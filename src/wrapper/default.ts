@@ -309,7 +309,7 @@ export class RadixEngineToolkit {
   static async sborDecode(
     encodedValue: Uint8Array | string,
     networkId: number
-  ): Promise<SborValue.Any> {
+  ): Promise<SborValue.Value> {
     return RawRadixEngineToolkit.sborDecode(
       new SborDecodeRequest(Convert.Uint8Array.from(encodedValue), networkId)
     );

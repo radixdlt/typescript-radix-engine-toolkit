@@ -161,7 +161,7 @@ import {
 //  * strategy which is composed of the following:
 //  *    - prefixing all keys in objects with an underscore ('_').
 //  *    - converting the keys from snake case to camelCase.
-//  *    - replacing the key `_type` with `type` since `type` is special
+//  *    - replacing the key `type` with `type` since `type` is special
 //  * @param str The string to deserialize as an object of the generic type T
 //  * @param constructorFn The constructor function. This constructor will not actually be used to
 //  * construct any objects. Rather, it will be used as the type to cast the object to after it has
