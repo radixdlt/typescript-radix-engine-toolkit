@@ -28,6 +28,50 @@ export abstract class Instruction {
   abstract toString(): string;
 }
 
+const manifestAstValueTypeOptions: TypeOptions = {
+  discriminator: {
+    property: "type",
+    subTypes: [
+      { name: "Bool", value: ManifestAstValue.Bool },
+      { name: "U8", value: ManifestAstValue.U8 },
+      { name: "U16", value: ManifestAstValue.U16 },
+      { name: "U32", value: ManifestAstValue.U32 },
+      { name: "U64", value: ManifestAstValue.U64 },
+      { name: "U128", value: ManifestAstValue.U128 },
+      { name: "I8", value: ManifestAstValue.I8 },
+      { name: "I16", value: ManifestAstValue.I16 },
+      { name: "I32", value: ManifestAstValue.I32 },
+      { name: "I64", value: ManifestAstValue.I64 },
+      { name: "I128", value: ManifestAstValue.I128 },
+      { name: "String", value: ManifestAstValue.String },
+      { name: "Enum", value: ManifestAstValue.Enum },
+      { name: "Some", value: ManifestAstValue.Some },
+      { name: "None", value: ManifestAstValue.None },
+      { name: "Ok", value: ManifestAstValue.Ok },
+      { name: "Err", value: ManifestAstValue.Err },
+      { name: "Array", value: ManifestAstValue.Array },
+      { name: "Map", value: ManifestAstValue.Map },
+      { name: "Tuple", value: ManifestAstValue.Tuple },
+      { name: "Decimal", value: ManifestAstValue.Decimal },
+      { name: "PreciseDecimal", value: ManifestAstValue.PreciseDecimal },
+      { name: "Address", value: ManifestAstValue.Address },
+      { name: "Bucket", value: ManifestAstValue.Bucket },
+      { name: "Proof", value: ManifestAstValue.Proof },
+      {
+        name: "NonFungibleLocalId",
+        value: ManifestAstValue.NonFungibleLocalId,
+      },
+      {
+        name: "NonFungibleGlobalId",
+        value: ManifestAstValue.NonFungibleGlobalId,
+      },
+      { name: "Expression", value: ManifestAstValue.Expression },
+      { name: "Blob", value: ManifestAstValue.Blob },
+      { name: "Bytes", value: ManifestAstValue.Bytes },
+    ],
+  },
+};
+
 export enum Kind {
   CallFunction = "CALL_FUNCTION",
   CallMethod = "CALL_METHOD",
@@ -91,7 +135,7 @@ export class CallFunction extends Instruction {
   functionName: ManifestAstValue.String;
 
   @Expose({ name: "arguments" })
-  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
   arguments: Array<ManifestAstValue.Value> | null;
 
   constructor(
@@ -126,7 +170,7 @@ export class CallMethod extends Instruction {
   methodName: ManifestAstValue.String;
 
   @Expose({ name: "arguments" })
-  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
   arguments: Array<ManifestAstValue.Value> | null;
 
   constructor(
@@ -586,7 +630,7 @@ export class PublishPackage extends Instruction {
   metadata: ManifestAstValue.Map;
 
   @Expose({ name: "access_rules" })
-  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
   accessRules: ManifestAstValue.Value;
 
   constructor(
@@ -1039,7 +1083,7 @@ export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
   accessRules: ManifestAstValue.Map;
 
   @Expose({ name: "initial_supply" })
-  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
   initialSupply: ManifestAstValue.Value;
 
   constructor(
@@ -1198,76 +1242,76 @@ export class CreateAccount extends Instruction {
   }
 }
 
-export const valueTypeOptions: TypeOptions = {
-  discriminator: {
-    property: "instruction",
-    subTypes: [
-      { name: "CALL_FUNCTION", value: CallFunction },
-      { name: "CALL_METHOD", value: CallMethod },
-      { name: "TAKE_FROM_WORKTOP", value: TakeFromWorktop },
-      { name: "TAKE_FROM_WORKTOP_BY_AMOUNT", value: TakeFromWorktopByAmount },
-      { name: "TAKE_FROM_WORKTOP_BY_IDS", value: TakeFromWorktopByIds },
-      { name: "RETURN_TO_WORKTOP", value: ReturnToWorktop },
-      { name: "ASSERT_WORKTOP_CONTAINS", value: AssertWorktopContains },
-      {
-        name: "AssertWorktopContainsByAmount",
-        value: AssertWorktopContainsByAmount,
-      },
-      {
-        name: "ASSERT_WORKTOP_CONTAINS_BY_IDS",
-        value: AssertWorktopContainsByIds,
-      },
-      { name: "POP_FROM_AUTH_ZONE", value: PopFromAuthZone },
-      { name: "PUSH_TO_AUTH_ZONE", value: PushToAuthZone },
-      { name: "CLEAR_AUTH_ZONE", value: ClearAuthZone },
-      { name: "CLEAR_SIGNATURE_PROOFS", value: ClearSignatureProofs },
-      { name: "CREATE_PROOF_FROM_AUTH_ZONE", value: CreateProofFromAuthZone },
-      {
-        name: "CreateProofFromAuthZoneByAmount",
-        value: CreateProofFromAuthZoneByAmount,
-      },
-      {
-        name: "CreateProofFromAuthZoneByIds",
-        value: CreateProofFromAuthZoneByIds,
-      },
-      { name: "CREATE_PROOF_FROM_BUCKET", value: CreateProofFromBucket },
-      { name: "CLONE_PROOF", value: CloneProof },
-      { name: "DROP_PROOF", value: DropProof },
-      { name: "DROP_ALL_PROOFS", value: DropAllProofs },
-      { name: "PUBLISH_PACKAGE", value: PublishPackage },
-      { name: "BURN_RESOURCE", value: BurnResource },
-      { name: "RECALL_RESOURCE", value: RecallResource },
-      { name: "SET_METADATA", value: SetMetadata },
-      { name: "REMOVE_METADATA", value: RemoveMetadata },
-      { name: "SET_PACKAGE_ROYALTY_CONFIG", value: SetPackageRoyaltyConfig },
-      {
-        name: "SET_COMPONENT_ROYALTY_CONFIG",
-        value: SetComponentRoyaltyConfig,
-      },
-      { name: "CLAIM_PACKAGE_ROYALTY", value: ClaimPackageRoyalty },
-      { name: "CLAIM_COMPONENT_ROYALTY", value: ClaimComponentRoyalty },
-      { name: "SET_METHOD_ACCESS_RULE", value: SetMethodAccessRule },
-      { name: "MINT_FUNGIBLE", value: MintFungible },
-      { name: "MINT_NON_FUNGIBLE", value: MintNonFungible },
-      { name: "MINT_UUID_NON_FUNGIBLE", value: MintUuidNonFungible },
-      { name: "CREATE_FUNGIBLE_RESOURCE", value: CreateFungibleResource },
-      {
-        name: "CreateFungibleResourceWithInitialSupply",
-        value: CreateFungibleResourceWithInitialSupply,
-      },
-      {
-        name: "CREATE_NON_FUNGIBLE_RESOURCE",
-        value: CreateNonFungibleResource,
-      },
-      {
-        name: "CreateNonFungibleResourceWithInitialSupply",
-        value: CreateNonFungibleResourceWithInitialSupply,
-      },
-      { name: "CREATE_ACCESS_CONTROLLER", value: CreateAccessController },
-      { name: "CREATE_IDENTITY", value: CreateIdentity },
-      { name: "ASSERT_ACCESS_RULE", value: AssertAccessRule },
-      { name: "CREATE_VALIDATOR", value: CreateValidator },
-      { name: "CREATE_ACCOUNT", value: CreateAccount },
-    ],
-  },
-};
+// export const valueTypeOptions: TypeOptions = {
+//   discriminator: {
+//     property: "instruction",
+//     subTypes: [
+//       { name: "CALL_FUNCTION", value: CallFunction },
+//       { name: "CALL_METHOD", value: CallMethod },
+//       { name: "TAKE_FROM_WORKTOP", value: TakeFromWorktop },
+//       { name: "TAKE_FROM_WORKTOP_BY_AMOUNT", value: TakeFromWorktopByAmount },
+//       { name: "TAKE_FROM_WORKTOP_BY_IDS", value: TakeFromWorktopByIds },
+//       { name: "RETURN_TO_WORKTOP", value: ReturnToWorktop },
+//       { name: "ASSERT_WORKTOP_CONTAINS", value: AssertWorktopContains },
+//       {
+//         name: "AssertWorktopContainsByAmount",
+//         value: AssertWorktopContainsByAmount,
+//       },
+//       {
+//         name: "ASSERT_WORKTOP_CONTAINS_BY_IDS",
+//         value: AssertWorktopContainsByIds,
+//       },
+//       { name: "POP_FROM_AUTH_ZONE", value: PopFromAuthZone },
+//       { name: "PUSH_TO_AUTH_ZONE", value: PushToAuthZone },
+//       { name: "CLEAR_AUTH_ZONE", value: ClearAuthZone },
+//       { name: "CLEAR_SIGNATURE_PROOFS", value: ClearSignatureProofs },
+//       { name: "CREATE_PROOF_FROM_AUTH_ZONE", value: CreateProofFromAuthZone },
+//       {
+//         name: "CreateProofFromAuthZoneByAmount",
+//         value: CreateProofFromAuthZoneByAmount,
+//       },
+//       {
+//         name: "CreateProofFromAuthZoneByIds",
+//         value: CreateProofFromAuthZoneByIds,
+//       },
+//       { name: "CREATE_PROOF_FROM_BUCKET", value: CreateProofFromBucket },
+//       { name: "CLONE_PROOF", value: CloneProof },
+//       { name: "DROP_PROOF", value: DropProof },
+//       { name: "DROP_ALL_PROOFS", value: DropAllProofs },
+//       { name: "PUBLISH_PACKAGE", value: PublishPackage },
+//       { name: "BURN_RESOURCE", value: BurnResource },
+//       { name: "RECALL_RESOURCE", value: RecallResource },
+//       { name: "SET_METADATA", value: SetMetadata },
+//       { name: "REMOVE_METADATA", value: RemoveMetadata },
+//       { name: "SET_PACKAGE_ROYALTY_CONFIG", value: SetPackageRoyaltyConfig },
+//       {
+//         name: "SET_COMPONENT_ROYALTY_CONFIG",
+//         value: SetComponentRoyaltyConfig,
+//       },
+//       { name: "CLAIM_PACKAGE_ROYALTY", value: ClaimPackageRoyalty },
+//       { name: "CLAIM_COMPONENT_ROYALTY", value: ClaimComponentRoyalty },
+//       { name: "SET_METHOD_ACCESS_RULE", value: SetMethodAccessRule },
+//       { name: "MINT_FUNGIBLE", value: MintFungible },
+//       { name: "MINT_NON_FUNGIBLE", value: MintNonFungible },
+//       { name: "MINT_UUID_NON_FUNGIBLE", value: MintUuidNonFungible },
+//       { name: "CREATE_FUNGIBLE_RESOURCE", value: CreateFungibleResource },
+//       {
+//         name: "CreateFungibleResourceWithInitialSupply",
+//         value: CreateFungibleResourceWithInitialSupply,
+//       },
+//       {
+//         name: "CREATE_NON_FUNGIBLE_RESOURCE",
+//         value: CreateNonFungibleResource,
+//       },
+//       {
+//         name: "CreateNonFungibleResourceWithInitialSupply",
+//         value: CreateNonFungibleResourceWithInitialSupply,
+//       },
+//       { name: "CREATE_ACCESS_CONTROLLER", value: CreateAccessController },
+//       { name: "CREATE_IDENTITY", value: CreateIdentity },
+//       { name: "ASSERT_ACCESS_RULE", value: AssertAccessRule },
+//       { name: "CREATE_VALIDATOR", value: CreateValidator },
+//       { name: "CREATE_ACCOUNT", value: CreateAccount },
+//     ],
+//   },
+// };

@@ -15,7 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { ISborValueConvertible } from "models/value/sbor";
 import { Convert } from "..";
 import {
   AnalyzeManifestRequest,
@@ -292,8 +291,21 @@ export class RadixEngineToolkit {
    * @param value The value to SBOR encode.
    * @returns The SBOR encoded value
    */
-  static async sborEncode(value: ISborValueConvertible): Promise<Uint8Array> {
-    return RawRadixEngineToolkit.sborEncode(value.toSborValue()).then(
+  static async sborEncode(
+    value: ScryptoSborValue.Value | ManifestSborValue.Value | SborValue.Value
+  ): Promise<Uint8Array> {
+    let sborValue: SborValue.Value;
+    if (value instanceof SborValue.Value) {
+      sborValue = value;
+    } else if (value instanceof ScryptoSborValue.Value) {
+      sborValue = new SborValue.ScryptoSbor(value);
+    } else if (value instanceof ManifestSborValue.Value) {
+      sborValue = new SborValue.ManifestSbor(value);
+    } else {
+      throw new TypeError("Invalid type passed in as an SBOR argument");
+    }
+
+    return RawRadixEngineToolkit.sborEncode(sborValue).then(
       ({ encodedValue }) => encodedValue
     );
   }

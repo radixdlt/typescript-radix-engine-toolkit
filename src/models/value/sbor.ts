@@ -15,10 +15,76 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Expose, Type, instanceToPlain } from "class-transformer";
-import { ManifestSborValue, ScryptoSborValue } from ".";
-import { valueTypeOptions as manifestSborValueTypeOptions } from "./manifest_sbor";
-import { valueTypeOptions as scryptoSborValueTypeOptions } from "./scrypto_sbor";
+import { Expose, Type, TypeOptions, instanceToPlain } from "class-transformer";
+import { ManifestSborValue, ScryptoSborValue } from "./index";
+
+const manifestSborValueTypeOptions: TypeOptions = {
+  discriminator: {
+    property: "type",
+    subTypes: [
+      { name: "Bool", value: ManifestSborValue.Bool },
+      { name: "U8", value: ManifestSborValue.U8 },
+      { name: "U16", value: ManifestSborValue.U16 },
+      { name: "U32", value: ManifestSborValue.U32 },
+      { name: "U64", value: ManifestSborValue.U64 },
+      { name: "U128", value: ManifestSborValue.U128 },
+      { name: "I8", value: ManifestSborValue.I8 },
+      { name: "I16", value: ManifestSborValue.I16 },
+      { name: "I32", value: ManifestSborValue.I32 },
+      { name: "I64", value: ManifestSborValue.I64 },
+      { name: "I128", value: ManifestSborValue.I128 },
+      { name: "String", value: ManifestSborValue.String },
+      { name: "Enum", value: ManifestSborValue.Enum },
+      { name: "Array", value: ManifestSborValue.Array },
+      { name: "Map", value: ManifestSborValue.Map },
+      { name: "Tuple", value: ManifestSborValue.Tuple },
+      { name: "Address", value: ManifestSborValue.Address },
+      { name: "Bucket", value: ManifestSborValue.Bucket },
+      { name: "Proof", value: ManifestSborValue.Proof },
+      { name: "Decimal", value: ManifestSborValue.Decimal },
+      { name: "PreciseDecimal", value: ManifestSborValue.PreciseDecimal },
+      {
+        name: "NonFungibleLocalId",
+        value: ManifestSborValue.NonFungibleLocalId,
+      },
+      { name: "Expression", value: ManifestSborValue.Expression },
+      { name: "Blob", value: ManifestSborValue.Blob },
+    ],
+  },
+};
+
+const scryptoSborValueTypeOptions: TypeOptions = {
+  discriminator: {
+    property: "type",
+    subTypes: [
+      { name: "Bool", value: ScryptoSborValue.Bool },
+      { name: "U8", value: ScryptoSborValue.U8 },
+      { name: "U16", value: ScryptoSborValue.U16 },
+      { name: "U32", value: ScryptoSborValue.U32 },
+      { name: "U64", value: ScryptoSborValue.U64 },
+      { name: "U128", value: ScryptoSborValue.U128 },
+      { name: "I8", value: ScryptoSborValue.I8 },
+      { name: "I16", value: ScryptoSborValue.I16 },
+      { name: "I32", value: ScryptoSborValue.I32 },
+      { name: "I64", value: ScryptoSborValue.I64 },
+      { name: "I128", value: ScryptoSborValue.I128 },
+      { name: "String", value: ScryptoSborValue.String },
+      { name: "Enum", value: ScryptoSborValue.Enum },
+      { name: "Array", value: ScryptoSborValue.Array },
+      { name: "Map", value: ScryptoSborValue.Map },
+      { name: "Tuple", value: ScryptoSborValue.Tuple },
+      { name: "Address", value: ScryptoSborValue.Address },
+      { name: "Own", value: ScryptoSborValue.Own },
+      { name: "Decimal", value: ScryptoSborValue.Decimal },
+      { name: "PreciseDecimal", value: ScryptoSborValue.PreciseDecimal },
+      {
+        name: "NonFungibleLocalId",
+        value: ScryptoSborValue.NonFungibleLocalId,
+      },
+      { name: "Reference", value: ScryptoSborValue.Reference },
+    ],
+  },
+};
 
 export class Value {
   readonly type: "ScryptoSbor" | "ManifestSbor";
@@ -28,7 +94,7 @@ export class Value {
   }
 }
 
-export class ScryptoSbor extends Value implements ISborValueConvertible {
+export class ScryptoSbor extends Value {
   @Expose()
   @Type(() => ScryptoSborValue.Value, scryptoSborValueTypeOptions)
   value: ScryptoSborValue.Value;
@@ -47,7 +113,7 @@ export class ScryptoSbor extends Value implements ISborValueConvertible {
   }
 }
 
-export class ManifestSbor extends Value implements ISborValueConvertible {
+export class ManifestSbor extends Value {
   @Expose()
   @Type(() => ManifestSborValue.Value, manifestSborValueTypeOptions)
   value: ManifestSborValue.Value;
@@ -64,8 +130,4 @@ export class ManifestSbor extends Value implements ISborValueConvertible {
   toSborValue(): ScryptoSbor | ManifestSbor {
     return this;
   }
-}
-
-export interface ISborValueConvertible {
-  toSborValue: () => ScryptoSbor | ManifestSbor;
 }

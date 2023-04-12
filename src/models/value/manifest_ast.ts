@@ -16,11 +16,12 @@
 // under the License.
 
 import {
+  ClassConstructor,
   Expose,
   Transform,
   Type,
-  TypeOptions,
   instanceToPlain,
+  plainToInstance,
 } from "class-transformer";
 import { Decimal as DecimalJs } from "decimal.js";
 import { EntityAddress, PublicKey } from "..";
@@ -32,13 +33,6 @@ import {
   RadixEngineToolkit,
 } from "../../wrapper/default";
 import * as Serializers from "../serializers";
-
-export let valueTypeOptions: TypeOptions = {
-  discriminator: {
-    property: "type",
-    subTypes: [],
-  },
-};
 
 export abstract class Value {
   readonly type: Kind;
@@ -344,9 +338,17 @@ export class Enum extends Value {
   })
   variant: EnumDiscriminator;
 
-  @Expose()
-  @Type(() => Value, valueTypeOptions)
-  fields: globalThis.Array<Value> = [];
+  @Expose({ name: "fields" })
+  @Type(() => Object)
+  private internalFields: globalThis.Array<Object> = [];
+
+  get fields(): globalThis.Array<Value> {
+    return this.internalFields.map(resolveValue);
+  }
+
+  set fields(fields: globalThis.Array<Value>) {
+    this.internalFields = fields.map((instance) => instanceToPlain(instance));
+  }
 
   constructor(
     variant: EnumDiscriminator,
@@ -354,7 +356,7 @@ export class Enum extends Value {
   ) {
     super(Kind.Enum);
     this.variant = variant;
-    this.fields = fields;
+    this.internalFields = fields?.map((instance) => instanceToPlain(instance));
   }
 
   toString(): string {
@@ -363,13 +365,21 @@ export class Enum extends Value {
 }
 
 export class Some extends Value {
-  @Expose()
-  @Type(() => Value, valueTypeOptions)
-  value: Value;
+  @Expose({ name: "value" })
+  @Type(() => Object)
+  private internalValue: Object;
+
+  get value(): Value {
+    return resolveValue(this.internalValue);
+  }
+
+  set value(value: Value) {
+    this.internalValue = instanceToPlain(value);
+  }
 
   constructor(value: Value) {
     super(Kind.Some);
-    this.value = value;
+    this.internalValue = instanceToPlain(value);
   }
 
   toString(): string {
@@ -388,13 +398,21 @@ export class None extends Value {
 }
 
 export class Ok extends Value {
-  @Expose()
-  @Type(() => Value, valueTypeOptions)
-  value: Value;
+  @Expose({ name: "value" })
+  @Type(() => Object)
+  private internalValue: Object;
+
+  get value(): Value {
+    return resolveValue(this.internalValue);
+  }
+
+  set value(value: Value) {
+    this.internalValue = instanceToPlain(value);
+  }
 
   constructor(value: Value) {
     super(Kind.Ok);
-    this.value = value;
+    this.internalValue = instanceToPlain(value);
   }
 
   toString(): string {
@@ -403,13 +421,21 @@ export class Ok extends Value {
 }
 
 export class Err extends Value {
-  @Expose()
-  @Type(() => Value, valueTypeOptions)
-  value: Value;
+  @Expose({ name: "value" })
+  @Type(() => Object)
+  private internalValue: Object;
+
+  get value(): Value {
+    return resolveValue(this.internalValue);
+  }
+
+  set value(value: Value) {
+    this.internalValue = instanceToPlain(value);
+  }
 
   constructor(value: Value) {
     super(Kind.Err);
-    this.value = value;
+    this.internalValue = instanceToPlain(value);
   }
 
   toString(): string {
@@ -421,14 +447,26 @@ export class Array extends Value {
   @Expose({ name: "element_kind" })
   elementKind: Kind;
 
-  @Expose()
-  @Type(() => Value, valueTypeOptions)
-  elements: globalThis.Array<Value>;
+  @Expose({ name: "elements" })
+  @Type(() => Object)
+  internalElements: globalThis.Array<Object>;
+
+  get elements(): globalThis.Array<Value> {
+    return this.internalElements.map(resolveValue);
+  }
+
+  set elements(elements: globalThis.Array<Value>) {
+    this.internalElements = elements.map((instance) =>
+      instanceToPlain(instance)
+    );
+  }
 
   constructor(elementKind: Kind, elements: globalThis.Array<Value>) {
     super(Kind.Array);
     this.elementKind = elementKind;
-    this.elements = elements;
+    this.internalElements = elements?.map((instance) =>
+      instanceToPlain(instance)
+    );
   }
 
   toString(): string {
@@ -444,18 +482,28 @@ export class Map extends Value {
   valueValueKind: Kind;
 
   @Expose({ name: "entries" })
-  @Type(() => Value, valueTypeOptions)
-  entries: globalThis.Array<Value> = [];
+  @Type(() => Object)
+  internalEntries: globalThis.Array<Object>;
+
+  get entries(): globalThis.Array<Value> {
+    return this.internalEntries.map(resolveValue);
+  }
+
+  set entries(entries: globalThis.Array<Value>) {
+    this.internalEntries = entries.map((instance) => instanceToPlain(instance));
+  }
 
   constructor(
     keyValueKind: Kind,
     valueValueKind: Kind,
-    elements: globalThis.Array<Value> = []
+    entries: globalThis.Array<Value> = []
   ) {
     super(Kind.Map);
     this.keyValueKind = keyValueKind;
     this.valueValueKind = valueValueKind;
-    this.entries = elements;
+    this.internalEntries = entries?.map((instance) =>
+      instanceToPlain(instance)
+    );
   }
 
   toString(): string {
@@ -464,13 +512,25 @@ export class Map extends Value {
 }
 
 export class Tuple extends Value {
-  @Expose()
-  @Type(() => Value, valueTypeOptions)
-  elements: globalThis.Array<Value>;
+  @Expose({ name: "elements" })
+  @Type(() => Object)
+  internalElements: globalThis.Array<Object>;
 
-  constructor(elements: globalThis.Array<Value> = []) {
+  get elements(): globalThis.Array<Value> {
+    return this.internalElements.map(resolveValue);
+  }
+
+  set elements(elements: globalThis.Array<Value>) {
+    this.internalElements = elements.map((instance) =>
+      instanceToPlain(instance)
+    );
+  }
+
+  constructor(elements: globalThis.Array<Value>) {
     super(Kind.Tuple);
-    this.elements = elements;
+    this.internalElements = elements?.map((instance) =>
+      instanceToPlain(instance)
+    );
   }
 
   toString(): string {
@@ -891,35 +951,71 @@ export class NonFungibleGlobalId extends Value {
   }
 }
 
-valueTypeOptions.discriminator!.subTypes = [
-  { name: "Bool", value: Bool },
-  { name: "U8", value: U8 },
-  { name: "U16", value: U16 },
-  { name: "U32", value: U32 },
-  { name: "U64", value: U64 },
-  { name: "U128", value: U128 },
-  { name: "I8", value: I8 },
-  { name: "I16", value: I16 },
-  { name: "I32", value: I32 },
-  { name: "I64", value: I64 },
-  { name: "I128", value: I128 },
-  { name: "String", value: String },
-  { name: "Enum", value: Enum },
-  { name: "Some", value: Some },
-  { name: "None", value: None },
-  { name: "Ok", value: Ok },
-  { name: "Err", value: Err },
-  { name: "Array", value: Array },
-  { name: "Map", value: Map },
-  { name: "Tuple", value: Tuple },
-  { name: "Decimal", value: Decimal },
-  { name: "PreciseDecimal", value: PreciseDecimal },
-  { name: "Address", value: Address },
-  { name: "Bucket", value: Bucket },
-  { name: "Proof", value: Proof },
-  { name: "NonFungibleLocalId", value: NonFungibleLocalId },
-  { name: "NonFungibleGlobalId", value: NonFungibleGlobalId },
-  { name: "Expression", value: Expression },
-  { name: "Blob", value: Blob },
-  { name: "Bytes", value: Bytes },
-];
+function resolveValue(object: Object): Value {
+  let resolveSingleFn = <T>(object: Object, Class: ClassConstructor<T>): T =>
+    plainToInstance(Class, instanceToPlain(object));
+  let type: Kind = (object as Value).type;
+
+  switch (type) {
+    case Kind.Bool:
+      return resolveSingleFn(object, Bool);
+    case Kind.U8:
+      return resolveSingleFn(object, U8);
+    case Kind.U16:
+      return resolveSingleFn(object, U16);
+    case Kind.U32:
+      return resolveSingleFn(object, U32);
+    case Kind.U64:
+      return resolveSingleFn(object, U64);
+    case Kind.U128:
+      return resolveSingleFn(object, U128);
+    case Kind.I8:
+      return resolveSingleFn(object, I8);
+    case Kind.I16:
+      return resolveSingleFn(object, I16);
+    case Kind.I32:
+      return resolveSingleFn(object, I32);
+    case Kind.I64:
+      return resolveSingleFn(object, I64);
+    case Kind.I128:
+      return resolveSingleFn(object, I128);
+    case Kind.String:
+      return resolveSingleFn(object, String);
+    case Kind.Enum:
+      return resolveSingleFn(object, Enum);
+    case Kind.Some:
+      return resolveSingleFn(object, Some);
+    case Kind.None:
+      return resolveSingleFn(object, None);
+    case Kind.Ok:
+      return resolveSingleFn(object, Ok);
+    case Kind.Err:
+      return resolveSingleFn(object, Err);
+    case Kind.Array:
+      return resolveSingleFn(object, Array);
+    case Kind.Map:
+      return resolveSingleFn(object, Map);
+    case Kind.Tuple:
+      return resolveSingleFn(object, Tuple);
+    case Kind.Decimal:
+      return resolveSingleFn(object, Decimal);
+    case Kind.PreciseDecimal:
+      return resolveSingleFn(object, PreciseDecimal);
+    case Kind.Address:
+      return resolveSingleFn(object, Address);
+    case Kind.Bucket:
+      return resolveSingleFn(object, Bucket);
+    case Kind.Proof:
+      return resolveSingleFn(object, Proof);
+    case Kind.NonFungibleLocalId:
+      return resolveSingleFn(object, NonFungibleLocalId);
+    case Kind.NonFungibleGlobalId:
+      return resolveSingleFn(object, NonFungibleGlobalId);
+    case Kind.Expression:
+      return resolveSingleFn(object, Expression);
+    case Kind.Blob:
+      return resolveSingleFn(object, Blob);
+    case Kind.Bytes:
+      return resolveSingleFn(object, Bytes);
+  }
+}

@@ -15,7 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
+// organize-imports-ignore
+
 export * as ManifestAstValue from "./manifest_ast";
+
 export * as ManifestSborValue from "./manifest_sbor";
-export * as SborValue from "./sbor";
 export * as ScryptoSborValue from "./scrypto_sbor";
+
+// This MUST be the last export since the SborValue depends on both the above flavors of SBOR.
+// exporting it first will result in import issues.
+export * as SborValue from "./sbor";
