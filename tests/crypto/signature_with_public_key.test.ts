@@ -17,26 +17,20 @@
 
 import { describe, expect, test } from "vitest";
 import { SignatureWithPublicKey } from "../../src";
-import { deserialize, serialize, stringToUint8Array } from "../../src/utils";
+import { deserialize, serialize } from "../../src/utils";
 import { assertSerializationEquals } from "../test_utils";
 
 describe.each([
   {
     expectedObject: new SignatureWithPublicKey.EcdsaSecp256k1(
-      stringToUint8Array(
-        "007f054d0a376fb5cce93c5836531ce5d116dcdb134211650553ddeba408e53b4725b8fe89d120c41667fe457acae408025371a61b8fe05b20d2c2b9e8d81f1a53"
-      )
+      "007f054d0a376fb5cce93c5836531ce5d116dcdb134211650553ddeba408e53b4725b8fe89d120c41667fe457acae408025371a61b8fe05b20d2c2b9e8d81f1a53"
     ),
     expectedSerialization: `{"curve":"EcdsaSecp256k1","signature":"007f054d0a376fb5cce93c5836531ce5d116dcdb134211650553ddeba408e53b4725b8fe89d120c41667fe457acae408025371a61b8fe05b20d2c2b9e8d81f1a53"}`,
   },
   {
     expectedObject: new SignatureWithPublicKey.EddsaEd25519(
-      stringToUint8Array(
-        "e5f1e508cc91a95a280613618a1ccb5142744b5b8a6042e232dcaadf17e41f1f0131d535ea3fa56b6ae8164586cd6b4e89e3224e994b3109ca51cae02e7dce01"
-      ),
-      stringToUint8Array(
-        "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
-      )
+      "e5f1e508cc91a95a280613618a1ccb5142744b5b8a6042e232dcaadf17e41f1f0131d535ea3fa56b6ae8164586cd6b4e89e3224e994b3109ca51cae02e7dce01",
+      "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
     ),
     expectedSerialization: `{"curve":"EddsaEd25519","signature":"e5f1e508cc91a95a280613618a1ccb5142744b5b8a6042e232dcaadf17e41f1f0131d535ea3fa56b6ae8164586cd6b4e89e3224e994b3109ca51cae02e7dce01","public_key":"4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"}`,
   },

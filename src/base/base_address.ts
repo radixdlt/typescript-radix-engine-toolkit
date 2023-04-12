@@ -19,13 +19,10 @@ import { EntityAddress } from "../models";
 import { AddressInformation, RadixEngineToolkit } from "../wrapper/default";
 
 export class BaseAddress {
-  private _address: string;
+  private address: string;
 
   public get address(): string {
     return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
   }
 
   constructor(address: string) {

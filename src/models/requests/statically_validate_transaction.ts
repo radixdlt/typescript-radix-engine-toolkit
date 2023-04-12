@@ -15,63 +15,15 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import {
-  numberToString,
-  serialize,
-  stringToNumber,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { numberToString, uint8ArrayToString } from "../../utils";
 
 export class ValidationConfig {
-  private _networkId: string;
-  private _minCostUnitLimit: string;
-  private _maxCostUnitLimit: string;
-  private _minTipPercentage: string;
-  private _maxTipPercentage: string;
-  private _maxEpochRange: string;
-
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(this.networkId);
-  }
-
-  public get minCostUnitLimit(): number {
-    return stringToNumber(this._minCostUnitLimit);
-  }
-  public set minCostUnitLimit(value: number) {
-    this._minCostUnitLimit = numberToString(this.minCostUnitLimit);
-  }
-
-  public get maxCostUnitLimit(): number {
-    return stringToNumber(this._maxCostUnitLimit);
-  }
-  public set maxCostUnitLimit(value: number) {
-    this._maxCostUnitLimit = numberToString(this.maxCostUnitLimit);
-  }
-
-  public get minTipPercentage(): number {
-    return stringToNumber(this._minTipPercentage);
-  }
-  public set minTipPercentage(value: number) {
-    this._minTipPercentage = numberToString(this.minTipPercentage);
-  }
-
-  public get maxTipPercentage(): number {
-    return stringToNumber(this._maxTipPercentage);
-  }
-  public set maxTipPercentage(value: number) {
-    this._maxTipPercentage = numberToString(this.maxTipPercentage);
-  }
-
-  public get maxEpochRange(): number {
-    return stringToNumber(this._maxEpochRange);
-  }
-  public set maxEpochRange(value: number) {
-    this._maxEpochRange = numberToString(this.maxEpochRange);
-  }
+  networkId: string;
+  minCostUnitLimit: string;
+  maxCostUnitLimit: string;
+  minTipPercentage: string;
+  maxTipPercentage: string;
+  maxEpochRange: string;
 
   constructor(
     networkId: number,
@@ -81,12 +33,12 @@ export class ValidationConfig {
     maxTipPercentage: number,
     maxEpochRange: number
   ) {
-    this._networkId = numberToString(networkId);
-    this._minCostUnitLimit = numberToString(minCostUnitLimit);
-    this._maxCostUnitLimit = numberToString(maxCostUnitLimit);
-    this._minTipPercentage = numberToString(minTipPercentage);
-    this._maxTipPercentage = numberToString(maxTipPercentage);
-    this._maxEpochRange = numberToString(maxEpochRange);
+    this.networkId = numberToString(networkId);
+    this.minCostUnitLimit = numberToString(minCostUnitLimit);
+    this.maxCostUnitLimit = numberToString(maxCostUnitLimit);
+    this.minTipPercentage = numberToString(minTipPercentage);
+    this.maxTipPercentage = numberToString(maxTipPercentage);
+    this.maxEpochRange = numberToString(maxEpochRange);
   }
 
   public static default(networkId: number): ValidationConfig {
@@ -101,38 +53,24 @@ export class ValidationConfig {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class StaticallyValidateTransactionRequest {
-  private _compiledNotarizedIntent: string;
-  private _validationConfig: ValidationConfig;
-
-  public get compiledNotarizedIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledNotarizedIntent);
-  }
-  public set compiledNotarizedIntent(value: Uint8Array) {
-    this._compiledNotarizedIntent = uint8ArrayToString(value);
-  }
-
-  public get validationConfig(): ValidationConfig {
-    return this._validationConfig;
-  }
-  public set validationConfig(value: ValidationConfig) {
-    this._validationConfig = value;
-  }
+  compiledNotarizedIntent: string;
+  validationConfig: ValidationConfig;
 
   constructor(
     compiledNotarizedIntent: Uint8Array,
     validationConfig: ValidationConfig
   ) {
-    this._compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
-    this._validationConfig = validationConfig;
+    this.compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
+    this.validationConfig = validationConfig;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
@@ -146,33 +84,26 @@ export enum StaticallyValidateTransactionResponseKind {
 }
 
 export class StaticallyValidateTransactionResponseValid {
-  private _validity: StaticallyValidateTransactionResponseKind =
+  validity: StaticallyValidateTransactionResponseKind =
     StaticallyValidateTransactionResponseKind.Valid;
 
   constructor() {}
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class StaticallyValidateTransactionResponseInvalid {
-  private _validity: StaticallyValidateTransactionResponseKind =
+  validity: StaticallyValidateTransactionResponseKind =
     StaticallyValidateTransactionResponseKind.Invalid;
-  private _error: string;
-
-  public get error(): string {
-    return this._error;
-  }
-  public set error(value: string) {
-    this._error = value;
-  }
+  error: string;
 
   constructor(error: string) {
-    this._error = error;
+    this.error = error;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

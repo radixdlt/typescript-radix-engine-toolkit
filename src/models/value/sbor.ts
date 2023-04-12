@@ -16,7 +16,6 @@
 // under the License.
 
 import { ManifestSborValue, ScryptoSborValue } from ".";
-import { serialize } from "../../utils";
 
 export type Any = ScryptoSbor | ManifestSbor;
 
@@ -26,26 +25,15 @@ export enum Kind {
 }
 
 export class ScryptoSbor implements ISborValueConvertible {
-  private _type: Kind = Kind.ScryptoSbor;
-  private _value: ScryptoSborValue.Value;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get value(): ScryptoSborValue.Value {
-    return this._value;
-  }
-  public set value(value: ScryptoSborValue.Value) {
-    this._value = value;
-  }
+  readonly type: Kind = Kind.ScryptoSbor;
+  value: ScryptoSborValue.Value;
 
   constructor(value: ScryptoSborValue.Value) {
-    this._value = value;
+    this.value = value;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 
   toSborValue(): ScryptoSbor | ManifestSbor {
@@ -54,26 +42,15 @@ export class ScryptoSbor implements ISborValueConvertible {
 }
 
 export class ManifestSbor implements ISborValueConvertible {
-  private _type: Kind = Kind.ManifestSbor;
-  private _value: ManifestSborValue.Value;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get value(): ManifestSborValue.Value {
-    return this._value;
-  }
-  public set value(value: ManifestSborValue.Value) {
-    this._value = value;
-  }
+  readonly type: Kind = Kind.ManifestSbor;
+  value: ManifestSborValue.Value;
 
   constructor(value: ManifestSborValue.Value) {
-    this._value = value;
+    this.value = value;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 
   toSborValue(): ScryptoSbor | ManifestSbor {

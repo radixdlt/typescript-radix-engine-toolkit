@@ -15,8 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
-
 /**
  * The request provides information on the currently in-use radix engine toolkit such as the version
  * of the radix engine toolkit. In most cases, this is the first function written when integrating
@@ -33,34 +31,20 @@ export class InformationResponse {
    * A SemVer string of the version of the Radix Engine Toolkit. Ideally, if the toolkit is version
    * X then that means that it is compatible with version X of Scrypto.
    */
-  private _packageVersion: string;
+  packageVersion: string;
 
   /**
    * The hash of the commit that this build of the Radix Engine Toolkit was built against. This is
    * useful when doing any form of debugging and trying to determine the version of the library
    */
-  private _lastCommitHash: string;
-
-  public get packageVersion(): string {
-    return this._packageVersion;
-  }
-  public set packageVersion(value: string) {
-    this._packageVersion = value;
-  }
-
-  public get lastCommitHash(): Uint8Array {
-    return stringToUint8Array(this._lastCommitHash);
-  }
-  public set lastCommitHash(value: Uint8Array) {
-    this._lastCommitHash = uint8ArrayToString(value);
-  }
+  lastCommitHash: string;
 
   constructor(packageVersion: string, lastCommitHash: string) {
-    this._packageVersion = packageVersion;
-    this._lastCommitHash = lastCommitHash;
+    this.packageVersion = packageVersion;
+    this.lastCommitHash = lastCommitHash;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

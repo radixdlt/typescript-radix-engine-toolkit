@@ -16,63 +16,35 @@
 // under the License.
 
 import { EntityAddress, PublicKey } from "..";
-import { numberToString, serialize, stringToNumber } from "../../utils";
+import { numberToString } from "../../utils";
 
 export class DeriveBabylonAddressFromOlympiaAddressRequest {
-  private _networkId: string;
-  private _olympiaAccountAddress: string;
-
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
-
-  public get olympiaAccountAddress(): string {
-    return this._olympiaAccountAddress;
-  }
-  public set olympiaAccountAddress(value: string) {
-    this._olympiaAccountAddress = value;
-  }
+  networkId: string;
+  olympiaAccountAddress: string;
 
   constructor(networkId: number, olympiaAccountAddress: string) {
-    this._networkId = numberToString(networkId);
-    this._olympiaAccountAddress = olympiaAccountAddress;
+    this.networkId = numberToString(networkId);
+    this.olympiaAccountAddress = olympiaAccountAddress;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class DeriveBabylonAddressFromOlympiaAddressResponse {
-  private _babylonAccountAddress: EntityAddress.ComponentAddress;
-  private _publicKey: PublicKey.Any;
-
-  public get babylonAccountAddress(): EntityAddress.ComponentAddress {
-    return this._babylonAccountAddress;
-  }
-  public set babylonAccountAddress(value: EntityAddress.ComponentAddress) {
-    this._babylonAccountAddress = value;
-  }
-
-  public get publicKey(): PublicKey.Any {
-    return this._publicKey;
-  }
-  public set publicKey(value: PublicKey.Any) {
-    this._publicKey = value;
-  }
+  babylonAccountAddress: EntityAddress.ComponentAddress;
+  publicKey: PublicKey.Any;
 
   constructor(
     babylonAccountAddress: EntityAddress.ComponentAddress,
     publicKey: PublicKey.Any
   ) {
-    this._babylonAccountAddress = babylonAccountAddress;
-    this._publicKey = publicKey;
+    this.babylonAccountAddress = babylonAccountAddress;
+    this.publicKey = publicKey;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

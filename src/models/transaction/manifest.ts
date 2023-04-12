@@ -16,40 +16,21 @@
 // under the License.
 
 import { InstructionList } from ".";
-import {
-  resolveBytes,
-  serialize,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { resolveBytes, uint8ArrayToString } from "../../utils";
 
 export class TransactionManifest {
-  private _instructions: InstructionList.Any;
-  private _blobs: Array<string>;
-
-  public get instructions(): InstructionList.Any {
-    return this._instructions;
-  }
-  public set instructions(value: InstructionList.Any) {
-    this._instructions = value;
-  }
-
-  public get blobs(): Array<Uint8Array> {
-    return this._blobs.map(stringToUint8Array);
-  }
-  public set blobs(value: Array<Uint8Array>) {
-    this._blobs = value.map(uint8ArrayToString);
-  }
+  instructions: InstructionList.Any;
+  blobs: Array<string>;
 
   constructor(
     instructions: InstructionList.Any,
     blobs: Array<Uint8Array | string> = []
   ) {
-    this._instructions = instructions;
-    this._blobs = blobs.map(resolveBytes).map(uint8ArrayToString);
+    this.instructions = instructions;
+    this.blobs = blobs.map(resolveBytes).map(uint8ArrayToString);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

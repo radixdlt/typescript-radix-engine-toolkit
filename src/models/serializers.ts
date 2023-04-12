@@ -15,19 +15,15 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { SignedTransactionIntent } from "..";
-import { uint8ArrayToString } from "../../utils";
+import { TransformFnParams } from "class-transformer";
+import { Convert } from "..";
 
-export type CompileSignedTransactionIntentRequest = SignedTransactionIntent;
+type TransformFn = (params: TransformFnParams) => any;
 
-export class CompileSignedTransactionIntentResponse {
-  compiledIntent: string;
+export namespace ByteArrayAsHexString {
+  export const serialize: TransformFn = ({ value }: TransformFnParams): any =>
+    Convert.Uint8Array.toHexString(value as Uint8Array);
 
-  constructor(compiledIntent: Uint8Array) {
-    this.compiledIntent = uint8ArrayToString(compiledIntent);
-  }
-
-  toString(): string {
-    return JSON.stringify(instanceToPlain(this));
-  }
+  export const deserialize: TransformFn = ({ value }: TransformFnParams): any =>
+    Convert.HexString.toUint8Array(value as string);
 }

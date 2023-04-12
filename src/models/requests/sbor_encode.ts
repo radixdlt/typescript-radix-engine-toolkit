@@ -16,25 +16,18 @@
 // under the License.
 
 import { SborValue } from "models/value";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { uint8ArrayToString } from "../../utils";
 
 export type SborEncodeRequest = SborValue.Any;
 
 export class SborEncodeResponse {
-  private _encodedValue: string;
-
-  public get encodedValue(): Uint8Array {
-    return stringToUint8Array(this._encodedValue);
-  }
-  public set encodedValue(value: Uint8Array) {
-    this._encodedValue = uint8ArrayToString(value);
-  }
+  encodedValue: string;
 
   constructor(encodedValue: Uint8Array) {
-    this._encodedValue = uint8ArrayToString(encodedValue);
+    this.encodedValue = uint8ArrayToString(encodedValue);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

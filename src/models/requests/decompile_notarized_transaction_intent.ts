@@ -16,36 +16,22 @@
 // under the License.
 
 import { InstructionList, NotarizedTransaction } from "models/transaction";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { uint8ArrayToString } from "../../utils";
 
 export class DecompileNotarizedTransactionIntentRequest {
-  private _instructionsOutputKind: InstructionList.Kind;
-  private _compiledNotarizedIntent: string;
-
-  public get instructionsOutputKind(): InstructionList.Kind {
-    return this._instructionsOutputKind;
-  }
-  public set instructionsOutputKind(value: InstructionList.Kind) {
-    this._instructionsOutputKind = value;
-  }
-
-  public get compiledNotarizedIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledNotarizedIntent);
-  }
-  public set compiledNotarizedIntent(value: Uint8Array) {
-    this._compiledNotarizedIntent = uint8ArrayToString(value);
-  }
+  instructionsOutputKind: InstructionList.Kind;
+  compiledNotarizedIntent: string;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
     compiledNotarizedIntent: Uint8Array
   ) {
-    this._instructionsOutputKind = instructionsOutputKind;
-    this._compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

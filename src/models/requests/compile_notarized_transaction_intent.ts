@@ -16,25 +16,18 @@
 // under the License.
 
 import { NotarizedTransaction } from "..";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { uint8ArrayToString } from "../../utils";
 
 export type CompileNotarizedTransactionRequest = NotarizedTransaction;
 
 export class CompileNotarizedTransactionResponse {
-  private _compiledIntent: string;
-
-  public get compiledIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledIntent);
-  }
-  public set compiledIntent(value: Uint8Array) {
-    this._compiledIntent = uint8ArrayToString(value);
-  }
+  compiledIntent: string;
 
   constructor(compiledIntent: Uint8Array) {
-    this._compiledIntent = uint8ArrayToString(compiledIntent);
+    this.compiledIntent = uint8ArrayToString(compiledIntent);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

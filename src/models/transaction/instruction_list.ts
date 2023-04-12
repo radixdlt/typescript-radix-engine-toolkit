@@ -16,7 +16,6 @@
 // under the License.
 
 import { Instruction } from ".";
-import { serialize } from "../../utils";
 
 export type Any = StringInstructions | ParsedInstructions;
 
@@ -26,49 +25,27 @@ export enum Kind {
 }
 
 export class StringInstructions {
-  private _type: Kind = Kind.String;
-  private _value: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get value(): string {
-    return this._value;
-  }
-  public set value(value: string) {
-    this._value = value;
-  }
+  readonly type: Kind = Kind.String;
+  value: string;
 
   constructor(instructions: string) {
-    this._value = instructions;
+    this.value = instructions;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class ParsedInstructions {
-  private _type: Kind = Kind.Parsed;
-  private _value: Array<Instruction.Any>;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get value(): Array<Instruction.Any> {
-    return this._value;
-  }
-  public set value(value: Array<Instruction.Any>) {
-    this._value = value;
-  }
+  readonly type: Kind = Kind.Parsed;
+  value: Array<Instruction.Any>;
 
   constructor(instructions: Array<Instruction.Any>) {
-    this._value = instructions;
+    this.value = instructions;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

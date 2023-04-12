@@ -20,39 +20,25 @@ import {
   SignedTransactionIntent,
   TransactionIntent,
 } from "../../models/transaction";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { uint8ArrayToString } from "../../utils";
 import { DecompileNotarizedTransactionIntentResponse } from "./decompile_notarized_transaction_intent";
 import { DecompileSignedTransactionIntentResponse } from "./decompile_signed_transaction_intent";
 import { DecompileTransactionIntentResponse } from "./decompile_transaction_intent";
 
 export class DecompileUnknownTransactionIntentRequest {
-  private _instructionsOutputKind: InstructionList.Kind;
-  private _compiledUnknownIntent: string;
-
-  public get instructionsOutputKind(): InstructionList.Kind {
-    return this._instructionsOutputKind;
-  }
-  public set instructionsOutputKind(value: InstructionList.Kind) {
-    this._instructionsOutputKind = value;
-  }
-
-  public get compiledUnknownIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledUnknownIntent);
-  }
-  public set compiledUnknownIntent(value: Uint8Array) {
-    this._compiledUnknownIntent = uint8ArrayToString(value);
-  }
+  instructionsOutputKind: InstructionList.Kind;
+  compiledUnknownIntent: string;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
     compiledUnknownIntent: Uint8Array
   ) {
-    this._instructionsOutputKind = instructionsOutputKind;
-    this._compiledUnknownIntent = uint8ArrayToString(compiledUnknownIntent);
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.compiledUnknownIntent = uint8ArrayToString(compiledUnknownIntent);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
@@ -63,30 +49,11 @@ export enum DecompileUnknownTransactionIntentResponseKind {
 }
 
 export class DecompileUnknownTransactionIntentResponse {
-  private _type: DecompileUnknownTransactionIntentResponseKind;
-  private _value:
+  readonly type: DecompileUnknownTransactionIntentResponseKind;
+  private value:
     | DecompileTransactionIntentResponse
     | DecompileSignedTransactionIntentResponse
     | DecompileNotarizedTransactionIntentResponse;
-
-  public get type(): DecompileUnknownTransactionIntentResponseKind {
-    return this._type;
-  }
-
-  public get value():
-    | DecompileTransactionIntentResponse
-    | DecompileSignedTransactionIntentResponse
-    | DecompileNotarizedTransactionIntentResponse {
-    return this._value;
-  }
-  public set value(
-    value:
-      | DecompileTransactionIntentResponse
-      | DecompileSignedTransactionIntentResponse
-      | DecompileNotarizedTransactionIntentResponse
-  ) {
-    this._value = value;
-  }
 
   constructor(
     value:
@@ -94,21 +61,21 @@ export class DecompileUnknownTransactionIntentResponse {
       | DecompileSignedTransactionIntentResponse
       | DecompileNotarizedTransactionIntentResponse
   ) {
-    this._value = value;
+    this.value = value;
     if (value instanceof TransactionIntent) {
-      this._type =
+      this.type =
         DecompileUnknownTransactionIntentResponseKind.TransactionIntent;
     } else if (value instanceof SignedTransactionIntent) {
-      this._type =
+      this.type =
         DecompileUnknownTransactionIntentResponseKind.SignedTransactionIntent;
     } else {
       // Not exactly true
-      this._type =
+      this.type =
         DecompileUnknownTransactionIntentResponseKind.NotarizedTransactionIntent;
     }
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

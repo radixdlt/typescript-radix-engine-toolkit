@@ -16,39 +16,19 @@
 // under the License.
 
 import { SborValue } from "models/value";
-import {
-  numberToString,
-  serialize,
-  stringToNumber,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { numberToString, uint8ArrayToString } from "../../utils";
 
 export class SborDecodeRequest {
-  private _encodedValue: string;
-  private _networkId: string;
-
-  public get encodedValue(): Uint8Array {
-    return stringToUint8Array(this._encodedValue);
-  }
-  public set encodedValue(value: Uint8Array) {
-    this._encodedValue = uint8ArrayToString(value);
-  }
-
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
+  encodedValue: string;
+  networkId: string;
 
   constructor(encodedValue: Uint8Array, networkId: number) {
-    this._encodedValue = uint8ArrayToString(encodedValue);
-    this._networkId = numberToString(networkId);
+    this.encodedValue = uint8ArrayToString(encodedValue);
+    this.networkId = numberToString(networkId);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

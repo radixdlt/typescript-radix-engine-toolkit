@@ -25,11 +25,6 @@ import {
   decimalToString,
   numberToString,
   resolveBytes,
-  serialize,
-  stringToBigInt,
-  stringToDecimal,
-  stringToNumber,
-  stringToUint8Array,
   uint8ArrayToString,
 } from "../../utils";
 import {
@@ -41,14 +36,10 @@ import { PublicKey } from "../crypto";
 import { ISborValueConvertible, ManifestSbor } from "./sbor";
 
 export abstract class Value implements ISborValueConvertible {
-  private _type: Kind;
-
-  get type(): Kind {
-    return this._type;
-  }
+  readonly type: Kind;
 
   constructor(type: Kind) {
-    this._type = type;
+    this.type = type;
   }
 
   abstract toString(): string;
@@ -86,338 +77,195 @@ export enum Kind {
 }
 
 export class Bool extends Value {
-  private _value: boolean;
-
-  public get value(): boolean {
-    return this._value;
-  }
-  public set value(value: boolean) {
-    this._value = value;
-  }
+  value: boolean;
 
   constructor(value: boolean) {
     super(Kind.Bool);
-    this._value = value;
+    this.value = value;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class U8 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.U8);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class U16 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.U16);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class U32 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.U32);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class U64 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.U64);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class U128 extends Value {
-  private _value: string;
-
-  get value(): BigInt {
-    return stringToBigInt(this._value);
-  }
-
-  set value(value: BigInt) {
-    this._value = bigIntToString(value);
-  }
+  value: string;
 
   constructor(value: BigInt) {
     super(Kind.U128);
-    this._value = bigIntToString(value);
+    this.value = bigIntToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class I8 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.I8);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class I16 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.I16);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class I32 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.I32);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class I64 extends Value {
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  value: string;
 
   constructor(value: number) {
     super(Kind.I64);
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class I128 extends Value {
-  private _value: string;
-
-  get value(): BigInt {
-    return stringToBigInt(this._value);
-  }
-
-  set value(value: BigInt) {
-    this._value = bigIntToString(value);
-  }
+  value: string;
 
   constructor(value: BigInt) {
     super(Kind.I128);
-    this._value = bigIntToString(value);
+    this.value = bigIntToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class String extends Value {
-  private _value: string;
-
-  public get value(): string {
-    return this._value;
-  }
-  public set value(value: string) {
-    this._value = value;
-  }
+  value: string;
 
   constructor(value: string) {
     super(Kind.String);
-    this._value = value;
+    this.value = value;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Enum extends Value {
-  private _variant: string;
-  private _fields: globalThis.Array<Value> = [];
-
-  public get variant(): number {
-    return stringToNumber(this._variant);
-  }
-  public set variant(value: number) {
-    this._variant = numberToString(value);
-  }
-
-  public get fields(): globalThis.Array<Value> {
-    return this._fields;
-  }
-  public set fields(value: globalThis.Array<Value>) {
-    this._fields = value;
-  }
+  variant: string;
+  fields: globalThis.Array<Value> = [];
 
   constructor(variant: number, fields: globalThis.Array<Value> = []) {
     super(Kind.Enum);
-    this._variant = numberToString(variant);
+    this.variant = numberToString(variant);
     this.fields = fields;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Array extends Value {
-  private _elementKind: Kind;
-  private _elements: globalThis.Array<Value>;
-
-  public get elementKind(): Kind {
-    return this._elementKind;
-  }
-  public set elementKind(value: Kind) {
-    this._elementKind = value;
-  }
-
-  public get elements(): globalThis.Array<Value> {
-    return this._elements;
-  }
-  public set elements(value: globalThis.Array<Value>) {
-    this._elements = value;
-  }
+  elementKind: Kind;
+  elements: globalThis.Array<Value>;
 
   constructor(elementKind: Kind, elements: globalThis.Array<Value>) {
     super(Kind.Array);
-    this._elementKind = elementKind;
-    this._elements = elements;
+    this.elementKind = elementKind;
+    this.elements = elements;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Map extends Value {
-  private _keyValueKind: Kind;
-  private _valueValueKind: Kind;
-  private _entries: globalThis.Array<[Value, Value]> = [];
-
-  public get keyValueKind(): Kind {
-    return this._keyValueKind;
-  }
-  public set keyValueKind(value: Kind) {
-    this._keyValueKind = value;
-  }
-
-  public get valueValueKind(): Kind {
-    return this._valueValueKind;
-  }
-  public set valueValueKind(value: Kind) {
-    this._valueValueKind = value;
-  }
-
-  public get entries(): globalThis.Array<[Value, Value]> {
-    return this._entries;
-  }
-  public set entries(value: globalThis.Array<[Value, Value]>) {
-    this._entries = value;
-  }
+  keyValueKind: Kind;
+  valueValueKind: Kind;
+  entries: globalThis.Array<[Value, Value]> = [];
 
   constructor(
     keyValueKind: Kind,
@@ -425,25 +273,18 @@ export class Map extends Value {
     elements: globalThis.Array<[Value, Value]> = []
   ) {
     super(Kind.Map);
-    this._keyValueKind = keyValueKind;
-    this._valueValueKind = valueValueKind;
-    this._entries = elements;
+    this.keyValueKind = keyValueKind;
+    this.valueValueKind = valueValueKind;
+    this.entries = elements;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Tuple extends Value {
-  private _elements: globalThis.Array<Value> = [];
-
-  public get elements(): globalThis.Array<Value> {
-    return this._elements;
-  }
-  public set elements(value: globalThis.Array<Value>) {
-    this._elements = value;
-  }
+  elements: globalThis.Array<Value> = [];
 
   constructor(elements: globalThis.Array<Value> = []) {
     super(Kind.Tuple);
@@ -451,24 +292,20 @@ export class Tuple extends Value {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Decimal extends Value {
-  private _value: string;
-
-  get value(): DecimalJs {
-    return stringToDecimal(this._value);
-  }
+  value: string;
 
   set value(value: DecimalJs | string | number) {
     if (typeof value === "string") {
-      this._value = value;
+      this.value = value;
     } else if (typeof value === "number") {
-      this._value = numberToString(value);
+      this.value = numberToString(value);
     } else if (value instanceof DecimalJs) {
-      this._value = decimalToString(value);
+      this.value = decimalToString(value);
     } else {
       throw new TypeError("Invalid type passed as decimal");
     }
@@ -477,35 +314,31 @@ export class Decimal extends Value {
   constructor(value: DecimalJs | string | number) {
     super(Kind.Decimal);
     if (typeof value === "string") {
-      this._value = value;
+      this.value = value;
     } else if (typeof value === "number") {
-      this._value = numberToString(value);
+      this.value = numberToString(value);
     } else if (value instanceof DecimalJs) {
-      this._value = decimalToString(value);
+      this.value = decimalToString(value);
     } else {
       throw new TypeError("Invalid type passed as decimal");
     }
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class PreciseDecimal extends Value {
-  private _value: string;
-
-  get value(): DecimalJs {
-    return stringToDecimal(this._value);
-  }
+  value: string;
 
   set value(value: DecimalJs | string | number) {
     if (typeof value === "string") {
-      this._value = value;
+      this.value = value;
     } else if (typeof value === "number") {
-      this._value = numberToString(value);
+      this.value = numberToString(value);
     } else if (value instanceof DecimalJs) {
-      this._value = decimalToString(value);
+      this.value = decimalToString(value);
     } else {
       throw new TypeError("Invalid type passed as decimal");
     }
@@ -514,34 +347,27 @@ export class PreciseDecimal extends Value {
   constructor(value: DecimalJs | string | number) {
     super(Kind.PreciseDecimal);
     if (typeof value === "string") {
-      this._value = value;
+      this.value = value;
     } else if (typeof value === "number") {
-      this._value = numberToString(value);
+      this.value = numberToString(value);
     } else if (value instanceof DecimalJs) {
-      this._value = decimalToString(value);
+      this.value = decimalToString(value);
     } else {
       throw new TypeError("Invalid type passed as decimal");
     }
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Address extends Value implements IAddress {
-  private _address: string;
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+  address: string;
 
   constructor(address: string) {
     super(Kind.Address);
-    this._address = address;
+    this.address = address;
   }
 
   static async virtualAccountAddress(
@@ -679,63 +505,42 @@ export class Address extends Value implements IAddress {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Bucket extends Value {
-  private _identifier: String | U32;
-
-  public get identifier(): String | U32 {
-    return this._identifier;
-  }
-  public set identifier(value: String | U32) {
-    this._identifier = value;
-  }
+  identifier: String | U32;
 
   constructor(identifier: String | U32) {
     super(Kind.Bucket);
-    this._identifier = identifier;
+    this.identifier = identifier;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Proof extends Value {
-  private _identifier: String | U32;
-
-  public get identifier(): String | U32 {
-    return this._identifier;
-  }
-  public set identifier(value: String | U32) {
-    this._identifier = value;
-  }
+  identifier: String | U32;
 
   constructor(identifier: String | U32) {
     super(Kind.Proof);
-    this._identifier = identifier;
+    this.identifier = identifier;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Expression extends Value {
-  private _value: string;
-
-  public get value(): string {
-    return this._value;
-  }
-  public set value(value: string) {
-    this._value = value;
-  }
+  value: string;
 
   constructor(expression: string) {
     super(Kind.Expression);
-    this._value = expression;
+    this.value = expression;
   }
 
   static entireWorktop(): Expression {
@@ -747,114 +552,71 @@ export class Expression extends Value {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class NonFungibleLocalId extends Value {
-  private _value: UUID | Integer | String | Bytes;
-
-  public get value(): UUID | Integer | String | Bytes {
-    return this._value;
-  }
-  public set value(value: UUID | Integer | String | Bytes) {
-    this._value = value;
-  }
+  value: UUID | Integer | String | Bytes;
 
   constructor(value: UUID | Integer | String | Bytes) {
     super(Kind.NonFungibleLocalId);
-    this._value = value;
+    this.value = value;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Integer {
-  private _type: string = "Integer";
-  private _value: string;
-
-  get value(): number {
-    return stringToNumber(this._value);
-  }
-
-  set value(value: number) {
-    this._value = numberToString(value);
-  }
+  readonly type: string = "Integer";
+  value: string;
 
   constructor(value: number) {
-    this._value = numberToString(value);
+    this.value = numberToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class UUID {
-  private _type: string = "UUID";
-  private _value: string;
-
-  get value(): BigInt {
-    return stringToBigInt(this._value);
-  }
-
-  set value(value: BigInt) {
-    this._value = bigIntToString(value);
-  }
+  readonly type: string = "UUID";
+  value: string;
 
   constructor(value: BigInt) {
-    this._value = bigIntToString(value);
+    this.value = bigIntToString(value);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Blob extends Value {
-  private _hash: string;
-
-  get value(): Uint8Array {
-    return stringToUint8Array(this._hash);
-  }
-
-  set value(hash: Uint8Array) {
-    this._hash = uint8ArrayToString(hash);
-  }
+  hash: string;
 
   constructor(hash: Uint8Array | string) {
     super(Kind.Blob);
-    this._hash = uint8ArrayToString(resolveBytes(hash));
+    this.hash = uint8ArrayToString(resolveBytes(hash));
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class Bytes {
-  private _type: string = "Bytes";
-  private _value: string;
-
-  get value(): Uint8Array {
-    return stringToUint8Array(this._value);
-  }
-
-  set value(value: Uint8Array) {
-    this._value = uint8ArrayToString(value);
-  }
-
-  public get type(): string {
-    return this._type;
-  }
+  readonly type: string = "Bytes";
+  value: string;
 
   constructor(value: Uint8Array | string) {
-    this._value = uint8ArrayToString(resolveBytes(value));
+    this.value = uint8ArrayToString(resolveBytes(value));
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

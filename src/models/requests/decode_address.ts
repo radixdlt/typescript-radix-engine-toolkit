@@ -16,70 +16,22 @@
 // under the License.
 
 import { EntityAddress } from "../../";
-import {
-  numberToString,
-  serialize,
-  stringToNumber,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { numberToString, uint8ArrayToString } from "../../utils";
 
 export class DecodeAddressRequest {
-  private _address: string;
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    this.address = address;
   }
 }
 
 export class DecodeAddressResponse {
-  private _networkId: string;
-  private _networkName: string;
-  private _entityType: EntityAddress.EntityType;
-  private _data: string;
-  private _hrp: string;
-
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
-
-  public get networkName(): string {
-    return this._networkName;
-  }
-  public set networkName(value: string) {
-    this._networkName = value;
-  }
-
-  public get entityType(): EntityAddress.EntityType {
-    return this._entityType;
-  }
-  public set entityType(value: EntityAddress.EntityType) {
-    this._entityType = value;
-  }
-
-  public get data(): Uint8Array {
-    return stringToUint8Array(this._data);
-  }
-  public set data(value: Uint8Array) {
-    this._data = uint8ArrayToString(value);
-  }
-
-  public get hrp(): string {
-    return this._hrp;
-  }
-  public set hrp(value: string) {
-    this._hrp = value;
-  }
+  networkId: string;
+  networkName: string;
+  entityType: EntityAddress.EntityType;
+  data: string;
+  hrp: string;
 
   constructor(
     networkId: number,
@@ -88,14 +40,14 @@ export class DecodeAddressResponse {
     data: Uint8Array,
     hrp: string
   ) {
-    this._networkId = numberToString(networkId);
-    this._networkName = networkName;
-    this._entityType = entityType;
-    this._data = uint8ArrayToString(data);
-    this._hrp = hrp;
+    this.networkId = numberToString(networkId);
+    this.networkName = networkName;
+    this.entityType = entityType;
+    this.data = uint8ArrayToString(data);
+    this.hrp = hrp;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

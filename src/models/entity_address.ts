@@ -17,7 +17,6 @@
 
 import { EntityAddress } from ".";
 import { IAddress } from "../base/base_address";
-import { serialize } from "../utils";
 import {
   AddressBook,
   AddressInformation,
@@ -34,22 +33,11 @@ export enum Kind {
 }
 
 export class ComponentAddress implements IAddress {
-  private _type: Kind = Kind.ComponentAddress;
-  private _address: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+  readonly type: Kind = Kind.ComponentAddress;
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    this.address = address;
   }
 
   static async virtualAccountAddress(
@@ -146,27 +134,16 @@ export class ComponentAddress implements IAddress {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class ResourceAddress implements IAddress {
-  private _type: Kind = Kind.ResourceAddress;
-  private _address: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+  readonly type: Kind = Kind.ResourceAddress;
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    this.address = address;
   }
 
   static async decode(
@@ -249,27 +226,16 @@ export class ResourceAddress implements IAddress {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class PackageAddress implements IAddress {
-  private _type: Kind = Kind.PackageAddress;
-  private _address: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+  readonly type: Kind = Kind.PackageAddress;
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    this.address = address;
   }
 
   static async decode(
@@ -327,7 +293,7 @@ export class PackageAddress implements IAddress {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

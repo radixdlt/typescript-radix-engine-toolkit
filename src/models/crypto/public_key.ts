@@ -15,60 +15,51 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import {
-  resolveBytes,
-  serialize,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { Expose, instanceToPlain, Transform, Type } from "class-transformer";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 import { Curve } from "./curve";
 
 export type Any = EcdsaSecp256k1 | EddsaEd25519;
 
 export class EcdsaSecp256k1 {
-  private _curve: Curve = Curve.EcdsaSecp256k1;
-  private _publicKey: string;
+  @Expose()
+  curve: Curve = Curve.EcdsaSecp256k1;
 
-  public get publicKey(): Uint8Array {
-    return stringToUint8Array(this._publicKey);
-  }
-  public set publicKey(value: Uint8Array) {
-    this._publicKey = uint8ArrayToString(value);
-  }
-
-  public get curve(): Curve {
-    return this._curve;
-  }
+  @Expose({ name: "public_key" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  publicKey: Uint8Array;
 
   constructor(publicKey: Uint8Array | string) {
-    this._publicKey = uint8ArrayToString(resolveBytes(publicKey));
+    this.publicKey = Convert.Uint8Array.from(publicKey);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class EddsaEd25519 {
-  private _curve: Curve = Curve.EddsaEd25519;
-  private _publicKey: string;
+  @Expose()
+  curve: Curve = Curve.EddsaEd25519;
 
-  public get publicKey(): Uint8Array {
-    return stringToUint8Array(this._publicKey);
-  }
-  public set publicKey(value: Uint8Array) {
-    this._publicKey = uint8ArrayToString(value);
-  }
-
-  public get curve(): Curve {
-    return this._curve;
-  }
+  @Expose({ name: "public_key" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  publicKey: Uint8Array;
 
   constructor(publicKey: Uint8Array | string) {
-    this._publicKey = uint8ArrayToString(resolveBytes(publicKey));
+    this.publicKey = Convert.Uint8Array.from(publicKey);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

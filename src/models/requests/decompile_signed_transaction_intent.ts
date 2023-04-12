@@ -16,36 +16,22 @@
 // under the License.
 
 import { InstructionList, SignedTransactionIntent } from "models/transaction";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { uint8ArrayToString } from "../../utils";
 
 export class DecompileSignedTransactionIntentRequest {
-  private _instructionsOutputKind: InstructionList.Kind;
-  private _compiledSignedIntent: string;
-
-  public get instructionsOutputKind(): InstructionList.Kind {
-    return this._instructionsOutputKind;
-  }
-  public set instructionsOutputKind(value: InstructionList.Kind) {
-    this._instructionsOutputKind = value;
-  }
-
-  public get compiledSignedIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledSignedIntent);
-  }
-  public set compiledSignedIntent(value: Uint8Array) {
-    this._compiledSignedIntent = uint8ArrayToString(value);
-  }
+  instructionsOutputKind: InstructionList.Kind;
+  compiledSignedIntent: string;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
     compiledSignedIntent: Uint8Array
   ) {
-    this._instructionsOutputKind = instructionsOutputKind;
-    this._compiledSignedIntent = uint8ArrayToString(compiledSignedIntent);
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.compiledSignedIntent = uint8ArrayToString(compiledSignedIntent);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

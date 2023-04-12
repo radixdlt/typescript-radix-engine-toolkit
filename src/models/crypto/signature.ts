@@ -15,60 +15,51 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import {
-  resolveBytes,
-  serialize,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 import { Curve } from "./curve";
 
 export type Any = EcdsaSecp256k1 | EddsaEd25519;
 
 export class EcdsaSecp256k1 {
-  private _curve: Curve = Curve.EcdsaSecp256k1;
-  private _signature: string;
+  @Expose()
+  curve: Curve = Curve.EcdsaSecp256k1;
 
-  public get signature(): Uint8Array {
-    return stringToUint8Array(this._signature);
-  }
-  public set signature(value: Uint8Array) {
-    this._signature = uint8ArrayToString(value);
-  }
-
-  public get curve(): Curve {
-    return this._curve;
-  }
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  signature: Uint8Array;
 
   constructor(signature: Uint8Array | string) {
-    this._signature = uint8ArrayToString(resolveBytes(signature));
+    this.signature = Convert.Uint8Array.from(signature);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class EddsaEd25519 {
-  private _curve: Curve = Curve.EddsaEd25519;
-  private _signature: string;
+  @Expose()
+  curve: Curve = Curve.EddsaEd25519;
 
-  public get signature(): Uint8Array {
-    return stringToUint8Array(this._signature);
-  }
-  public set signature(value: Uint8Array) {
-    this._signature = uint8ArrayToString(value);
-  }
-
-  public get curve(): Curve {
-    return this._curve;
-  }
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  signature: Uint8Array;
 
   constructor(signature: Uint8Array | string) {
-    this._signature = uint8ArrayToString(resolveBytes(signature));
+    this.signature = Convert.Uint8Array.from(signature);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

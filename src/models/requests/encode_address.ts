@@ -16,39 +16,19 @@
 // under the License.
 
 import { EntityAddress } from "../../models";
-import {
-  numberToString,
-  serialize,
-  stringToNumber,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { numberToString, uint8ArrayToString } from "../../utils";
 
 export class EncodeAddressRequest {
-  private _addressBytes: string;
-  private _networkId: string;
-
-  public get addressBytes(): Uint8Array {
-    return stringToUint8Array(this._addressBytes);
-  }
-  public set addressBytes(value: Uint8Array) {
-    this._addressBytes = uint8ArrayToString(value);
-  }
-
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
+  addressBytes: string;
+  networkId: string;
 
   constructor(addressBytes: Uint8Array, networkId: number) {
-    this._addressBytes = uint8ArrayToString(addressBytes);
-    this._networkId = numberToString(networkId);
+    this.addressBytes = uint8ArrayToString(addressBytes);
+    this.networkId = numberToString(networkId);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
