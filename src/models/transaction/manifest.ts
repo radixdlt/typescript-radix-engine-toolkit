@@ -15,41 +15,46 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { InstructionList } from ".";
-import {
-  resolveBytes,
-  serialize,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
 export class TransactionManifest {
-  private _instructions: InstructionList.Any;
-  private _blobs: Array<string>;
+  @Expose()
+  @Type(() => InstructionList.InstructionList, {
+    discriminator: {
+      property: "type",
+      subTypes: [
+        { name: "String", value: InstructionList.StringInstructions },
+        { name: "Parsed", value: InstructionList.ParsedInstructions },
+      ],
+    },
+  })
+  instructions: InstructionList.InstructionList;
 
-  public get instructions(): InstructionList.Any {
-    return this._instructions;
-  }
-  public set instructions(value: InstructionList.Any) {
-    this._instructions = value;
-  }
-
-  public get blobs(): Array<Uint8Array> {
-    return this._blobs.map(stringToUint8Array);
-  }
-  public set blobs(value: Array<Uint8Array>) {
-    this._blobs = value.map(uint8ArrayToString);
-  }
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.TwoDimensionalByteArrayAsArrayOfHexString.serialize, {
+    toPlainOnly: true,
+  })
+  @Transform(
+    Serializers.TwoDimensionalByteArrayAsArrayOfHexString.deserialize,
+    {
+      toClassOnly: true,
+    }
+  )
+  blobs: Array<Uint8Array>;
 
   constructor(
-    instructions: InstructionList.Any,
+    instructions: InstructionList.InstructionList,
     blobs: Array<Uint8Array | string> = []
   ) {
-    this._instructions = instructions;
-    this._blobs = blobs.map(resolveBytes).map(uint8ArrayToString);
+    this.instructions = instructions;
+    this.blobs = blobs.map(Convert.Uint8Array.from);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

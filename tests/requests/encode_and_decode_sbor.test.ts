@@ -17,16 +17,16 @@
 
 import { describe, expect, test } from "vitest";
 import {
+  Convert,
   RawRadixEngineToolkit,
   SborDecodeRequest,
   SborValue,
   ScryptoSborValue,
 } from "../../src";
-import { stringToUint8Array } from "../../src/utils";
 
 describe.each([
   {
-    expectedEncoding: stringToUint8Array("5c0701"),
+    expectedEncoding: Convert.Uint8Array.from("5c0701"),
     expectedValue: new SborValue.ScryptoSbor(new ScryptoSborValue.U8(1)),
   },
 ])(

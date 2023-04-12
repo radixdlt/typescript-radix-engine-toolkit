@@ -15,32 +15,24 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionHeader, TransactionManifest } from ".";
 import { DecompileTransactionIntentRequest } from "../../models/requests";
-import { hash, serialize } from "../../utils";
+import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class TransactionIntent {
-  private _header: TransactionHeader;
-  private _manifest: TransactionManifest;
+  @Expose()
+  @Type(() => TransactionHeader)
+  header: TransactionHeader;
 
-  public get header(): TransactionHeader {
-    return this._header;
-  }
-  public set header(value: TransactionHeader) {
-    this._header = value;
-  }
-
-  public get manifest(): TransactionManifest {
-    return this._manifest;
-  }
-  public set manifest(value: TransactionManifest) {
-    this._manifest = value;
-  }
+  @Expose()
+  @Type(() => TransactionManifest)
+  manifest: TransactionManifest;
 
   constructor(header: TransactionHeader, manifest: TransactionManifest) {
-    this._header = header;
-    this._manifest = manifest;
+    this.header = header;
+    this.manifest = manifest;
   }
 
   async compile(): Promise<Uint8Array> {
@@ -66,6 +58,6 @@ export class TransactionIntent {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

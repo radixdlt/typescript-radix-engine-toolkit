@@ -15,9 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { EntityAddress } from ".";
+import { instanceToPlain } from "class-transformer";
 import { IAddress } from "../base/base_address";
-import { serialize } from "../utils";
 import {
   AddressBook,
   AddressInformation,
@@ -25,35 +24,24 @@ import {
 } from "../wrapper/default";
 import { PublicKey } from "./crypto";
 
-export type Any = ComponentAddress | ResourceAddress | PackageAddress;
+export class EntityAddress {
+  readonly type: "ComponentAddress" | "ResourceAddress" | "PackageAddress";
 
-export enum Kind {
-  ComponentAddress = "ComponentAddress",
-  ResourceAddress = "ResourceAddress",
-  PackageAddress = "PackageAddress",
+  constructor(type: "ComponentAddress" | "ResourceAddress" | "PackageAddress") {
+    this.type = type;
+  }
 }
 
-export class ComponentAddress implements IAddress {
-  private _type: Kind = Kind.ComponentAddress;
-  private _address: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+export class ComponentAddress extends EntityAddress implements IAddress {
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    super("ComponentAddress");
+    this.address = address;
   }
 
   static async virtualAccountAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<ComponentAddress> {
     return RadixEngineToolkit.deriveVirtualAccountAddress(
@@ -63,7 +51,7 @@ export class ComponentAddress implements IAddress {
   }
 
   static async virtualIdentityAddress(
-    publicKey: PublicKey.Any,
+    publicKey: PublicKey.PublicKey,
     networkId: number
   ): Promise<ComponentAddress> {
     return RadixEngineToolkit.deriveVirtualIdentityAddress(
@@ -123,7 +111,7 @@ export class ComponentAddress implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 
@@ -146,27 +134,16 @@ export class ComponentAddress implements IAddress {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
-export class ResourceAddress implements IAddress {
-  private _type: Kind = Kind.ResourceAddress;
-  private _address: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+export class ResourceAddress extends EntityAddress implements IAddress {
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    super("ResourceAddress");
+    this.address = address;
   }
 
   static async decode(
@@ -226,7 +203,7 @@ export class ResourceAddress implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 
@@ -249,27 +226,16 @@ export class ResourceAddress implements IAddress {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
-export class PackageAddress implements IAddress {
-  private _type: Kind = Kind.PackageAddress;
-  private _address: string;
-
-  public get type(): Kind {
-    return this._type;
-  }
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+export class PackageAddress extends EntityAddress implements IAddress {
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    super("PackageAddress");
+    this.address = address;
   }
 
   static async decode(
@@ -304,7 +270,7 @@ export class PackageAddress implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 
@@ -327,7 +293,7 @@ export class PackageAddress implements IAddress {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

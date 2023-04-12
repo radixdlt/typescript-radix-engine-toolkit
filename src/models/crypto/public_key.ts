@@ -15,60 +15,53 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import {
-  resolveBytes,
-  serialize,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { Expose, instanceToPlain, Transform, Type } from "class-transformer";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 import { Curve } from "./curve";
 
-export type Any = EcdsaSecp256k1 | EddsaEd25519;
+export class PublicKey {
+  readonly curve: Curve;
 
-export class EcdsaSecp256k1 {
-  private _curve: Curve = Curve.EcdsaSecp256k1;
-  private _publicKey: string;
-
-  public get publicKey(): Uint8Array {
-    return stringToUint8Array(this._publicKey);
-  }
-  public set publicKey(value: Uint8Array) {
-    this._publicKey = uint8ArrayToString(value);
-  }
-
-  public get curve(): Curve {
-    return this._curve;
-  }
-
-  constructor(publicKey: Uint8Array | string) {
-    this._publicKey = uint8ArrayToString(resolveBytes(publicKey));
-  }
-
-  toString(): string {
-    return serialize(this);
+  constructor(curve: Curve) {
+    this.curve = curve;
   }
 }
 
-export class EddsaEd25519 {
-  private _curve: Curve = Curve.EddsaEd25519;
-  private _publicKey: string;
-
-  public get publicKey(): Uint8Array {
-    return stringToUint8Array(this._publicKey);
-  }
-  public set publicKey(value: Uint8Array) {
-    this._publicKey = uint8ArrayToString(value);
-  }
-
-  public get curve(): Curve {
-    return this._curve;
-  }
+export class EcdsaSecp256k1 extends PublicKey {
+  @Expose({ name: "public_key" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  publicKey: Uint8Array;
 
   constructor(publicKey: Uint8Array | string) {
-    this._publicKey = uint8ArrayToString(resolveBytes(publicKey));
+    super(Curve.EcdsaSecp256k1);
+    this.publicKey = Convert.Uint8Array.from(publicKey);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
+  }
+}
+
+export class EddsaEd25519 extends PublicKey {
+  @Expose({ name: "public_key" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  publicKey: Uint8Array;
+
+  constructor(publicKey: Uint8Array | string) {
+    super(Curve.EddsaEd25519);
+    this.publicKey = Convert.Uint8Array.from(publicKey);
+  }
+
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
   }
 }

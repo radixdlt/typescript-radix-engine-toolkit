@@ -15,36 +15,36 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, SignedTransactionIntent } from ".";
 import { Signature } from "../../models/crypto";
 import { DecompileNotarizedTransactionIntentRequest } from "../../models/requests";
-import { hash, serialize } from "../../utils";
+import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class NotarizedTransaction {
-  private _signedIntent: SignedTransactionIntent;
-  private _notarySignature: Signature.Any;
+  @Expose({ name: "signed_intent" })
+  @Type(() => SignedTransactionIntent)
+  signedIntent: SignedTransactionIntent;
 
-  public get signedIntent(): SignedTransactionIntent {
-    return this._signedIntent;
-  }
-  public set signedIntent(value: SignedTransactionIntent) {
-    this._signedIntent = value;
-  }
-
-  public get notarySignature(): Signature.Any {
-    return this._notarySignature;
-  }
-  public set notarySignature(value: Signature.Any) {
-    this._notarySignature = value;
-  }
+  @Expose({ name: "notary_signature" })
+  @Type(() => Signature.Signature, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: Signature.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: Signature.EddsaEd25519 },
+      ],
+    },
+  })
+  notarySignature: Signature.Signature;
 
   constructor(
     signedIntent: SignedTransactionIntent,
-    notarySignature: Signature.Any
+    notarySignature: Signature.Signature
   ) {
-    this._signedIntent = signedIntent;
-    this._notarySignature = notarySignature;
+    this.signedIntent = signedIntent;
+    this.notarySignature = notarySignature;
   }
 
   async compile(): Promise<Uint8Array> {
@@ -78,6 +78,6 @@ export class NotarizedTransaction {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

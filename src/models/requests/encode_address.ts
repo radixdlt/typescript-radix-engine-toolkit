@@ -15,41 +15,35 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert } from "../..";
 import { EntityAddress } from "../../models";
-import {
-  numberToString,
-  serialize,
-  stringToNumber,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import * as Serializers from "../serializers";
 
 export class EncodeAddressRequest {
-  private _addressBytes: string;
-  private _networkId: string;
+  @Expose({ name: "address_bytes" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  addressBytes: Uint8Array;
 
-  public get addressBytes(): Uint8Array {
-    return stringToUint8Array(this._addressBytes);
-  }
-  public set addressBytes(value: Uint8Array) {
-    this._addressBytes = uint8ArrayToString(value);
-  }
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
-
-  constructor(addressBytes: Uint8Array, networkId: number) {
-    this._addressBytes = uint8ArrayToString(addressBytes);
-    this._networkId = numberToString(networkId);
+  constructor(addressBytes: Uint8Array | string, networkId: number) {
+    this.addressBytes = Convert.Uint8Array.from(addressBytes);
+    this.networkId = networkId;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
-export type EncodeAddressResponse = EntityAddress.Any;
+export type EncodeAddressResponse = EntityAddress.EntityAddress;

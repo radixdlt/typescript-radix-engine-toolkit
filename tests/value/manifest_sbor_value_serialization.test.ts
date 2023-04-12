@@ -42,7 +42,7 @@ describe.each([
     expectedSerialization: `{"type":"U32","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.U64(1),
+    expectedObject: new ManifestSborValue.U64(BigInt(1)),
     expectedSerialization: `{"type":"U64","value":"1"}`,
   },
   {
@@ -62,7 +62,7 @@ describe.each([
     expectedSerialization: `{"type":"I32","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.I64(1),
+    expectedObject: new ManifestSborValue.I64(BigInt(1)),
     expectedSerialization: `{"type":"I64","value":"1"}`,
   },
   {
@@ -149,24 +149,12 @@ describe.each([
     expectedSerialization: `{"type":"Address","address":"package_rdx1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqzrhqe8"}`,
   },
   {
-    expectedObject: new ManifestSborValue.Bucket(
-      new ManifestSborValue.String("bucket")
-    ),
-    expectedSerialization: `{"type":"Bucket","identifier":{"type":"String","value":"bucket"}}`,
+    expectedObject: new ManifestSborValue.Bucket(1),
+    expectedSerialization: `{"type":"Bucket","identifier":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.Bucket(new ManifestSborValue.U32(1)),
-    expectedSerialization: `{"type":"Bucket","identifier":{"type":"U32","value":"1"}}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Proof(
-      new ManifestSborValue.String("proof")
-    ),
-    expectedSerialization: `{"type":"Proof","identifier":{"type":"String","value":"proof"}}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Proof(new ManifestSborValue.U32(1)),
-    expectedSerialization: `{"type":"Proof","identifier":{"type":"U32","value":"1"}}`,
+    expectedObject: new ManifestSborValue.Proof(1),
+    expectedSerialization: `{"type":"Proof","identifier":"1"}`,
   },
   {
     expectedObject: new ManifestSborValue.NonFungibleLocalId(
@@ -178,7 +166,7 @@ describe.each([
   },
   {
     expectedObject: new ManifestSborValue.NonFungibleLocalId(
-      new ManifestSborValue.Integer(1)
+      new ManifestSborValue.Integer(BigInt(1))
     ),
     expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"Integer","value":"1"}}`,
   },

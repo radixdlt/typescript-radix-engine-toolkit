@@ -18,7 +18,7 @@
 import { describe, expect, test } from "vitest";
 import { PublicKey } from "../../src";
 import { TransactionHeader } from "../../src/models/transaction/header";
-import { deserialize, serialize, stringToUint8Array } from "../../src/utils";
+import { deserialize, serialize } from "../../src/utils";
 import { assertSerializationEquals } from "../test_utils";
 
 describe.each([
@@ -30,9 +30,7 @@ describe.each([
       105,
       5144,
       new PublicKey.EcdsaSecp256k1(
-        stringToUint8Array(
-          "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
-        )
+        "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
       ),
       false,
       100000000,
@@ -48,9 +46,7 @@ describe.each([
       105,
       5144,
       new PublicKey.EddsaEd25519(
-        stringToUint8Array(
-          "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
-        )
+        "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
       ),
       false,
       100000000,

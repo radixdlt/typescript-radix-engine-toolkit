@@ -15,37 +15,34 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { InstructionList, NotarizedTransaction } from "models/transaction";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert, InstructionList, NotarizedTransaction } from "../..";
+import * as Serializers from "../serializers";
 
 export class DecompileNotarizedTransactionIntentRequest {
-  private _instructionsOutputKind: InstructionList.Kind;
-  private _compiledNotarizedIntent: string;
+  @Expose({ name: "instructions_output_kind" })
+  instructionsOutputKind: InstructionList.Kind;
 
-  public get instructionsOutputKind(): InstructionList.Kind {
-    return this._instructionsOutputKind;
-  }
-  public set instructionsOutputKind(value: InstructionList.Kind) {
-    this._instructionsOutputKind = value;
-  }
-
-  public get compiledNotarizedIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledNotarizedIntent);
-  }
-  public set compiledNotarizedIntent(value: Uint8Array) {
-    this._compiledNotarizedIntent = uint8ArrayToString(value);
-  }
+  @Expose({ name: "compiled_notarized_intent" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  compiledNotarizedIntent: Uint8Array;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
-    compiledNotarizedIntent: Uint8Array
+    compiledNotarizedIntent: Uint8Array | string
   ) {
-    this._instructionsOutputKind = instructionsOutputKind;
-    this._compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.compiledNotarizedIntent = Convert.Uint8Array.from(
+      compiledNotarizedIntent
+    );
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

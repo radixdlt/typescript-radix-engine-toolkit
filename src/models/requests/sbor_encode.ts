@@ -15,26 +15,27 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { SborValue } from "models/value";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
-export type SborEncodeRequest = SborValue.Any;
+export type SborEncodeRequest = SborValue.Value;
 
 export class SborEncodeResponse {
-  private _encodedValue: string;
-
-  public get encodedValue(): Uint8Array {
-    return stringToUint8Array(this._encodedValue);
-  }
-  public set encodedValue(value: Uint8Array) {
-    this._encodedValue = uint8ArrayToString(value);
-  }
+  @Expose({ name: "encoded_value" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  encodedValue: Uint8Array;
 
   constructor(encodedValue: Uint8Array) {
-    this._encodedValue = uint8ArrayToString(encodedValue);
+    this.encodedValue = Convert.Uint8Array.from(encodedValue);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

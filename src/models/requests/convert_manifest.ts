@@ -15,8 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionManifest } from "../../models/transaction";
-import { numberToString, serialize, stringToNumber } from "../../utils";
+import * as Serializers from "../serializers";
 
 /**
  * Clients have a need to be able to read, parse, understand, and interrogate transaction manifests
@@ -43,52 +44,39 @@ export class ConvertManifestRequest {
    * the manifest will be used on. The primary use of this is for any Bech32m encoding or decoding
    * of addresses
    */
-  private _networkId: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
   /**
    * Defines the output format that we would like the manifest to be in after this request is
    * performed.
    */
-  private _instructionsOutputKind: InstructionList.Kind;
+  @Expose({ name: "instructions_output_kind" })
+  instructionsOutputKind: InstructionList.Kind;
 
   /**
    * The manifest to convert to the format described by `instructions_output_kind`
    */
-  private _manifest: TransactionManifest;
-
-  public get manifest(): TransactionManifest {
-    return this._manifest;
-  }
-  public set manifest(value: TransactionManifest) {
-    this._manifest = value;
-  }
-
-  public get instructionsOutputKind(): InstructionList.Kind {
-    return this._instructionsOutputKind;
-  }
-  public set instructionsOutputKind(value: InstructionList.Kind) {
-    this._instructionsOutputKind = value;
-  }
-
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
+  @Expose()
+  @Type(() => TransactionManifest)
+  manifest: TransactionManifest;
 
   constructor(
     networkId: number,
     instructionsOutputKind: InstructionList.Kind,
     manifest: TransactionManifest
   ) {
-    this._networkId = numberToString(networkId);
-    this._instructionsOutputKind = instructionsOutputKind;
-    this._manifest = manifest;
+    this.networkId = networkId;
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.manifest = manifest;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

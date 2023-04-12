@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { instanceToPlain, plainToInstance } from "class-transformer";
 import {
   AnalyzeManifestRequest,
   AnalyzeManifestResponse,
@@ -36,6 +37,7 @@ import {
   DecompileTransactionIntentResponse,
   DecompileUnknownTransactionIntentRequest,
   DecompileUnknownTransactionIntentResponse,
+  DecompileUnknownTransactionIntentResponseKind,
   DeriveBabylonAddressFromOlympiaAddressRequest,
   DeriveBabylonAddressFromOlympiaAddressResponse,
   DeriveVirtualAccountAddressRequest,
@@ -59,7 +61,6 @@ import {
   StaticallyValidateTransactionRequest,
   StaticallyValidateTransactionResponse,
   StaticallyValidateTransactionResponseInvalid,
-  StaticallyValidateTransactionResponseKind,
   StaticallyValidateTransactionResponseValid,
   TransactionIntent,
   TransactionManifest,
@@ -207,11 +208,38 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    return ret.invoke(
+    let response = ret.invoke(
       request,
       ret.exports.decompile_unknown_transaction_intent,
       DecompileUnknownTransactionIntentResponse
     );
+    if (
+      response.type ===
+      DecompileUnknownTransactionIntentResponseKind.TransactionIntent
+    ) {
+      response.value = plainToInstance(
+        TransactionIntent,
+        instanceToPlain(response.value)
+      );
+    } else if (
+      response.type ===
+      DecompileUnknownTransactionIntentResponseKind.SignedTransactionIntent
+    ) {
+      response.value = plainToInstance(
+        SignedTransactionIntent,
+        instanceToPlain(response.value)
+      );
+    } else if (
+      response.type ===
+      DecompileUnknownTransactionIntentResponseKind.NotarizedTransactionIntent
+    ) {
+      response.value = plainToInstance(
+        NotarizedTransaction,
+        instanceToPlain(response.value)
+      );
+    }
+
+    return response;
   }
 
   public static async encodeAddress(
@@ -221,29 +249,29 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let response = ret.invoke(request, ret.exports.encode_address, Object);
-    // @ts-ignore
-    let type: EntityAddress.Kind | undefined = response?.[
-      "_type"
-    ] as EntityAddress.Kind;
-    if (type === EntityAddress.Kind.ComponentAddress) {
-      return Object.setPrototypeOf(
-        response,
-        EntityAddress.ComponentAddress.prototype
+    let response = ret.invoke(
+      request,
+      ret.exports.encode_address,
+      EntityAddress.EntityAddress
+    );
+    if (response.type === "ComponentAddress") {
+      response = plainToInstance(
+        EntityAddress.ComponentAddress,
+        instanceToPlain(response)
       );
-    } else if (type === EntityAddress.Kind.PackageAddress) {
-      return Object.setPrototypeOf(
-        response,
-        EntityAddress.PackageAddress.prototype
+    } else if (response.type === "ResourceAddress") {
+      response = plainToInstance(
+        EntityAddress.ResourceAddress,
+        instanceToPlain(response)
       );
-    } else if (type === EntityAddress.Kind.ResourceAddress) {
-      return Object.setPrototypeOf(
-        response,
-        EntityAddress.ResourceAddress.prototype
+    } else if (response.type === "PackageAddress") {
+      response = plainToInstance(
+        EntityAddress.PackageAddress,
+        instanceToPlain(response)
       );
-    } else {
-      throw new Error("no _type key found for address");
     }
+
+    return response;
   }
 
   public static async decodeAddress(
@@ -277,18 +305,23 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let response = ret.invoke(request, ret.exports.sbor_decode, Object);
-    // @ts-ignore
-    let type: SborValue.Kind | undefined = response?.[
-      "_type"
-    ] as SborValue.Kind;
-    if (type === SborValue.Kind.ScryptoSbor) {
-      return Object.setPrototypeOf(response, SborValue.ScryptoSbor.prototype);
-    } else if (type === SborValue.Kind.ManifestSbor) {
-      return Object.setPrototypeOf(response, SborValue.ManifestSbor.prototype);
-    } else {
-      throw new Error("no _type key found for address");
+    let response = ret.invoke(
+      request,
+      ret.exports.sbor_decode,
+      SborValue.Value
+    );
+    if (response.type === "ScryptoSbor") {
+      response = plainToInstance(
+        SborValue.ScryptoSbor,
+        instanceToPlain(response)
+      );
+    } else if (response.type === "ManifestSbor") {
+      response = plainToInstance(
+        SborValue.ManifestSbor,
+        instanceToPlain(response)
+      );
     }
+    return response;
   }
 
   public static async deriveVirtualAccountAddress(
@@ -357,24 +390,19 @@ export class RawRadixEngineToolkit {
     let response = ret.invoke(
       request,
       ret.exports.statically_validate_transaction,
-      Object
+      StaticallyValidateTransactionResponse
     );
-    // @ts-ignore
-    let validity: StaticallyValidateTransactionResponseKind | undefined =
-      // @ts-ignore
-      response?.["_validity"] as StaticallyValidateTransactionResponseKind;
-    if (validity === StaticallyValidateTransactionResponseKind.Valid) {
-      return Object.setPrototypeOf(
-        response,
-        StaticallyValidateTransactionResponseValid.prototype
+    if (response.validity === "Valid") {
+      response = plainToInstance(
+        StaticallyValidateTransactionResponseValid,
+        instanceToPlain(response)
       );
-    } else if (validity === StaticallyValidateTransactionResponseKind.Invalid) {
-      return Object.setPrototypeOf(
-        response,
-        StaticallyValidateTransactionResponseInvalid.prototype
+    } else if (response.validity === "Invalid") {
+      response = plainToInstance(
+        StaticallyValidateTransactionResponseInvalid,
+        instanceToPlain(response)
       );
-    } else {
-      throw new Error("no _type key found for address");
     }
+    return response;
   }
 }

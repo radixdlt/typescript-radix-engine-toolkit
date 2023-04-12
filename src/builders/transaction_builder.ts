@@ -74,7 +74,8 @@ export class TransactionBuilderManifestStep {
 export class TransactionBuilderIntentSignaturesStep {
   private retWrapper: RadixEngineToolkitWasmWrapper;
   private intent: TransactionIntent;
-  private intentSignatures: Array<SignatureWithPublicKey.Any> = [];
+  private intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey> =
+    [];
 
   constructor(
     retWrapper: RadixEngineToolkitWasmWrapper,
@@ -86,7 +87,11 @@ export class TransactionBuilderIntentSignaturesStep {
   }
 
   public sign(
-    key: IPrivateKey | ((hashToSign: Uint8Array) => SignatureWithPublicKey.Any)
+    key:
+      | IPrivateKey
+      | ((
+          hashToSign: Uint8Array
+        ) => SignatureWithPublicKey.SignatureWithPublicKey)
   ): TransactionBuilderIntentSignaturesStep {
     // Compile the transaction intent
     let request = this.intent;
@@ -112,7 +117,7 @@ export class TransactionBuilderIntentSignaturesStep {
   }
 
   public notarize(
-    key: IPrivateKey | ((hashToSign: Uint8Array) => Signature.Any)
+    key: IPrivateKey | ((hashToSign: Uint8Array) => Signature.Signature)
   ): NotarizedTransaction {
     // Construct a signed transaction intent and compile it
     let signedIntent = new SignedTransactionIntent(

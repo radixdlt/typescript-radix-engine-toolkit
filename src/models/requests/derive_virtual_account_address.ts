@@ -15,53 +15,51 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { EntityAddress } from "..";
-import { numberToString, serialize, stringToNumber } from "../../utils";
 import { PublicKey } from "../crypto";
+import * as Serializers from "../serializers";
 
 export class DeriveVirtualAccountAddressRequest {
-  private _networkId: string;
-  private _publicKey: PublicKey.Any;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
+  @Expose({ name: "public_key" })
+  @Type(() => PublicKey.PublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  publicKey: PublicKey.PublicKey;
 
-  public get publicKey(): PublicKey.Any {
-    return this._publicKey;
-  }
-  public set publicKey(value: PublicKey.Any) {
-    this._publicKey = value;
-  }
-
-  constructor(networkId: number, publicKey: PublicKey.Any) {
-    this._networkId = numberToString(networkId);
-    this._publicKey = publicKey;
+  constructor(networkId: number, publicKey: PublicKey.PublicKey) {
+    this.networkId = networkId;
+    this.publicKey = publicKey;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class DeriveVirtualAccountAddressResponse {
-  private _virtualAccountAddress: EntityAddress.ComponentAddress;
-
-  public get virtualAccountAddress(): EntityAddress.ComponentAddress {
-    return this._virtualAccountAddress;
-  }
-  public set virtualAccountAddress(value: EntityAddress.ComponentAddress) {
-    this._virtualAccountAddress = value;
-  }
+  @Expose({ name: "virtual_account_address" })
+  @Type(() => EntityAddress.ComponentAddress)
+  virtualAccountAddress: EntityAddress.ComponentAddress;
 
   constructor(virtualAccountAddress: EntityAddress.ComponentAddress) {
-    this._virtualAccountAddress = virtualAccountAddress;
+    this.virtualAccountAddress = virtualAccountAddress;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

@@ -15,120 +15,63 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { EntityAddress } from "../../models";
-import { numberToString, serialize, stringToNumber } from "../../utils";
+import * as Serializers from "../serializers";
 
 export class KnownEntityAddressesRequest {
-  private _networkId: string;
-
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
   constructor(networkId: number) {
-    this._networkId = numberToString(networkId);
+    this.networkId = networkId;
   }
 }
 
 export class KnownEntityAddressesResponse {
-  private _faucetComponentAddress: EntityAddress.ComponentAddress;
-  private _faucetPackageAddress: EntityAddress.PackageAddress;
-  private _accountPackageAddress: EntityAddress.PackageAddress;
-  private _xrdResourceAddress: EntityAddress.ResourceAddress;
-  private _systemTokenResourceAddress: EntityAddress.ResourceAddress;
-  private _ecdsaSecp256k1TokenResourceAddress: EntityAddress.ResourceAddress;
-  private _eddsaEd25519TokenResourceAddress: EntityAddress.ResourceAddress;
-  private _packageTokenResourceAddress: EntityAddress.ResourceAddress;
-  private _epochManagerSystemAddress: EntityAddress.ComponentAddress;
-  private _clockSystemAddress: EntityAddress.ComponentAddress;
+  @Expose({ name: "faucet_component_address" })
+  @Type(() => EntityAddress.ComponentAddress)
+  faucetComponentAddress: EntityAddress.ComponentAddress;
 
-  get faucetComponentAddress(): EntityAddress.ComponentAddress {
-    return this._faucetComponentAddress;
-  }
-  set faucetComponentAddress(
-    faucetComponentAddress: EntityAddress.ComponentAddress
-  ) {
-    this._faucetComponentAddress = faucetComponentAddress;
-  }
+  @Expose({ name: "faucet_package_address" })
+  @Type(() => EntityAddress.PackageAddress)
+  faucetPackageAddress: EntityAddress.PackageAddress;
 
-  get faucetPackageAddress(): EntityAddress.PackageAddress {
-    return this._faucetPackageAddress;
-  }
-  set faucetPackageAddress(faucetPackageAddress: EntityAddress.PackageAddress) {
-    this._faucetPackageAddress = faucetPackageAddress;
-  }
+  @Expose({ name: "account_package_address" })
+  @Type(() => EntityAddress.PackageAddress)
+  accountPackageAddress: EntityAddress.PackageAddress;
 
-  get accountPackageAddress(): EntityAddress.PackageAddress {
-    return this._accountPackageAddress;
-  }
-  set accountPackageAddress(
-    accountPackageAddress: EntityAddress.PackageAddress
-  ) {
-    this._accountPackageAddress = accountPackageAddress;
-  }
+  @Expose({ name: "xrd_resource_address" })
+  @Type(() => EntityAddress.ResourceAddress)
+  xrdResourceAddress: EntityAddress.ResourceAddress;
 
-  get xrdResourceAddress(): EntityAddress.ResourceAddress {
-    return this._xrdResourceAddress;
-  }
-  set xrdResourceAddress(xrdResourceAddress: EntityAddress.ResourceAddress) {
-    this._xrdResourceAddress = xrdResourceAddress;
-  }
+  @Expose({ name: "system_token_resource_address" })
+  @Type(() => EntityAddress.ResourceAddress)
+  systemTokenResourceAddress: EntityAddress.ResourceAddress;
 
-  get systemTokenResourceAddress(): EntityAddress.ResourceAddress {
-    return this._systemTokenResourceAddress;
-  }
-  set systemTokenResourceAddress(
-    systemTokenResourceAddress: EntityAddress.ResourceAddress
-  ) {
-    this._systemTokenResourceAddress = systemTokenResourceAddress;
-  }
+  @Expose({ name: "ecdsa_secp256k1_token_resource_address" })
+  @Type(() => EntityAddress.ResourceAddress)
+  ecdsaSecp256k1TokenResourceAddress: EntityAddress.ResourceAddress;
 
-  get ecdsaSecp256k1TokenResourceAddress(): EntityAddress.ResourceAddress {
-    return this._ecdsaSecp256k1TokenResourceAddress;
-  }
-  set ecdsaSecp256k1TokenResourceAddress(
-    ecdsaSecp256k1TokenResourceAddress: EntityAddress.ResourceAddress
-  ) {
-    this._ecdsaSecp256k1TokenResourceAddress =
-      ecdsaSecp256k1TokenResourceAddress;
-  }
+  @Expose({ name: "eddsa_ed25519_token_resource_address" })
+  @Type(() => EntityAddress.ResourceAddress)
+  eddsaEd25519TokenResourceAddress: EntityAddress.ResourceAddress;
 
-  get eddsaEd25519TokenResourceAddress(): EntityAddress.ResourceAddress {
-    return this._eddsaEd25519TokenResourceAddress;
-  }
-  set eddsaEd25519TokenResourceAddress(
-    eddsaEd25519TokenResourceAddress: EntityAddress.ResourceAddress
-  ) {
-    this._eddsaEd25519TokenResourceAddress = eddsaEd25519TokenResourceAddress;
-  }
+  @Expose({ name: "package_token_resource_address" })
+  @Type(() => EntityAddress.ResourceAddress)
+  packageTokenResourceAddress: EntityAddress.ResourceAddress;
 
-  get packageTokenResourceAddress(): EntityAddress.ResourceAddress {
-    return this._packageTokenResourceAddress;
-  }
-  set packageTokenResourceAddress(
-    packageTokenResourceAddress: EntityAddress.ResourceAddress
-  ) {
-    this._packageTokenResourceAddress = packageTokenResourceAddress;
-  }
+  @Expose({ name: "epoch_manager_system_address" })
+  @Type(() => EntityAddress.ComponentAddress)
+  epochManagerSystemAddress: EntityAddress.ComponentAddress;
 
-  get epochManagerSystemAddress(): EntityAddress.ComponentAddress {
-    return this._epochManagerSystemAddress;
-  }
-  set epochManagerSystemAddress(
-    epochManagerSystemAddress: EntityAddress.ComponentAddress
-  ) {
-    this._epochManagerSystemAddress = epochManagerSystemAddress;
-  }
-
-  get clockSystemAddress(): EntityAddress.ComponentAddress {
-    return this._clockSystemAddress;
-  }
-  set clockSystemAddress(clockSystemAddress: EntityAddress.ComponentAddress) {
-    this._clockSystemAddress = clockSystemAddress;
-  }
+  @Expose({ name: "clock_system_address" })
+  @Type(() => EntityAddress.ComponentAddress)
+  clockSystemAddress: EntityAddress.ComponentAddress;
 
   constructor(
     faucetComponentAddress: EntityAddress.ComponentAddress,
@@ -142,20 +85,20 @@ export class KnownEntityAddressesResponse {
     epochManagerSystemAddress: EntityAddress.ComponentAddress,
     clockSystemAddress: EntityAddress.ComponentAddress
   ) {
-    this._faucetComponentAddress = faucetComponentAddress;
-    this._faucetPackageAddress = faucetPackageAddress;
-    this._accountPackageAddress = accountPackageAddress;
-    this._xrdResourceAddress = xrdResourceAddress;
-    this._systemTokenResourceAddress = systemTokenResourceAddress;
-    this._ecdsaSecp256k1TokenResourceAddress =
+    this.faucetComponentAddress = faucetComponentAddress;
+    this.faucetPackageAddress = faucetPackageAddress;
+    this.accountPackageAddress = accountPackageAddress;
+    this.xrdResourceAddress = xrdResourceAddress;
+    this.systemTokenResourceAddress = systemTokenResourceAddress;
+    this.ecdsaSecp256k1TokenResourceAddress =
       ecdsaSecp256k1TokenResourceAddress;
-    this._eddsaEd25519TokenResourceAddress = eddsaEd25519TokenResourceAddress;
-    this._packageTokenResourceAddress = packageTokenResourceAddress;
-    this._epochManagerSystemAddress = epochManagerSystemAddress;
-    this._clockSystemAddress = clockSystemAddress;
+    this.eddsaEd25519TokenResourceAddress = eddsaEd25519TokenResourceAddress;
+    this.packageTokenResourceAddress = packageTokenResourceAddress;
+    this.epochManagerSystemAddress = epochManagerSystemAddress;
+    this.clockSystemAddress = clockSystemAddress;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

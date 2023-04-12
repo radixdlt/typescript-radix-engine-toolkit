@@ -15,7 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import "reflect-metadata";
+
 export * from "./builders";
+export * as Convert from "./convert";
 export * from "./models";
-export * as utils from "./utils";
 export * from "./wrapper";

@@ -15,26 +15,27 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { SignedTransactionIntent } from "..";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
 export type CompileSignedTransactionIntentRequest = SignedTransactionIntent;
 
 export class CompileSignedTransactionIntentResponse {
-  private _compiledIntent: string;
+  @Expose({ name: "compiled_intent" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  compiledIntent: Uint8Array;
 
-  public get compiledIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledIntent);
-  }
-  public set compiledIntent(value: Uint8Array) {
-    this._compiledIntent = uint8ArrayToString(value);
-  }
-
-  constructor(compiledIntent: Uint8Array) {
-    this._compiledIntent = uint8ArrayToString(compiledIntent);
+  constructor(compiledIntent: Uint8Array | string) {
+    this.compiledIntent = Convert.Uint8Array.from(compiledIntent);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

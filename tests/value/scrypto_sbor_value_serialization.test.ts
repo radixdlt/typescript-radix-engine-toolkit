@@ -42,7 +42,7 @@ describe.each([
     expectedSerialization: `{"type":"U32","value":"1"}`,
   },
   {
-    expectedObject: new ScryptoSborValue.U64(1),
+    expectedObject: new ScryptoSborValue.U64(BigInt(1)),
     expectedSerialization: `{"type":"U64","value":"1"}`,
   },
   {
@@ -62,7 +62,7 @@ describe.each([
     expectedSerialization: `{"type":"I32","value":"1"}`,
   },
   {
-    expectedObject: new ScryptoSborValue.I64(1),
+    expectedObject: new ScryptoSborValue.I64(BigInt(1)),
     expectedSerialization: `{"type":"I64","value":"1"}`,
   },
   {
@@ -212,7 +212,7 @@ describe.each([
   },
   {
     expectedObject: new ScryptoSborValue.NonFungibleLocalId(
-      new ScryptoSborValue.Integer(1)
+      new ScryptoSborValue.Integer(BigInt(1))
     ),
     expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"Integer","value":"1"}}`,
   },

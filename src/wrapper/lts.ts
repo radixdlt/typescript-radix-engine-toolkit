@@ -104,7 +104,7 @@ export namespace LTSRadixEngineToolkit {
      * @returns The address of the virtual account as a string.
      */
     static async virtualAccountAddress(
-      publicKey: PublicKey.Any,
+      publicKey: PublicKey.PublicKey,
       networkId: number
     ): Promise<string> {
       return RadixEngineToolkit.deriveVirtualAccountAddress(

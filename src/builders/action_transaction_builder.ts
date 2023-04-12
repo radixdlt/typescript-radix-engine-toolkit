@@ -138,8 +138,8 @@ export class ActionTransactionBuilder {
   }
 
   public build(
-    notaryPublicKey: PublicKey.Any,
-    sign: IPrivateKey | ((hashToSign: Uint8Array) => Signature.Any)
+    notaryPublicKey: PublicKey.PublicKey,
+    sign: IPrivateKey | ((hashToSign: Uint8Array) => Signature.Signature)
   ): NotarizedTransaction {
     // Construct a signed transaction intent and compile it
     let signedIntent = this.constructSignedTransactionIntent(notaryPublicKey);
@@ -162,7 +162,7 @@ export class ActionTransactionBuilder {
     }
   }
 
-  public buildSignedIntent(notaryPublicKey: PublicKey.Any): {
+  public buildSignedIntent(notaryPublicKey: PublicKey.PublicKey): {
     signedIntent: SignedTransactionIntent;
     hashToSign: Uint8Array;
   } {
@@ -182,7 +182,7 @@ export class ActionTransactionBuilder {
   }
 
   private constructTransactionHeader(
-    notaryPublicKey: PublicKey.Any
+    notaryPublicKey: PublicKey.PublicKey
   ): TransactionHeader {
     return new TransactionHeader(
       this._version,
@@ -199,7 +199,7 @@ export class ActionTransactionBuilder {
 
   private constructTransactionManifest(): TransactionManifest {
     let feeAmount = this.resolveFeeAmount();
-    let instructions: Array<Instruction.Any> = [];
+    let instructions: Array<Instruction.Instruction> = [];
     let { withdraws, deposits } = this.resolveActions();
 
     let withdrawsCounter = 0;
@@ -271,7 +271,7 @@ export class ActionTransactionBuilder {
   }
 
   private constructTransactionIntent(
-    notaryPublicKey: PublicKey.Any
+    notaryPublicKey: PublicKey.PublicKey
   ): TransactionIntent {
     return new TransactionIntent(
       this.constructTransactionHeader(notaryPublicKey),
@@ -280,7 +280,7 @@ export class ActionTransactionBuilder {
   }
 
   private constructSignedTransactionIntent(
-    notaryPublicKey: PublicKey.Any
+    notaryPublicKey: PublicKey.PublicKey
   ): SignedTransactionIntent {
     return new SignedTransactionIntent(
       this.constructTransactionIntent(notaryPublicKey),

@@ -15,64 +15,57 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { EntityAddress, PublicKey } from "..";
-import { numberToString, serialize, stringToNumber } from "../../utils";
+import * as Serializers from "../serializers";
 
 export class DeriveBabylonAddressFromOlympiaAddressRequest {
-  private _networkId: string;
-  private _olympiaAccountAddress: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
-
-  public get olympiaAccountAddress(): string {
-    return this._olympiaAccountAddress;
-  }
-  public set olympiaAccountAddress(value: string) {
-    this._olympiaAccountAddress = value;
-  }
+  @Expose({ name: "olympia_account_address" })
+  olympiaAccountAddress: string;
 
   constructor(networkId: number, olympiaAccountAddress: string) {
-    this._networkId = numberToString(networkId);
-    this._olympiaAccountAddress = olympiaAccountAddress;
+    this.networkId = networkId;
+    this.olympiaAccountAddress = olympiaAccountAddress;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class DeriveBabylonAddressFromOlympiaAddressResponse {
-  private _babylonAccountAddress: EntityAddress.ComponentAddress;
-  private _publicKey: PublicKey.Any;
+  @Expose({ name: "babylon_account_address" })
+  @Type(() => EntityAddress.ComponentAddress)
+  babylonAccountAddress: EntityAddress.ComponentAddress;
 
-  public get babylonAccountAddress(): EntityAddress.ComponentAddress {
-    return this._babylonAccountAddress;
-  }
-  public set babylonAccountAddress(value: EntityAddress.ComponentAddress) {
-    this._babylonAccountAddress = value;
-  }
-
-  public get publicKey(): PublicKey.Any {
-    return this._publicKey;
-  }
-  public set publicKey(value: PublicKey.Any) {
-    this._publicKey = value;
-  }
+  @Expose({ name: "public_key" })
+  @Type(() => PublicKey.PublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  publicKey: PublicKey.PublicKey;
 
   constructor(
     babylonAccountAddress: EntityAddress.ComponentAddress,
-    publicKey: PublicKey.Any
+    publicKey: PublicKey.PublicKey
   ) {
-    this._babylonAccountAddress = babylonAccountAddress;
-    this._publicKey = publicKey;
+    this.babylonAccountAddress = babylonAccountAddress;
+    this.publicKey = publicKey;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

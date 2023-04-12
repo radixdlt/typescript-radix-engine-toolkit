@@ -15,7 +15,9 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
 /**
  * The request provides information on the currently in-use radix engine toolkit such as the version
@@ -33,34 +35,27 @@ export class InformationResponse {
    * A SemVer string of the version of the Radix Engine Toolkit. Ideally, if the toolkit is version
    * X then that means that it is compatible with version X of Scrypto.
    */
-  private _packageVersion: string;
+  @Expose({ name: "package_version" })
+  packageVersion: string;
 
   /**
    * The hash of the commit that this build of the Radix Engine Toolkit was built against. This is
    * useful when doing any form of debugging and trying to determine the version of the library
    */
-  private _lastCommitHash: string;
+  @Expose({ name: "last_commit_hash" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  lastCommitHash: Uint8Array;
 
-  public get packageVersion(): string {
-    return this._packageVersion;
-  }
-  public set packageVersion(value: string) {
-    this._packageVersion = value;
-  }
-
-  public get lastCommitHash(): Uint8Array {
-    return stringToUint8Array(this._lastCommitHash);
-  }
-  public set lastCommitHash(value: Uint8Array) {
-    this._lastCommitHash = uint8ArrayToString(value);
-  }
-
-  constructor(packageVersion: string, lastCommitHash: string) {
-    this._packageVersion = packageVersion;
-    this._lastCommitHash = lastCommitHash;
+  constructor(packageVersion: string, lastCommitHash: string | Uint8Array) {
+    this.packageVersion = packageVersion;
+    this.lastCommitHash = Convert.Uint8Array.from(lastCommitHash);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

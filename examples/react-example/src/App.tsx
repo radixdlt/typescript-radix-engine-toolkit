@@ -1,4 +1,4 @@
-import { RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
+import { Convert, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -7,7 +7,14 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      let informationResponse = (await RadixEngineToolkit.information())();
+      let informationResponse = await RadixEngineToolkit.information().then(
+        ({ libraryVersion, lastCommitHash }) => {
+          return {
+            libraryVersion,
+            lastCommitHash: Convert.Uint8Array.toHexString(lastCommitHash),
+          };
+        }
+      );
       setInformationResponse(JSON.stringify(informationResponse));
     })();
   }, [informationResponse]);

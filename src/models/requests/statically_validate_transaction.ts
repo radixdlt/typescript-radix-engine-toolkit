@@ -15,63 +15,52 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import {
-  numberToString,
-  serialize,
-  stringToNumber,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert } from "../..";
+import * as Serializers from "../serializers";
 
 export class ValidationConfig {
-  private _networkId: string;
-  private _minCostUnitLimit: string;
-  private _maxCostUnitLimit: string;
-  private _minTipPercentage: string;
-  private _maxTipPercentage: string;
-  private _maxEpochRange: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(this.networkId);
-  }
+  @Expose({ name: "min_cost_unit_limit" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  minCostUnitLimit: number;
 
-  public get minCostUnitLimit(): number {
-    return stringToNumber(this._minCostUnitLimit);
-  }
-  public set minCostUnitLimit(value: number) {
-    this._minCostUnitLimit = numberToString(this.minCostUnitLimit);
-  }
+  @Expose({ name: "max_cost_unit_limit" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  maxCostUnitLimit: number;
 
-  public get maxCostUnitLimit(): number {
-    return stringToNumber(this._maxCostUnitLimit);
-  }
-  public set maxCostUnitLimit(value: number) {
-    this._maxCostUnitLimit = numberToString(this.maxCostUnitLimit);
-  }
+  @Expose({ name: "min_tip_percentage" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  minTipPercentage: number;
 
-  public get minTipPercentage(): number {
-    return stringToNumber(this._minTipPercentage);
-  }
-  public set minTipPercentage(value: number) {
-    this._minTipPercentage = numberToString(this.minTipPercentage);
-  }
+  @Expose({ name: "max_tip_percentage" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  maxTipPercentage: number;
 
-  public get maxTipPercentage(): number {
-    return stringToNumber(this._maxTipPercentage);
-  }
-  public set maxTipPercentage(value: number) {
-    this._maxTipPercentage = numberToString(this.maxTipPercentage);
-  }
-
-  public get maxEpochRange(): number {
-    return stringToNumber(this._maxEpochRange);
-  }
-  public set maxEpochRange(value: number) {
-    this._maxEpochRange = numberToString(this.maxEpochRange);
-  }
+  @Expose({ name: "max_epoch_range" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  maxEpochRange: number;
 
   constructor(
     networkId: number,
@@ -81,12 +70,12 @@ export class ValidationConfig {
     maxTipPercentage: number,
     maxEpochRange: number
   ) {
-    this._networkId = numberToString(networkId);
-    this._minCostUnitLimit = numberToString(minCostUnitLimit);
-    this._maxCostUnitLimit = numberToString(maxCostUnitLimit);
-    this._minTipPercentage = numberToString(minTipPercentage);
-    this._maxTipPercentage = numberToString(maxTipPercentage);
-    this._maxEpochRange = numberToString(maxEpochRange);
+    this.networkId = networkId;
+    this.minCostUnitLimit = minCostUnitLimit;
+    this.maxCostUnitLimit = maxCostUnitLimit;
+    this.minTipPercentage = minTipPercentage;
+    this.maxTipPercentage = maxTipPercentage;
+    this.maxEpochRange = maxEpochRange;
   }
 
   public static default(networkId: number): ValidationConfig {
@@ -101,78 +90,66 @@ export class ValidationConfig {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
 export class StaticallyValidateTransactionRequest {
-  private _compiledNotarizedIntent: string;
-  private _validationConfig: ValidationConfig;
+  @Expose({ name: "compiled_notarized_intent" })
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  @Type(() => Uint8Array)
+  compiledNotarizedIntent: Uint8Array;
 
-  public get compiledNotarizedIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledNotarizedIntent);
-  }
-  public set compiledNotarizedIntent(value: Uint8Array) {
-    this._compiledNotarizedIntent = uint8ArrayToString(value);
-  }
-
-  public get validationConfig(): ValidationConfig {
-    return this._validationConfig;
-  }
-  public set validationConfig(value: ValidationConfig) {
-    this._validationConfig = value;
-  }
+  @Expose({ name: "validation_config" })
+  @Type(() => ValidationConfig)
+  validationConfig: ValidationConfig;
 
   constructor(
-    compiledNotarizedIntent: Uint8Array,
+    compiledNotarizedIntent: Uint8Array | string,
     validationConfig: ValidationConfig
   ) {
-    this._compiledNotarizedIntent = uint8ArrayToString(compiledNotarizedIntent);
-    this._validationConfig = validationConfig;
+    this.compiledNotarizedIntent = Convert.Uint8Array.from(
+      compiledNotarizedIntent
+    );
+    this.validationConfig = validationConfig;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
-export type StaticallyValidateTransactionResponse =
-  | StaticallyValidateTransactionResponseValid
-  | StaticallyValidateTransactionResponseInvalid;
+export class StaticallyValidateTransactionResponse {
+  readonly validity: "Valid" | "Invalid";
 
-export enum StaticallyValidateTransactionResponseKind {
-  Valid = "Valid",
-  Invalid = "Invalid",
+  constructor(validity: "Valid" | "Invalid") {
+    this.validity = validity;
+  }
 }
 
-export class StaticallyValidateTransactionResponseValid {
-  private _validity: StaticallyValidateTransactionResponseKind =
-    StaticallyValidateTransactionResponseKind.Valid;
-
-  constructor() {}
+export class StaticallyValidateTransactionResponseValid extends StaticallyValidateTransactionResponse {
+  constructor() {
+    super("Valid");
+  }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
-export class StaticallyValidateTransactionResponseInvalid {
-  private _validity: StaticallyValidateTransactionResponseKind =
-    StaticallyValidateTransactionResponseKind.Invalid;
-  private _error: string;
-
-  public get error(): string {
-    return this._error;
-  }
-  public set error(value: string) {
-    this._error = value;
-  }
+export class StaticallyValidateTransactionResponseInvalid extends StaticallyValidateTransactionResponse {
+  @Expose()
+  error: string;
 
   constructor(error: string) {
-    this._error = error;
+    super("Invalid");
+    this.error = error;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

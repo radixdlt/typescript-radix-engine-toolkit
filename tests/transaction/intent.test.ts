@@ -23,7 +23,7 @@ import {
   TransactionIntent,
   TransactionManifest,
 } from "../../src";
-import { deserialize, serialize, stringToUint8Array } from "../../src/utils";
+import { deserialize, serialize } from "../../src/utils";
 import { assertSerializationEquals } from "../test_utils";
 
 describe.each([
@@ -36,9 +36,7 @@ describe.each([
         105,
         5144,
         new PublicKey.EcdsaSecp256k1(
-          stringToUint8Array(
-            "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
-          )
+          "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
         ),
         false,
         100000000,

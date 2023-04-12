@@ -24,14 +24,12 @@ import {
   PublicKey,
   RawRadixEngineToolkit,
 } from "../../src";
-import { stringToUint8Array } from "../../src/utils";
+import {} from "../../src/utils";
 
 describe.each([
   {
     expectedPublicKey: new PublicKey.EcdsaSecp256k1(
-      stringToUint8Array(
-        "03c32f9761dd3f961a3d12747e54db6b821bd022ef92b9ebf591bfe186885baa21"
-      )
+      "03c32f9761dd3f961a3d12747e54db6b821bd022ef92b9ebf591bfe186885baa21"
     ),
     expectedAccountAddress: new EntityAddress.ComponentAddress(
       "account_sim1ppkfdmv0q2cwz9cjxk5t8u0zx6pdydd9p2jv22nuwdhqyn4rgj"

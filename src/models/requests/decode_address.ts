@@ -15,87 +15,58 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { EntityAddress } from "../../";
-import {
-  numberToString,
-  serialize,
-  stringToNumber,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert, EntityAddress } from "../../";
+import * as Serializers from "../serializers";
 
 export class DecodeAddressRequest {
-  private _address: string;
-
-  public get address(): string {
-    return this._address;
-  }
-  public set address(value: string) {
-    this._address = value;
-  }
+  address: string;
 
   constructor(address: string) {
-    this._address = address;
+    this.address = address;
   }
 }
 
 export class DecodeAddressResponse {
-  private _networkId: string;
-  private _networkName: string;
-  private _entityType: EntityAddress.EntityType;
-  private _data: string;
-  private _hrp: string;
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
 
-  public get networkId(): number {
-    return stringToNumber(this._networkId);
-  }
-  public set networkId(value: number) {
-    this._networkId = numberToString(value);
-  }
+  @Expose({ name: "network_name" })
+  networkName: string;
 
-  public get networkName(): string {
-    return this._networkName;
-  }
-  public set networkName(value: string) {
-    this._networkName = value;
-  }
+  @Expose({ name: "entity_type" })
+  entityType: EntityAddress.EntityType;
 
-  public get entityType(): EntityAddress.EntityType {
-    return this._entityType;
-  }
-  public set entityType(value: EntityAddress.EntityType) {
-    this._entityType = value;
-  }
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  data: Uint8Array;
 
-  public get data(): Uint8Array {
-    return stringToUint8Array(this._data);
-  }
-  public set data(value: Uint8Array) {
-    this._data = uint8ArrayToString(value);
-  }
-
-  public get hrp(): string {
-    return this._hrp;
-  }
-  public set hrp(value: string) {
-    this._hrp = value;
-  }
+  @Expose()
+  hrp: string;
 
   constructor(
     networkId: number,
     networkName: string,
     entityType: EntityAddress.EntityType,
-    data: Uint8Array,
+    data: Uint8Array | string,
     hrp: string
   ) {
-    this._networkId = numberToString(networkId);
-    this._networkName = networkName;
-    this._entityType = entityType;
-    this._data = uint8ArrayToString(data);
-    this._hrp = hrp;
+    this.networkId = networkId;
+    this.networkName = networkName;
+    this.entityType = entityType;
+    this.data = Convert.Uint8Array.from(data);
+    this.hrp = hrp;
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

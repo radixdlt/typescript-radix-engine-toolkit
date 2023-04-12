@@ -15,37 +15,32 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { InstructionList, TransactionIntent } from "models/transaction";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert, InstructionList, TransactionIntent } from "../..";
+import * as Serializers from "../serializers";
 
 export class DecompileTransactionIntentRequest {
-  private _instructionsOutputKind: InstructionList.Kind;
-  private _compiledIntent: string;
+  @Expose({ name: "instructions_output_kind" })
+  instructionsOutputKind: InstructionList.Kind;
 
-  public get instructionsOutputKind(): InstructionList.Kind {
-    return this._instructionsOutputKind;
-  }
-  public set instructionsOutputKind(value: InstructionList.Kind) {
-    this._instructionsOutputKind = value;
-  }
-
-  public get compiledIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledIntent);
-  }
-  public set compiledIntent(value: Uint8Array) {
-    this._compiledIntent = uint8ArrayToString(value);
-  }
+  @Expose({ name: "compiled_intent" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  compiledIntent: Uint8Array;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
-    compiledIntent: Uint8Array
+    compiledIntent: Uint8Array | string
   ) {
-    this._instructionsOutputKind = instructionsOutputKind;
-    this._compiledIntent = uint8ArrayToString(compiledIntent);
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.compiledIntent = Convert.Uint8Array.from(compiledIntent);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 

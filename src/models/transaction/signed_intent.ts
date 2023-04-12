@@ -15,36 +15,39 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionIntent } from ".";
 import { SignatureWithPublicKey } from "../../models/crypto";
 import { DecompileSignedTransactionIntentRequest } from "../../models/requests";
-import { hash, serialize } from "../../utils";
+import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 
 export class SignedTransactionIntent {
-  private _intent: TransactionIntent;
-  private _intentSignatures: Array<SignatureWithPublicKey.Any>;
+  @Expose()
+  @Type(() => TransactionIntent)
+  intent: TransactionIntent;
 
-  public get intent(): TransactionIntent {
-    return this._intent;
-  }
-  public set intent(value: TransactionIntent) {
-    this._intent = value;
-  }
-
-  public get intentSignatures(): Array<SignatureWithPublicKey.Any> {
-    return this._intentSignatures;
-  }
-  public set intentSignatures(value: Array<SignatureWithPublicKey.Any>) {
-    this._intentSignatures = value;
-  }
+  @Expose({ name: "intent_signatures" })
+  @Type(() => SignatureWithPublicKey.SignatureWithPublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        {
+          name: "EcdsaSecp256k1",
+          value: SignatureWithPublicKey.EcdsaSecp256k1,
+        },
+        { name: "EddsaEd25519", value: SignatureWithPublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey>;
 
   constructor(
     intent: TransactionIntent,
-    intentSignatures: Array<SignatureWithPublicKey.Any>
+    intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey>
   ) {
-    this._intent = intent;
-    this._intentSignatures = intentSignatures;
+    this.intent = intent;
+    this.intentSignatures = intentSignatures;
   }
 
   async compile(): Promise<Uint8Array> {
@@ -74,6 +77,6 @@ export class SignedTransactionIntent {
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

@@ -15,44 +15,40 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import {
+  Convert,
+  DecompileNotarizedTransactionIntentResponse,
+  DecompileSignedTransactionIntentResponse,
+  DecompileTransactionIntentResponse,
   InstructionList,
   SignedTransactionIntent,
   TransactionIntent,
-} from "../../models/transaction";
-import { serialize, stringToUint8Array, uint8ArrayToString } from "../../utils";
-import { DecompileNotarizedTransactionIntentResponse } from "./decompile_notarized_transaction_intent";
-import { DecompileSignedTransactionIntentResponse } from "./decompile_signed_transaction_intent";
-import { DecompileTransactionIntentResponse } from "./decompile_transaction_intent";
+} from "../..";
+import * as Serializers from "../serializers";
 
 export class DecompileUnknownTransactionIntentRequest {
-  private _instructionsOutputKind: InstructionList.Kind;
-  private _compiledUnknownIntent: string;
+  @Expose({ name: "instructions_output_kind" })
+  instructionsOutputKind: InstructionList.Kind;
 
-  public get instructionsOutputKind(): InstructionList.Kind {
-    return this._instructionsOutputKind;
-  }
-  public set instructionsOutputKind(value: InstructionList.Kind) {
-    this._instructionsOutputKind = value;
-  }
-
-  public get compiledUnknownIntent(): Uint8Array {
-    return stringToUint8Array(this._compiledUnknownIntent);
-  }
-  public set compiledUnknownIntent(value: Uint8Array) {
-    this._compiledUnknownIntent = uint8ArrayToString(value);
-  }
+  @Expose({ name: "compiled_unknown_intent" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  compiledUnknownIntent: Uint8Array;
 
   constructor(
     instructionsOutputKind: InstructionList.Kind,
-    compiledUnknownIntent: Uint8Array
+    compiledUnknownIntent: Uint8Array | string
   ) {
-    this._instructionsOutputKind = instructionsOutputKind;
-    this._compiledUnknownIntent = uint8ArrayToString(compiledUnknownIntent);
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.compiledUnknownIntent = Convert.Uint8Array.from(compiledUnknownIntent);
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }
 
@@ -63,30 +59,14 @@ export enum DecompileUnknownTransactionIntentResponseKind {
 }
 
 export class DecompileUnknownTransactionIntentResponse {
-  private _type: DecompileUnknownTransactionIntentResponseKind;
-  private _value:
+  @Expose()
+  readonly type: DecompileUnknownTransactionIntentResponseKind;
+
+  @Expose()
+  public value:
     | DecompileTransactionIntentResponse
     | DecompileSignedTransactionIntentResponse
     | DecompileNotarizedTransactionIntentResponse;
-
-  public get type(): DecompileUnknownTransactionIntentResponseKind {
-    return this._type;
-  }
-
-  public get value():
-    | DecompileTransactionIntentResponse
-    | DecompileSignedTransactionIntentResponse
-    | DecompileNotarizedTransactionIntentResponse {
-    return this._value;
-  }
-  public set value(
-    value:
-      | DecompileTransactionIntentResponse
-      | DecompileSignedTransactionIntentResponse
-      | DecompileNotarizedTransactionIntentResponse
-  ) {
-    this._value = value;
-  }
 
   constructor(
     value:
@@ -94,21 +74,21 @@ export class DecompileUnknownTransactionIntentResponse {
       | DecompileSignedTransactionIntentResponse
       | DecompileNotarizedTransactionIntentResponse
   ) {
-    this._value = value;
+    this.value = value;
     if (value instanceof TransactionIntent) {
-      this._type =
+      this.type =
         DecompileUnknownTransactionIntentResponseKind.TransactionIntent;
     } else if (value instanceof SignedTransactionIntent) {
-      this._type =
+      this.type =
         DecompileUnknownTransactionIntentResponseKind.SignedTransactionIntent;
     } else {
       // Not exactly true
-      this._type =
+      this.type =
         DecompileUnknownTransactionIntentResponseKind.NotarizedTransactionIntent;
     }
   }
 
   toString(): string {
-    return serialize(this);
+    return JSON.stringify(instanceToPlain(this));
   }
 }

@@ -78,7 +78,7 @@ describe.each([
       ),
       [
         new ManifestAstValue.NonFungibleLocalId(
-          new ManifestAstValue.Integer(1)
+          new ManifestAstValue.Integer(BigInt(1))
         ),
       ],
       new ManifestAstValue.Bucket(new ManifestAstValue.String("ident"))
@@ -113,7 +113,11 @@ describe.each([
       new ManifestAstValue.Address(
         "resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"
       ),
-      [new ManifestAstValue.NonFungibleLocalId(new ManifestAstValue.Integer(1))]
+      [
+        new ManifestAstValue.NonFungibleLocalId(
+          new ManifestAstValue.Integer(BigInt(1))
+        ),
+      ]
     ),
     expectedSerialization: `{"instruction":"ASSERT_WORKTOP_CONTAINS_BY_IDS","resource_address":{"type":"Address","address":"resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"},"ids":[{"type":"NonFungibleLocalId","value":{"type":"Integer","value":"1"}}]}`,
   },
@@ -155,7 +159,7 @@ describe.each([
       ),
       [
         new ManifestAstValue.NonFungibleLocalId(
-          new ManifestAstValue.Integer(1)
+          new ManifestAstValue.Integer(BigInt(1))
         ),
       ],
       new ManifestAstValue.Proof(new ManifestAstValue.String("ident"))
