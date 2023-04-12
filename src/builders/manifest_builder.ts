@@ -70,11 +70,11 @@ import {
 import { resolveBytes } from "../utils";
 
 export class ManifestBuilder {
-  private instructions: Array<Instruction.Any> = [];
+  private instructions: Array<Instruction.Instruction> = [];
   private idAllocator: SequentialIdAllocator = new SequentialIdAllocator();
   private blobs: Array<Uint8Array> = [];
 
-  constructor(instructions: Array<Instruction.Any> = []) {
+  constructor(instructions: Array<Instruction.Instruction> = []) {
     this.instructions = instructions;
   }
 

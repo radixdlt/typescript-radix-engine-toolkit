@@ -15,51 +15,18 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { ManifestAstValue } from "models/value";
+import { Expose, Type, instanceToPlain } from "class-transformer";
+import { ManifestAstValue } from "../../models/value";
 
-export type Any =
-  | CallFunction
-  | CallMethod
-  | TakeFromWorktop
-  | TakeFromWorktopByAmount
-  | TakeFromWorktopByIds
-  | ReturnToWorktop
-  | AssertWorktopContains
-  | AssertWorktopContainsByAmount
-  | AssertWorktopContainsByIds
-  | PopFromAuthZone
-  | PushToAuthZone
-  | ClearAuthZone
-  | ClearSignatureProofs
-  | CreateProofFromAuthZone
-  | CreateProofFromAuthZoneByAmount
-  | CreateProofFromAuthZoneByIds
-  | CreateProofFromBucket
-  | CloneProof
-  | DropProof
-  | DropAllProofs
-  | PublishPackage
-  | BurnResource
-  | RecallResource
-  | SetMetadata
-  | RemoveMetadata
-  | SetPackageRoyaltyConfig
-  | SetComponentRoyaltyConfig
-  | ClaimPackageRoyalty
-  | ClaimComponentRoyalty
-  | SetMethodAccessRule
-  | MintFungible
-  | MintNonFungible
-  | MintUuidNonFungible
-  | CreateFungibleResource
-  | CreateFungibleResourceWithInitialSupply
-  | CreateNonFungibleResource
-  | CreateNonFungibleResourceWithInitialSupply
-  | CreateAccessController
-  | CreateIdentity
-  | AssertAccessRule
-  | CreateValidator
-  | CreateAccount;
+export abstract class Instruction {
+  readonly instruction: Kind;
+
+  constructor(instruction: Kind) {
+    this.instruction = instruction;
+  }
+
+  abstract toString(): string;
+}
 
 export enum Kind {
   CallFunction = "CALL_FUNCTION",
@@ -110,11 +77,21 @@ export enum Kind {
  * An instruction to call a function with the given list of arguments on the given package address
  * and blueprint name.
  */
-export class CallFunction {
-  instruction: Kind = Kind.CallFunction;
+export class CallFunction extends Instruction {
+  @Expose({ name: "package_address" })
+  @Type(() => ManifestAstValue.Address)
   packageAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "blueprint_name" })
+  @Type(() => ManifestAstValue.String)
   blueprintName: ManifestAstValue.String;
+
+  @Expose({ name: "function_name" })
+  @Type(() => ManifestAstValue.String)
   functionName: ManifestAstValue.String;
+
+  @Expose({ name: "arguments" })
+  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
   arguments: Array<ManifestAstValue.Value> | null;
 
   constructor(
@@ -123,6 +100,7 @@ export class CallFunction {
     functionName: ManifestAstValue.String,
     args: Array<ManifestAstValue.Value> | null = null
   ) {
+    super(Kind.CallFunction);
     this.packageAddress = packageAddress;
     this.blueprintName = blueprintName;
     this.functionName = functionName;
@@ -138,10 +116,17 @@ export class CallFunction {
  * An instruction to call a method with a given name on a given component address with the given
  * list of arguments.
  */
-export class CallMethod {
-  instruction: Kind = Kind.CallMethod;
+export class CallMethod extends Instruction {
+  @Expose({ name: "component_address" })
+  @Type(() => ManifestAstValue.Address)
   componentAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "method_name" })
+  @Type(() => ManifestAstValue.String)
   methodName: ManifestAstValue.String;
+
+  @Expose({ name: "arguments" })
+  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
   arguments: Array<ManifestAstValue.Value> | null;
 
   constructor(
@@ -149,6 +134,7 @@ export class CallMethod {
     methodName: ManifestAstValue.String,
     args: Array<ManifestAstValue.Value> | null = null
   ) {
+    super(Kind.CallMethod);
     this.componentAddress = componentAddress;
     this.methodName = methodName;
     this.arguments = args;
@@ -163,15 +149,20 @@ export class CallMethod {
  * An instruction to take the entire amount of a given resource address from the worktop and put it
  * in a bucket.
  */
-export class TakeFromWorktop {
-  instruction: Kind = Kind.TakeFromWorktop;
+export class TakeFromWorktop extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "into_bucket" })
+  @Type(() => ManifestAstValue.Bucket)
   intoBucket: ManifestAstValue.Bucket;
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
     intoBucket: ManifestAstValue.Bucket
   ) {
+    super(Kind.TakeFromWorktop);
     this.resourceAddress = resourceAddress;
     this.intoBucket = intoBucket;
   }
@@ -185,10 +176,17 @@ export class TakeFromWorktop {
  * An instruction to take the an amount of a given resource address from the worktop and put it in a
  * bucket.
  */
-export class TakeFromWorktopByAmount {
-  instruction: Kind = Kind.TakeFromWorktopByAmount;
+export class TakeFromWorktopByAmount extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "amount" })
+  @Type(() => ManifestAstValue.Decimal)
   amount: ManifestAstValue.Decimal;
+
+  @Expose({ name: "into_bucket" })
+  @Type(() => ManifestAstValue.Bucket)
   intoBucket: ManifestAstValue.Bucket;
 
   constructor(
@@ -196,6 +194,7 @@ export class TakeFromWorktopByAmount {
     amount: ManifestAstValue.Decimal,
     intoBucket: ManifestAstValue.Bucket
   ) {
+    super(Kind.TakeFromWorktopByAmount);
     this.resourceAddress = resourceAddress;
     this.amount = amount;
     this.intoBucket = intoBucket;
@@ -210,10 +209,17 @@ export class TakeFromWorktopByAmount {
  * An instruction to take the a set of non-fungible ids of a given resource address from the worktop
  * and put it in a bucket.
  */
-export class TakeFromWorktopByIds {
-  instruction: Kind = Kind.TakeFromWorktopByIds;
+export class TakeFromWorktopByIds extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "ids" })
+  @Type(() => ManifestAstValue.NonFungibleLocalId)
   ids: Array<ManifestAstValue.NonFungibleLocalId>;
+
+  @Expose({ name: "into_bucket" })
+  @Type(() => ManifestAstValue.Bucket)
   intoBucket: ManifestAstValue.Bucket;
 
   constructor(
@@ -221,6 +227,7 @@ export class TakeFromWorktopByIds {
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     intoBucket: ManifestAstValue.Bucket
   ) {
+    super(Kind.TakeFromWorktopByIds);
     this.resourceAddress = resourceAddress;
     this.ids = ids;
     this.intoBucket = intoBucket;
@@ -234,11 +241,13 @@ export class TakeFromWorktopByIds {
 /**
  * Returns a bucket of tokens to the worktop.
  */
-export class ReturnToWorktop {
-  instruction: Kind = Kind.ReturnToWorktop;
+export class ReturnToWorktop extends Instruction {
+  @Expose({ name: "bucket" })
+  @Type(() => ManifestAstValue.Bucket)
   bucket: ManifestAstValue.Bucket;
 
   constructor(bucket: ManifestAstValue.Bucket) {
+    super(Kind.ReturnToWorktop);
     this.bucket = bucket;
   }
 
@@ -250,11 +259,13 @@ export class ReturnToWorktop {
 /**
  * An instruction to assert that a given resource exists in the worktop.
  */
-export class AssertWorktopContains {
-  instruction: Kind = Kind.AssertWorktopContains;
+export class AssertWorktopContains extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
 
   constructor(resourceAddress: ManifestAstValue.Address) {
+    super(Kind.AssertWorktopContains);
     this.resourceAddress = resourceAddress;
   }
 
@@ -267,15 +278,20 @@ export class AssertWorktopContains {
  * An instruction to assert that a specific amount of a specific resource address exists in the
  * worktop.
  */
-export class AssertWorktopContainsByAmount {
-  instruction: Kind = Kind.AssertWorktopContainsByAmount;
+export class AssertWorktopContainsByAmount extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "amount" })
+  @Type(() => ManifestAstValue.Decimal)
   amount: ManifestAstValue.Decimal;
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
   ) {
+    super(Kind.AssertWorktopContainsByAmount);
     this.resourceAddress = resourceAddress;
     this.amount = amount;
   }
@@ -288,15 +304,20 @@ export class AssertWorktopContainsByAmount {
 /**
  * An instruction to assert that a set ids of a specific resource address exists in the worktop.
  */
-export class AssertWorktopContainsByIds {
-  instruction: Kind = Kind.AssertWorktopContainsByIds;
+export class AssertWorktopContainsByIds extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "ids" })
+  @Type(() => ManifestAstValue.NonFungibleLocalId)
   ids: Array<ManifestAstValue.NonFungibleLocalId>;
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
     ids: Array<ManifestAstValue.NonFungibleLocalId>
   ) {
+    super(Kind.AssertWorktopContainsByIds);
     this.resourceAddress = resourceAddress;
     this.ids = ids;
   }
@@ -309,11 +330,13 @@ export class AssertWorktopContainsByIds {
 /**
  * An instruction which pops a proof from the AuthZone stack and into an identifiable proof
  */
-export class PopFromAuthZone {
-  instruction: Kind = Kind.PopFromAuthZone;
+export class PopFromAuthZone extends Instruction {
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
   intoProof: ManifestAstValue.Proof;
 
   constructor(intoProof: ManifestAstValue.Proof) {
+    super(Kind.PopFromAuthZone);
     this.intoProof = intoProof;
   }
 
@@ -325,11 +348,13 @@ export class PopFromAuthZone {
 /**
  * An instruction that pushes a proof to the auth zone stack.
  */
-export class PushToAuthZone {
-  instruction: Kind = Kind.PushToAuthZone;
+export class PushToAuthZone extends Instruction {
+  @Expose({ name: "proof" })
+  @Type(() => ManifestAstValue.Proof)
   proof: ManifestAstValue.Proof;
 
   constructor(proof: ManifestAstValue.Proof) {
+    super(Kind.PushToAuthZone);
     this.proof = proof;
   }
 
@@ -341,34 +366,47 @@ export class PushToAuthZone {
 /**
  * An instruction which clears the auth zone stack by dropping all of the proofs in that stack.
  */
-export class ClearAuthZone {
-  instruction: Kind = Kind.ClearAuthZone;
+export class ClearAuthZone extends Instruction {
+  constructor() {
+    super(Kind.ClearAuthZone);
+  }
 
-  constructor() {}
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
 }
 
 /**
  * Clears all the proofs of signature virtual badges.
  */
-export class ClearSignatureProofs {
-  instruction: Kind = Kind.ClearSignatureProofs;
+export class ClearSignatureProofs extends Instruction {
+  constructor() {
+    super(Kind.ClearSignatureProofs);
+  }
 
-  constructor() {}
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
 }
 
 /**
  * An instruction to create a proof of the entire amount of a given resource address from the auth
  * zone.
  */
-export class CreateProofFromAuthZone {
-  instruction: Kind = Kind.CreateProofFromAuthZone;
+export class CreateProofFromAuthZone extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
   intoProof: ManifestAstValue.Proof;
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
     intoProof: ManifestAstValue.Proof
   ) {
+    super(Kind.CreateProofFromAuthZone);
     this.resourceAddress = resourceAddress;
     this.intoProof = intoProof;
   }
@@ -381,10 +419,17 @@ export class CreateProofFromAuthZone {
 /**
  * An instruction to create a proof of the an amount of a given resource address from the auth zone.
  */
-export class CreateProofFromAuthZoneByAmount {
-  instruction: Kind = Kind.CreateProofFromAuthZoneByAmount;
+export class CreateProofFromAuthZoneByAmount extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "amount" })
+  @Type(() => ManifestAstValue.Decimal)
   amount: ManifestAstValue.Decimal;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
   intoProof: ManifestAstValue.Proof;
 
   constructor(
@@ -392,6 +437,7 @@ export class CreateProofFromAuthZoneByAmount {
     amount: ManifestAstValue.Decimal,
     intoProof: ManifestAstValue.Proof
   ) {
+    super(Kind.CreateProofFromAuthZoneByAmount);
     this.resourceAddress = resourceAddress;
     this.amount = amount;
     this.intoProof = intoProof;
@@ -406,10 +452,17 @@ export class CreateProofFromAuthZoneByAmount {
  * An instruction to create a proof of the a set of non-fungible ids of a given resource address
  * from the auth zone.
  */
-export class CreateProofFromAuthZoneByIds {
-  instruction: Kind = Kind.CreateProofFromAuthZoneByIds;
+export class CreateProofFromAuthZoneByIds extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "ids" })
+  @Type(() => ManifestAstValue.NonFungibleLocalId)
   ids: Array<ManifestAstValue.NonFungibleLocalId>;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
   intoProof: ManifestAstValue.Proof;
 
   constructor(
@@ -417,6 +470,7 @@ export class CreateProofFromAuthZoneByIds {
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     intoProof: ManifestAstValue.Proof
   ) {
+    super(Kind.CreateProofFromAuthZoneByIds);
     this.resourceAddress = resourceAddress;
     this.ids = ids;
     this.intoProof = intoProof;
@@ -430,15 +484,20 @@ export class CreateProofFromAuthZoneByIds {
 /**
  * An instruction to create a proof given a bucket of some resources
  */
-export class CreateProofFromBucket {
-  instruction: Kind = Kind.CreateProofFromBucket;
+export class CreateProofFromBucket extends Instruction {
+  @Expose({ name: "bucket" })
+  @Type(() => ManifestAstValue.Bucket)
   bucket: ManifestAstValue.Bucket;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
   intoProof: ManifestAstValue.Proof;
 
   constructor(
     bucket: ManifestAstValue.Bucket,
     intoProof: ManifestAstValue.Proof
   ) {
+    super(Kind.CreateProofFromBucket);
     this.bucket = bucket;
     this.intoProof = intoProof;
   }
@@ -451,15 +510,20 @@ export class CreateProofFromBucket {
 /**
  * An instruction to clone a proof creating a second proof identical to the original
  */
-export class CloneProof {
-  instruction: Kind = Kind.CloneProof;
+export class CloneProof extends Instruction {
+  @Expose({ name: "proof" })
+  @Type(() => ManifestAstValue.Proof)
   proof: ManifestAstValue.Proof;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
   intoProof: ManifestAstValue.Proof;
 
   constructor(
     proof: ManifestAstValue.Proof,
     intoProof: ManifestAstValue.Proof
   ) {
+    super(Kind.CloneProof);
     this.proof = proof;
     this.intoProof = intoProof;
   }
@@ -472,11 +536,13 @@ export class CloneProof {
 /**
  * An instruction to drop a proof.
  */
-export class DropProof {
-  instruction: Kind = Kind.DropProof;
+export class DropProof extends Instruction {
+  @Expose({ name: "proof" })
+  @Type(() => ManifestAstValue.Proof)
   proof: ManifestAstValue.Proof;
 
   constructor(proof: ManifestAstValue.Proof) {
+    super(Kind.DropProof);
     this.proof = proof;
   }
 
@@ -488,31 +554,49 @@ export class DropProof {
 /**
  * An instruction to drop all proofs currently present in the transaction context.
  */
-export class DropAllProofs {
-  instruction: Kind = Kind.DropAllProofs;
+export class DropAllProofs extends Instruction {
+  constructor() {
+    super(Kind.DropAllProofs);
+  }
 
-  constructor() {}
+  toString(): string {
+    return JSON.stringify(instanceToPlain(this));
+  }
 }
 
 /**
  * An instruction to publish a package and set it's associated royalty configs, metadata, and access
  * rules.
  */
-export class PublishPackage {
-  instruction: Kind = Kind.PublishPackage;
+export class PublishPackage extends Instruction {
+  @Expose({ name: "code" })
+  @Type(() => ManifestAstValue.Blob)
   code: ManifestAstValue.Blob;
+
+  @Expose({ name: "schema" })
+  @Type(() => ManifestAstValue.Blob)
   schema: ManifestAstValue.Blob;
-  royaltyConfig: ManifestAstValue.Tuple;
+
+  @Expose({ name: "royalty_config" })
+  @Type(() => ManifestAstValue.Map)
+  royaltyConfig: ManifestAstValue.Map;
+
+  @Expose({ name: "metadata" })
+  @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
+
+  @Expose({ name: "access_rules" })
+  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
   accessRules: ManifestAstValue.Value;
 
   constructor(
     code: ManifestAstValue.Blob,
     schema: ManifestAstValue.Blob,
-    royaltyConfig: ManifestAstValue.Tuple,
+    royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Value
   ) {
+    super(Kind.PublishPackage);
     this.code = code;
     this.schema = schema;
     this.royaltyConfig = royaltyConfig;
@@ -528,11 +612,13 @@ export class PublishPackage {
 /**
  * An instruction to burn a bucket of tokens.
  */
-export class BurnResource {
-  instruction: Kind = Kind.BurnResource;
+export class BurnResource extends Instruction {
+  @Expose({ name: "bucket" })
+  @Type(() => ManifestAstValue.Bucket)
   bucket: ManifestAstValue.Bucket;
 
   constructor(bucket: ManifestAstValue.Bucket) {
+    super(Kind.BurnResource);
     this.bucket = bucket;
   }
 
@@ -544,24 +630,20 @@ export class BurnResource {
 /**
  * An instruction ot recall resources from a known vault.
  */
-export class RecallResource {
-  instruction: Kind = Kind.RecallResource;
+export class RecallResource extends Instruction {
+  @Expose({ name: "vault_id" })
+  @Type(() => ManifestAstValue.Bytes)
   vaultId: ManifestAstValue.Bytes;
-  amount: ManifestAstValue.Decimal;
 
-  /**
-   * The id of the vault of the tokens to recall. This field is serialized as an `Own` from the
-   * value model and is expected to be an `Own::Vault`.
-   */
-  /**
-   * The id of the vault of the tokens to recall. This field is serialized as an `Own` from the
-   * value model and is expected to be an `Own::Vault`.
-   */
+  @Expose({ name: "amount" })
+  @Type(() => ManifestAstValue.Decimal)
+  amount: ManifestAstValue.Decimal;
 
   constructor(
     vaultId: ManifestAstValue.Bytes,
     amount: ManifestAstValue.Decimal
   ) {
+    super(Kind.RecallResource);
     this.vaultId = vaultId;
     this.amount = amount;
   }
@@ -574,10 +656,17 @@ export class RecallResource {
 /**
  * An instruction to set the metadata on an entity.
  */
-export class SetMetadata {
-  instruction: Kind = Kind.SetMetadata;
+export class SetMetadata extends Instruction {
+  @Expose({ name: "entity_address" })
+  @Type(() => ManifestAstValue.Address)
   entityAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "key" })
+  @Type(() => ManifestAstValue.String)
   key: ManifestAstValue.String;
+
+  @Expose({ name: "value" })
+  @Type(() => ManifestAstValue.Enum)
   value: ManifestAstValue.Enum;
 
   constructor(
@@ -585,6 +674,7 @@ export class SetMetadata {
     key: ManifestAstValue.String,
     value: ManifestAstValue.Enum
   ) {
+    super(Kind.SetMetadata);
     this.entityAddress = entityAddress;
     this.key = key;
     this.value = value;
@@ -598,15 +688,20 @@ export class SetMetadata {
 /**
  * An instruction to set the metadata on an entity.
  */
-export class RemoveMetadata {
-  instruction: Kind = Kind.RemoveMetadata;
+export class RemoveMetadata extends Instruction {
+  @Expose({ name: "entity_address" })
+  @Type(() => ManifestAstValue.Address)
   entityAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "key" })
+  @Type(() => ManifestAstValue.String)
   key: ManifestAstValue.String;
 
   constructor(
     entityAddress: ManifestAstValue.Address,
     key: ManifestAstValue.String
   ) {
+    super(Kind.RemoveMetadata);
     this.entityAddress = entityAddress;
     this.key = key;
   }
@@ -619,15 +714,20 @@ export class RemoveMetadata {
 /**
  * An instruction to modify the royalties of a package.
  */
-export class SetPackageRoyaltyConfig {
-  instruction: Kind = Kind.SetPackageRoyaltyConfig;
+export class SetPackageRoyaltyConfig extends Instruction {
+  @Expose({ name: "package_address" })
+  @Type(() => ManifestAstValue.Address)
   packageAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "royalty_config" })
+  @Type(() => ManifestAstValue.Map)
   royaltyConfig: ManifestAstValue.Map;
 
   constructor(
     packageAddress: ManifestAstValue.Address,
     royaltyConfig: ManifestAstValue.Map
   ) {
+    super(Kind.SetPackageRoyaltyConfig);
     this.packageAddress = packageAddress;
     this.royaltyConfig = royaltyConfig;
   }
@@ -640,15 +740,20 @@ export class SetPackageRoyaltyConfig {
 /**
  * An instruction to modify the royalties on a component
  */
-export class SetComponentRoyaltyConfig {
-  instruction: Kind = Kind.SetComponentRoyaltyConfig;
+export class SetComponentRoyaltyConfig extends Instruction {
+  @Expose({ name: "component_address" })
+  @Type(() => ManifestAstValue.Address)
   componentAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "royalty_config" })
+  @Type(() => ManifestAstValue.Tuple)
   royaltyConfig: ManifestAstValue.Tuple;
 
   constructor(
     componentAddress: ManifestAstValue.Address,
     royaltyConfig: ManifestAstValue.Tuple
   ) {
+    super(Kind.SetComponentRoyaltyConfig);
     this.componentAddress = componentAddress;
     this.royaltyConfig = royaltyConfig;
   }
@@ -661,11 +766,13 @@ export class SetComponentRoyaltyConfig {
 /**
  * An instruction to claim royalties of a package
  */
-export class ClaimPackageRoyalty {
-  instruction: Kind = Kind.ClaimPackageRoyalty;
+export class ClaimPackageRoyalty extends Instruction {
+  @Expose({ name: "package_address" })
+  @Type(() => ManifestAstValue.Address)
   packageAddress: ManifestAstValue.Address;
 
   constructor(packageAddress: ManifestAstValue.Address) {
+    super(Kind.ClaimPackageRoyalty);
     this.packageAddress = packageAddress;
   }
 
@@ -677,11 +784,13 @@ export class ClaimPackageRoyalty {
 /**
  * An instruction to claim royalties of a component
  */
-export class ClaimComponentRoyalty {
-  instruction: Kind = Kind.ClaimComponentRoyalty;
+export class ClaimComponentRoyalty extends Instruction {
+  @Expose({ name: "component_address" })
+  @Type(() => ManifestAstValue.Address)
   componentAddress: ManifestAstValue.Address;
 
   constructor(componentAddress: ManifestAstValue.Address) {
+    super(Kind.ClaimComponentRoyalty);
     this.componentAddress = componentAddress;
   }
 
@@ -693,17 +802,25 @@ export class ClaimComponentRoyalty {
 /**
  * An instruction to modify the access rules of a method that an entity has.
  */
-export class SetMethodAccessRule {
-  instruction: Kind = Kind.SetMethodAccessRule;
+export class SetMethodAccessRule extends Instruction {
+  @Expose({ name: "entity_address" })
+  @Type(() => ManifestAstValue.Address)
   entityAddress: ManifestAstValue.Address;
-  key: ManifestAstValue.String;
+
+  @Expose({ name: "key" })
+  @Type(() => ManifestAstValue.Tuple)
+  key: ManifestAstValue.Tuple;
+
+  @Expose({ name: "rule" })
+  @Type(() => ManifestAstValue.Enum)
   rule: ManifestAstValue.Enum;
 
   constructor(
     entityAddress: ManifestAstValue.Address,
-    key: ManifestAstValue.String,
+    key: ManifestAstValue.Tuple,
     rule: ManifestAstValue.Enum
   ) {
+    super(Kind.SetMethodAccessRule);
     this.entityAddress = entityAddress;
     this.key = key;
     this.rule = rule;
@@ -717,15 +834,20 @@ export class SetMethodAccessRule {
 /**
  * An instruction to mint fungible resources
  */
-export class MintFungible {
-  instruction: Kind = Kind.MintFungible;
+export class MintFungible extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "amount" })
+  @Type(() => ManifestAstValue.Decimal)
   amount: ManifestAstValue.Decimal;
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
   ) {
+    super(Kind.MintFungible);
     this.resourceAddress = resourceAddress;
     this.amount = amount;
   }
@@ -738,15 +860,20 @@ export class MintFungible {
 /**
  * An instruction to mint non-fungibles of a resource
  */
-export class MintNonFungible {
-  instruction: Kind = Kind.MintNonFungible;
+export class MintNonFungible extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "entries" })
+  @Type(() => ManifestAstValue.Map)
   entries: ManifestAstValue.Map;
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
     entries: ManifestAstValue.Map
   ) {
+    super(Kind.MintNonFungible);
     this.resourceAddress = resourceAddress;
     this.entries = entries;
   }
@@ -760,15 +887,20 @@ export class MintNonFungible {
  * An instruction to mint non-fungibles of a non-fungible resource that uses UUID as the type id and
  * perform auto incrimination of ID.
  */
-export class MintUuidNonFungible {
-  instruction: Kind = Kind.MintUuidNonFungible;
+export class MintUuidNonFungible extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "entries" })
+  @Type(() => ManifestAstValue.Array)
   entries: ManifestAstValue.Array;
 
   constructor(
     resourceAddress: ManifestAstValue.Address,
     entries: ManifestAstValue.Array
   ) {
+    super(Kind.MintUuidNonFungible);
     this.resourceAddress = resourceAddress;
     this.entries = entries;
   }
@@ -781,10 +913,17 @@ export class MintUuidNonFungible {
 /**
  * An instruction to create a new fungible resource.
  */
-export class CreateFungibleResource {
-  instruction: Kind = Kind.CreateFungibleResource;
+export class CreateFungibleResource extends Instruction {
+  @Expose({ name: "divisibility" })
+  @Type(() => ManifestAstValue.U8)
   divisibility: ManifestAstValue.U8;
+
+  @Expose({ name: "metadata" })
+  @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
+
+  @Expose({ name: "access_rules" })
+  @Type(() => ManifestAstValue.Map)
   accessRules: ManifestAstValue.Map;
 
   constructor(
@@ -792,6 +931,7 @@ export class CreateFungibleResource {
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
   ) {
+    super(Kind.CreateFungibleResource);
     this.divisibility = divisibility;
     this.metadata = metadata;
     this.accessRules = accessRules;
@@ -805,11 +945,21 @@ export class CreateFungibleResource {
 /**
  * An instruction to create a fungible resource with initial supply
  */
-export class CreateFungibleResourceWithInitialSupply {
-  instruction: Kind = Kind.CreateFungibleResourceWithInitialSupply;
+export class CreateFungibleResourceWithInitialSupply extends Instruction {
+  @Expose({ name: "divisibility" })
+  @Type(() => ManifestAstValue.U8)
   divisibility: ManifestAstValue.U8;
+
+  @Expose({ name: "metadata" })
+  @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
+
+  @Expose({ name: "access_rules" })
+  @Type(() => ManifestAstValue.Map)
   accessRules: ManifestAstValue.Map;
+
+  @Expose({ name: "initial_supply" })
+  @Type(() => ManifestAstValue.Decimal)
   initialSupply: ManifestAstValue.Decimal;
 
   constructor(
@@ -818,6 +968,7 @@ export class CreateFungibleResourceWithInitialSupply {
     accessRules: ManifestAstValue.Map,
     initialSupply: ManifestAstValue.Decimal
   ) {
+    super(Kind.CreateFungibleResourceWithInitialSupply);
     this.divisibility = divisibility;
     this.metadata = metadata;
     this.accessRules = accessRules;
@@ -832,19 +983,30 @@ export class CreateFungibleResourceWithInitialSupply {
 /**
  * An instruction to create a new non-fungible resource.
  */
-export class CreateNonFungibleResource {
-  instruction: Kind = Kind.CreateNonFungibleResource;
+export class CreateNonFungibleResource extends Instruction {
+  @Expose({ name: "id_type" })
+  @Type(() => ManifestAstValue.Enum)
   idType: ManifestAstValue.Enum;
-  schema: ManifestAstValue.Blob;
+
+  @Expose({ name: "schema" })
+  @Type(() => ManifestAstValue.Tuple)
+  schema: ManifestAstValue.Tuple;
+
+  @Expose({ name: "metadata" })
+  @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
+
+  @Expose({ name: "access_rules" })
+  @Type(() => ManifestAstValue.Map)
   accessRules: ManifestAstValue.Map;
 
   constructor(
     idType: ManifestAstValue.Enum,
-    schema: ManifestAstValue.Blob,
+    schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
   ) {
+    super(Kind.CreateNonFungibleResource);
     this.idType = idType;
     this.schema = schema;
     this.metadata = metadata;
@@ -859,12 +1021,25 @@ export class CreateNonFungibleResource {
 /**
  * An instruction to create a non-fungible resource with an initial supply
  */
-export class CreateNonFungibleResourceWithInitialSupply {
-  instruction: Kind = Kind.CreateNonFungibleResourceWithInitialSupply;
+export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
+  @Expose({ name: "id_type" })
+  @Type(() => ManifestAstValue.Enum)
   idType: ManifestAstValue.Enum;
+
+  @Expose({ name: "schema" })
+  @Type(() => ManifestAstValue.Blob)
   schema: ManifestAstValue.Blob;
+
+  @Expose({ name: "metadata" })
+  @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
+
+  @Expose({ name: "access_rules" })
+  @Type(() => ManifestAstValue.Map)
   accessRules: ManifestAstValue.Map;
+
+  @Expose({ name: "initial_supply" })
+  @Type(() => ManifestAstValue.Value, ManifestAstValue.valueTypeOptions)
   initialSupply: ManifestAstValue.Value;
 
   constructor(
@@ -874,6 +1049,7 @@ export class CreateNonFungibleResourceWithInitialSupply {
     accessRules: ManifestAstValue.Map,
     initialSupply: ManifestAstValue.Value
   ) {
+    super(Kind.CreateNonFungibleResourceWithInitialSupply);
     this.idType = idType;
     this.schema = schema;
     this.metadata = metadata;
@@ -890,11 +1066,27 @@ export class CreateNonFungibleResourceWithInitialSupply {
  * Creates a new access controller native component with the passed set of rules as the current
  * active rule set and the specified timed recovery delay in minutes.
  */
-export class CreateAccessController {
-  instruction: Kind = Kind.CreateAccessController;
+export class CreateAccessController extends Instruction {
+  @Expose({ name: "controlled_asset" })
+  @Type(() => ManifestAstValue.Bucket)
   controlledAsset: ManifestAstValue.Bucket;
+
+  @Expose({ name: "rule_set" })
+  @Type(() => ManifestAstValue.Tuple)
   ruleSet: ManifestAstValue.Tuple;
-  private timedRecoveryDelayInMinutes:
+
+  @Expose({ name: "timed_recovery_delay_in_minutes" })
+  @Type(() => ManifestAstValue.Value, {
+    discriminator: {
+      property: "type",
+      subTypes: [
+        { name: "Some", value: ManifestAstValue.Some },
+        { name: "None", value: ManifestAstValue.None },
+        { name: "Enum", value: ManifestAstValue.Enum },
+      ],
+    },
+  })
+  timedRecoveryDelayInMinutes:
     | ManifestAstValue.Some
     | ManifestAstValue.None
     | ManifestAstValue.Enum;
@@ -914,6 +1106,7 @@ export class CreateAccessController {
       | ManifestAstValue.None
       | ManifestAstValue.Enum
   ) {
+    super(Kind.CreateAccessController);
     this.controlledAsset = controlledAsset;
     this.ruleSet = ruleSet;
     this.timedRecoveryDelayInMinutes = timedRecoveryDelayInMinutes;
@@ -927,11 +1120,13 @@ export class CreateAccessController {
 /**
  * Creates a new identity native component with the passed access rule.
  */
-export class CreateIdentity {
-  instruction: Kind = Kind.CreateIdentity;
+export class CreateIdentity extends Instruction {
+  @Expose({ name: "access_rule" })
+  @Type(() => ManifestAstValue.Enum)
   accessRule: ManifestAstValue.Enum;
 
   constructor(accessRule: ManifestAstValue.Enum) {
+    super(Kind.CreateIdentity);
     this.accessRule = accessRule;
   }
 
@@ -944,11 +1139,13 @@ export class CreateIdentity {
  * Assert that the given access rule is currently fulfilled by the proofs in the Auth Zone of the
  * transaction
  */
-export class AssertAccessRule {
-  instruction: Kind = Kind.AssertAccessRule;
+export class AssertAccessRule extends Instruction {
+  @Expose({ name: "access_rule" })
+  @Type(() => ManifestAstValue.Enum)
   accessRule: ManifestAstValue.Enum;
 
   constructor(accessRule: ManifestAstValue.Enum) {
+    super(Kind.AssertAccessRule);
     this.accessRule = accessRule;
   }
 
@@ -960,15 +1157,20 @@ export class AssertAccessRule {
 /**
  * Creates a validator given the public key of the owner who controls it
  */
-export class CreateValidator {
-  instruction: Kind = Kind.CreateValidator;
-  key: ManifestAstValue.String;
+export class CreateValidator extends Instruction {
+  @Expose({ name: "key" })
+  @Type(() => ManifestAstValue.Bytes)
+  key: ManifestAstValue.Bytes;
+
+  @Expose({ name: "owner_access_rule" })
+  @Type(() => ManifestAstValue.Enum)
   ownerAccessRule: ManifestAstValue.Enum;
 
   constructor(
-    key: ManifestAstValue.String,
+    key: ManifestAstValue.Bytes,
     ownerAccessRule: ManifestAstValue.Enum
   ) {
+    super(Kind.CreateValidator);
     this.key = key;
     this.ownerAccessRule = ownerAccessRule;
   }
@@ -981,11 +1183,13 @@ export class CreateValidator {
 /**
  * Creates a new global account component which has the withdraw rule seen in the rule.
  */
-export class CreateAccount {
-  instruction: Kind = Kind.CreateAccount;
+export class CreateAccount extends Instruction {
+  @Expose({ name: "withdraw_rule" })
+  @Type(() => ManifestAstValue.Enum)
   withdrawRule: ManifestAstValue.Enum;
 
   constructor(withdrawRule: ManifestAstValue.Enum) {
+    super(Kind.CreateAccount);
     this.withdrawRule = withdrawRule;
   }
 

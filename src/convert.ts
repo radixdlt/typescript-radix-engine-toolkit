@@ -53,9 +53,11 @@ export namespace Uint8Array {
   };
 
   export const toHexString = (array: globalThis.Uint8Array): string =>
-    Array.from(array)
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
+    array === undefined || array === null // TODO: Why is undefined check needed?
+      ? ""
+      : Array.from(array)
+          .map((b) => b.toString(16).padStart(2, "0"))
+          .join("");
 }
 
 export namespace BigInt {

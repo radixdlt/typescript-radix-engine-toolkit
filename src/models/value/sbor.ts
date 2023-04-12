@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { instanceToPlain } from "class-transformer";
 import { ManifestSborValue, ScryptoSborValue } from ".";
 
 export type Any = ScryptoSbor | ManifestSbor;

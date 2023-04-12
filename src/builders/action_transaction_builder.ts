@@ -199,7 +199,7 @@ export class ActionTransactionBuilder {
 
   private constructTransactionManifest(): TransactionManifest {
     let feeAmount = this.resolveFeeAmount();
-    let instructions: Array<Instruction.Any> = [];
+    let instructions: Array<Instruction.Instruction> = [];
     let { withdraws, deposits } = this.resolveActions();
 
     let withdrawsCounter = 0;

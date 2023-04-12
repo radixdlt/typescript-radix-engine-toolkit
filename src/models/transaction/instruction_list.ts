@@ -47,9 +47,9 @@ export class StringInstructions extends InstructionList {
 }
 
 export class ParsedInstructions extends InstructionList {
-  value: Array<Instruction.Any>;
+  value: Array<Instruction.Instruction>;
 
-  constructor(instructions: Array<Instruction.Any>) {
+  constructor(instructions: Array<Instruction.Instruction>) {
     super(Kind.Parsed);
     this.value = instructions;
   }
