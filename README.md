@@ -29,16 +29,12 @@ While the `String` format of manifests focuses heavily on being easily human-rea
 
 Both of the manifest format compile down to identical byte code; thus, using either of the formats purely comes down to a choice by the client to either favour human-readability or machine-readability, some clients could choose to make use of both formats in different places which is what the Babylon wallet does.
 
-The following table shows a single manifest represented in both formats:
+The following is the same manifest represented in both formats:
 
-<table>
-<tr>
-<th style="width:50%"> `String` Instructions </th> <th style="width:50%"> `Parsed` Instructions </th>
-</tr>
-<tr>
-<td> 
-
-```g
+<details>
+    <summary><code>String</code> Format</summary>
+    
+```ruby
 CALL_METHOD
     Address("account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn")
     "withdraw"
@@ -70,161 +66,159 @@ CALL_METHOD
     Address("account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn")
     "deposit_batch"
     Expression("ENTIRE_WORKTOP");
-
 ```
+</details>
 
-</td>
-<td>
-
+<details>
+    <summary><code>Parsed</code> Format</summary>
+    
 ```json
 [
-        {
-          "instruction": "CALL_METHOD",
-          "component_address": {
-            "type": "Address",
-            "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
-          },
-          "method_name": {
-            "type": "String",
-            "value": "withdraw"
-          },
-          "arguments": [
-            {
-              "type": "Address",
-              "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
-            },
-            {
-              "type": "Decimal",
-              "value": "5"
-            }
-          ]
-        },
-        {
-          "instruction": "TAKE_FROM_WORKTOP_BY_AMOUNT",
-          "resource_address": {
-            "type": "Address",
-            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
-          },
-          "amount": {
-            "type": "Decimal",
-            "value": "2"
-          },
-          "into_bucket": {
-            "type": "Bucket",
-            "identifier": {
-              "type": "String",
-              "value": "bucket1"
-            }
-          }
-        },
-        {
-          "instruction": "CALL_METHOD",
-          "component_address": {
-            "type": "Address",
-            "address": "component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn"
-          },
-          "method_name": {
-            "type": "String",
-            "value": "buy_gumball"
-          },
-          "arguments": [
-            {
-              "type": "Bucket",
-              "identifier": {
-                "type": "String",
-                "value": "bucket1"
-              }
-            }
-          ]
-        },
-        {
-          "instruction": "ASSERT_WORKTOP_CONTAINS_BY_AMOUNT",
-          "resource_address": {
-            "type": "Address",
-            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
-          },
-          "amount": {
-            "type": "Decimal",
-            "value": "3"
-          }
-        },
-        {
-          "instruction": "ASSERT_WORKTOP_CONTAINS",
-          "resource_address": {
-            "type": "Address",
-            "address": "resource_sim1q2ym536cwvvf3cy9p777t4qjczqwf79hagp3wn93srvsgvqtwe"
-          }
-        },
-        {
-          "instruction": "TAKE_FROM_WORKTOP",
-          "resource_address": {
-            "type": "Address",
-            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
-          },
-          "into_bucket": {
-            "type": "Bucket",
-            "identifier": {
-              "type": "String",
-              "value": "bucket2"
-            }
-          }
-        },
-        {
-          "instruction": "RETURN_TO_WORKTOP",
-          "bucket": {
-            "type": "Bucket",
-            "identifier": {
-              "type": "String",
-              "value": "bucket2"
-            }
-          }
-        },
-        {
-          "instruction": "TAKE_FROM_WORKTOP_BY_IDS",
-          "resource_address": {
-            "type": "Address",
-            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
-          },
-          "ids": [
-            {
-              "type": "NonFungibleLocalId",
-              "value": {
-                "type": "Integer",
-                "value": "1"
-              }
-            }
-          ],
-          "into_bucket": {
-            "type": "Bucket",
-            "identifier": {
-              "type": "String",
-              "value": "bucket3"
-            }
-          }
-        },
-        {
-          "instruction": "CALL_METHOD",
-          "component_address": {
-            "type": "Address",
-            "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
-          },
-          "method_name": {
-            "type": "String",
-            "value": "deposit_batch"
-          },
-          "arguments": [
-            {
-              "type": "Expression",
-              "value": "ENTIRE_WORKTOP"
-            }
-          ]
+  {
+    "instruction": "CALL_METHOD",
+    "component_address": {
+      "type": "Address",
+      "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
+    },
+    "method_name": {
+      "type": "String",
+      "value": "withdraw"
+    },
+    "arguments": [
+      {
+        "type": "Address",
+        "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+      },
+      {
+        "type": "Decimal",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "instruction": "TAKE_FROM_WORKTOP_BY_AMOUNT",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "amount": {
+      "type": "Decimal",
+      "value": "2"
+    },
+    "into_bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket1"
+      }
+    }
+  },
+  {
+    "instruction": "CALL_METHOD",
+    "component_address": {
+      "type": "Address",
+      "address": "component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn"
+    },
+    "method_name": {
+      "type": "String",
+      "value": "buy_gumball"
+    },
+    "arguments": [
+      {
+        "type": "Bucket",
+        "identifier": {
+          "type": "String",
+          "value": "bucket1"
         }
-      ]
+      }
+    ]
+  },
+  {
+    "instruction": "ASSERT_WORKTOP_CONTAINS_BY_AMOUNT",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "amount": {
+      "type": "Decimal",
+      "value": "3"
+    }
+  },
+  {
+    "instruction": "ASSERT_WORKTOP_CONTAINS",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1q2ym536cwvvf3cy9p777t4qjczqwf79hagp3wn93srvsgvqtwe"
+    }
+  },
+  {
+    "instruction": "TAKE_FROM_WORKTOP",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "into_bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket2"
+      }
+    }
+  },
+  {
+    "instruction": "RETURN_TO_WORKTOP",
+    "bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket2"
+      }
+    }
+  },
+  {
+    "instruction": "TAKE_FROM_WORKTOP_BY_IDS",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "ids": [
+      {
+        "type": "NonFungibleLocalId",
+        "value": {
+          "type": "Integer",
+          "value": "1"
+        }
+      }
+    ],
+    "into_bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket3"
+      }
+    }
+  },
+  {
+    "instruction": "CALL_METHOD",
+    "component_address": {
+      "type": "Address",
+      "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
+    },
+    "method_name": {
+      "type": "String",
+      "value": "deposit_batch"
+    },
+    "arguments": [
+      {
+        "type": "Expression",
+        "value": "ENTIRE_WORKTOP"
+      }
+    ]
+  }
+]
 ```
+</details>
 
-</td>
-</tr>
-</table>
 
 ## Transaction Compilation
 
