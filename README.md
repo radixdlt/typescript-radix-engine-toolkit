@@ -21,6 +21,211 @@ This library brings the same support offered to Rust for transaction constructio
 
 This section discusses the raw functionality offered by the TypeScript Radix Engine Toolkit and provides examples for how they can be achieved in code. 
 
+## Convert Manifest
+
+The most common format for transaction manifests is the string format seen in Radix Transaction Manifest `.rtm` files and in other places as well. However, there does exist another format for representing manifests: the `Parsed` format. 
+
+While the `String` format of manifests focuses heavily on being easily human-readable with some focus on ease of parsing and lexing, the `Parsed` format focuses more heavily on being very machine-readable where it should be relatively easy for machines to understand, process, and work with the `Parsed` format. The `Parsed` format is a JSON format for the instructions of transaction manifests that represents instructions as an Abstract Syntax Tree (AST).
+
+Both of the manifest format compile down to identical byte code; thus, using either of the formats purely comes down to a choice by the client to either favour human-readability or machine-readability, some clients could choose to make use of both formats in different places which is what the Babylon wallet does.
+
+The following table shows a single manifest represented in both formats:
+
+<table>
+<tr>
+<th style="width:50%"> `String` Instructions </th> <th style="width:50%"> `Parsed` Instructions </th>
+</tr>
+<tr>
+<td> 
+
+```g
+CALL_METHOD
+    Address("account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn")
+    "withdraw"
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Decimal("5");
+TAKE_FROM_WORKTOP_BY_AMOUNT
+    Decimal("2")
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Bucket("bucket1");
+CALL_METHOD
+    Address("component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn")
+    "buy_gumball"
+    Bucket("bucket1");
+ASSERT_WORKTOP_CONTAINS_BY_AMOUNT
+    Decimal("3")
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k");
+ASSERT_WORKTOP_CONTAINS
+    Address("resource_sim1q2ym536cwvvf3cy9p777t4qjczqwf79hagp3wn93srvsgvqtwe");
+TAKE_FROM_WORKTOP
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Bucket("bucket2");
+RETURN_TO_WORKTOP
+    Bucket("bucket2");
+TAKE_FROM_WORKTOP_BY_IDS
+    Array<NonFungibleLocalId>(NonFungibleLocalId("#1#"))
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Bucket("bucket3");
+CALL_METHOD
+    Address("account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn")
+    "deposit_batch"
+    Expression("ENTIRE_WORKTOP");
+
+```
+
+</td>
+<td>
+
+```json
+[
+        {
+          "instruction": "CALL_METHOD",
+          "component_address": {
+            "type": "Address",
+            "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
+          },
+          "method_name": {
+            "type": "String",
+            "value": "withdraw"
+          },
+          "arguments": [
+            {
+              "type": "Address",
+              "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+            },
+            {
+              "type": "Decimal",
+              "value": "5"
+            }
+          ]
+        },
+        {
+          "instruction": "TAKE_FROM_WORKTOP_BY_AMOUNT",
+          "resource_address": {
+            "type": "Address",
+            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+          },
+          "amount": {
+            "type": "Decimal",
+            "value": "2"
+          },
+          "into_bucket": {
+            "type": "Bucket",
+            "identifier": {
+              "type": "String",
+              "value": "bucket1"
+            }
+          }
+        },
+        {
+          "instruction": "CALL_METHOD",
+          "component_address": {
+            "type": "Address",
+            "address": "component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn"
+          },
+          "method_name": {
+            "type": "String",
+            "value": "buy_gumball"
+          },
+          "arguments": [
+            {
+              "type": "Bucket",
+              "identifier": {
+                "type": "String",
+                "value": "bucket1"
+              }
+            }
+          ]
+        },
+        {
+          "instruction": "ASSERT_WORKTOP_CONTAINS_BY_AMOUNT",
+          "resource_address": {
+            "type": "Address",
+            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+          },
+          "amount": {
+            "type": "Decimal",
+            "value": "3"
+          }
+        },
+        {
+          "instruction": "ASSERT_WORKTOP_CONTAINS",
+          "resource_address": {
+            "type": "Address",
+            "address": "resource_sim1q2ym536cwvvf3cy9p777t4qjczqwf79hagp3wn93srvsgvqtwe"
+          }
+        },
+        {
+          "instruction": "TAKE_FROM_WORKTOP",
+          "resource_address": {
+            "type": "Address",
+            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+          },
+          "into_bucket": {
+            "type": "Bucket",
+            "identifier": {
+              "type": "String",
+              "value": "bucket2"
+            }
+          }
+        },
+        {
+          "instruction": "RETURN_TO_WORKTOP",
+          "bucket": {
+            "type": "Bucket",
+            "identifier": {
+              "type": "String",
+              "value": "bucket2"
+            }
+          }
+        },
+        {
+          "instruction": "TAKE_FROM_WORKTOP_BY_IDS",
+          "resource_address": {
+            "type": "Address",
+            "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+          },
+          "ids": [
+            {
+              "type": "NonFungibleLocalId",
+              "value": {
+                "type": "Integer",
+                "value": "1"
+              }
+            }
+          ],
+          "into_bucket": {
+            "type": "Bucket",
+            "identifier": {
+              "type": "String",
+              "value": "bucket3"
+            }
+          }
+        },
+        {
+          "instruction": "CALL_METHOD",
+          "component_address": {
+            "type": "Address",
+            "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
+          },
+          "method_name": {
+            "type": "String",
+            "value": "deposit_batch"
+          },
+          "arguments": [
+            {
+              "type": "Expression",
+              "value": "ENTIRE_WORKTOP"
+            }
+          ]
+        }
+      ]
+```
+
+</td>
+</tr>
+</table>
+
 ## Transaction Compilation
 
 The TypeScript Radix Engine Toolkit allows for transaction intents of various kinds to be compiled. The compilation of transaction intents is an essential part of transaction construction since what is signed is the hash of the compiled intents and not the human readable intents. The need to compile intents is abstracted away by the `TransactionBuilder` and the `ActionTransactionBuilder` classes (discussed elsewhere in this document) which allows clients to construct transactions without the need to understand or worry about the internals of how it is done. 
@@ -268,5 +473,5 @@ let notarizedTransactionIntent: NotarizedTransaction = await RadixEngineToolkit.
     compiledNotarizedTransaction,
     InstructionList.String /* Optional argument, defaults to `String` if not provided */
 );
-console.log('Signed Transaction Intent:', notarizedTransactionIntent.toString())
+console.log('Notarized Transaction Intent:', notarizedTransactionIntent.toString())
 ```
