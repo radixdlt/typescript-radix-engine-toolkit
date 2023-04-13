@@ -571,6 +571,44 @@ if (transactionValidity.isValid) {
 }
 ```
 
+## SBOR Encoding and Decoding
+
+The Radix Engine Toolkit comes with full support of the two flavours of SBOR that are currently in use in the Radix Engine: Scrypto SBOR and Manifest SBOR. The toolkit has two polymorphic value models uses to describe all of the possible types that the two SBOR flavours can have: `ScryptoSborValue.Value` and `ManifestSborValue.Value`. When performing SBOR Encoding or Decoding, the two above-mentioned classes are used.
+
+### SBOR Encoding
+
+To SBOR encode an instance of `ScryptoSborValue.Value` or `ManifestSborValue.Value`, the `sborEncode` method on the `RadixEngineToolkit` class can be used.
+
+```ts
+import {
+    ScryptoSborValue,
+    ManifestSborValue,
+    RadixEngineToolkit
+} from '@radixdlt/radix-engine-toolkit';
+
+let value = ScryptoSborValue.Value | ManifestSborValue.Value = /* Some SBOR Value */;
+let encodedValue: Uint8Array = await RadixEngineToolkit.sborEncode(value);
+```
+
+### SBOR Decoding
+
+Given an array of SBOR bytes, clients can decode these bytes and make sense of them by calling the `sborDecode` function on the `RadixEngineToolkit` class. This will return an `SborValue.Value` object which can either be `ScryptoSborValue.Value` or `ManifestSborValue.Value`. 
+
+When performing SBOR decoding, one of the required arguments is a network id. This network id will be used to perform Bech32m encoding on the encountered addresses while decoding the value. Thus, this could be the id of the network that the value is thought to have originated from, the id of the network that the value is thought to be meant for, or any id if the value is known not to contain any addresses.
+
+```ts
+import {
+    SborValue,
+    RadixEngineToolkit
+} from '@radixdlt/radix-engine-toolkit';
+
+let encodedValue: Uint8Array = /* Some SBOR Encoded Value */;
+let value: SborValue.Value = await RadixEngineToolkit.sborDecode(
+    encodedValue, /* The SBOR Encoded value */
+    0x01 /* The network id */
+);
+```
+
 # Frequently Asked Questions
 
 <details>
