@@ -269,13 +269,14 @@ When converting the instructions of a `TransactionManifest` from one format to a
 ```ts
 import {
     TransactionManifest,
-    InstructionList
+    InstructionList,
+    NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let transactionManifest: TransactionManifest = /* Some Transaction Manifest */;
 let convertedManifest: TransactionManifest = await transactionManifest.convert(
     InstructionList.Kind.Parsed, /* The instruction format to convert to */
-    0x01 /* The id of the network of the manifest */
+    NetworkId.Mainnet /* The id of the network of the manifest */
 );
 ```
 
@@ -286,14 +287,15 @@ The `convertManifest` static function on the `RadixEngineToolkit` could also be 
 ```ts
 import {
   RadixEngineToolkit,
-  TransactionManifest
+  TransactionManifest,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let transactionManifest: TransactionManifest = /* Some Transaction Manifest */;
 let convertedManifest = await RadixEngineToolkit.convertManifest(
   transactionManifest, /* The transaction manifest to convert */
   InstructionList.Kind.Parsed, /* The instruction format to convert to */
-  0x01 /* The id of the network of the manifest */
+  NetworkId.Mainnet /* The id of the network of the manifest */
 );
 ```
 
@@ -571,11 +573,11 @@ The `NotarizedTransaction` class has a method for running static analysis on the
 import {
   NotarizedTransaction,
   ValidationConfig,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
-let networkId: number = 0x01; /* The network id of mainnet */ 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
-let transactionValidity = await notarizedTransaction(ValidationConfig.default(networkId));
+let transactionValidity = await notarizedTransaction(ValidationConfig.default(NetworkId.Mainnet));
 if (transactionValidity.isValid) {
   console.log("The transaction is valid")
 } else {
@@ -591,14 +593,14 @@ The same operation can be performed through the `RadixEngineToolkit` class and t
 import {
   NotarizedTransaction,
   ValidationConfig,
-  RadixEngineToolkit
+  RadixEngineToolkit,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
-let networkId: number = 0x01; /* The network id of mainnet */ 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
 let transactionValidity = await RadixEngineToolkit.staticallyValidateTransaction(
   notarizedTransaction,
-  ValidationConfig.default(networkId)
+  ValidationConfig.default(NetworkId.Mainnet)
 );
 if (transactionValidity.isValid) {
   console.log("The transaction is valid")
@@ -635,13 +637,14 @@ When performing SBOR decoding, one of the required arguments is a network id. Th
 ```ts
 import {
   SborValue,
-  RadixEngineToolkit
+  RadixEngineToolkit, 
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let encodedValue: Uint8Array = /* Some SBOR Encoded Value */;
 let value: SborValue.Value = await RadixEngineToolkit.sborDecode(
   encodedValue, /* The SBOR Encoded value */
-  0x01 /* The network id */
+  NetworkId.Mainnet /* The network id */
 );
 console.log(value.toString());
 ```
@@ -665,13 +668,14 @@ The various address types implemented in the Radix Engine Toolkit have a `virtua
 ```ts
 import {
   ManifestAstValue,
-  PublicKey
+  PublicKey,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
 let virtualAccountAddress = await ManifestAstValue.Address.virtualAccountAddress(
   publicKey,
-  0x01, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
 );
 console.log(virtualAccountAddress.toString())
 ```
@@ -683,13 +687,14 @@ Address derivations can be performed through the `RadixEngineToolkit` class whic
 ```ts
 import {
   RadixEngineToolkit,
-  PublicKey
+  PublicKey,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
 let address: string = await RadixEngineToolkit.deriveVirtualAccountAddress(
   publicKey,
-  0x01, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
 );
 console.log(address);
 ```
@@ -705,13 +710,14 @@ The various address types implemented in the Radix Engine Toolkit have a `virtua
 ```ts
 import {
   ManifestAstValue,
-  PublicKey
+  PublicKey,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
 let virtualIdentityAddress = await ManifestAstValue.Address.virtualIdentityAddress(
   publicKey,
-  0x01, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
 );
 console.log(virtualIdentityAddress.toString())
 ```
@@ -723,13 +729,14 @@ Address derivations can be performed through the `RadixEngineToolkit` class whic
 ```ts
 import {
   RadixEngineToolkit,
-  PublicKey
+  PublicKey,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
 let address: string = await RadixEngineToolkit.deriveVirtualIdentityAddress(
   publicKey,
-  0x01, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
 );
 console.log(address);
 ```
@@ -745,13 +752,14 @@ The various address types implemented in the Radix Engine Toolkit have a `fromOl
 ```ts
 import {
   ManifestAstValue,
-  PublicKey
+  PublicKey,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let olympiaAccountAddress: string = "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
 let virtualIdentityAddress = await ManifestAstValue.Address.fromOlympiaAccountAddress(
   olympiaAccountAddress,
-  0x01, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
 );
 console.log(virtualIdentityAddress.toString())
 ```
@@ -763,13 +771,14 @@ Address derivations can be performed through the `RadixEngineToolkit` class whic
 ```ts
 import {
   RadixEngineToolkit,
-  PublicKey
+  PublicKey,
+  NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
 let olympiaAccountAddress: string = "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
 let { babylonAccountAddress, publicKey } = await RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress.fromOlympiaAccountAddress(
   olympiaAccountAddress,
-  0x01, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
 );
 console.log(virtualIdentityAddress)
 ```
@@ -799,10 +808,10 @@ The Radix Engine Toolkit can be used to provide the above mentioned addresses on
 The various address types exposed by the Radix Engine Toolkit expose methods to derive these well known addresses on any network. For the purposes of this example, we will be deriving the resource address of the XRD resource on mainnet. 
 
 ```ts
-import { ManifestAstValue } from '@radixdlt/radix-engine-toolkit';
+import { ManifestAstValue, NetworkId } from '@radixdlt/radix-engine-toolkit';
 
 let xrdResourceAddress = await ManifestAstValue.Address.xrdResourceAddress(
-  0x01, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
 );
 console.log(xrdResourceAddress.toString())
 ```
@@ -812,10 +821,10 @@ console.log(xrdResourceAddress.toString())
 The `RadixEngineToolkit` class exposes a method to get all of the well known addresses for a given network.
 
 ```ts
-import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
+import { RadixEngineToolkit, NetworkId } from '@radixdlt/radix-engine-toolkit';
 
 let knownAddresses = await RadixEngineToolkit.knownEntityAddresses(
-  0x01 /* The ID of the network to derive the addresses for. */
+  NetworkId.Mainnet /* The ID of the network to derive the addresses for. */
 );
 console.log(knownAddresses);
 ```
