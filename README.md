@@ -17,6 +17,22 @@ This library brings the same support offered to Rust for transaction constructio
 - The ability to perform deterministic mapping of public keys to virtual account addresses, virtual component addresses, and Olympia account addresses. In addition to the ability to perform the deterministic mapping from Olympia account addresses to Babylon account addresses
 - All of the needed features to build a complete programmatic wallet as evident by the iOS and Android wallet which utilize Radix Engine Toolkit wrappers in their respective languages.
 
+# Installation
+
+The library is published to npmjs.com and can be installed through npm, yarn, or other package managers.
+
+## Yarn
+
+```sh
+yarn add @radixdlt/radix-engine-toolkit
+```
+
+## Npm
+
+```sh
+npm install @radixdlt/radix-engine-toolkit
+```
+
 # High Level Functionality
 
 This library comes with a number of high-level functionalities that can be useful to a number of clients. Among those functionalities is the ability to build manifests and contract transactions.
