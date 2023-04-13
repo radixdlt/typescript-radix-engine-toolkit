@@ -69,6 +69,185 @@ let manifest = new ManifestBuilder()
 console.log(manifest.toString());
 ```
 
+## Constructing Transactions
+
+The Radix Engine toolkit comes with a transaction builder through the `TransactionBuilder` class that is very similar to that seen in the Scrypto repository. The transaction builder allows for the construction of transactions all the way from the header to the notarized transactions. The main purpose of the builder is to abstract the complexities of transaction construction away from the developer since using the transaction builder does not require the user to have knowledge of transaction compilation, hashing, or anything else of that sort. It, alongside the `ManifestBuilder`, makes the transaction construction process much simpler.
+
+The following example shows the transaction builder can be used to construct a transaction.
+
+```ts
+import {
+  ManifestAstValue,
+  ManifestBuilder,
+  NetworkId,
+  NotarizedTransaction,
+  PrivateKey,
+  TransactionBuilder,
+  TransactionHeader,
+  TransactionManifest,
+  ValidationConfig,
+} from "@radixdlt/radix-engine-toolkit";
+
+const secureRandom = (): number => {
+  /* The implementation of a secure random number generator */
+  return 1;
+};
+
+// For this transaction, we wish to have multiple signers (and of course, a single notary). So, we
+// define their cryptographic private keys.
+let notaryPrivateKey = new PrivateKey.EcdsaSecp256k1(
+  "40c1b9deccc56c0da69821dd652782887b5d31fe6bf6ead519a23f9e9472b49b"
+);
+
+let signer1PrivateKey = new PrivateKey.EddsaEd25519(
+  "69366e446ad19a7540b4272c614bbc2b242656815eb03b1d29a53c950201ae76"
+);
+let signer2PrivateKey = new PrivateKey.EcdsaSecp256k1(
+  "5068952ca5aa655fe9257bf2d89f3b86f4dda6be6f5b76e4ed104c38fd21e8d7"
+);
+
+// We first begin by creating the transaction header that will be used for the transaction.
+let transactionHeader = new TransactionHeader(
+  1 /* The transaction version. Currently always 1 */,
+  NetworkId.Simulator /* The network that this transaction is destined to */,
+  3910 /* The start epoch (inclusive) of when this transaction becomes valid */,
+  3920 /* The end epoch (exclusive) of when this transaction is no longer valid */,
+  secureRandom() /* A random nonce */,
+  notaryPrivateKey.publicKey() /* The public key of the notary */,
+  true /* Whether the notary signature is also considered as an intent signature */,
+  100_000_000 /* A limit on the amount of cost units that the transaction can consume */,
+  0 /* The percentage of fees that goes to validators */
+);
+
+// We then build the transaction manifest
+let transactionManifest: TransactionManifest = new ManifestBuilder()
+  .callMethod(
+    "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    "withdraw",
+    [
+      new ManifestAstValue.Address(
+        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
+      ),
+      new ManifestAstValue.Decimal(10),
+    ]
+  )
+  .takeFromWorktop(
+    "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
+    (builder, bucket) =>
+      builder.callMethod(
+        "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
+        "deposit",
+        [bucket]
+      )
+  )
+  .build();
+
+// We may now build the complete transaction through the transaction builder.
+let transaction: NotarizedTransaction = await TransactionBuilder.new().then(
+  (builder) =>
+    builder
+      .header(transactionHeader)
+      .manifest(transactionManifest)
+      .sign(signer1PrivateKey)
+      .sign(signer2PrivateKey)
+      .notarize(notaryPrivateKey)
+);
+
+// Check that the transaction that we've just built is statically valid.
+let transactionValidity = await transaction.staticallyValidate(
+  ValidationConfig.default(NetworkId.Simulator)
+);
+console.log(transactionValidity);
+```
+
+The constructed transaction can then be compiled and submitted to the Network Gateway to be processed by the network.
+
+As can be seen in the calls to `sign` and `notarize` these methods take in a private key as an argument. However, some clients might wish not to expose their private keys to the transaction builder for various security concerns, or since an HSM is being used. In this case, the `sign` and `notarize` functions can be called with signature functions as an arguments. These functions would take in the hash to sign and would need to return back a `Signature.Signature` or a `SignatureWithPublicKey.SignatureWithPublicKey`. The following is an example of how that can be achieved.
+
+```ts
+import {
+  ManifestAstValue,
+  ManifestBuilder,
+  NetworkId,
+  NotarizedTransaction,
+  Signature,
+  SignatureWithPublicKey,
+  TransactionBuilder,
+  TransactionHeader,
+  TransactionManifest,
+  ValidationConfig,
+} from "@radixdlt/radix-engine-toolkit";
+
+const secureRandom = (): number => {
+  /* The implementation of a secure random number generator */
+  return 1;
+};
+
+// @ts-ignore
+const signIntent = (hashToSign: Uint8Array): Signature.Signature => {
+  /* This method takes in the hash to sign, signs it, and then returns it as a Signature.Signature */
+};
+
+// @ts-ignore
+const notarizeIntent = (
+  hashToSign: Uint8Array
+): SignatureWithPublicKey.SignatureWithPublicKey => {
+  /* This method takes in the hash to sign, signs it, and then returns it as a SignatureWithPublicKey.SignatureWithPublicKey */
+};
+
+// We first begin by creating the transaction header that will be used for the transaction.
+let transactionHeader = new TransactionHeader(
+  1 /* The transaction version. Currently always 1 */,
+  NetworkId.Simulator /* The network that this transaction is destined to */,
+  3910 /* The start epoch (inclusive) of when this transaction becomes valid */,
+  3920 /* The end epoch (exclusive) of when this transaction is no longer valid */,
+  secureRandom() /* A random nonce */,
+  notaryPublicKey /* The public key of the notary */,
+  true /* Whether the notary signature is also considered as an intent signature */,
+  100_000_000 /* A limit on the amount of cost units that the transaction can consume */,
+  0 /* The percentage of fees that goes to validators */
+);
+
+// We then build the transaction manifest
+let transactionManifest: TransactionManifest = new ManifestBuilder()
+  .callMethod(
+    "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    "withdraw",
+    [
+      new ManifestAstValue.Address(
+        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
+      ),
+      new ManifestAstValue.Decimal(10),
+    ]
+  )
+  .takeFromWorktop(
+    "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
+    (builder, bucket) =>
+      builder.callMethod(
+        "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
+        "deposit",
+        [bucket]
+      )
+  )
+  .build();
+
+// We may now build the complete transaction through the transaction builder.
+let transaction: NotarizedTransaction = await TransactionBuilder.new().then(
+  (builder) =>
+    builder
+      .header(transactionHeader)
+      .manifest(transactionManifest)
+      .sign(signIntent)
+      .notarize(notarizeIntent)
+);
+
+// Check that the transaction that we've just built is statically valid.
+let transactionValidity = await transaction.staticallyValidate(
+  ValidationConfig.default(NetworkId.Simulator)
+);
+console.log(transactionValidity);
+```
+
 # Functionality
 
 This section discusses the raw functionality offered by the TypeScript Radix Engine Toolkit and provides examples for how they can be achieved in code.

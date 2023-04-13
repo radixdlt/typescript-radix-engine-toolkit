@@ -31,10 +31,10 @@ import { hash } from "../utils";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 
-type signIntentFn = (
+export type signIntentFn = (
   hashToSign: Uint8Array
 ) => SignatureWithPublicKey.SignatureWithPublicKey;
-type notarizationFn = (hashToSign: Uint8Array) => Signature.Signature;
+export type notarizationFn = (hashToSign: Uint8Array) => Signature.Signature;
 
 export class TransactionBuilder {
   private retWrapper: RadixEngineToolkitWasmWrapper;
