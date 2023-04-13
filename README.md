@@ -32,14 +32,14 @@ There are three main transaction intent types and the Radix Engine Toolkit allow
 
 ### Compiling `TransactionIntent`s
 
-Given a `TransactionIntent` object, the `RadixEngineToolkit` class can be used to compile the transaction intent down to a byte array of SBOR bytes. 
+Given a `TransactionIntent` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes. 
 
 #### Example A
 
 `TransactionIntent` objects have a `compile` method which performs the required invocations to the `RadixEngineToolkit` class to compile the object to a `Uint8Array` of the compiled intent.
 
 ```ts
-import { TransactionIntent } from '@radixdlt/radix-engine-toolkit'
+import { TransactionIntent } from '@radixdlt/radix-engine-toolkit';
 
 let transactionIntent: TransactionIntent = /* A transaction intent */;
 let compiledTransactionIntent: Uint8Array = await transactionIntent.compile();
@@ -50,8 +50,99 @@ let compiledTransactionIntent: Uint8Array = await transactionIntent.compile();
 The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exactly call to `compileTransactionIntent` is what takes place.
 
 ```ts
-import { TransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit'
+import { TransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
 
 let transactionIntent: TransactionIntent = /* A transaction intent */;
-let compiledTransactionIntent: Uint8Array = await RadixEngineToolkit.compileTransactionIntent(transactionIntent);
+let compiledTransactionIntent: Uint8Array = await RadixEngineToolkit.compileTransactionIntent(
+    transactionIntent
+);
+```
+
+### Compiling `SignedTransactionIntent`s
+
+Given a `SignedTransactionIntent` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes. 
+
+#### Example A
+
+`SignedTransactionIntent` objects have a `compile` method which performs the required invocations to the `RadixEngineToolkit` class to compile the object to a `Uint8Array` of the compiled signed intent.
+
+```ts
+import { SignedTransactionIntent } from '@radixdlt/radix-engine-toolkit';
+
+let signedTransactionIntent: SignedTransactionIntent = /* A transaction intent */;
+let compiledSignedTransactionIntent: Uint8Array = await signedTransactionIntent.compile();
+```
+
+#### Example B
+
+The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exactly call to `compileTransactionIntent` is what takes place.
+
+```ts
+import { SignedTransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
+
+let signedTransactionIntent: SignedTransactionIntent = /* A signed transaction intent */;
+let compiledSignedTransactionIntent: Uint8Array = await RadixEngineToolkit.compileSignedTransactionIntent(
+    signedTransactionIntent
+);
+```
+
+### Compiling `NotarizedTransaction`s
+
+Given a `NotarizedTransaction` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes. 
+
+#### Example A
+
+`NotarizedTransaction` objects have a `compile` method which performs the required invocations to the `RadixEngineToolkit` class to compile the object to a `Uint8Array` of the compiled signed intent.
+
+```ts
+import { NotarizedTransaction } from '@radixdlt/radix-engine-toolkit';
+
+let notarizedTransaction: NotarizedTransaction = /* A transaction intent */;
+let compiledNotarizedTransaction: Uint8Array = await notarizedTransaction.compile();
+```
+
+#### Example B
+
+The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exactly call to `compileTransactionIntent` is what takes place.
+
+```ts
+import { NotarizedTransaction, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
+
+let notarizedTransaction: NotarizedTransaction = /* A signed transaction intent */;
+let compiledNotarizedTransaction: Uint8Array = await RadixEngineToolkit.compileNotarizedTransactionIntent(
+    notarizedTransaction
+);
+```
+
+## Transaction Decompilation
+
+The TypeScript Radix Engine Toolkit is capable of decompiling transaction intents from their SBOR byte array format to a human-readable/machine-readable format that's easy to understand, read, and parse. This is useful when verifying transactions before signing them to ensure that they contain the intent that was communicated. 
+
+Similar to compilation, the Radix Engine Toolkit is able to decompile all three transaction intent types: (Unsigned) Transaction intents, signed transaction intents, and notarized transaction intents.
+
+During decompilation, the client is free to choose the format of the output manifest instructions which can either be `String` or `Parsed`. The `String` format is the most common format and is the one seen in the `.rtm` files, in the radixdlt-scrypto repository, and almost everywhere. The `Parsed` format is a less common format but one which a number of programmatic clients rely on heavily which represents manifests as an AST of the various tokens in the tree. 
+
+### Decompiling Unknown Intents
+
+There might be cases when the client is presented with an intent of an unknown kind and wishes to decompile said intent; as in, it is unknown whether this is an unsigned transaction intent, signed transaction intent, or a notarized transaction intent. While it's certainly possible for the client to try all of the different possibilities to figure it out, the core toolkit offers a function that determines the type of the intent and decompiles it accordingly.  
+
+```ts
+import { 
+    RadixEngineToolkit, 
+    TransactionIntent,
+    SignedTransactionIntent,
+    NotarizedTransaction
+} from '@radixdlt/radix-engine-toolkit';
+
+let compiledUnknownIntent: Uint8Array = /* Some compiled intent */;
+let decompiledUnknownIntent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
+    compiledUnknownIntent
+);
+if (decompiledUnknownIntent instanceof TransactionIntent) {
+    console.log('Transaction Intent', decompiledUnknownIntent.toString());
+} else if (decompiledUnknownIntent instanceof SignedTransactionIntent) {
+    console.log('Signed Transaction Intent', decompiledUnknownIntent.toString());
+} else if (decompiledUnknownIntent instanceof NotarizedTransaction) {
+    console.log('Notarized Transaction Intent', decompiledUnknownIntent.toString());
+}
 ```
