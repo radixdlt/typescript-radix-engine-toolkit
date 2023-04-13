@@ -219,6 +219,48 @@ CALL_METHOD
 ```
 </details>
 
+When converting the instructions of a `TransactionManifest` from one format to another, there are typically two main arguments required:
+
+1. The format of the instructions to receive back, this is provided as an `InstructionList.Kind` which can either be `String` or `Parsed`. 
+2. The id of the network that the manifest is meant for. This is used in two main ways:
+    - Validating that the addresses present in the manifest belong to the specified network.
+    - Bech32m encoding the addresses during the conversion process.
+
+### Example A
+
+`TransactionManifest` objects have a `convert` method which converts the instructions in the transaction manifest from one instruction format to another. 
+
+```ts
+import { 
+    TransactionManifest,
+    InstructionList
+} from '@radixdlt/radix-engine-toolkit';
+
+let transactionManifest: TransactionManifest = /* Some Transaction Manifest */;
+let convertedManifest: TransactionManifest = await transactionManifest.convert(
+    InstructionList.Kind.Parsed, /* The instruction format to convert to */
+    0x01 /* The id of the network of the manifest */
+);
+```
+
+### Example B 
+
+The `convertManifest` static function on the `RadixEngineToolkit` could also be used here to perform the same conversion
+
+```ts
+import { 
+    RadixEngineToolkit,
+    TransactionManifest
+} from '@radixdlt/radix-engine-toolkit';
+
+let transactionManifest: TransactionManifest = /* Some Transaction Manifest */;
+let convertedManifest = await RadixEngineToolkit.convertManifest(
+    transactionManifest, /* The transaction manifest to convert */
+    InstructionList.Kind.Parsed, /* The instruction format to convert to */
+    0x01 /* The id of the network of the manifest */
+)
+```
+
 
 ## Transaction Compilation
 
@@ -364,7 +406,7 @@ import {
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
 let transactionIntent: TransactionIntent = await TransactionIntent.decompile(
     compiledTransactionIntent,
-    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Transaction Intent:', transactionIntent.toString())
 ```
@@ -383,7 +425,7 @@ import {
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
 let transactionIntent: TransactionIntent = await RadixEngineToolkit.decompileTransactionIntent(
     compiledTransactionIntent,
-    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Transaction Intent:', transactionIntent.toString())
 ```
@@ -405,7 +447,7 @@ import {
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
 let signedTransactionIntent: SignedTransactionIntent = await SignedTransactionIntent.decompile(
     compiledSignedTransactionIntent,
-    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Signed Transaction Intent:', signedTransactionIntent.toString())
 ```
@@ -424,7 +466,7 @@ import {
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
 let signedTransactionIntent: SignedTransactionIntent = await RadixEngineToolkit.decompileSignedTransactionIntent(
     compiledSignedTransactionIntent,
-    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Signed Transaction Intent:', signedTransactionIntent.toString())
 ```
@@ -446,7 +488,7 @@ import {
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
 let notarizedTransactionIntent: NotarizedTransaction = await NotarizedTransaction.decompile(
     compiledNotarizedTransaction,
-    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Signed Transaction Intent:', notarizedTransactionIntent.toString())
 ```
@@ -465,7 +507,7 @@ import {
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
 let notarizedTransactionIntent: NotarizedTransaction = await RadixEngineToolkit.decompileNotarizedTransactionIntent(
     compiledNotarizedTransaction,
-    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Notarized Transaction Intent:', notarizedTransactionIntent.toString())
 ```
