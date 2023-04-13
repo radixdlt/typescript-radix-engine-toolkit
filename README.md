@@ -23,10 +23,10 @@ This library comes with a number of high-level functionalities that can be usefu
 
 ## Building Manifests
 
-The Radix Engine Toolkit comes with a manifest builder which is heavily inspired by the builder present in the Scrypto repository and commonly seen in unit test. This manifest builder has an ID allocator which allows users of the builder to not specify the ids for various buckets and proofs created in the manifest. Additionally, the manifest builder is able to handle blobs in a more developer friendly way for instructions such as `PublishPackage`. 
+The Radix Engine Toolkit comes with a manifest builder which is heavily inspired by the builder present in the Scrypto repository and commonly seen in unit test. This manifest builder has an ID allocator which allows users of the builder to not specify the ids for various buckets and proofs created in the manifest. Additionally, the manifest builder is able to handle blobs in a more developer friendly way for instructions such as `PublishPackage`.
 
 ```ts
-import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit';
+import { ManifestBuilder } from "@radixdlt/radix-engine-toolkit";
 
 let manifest = new ManifestBuilder()
   .callMethod(
@@ -630,14 +630,14 @@ let encodedValue: Uint8Array = await RadixEngineToolkit.sborEncode(value);
 
 ### SBOR Decoding
 
-Given an array of SBOR bytes, clients can decode these bytes and make sense of them by calling the `sborDecode` function on the `RadixEngineToolkit` class. This will return an `SborValue.Value` object which can either be `ScryptoSborValue.Value` or `ManifestSborValue.Value`. 
+Given an array of SBOR bytes, clients can decode these bytes and make sense of them by calling the `sborDecode` function on the `RadixEngineToolkit` class. This will return an `SborValue.Value` object which can either be `ScryptoSborValue.Value` or `ManifestSborValue.Value`.
 
 When performing SBOR decoding, one of the required arguments is a network id. This network id will be used to perform Bech32m encoding on the encountered addresses while decoding the value. Thus, this could be the id of the network that the value is thought to have originated from, the id of the network that the value is thought to be meant for, or any id if the value is known not to contain any addresses.
 
 ```ts
 import {
   SborValue,
-  RadixEngineToolkit, 
+  RadixEngineToolkit,
   NetworkId
 } from '@radixdlt/radix-engine-toolkit';
 
@@ -654,6 +654,7 @@ console.log(value.toString());
 The Radix Engine Toolkit exposes a number of address derivation functions that can be useful to a wide variety of clients. This section discussed these address derivation functions and provides examples as to how they can be done.
 
 In general, all of the address derivations can be done in two main ways:
+
 1. By calling the appropriate function on the `RadixEngineToolkit` class which performs the derivation and returns a string.
 2. By calling the appropriate function on one of the address types to perform the derivation and create a new instance of that address type. This is the case for the following address types: `ManifestAstValue.Address`, `ManifestSborValue.Address`, `ScryptoSborValue.Address`, and `EntityAddress`.
 
@@ -663,38 +664,43 @@ The Radix Engine Toolkit allows for virtual account component addresses to be de
 
 #### Example A
 
-The various address types implemented in the Radix Engine Toolkit have a `virtualAccountAddress` method which performs this derivation and creates a new object of that class. 
+The various address types implemented in the Radix Engine Toolkit have a `virtualAccountAddress` method which performs this derivation and creates a new object of that class.
 
 ```ts
 import {
   ManifestAstValue,
   PublicKey,
-  NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
-let virtualAccountAddress = await ManifestAstValue.Address.virtualAccountAddress(
-  publicKey,
-  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
+let publicKey = new PublicKey.EcdsaSecp256k1(
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
-console.log(virtualAccountAddress.toString())
+let virtualAccountAddress =
+  await ManifestAstValue.Address.virtualAccountAddress(
+    publicKey,
+    NetworkId.Mainnet /* The ID of the network to derive the address for. */
+  );
+console.log(virtualAccountAddress.toString());
 ```
 
 #### Example B
 
-Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings. 
+Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings.
 
 ```ts
 import {
   RadixEngineToolkit,
   PublicKey,
-  NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
+let publicKey = new PublicKey.EcdsaSecp256k1(
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
+);
 let address: string = await RadixEngineToolkit.deriveVirtualAccountAddress(
   publicKey,
-  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet /* The ID of the network to derive the address for. */
 );
 console.log(address);
 ```
@@ -705,82 +711,91 @@ The Radix Engine Toolkit allows for virtual identity component addresses to be d
 
 #### Example A
 
-The various address types implemented in the Radix Engine Toolkit have a `virtualIdentityAddress` method which performs this derivation and creates a new object of that class. 
+The various address types implemented in the Radix Engine Toolkit have a `virtualIdentityAddress` method which performs this derivation and creates a new object of that class.
 
 ```ts
 import {
   ManifestAstValue,
   PublicKey,
-  NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
-let virtualIdentityAddress = await ManifestAstValue.Address.virtualIdentityAddress(
-  publicKey,
-  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
+let publicKey = new PublicKey.EcdsaSecp256k1(
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
-console.log(virtualIdentityAddress.toString())
+let virtualIdentityAddress =
+  await ManifestAstValue.Address.virtualIdentityAddress(
+    publicKey,
+    NetworkId.Mainnet /* The ID of the network to derive the address for. */
+  );
+console.log(virtualIdentityAddress.toString());
 ```
 
 #### Example B
 
-Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings. 
+Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings.
 
 ```ts
 import {
   RadixEngineToolkit,
   PublicKey,
-  NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
+let publicKey = new PublicKey.EcdsaSecp256k1(
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
+);
 let address: string = await RadixEngineToolkit.deriveVirtualIdentityAddress(
   publicKey,
-  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet /* The ID of the network to derive the address for. */
 );
 console.log(address);
 ```
 
 ### Deriving Babylon Account Addresses from Olympia Account Addresses
 
-The Radix Engine Toolkit is able to perform the deterministic mapping to convert Olympia account addresses to their respective Babylon Account addresses. 
+The Radix Engine Toolkit is able to perform the deterministic mapping to convert Olympia account addresses to their respective Babylon Account addresses.
 
 #### Example A
 
-The various address types implemented in the Radix Engine Toolkit have a `fromOlympiaAccountAddress` method which performs this derivation and creates a new object of that class. 
+The various address types implemented in the Radix Engine Toolkit have a `fromOlympiaAccountAddress` method which performs this derivation and creates a new object of that class.
 
 ```ts
 import {
   ManifestAstValue,
   PublicKey,
-  NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
 
-let olympiaAccountAddress: string = "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
-let virtualIdentityAddress = await ManifestAstValue.Address.fromOlympiaAccountAddress(
-  olympiaAccountAddress,
-  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
-);
-console.log(virtualIdentityAddress.toString())
+let olympiaAccountAddress: string =
+  "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
+let virtualIdentityAddress =
+  await ManifestAstValue.Address.fromOlympiaAccountAddress(
+    olympiaAccountAddress,
+    NetworkId.Mainnet /* The ID of the network to derive the address for. */
+  );
+console.log(virtualIdentityAddress.toString());
 ```
 
 #### Example B
 
-Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings. 
+Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings.
 
 ```ts
 import {
   RadixEngineToolkit,
   PublicKey,
-  NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
 
-let olympiaAccountAddress: string = "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
-let { babylonAccountAddress, publicKey } = await RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress.fromOlympiaAccountAddress(
-  olympiaAccountAddress,
-  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
-);
-console.log(virtualIdentityAddress)
+let olympiaAccountAddress: string =
+  "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
+let { babylonAccountAddress, publicKey } =
+  await RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress.fromOlympiaAccountAddress(
+    olympiaAccountAddress,
+    NetworkId.Mainnet /* The ID of the network to derive the address for. */
+  );
+console.log(virtualIdentityAddress);
 ```
 
 ### Derive Known Entity Addresses
@@ -805,15 +820,15 @@ The Radix Engine Toolkit can be used to provide the above mentioned addresses on
 
 #### Example A
 
-The various address types exposed by the Radix Engine Toolkit expose methods to derive these well known addresses on any network. For the purposes of this example, we will be deriving the resource address of the XRD resource on mainnet. 
+The various address types exposed by the Radix Engine Toolkit expose methods to derive these well known addresses on any network. For the purposes of this example, we will be deriving the resource address of the XRD resource on mainnet.
 
 ```ts
-import { ManifestAstValue, NetworkId } from '@radixdlt/radix-engine-toolkit';
+import { ManifestAstValue, NetworkId } from "@radixdlt/radix-engine-toolkit";
 
 let xrdResourceAddress = await ManifestAstValue.Address.xrdResourceAddress(
-  NetworkId.Mainnet, /* The ID of the network to derive the address for. */
+  NetworkId.Mainnet /* The ID of the network to derive the address for. */
 );
-console.log(xrdResourceAddress.toString())
+console.log(xrdResourceAddress.toString());
 ```
 
 #### Example B
@@ -821,7 +836,7 @@ console.log(xrdResourceAddress.toString())
 The `RadixEngineToolkit` class exposes a method to get all of the well known addresses for a given network.
 
 ```ts
-import { RadixEngineToolkit, NetworkId } from '@radixdlt/radix-engine-toolkit';
+import { RadixEngineToolkit, NetworkId } from "@radixdlt/radix-engine-toolkit";
 
 let knownAddresses = await RadixEngineToolkit.knownEntityAddresses(
   NetworkId.Mainnet /* The ID of the network to derive the addresses for. */
@@ -837,10 +852,10 @@ console.log(knownAddresses);
 Objects of the `TransactionIntent`, `SignedTransactionIntent`, and `NotarizedTransaction` classes offer methods for calculating the transaction id (transaction hash). Given that you have any of the above mentioned objects, the transaction id can be obtained as follows:
 
 ```ts
-import { 
+import {
     TransactionIntent,
     SignedTransactionIntent,
-    NotarizedTransaction 
+    NotarizedTransaction
 } from '@radixdlt/radix-engine-toolkit';
 
 let intent: TransactionIntent | SignedTransactionIntent | NotarizedTransaction = /* Some kind of intent */;
