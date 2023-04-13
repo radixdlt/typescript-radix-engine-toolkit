@@ -17,6 +17,42 @@ This library brings the same support offered to Rust for transaction constructio
 - The ability to perform deterministic mapping of public keys to virtual account addresses, virtual component addresses, and Olympia account addresses. In addition to the ability to perform the deterministic mapping from Olympia account addresses to Babylon account addresses
 - All of the needed features to build a complete programmatic wallet as evident by the iOS and Android wallet which utilize Radix Engine Toolkit wrappers in their respective languages.
 
+# High Level Functionality
+
+This library comes with a number of high-level functionalities that can be useful to a number of clients. Among those functionalities is the ability to build manifests and contract transactions.
+
+## Building Manifests
+
+The Radix Engine Toolkit comes with a manifest builder which is heavily inspired by the builder present in the Scrypto repository and commonly seen in unit test. This manifest builder has an ID allocator which allows users of the builder to not specify the ids for various buckets and proofs created in the manifest. Additionally, the manifest builder is able to handle blobs in a more developer friendly way for instructions such as `PublishPackage`. 
+
+```ts
+import { ManifestBuilder } from '@radixdlt/radix-engine-toolkit';
+
+let manifest = new ManifestBuilder()
+  .callMethod(
+    "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    "withdraw",
+    [
+      new ManifestAstValue.Address(
+        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
+      ),
+      new ManifestAstValue.Decimal(10),
+    ]
+  )
+  .takeFromWorktop(
+    "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
+    (builder, bucket) =>
+      builder.callMethod(
+        "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
+        "deposit",
+        [bucket]
+      )
+  )
+  .build();
+
+console.log(manifest.toString());
+```
+
 # Functionality
 
 This section discusses the raw functionality offered by the TypeScript Radix Engine Toolkit and provides examples for how they can be achieved in code.
