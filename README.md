@@ -738,6 +738,52 @@ let { babylonAccountAddress, publicKey } = await RadixEngineToolkit.deriveBabylo
 console.log(virtualIdentityAddress)
 ```
 
+### Derive Known Entity Addresses
+
+There are various entities created at the Babylon genesis which have a known set of addresses. The following entities (and their addresses) are all created at genesis:
+
+- Resources
+  - XRD Resource
+  - Ecdsa Secp256k1 Resource
+  - EdDSA Ed25519 Resource
+  - System Resource
+  - Package Badge Resource
+- Components
+  - Faucet Component (if exists)
+  - Epoch Manager Component
+  - Clock Component
+- Packages
+  - Faucet Package (if exists)
+  - Account Package
+
+The Radix Engine Toolkit can be used to provide the above mentioned addresses on any network that the client chooses.
+
+#### Example A
+
+The various address types exposed by the Radix Engine Toolkit expose methods to derive these well known addresses on any network. For the purposes of this example, we will be deriving the resource address of the XRD resource on mainnet. 
+
+```ts
+import { ManifestAstValue } from '@radixdlt/radix-engine-toolkit';
+
+let xrdResourceAddress = await ManifestAstValue.Address.xrdResourceAddress(
+  0x01, /* The ID of the network to derive the address for. */
+);
+console.log(xrdResourceAddress.toString())
+```
+
+#### Example B
+
+The `RadixEngineToolkit` class exposes a method to get all of the well known addresses for a given network.
+
+```ts
+import { RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
+
+let knownAddresses = await RadixEngineToolkit.knownEntityAddresses(
+  0x01 /* The ID of the network to derive the addresses for. */
+);
+console.log(knownAddresses);
+```
+
 # Frequently Asked Questions
 
 <details>
