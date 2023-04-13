@@ -15,6 +15,7 @@ This library brings the same support offered to Rust for transaction constructio
 * The ability to convert manifests into their Abstract Syntax Tree (AST) representation which allows for them to be inspected and analyzed.
 * Full support for all flavors of SBOR allowing clients to perform SBOR encoding and decoding.
 * The ability to perform deterministic mapping of public keys to virtual account addresses, virtual component addresses, and Olympia account addresses. 
+* All of the needed features to build a complete programmatic wallet as evident by the iOS and Android wallet which utilize Radix Engine Toolkit wrappers in their respective languages.
 
 # Functionality
 
@@ -47,7 +48,7 @@ let compiledTransactionIntent: Uint8Array = await transactionIntent.compile();
 
 #### Example B
 
-The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exactly call to `compileTransactionIntent` is what takes place.
+The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `compileTransactionIntent` is what takes place.
 
 ```ts
 import { TransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
@@ -75,7 +76,7 @@ let compiledSignedTransactionIntent: Uint8Array = await signedTransactionIntent.
 
 #### Example B
 
-The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exactly call to `compileTransactionIntent` is what takes place.
+The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `compileSignedTransactionIntent` is what takes place.
 
 ```ts
 import { SignedTransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
@@ -103,7 +104,7 @@ let compiledNotarizedTransaction: Uint8Array = await notarizedTransaction.compil
 
 #### Example B
 
-The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exactly call to `compileTransactionIntent` is what takes place.
+The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `compileNotarizedTransactionIntent` is what takes place.
 
 ```ts
 import { NotarizedTransaction, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
@@ -120,7 +121,7 @@ The TypeScript Radix Engine Toolkit is capable of decompiling transaction intent
 
 Similar to compilation, the Radix Engine Toolkit is able to decompile all three transaction intent types: (Unsigned) Transaction intents, signed transaction intents, and notarized transaction intents.
 
-During decompilation, the client is free to choose the format of the output manifest instructions which can either be `String` or `Parsed`. The `String` format is the most common format and is the one seen in the `.rtm` files, in the radixdlt-scrypto repository, and almost everywhere. The `Parsed` format is a less common format but one which a number of programmatic clients rely on heavily which represents manifests as an AST of the various tokens in the tree. 
+During decompilation, the client is free to choose the format of the output manifest instructions which can either be `String` or `Parsed`. The `String` format is the most common format and is the one seen in the `.rtm` files, in the radixdlt-scrypto repository, and almost everywhere. The `Parsed` format is a less common format but one which a number of programmatic clients heavily rely on which represents manifests as an AST of the various tokens in the tree. 
 
 ### Decompiling Unknown Intents
 
@@ -145,4 +146,127 @@ if (decompiledUnknownIntent instanceof TransactionIntent) {
 } else if (decompiledUnknownIntent instanceof NotarizedTransaction) {
     console.log('Notarized Transaction Intent', decompiledUnknownIntent.toString());
 }
+```
+
+### Decompiling a `TransactionIntent`
+
+Given a byte array (`Uint8Array`) which is known to be a compiled `TransactionIntent`, the Radix Engine Toolkit can be used to decompile it to a `TransactionIntent` object. As previously stated, the client can specify whether they wish for the instructions in the decompiled intent to be `String` or `Parsed` instructions. If no format is specified, then it defaults to `String` instructions.
+
+#### Example A
+
+The `TransactionIntent` class has a static `decompile` function which can be thought of as a constructor for the class that's capable of creating objects of the class given a compiled transaction intent and an optional format of the instructions.
+
+```ts
+import { 
+    TransactionIntent, 
+    InstructionList 
+} from '@radixdlt/radix-engine-toolkit';
+
+let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
+let transactionIntent: TransactionIntent = await TransactionIntent.decompile(
+    compiledTransactionIntent,
+    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+);
+console.log('Transaction Intent:', transactionIntent.toString())
+```
+
+#### Example B
+
+An alternative to the above is calling the `decompileTransactionIntent` function on the `RadixEngineToolkit` class. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `decompileTransactionIntent` is what takes place.
+
+```ts
+import { 
+    RadixEngineToolkit,
+    TransactionIntent, 
+    InstructionList 
+} from '@radixdlt/radix-engine-toolkit';
+
+let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
+let transactionIntent: TransactionIntent = await RadixEngineToolkit.decompileTransactionIntent(
+    compiledTransactionIntent,
+    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+);
+console.log('Transaction Intent:', transactionIntent.toString())
+```
+
+### Decompiling a `SignedTransactionIntent`
+
+Given a byte array (`Uint8Array`) which is known to be a compiled `SignedTransactionIntent`, the Radix Engine Toolkit can be used to decompile it to a `SignedTransactionIntent` object. As previously stated, the client can specify whether they wish for the instructions in the decompiled intent to be `String` or `Parsed` instructions. If no format is specified, then it defaults to `String` instructions.
+
+#### Example A
+
+The `SignedTransactionIntent` class has a static `decompile` function which can be thought of as a constructor for the class that's capable of creating objects of the class given a compiled transaction intent and an optional format of the instructions.
+
+```ts
+import { 
+    SignedTransactionIntent, 
+    InstructionList 
+} from '@radixdlt/radix-engine-toolkit';
+
+let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
+let signedTransactionIntent: SignedTransactionIntent = await SignedTransactionIntent.decompile(
+    compiledSignedTransactionIntent,
+    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+);
+console.log('Signed Transaction Intent:', signedTransactionIntent.toString())
+```
+
+#### Example B
+
+An alternative to the above is calling the `decompileSignedTransactionIntent` function on the `RadixEngineToolkit` class. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `decompileSignedTransactionIntent` is what takes place.
+
+```ts
+import { 
+    RadixEngineToolkit,
+    SignedTransactionIntent, 
+    InstructionList 
+} from '@radixdlt/radix-engine-toolkit';
+
+let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
+let signedTransactionIntent: SignedTransactionIntent = await RadixEngineToolkit.decompileSignedTransactionIntent(
+    compiledSignedTransactionIntent,
+    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+);
+console.log('Signed Transaction Intent:', signedTransactionIntent.toString())
+```
+
+### Decompiling a `NotarizedTransaction`
+
+Given a byte array (`Uint8Array`) which is known to be a compiled `NotarizedTransaction`, the Radix Engine Toolkit can be used to decompile it to a `NotarizedTransaction` object. As previously stated, the client can specify whether they wish for the instructions in the decompiled intent to be `String` or `Parsed` instructions. If no format is specified, then it defaults to `String` instructions.
+
+#### Example A
+
+The `NotarizedTransaction` class has a static `decompile` function which can be thought of as a constructor for the class that's capable of creating objects of the class given a compiled transaction intent and an optional format of the instructions.
+
+```ts
+import { 
+    NotarizedTransaction, 
+    InstructionList 
+} from '@radixdlt/radix-engine-toolkit';
+
+let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
+let notarizedTransactionIntent: NotarizedTransaction = await NotarizedTransaction.decompile(
+    compiledNotarizedTransaction,
+    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+);
+console.log('Signed Transaction Intent:', notarizedTransactionIntent.toString())
+```
+
+#### Example B
+
+An alternative to the above is calling the `decompileNotarizedTransactionIntent` function on the `RadixEngineToolkit` class. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `decompileNotarizedTransactionIntent` is what takes place.
+
+```ts
+import { 
+    RadixEngineToolkit,
+    NotarizedTransaction, 
+    InstructionList 
+} from '@radixdlt/radix-engine-toolkit';
+
+let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
+let notarizedTransactionIntent: NotarizedTransaction = await RadixEngineToolkit.decompileNotarizedTransactionIntent(
+    compiledNotarizedTransaction,
+    InstructionList.String /* Optional argument, defaults to `String` if not provided */
+);
+console.log('Signed Transaction Intent:', notarizedTransactionIntent.toString())
 ```
