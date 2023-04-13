@@ -20,6 +20,7 @@
     "build:types": "tsc --project tsconfig.types.json --emitDeclarationOnly",
     "format": "prettier --write .",
     "test": "vitest",
+    "ci": "yarn build && vitest run",
     "prep": "yarn run format; yarn run build; yarn run test"
   },
   "devDependencies": {
