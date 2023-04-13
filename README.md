@@ -249,15 +249,15 @@ The `convertManifest` static function on the `RadixEngineToolkit` could also be 
 
 ```ts
 import {
-    RadixEngineToolkit,
-    TransactionManifest
+  RadixEngineToolkit,
+  TransactionManifest
 } from '@radixdlt/radix-engine-toolkit';
 
 let transactionManifest: TransactionManifest = /* Some Transaction Manifest */;
 let convertedManifest = await RadixEngineToolkit.convertManifest(
-    transactionManifest, /* The transaction manifest to convert */
-    InstructionList.Kind.Parsed, /* The instruction format to convert to */
-    0x01 /* The id of the network of the manifest */
+  transactionManifest, /* The transaction manifest to convert */
+  InstructionList.Kind.Parsed, /* The instruction format to convert to */
+  0x01 /* The id of the network of the manifest */
 );
 ```
 
@@ -295,7 +295,7 @@ import { TransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-to
 
 let transactionIntent: TransactionIntent = /* A transaction intent */;
 let compiledTransactionIntent: Uint8Array = await RadixEngineToolkit.compileTransactionIntent(
-    transactionIntent
+  transactionIntent
 );
 ```
 
@@ -323,7 +323,7 @@ import { SignedTransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-eng
 
 let signedTransactionIntent: SignedTransactionIntent = /* A signed transaction intent */;
 let compiledSignedTransactionIntent: Uint8Array = await RadixEngineToolkit.compileSignedTransactionIntent(
-    signedTransactionIntent
+  signedTransactionIntent
 );
 ```
 
@@ -351,7 +351,7 @@ import { NotarizedTransaction, RadixEngineToolkit } from '@radixdlt/radix-engine
 
 let notarizedTransaction: NotarizedTransaction = /* A signed transaction intent */;
 let compiledNotarizedTransaction: Uint8Array = await RadixEngineToolkit.compileNotarizedTransactionIntent(
-    notarizedTransaction
+  notarizedTransaction
 );
 ```
 
@@ -369,22 +369,22 @@ There might be cases when the client is presented with an intent of an unknown k
 
 ```ts
 import {
-    RadixEngineToolkit,
-    TransactionIntent,
-    SignedTransactionIntent,
-    NotarizedTransaction
+  RadixEngineToolkit,
+  TransactionIntent,
+  SignedTransactionIntent,
+  NotarizedTransaction
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledUnknownIntent: Uint8Array = /* Some compiled intent */;
 let decompiledUnknownIntent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
-    compiledUnknownIntent
+  compiledUnknownIntent
 );
 if (decompiledUnknownIntent instanceof TransactionIntent) {
-    console.log('Transaction Intent', decompiledUnknownIntent.toString());
+  console.log('Transaction Intent', decompiledUnknownIntent.toString());
 } else if (decompiledUnknownIntent instanceof SignedTransactionIntent) {
-    console.log('Signed Transaction Intent', decompiledUnknownIntent.toString());
+  console.log('Signed Transaction Intent', decompiledUnknownIntent.toString());
 } else if (decompiledUnknownIntent instanceof NotarizedTransaction) {
-    console.log('Notarized Transaction Intent', decompiledUnknownIntent.toString());
+  console.log('Notarized Transaction Intent', decompiledUnknownIntent.toString());
 }
 ```
 
@@ -398,14 +398,14 @@ The `TransactionIntent` class has a static `decompile` function which can be tho
 
 ```ts
 import {
-    TransactionIntent,
-    InstructionList
+  TransactionIntent,
+  InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
 let transactionIntent: TransactionIntent = await TransactionIntent.decompile(
-    compiledTransactionIntent,
-    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
+  compiledTransactionIntent,
+  InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Transaction Intent:', transactionIntent.toString())
 ```
@@ -416,15 +416,15 @@ An alternative to the above is calling the `decompileTransactionIntent` function
 
 ```ts
 import {
-    RadixEngineToolkit,
-    TransactionIntent,
-    InstructionList
+  RadixEngineToolkit,
+  TransactionIntent,
+  InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
 let transactionIntent: TransactionIntent = await RadixEngineToolkit.decompileTransactionIntent(
-    compiledTransactionIntent,
-    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
+  compiledTransactionIntent,
+  InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Transaction Intent:', transactionIntent.toString())
 ```
@@ -439,14 +439,14 @@ The `SignedTransactionIntent` class has a static `decompile` function which can 
 
 ```ts
 import {
-    SignedTransactionIntent,
-    InstructionList
+  SignedTransactionIntent,
+  InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
 let signedTransactionIntent: SignedTransactionIntent = await SignedTransactionIntent.decompile(
-    compiledSignedTransactionIntent,
-    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
+  compiledSignedTransactionIntent,
+  InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Signed Transaction Intent:', signedTransactionIntent.toString())
 ```
@@ -457,15 +457,15 @@ An alternative to the above is calling the `decompileSignedTransactionIntent` fu
 
 ```ts
 import {
-    RadixEngineToolkit,
-    SignedTransactionIntent,
-    InstructionList
+  RadixEngineToolkit,
+  SignedTransactionIntent,
+  InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
 let signedTransactionIntent: SignedTransactionIntent = await RadixEngineToolkit.decompileSignedTransactionIntent(
-    compiledSignedTransactionIntent,
-    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
+  compiledSignedTransactionIntent,
+  InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Signed Transaction Intent:', signedTransactionIntent.toString())
 ```
@@ -480,14 +480,14 @@ The `NotarizedTransaction` class has a static `decompile` function which can be 
 
 ```ts
 import {
-    NotarizedTransaction,
-    InstructionList
+  NotarizedTransaction,
+  InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
 let notarizedTransactionIntent: NotarizedTransaction = await NotarizedTransaction.decompile(
-    compiledNotarizedTransaction,
-    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
+  compiledNotarizedTransaction,
+  InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Signed Transaction Intent:', notarizedTransactionIntent.toString())
 ```
@@ -498,15 +498,15 @@ An alternative to the above is calling the `decompileNotarizedTransactionIntent`
 
 ```ts
 import {
-    RadixEngineToolkit,
-    NotarizedTransaction,
-    InstructionList
+  RadixEngineToolkit,
+  NotarizedTransaction,
+  InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
 let notarizedTransactionIntent: NotarizedTransaction = await RadixEngineToolkit.decompileNotarizedTransactionIntent(
-    compiledNotarizedTransaction,
-    InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
+  compiledNotarizedTransaction,
+  InstructionList.Kind.String /* Optional argument, defaults to `String` if not provided */
 );
 console.log('Notarized Transaction Intent:', notarizedTransactionIntent.toString())
 ```
@@ -533,17 +533,17 @@ The `NotarizedTransaction` class has a method for running static analysis on the
 
 ```ts
 import {
-    NotarizedTransaction,
-    ValidationConfig,
+  NotarizedTransaction,
+  ValidationConfig,
 } from '@radixdlt/radix-engine-toolkit';
 
 let networkId: number = 0x01; /* The network id of mainnet */ 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
 let transactionValidity = await notarizedTransaction(ValidationConfig.default(networkId));
 if (transactionValidity.isValid) {
-    console.log("The transaction is valid")
+  console.log("The transaction is valid")
 } else {
-    console.log("The transaction is invalid:", transactionValidity.errorMessage)
+  console.log("The transaction is invalid:", transactionValidity.errorMessage)
 }
 ```
 
@@ -553,21 +553,21 @@ The same operation can be performed through the `RadixEngineToolkit` class and t
 
 ```ts
 import {
-    NotarizedTransaction,
-    ValidationConfig,
-    RadixEngineToolkit
+  NotarizedTransaction,
+  ValidationConfig,
+  RadixEngineToolkit
 } from '@radixdlt/radix-engine-toolkit';
 
 let networkId: number = 0x01; /* The network id of mainnet */ 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
 let transactionValidity = await RadixEngineToolkit.staticallyValidateTransaction(
-    notarizedTransaction,
-    ValidationConfig.default(networkId)
+  notarizedTransaction,
+  ValidationConfig.default(networkId)
 );
 if (transactionValidity.isValid) {
-    console.log("The transaction is valid")
+  console.log("The transaction is valid")
 } else {
-    console.log("The transaction is invalid:", transactionValidity.errorMessage)
+  console.log("The transaction is invalid:", transactionValidity.errorMessage)
 }
 ```
 
@@ -581,9 +581,9 @@ To SBOR encode an instance of `ScryptoSborValue.Value` or `ManifestSborValue.Val
 
 ```ts
 import {
-    ScryptoSborValue,
-    ManifestSborValue,
-    RadixEngineToolkit
+  ScryptoSborValue,
+  ManifestSborValue,
+  RadixEngineToolkit
 } from '@radixdlt/radix-engine-toolkit';
 
 let value = ScryptoSborValue.Value | ManifestSborValue.Value = /* Some SBOR Value */;
@@ -598,15 +598,144 @@ When performing SBOR decoding, one of the required arguments is a network id. Th
 
 ```ts
 import {
-    SborValue,
-    RadixEngineToolkit
+  SborValue,
+  RadixEngineToolkit
 } from '@radixdlt/radix-engine-toolkit';
 
 let encodedValue: Uint8Array = /* Some SBOR Encoded Value */;
 let value: SborValue.Value = await RadixEngineToolkit.sborDecode(
-    encodedValue, /* The SBOR Encoded value */
-    0x01 /* The network id */
+  encodedValue, /* The SBOR Encoded value */
+  0x01 /* The network id */
 );
+console.log(value.toString());
+```
+
+## Address Derivations
+
+The Radix Engine Toolkit exposes a number of address derivation functions that can be useful to a wide variety of clients. This section discussed these address derivation functions and provides examples as to how they can be done.
+
+In general, all of the address derivations can be done in two main ways:
+1. By calling the appropriate function on the `RadixEngineToolkit` class which performs the derivation and returns a string.
+2. By calling the appropriate function on one of the address types to perform the derivation and create a new instance of that address type. This is the case for the following address types: `ManifestAstValue.Address`, `ManifestSborValue.Address`, `ScryptoSborValue.Address`, and `EntityAddress`.
+
+### Deriving Virtual Account Addresses from Public Keys
+
+The Radix Engine Toolkit allows for virtual account component addresses to be derived from Ecdsa Secp256k1 and EdDSA Ed25519 public keys. This derivation process follows a deterministic process where each public key maps to exactly one virtual account address.
+
+#### Example A
+
+The various address types implemented in the Radix Engine Toolkit have a `virtualAccountAddress` method which performs this derivation and creates a new object of that class. 
+
+```ts
+import {
+  ManifestAstValue,
+  PublicKey
+} from '@radixdlt/radix-engine-toolkit';
+
+let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
+let virtualAccountAddress = await ManifestAstValue.Address.virtualAccountAddress(
+  publicKey,
+  0x01, /* The ID of the network to derive the address for. */
+);
+console.log(virtualAccountAddress.toString())
+```
+
+#### Example B
+
+Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings. 
+
+```ts
+import {
+  RadixEngineToolkit,
+  PublicKey
+} from '@radixdlt/radix-engine-toolkit';
+
+let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
+let address: string = await RadixEngineToolkit.deriveVirtualAccountAddress(
+  publicKey,
+  0x01, /* The ID of the network to derive the address for. */
+);
+console.log(address);
+```
+
+### Deriving Virtual Identity Addresses from Public Keys
+
+The Radix Engine Toolkit allows for virtual identity component addresses to be derived from Ecdsa Secp256k1 and EdDSA Ed25519 public keys. This derivation process follows a deterministic process where each public key maps to exactly one virtual identity address.
+
+#### Example A
+
+The various address types implemented in the Radix Engine Toolkit have a `virtualIdentityAddress` method which performs this derivation and creates a new object of that class. 
+
+```ts
+import {
+  ManifestAstValue,
+  PublicKey
+} from '@radixdlt/radix-engine-toolkit';
+
+let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
+let virtualIdentityAddress = await ManifestAstValue.Address.virtualIdentityAddress(
+  publicKey,
+  0x01, /* The ID of the network to derive the address for. */
+);
+console.log(virtualIdentityAddress.toString())
+```
+
+#### Example B
+
+Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings. 
+
+```ts
+import {
+  RadixEngineToolkit,
+  PublicKey
+} from '@radixdlt/radix-engine-toolkit';
+
+let publicKey = new PublicKey.EcdsaSecp256k1("03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e");
+let address: string = await RadixEngineToolkit.deriveVirtualIdentityAddress(
+  publicKey,
+  0x01, /* The ID of the network to derive the address for. */
+);
+console.log(address);
+```
+
+### Deriving Babylon Account Addresses from Olympia Account Addresses
+
+The Radix Engine Toolkit is able to perform the deterministic mapping to convert Olympia account addresses to their respective Babylon Account addresses. 
+
+#### Example A
+
+The various address types implemented in the Radix Engine Toolkit have a `fromOlympiaAccountAddress` method which performs this derivation and creates a new object of that class. 
+
+```ts
+import {
+  ManifestAstValue,
+  PublicKey
+} from '@radixdlt/radix-engine-toolkit';
+
+let olympiaAccountAddress: string = "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
+let virtualIdentityAddress = await ManifestAstValue.Address.fromOlympiaAccountAddress(
+  olympiaAccountAddress,
+  0x01, /* The ID of the network to derive the address for. */
+);
+console.log(virtualIdentityAddress.toString())
+```
+
+#### Example B
+
+Address derivations can be performed through the `RadixEngineToolkit` class which performs the derivation and returns the addresses as strings. 
+
+```ts
+import {
+  RadixEngineToolkit,
+  PublicKey
+} from '@radixdlt/radix-engine-toolkit';
+
+let olympiaAccountAddress: string = "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
+let { babylonAccountAddress, publicKey } = await RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress.fromOlympiaAccountAddress(
+  olympiaAccountAddress,
+  0x01, /* The ID of the network to derive the address for. */
+);
+console.log(virtualIdentityAddress)
 ```
 
 # Frequently Asked Questions
