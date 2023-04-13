@@ -7,23 +7,23 @@
 
 # About
 
-This library brings the same support offered to Rust for transaction construction and validation, transaction decompilation, manifest parsing, **S**crypto **B**inary **O**bject **R**epresentation (SBOR) encoding and decoding, address derivations, and more to TypeScript and JavaScript through a [Rust backend](https://www.github.com/radixdlt/radix-engine-toolkit) that powers it all. The following is a list of the features offered by this library:
+This library brings the same support offered to Rust for transaction construction, validation, and decompilation, manifest parsing, **S**crypto **B**inary **O**bject **R**epresentation (SBOR) encoding and decoding, address derivations, and more to TypeScript and JavaScript through a [Rust backend](https://www.github.com/radixdlt/radix-engine-toolkit) that powers it all. The following is a list of the features offered by this library:
 
-* Offline transaction construction and transaction manifest construction.
-* Cryptographic primitives for signing and notarizing transactions.
-* Static (offline) transaction validation
-* The ability to convert manifests into their Abstract Syntax Tree (AST) representation which allows for them to be inspected and analyzed.
-* Full support for all flavors of SBOR allowing clients to perform SBOR encoding and decoding.
-* The ability to perform deterministic mapping of public keys to virtual account addresses, virtual component addresses, and Olympia account addresses. 
-* All of the needed features to build a complete programmatic wallet as evident by the iOS and Android wallet which utilize Radix Engine Toolkit wrappers in their respective languages.
+- Offline transaction construction and transaction manifest construction.
+- Cryptographic primitives for signing and notarizing transactions.
+- Static (offline) transaction validation.
+- The ability to convert manifests into their Abstract Syntax Tree (AST) representation and back to their string representation.
+- Full support for all flavors of SBOR allowing clients to perform SBOR encoding and decoding.
+- The ability to perform deterministic mapping of public keys to virtual account addresses, virtual component addresses, and Olympia account addresses. In addition to the ability to perform the deterministic mapping from Olympia account addresses to Babylon account addresses
+- All of the needed features to build a complete programmatic wallet as evident by the iOS and Android wallet which utilize Radix Engine Toolkit wrappers in their respective languages.
 
 # Functionality
 
-This section discusses the raw functionality offered by the TypeScript Radix Engine Toolkit and provides examples for how they can be achieved in code. 
+This section discusses the raw functionality offered by the TypeScript Radix Engine Toolkit and provides examples for how they can be achieved in code.
 
 ## Convert Manifest
 
-The most common format for transaction manifests is the string format seen in Radix Transaction Manifest `.rtm` files and in other places as well. However, there does exist another format for representing manifests: the `Parsed` format. 
+The most common format for transaction manifests is the string format seen in Radix Transaction Manifest `.rtm` files and in other places as well. However, there does exist another format for representing manifests: the `Parsed` format.
 
 While the `String` format of manifests focuses heavily on being easily human-readable with some focus on ease of parsing and lexing, the `Parsed` format focuses more heavily on being very machine-readable where it should be relatively easy for machines to understand, process, and work with the `Parsed` format. The `Parsed` format is a JSON format for the instructions of transaction manifests that represents instructions as an Abstract Syntax Tree (AST).
 
@@ -221,17 +221,17 @@ CALL_METHOD
 
 When converting the instructions of a `TransactionManifest` from one format to another, there are typically two main arguments required:
 
-1. The format of the instructions to receive back, this is provided as an `InstructionList.Kind` which can either be `String` or `Parsed`. 
+1. The format of the instructions to receive back, this is provided as an `InstructionList.Kind` which can either be `String` or `Parsed`.
 2. The id of the network that the manifest is meant for. This is used in two main ways:
-    - Validating that the addresses present in the manifest belong to the specified network.
-    - Bech32m encoding the addresses during the conversion process.
+   - Validating that the addresses present in the manifest belong to the specified network.
+   - Bech32m encoding the addresses during the conversion process.
 
 ### Example A
 
-`TransactionManifest` objects have a `convert` method which converts the instructions in the transaction manifest from one instruction format to another. 
+`TransactionManifest` objects have a `convert` method which converts the instructions in the transaction manifest from one instruction format to another.
 
 ```ts
-import { 
+import {
     TransactionManifest,
     InstructionList
 } from '@radixdlt/radix-engine-toolkit';
@@ -243,12 +243,12 @@ let convertedManifest: TransactionManifest = await transactionManifest.convert(
 );
 ```
 
-### Example B 
+### Example B
 
 The `convertManifest` static function on the `RadixEngineToolkit` could also be used here to perform the same conversion
 
 ```ts
-import { 
+import {
     RadixEngineToolkit,
     TransactionManifest
 } from '@radixdlt/radix-engine-toolkit';
@@ -258,13 +258,12 @@ let convertedManifest = await RadixEngineToolkit.convertManifest(
     transactionManifest, /* The transaction manifest to convert */
     InstructionList.Kind.Parsed, /* The instruction format to convert to */
     0x01 /* The id of the network of the manifest */
-)
+);
 ```
-
 
 ## Transaction Compilation
 
-The TypeScript Radix Engine Toolkit allows for transaction intents of various kinds to be compiled. The compilation of transaction intents is an essential part of transaction construction since what is signed is the hash of the compiled intents and not the human readable intents. The need to compile intents is abstracted away by the `TransactionBuilder` and the `ActionTransactionBuilder` classes (discussed elsewhere in this document) which allows clients to construct transactions without the need to understand or worry about the internals of how it is done. 
+The TypeScript Radix Engine Toolkit allows for transaction intents of various kinds to be compiled. The compilation of transaction intents is an essential part of transaction construction since what is signed is the hash of the compiled intents and not the human readable intents. The need to compile intents is abstracted away by the `TransactionBuilder` and the `ActionTransactionBuilder` classes (discussed elsewhere in this document) which allows clients to construct transactions without the need to understand or worry about the internals of how it is done.
 
 There are three main transaction intent types and the Radix Engine Toolkit allows for the compilation (and decompilation as well) of all three of the transaction intent types, the intent types are:
 
@@ -274,7 +273,7 @@ There are three main transaction intent types and the Radix Engine Toolkit allow
 
 ### Compiling `TransactionIntent`s
 
-Given a `TransactionIntent` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes. 
+Given a `TransactionIntent` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes.
 
 #### Example A
 
@@ -302,7 +301,7 @@ let compiledTransactionIntent: Uint8Array = await RadixEngineToolkit.compileTran
 
 ### Compiling `SignedTransactionIntent`s
 
-Given a `SignedTransactionIntent` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes. 
+Given a `SignedTransactionIntent` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes.
 
 #### Example A
 
@@ -330,7 +329,7 @@ let compiledSignedTransactionIntent: Uint8Array = await RadixEngineToolkit.compi
 
 ### Compiling `NotarizedTransaction`s
 
-Given a `NotarizedTransaction` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes. 
+Given a `NotarizedTransaction` object, the `RadixEngineToolkit` class can be used to compile the it down to a byte array of SBOR bytes.
 
 #### Example A
 
@@ -358,19 +357,19 @@ let compiledNotarizedTransaction: Uint8Array = await RadixEngineToolkit.compileN
 
 ## Transaction Decompilation
 
-The TypeScript Radix Engine Toolkit is capable of decompiling transaction intents from their SBOR byte array format to a human-readable/machine-readable format that's easy to understand, read, and parse. This is useful when verifying transactions before signing them to ensure that they contain the intent that was communicated. 
+The TypeScript Radix Engine Toolkit is capable of decompiling transaction intents from their SBOR byte array format to a human-readable/machine-readable format that's easy to understand, read, and parse. This is useful when verifying transactions before signing them to ensure that they contain the intent that was communicated.
 
 Similar to compilation, the Radix Engine Toolkit is able to decompile all three transaction intent types: (Unsigned) Transaction intents, signed transaction intents, and notarized transaction intents.
 
-During decompilation, the client is free to choose the format of the output manifest instructions which can either be `String` or `Parsed`. The `String` format is the most common format and is the one seen in the `.rtm` files, in the radixdlt-scrypto repository, and almost everywhere. The `Parsed` format is a less common format but one which a number of programmatic clients heavily rely on which represents manifests as an AST of the various tokens in the tree. 
+During decompilation, the client is free to choose the format of the output manifest instructions which can either be `String` or `Parsed`. The `String` format is the most common format and is the one seen in the `.rtm` files, in the radixdlt-scrypto repository, and almost everywhere. The `Parsed` format is a less common format but one which a number of programmatic clients heavily rely on which represents manifests as an AST of the various tokens in the tree.
 
 ### Decompiling Unknown Intents
 
-There might be cases when the client is presented with an intent of an unknown kind and wishes to decompile said intent; as in, it is unknown whether this is an unsigned transaction intent, signed transaction intent, or a notarized transaction intent. While it's certainly possible for the client to try all of the different possibilities to figure it out, the core toolkit offers a function that determines the type of the intent and decompiles it accordingly.  
+There might be cases when the client is presented with an intent of an unknown kind and wishes to decompile said intent; as in, it is unknown whether this is an unsigned transaction intent, signed transaction intent, or a notarized transaction intent. While it's certainly possible for the client to try all of the different possibilities to figure it out, the core toolkit offers a function that determines the type of the intent and decompiles it accordingly.
 
 ```ts
-import { 
-    RadixEngineToolkit, 
+import {
+    RadixEngineToolkit,
     TransactionIntent,
     SignedTransactionIntent,
     NotarizedTransaction
@@ -398,9 +397,9 @@ Given a byte array (`Uint8Array`) which is known to be a compiled `TransactionIn
 The `TransactionIntent` class has a static `decompile` function which can be thought of as a constructor for the class that's capable of creating objects of the class given a compiled transaction intent and an optional format of the instructions.
 
 ```ts
-import { 
-    TransactionIntent, 
-    InstructionList 
+import {
+    TransactionIntent,
+    InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
@@ -416,10 +415,10 @@ console.log('Transaction Intent:', transactionIntent.toString())
 An alternative to the above is calling the `decompileTransactionIntent` function on the `RadixEngineToolkit` class. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `decompileTransactionIntent` is what takes place.
 
 ```ts
-import { 
+import {
     RadixEngineToolkit,
-    TransactionIntent, 
-    InstructionList 
+    TransactionIntent,
+    InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
@@ -439,9 +438,9 @@ Given a byte array (`Uint8Array`) which is known to be a compiled `SignedTransac
 The `SignedTransactionIntent` class has a static `decompile` function which can be thought of as a constructor for the class that's capable of creating objects of the class given a compiled transaction intent and an optional format of the instructions.
 
 ```ts
-import { 
-    SignedTransactionIntent, 
-    InstructionList 
+import {
+    SignedTransactionIntent,
+    InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
@@ -457,10 +456,10 @@ console.log('Signed Transaction Intent:', signedTransactionIntent.toString())
 An alternative to the above is calling the `decompileSignedTransactionIntent` function on the `RadixEngineToolkit` class. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `decompileSignedTransactionIntent` is what takes place.
 
 ```ts
-import { 
+import {
     RadixEngineToolkit,
-    SignedTransactionIntent, 
-    InstructionList 
+    SignedTransactionIntent,
+    InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
@@ -480,9 +479,9 @@ Given a byte array (`Uint8Array`) which is known to be a compiled `NotarizedTran
 The `NotarizedTransaction` class has a static `decompile` function which can be thought of as a constructor for the class that's capable of creating objects of the class given a compiled transaction intent and an optional format of the instructions.
 
 ```ts
-import { 
-    NotarizedTransaction, 
-    InstructionList 
+import {
+    NotarizedTransaction,
+    InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
@@ -498,10 +497,10 @@ console.log('Signed Transaction Intent:', notarizedTransactionIntent.toString())
 An alternative to the above is calling the `decompileNotarizedTransactionIntent` function on the `RadixEngineToolkit` class. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `decompileNotarizedTransactionIntent` is what takes place.
 
 ```ts
-import { 
+import {
     RadixEngineToolkit,
-    NotarizedTransaction, 
-    InstructionList 
+    NotarizedTransaction,
+    InstructionList
 } from '@radixdlt/radix-engine-toolkit';
 
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
@@ -511,3 +510,85 @@ let notarizedTransactionIntent: NotarizedTransaction = await RadixEngineToolkit.
 );
 console.log('Notarized Transaction Intent:', notarizedTransactionIntent.toString())
 ```
+
+## Static Transaction Validation
+
+The Radix Engine Toolkit offers the means for clients to perform static validation on their transactions to determine their (static) validity prior to submission to the network. To be more exact, the following are the checks performed by the Radix Engine Toolkit:
+
+1. Validates that the compiled notarized intent passed is of a valid SBOR encoding.
+2. Validates that the signature of the notary matches matches that expected given the public key provided in the header and a message of the signed transaction intent.
+3. Validates all of the provided intent signatures are correct.
+4. Performs ID Validation on the transaction manifest. This step ensures that none of the manifest buckets are used twice, used after dropped and other errors pertaining to manifest semantics.
+5. Validates that the tip percentage specified in the transaction header is within the allowed limits.
+6. Validates that the cost unit limit specified in the header is within the allowed limits.
+7. Validates that the epoch window (the difference between the start and end epoch from the header) is within the allowed limits.
+8. Validates that the id of the network specified in the header matches that which is expected.
+9. Validates that the version id in the header is valid.
+
+When performing static validation, configuration for the validator should be passed in as an argument to the validator.
+
+### Example A
+
+The `NotarizedTransaction` class has a method for running static analysis on the notarized transaction given some validation configuration.
+
+```ts
+import {
+    NotarizedTransaction,
+    ValidationConfig,
+} from '@radixdlt/radix-engine-toolkit';
+
+let networkId: number = 0x01; /* The network id of mainnet */ 
+let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
+let transactionValidity = await notarizedTransaction(ValidationConfig.default(networkId));
+if (transactionValidity.isValid) {
+    console.log("The transaction is valid")
+} else {
+    console.log("The transaction is invalid:", transactionValidity.errorMessage)
+}
+```
+
+### Example B
+
+The same operation can be performed through the `RadixEngineToolkit` class and the `staticallyValidateTransaction` static function.
+
+```ts
+import {
+    NotarizedTransaction,
+    ValidationConfig,
+    RadixEngineToolkit
+} from '@radixdlt/radix-engine-toolkit';
+
+let networkId: number = 0x01; /* The network id of mainnet */ 
+let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
+let transactionValidity = await RadixEngineToolkit.staticallyValidateTransaction(
+    notarizedTransaction,
+    ValidationConfig.default(networkId)
+);
+if (transactionValidity.isValid) {
+    console.log("The transaction is valid")
+} else {
+    console.log("The transaction is invalid:", transactionValidity.errorMessage)
+}
+```
+
+# Frequently Asked Questions
+
+<details>
+    <summary>How to obtain the transaction id (transaction hash) of a transaction?</summary>
+    
+Objects of the `TransactionIntent`, `SignedTransactionIntent`, and `NotarizedTransaction` classes offer methods for calculating the transaction id (transaction hash). Given that you have any of the above mentioned objects, the transaction id can be obtained as follows:
+
+```ts
+import { 
+    TransactionIntent,
+    SignedTransactionIntent,
+    NotarizedTransaction 
+} from '@radixdlt/radix-engine-toolkit';
+
+let intent: TransactionIntent | SignedTransactionIntent | NotarizedTransaction = /* Some kind of intent */;
+let transactionId: Uint8Array = intent.transactionId();
+```
+
+In addition to the `transactionId` method, some of these classes also offer methods for calculating the notarized transaction hash (often times referred to as payload hash in the Gateway API) and the signed transaction intent hash. However, these hashes are rarely needed in day-to-day interactions with the network.
+
+</details>
