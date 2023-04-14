@@ -4,8 +4,9 @@
     <strong>A TypeScript wrapper for the Radix Engine Toolkit that provides many necessary tools to interact with the Radix ledger</strong>
   </p>
 
-  [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-  [![License](https://img.shields.io/badge/Scrypto%20Compatibility-v0.9.0-blue)](https://github.com/radixdlt/radixdlt-scrypto/tree/v0.9.0)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/Scrypto%20Compatibility-v0.9.0-blue)](https://github.com/radixdlt/radixdlt-scrypto/tree/v0.9.0)
+
 </div>
 
 # About
@@ -22,7 +23,7 @@ This library brings the same support offered to Rust for transaction constructio
 
 # Architecture
 
-The TypeScript Radix Engine Toolkit library is powered by the [Core Radix Engine Toolkit](https://github.com/radixdlt/radix-engine-toolkit/): a library written entirely in Rust that can be compiled to WebAssembly modules, native libraries, and other targets supported by the Rust compiler. The Core Radix Engine Toolkit contains all of the core functionality, while this TypeScript library is simply a wrapper around the core Radix Engine Toolkit that is able to make invocations to it and interprets its responses. 
+The TypeScript Radix Engine Toolkit library is powered by the [Core Radix Engine Toolkit](https://github.com/radixdlt/radix-engine-toolkit/): a library written entirely in Rust that can be compiled to WebAssembly modules, native libraries, and other targets supported by the Rust compiler. The Core Radix Engine Toolkit contains all of the core functionality, while this TypeScript library is simply a wrapper around the core Radix Engine Toolkit that is able to make invocations to it and interprets its responses.
 
 This TypeScript wrapper around the Radix Engine Toolkit uses the WebAssembly as the method of interoperability between the Rust code and TypeScript. More specifically, this wrapper acts as a WebAssembly host that invokes the core Radix Engine Toolkit and interprets its responses. In addition to that, this wrapper builds higher level abstractions above the concept of WebAssembly function invocation and build an idiomatic TypeScript API which translates down to Radix Engine Toolkit WebAssembly function invocations without the need to deal in raw requests and responses.
 
@@ -30,17 +31,17 @@ Since the core functionality of this library is included in the compiled WebAsse
 
 There are three main classes that act as the entrypoint into the Radix Engine Toolkit. The following table talks about these classes.
 
-| Class Name | Functionality | 
-| ------ | ------ |
-| `RawRadixEngineToolkit` | The main wrapper and WASM host around the Radix Engine Toolkit, this class abstracts the complexity of performing WASM invocation down to a single simple `invoke` function that can be called with a function pointer, some arguments for the function, and the type of the return. This class is not very user friendly to use since it deals in the raw request and response objects required by the core Radix Engine Toolkit. Thus, you will almost never find yourself using this class except in very niche cases. |
-| `RadixEngineToolkit` | The main developer facing class that is used to invoke the core Radix Engine Toolkit. The interface of the functions defined on this class does not use the request and response objects. Instead, it provides a more idiomatic TypeScript/JavaScript interface that is familiar to developers and that is easy to use. Under the hood, the functions exposed in this class translate down to core Radix Engine Toolkit requests and are then forwarded to the appropriate functions on the `RawRadixEngineToolkit` class. This is the class that you will most likely use very often. | 
+| Class Name              | Functionality                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RawRadixEngineToolkit` | The main wrapper and WASM host around the Radix Engine Toolkit, this class abstracts the complexity of performing WASM invocation down to a single simple `invoke` function that can be called with a function pointer, some arguments for the function, and the type of the return. This class is not very user friendly to use since it deals in the raw request and response objects required by the core Radix Engine Toolkit. Thus, you will almost never find yourself using this class except in very niche cases.                                                                    |
+| `RadixEngineToolkit`    | The main developer facing class that is used to invoke the core Radix Engine Toolkit. The interface of the functions defined on this class does not use the request and response objects. Instead, it provides a more idiomatic TypeScript/JavaScript interface that is familiar to developers and that is easy to use. Under the hood, the functions exposed in this class translate down to core Radix Engine Toolkit requests and are then forwarded to the appropriate functions on the `RawRadixEngineToolkit` class. This is the class that you will most likely use very often.       |
 | `LTSRadixEngineToolkit` | A thin wrapper around the `RadixEngineToolkit` class that exposes an API that will have very little breaking changes from now until mainnet. The `LTSRadixEngineToolkit` class is not meant to provide all of the functionality of the toolkit; quite the opposite: it's meant to provide little functionality with well defined simpler interfaces that won't change that integrators can use. However, it is very likely that some clients might quickly "outgrow" this class and it's simple interfaces. Clients who encounter that are recommended to use the `RadixEngineToolkit` class |
 
 The following is a summary of the above table:
 
-* Do not use the `RawRadixEngineToolkit` class as this is a class meant for the internal usage of the Radix Engine Toolkit and has no guarantees whatsoever on backward compatibility.
-* If you are a developer using this library, you want to use the `RadixEngineToolkit` class.
-* If you are an integrator who cares about having an interface with little changes and wish higher backward compatibility guarantees, then use `LTSRadixEngineToolkit`.
+- Do not use the `RawRadixEngineToolkit` class as this is a class meant for the internal usage of the Radix Engine Toolkit and has no guarantees whatsoever on backward compatibility.
+- If you are a developer using this library, you want to use the `RadixEngineToolkit` class.
+- If you are an integrator who cares about having an interface with little changes and wish higher backward compatibility guarantees, then use `LTSRadixEngineToolkit`.
 
 # Installation
 
