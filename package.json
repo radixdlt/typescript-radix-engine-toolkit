@@ -11,6 +11,12 @@
       "require": "./dist/index.umd.js"
     }
   },
+  "homepage": "https://github.com/radixdlt/typescript-radix-engine-toolkit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radixdlt/typescript-radix-engine-toolkit"
+  },
+  "bugs": "https://github.com/radixdlt/typescript-radix-engine-toolkit/issues",
   "files": [
     "dist"
   ],
@@ -47,5 +53,8 @@
     "reflect-metadata": "^0.1.13",
     "secp256k1": "^5.0.0",
     "secure-random": "^1.1.2"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   }
 }
