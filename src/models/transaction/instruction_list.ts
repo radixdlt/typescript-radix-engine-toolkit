@@ -151,7 +151,11 @@ export class StringInstructions extends InstructionList {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -166,6 +170,10 @@ export class ParsedInstructions extends InstructionList {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }

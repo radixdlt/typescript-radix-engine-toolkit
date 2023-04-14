@@ -48,7 +48,11 @@ export class DecompileUnknownTransactionIntentRequest {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -89,6 +93,10 @@ export class DecompileUnknownTransactionIntentResponse {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }

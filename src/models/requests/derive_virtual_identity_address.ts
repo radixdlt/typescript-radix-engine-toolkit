@@ -46,7 +46,11 @@ export class DeriveVirtualIdentityAddressRequest {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -60,6 +64,10 @@ export class DeriveVirtualIdentityAddressResponse {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }

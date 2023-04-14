@@ -87,7 +87,11 @@ export class Bool extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -105,7 +109,11 @@ export class U8 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -123,7 +131,11 @@ export class U16 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -141,7 +153,11 @@ export class U32 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -159,7 +175,11 @@ export class U64 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -177,7 +197,11 @@ export class U128 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -195,7 +219,11 @@ export class I8 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -213,7 +241,11 @@ export class I16 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -231,7 +263,11 @@ export class I32 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -249,7 +285,11 @@ export class I64 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -267,7 +307,11 @@ export class I128 extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -281,7 +325,11 @@ export class String extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -303,7 +351,11 @@ export class EnumStringDiscriminator extends EnumDiscriminator {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -321,7 +373,11 @@ export class EnumU8Discriminator extends EnumDiscriminator {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -360,7 +416,11 @@ export class Enum extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -383,7 +443,11 @@ export class Some extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -393,7 +457,11 @@ export class None extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -416,7 +484,11 @@ export class Ok extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -439,7 +511,11 @@ export class Err extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -470,7 +546,11 @@ export class Array extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -514,7 +594,11 @@ export class Map extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -541,7 +625,11 @@ export class Tuple extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -570,7 +658,11 @@ export class Decimal extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -599,7 +691,11 @@ export class PreciseDecimal extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -747,7 +843,11 @@ export class Address extends Value implements IAddress {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -776,7 +876,11 @@ export class Bucket extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -805,7 +909,11 @@ export class Proof extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -827,7 +935,11 @@ export class Expression extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -847,7 +959,11 @@ export class Integer {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -867,7 +983,11 @@ export class UUID {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -886,7 +1006,11 @@ export class Blob extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -905,7 +1029,11 @@ export class Bytes extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -931,7 +1059,11 @@ export class NonFungibleLocalId extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -954,7 +1086,11 @@ export class NonFungibleGlobalId extends Value {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 

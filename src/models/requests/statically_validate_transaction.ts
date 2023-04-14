@@ -90,7 +90,11 @@ export class ValidationConfig {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -118,7 +122,11 @@ export class StaticallyValidateTransactionRequest {
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -136,7 +144,11 @@ export class StaticallyValidateTransactionResponseValid extends StaticallyValida
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }
 
@@ -150,6 +162,10 @@ export class StaticallyValidateTransactionResponseInvalid extends StaticallyVali
   }
 
   toString(): string {
-    return JSON.stringify(instanceToPlain(this));
+    return JSON.stringify(this.serialize());
+  }
+
+  serialize(): Record<string, any> {
+    return instanceToPlain(this);
   }
 }

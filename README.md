@@ -9,7 +9,6 @@
 
 </div>
 
-
 # About
 
 This library brings the same support offered to Rust for transaction construction, validation, and decompilation, manifest parsing, **S**crypto **B**inary **O**bject **R**epresentation (SBOR) encoding and decoding, address derivations, and more to TypeScript and JavaScript through a [Rust backend](https://www.github.com/radixdlt/radix-engine-toolkit) that powers it all. The following is a list of the features offered by this library:
@@ -32,11 +31,11 @@ Since the core functionality of this library is included in the compiled Web-Ass
 
 There are three main classes that act as entry points into the Radix Engine Toolkit. The following table talks about these classes.
 
-| Class Name              | Functionality                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RawRadixEngineToolkit` | The main wrapper and WASM host around the Radix Engine Toolkit, this class abstracts the complexity of performing WASM invocation down to a single simple `invoke` function that can be called with a function pointer, some arguments for the function, and the type of the return. This class is not very user friendly to use since it deals in the raw request and response objects required by the core Radix Engine Toolkit. Thus, you will almost never find yourself using this class except in very niche cases.                                                                    |
-| `RadixEngineToolkit`    | The main developer facing class that is used to invoke the core Radix Engine Toolkit. The interface of the functions defined on this class does not use the request and response objects. Instead, it provides a more idiomatic TypeScript/JavaScript interface that is familiar to developers and that is easy to use. Under the hood, the functions exposed in this class translate down to core Radix Engine Toolkit requests and are then forwarded to the appropriate functions on the `RawRadixEngineToolkit` class. This is the class that you will most likely use very often.       |
-| `LTSRadixEngineToolkit` | A thin wrapper around the `RadixEngineToolkit` class that exposes an API that will has much higher backward compatibility guarantees. The `LTSRadixEngineToolkit` class is not meant to provide all of the functionality of the toolkit; quite the opposite: it's meant to provide little functionality with well defined simpler interfaces that won't change that integrators can use. However, it is very likely that some clients might quickly "outgrow" this class and it's simple interfaces. Clients who encounter that are recommended to use the `RadixEngineToolkit` class |
+| Class Name              | Functionality                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RawRadixEngineToolkit` | The main wrapper and WASM host around the Radix Engine Toolkit, this class abstracts the complexity of performing WASM invocation down to a single simple `invoke` function that can be called with a function pointer, some arguments for the function, and the type of the return. This class is not very user friendly to use since it deals in the raw request and response objects required by the core Radix Engine Toolkit. Thus, you will almost never find yourself using this class except in very niche cases.                                                              |
+| `RadixEngineToolkit`    | The main developer facing class that is used to invoke the core Radix Engine Toolkit. The interface of the functions defined on this class does not use the request and response objects. Instead, it provides a more idiomatic TypeScript/JavaScript interface that is familiar to developers and that is easy to use. Under the hood, the functions exposed in this class translate down to core Radix Engine Toolkit requests and are then forwarded to the appropriate functions on the `RawRadixEngineToolkit` class. This is the class that you will most likely use very often. |
+| `LTSRadixEngineToolkit` | A thin wrapper around the `RadixEngineToolkit` class that exposes an API that will has much higher backward compatibility guarantees. The `LTSRadixEngineToolkit` class is not meant to provide all of the functionality of the toolkit; quite the opposite: it's meant to provide little functionality with well defined simpler interfaces that won't change that integrators can use. However, it is very likely that some clients might quickly "outgrow" this class and it's simple interfaces. Clients who encounter that are recommended to use the `RadixEngineToolkit` class  |
 
 The following is a summary of the above table:
 
@@ -331,6 +330,7 @@ CALL_METHOD
     "deposit_batch"
     Expression("ENTIRE_WORKTOP");
 ```
+
 </details>
 
 <details>
@@ -481,6 +481,7 @@ CALL_METHOD
   }
 ]
 ```
+
 </details>
 
 When converting the instructions of a `TransactionManifest` from one format to another, there are typically two main arguments required:
@@ -1080,11 +1081,12 @@ console.log(knownAddresses);
 
 # Longterm Support (LTS) Radix Engine Toolkit
 
-So far, this document has only talked about the `RadixEngineToolkit` class. However, another class for interacting with the core Radix Engine Toolkit does exist and was discussed in the architecture section: the `LTSRadixEngineToolkit`. This class is meant to provide a smaller interface with a higher degree of backward compatability that is suitable for third parties hoping to integrate with the Radix Babylon ledger. 
+So far, this document has only talked about the `RadixEngineToolkit` class. However, another class for interacting with the core Radix Engine Toolkit does exist and was discussed in the architecture section: the `LTSRadixEngineToolkit`. This class is meant to provide a smaller interface with a higher degree of backward compatability that is suitable for third parties hoping to integrate with the Radix Babylon ledger.
 
-As previously discussed, the `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients, quite the opposite, they are meant to provide simple interfaces to functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS. 
+As previously discussed, the `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients, quite the opposite, they are meant to provide simple interfaces to functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS.
 
 The following set of classes currently fall under the are currently considered to be in LTS:
+
 - `ActionTransactionBuilder`
 - `LTSRadixEngineToolkit`
   - `Transaction` API Group
@@ -1102,7 +1104,7 @@ Despite the simple interface of the `ActionTransactionBuilder`, it is a powerful
 - Can be used with a single signer or with multiple signers.
 - Sets many of the values in the header to overridable defaults.
 
-At the current moment of time, the `ActionTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases. 
+At the current moment of time, the `ActionTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases.
 
 The following is an example on how this class can be used to build a transaction that transfers funds from accounts A and B into account C.
 
@@ -1111,7 +1113,7 @@ import {
   NetworkId,
   PrivateKey,
   NotarizedTransaction,
-  ActionTransactionBuilder
+  ActionTransactionBuilder,
 } from "@radixdlt/radix-engine-toolkit";
 
 let notaryPrivateKey = new PrivateKey.EddsaEd25519(
@@ -1121,12 +1123,9 @@ let signerPrivateKey = new PrivateKey.EcdsaSecp256k1(
   "5068952ca5aa655fe9257bf2d89f3b86f4dda6be6f5b76e4ed104c38fd21e8d7"
 );
 
-let account1 =
-  "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
-let account2 =
-  "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
-let account3 =
-  "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+let account1 = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+let account2 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+let account3 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 
 let resourceAddress1 =
   "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
@@ -1219,7 +1218,10 @@ There are various entities created at the Babylon genesis which have a known set
 The Radix Engine Toolkit can be used to provide the above mentioned addresses on any network that the client chooses.
 
 ```ts
-import { LTSRadixEngineToolkit, NetworkId } from "@radixdlt/radix-engine-toolkit";
+import {
+  LTSRadixEngineToolkit,
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
 
 let knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
   NetworkId.Mainnet /* The ID of the network to derive the addresses for. */
