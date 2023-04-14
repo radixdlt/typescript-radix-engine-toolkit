@@ -11,6 +11,7 @@
       "require": "./dist/index.umd.js"
     }
   },
+  "readme": "README.md",
   "homepage": "https://github.com/radixdlt/typescript-radix-engine-toolkit",
   "repository": {
     "type": "git",
