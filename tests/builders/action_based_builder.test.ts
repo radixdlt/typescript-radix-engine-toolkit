@@ -20,8 +20,10 @@ import {
   ActionTransactionBuilder,
   ManifestAstValue,
   ManifestBuilder,
+  NetworkId,
   NotarizedTransaction,
   PrivateKey,
+  ValidationConfig,
 } from "../../src";
 
 describe("Action Builder Tests", () => {
@@ -46,19 +48,20 @@ describe("Action Builder Tests", () => {
       10,
       20,
       242,
-      account1
+      account1,
+      privateKey.publicKey()
     ).then((builder) => {
       return builder
         .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
-        .build(privateKey.publicKey(), privateKey);
+        .notarize(privateKey);
     });
 
     let expectedManifest = new ManifestBuilder()
+      .callMethod(account1, "lock_fee", [new ManifestAstValue.Decimal("5")])
       .callMethod(
         new ManifestAstValue.Address(account1),
-        new ManifestAstValue.String("lock_fee_and_withdraw"),
+        new ManifestAstValue.String("withdraw"),
         [
-          new ManifestAstValue.Decimal(5),
           new ManifestAstValue.Address(resourceAddress1),
           new ManifestAstValue.Decimal(100),
         ]
@@ -78,6 +81,13 @@ describe("Action Builder Tests", () => {
 
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(
+      (
+        await transaction.staticallyValidate(
+          ValidationConfig.default(NetworkId.Simulator)
+        )
+      ).isValid
+    ).toBeTruthy();
   });
 
   it("Simple action builder manifest aggregates withdraws as expected", async () => {
@@ -103,20 +113,21 @@ describe("Action Builder Tests", () => {
       10,
       20,
       242,
-      account1
+      account1,
+      privateKey.publicKey()
     ).then((builder) => {
       return builder
         .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
         .fungibleResourceTransfer(account1, account3, resourceAddress1, 200)
-        .build(privateKey.publicKey(), privateKey);
+        .notarize(privateKey);
     });
 
     let expectedManifest = new ManifestBuilder()
+      .callMethod(account1, "lock_fee", [new ManifestAstValue.Decimal("5")])
       .callMethod(
         new ManifestAstValue.Address(account1),
-        new ManifestAstValue.String("lock_fee_and_withdraw"),
+        new ManifestAstValue.String("withdraw"),
         [
-          new ManifestAstValue.Decimal(5),
           new ManifestAstValue.Address(resourceAddress1),
           new ManifestAstValue.Decimal(300),
         ]
@@ -147,6 +158,13 @@ describe("Action Builder Tests", () => {
 
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(
+      (
+        await transaction.staticallyValidate(
+          ValidationConfig.default(NetworkId.Simulator)
+        )
+      ).isValid
+    ).toBeTruthy();
   });
 
   it("Simple action builder manifest aggregates deposits as expected", async () => {
@@ -172,20 +190,21 @@ describe("Action Builder Tests", () => {
       10,
       20,
       242,
-      account1
+      account1,
+      privateKey.publicKey()
     ).then((builder) => {
       return builder
         .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
         .fungibleResourceTransfer(account3, account2, resourceAddress1, 100)
-        .build(privateKey.publicKey(), privateKey);
+        .notarize(privateKey);
     });
 
     let expectedManifest = new ManifestBuilder()
+      .callMethod(account1, "lock_fee", [new ManifestAstValue.Decimal("5")])
       .callMethod(
         new ManifestAstValue.Address(account1),
-        new ManifestAstValue.String("lock_fee_and_withdraw"),
+        new ManifestAstValue.String("withdraw"),
         [
-          new ManifestAstValue.Decimal(5),
           new ManifestAstValue.Address(resourceAddress1),
           new ManifestAstValue.Decimal(100),
         ]
@@ -213,5 +232,12 @@ describe("Action Builder Tests", () => {
 
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(
+      (
+        await transaction.staticallyValidate(
+          ValidationConfig.default(NetworkId.Simulator)
+        )
+      ).isValid
+    ).toBeTruthy();
   });
 });

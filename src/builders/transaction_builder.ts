@@ -31,6 +31,11 @@ import { hash } from "../utils";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 
+export type signIntentFn = (
+  hashToSign: Uint8Array
+) => SignatureWithPublicKey.SignatureWithPublicKey;
+export type notarizationFn = (hashToSign: Uint8Array) => Signature.Signature;
+
 export class TransactionBuilder {
   private retWrapper: RadixEngineToolkitWasmWrapper;
 
@@ -41,6 +46,26 @@ export class TransactionBuilder {
   public static async new(): Promise<TransactionBuilder> {
     let ret = await RET;
     return new TransactionBuilder(ret);
+  }
+
+  public static async from(
+    transactionIntent: TransactionIntent | SignedTransactionIntent
+  ): Promise<TransactionBuilderIntentSignaturesStep> {
+    let builder = await TransactionBuilder.new();
+    if (transactionIntent instanceof TransactionIntent) {
+      return builder
+        .header(transactionIntent.header)
+        .manifest(transactionIntent.manifest);
+    } else if (transactionIntent instanceof SignedTransactionIntent) {
+      return new TransactionBuilderIntentSignaturesStep(
+        builder.retWrapper,
+        transactionIntent.intent.header,
+        transactionIntent.intent.manifest,
+        transactionIntent.intentSignatures
+      );
+    } else {
+      throw new TypeError("Invalid type passed in for transaction intent");
+    }
   }
 
   public header(header: TransactionHeader): TransactionBuilderManifestStep {
@@ -74,52 +99,84 @@ export class TransactionBuilderManifestStep {
 export class TransactionBuilderIntentSignaturesStep {
   private retWrapper: RadixEngineToolkitWasmWrapper;
   private intent: TransactionIntent;
-  private intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey> =
-    [];
+  private intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey>;
 
   constructor(
     retWrapper: RadixEngineToolkitWasmWrapper,
     header: TransactionHeader,
-    manifest: TransactionManifest
+    manifest: TransactionManifest,
+    intentSignatures: Array<SignatureWithPublicKey.SignatureWithPublicKey> = []
   ) {
     this.retWrapper = retWrapper;
     this.intent = new TransactionIntent(header, manifest);
+    this.intentSignatures = intentSignatures;
   }
 
   public sign(
-    key:
-      | IPrivateKey
-      | ((
-          hashToSign: Uint8Array
-        ) => SignatureWithPublicKey.SignatureWithPublicKey)
+    key: IPrivateKey | signIntentFn
   ): TransactionBuilderIntentSignaturesStep {
     // Compile the transaction intent
-    let request = this.intent;
-    let response = this.retWrapper.invoke(
-      request,
-      this.retWrapper.exports.compile_transaction_intent,
-      CompileTransactionIntentResponse
-    );
-    let compiledIntent = response.compiledIntent;
+    let { compiledTransactionIntent, hashToSign } =
+      this.buildTransactionIntent();
 
     // If the key is a function, then invoke that function with the hashed compiled transaction
     // intent, otherwise, call the private key to sign.
     if (typeof key === "function") {
-      let hashedCompiledIntent = hash(compiledIntent);
-      this.intentSignatures.push(key(hashedCompiledIntent));
+      this.intentSignatures.push(key(hashToSign));
     } else {
       this.intentSignatures.push(
-        key.signToSignatureWithPublicKey(compiledIntent)
+        key.signToSignatureWithPublicKey(compiledTransactionIntent)
       );
     }
 
     return this;
   }
 
-  public notarize(
-    key: IPrivateKey | ((hashToSign: Uint8Array) => Signature.Signature)
-  ): NotarizedTransaction {
+  public notarize(key: IPrivateKey | notarizationFn): NotarizedTransaction {
     // Construct a signed transaction intent and compile it
+    let {
+      compiledSignedTransactionIntent,
+      signedTransactionIntent,
+      hashToSign,
+    } = this.buildSignedTransactionIntent();
+
+    // If the key is a function, then invoke that function with the hashed compiled transaction
+    // intent, otherwise, call the private key to sign.
+    if (typeof key === "function") {
+      let signature = key(hashToSign);
+      return new NotarizedTransaction(signedTransactionIntent, signature);
+    } else {
+      let signature = key.signToSignature(compiledSignedTransactionIntent);
+      return new NotarizedTransaction(signedTransactionIntent, signature);
+    }
+  }
+
+  public buildTransactionIntent(): {
+    compiledTransactionIntent: Uint8Array;
+    transactionIntent: TransactionIntent;
+    hashToSign: Uint8Array;
+  } {
+    let request = this.intent;
+    let response = this.retWrapper.invoke(
+      request,
+      this.retWrapper.exports.compile_transaction_intent,
+      CompileTransactionIntentResponse
+    );
+    let compiledTransactionIntent = response.compiledIntent;
+
+    let transactionIntentHash = hash(compiledTransactionIntent);
+    return {
+      compiledTransactionIntent,
+      transactionIntent: this.intent,
+      hashToSign: transactionIntentHash,
+    };
+  }
+
+  public buildSignedTransactionIntent(): {
+    compiledSignedTransactionIntent: Uint8Array;
+    signedTransactionIntent: SignedTransactionIntent;
+    hashToSign: Uint8Array;
+  } {
     let signedIntent = new SignedTransactionIntent(
       this.intent,
       this.intentSignatures
@@ -129,17 +186,13 @@ export class TransactionBuilderIntentSignaturesStep {
       this.retWrapper.exports.compile_signed_transaction_intent,
       CompileSignedTransactionIntentResponse
     );
-    let compiledIntent = response.compiledIntent;
+    let compiledSignedTransactionIntent = response.compiledIntent;
 
-    // If the key is a function, then invoke that function with the hashed compiled transaction
-    // intent, otherwise, call the private key to sign.
-    if (typeof key === "function") {
-      let hashedCompiledIntent = hash(compiledIntent);
-      let signature = key(hashedCompiledIntent);
-      return new NotarizedTransaction(signedIntent, signature);
-    } else {
-      let signature = key.signToSignature(compiledIntent);
-      return new NotarizedTransaction(signedIntent, signature);
-    }
+    let signedTransactionIntentHash = hash(compiledSignedTransactionIntent);
+    return {
+      compiledSignedTransactionIntent,
+      signedTransactionIntent: signedIntent,
+      hashToSign: signedTransactionIntentHash,
+    };
   }
 }

@@ -16,11 +16,15 @@
 // under the License.
 
 import { Expose, Type, instanceToPlain } from "class-transformer";
+import { TransactionValidity } from "wrapper/default";
 import { InstructionList, SignedTransactionIntent } from ".";
 import { Signature } from "../../models/crypto";
-import { DecompileNotarizedTransactionIntentRequest } from "../../models/requests";
+import {
+  DecompileNotarizedTransactionIntentRequest,
+  ValidationConfig,
+} from "../../models/requests";
 import { hash } from "../../utils";
-import { RawRadixEngineToolkit } from "../../wrapper";
+import { RadixEngineToolkit, RawRadixEngineToolkit } from "../../wrapper";
 
 export class NotarizedTransaction {
   @Expose({ name: "signed_intent" })
@@ -75,6 +79,15 @@ export class NotarizedTransaction {
 
   async notarizedIntentHash(): Promise<Uint8Array> {
     return this.compile().then(hash);
+  }
+
+  async staticallyValidate(
+    validationConfig: ValidationConfig
+  ): Promise<TransactionValidity> {
+    return RadixEngineToolkit.staticallyValidateTransaction(
+      this,
+      validationConfig
+    );
   }
 
   toString(): string {

@@ -1,5 +1,16 @@
 {
-  "cSpell.words": ["fullwide", "radixdlt", "recid", "ttypescript"],
+  "cSpell.words": [
+    "Alphanet",
+    "fullwide",
+    "Gilganet",
+    "Enkinet",
+    "Hammunet",
+    "Nergalnet",
+    "Mardunet",
+    "radixdlt",
+    "recid",
+    "ttypescript"
+  ],
   "[typescript]": {
     "editor.tabSize": 2,
     "editor.defaultFormatter": "esbenp.prettier-vscode"

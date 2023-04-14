@@ -17,7 +17,7 @@
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { InstructionList } from ".";
-import { Convert } from "../..";
+import { Convert, RadixEngineToolkit } from "../..";
 import * as Serializers from "../serializers";
 
 export class TransactionManifest {
@@ -52,6 +52,17 @@ export class TransactionManifest {
   ) {
     this.instructions = instructions;
     this.blobs = blobs.map(Convert.Uint8Array.from);
+  }
+
+  async convert(
+    instructionFormat: InstructionList.Kind,
+    networkId: number
+  ): Promise<TransactionManifest> {
+    return RadixEngineToolkit.convertManifest(
+      this,
+      instructionFormat,
+      networkId
+    );
   }
 
   toString(): string {

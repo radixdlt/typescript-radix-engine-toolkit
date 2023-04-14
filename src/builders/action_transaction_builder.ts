@@ -15,25 +15,28 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { IAddress } from "base";
 import Decimal from "decimal.js";
 import secureRandom from "secure-random";
 import {
-  CompileSignedTransactionIntentResponse,
   Instruction,
   InstructionList,
   ManifestAstValue,
   NotarizedTransaction,
   PublicKey,
-  Signature,
   SignedTransactionIntent,
   TransactionHeader,
   TransactionIntent,
   TransactionManifest,
 } from "../models";
 import { IPrivateKey } from "../models/crypto/private_key";
-import { hash } from "../utils";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
+import {
+  TransactionBuilderIntentSignaturesStep,
+  notarizationFn,
+  signIntentFn,
+} from "./transaction_builder";
 
 export class ActionTransactionBuilder {
   private retWrapper: RadixEngineToolkitWasmWrapper;
@@ -43,12 +46,11 @@ export class ActionTransactionBuilder {
   private _networkId: number;
 
   private _version: number = 1;
-  private _nonce: number = new DataView(
-    secureRandom.randomBuffer(4).buffer,
-    0
-  ).getUint32(0, true);
+  private _nonce: number;
   private _costUnitLimit: number = 100_000_000;
   private _tipPercentage: number = 0;
+  private _notaryPublicKey: PublicKey.PublicKey;
+  private _notaryAsSignatory: boolean = true;
 
   private _feePayer: string;
   private _feeAmount: Decimal | undefined;
@@ -59,20 +61,27 @@ export class ActionTransactionBuilder {
     startEpoch: number,
     endEpoch: number,
     networkId: number,
-    feePayer: string
+    feePayer: string,
+    notaryPublicKey: PublicKey.PublicKey
   ) {
     this.retWrapper = retWrapper;
     this._startEpoch = startEpoch;
     this._endEpoch = endEpoch;
     this._networkId = networkId;
     this._feePayer = feePayer;
+    this._nonce = new DataView(
+      secureRandom.randomBuffer(4).buffer,
+      0
+    ).getUint32(0, true);
+    this._notaryPublicKey = notaryPublicKey;
   }
 
   static async new(
     startEpoch: number,
     endEpoch: number,
     networkId: number,
-    feePayer: string
+    feePayer: string,
+    notaryPublicKey: PublicKey.PublicKey
   ): Promise<ActionTransactionBuilder> {
     return RET.then(
       (ret) =>
@@ -81,7 +90,8 @@ export class ActionTransactionBuilder {
           startEpoch,
           endEpoch,
           networkId,
-          feePayer
+          feePayer,
+          notaryPublicKey
         )
     );
   }
@@ -112,9 +122,9 @@ export class ActionTransactionBuilder {
   }
 
   fungibleResourceTransfer(
-    from: string,
-    to: string,
-    resourceAddress: string,
+    from: string | IAddress,
+    to: string | IAddress,
+    resourceAddress: string | IAddress,
     amount: Decimal | number | string
   ): ActionTransactionBuilder {
     let decimalAmount: Decimal;
@@ -125,73 +135,67 @@ export class ActionTransactionBuilder {
     } else {
       throw new TypeError("Invalid type passed in for decimal");
     }
+    let resolveAddress = (address: string | IAddress): string =>
+      typeof address === "string" ? address : address.address;
 
     this._actions.push(
       new FungibleResourceTransferAction(
-        from,
-        to,
-        resourceAddress,
+        resolveAddress(from),
+        resolveAddress(to),
+        resolveAddress(resourceAddress),
         decimalAmount
       )
     );
     return this;
   }
 
-  public build(
-    notaryPublicKey: PublicKey.PublicKey,
-    sign: IPrivateKey | ((hashToSign: Uint8Array) => Signature.Signature)
-  ): NotarizedTransaction {
-    // Construct a signed transaction intent and compile it
-    let signedIntent = this.constructSignedTransactionIntent(notaryPublicKey);
-    let response = this.retWrapper.invoke(
-      signedIntent,
-      this.retWrapper.exports.compile_signed_transaction_intent,
-      CompileSignedTransactionIntentResponse
-    );
-    let compiledIntent = response.compiledIntent;
-
-    // If the key is a function, then invoke that function with the hashed compiled transaction
-    // intent, otherwise, call the private key to sign.
-    if (typeof sign === "function") {
-      let hashedCompiledIntent = hash(compiledIntent);
-      let signature = sign(hashedCompiledIntent);
-      return new NotarizedTransaction(signedIntent, signature);
-    } else {
-      let signature = sign.signToSignature(compiledIntent);
-      return new NotarizedTransaction(signedIntent, signature);
-    }
+  public sign(
+    key: IPrivateKey | signIntentFn
+  ): TransactionBuilderIntentSignaturesStep {
+    return this.transition().sign(key);
   }
 
-  public buildSignedIntent(notaryPublicKey: PublicKey.PublicKey): {
-    signedIntent: SignedTransactionIntent;
+  public notarize(key: IPrivateKey | notarizationFn): NotarizedTransaction {
+    return this.transition().notarize(key);
+  }
+
+  public buildTransactionIntent(): {
+    compiledTransactionIntent: Uint8Array;
+    transactionIntent: TransactionIntent;
     hashToSign: Uint8Array;
   } {
-    // Construct a signed transaction intent and compile it
-    let signedIntent = this.constructSignedTransactionIntent(notaryPublicKey);
-    let response = this.retWrapper.invoke(
-      signedIntent,
-      this.retWrapper.exports.compile_signed_transaction_intent,
-      CompileSignedTransactionIntentResponse
-    );
-    let compiledIntent = response.compiledIntent;
-
-    return {
-      signedIntent,
-      hashToSign: hash(compiledIntent),
-    };
+    return this.transition().buildTransactionIntent();
   }
 
-  private constructTransactionHeader(
-    notaryPublicKey: PublicKey.PublicKey
-  ): TransactionHeader {
+  public buildSignedTransactionIntent(): {
+    compiledSignedTransactionIntent: Uint8Array;
+    signedTransactionIntent: SignedTransactionIntent;
+    hashToSign: Uint8Array;
+  } {
+    return this.transition().buildSignedTransactionIntent();
+  }
+
+  //=================
+  // Private Methods
+  //=================
+
+  private transition(): TransactionBuilderIntentSignaturesStep {
+    return new TransactionBuilderIntentSignaturesStep(
+      this.retWrapper,
+      this.constructTransactionHeader(),
+      this.constructTransactionManifest()
+    );
+  }
+
+  private constructTransactionHeader(): TransactionHeader {
     return new TransactionHeader(
       this._version,
       this._networkId,
       this._startEpoch,
       this._endEpoch,
       this._nonce,
-      notaryPublicKey,
-      true,
+      this._notaryPublicKey,
+      this._notaryAsSignatory,
       this._costUnitLimit,
       this._tipPercentage
     );
@@ -202,36 +206,28 @@ export class ActionTransactionBuilder {
     let instructions: Array<Instruction.Instruction> = [];
     let { withdraws, deposits } = this.resolveActions();
 
-    let withdrawsCounter = 0;
+    instructions.push(
+      new Instruction.CallMethod(
+        new ManifestAstValue.Address(this._feePayer),
+        new ManifestAstValue.String("lock_fee"),
+        [new ManifestAstValue.Decimal(feeAmount)]
+      )
+    );
+
     for (const [from, resourceAmountMapping] of Object.entries(withdraws)) {
       for (const [resourceAddress, amount] of Object.entries(
         resourceAmountMapping
       )) {
-        if (withdrawsCounter === 0) {
-          instructions.push(
-            new Instruction.CallMethod(
-              new ManifestAstValue.Address(from),
-              new ManifestAstValue.String("lock_fee_and_withdraw"),
-              [
-                new ManifestAstValue.Decimal(feeAmount),
-                new ManifestAstValue.Address(resourceAddress),
-                new ManifestAstValue.Decimal(amount),
-              ]
-            )
-          );
-        } else {
-          instructions.push(
-            new Instruction.CallMethod(
-              new ManifestAstValue.Address(from),
-              new ManifestAstValue.String("withdraw"),
-              [
-                new ManifestAstValue.Address(resourceAddress),
-                new ManifestAstValue.Decimal(amount),
-              ]
-            )
-          );
-        }
-        withdrawsCounter++;
+        instructions.push(
+          new Instruction.CallMethod(
+            new ManifestAstValue.Address(from),
+            new ManifestAstValue.String("withdraw"),
+            [
+              new ManifestAstValue.Address(resourceAddress),
+              new ManifestAstValue.Decimal(amount),
+            ]
+          )
+        );
       }
     }
 
@@ -274,7 +270,7 @@ export class ActionTransactionBuilder {
     notaryPublicKey: PublicKey.PublicKey
   ): TransactionIntent {
     return new TransactionIntent(
-      this.constructTransactionHeader(notaryPublicKey),
+      this.constructTransactionHeader(),
       this.constructTransactionManifest()
     );
   }

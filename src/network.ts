@@ -15,10 +15,18 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import "reflect-metadata";
-
-export * from "./builders";
-export * as Convert from "./convert";
-export * from "./models";
-export * from "./network";
-export * from "./wrapper";
+export namespace NetworkId {
+  export const Mainnet: number = 0x01;
+  export const Stokenet: number = 0x02;
+  export const Alphanet: number = 0x0a;
+  export const Betanet: number = 0x0b;
+  export const RCNet: number = 0x0c;
+  export const Gilganet: number = 0x20;
+  export const Enkinet: number = 0x21;
+  export const Hammunet: number = 0x22;
+  export const Nergalnet: number = 0x23;
+  export const Mardunet: number = 0x24;
+  export const LocalNet: number = 0xf0;
+  export const InternalTestNet: number = 0xf1;
+  export const Simulator: number = 0xf2;
+}
