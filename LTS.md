@@ -1,5 +1,9 @@
 # Long Term Support (LTS) Radix Engine Toolkit
 
+
+| **Note** | It is recommended (but not required) to read the [README.md](./README.md) for additional context on the Radix Engine Toolkit as a library, it's architecture, advanced uses of the toolkit. | 
+| -------- | --- |
+
 This `LTSRadixEngineToolkit` class is meant to provide a smaller interface with a higher degree of backward compatibility that is suitable for third parties hoping to integrate with the Radix Babylon ledger.
 
 The `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients, quite the opposite, they are meant to provide simple interfaces to functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS.
