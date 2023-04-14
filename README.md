@@ -178,7 +178,7 @@ let transaction: NotarizedTransaction = await TransactionBuilder.new().then(
       .sign(signer2PrivateKey)
       .notarize(notaryPrivateKey)
 );
-let transactionId: Uint8Array = transaction.transactionId();
+let transactionId: Uint8Array = await transaction.transactionId();
 console.log(Convert.Uint8Array.toHexString(transactionId));
 
 // Check that the transaction that we've just built is statically valid.
@@ -268,7 +268,7 @@ let transaction: NotarizedTransaction = await TransactionBuilder.new().then(
       .sign(signIntent)
       .notarize(notarizeIntent)
 );
-let transactionId: Uint8Array = transaction.transactionId();
+let transactionId: Uint8Array = await transaction.transactionId();
 console.log(Convert.Uint8Array.toHexString(transactionId));
 
 // Check that the transaction that we've just built is statically valid.
@@ -1069,6 +1069,76 @@ let knownAddresses = await RadixEngineToolkit.knownEntityAddresses(
 console.log(knownAddresses);
 ```
 
+# Longterm Support (LTS) Radix Engine Toolkit
+
+So far, this document has only talked about the `RadixEngineToolkit` class. However, another class for interacting with the core Radix Engine Toolkit does exist and was discussed in the architecture section: the `LTSRadixEngineToolkit`. This class is meant to provide a smaller interface with a higher degree of backward compatability that is suitable for third parties hoping to integrate with the Radix Babylon ledger. 
+
+As previously discussed, the `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not mean to provide the complete functionality of the core Radix Engine Toolkit to clients, quite the opposite, they are meant to provide simple interfaces to functionality that integratros need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS. 
+
+The following set of classes currently fall under the are currently considered to be in LTS:
+- `ActionTransactionBuilder`
+- `LTSRadixEngineToolkit`
+  - `Transaction` API Group
+  - `Derive` API Group
+  - `Utils` API Group
+
+## Constructing Trasnactions through Higher Level Actions
+
+One of the classes that are considered in LTS is the `ActionTransactionBuilder` which is a class that allows for the construction of transactions through higher-level actions to specify intent. Constructing transactions in such a manner means that a client does not need to interact with or build their own transaction manifest. The `ActionTransactionBuilder` class will handle the complete process of construcint the transaction from beginning to end, including the transaction manifest. Additionally, clients that use the `ActionTransactionBuilder` would not need to understand the construction process, when (or on what) hashing is done, or other information.
+
+Despite the simple interface of the `ActionTransactionBuilder`, it is a powerful way for constructing transactions. The following is a list of features supported by the `ActionTransactionBuilder`:
+
+- Allows for many to many transfer of fungible tokens.
+- Aggregates withdraws and deposits into and from accounts to optimize for fees.
+- Can be used with a single signer or with multiple signers.
+- Sets many of the values in the header to overridable defaults.
+
+At the current moment of time, the `ActionTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases. 
+
+The following is an example on how this class can be used to build a transaction that transfers funds from accounts A and B into account C.
+
+```ts
+import {
+  NetworkId,
+  PrivateKey,
+  NotarizedTransaction,
+  ActionTransactionBuilder
+} from '@radixdlt/radix-engine-toolkit';
+
+let notaryPrivateKey = new PrivateKey.EddsaEd25519(
+  "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+);
+let signerPrivateKey = new PrivateKey.EcdsaSecp256k1(
+  "5068952ca5aa655fe9257bf2d89f3b86f4dda6be6f5b76e4ed104c38fd21e8d7"
+);
+
+let account1 =
+  "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+let account2 =
+  "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+let account3 =
+  "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+
+let resourceAddress1 =
+  "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+
+let transaction: NotarizedTransaction = await ActionTransactionBuilder.new(
+  10 /* The start epoch (inclusive) of when this transaction becomes valid */,
+  20 /* The end epoch (exclusive) of when this transaction is no longer valid */,
+  NetworkId.Simulator /* The id of the network that this transactions is destined for */,
+  account1 /* The fee payer */,
+  notaryPrivateKey.publicKey() /* The notary's public key */
+).then((builder) => {
+  return builder
+    .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
+    .fungibleResourceTransfer(account3, account2, resourceAddress1, 100)
+    .sign(signerPrivateKey)
+    .notarize(notaryPrivateKey);
+});
+
+let transactionId: Uint8Array = await transaction.transactionId();
+```
+
 # Frequently Asked Questions
 
 <details>
@@ -1084,7 +1154,7 @@ import {
 } from '@radixdlt/radix-engine-toolkit';
 
 let intent: TransactionIntent | SignedTransactionIntent | NotarizedTransaction = /* Some kind of intent */;
-let transactionId: Uint8Array = intent.transactionId();
+let transactionId: Uint8Array = await intent.transactionId();
 ```
 
 In addition to the `transactionId` method, some of these classes also offer methods for calculating the notarized transaction hash (often times referred to as payload hash in the Gateway API) and the signed transaction intent hash. However, these hashes are rarely needed in day-to-day interactions with the network.

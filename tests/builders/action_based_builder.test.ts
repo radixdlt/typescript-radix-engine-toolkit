@@ -20,8 +20,10 @@ import {
   ActionTransactionBuilder,
   ManifestAstValue,
   ManifestBuilder,
+  NetworkId,
   NotarizedTransaction,
   PrivateKey,
+  ValidationConfig,
 } from "../../src";
 
 describe("Action Builder Tests", () => {
@@ -79,6 +81,13 @@ describe("Action Builder Tests", () => {
 
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(
+      (
+        await transaction.staticallyValidate(
+          ValidationConfig.default(NetworkId.Simulator)
+        )
+      ).isValid
+    ).toBeTruthy();
   });
 
   it("Simple action builder manifest aggregates withdraws as expected", async () => {
@@ -149,6 +158,13 @@ describe("Action Builder Tests", () => {
 
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(
+      (
+        await transaction.staticallyValidate(
+          ValidationConfig.default(NetworkId.Simulator)
+        )
+      ).isValid
+    ).toBeTruthy();
   });
 
   it("Simple action builder manifest aggregates deposits as expected", async () => {
@@ -216,5 +232,12 @@ describe("Action Builder Tests", () => {
 
     // Assert
     expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(
+      (
+        await transaction.staticallyValidate(
+          ValidationConfig.default(NetworkId.Simulator)
+        )
+      ).isValid
+    ).toBeTruthy();
   });
 });
