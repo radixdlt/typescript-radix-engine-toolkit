@@ -5,6 +5,7 @@
   </p>
 
   [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+  [![License](https://img.shields.io/badge/Scrypto%20Compatibility-v0.9.0-blue)](https://github.com/radixdlt/radixdlt-scrypto/tree/v0.9.0)
 </div>
 
 # About
