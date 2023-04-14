@@ -24,19 +24,19 @@ This library brings the same support offered to Rust for transaction constructio
 
 # Architecture
 
-The TypeScript Radix Engine Toolkit library is powered by the [Core Radix Engine Toolkit](https://github.com/radixdlt/radix-engine-toolkit/): a library written entirely in Rust that can be compiled to Web-Assembly modules, native libraries, and other targets supported by the Rust compiler. The Core Radix Engine Toolkit contains all of the core functionality, while this TypeScript library is simply a wrapper around the core Radix Engine Toolkit that is able to make invocations to it and interpret its responses.
+The TypeScript Radix Engine Toolkit library is powered by the [Core Radix Engine Toolkit](https://github.com/radixdlt/radix-engine-toolkit/): a library written entirely in Rust that can be compiled to WebAssembly modules, native libraries, and other targets supported by the Rust compiler. The Core Radix Engine Toolkit contains all of the core functionality, while this TypeScript library is simply a wrapper around the core Radix Engine Toolkit that is able to make invocations to it and interpret its responses.
 
-This TypeScript wrapper around the Radix Engine Toolkit uses the Web-Assembly as the method of interoperability between the Rust code and TypeScript. More specifically, this wrapper acts as a Web-Assembly host that invokes the core Radix Engine Toolkit and interprets its responses. In addition to that, this wrapper builds higher level abstractions above the concept of Web-Assembly function invocation where it builds an idiomatic TypeScript API which translates down to Radix Engine Toolkit Web-Assembly function invocations without the need to deal in raw requests and responses.
+This TypeScript wrapper around the Radix Engine Toolkit uses the WebAssembly as the method of interoperability between the Rust code and TypeScript. More specifically, this wrapper acts as a WebAssembly host that invokes the core Radix Engine Toolkit and interprets its responses. In addition to that, this wrapper builds higher level abstractions above the concept of WebAssembly function invocation where it builds an idiomatic TypeScript API which translates down to Radix Engine Toolkit WebAssembly function invocations without the need to deal in raw requests and responses.
 
-Since the core functionality of this library is included in the compiled Web-Assembly module, this library needs to be used in an environment that can act as a Web-Assembly host which most browsers and Node.JS do support.
+Since the core functionality of this library is included in the compiled WebAssembly module, this library needs to be used in an environment that can act as a WebAssembly host which most browsers and Node.JS do support.
 
-There are three main classes that act as entry points into the Radix Engine Toolkit. The following table talks about these classes.
+There are three main classes that act as entrypoints into the Radix Engine Toolkit. The following table talks about these classes.
 
 | Class Name              | Functionality                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `RawRadixEngineToolkit` | The main wrapper and WASM host around the Radix Engine Toolkit, this class abstracts the complexity of performing WASM invocation down to a single simple `invoke` function that can be called with a function pointer, some arguments for the function, and the type of the return. This class is not very user friendly to use since it deals in the raw request and response objects required by the core Radix Engine Toolkit. Thus, you will almost never find yourself using this class except in very niche cases.                                                                    |
 | `RadixEngineToolkit`    | The main developer facing class that is used to invoke the core Radix Engine Toolkit. The interface of the functions defined on this class does not use the request and response objects. Instead, it provides a more idiomatic TypeScript/JavaScript interface that is familiar to developers and that is easy to use. Under the hood, the functions exposed in this class translate down to core Radix Engine Toolkit requests and are then forwarded to the appropriate functions on the `RawRadixEngineToolkit` class. This is the class that you will most likely use very often.       |
-| `LTSRadixEngineToolkit` | A thin wrapper around the `RadixEngineToolkit` class that exposes an API that will has much higher backward compatibility guarantees. The `LTSRadixEngineToolkit` class is not meant to provide all of the functionality of the toolkit; quite the opposite: it's meant to provide little functionality with well defined simpler interfaces that won't change that integrators can use. However, it is very likely that some clients might quickly "outgrow" this class and it's simple interfaces. Clients who encounter that are recommended to use the `RadixEngineToolkit` class |
+| `LTSRadixEngineToolkit` | A thin wrapper around the `RadixEngineToolkit` class that exposes an API that will has much higher backward comptability guarantees. The `LTSRadixEngineToolkit` class is not meant to provide all of the functionality of the toolkit; quite the opposite: it's meant to provide little functionality with well defined simpler interfaces that won't change that integrators can use. However, it is very likely that some clients might quickly "outgrow" this class and it's simple interfaces. Clients who encounter that are recommended to use the `RadixEngineToolkit` class |
 
 The following is a summary of the above table:
 
@@ -291,7 +291,7 @@ The most common format for transaction manifests is the string format seen in Ra
 
 While the `String` format of manifests focuses heavily on being easily human-readable with some focus on ease of parsing and lexing, the `Parsed` format focuses more heavily on being very machine-readable where it should be relatively easy for machines to understand, process, and work with the `Parsed` format. The `Parsed` format is a JSON format for the instructions of transaction manifests that represents instructions as an Abstract Syntax Tree (AST).
 
-Both of the manifest format compile down to identical byte code; thus, using either of the formats purely comes down to a choice by the client to either favor human-readability or machine-readability, some clients could choose to make use of both formats in different places which is what the Babylon wallet does.
+Both of the manifest format compile down to identical byte code; thus, using either of the formats purely comes down to a choice by the client to either favour human-readability or machine-readability, some clients could choose to make use of both formats in different places which is what the Babylon wallet does.
 
 The following is the same manifest represented in both formats:
 
@@ -845,7 +845,7 @@ if (transactionValidity.isValid) {
 
 ## SBOR Encoding and Decoding
 
-The Radix Engine Toolkit comes with full support of the two flavors of SBOR that are currently in use in the Radix Engine: Scrypto SBOR and Manifest SBOR. The toolkit has two polymorphic value models uses to describe all of the possible types that the two SBOR flavors can have: `ScryptoSborValue.Value` and `ManifestSborValue.Value`. When performing SBOR Encoding or Decoding, the two above-mentioned classes are used.
+The Radix Engine Toolkit comes with full support of the two flavours of SBOR that are currently in use in the Radix Engine: Scrypto SBOR and Manifest SBOR. The toolkit has two polymorphic value models uses to describe all of the possible types that the two SBOR flavours can have: `ScryptoSborValue.Value` and `ManifestSborValue.Value`. When performing SBOR Encoding or Decoding, the two above-mentioned classes are used.
 
 ### SBOR Encoding
 
@@ -1091,7 +1091,7 @@ The following set of classes currently fall under the are currently considered t
   - `Derive` API Group
   - `Utils` API Group
 
-## Constructing Transactions through Higher Level Actions
+## Constructing Trasnactions through Higher Level Actions
 
 One of the classes that are considered in LTS is the `ActionTransactionBuilder` which is a class that allows for the construction of transactions through higher-level actions to specify intent. Constructing transactions in such a manner means that a client does not need to interact with or build their own transaction manifest. The `ActionTransactionBuilder` class will handle the complete process of construcint the transaction from beginning to end, including the transaction manifest. Additionally, clients that use the `ActionTransactionBuilder` would not need to understand the construction process, when (or on what) hashing is done, or other information.
 
@@ -1231,7 +1231,7 @@ console.log(knownAddresses);
 
 #### Hashing
 
-The `Utils` API group of the `LTSRadixEngineToolkit` offers a method for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests
+The `Utils` API group of the `LTSRadixEngineToolkit` offers a methdo for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests
 
 ```ts
 import {
