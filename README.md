@@ -1,3 +1,15 @@
+<div align="center">
+  <h1><code>TypeScript Radix Engine Toolkit</code></h1>
+  <p>
+    <strong>A TypeScript wrapper for the Radix Engine Toolkit that provides many necessary tools to interact with the Radix ledger</strong>
+  </p>
+
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/Scrypto%20Compatibility-v0.9.0-blue)](https://github.com/radixdlt/radixdlt-scrypto/tree/v0.9.0)
+
+</div>
+
+
 # About
 
 This library brings the same support offered to Rust for transaction construction, validation, and decompilation, manifest parsing, **S**crypto **B**inary **O**bject **R**epresentation (SBOR) encoding and decoding, address derivations, and more to TypeScript and JavaScript through a [Rust backend](https://www.github.com/radixdlt/radix-engine-toolkit) that powers it all. The following is a list of the features offered by this library:
@@ -283,6 +295,193 @@ Both of the manifest format compile down to identical byte code; thus, using eit
 
 The following is the same manifest represented in both formats:
 
+<details>
+    <summary><code>String</code> Format</summary>
+
+```ruby
+CALL_METHOD
+    Address("account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn")
+    "withdraw"
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Decimal("5");
+TAKE_FROM_WORKTOP_BY_AMOUNT
+    Decimal("2")
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Bucket("bucket1");
+CALL_METHOD
+    Address("component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn")
+    "buy_gumball"
+    Bucket("bucket1");
+ASSERT_WORKTOP_CONTAINS_BY_AMOUNT
+    Decimal("3")
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k");
+ASSERT_WORKTOP_CONTAINS
+    Address("resource_sim1q2ym536cwvvf3cy9p777t4qjczqwf79hagp3wn93srvsgvqtwe");
+TAKE_FROM_WORKTOP
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Bucket("bucket2");
+RETURN_TO_WORKTOP
+    Bucket("bucket2");
+TAKE_FROM_WORKTOP_BY_IDS
+    Array<NonFungibleLocalId>(NonFungibleLocalId("#1#"))
+    Address("resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k")
+    Bucket("bucket3");
+CALL_METHOD
+    Address("account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn")
+    "deposit_batch"
+    Expression("ENTIRE_WORKTOP");
+```
+</details>
+
+<details>
+    <summary><code>Parsed</code> Format</summary>
+
+```json
+[
+  {
+    "instruction": "CALL_METHOD",
+    "component_address": {
+      "type": "Address",
+      "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
+    },
+    "method_name": {
+      "type": "String",
+      "value": "withdraw"
+    },
+    "arguments": [
+      {
+        "type": "Address",
+        "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+      },
+      {
+        "type": "Decimal",
+        "value": "5"
+      }
+    ]
+  },
+  {
+    "instruction": "TAKE_FROM_WORKTOP_BY_AMOUNT",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "amount": {
+      "type": "Decimal",
+      "value": "2"
+    },
+    "into_bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket1"
+      }
+    }
+  },
+  {
+    "instruction": "CALL_METHOD",
+    "component_address": {
+      "type": "Address",
+      "address": "component_sim1qd8djmepmq7hxqaakt9rl3hkce532px42s8eh4qmqlks9f87dn"
+    },
+    "method_name": {
+      "type": "String",
+      "value": "buy_gumball"
+    },
+    "arguments": [
+      {
+        "type": "Bucket",
+        "identifier": {
+          "type": "String",
+          "value": "bucket1"
+        }
+      }
+    ]
+  },
+  {
+    "instruction": "ASSERT_WORKTOP_CONTAINS_BY_AMOUNT",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "amount": {
+      "type": "Decimal",
+      "value": "3"
+    }
+  },
+  {
+    "instruction": "ASSERT_WORKTOP_CONTAINS",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1q2ym536cwvvf3cy9p777t4qjczqwf79hagp3wn93srvsgvqtwe"
+    }
+  },
+  {
+    "instruction": "TAKE_FROM_WORKTOP",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "into_bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket2"
+      }
+    }
+  },
+  {
+    "instruction": "RETURN_TO_WORKTOP",
+    "bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket2"
+      }
+    }
+  },
+  {
+    "instruction": "TAKE_FROM_WORKTOP_BY_IDS",
+    "resource_address": {
+      "type": "Address",
+      "address": "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+    },
+    "ids": [
+      {
+        "type": "NonFungibleLocalId",
+        "value": {
+          "type": "Integer",
+          "value": "1"
+        }
+      }
+    ],
+    "into_bucket": {
+      "type": "Bucket",
+      "identifier": {
+        "type": "String",
+        "value": "bucket3"
+      }
+    }
+  },
+  {
+    "instruction": "CALL_METHOD",
+    "component_address": {
+      "type": "Address",
+      "address": "account_sim1qjy5fakwygc45fkyhyxxulsf5zfae0ycez0x05et9hqs7d0gtn"
+    },
+    "method_name": {
+      "type": "String",
+      "value": "deposit_batch"
+    },
+    "arguments": [
+      {
+        "type": "Expression",
+        "value": "ENTIRE_WORKTOP"
+      }
+    ]
+  }
+]
+```
+</details>
 
 When converting the instructions of a `TransactionManifest` from one format to another, there are typically two main arguments required:
 
@@ -1042,3 +1241,24 @@ import {
 let data: Uint8Array = /* Some array of bytes */;
 let hashedData: Uint8Array = LTSRadixEngineToolkit.Utils.hash(data);
 ```
+
+# Frequently Asked Questions
+
+<details>
+    <summary>How to obtain the transaction id (transaction hash) of a transaction?</summary>
+
+Objects of the `TransactionIntent`, `SignedTransactionIntent`, and `NotarizedTransaction` classes offer methods for calculating the transaction id (transaction hash). Given that you have any of the above mentioned objects, the transaction id can be obtained as follows:
+
+```ts
+import {
+    TransactionIntent,
+    SignedTransactionIntent,
+    NotarizedTransaction
+} from "@radixdlt/radix-engine-toolkit";
+let intent: TransactionIntent | SignedTransactionIntent | NotarizedTransaction = /* Some kind of intent */;
+let transactionId: Uint8Array = await intent.transactionId();
+```
+
+In addition to the `transactionId` method, some of these classes also offer methods for calculating the notarized transaction hash (often times referred to as payload hash in the Gateway API) and the signed transaction intent hash. However, these hashes are rarely needed in day-to-day interactions with the network.
+
+</details>
