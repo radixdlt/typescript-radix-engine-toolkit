@@ -10,6 +10,9 @@
 </div>
 
 - [About](#about)
+- [Usage Guide](#usage-guide)
+  * [`LTSRadixEngineToolkit`](./LTS.md)
+  * [`RadixEngineToolkit`](#functionality)
 - [Architecture](#architecture)
 - [Installation](#installation)
   * [Yarn](#yarn)
@@ -20,14 +23,14 @@
 - [Functionality](#functionality)
   * [Convert Manifest](#convert-manifest)
   * [Transaction Compilation](#transaction-compilation)
-    + [Compiling `TransactionIntent`s](#compiling--transactionintent-s)
-    + [Compiling `SignedTransactionIntent`s](#compiling--signedtransactionintent-s)
-    + [Compiling `NotarizedTransaction`s](#compiling--notarizedtransaction-s)
+    + [Compiling `TransactionIntent`s](#compiling-transactionintents)
+    + [Compiling `SignedTransactionIntent`s](#compiling-signedtransactionintents)
+    + [Compiling `NotarizedTransaction`s](#compiling-notarizedtransactions)
   * [Transaction Decompilation](#transaction-decompilation)
     + [Decompiling Unknown Intents](#decompiling-unknown-intents)
-    + [Decompiling a `TransactionIntent`](#decompiling-a--transactionintent-)
-    + [Decompiling a `SignedTransactionIntent`](#decompiling-a--signedtransactionintent-)
-    + [Decompiling a `NotarizedTransaction`](#decompiling-a--notarizedtransaction-)
+    + [Decompiling a `TransactionIntent`](#decompiling-a-transactionintent)
+    + [Decompiling a `SignedTransactionIntent`](#decompiling-a-signedtransactionintent)
+    + [Decompiling a `NotarizedTransaction`](#decompiling-a-notarizedtransaction)
   * [Static Transaction Validation](#static-transaction-validation)
   * [SBOR Encoding and Decoding](#sbor-encoding-and-decoding)
     + [SBOR Encoding](#sbor-encoding)
@@ -53,8 +56,8 @@ This library brings the same support offered to Rust for transaction constructio
 
 # Usage Guide
 
-Depending on what your needs are, there are different classes with varying interfaces, c
-omplexity, and degrees of backward compatability that you can use. More specifically: 
+Depending on what your needs are, there are different classes with varying interfaces,
+complexity, and degrees of backward compatability that you can use. More specifically: 
 
 * If you are an integrator with basic needs (e.g., you only need to perform fungible resource transfers with a single signer) who would like a simple interface with backward compatibility guarantees, then use [`LTSRadixEngineToolkit`](./LTS.md).
 * If you have more advanced needs, you want to use the [`RadixEngineToolkit`](#functionality) class. This has no backwards compatibility guarantees but is more powerful and capable.
