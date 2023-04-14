@@ -496,7 +496,7 @@ import {
     TransactionManifest,
     InstructionList,
     NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let transactionManifest: TransactionManifest = /* Some Transaction Manifest */;
 let convertedManifest: TransactionManifest = await transactionManifest.convert(
@@ -514,7 +514,7 @@ import {
   RadixEngineToolkit,
   TransactionManifest,
   NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let transactionManifest: TransactionManifest = /* Some Transaction Manifest */;
 let convertedManifest = await RadixEngineToolkit.convertManifest(
@@ -543,7 +543,7 @@ Given a `TransactionIntent` object, the `RadixEngineToolkit` class can be used t
 `TransactionIntent` objects have a `compile` method which performs the required invocations to the `RadixEngineToolkit` class to compile the object to a `Uint8Array` of the compiled intent.
 
 ```ts
-import { TransactionIntent } from '@radixdlt/radix-engine-toolkit';
+import { TransactionIntent } from "@radixdlt/radix-engine-toolkit";
 
 let transactionIntent: TransactionIntent = /* A transaction intent */;
 let compiledTransactionIntent: Uint8Array = await transactionIntent.compile();
@@ -554,7 +554,7 @@ let compiledTransactionIntent: Uint8Array = await transactionIntent.compile();
 The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `compileTransactionIntent` is what takes place.
 
 ```ts
-import { TransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
+import { TransactionIntent, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 
 let transactionIntent: TransactionIntent = /* A transaction intent */;
 let compiledTransactionIntent: Uint8Array = await RadixEngineToolkit.compileTransactionIntent(
@@ -571,7 +571,7 @@ Given a `SignedTransactionIntent` object, the `RadixEngineToolkit` class can be 
 `SignedTransactionIntent` objects have a `compile` method which performs the required invocations to the `RadixEngineToolkit` class to compile the object to a `Uint8Array` of the compiled signed intent.
 
 ```ts
-import { SignedTransactionIntent } from '@radixdlt/radix-engine-toolkit';
+import { SignedTransactionIntent } from "@radixdlt/radix-engine-toolkit";
 
 let signedTransactionIntent: SignedTransactionIntent = /* A transaction intent */;
 let compiledSignedTransactionIntent: Uint8Array = await signedTransactionIntent.compile();
@@ -582,7 +582,7 @@ let compiledSignedTransactionIntent: Uint8Array = await signedTransactionIntent.
 The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `compileSignedTransactionIntent` is what takes place.
 
 ```ts
-import { SignedTransactionIntent, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
+import { SignedTransactionIntent, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 
 let signedTransactionIntent: SignedTransactionIntent = /* A signed transaction intent */;
 let compiledSignedTransactionIntent: Uint8Array = await RadixEngineToolkit.compileSignedTransactionIntent(
@@ -599,7 +599,7 @@ Given a `NotarizedTransaction` object, the `RadixEngineToolkit` class can be use
 `NotarizedTransaction` objects have a `compile` method which performs the required invocations to the `RadixEngineToolkit` class to compile the object to a `Uint8Array` of the compiled signed intent.
 
 ```ts
-import { NotarizedTransaction } from '@radixdlt/radix-engine-toolkit';
+import { NotarizedTransaction } from "@radixdlt/radix-engine-toolkit";
 
 let notarizedTransaction: NotarizedTransaction = /* A transaction intent */;
 let compiledNotarizedTransaction: Uint8Array = await notarizedTransaction.compile();
@@ -610,7 +610,7 @@ let compiledNotarizedTransaction: Uint8Array = await notarizedTransaction.compil
 The `RadixEngineToolkit` class exposes functions for compiling `TransactionIntent` objects. In fact, under the hood of the syntax seen in the above example (Example A), this exact call to `compileNotarizedTransactionIntent` is what takes place.
 
 ```ts
-import { NotarizedTransaction, RadixEngineToolkit } from '@radixdlt/radix-engine-toolkit';
+import { NotarizedTransaction, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 
 let notarizedTransaction: NotarizedTransaction = /* A signed transaction intent */;
 let compiledNotarizedTransaction: Uint8Array = await RadixEngineToolkit.compileNotarizedTransactionIntent(
@@ -636,7 +636,7 @@ import {
   TransactionIntent,
   SignedTransactionIntent,
   NotarizedTransaction
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let compiledUnknownIntent: Uint8Array = /* Some compiled intent */;
 let decompiledUnknownIntent = await RadixEngineToolkit.decompileUnknownTransactionIntent(
@@ -663,7 +663,7 @@ The `TransactionIntent` class has a static `decompile` function which can be tho
 import {
   TransactionIntent,
   InstructionList
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
 let transactionIntent: TransactionIntent = await TransactionIntent.decompile(
@@ -682,7 +682,7 @@ import {
   RadixEngineToolkit,
   TransactionIntent,
   InstructionList
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let compiledTransactionIntent: Uint8Array = /* Some compiled intent */;
 let transactionIntent: TransactionIntent = await RadixEngineToolkit.decompileTransactionIntent(
@@ -704,7 +704,7 @@ The `SignedTransactionIntent` class has a static `decompile` function which can 
 import {
   SignedTransactionIntent,
   InstructionList
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
 let signedTransactionIntent: SignedTransactionIntent = await SignedTransactionIntent.decompile(
@@ -723,7 +723,7 @@ import {
   RadixEngineToolkit,
   SignedTransactionIntent,
   InstructionList
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let compiledSignedTransactionIntent: Uint8Array = /* Some compiled intent */;
 let signedTransactionIntent: SignedTransactionIntent = await RadixEngineToolkit.decompileSignedTransactionIntent(
@@ -745,7 +745,7 @@ The `NotarizedTransaction` class has a static `decompile` function which can be 
 import {
   NotarizedTransaction,
   InstructionList
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
 let notarizedTransactionIntent: NotarizedTransaction = await NotarizedTransaction.decompile(
@@ -764,7 +764,7 @@ import {
   RadixEngineToolkit,
   NotarizedTransaction,
   InstructionList
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let compiledNotarizedTransaction: Uint8Array = /* Some compiled intent */;
 let notarizedTransactionIntent: NotarizedTransaction = await RadixEngineToolkit.decompileNotarizedTransactionIntent(
@@ -799,7 +799,7 @@ import {
   NotarizedTransaction,
   ValidationConfig,
   NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
 let transactionValidity = await notarizedTransaction(ValidationConfig.default(NetworkId.Mainnet));
@@ -820,7 +820,7 @@ import {
   ValidationConfig,
   RadixEngineToolkit,
   NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
 let transactionValidity = await RadixEngineToolkit.staticallyValidateTransaction(
@@ -847,7 +847,7 @@ import {
   ScryptoSborValue,
   ManifestSborValue,
   RadixEngineToolkit
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let value = ScryptoSborValue.Value | ManifestSborValue.Value = /* Some SBOR Value */;
 let encodedValue: Uint8Array = await RadixEngineToolkit.sborEncode(value);
@@ -864,7 +864,7 @@ import {
   SborValue,
   RadixEngineToolkit,
   NetworkId
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let encodedValue: Uint8Array = /* Some SBOR Encoded Value */;
 let value: SborValue.Value = await RadixEngineToolkit.sborDecode(
@@ -1016,7 +1016,7 @@ import {
 let olympiaAccountAddress: string =
   "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
 let { babylonAccountAddress, publicKey } =
-  await RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress.fromOlympiaAccountAddress(
+  await RadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
     olympiaAccountAddress,
     NetworkId.Mainnet /* The ID of the network to derive the address for. */
   );
@@ -1103,7 +1103,7 @@ import {
   PrivateKey,
   NotarizedTransaction,
   ActionTransactionBuilder
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let notaryPrivateKey = new PrivateKey.EddsaEd25519(
   "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
@@ -1139,6 +1139,100 @@ let transaction: NotarizedTransaction = await ActionTransactionBuilder.new(
 let transactionId: Uint8Array = await transaction.transactionId();
 ```
 
+## `LTSRadixEngineToolkit` Functionality
+
+This section discusses the functionality provided by the `LTSRadixEngineToolkit` class and provides a number of examples.
+
+### Derive API Group
+
+This is a group of functions exposed by the `LTSRadixEngineToolkit` that are used to perform various kinds of derivations. Typically, these are address derivations.
+
+#### Deriving The (Virtual) Account Address from a Public Key
+
+The `Derive` API group of the `LTSRadixEngineToolkit` class exposes methods for deriving the (virtual) account component address associated with a public key.
+
+```ts
+import {
+  LTSRadixEngineToolkit,
+  PublicKey,
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
+
+let publicKey = new PublicKey.EcdsaSecp256k1(
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
+);
+let address: string = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(
+  publicKey,
+  NetworkId.Mainnet /* The ID of the network to derive the address for. */
+);
+console.log(address);
+```
+
+#### Deriving The Babylon (Virtual) Account Address from an Olympia Account Address
+
+The `Derive` API group of the `LTSRadixEngineToolkit` class exposes methods for deriving the Babylon (virtual) account component address associated with an Olympia account address.
+
+```ts
+import {
+  LTSRadixEngineToolkit,
+  PublicKey,
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
+
+let olympiaAccountAddress: string =
+  "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
+let { babylonAccountAddress, publicKey } =
+  await LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress(
+    olympiaAccountAddress,
+    NetworkId.Mainnet /* The ID of the network to derive the address for. */
+  );
+console.log(virtualIdentityAddress);
+```
+
+#### Deriving Known Addresses
+
+There are various entities created at the Babylon genesis which have a known set of addresses. The following entities (and their addresses) are all created at genesis:
+
+- Resources
+  - XRD Resource
+  - Ecdsa Secp256k1 Resource
+  - EdDSA Ed25519 Resource
+  - System Resource
+  - Package Badge Resource
+- Components
+  - Faucet Component (if exists)
+  - Epoch Manager Component
+  - Clock Component
+- Packages
+  - Faucet Package (if exists)
+  - Account Package
+
+The Radix Engine Toolkit can be used to provide the above mentioned addresses on any network that the client chooses.
+
+```ts
+import { LTSRadixEngineToolkit, NetworkId } from "@radixdlt/radix-engine-toolkit";
+
+let knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
+  NetworkId.Mainnet /* The ID of the network to derive the addresses for. */
+);
+console.log(knownAddresses);
+```
+
+### Utils API Group
+
+#### Hashing
+
+The `Utils` API group of the `LTSRadixEngineToolkit` offers a methdo for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests
+
+```ts
+import {
+  LTSRadixEngineToolkit,
+} from "@radixdlt/radix-engine-toolkit";
+
+let data: Uint8Array = /* Some array of bytes */;
+let hashedData: Uint8Array = LTSRadixEngineToolkit.Utils.hash(data);
+```
+
 # Frequently Asked Questions
 
 <details>
@@ -1151,7 +1245,7 @@ import {
     TransactionIntent,
     SignedTransactionIntent,
     NotarizedTransaction
-} from '@radixdlt/radix-engine-toolkit';
+} from "@radixdlt/radix-engine-toolkit";
 
 let intent: TransactionIntent | SignedTransactionIntent | NotarizedTransaction = /* Some kind of intent */;
 let transactionId: Uint8Array = await intent.transactionId();
