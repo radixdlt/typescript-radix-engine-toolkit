@@ -56,10 +56,10 @@ export class InformationResponse {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }

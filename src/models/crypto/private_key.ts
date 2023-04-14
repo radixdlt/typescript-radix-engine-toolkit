@@ -61,10 +61,10 @@ export class EcdsaSecp256k1 implements IPrivateKey {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -108,10 +108,10 @@ export class EddsaEd25519 implements IPrivateKey {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }

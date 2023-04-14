@@ -152,10 +152,10 @@ export class CallFunction extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -189,10 +189,10 @@ export class CallMethod extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -220,10 +220,10 @@ export class TakeFromWorktop extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -257,10 +257,10 @@ export class TakeFromWorktopByAmount extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -294,10 +294,10 @@ export class TakeFromWorktopByIds extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -316,10 +316,10 @@ export class ReturnToWorktop extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -338,10 +338,10 @@ export class AssertWorktopContains extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -369,10 +369,10 @@ export class AssertWorktopContainsByAmount extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -399,10 +399,10 @@ export class AssertWorktopContainsByIds extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -421,10 +421,10 @@ export class PopFromAuthZone extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -443,10 +443,10 @@ export class PushToAuthZone extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -460,10 +460,10 @@ export class ClearAuthZone extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -477,10 +477,10 @@ export class ClearSignatureProofs extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -508,10 +508,10 @@ export class CreateProofFromAuthZone extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -544,10 +544,10 @@ export class CreateProofFromAuthZoneByAmount extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -581,10 +581,10 @@ export class CreateProofFromAuthZoneByIds extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -611,10 +611,10 @@ export class CreateProofFromBucket extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -641,10 +641,10 @@ export class CloneProof extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -663,10 +663,10 @@ export class DropProof extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -680,10 +680,10 @@ export class DropAllProofs extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -729,10 +729,10 @@ export class PublishPackage extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -751,10 +751,10 @@ export class BurnResource extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -781,10 +781,10 @@ export class RecallResource extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -817,10 +817,10 @@ export class SetMetadata extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -847,10 +847,10 @@ export class RemoveMetadata extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -877,10 +877,10 @@ export class SetPackageRoyaltyConfig extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -907,10 +907,10 @@ export class SetComponentRoyaltyConfig extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -929,10 +929,10 @@ export class ClaimPackageRoyalty extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -951,10 +951,10 @@ export class ClaimComponentRoyalty extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -987,10 +987,10 @@ export class SetMethodAccessRule extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1017,10 +1017,10 @@ export class MintFungible extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1047,10 +1047,10 @@ export class MintNonFungible extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1078,10 +1078,10 @@ export class MintUuidNonFungible extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1114,10 +1114,10 @@ export class CreateFungibleResource extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1156,10 +1156,10 @@ export class CreateFungibleResourceWithInitialSupply extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1198,10 +1198,10 @@ export class CreateNonFungibleResource extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1246,10 +1246,10 @@ export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1305,10 +1305,10 @@ export class CreateAccessController extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1327,10 +1327,10 @@ export class CreateIdentity extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1350,10 +1350,10 @@ export class AssertAccessRule extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1380,10 +1380,10 @@ export class CreateValidator extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -1402,10 +1402,10 @@ export class CreateAccount extends Instruction {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }

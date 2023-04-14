@@ -134,10 +134,10 @@ export class ComponentAddress extends EntityAddress implements IAddress {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -230,10 +230,10 @@ export class ResourceAddress extends EntityAddress implements IAddress {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
@@ -301,10 +301,10 @@ export class PackageAddress extends EntityAddress implements IAddress {
   }
 
   toString(): string {
-    return JSON.stringify(this.serialize());
+    return JSON.stringify(this.toObject());
   }
 
-  serialize(): Record<string, any> {
+  toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
 }
