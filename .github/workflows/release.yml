@@ -28,4 +28,4 @@ jobs:
       - name: Release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn publish --verbose
+        run: yarn publish --access public --verbose
