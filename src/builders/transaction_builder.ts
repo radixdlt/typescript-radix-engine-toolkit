@@ -15,12 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { IPrivateKey } from "models/crypto/private_key";
 import {
   CompileSignedTransactionIntentResponse,
   CompileTransactionIntentResponse,
   NotarizedTransaction,
-  Signature,
   SignatureWithPublicKey,
   SignedTransactionIntent,
   TransactionHeader,
@@ -30,11 +28,12 @@ import {
 import { hash } from "../utils";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
-
-export type signIntentFn = (
-  hashToSign: Uint8Array
-) => SignatureWithPublicKey.SignatureWithPublicKey;
-export type notarizationFn = (hashToSign: Uint8Array) => Signature.Signature;
+import {
+  NotarySignatureSource,
+  SignatureSource,
+  resolveNotarySignature,
+  resolveSignature,
+} from "./builder_models";
 
 export class TransactionBuilder {
   private retWrapper: RadixEngineToolkitWasmWrapper;
@@ -112,43 +111,22 @@ export class TransactionBuilderIntentSignaturesStep {
     this.intentSignatures = intentSignatures;
   }
 
-  public sign(
-    key: IPrivateKey | signIntentFn
-  ): TransactionBuilderIntentSignaturesStep {
-    // Compile the transaction intent
-    let { compiledTransactionIntent, hashToSign } =
-      this.buildTransactionIntent();
+  public sign(source: SignatureSource): TransactionBuilderIntentSignaturesStep {
+    const { hashToSign } = this.buildTransactionIntent();
 
-    // If the key is a function, then invoke that function with the hashed compiled transaction
-    // intent, otherwise, call the private key to sign.
-    if (typeof key === "function") {
-      this.intentSignatures.push(key(hashToSign));
-    } else {
-      this.intentSignatures.push(
-        key.signToSignatureWithPublicKey(compiledTransactionIntent)
-      );
-    }
+    this.intentSignatures.push(resolveSignature(source, hashToSign));
 
     return this;
   }
 
-  public notarize(key: IPrivateKey | notarizationFn): NotarizedTransaction {
-    // Construct a signed transaction intent and compile it
-    let {
-      compiledSignedTransactionIntent,
-      signedTransactionIntent,
-      hashToSign,
-    } = this.buildSignedTransactionIntent();
+  public notarize(source: NotarySignatureSource): NotarizedTransaction {
+    let { signedTransactionIntent, hashToNotarize } =
+      this.buildSignedTransactionIntent();
 
-    // If the key is a function, then invoke that function with the hashed compiled transaction
-    // intent, otherwise, call the private key to sign.
-    if (typeof key === "function") {
-      let signature = key(hashToSign);
-      return new NotarizedTransaction(signedTransactionIntent, signature);
-    } else {
-      let signature = key.signToSignature(compiledSignedTransactionIntent);
-      return new NotarizedTransaction(signedTransactionIntent, signature);
-    }
+    return new NotarizedTransaction(
+      signedTransactionIntent,
+      resolveNotarySignature(source, hashToNotarize)
+    );
   }
 
   public buildTransactionIntent(): {
@@ -175,7 +153,7 @@ export class TransactionBuilderIntentSignaturesStep {
   public buildSignedTransactionIntent(): {
     compiledSignedTransactionIntent: Uint8Array;
     signedTransactionIntent: SignedTransactionIntent;
-    hashToSign: Uint8Array;
+    hashToNotarize: Uint8Array;
   } {
     let signedIntent = new SignedTransactionIntent(
       this.intent,
@@ -192,7 +170,7 @@ export class TransactionBuilderIntentSignaturesStep {
     return {
       compiledSignedTransactionIntent,
       signedTransactionIntent: signedIntent,
-      hashToSign: signedTransactionIntentHash,
+      hashToNotarize: signedTransactionIntentHash,
     };
   }
 }

@@ -454,18 +454,27 @@ export class RadixEngineToolkit {
       );
     }
 
-    return RawRadixEngineToolkit.staticallyValidateTransaction(
+    const result = await RawRadixEngineToolkit.staticallyValidateTransaction(
       new StaticallyValidateTransactionRequest(
         compiledNotarizedTransaction,
         validationConfig
       )
-    ).then((response) => {
-      if (response instanceof StaticallyValidateTransactionResponseInvalid) {
-        return { isValid: false, errorMessage: response.error };
-      } else {
-        return { isValid: true, errorMessage: undefined };
-      }
-    });
+    );
+    if (result instanceof StaticallyValidateTransactionResponseInvalid) {
+      return {
+        isValid: false,
+        errorMessage: result.error,
+        throwIfInvalid: () => {
+          throw new Error(result.error);
+        },
+      };
+    } else {
+      return {
+        isValid: true,
+        errorMessage: undefined,
+        throwIfInvalid: () => {},
+      };
+    }
   }
 
   //================
@@ -641,6 +650,8 @@ export interface TransactionValidity {
    * An optional error message. This message only exists if the transaction is invalid.
    */
   errorMessage: string | undefined;
+
+  throwIfInvalid(): void;
 }
 
 export interface AddressAnalysis {

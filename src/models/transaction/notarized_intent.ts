@@ -81,9 +81,7 @@ export class NotarizedTransaction {
     return this.compile().then(hash);
   }
 
-  async staticallyValidate(
-    validationConfig: ValidationConfig
-  ): Promise<TransactionValidity> {
+  async staticallyValidate(validationConfig: ValidationConfig): Promise<TransactionValidity> {
     return RadixEngineToolkit.staticallyValidateTransaction(
       this,
       validationConfig

@@ -886,8 +886,8 @@ export class ManifestBuilder {
 }
 
 class SequentialIdAllocator {
-  private bucketId: number = 0;
-  private proofId: number = 0;
+  private bucketId: number = 1;
+  private proofId: number = 1;
 
   constructor() {}
 
