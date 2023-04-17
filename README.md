@@ -222,11 +222,10 @@ let transaction: NotarizedTransaction = await TransactionBuilder.new().then(
 let transactionId: Uint8Array = await transaction.transactionId();
 console.log(Convert.Uint8Array.toHexString(transactionId));
 
-// Check that the transaction that we've just built is statically valid.
-let transactionValidity = await transaction.staticallyValidate(
+// Check that the transaction that we've just built is statically valid - else staticallyValidate returns a rejected promise.
+await transaction.staticallyValidate(
   ValidationConfig.default(NetworkId.Simulator)
 );
-console.log(transactionValidity);
 ```
 
 The constructed transaction can then be compiled and submitted to the Network Gateway to be processed by the network.
@@ -312,11 +311,10 @@ let transaction: NotarizedTransaction = await TransactionBuilder.new().then(
 let transactionId: Uint8Array = await transaction.transactionId();
 console.log(Convert.Uint8Array.toHexString(transactionId));
 
-// Check that the transaction that we've just built is statically valid.
-let transactionValidity = await transaction.staticallyValidate(
+// Check that the transaction that we've just built is statically valid - else staticallyValidate returns a rejected promise.
+await transaction.staticallyValidate(
   ValidationConfig.default(NetworkId.Simulator)
 );
-console.log(transactionValidity);
 ```
 
 # Functionality
@@ -851,12 +849,7 @@ import {
 } from "@radixdlt/radix-engine-toolkit";
 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
-let transactionValidity = await notarizedTransaction(ValidationConfig.default(NetworkId.Mainnet));
-if (transactionValidity.isValid) {
-  console.log("The transaction is valid")
-} else {
-  console.log("The transaction is invalid:", transactionValidity.errorMessage)
-}
+await notarizedTransaction.staticallyValidate(ValidationConfig.default(NetworkId.Mainnet));
 ```
 
 ### Example B
@@ -872,15 +865,10 @@ import {
 } from "@radixdlt/radix-engine-toolkit";
 
 let notarizedTransaction: NotarizedTransaction = /* Some notarized transaction */;
-let transactionValidity = await RadixEngineToolkit.staticallyValidateTransaction(
+await RadixEngineToolkit.staticallyValidateTransaction(
   notarizedTransaction,
   ValidationConfig.default(NetworkId.Mainnet)
 );
-if (transactionValidity.isValid) {
-  console.log("The transaction is valid")
-} else {
-  console.log("The transaction is invalid:", transactionValidity.errorMessage)
-}
 ```
 
 ## SBOR Encoding and Decoding

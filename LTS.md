@@ -3,80 +3,97 @@
 | **Note** | It is recommended (but not required) to read the [README.md](./README.md) for additional context on the Radix Engine Toolkit as a library, it's architecture, advanced uses of the toolkit. |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-This `LTSRadixEngineToolkit` class is meant to provide a smaller interface with a higher degree of backward compatibility that is suitable for third parties hoping to integrate with the Radix Babylon ledger.
+This `LTSRadixEngineToolkit` class is meant to provide a smaller interface with a higher degree of backward compatibility that is suitable for third parties looking to integrate with the Radix Babylon ledger.
 
-The `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients, quite the opposite, they are meant to provide simple interfaces to functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS.
+The `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients. They are meant to provide focused, simple interfaces for functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS.
 
 The following set of classes currently are currently considered to be in LTS:
 
-- `ActionTransactionBuilder`
+- `SimpleTransactionBuilder`
 - `LTSRadixEngineToolkit`
   - `Transaction` API Group
   - `Derive` API Group
   - `Utils` API Group
 
-## Constructing Transactions through Higher Level Actions
+## `SimpleTransactionBuilder` - constructing transactions through high-level actions
 
-One of the classes that are considered in LTS is the `ActionTransactionBuilder` which is a class that allows for the construction of transactions through higher-level actions to specify intent. Constructing transactions in such a manner means that a client does not need to interact with or build their own transaction manifest. The `ActionTransactionBuilder` class will handle the complete process of constructing the transaction from beginning to end, including the transaction manifest. Additionally, clients that use the `ActionTransactionBuilder` would not need to understand the construction process, when (or on what) hashing is done, or other information.
+The `SimpleTransactionBuilder` is a class which allows for the construction of transactions through higher-level actions to specify intent.
 
-Despite the simple interface of the `ActionTransactionBuilder`, it is a powerful way for constructing transactions. The following is a list of features supported by the `ActionTransactionBuilder`:
+Constructing transactions in such a manner means that a client does not need to interact with or build their own transaction manifest or header, or worry about hashing or other construction tools.
 
-- Allows for many to many transfer of fungible tokens.
-- Aggregates withdraws and deposits into and from accounts to optimize for fees.
-- Can be used with a single signer or with multiple signers.
-- Sets many of the values in the header to overridable defaults.
+To simplify things as much as possible, `SimpleTransactionBuilder` only supports a single signer for the transaction, and it makes this signer also the tranasction's notary, with `notaryAsSigner` set to `true`. At the current moment of time, the `SimpleTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases.
 
-At the current moment of time, the `ActionTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases.
+### Simple Transfer Construction
 
-In this document, we wish to categorize transactions into two main categories: single notary signature transactions, and multi-signature transactions. By far, the most common type of transactions that we expect most integrators to be using are the single notary signature transactions, however, integrators are free to use whatever fits best fits their needs.
+The following demonstrates how to create a fungible resource transaction to transfer from `fromAccountAddress` to one or more other accounts.
 
-### Single Notary Signature Transactions
+The `fromAccountAddress` is used to pay fees. If the account is a standard virtual account protected by its corresponding public key, then the
+`fromAccountPublicKey` will be the public key which was used to derive the `fromAccountAddress`, via `LTSRadixEngineToolkit.Derive.virtualAccountAddress` (see the next section).
 
-This category of transactions is the simplest to construct, thus, we expect that integrators that do not have complex needs would be constructing this type of transactions. This refers to transactions built with no intent signatures and with the `notaryAsSignatory` flag set to `true`. In this case, the notary signature (all transactions have exactly ONE notary signature) will be considered as a notary signature and an intent signature. In simpler terms, you can think of it as: when `notaryAsSignatory` is set to `true`, the transaction may withdraw funds from the notary's account, otherwise, it can't.
-
-The following is an example of how to transfer funds from account A to B and from A to C all in a single transaction. This will be a single notary signature transaction.
+Note that virtual account addresses only contain the hash of the public key - so you will need to store the mapping of account
+address to public / private key for your accounts yourself.
 
 ```ts
 import {
   NetworkId,
   PrivateKey,
   NotarizedTransaction,
-  ActionTransactionBuilder,
+  SimpleTransactionBuilder,
   Signature,
   PublicKey,
   CompiledSignedTransactionIntent,
-} from "../../src";
+} from "@radixdlt/radix-engine-toolkit";
 
-const sign = (hashToSign: Uint8Array): Signature.Signature => {
-  /* A function implemented in your internal systems that is able to sign a given hash and produce a sig. */
+const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
+  /*
+    A function implemented in your internal systems that is able to sign a given hash using the
+    private key corresponding to the given public key, and produce a signature.
+
+    NOTE:
+    - If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures
+    - If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: v || r || s
+      > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
+      > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
+      > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
+  */
 };
 
-const getNotaryPublicKey = (): PublicKey.PublicKey => {
-  /* A function implemented in your internal systems that is able to get the public key of the notary. */
-};
+// Construction metadata
+const currentEpoch = /* Sourced from /lts/transaction/construction in the Core API - or the Gateway */;
 
-let account1 = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
-let account2 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
-let account3 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+// Account information
+const fromAccountPublicKey: PublicKey.PublicKey = /* Get public key of account */;
+const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
 
-let resourceAddress1 =
-  "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+// Recipient/s
+const toAccountAddress1 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+const toAccountAddress2 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 
-let signedIntent: CompiledSignedTransactionIntent =
-  await ActionTransactionBuilder.new(
-    10 /* The start epoch (inclusive) of when this transaction becomes valid */,
-    20 /* The end epoch (exclusive) of when this transaction is no longer valid */,
-    NetworkId.Simulator /* The id of the network that this transactions is destined for */,
-    account1 /* The fee payer */,
-    getNotaryPublicKey() /* The notary's public key */
-  ).then((builder) => {
-    return builder
-      .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
-      .fungibleResourceTransfer(account1, account3, resourceAddress1, 100)
-      .compileSignedTransactionIntent();
-  });
-let signature = sign(signedIntent.hashToSign);
-let transaction = signedIntent.compileNotarizedTransaction(signature);
+// The fungible resource being transfered
+const resourceAddress = "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+
+const builder = await SimpleTransactionBuilder.new({
+  networkId: NetworkId.RCNet,
+  validFromEpoch: currentEpoch,
+  fromAccount: fromAccountAddress,
+  signerPublicKey: fromAccountPublicKey,
+});
+
+const unnotarizedTransaction = builder
+  /* The following defaults are used:
+  .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
+  .tipPercentage(0)                // No tip
+  .lockedFee(5)                    // Maximum fee of 5 XRD - but requires at least 5 XRD in the account
+  */
+  .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
+  .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
+  .compileForNotarization();
+
+const signature = await sign(fromAccountPublicKey, unnotarizedTransaction.hashToNotarize);
+
+const notarizedTransactionBytes = unnotarizedTransaction.notarizeAsSigner(signature).toByteArray();
+
+// You can then submit the notarized transaction bytes to `/lts/transaction/submit` on the Core API.
 ```
 
 ## `LTSRadixEngineToolkit` Functionality
@@ -119,14 +136,14 @@ import {
   NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
-let olympiaAccountAddress: string =
+const olympiaAccountAddress: string =
   "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
-let { babylonAccountAddress, publicKey } =
+const { babylonAccountAddress, publicKey } =
   await LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress(
     olympiaAccountAddress,
     NetworkId.Mainnet /* The ID of the network to derive the address for. */
   );
-console.log(virtualIdentityAddress);
+console.log(babylonAccountAddress);
 ```
 
 #### Deriving Known Addresses
@@ -155,7 +172,7 @@ import {
   NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
-let knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
+const knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
   NetworkId.Mainnet /* The ID of the network to derive the addresses for. */
 );
 console.log(knownAddresses);
@@ -165,13 +182,13 @@ console.log(knownAddresses);
 
 #### Hashing
 
-The `Utils` API group of the `LTSRadixEngineToolkit` offers a method for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests
+The `Utils` API group of the `LTSRadixEngineToolkit` offers a method for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests.
 
 ```ts
 import {
   LTSRadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
-let data: Uint8Array = /* Some array of bytes */;
-let hashedData: Uint8Array = LTSRadixEngineToolkit.Utils.hash(data);
+const data: Uint8Array = /* Some array of bytes */;
+const blake2bHash: Uint8Array = LTSRadixEngineToolkit.Utils.hash(data);
 ```

@@ -15,11 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
+export { ManifestBuilder } from "./manifest_builder";
 export {
-  ActionTransactionBuilder,
   CompiledNotarizedTransaction,
   CompiledSignedTransactionIntent,
-  CompiledTransactionIntent,
-} from "./action_transaction_builder";
-export { ManifestBuilder } from "./manifest_builder";
+  SimpleTransactionBuilder,
+} from "./simple_transaction_builder";
 export { TransactionBuilder } from "./transaction_builder";

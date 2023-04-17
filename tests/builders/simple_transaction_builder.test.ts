@@ -17,16 +17,18 @@
 
 import { describe, expect, it } from "vitest";
 import {
-  ActionTransactionBuilder,
+  InstructionList,
   ManifestAstValue,
   ManifestBuilder,
   NetworkId,
   PrivateKey,
+  RadixEngineToolkit,
+  SimpleTransactionBuilder,
   ValidationConfig,
 } from "../../src";
 
-describe("Action Builder Tests", () => {
-  it("Simple action builder manifest matches expected", async () => {
+describe("SimpleTransactionBuilder Tests", () => {
+  it("Simple transaction builder manifest matches expected", async () => {
     // Arrange
     let privateKey = new PrivateKey.EddsaEd25519(
       "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
@@ -43,17 +45,27 @@ describe("Action Builder Tests", () => {
       "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
 
     // Act
-    let transaction = await ActionTransactionBuilder.new(
-      10,
-      20,
-      242,
-      account1,
-      privateKey.publicKey()
-    ).then((builder) => {
-      return builder
-        .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
-        .notarize(privateKey);
+    const builder = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 10,
+      fromAccount: account1,
+      signerPublicKey: privateKey.publicKey(),
     });
+    const transaction = builder
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 100,
+      })
+      .compileForNotarization()
+      .notarizeAsSigner(privateKey);
+
+    // Assert
+    const decompiledNotarizedTransaction =
+      await RadixEngineToolkit.decompileNotarizedTransactionIntent(
+        transaction.compiled,
+        InstructionList.Kind.Parsed
+      );
 
     let expectedManifest = new ManifestBuilder()
       .callMethod(account1, "lock_fee", [new ManifestAstValue.Decimal("5")])
@@ -78,20 +90,15 @@ describe("Action Builder Tests", () => {
       )
       .build();
 
-    // Assert
-    expect(transaction.intent.signedIntent.intent.manifest).toEqual(
+    expect(decompiledNotarizedTransaction.signedIntent.intent.manifest).toEqual(
       expectedManifest
     );
-    expect(
-      (
-        await transaction.intent.staticallyValidate(
-          ValidationConfig.default(NetworkId.Simulator)
-        )
-      ).isValid
-    ).toBeTruthy();
+    await decompiledNotarizedTransaction.staticallyValidate(
+      ValidationConfig.default(NetworkId.Simulator)
+    );
   });
 
-  it("Simple action builder manifest aggregates withdraws as expected", async () => {
+  it("Simple transaction builder manifest aggregates withdraws as expected", async () => {
     // Arrange
     let privateKey = new PrivateKey.EddsaEd25519(
       "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
@@ -110,18 +117,37 @@ describe("Action Builder Tests", () => {
       "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
 
     // Act
-    let transaction = await ActionTransactionBuilder.new(
-      10,
-      20,
-      242,
-      account1,
-      privateKey.publicKey()
-    ).then((builder) => {
-      return builder
-        .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
-        .fungibleResourceTransfer(account1, account3, resourceAddress1, 200)
-        .notarize(privateKey);
+    const builder = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 10,
+      fromAccount: account1,
+      signerPublicKey: privateKey.publicKey(),
     });
+    const transaction = builder
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 100,
+      })
+      .transferFungible({
+        toAccount: account3,
+        resourceAddress: resourceAddress1,
+        amount: 200,
+      })
+      .transferFungible({
+        toAccount: account3,
+        resourceAddress: resourceAddress2,
+        amount: 5,
+      })
+      .compileForNotarization()
+      .notarizeAsSigner(privateKey);
+
+    // Assert
+    const decompiledNotarizedTransaction =
+      await RadixEngineToolkit.decompileNotarizedTransactionIntent(
+        transaction.compiled,
+        InstructionList.Kind.Parsed
+      );
 
     let expectedManifest = new ManifestBuilder()
       .callMethod(account1, "lock_fee", [new ManifestAstValue.Decimal("5")])
@@ -131,6 +157,14 @@ describe("Action Builder Tests", () => {
         [
           new ManifestAstValue.Address(resourceAddress1),
           new ManifestAstValue.Decimal(300),
+        ]
+      )
+      .callMethod(
+        new ManifestAstValue.Address(account1),
+        new ManifestAstValue.String("withdraw"),
+        [
+          new ManifestAstValue.Address(resourceAddress2),
+          new ManifestAstValue.Decimal(5),
         ]
       )
       .takeFromWorktopByAmount(
@@ -155,22 +189,27 @@ describe("Action Builder Tests", () => {
           );
         }
       )
+      .takeFromWorktopByAmount(
+        new ManifestAstValue.Address(resourceAddress2),
+        new ManifestAstValue.Decimal(5),
+        (builder, bucket) => {
+          return builder.callMethod(
+            new ManifestAstValue.Address(account3),
+            new ManifestAstValue.String("deposit"),
+            [bucket]
+          );
+        }
+      )
       .build();
-
-    // Assert
-    expect(transaction.intent.signedIntent.intent.manifest).toEqual(
+    expect(decompiledNotarizedTransaction.signedIntent.intent.manifest).toEqual(
       expectedManifest
     );
-    expect(
-      (
-        await transaction.intent.staticallyValidate(
-          ValidationConfig.default(NetworkId.Simulator)
-        )
-      ).isValid
-    ).toBeTruthy();
+    await decompiledNotarizedTransaction.staticallyValidate(
+      ValidationConfig.default(NetworkId.Simulator)
+    );
   });
 
-  it("Simple action builder manifest aggregates deposits as expected", async () => {
+  it("Simple transaction builder manifest aggregates deposits as expected", async () => {
     // Arrange
     let privateKey = new PrivateKey.EddsaEd25519(
       "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
@@ -180,27 +219,37 @@ describe("Action Builder Tests", () => {
       "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
     let account2 =
       "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
-    let account3 =
-      "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 
     let resourceAddress1 =
       "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
-    let resourceAddress2 =
-      "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
 
     // Act
-    let transaction = await ActionTransactionBuilder.new(
-      10,
-      20,
-      242,
-      account1,
-      privateKey.publicKey()
-    ).then((builder) => {
-      return builder
-        .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
-        .fungibleResourceTransfer(account3, account2, resourceAddress1, 100)
-        .notarize(privateKey);
+    const builder = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 10,
+      fromAccount: account1,
+      signerPublicKey: privateKey.publicKey(),
     });
+    const transaction = builder
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 100,
+      })
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 200,
+      })
+      .compileForNotarization()
+      .notarizeAsSigner(privateKey);
+
+    // Assert
+    const decompiledNotarizedTransaction =
+      await RadixEngineToolkit.decompileNotarizedTransactionIntent(
+        transaction.compiled,
+        InstructionList.Kind.Parsed
+      );
 
     let expectedManifest = new ManifestBuilder()
       .callMethod(account1, "lock_fee", [new ManifestAstValue.Decimal("5")])
@@ -209,20 +258,12 @@ describe("Action Builder Tests", () => {
         new ManifestAstValue.String("withdraw"),
         [
           new ManifestAstValue.Address(resourceAddress1),
-          new ManifestAstValue.Decimal(100),
-        ]
-      )
-      .callMethod(
-        new ManifestAstValue.Address(account3),
-        new ManifestAstValue.String("withdraw"),
-        [
-          new ManifestAstValue.Address(resourceAddress1),
-          new ManifestAstValue.Decimal(100),
+          new ManifestAstValue.Decimal(300),
         ]
       )
       .takeFromWorktopByAmount(
         new ManifestAstValue.Address(resourceAddress1),
-        new ManifestAstValue.Decimal(200),
+        new ManifestAstValue.Decimal(300),
         (builder, bucket) => {
           return builder.callMethod(
             new ManifestAstValue.Address(account2),
@@ -233,16 +274,11 @@ describe("Action Builder Tests", () => {
       )
       .build();
 
-    // Assert
-    expect(transaction.intent.signedIntent.intent.manifest).toEqual(
+    expect(decompiledNotarizedTransaction.signedIntent.intent.manifest).toEqual(
       expectedManifest
     );
-    expect(
-      (
-        await transaction.intent.staticallyValidate(
-          ValidationConfig.default(NetworkId.Simulator)
-        )
-      ).isValid
-    ).toBeTruthy();
+    await decompiledNotarizedTransaction.staticallyValidate(
+      ValidationConfig.default(NetworkId.Simulator)
+    );
   });
 });

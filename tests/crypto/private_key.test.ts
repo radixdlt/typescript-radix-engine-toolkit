@@ -17,7 +17,7 @@
 
 import { describe, expect, test } from "vitest";
 import { Convert, PrivateKey, PublicKey, Signature } from "../../src";
-import {} from "../../src/utils";
+import { hash } from "../../src/utils";
 
 describe.each([
   {
@@ -549,7 +549,9 @@ describe.each([
 
     test(`signing produces expected signature`, () => {
       expect(
-        privateKey.signToSignature(Convert.HexString.toUint8Array(message))
+        privateKey.signToSignature(
+          hash(Convert.HexString.toUint8Array(message))
+        )
       ).toEqual(signature);
     });
   }

@@ -441,7 +441,7 @@ export class RadixEngineToolkit {
   static async staticallyValidateTransaction(
     notarizedTransaction: Uint8Array | NotarizedTransaction,
     validationConfig: ValidationConfig
-  ): Promise<TransactionValidity> {
+  ): Promise<void> {
     let compiledNotarizedTransaction: Uint8Array;
     if (notarizedTransaction instanceof NotarizedTransaction) {
       compiledNotarizedTransaction =
@@ -454,18 +454,15 @@ export class RadixEngineToolkit {
       );
     }
 
-    return RawRadixEngineToolkit.staticallyValidateTransaction(
+    const result = await RawRadixEngineToolkit.staticallyValidateTransaction(
       new StaticallyValidateTransactionRequest(
         compiledNotarizedTransaction,
         validationConfig
       )
-    ).then((response) => {
-      if (response instanceof StaticallyValidateTransactionResponseInvalid) {
-        return { isValid: false, errorMessage: response.error };
-      } else {
-        return { isValid: true, errorMessage: undefined };
-      }
-    });
+    );
+    if (result instanceof StaticallyValidateTransactionResponseInvalid) {
+      throw new Error(result.error);
+    }
   }
 
   //================
@@ -629,18 +626,6 @@ export interface AddressBook {
    * The address of the Clock component
    */
   clockComponentAddress: string;
-}
-
-export interface TransactionValidity {
-  /**
-   * A boolean that indicates whether or not the transaction is valid.
-   */
-  isValid: boolean;
-
-  /**
-   * An optional error message. This message only exists if the transaction is invalid.
-   */
-  errorMessage: string | undefined;
 }
 
 export interface AddressAnalysis {

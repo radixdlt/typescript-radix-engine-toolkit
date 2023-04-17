@@ -21,7 +21,6 @@ import { instanceToPlain } from "class-transformer";
 import { ecdsaSign, publicKeyCreate } from "secp256k1";
 import { PublicKey, Signature, SignatureWithPublicKey } from ".";
 import { Convert } from "../..";
-import { hash } from "../../utils";
 
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
@@ -45,8 +44,7 @@ export class EcdsaSecp256k1 implements IPrivateKey {
   }
 
   sign(data: Uint8Array): Uint8Array {
-    let messageHash = hash(data);
-    let { signature, recid } = ecdsaSign(messageHash, this.bytes);
+    let { signature, recid } = ecdsaSign(data, this.bytes);
     return new Uint8Array([recid, ...signature]);
   }
 
@@ -89,8 +87,7 @@ export class EddsaEd25519 implements IPrivateKey {
   }
 
   sign(data: Uint8Array): Uint8Array {
-    let messageHash = hash(data);
-    let signature = ed.sign(messageHash, this.bytes);
+    let signature = ed.sign(data, this.bytes);
     return signature;
   }
 
