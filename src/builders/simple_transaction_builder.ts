@@ -17,6 +17,7 @@
 
 import Decimal from "decimal.js";
 import secureRandom from "secure-random";
+import { Convert, RadixEngineToolkit } from "../";
 import {
   CompileNotarizedTransactionResponse,
   CompileTransactionIntentResponse,
@@ -29,6 +30,7 @@ import {
   TransactionHeader,
   TransactionIntent,
   TransactionManifest,
+  ValidationConfig,
 } from "../models";
 import { hash } from "../utils";
 import { RET } from "../wrapper/raw";
@@ -409,6 +411,17 @@ export class CompiledNotarizedTransaction {
 
   toByteArray(): Uint8Array {
     return this.compiled;
+  }
+
+  toHex(): string {
+    return Convert.Uint8Array.toHexString(this.compiled);
+  }
+
+  staticallyValidate(networkId: number): Promise<void> {
+    return RadixEngineToolkit.staticallyValidateTransaction(
+      this.compiled,
+      ValidationConfig.default(networkId)
+    );
   }
 }
 

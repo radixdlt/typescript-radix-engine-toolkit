@@ -61,6 +61,7 @@ describe("SimpleTransactionBuilder Tests", () => {
       .notarizeAsSigner(privateKey);
 
     // Assert
+    await transaction.staticallyValidate(NetworkId.Simulator);
     const decompiledNotarizedTransaction =
       await RadixEngineToolkit.decompileNotarizedTransactionIntent(
         transaction.compiled,
@@ -92,9 +93,6 @@ describe("SimpleTransactionBuilder Tests", () => {
 
     expect(decompiledNotarizedTransaction.signedIntent.intent.manifest).toEqual(
       expectedManifest
-    );
-    await decompiledNotarizedTransaction.staticallyValidate(
-      ValidationConfig.default(NetworkId.Simulator)
     );
   });
 
@@ -143,6 +141,7 @@ describe("SimpleTransactionBuilder Tests", () => {
       .notarizeAsSigner(privateKey);
 
     // Assert
+    await transaction.staticallyValidate(NetworkId.Simulator);
     const decompiledNotarizedTransaction =
       await RadixEngineToolkit.decompileNotarizedTransactionIntent(
         transaction.compiled,
@@ -204,9 +203,6 @@ describe("SimpleTransactionBuilder Tests", () => {
     expect(decompiledNotarizedTransaction.signedIntent.intent.manifest).toEqual(
       expectedManifest
     );
-    await decompiledNotarizedTransaction.staticallyValidate(
-      ValidationConfig.default(NetworkId.Simulator)
-    );
   });
 
   it("Simple transaction builder manifest aggregates deposits as expected", async () => {
@@ -245,6 +241,7 @@ describe("SimpleTransactionBuilder Tests", () => {
       .notarizeAsSigner(privateKey);
 
     // Assert
+    await transaction.staticallyValidate(NetworkId.Simulator);
     const decompiledNotarizedTransaction =
       await RadixEngineToolkit.decompileNotarizedTransactionIntent(
         transaction.compiled,
@@ -276,9 +273,6 @@ describe("SimpleTransactionBuilder Tests", () => {
 
     expect(decompiledNotarizedTransaction.signedIntent.intent.manifest).toEqual(
       expectedManifest
-    );
-    await decompiledNotarizedTransaction.staticallyValidate(
-      ValidationConfig.default(NetworkId.Simulator)
     );
   });
 });

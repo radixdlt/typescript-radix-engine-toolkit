@@ -91,7 +91,12 @@ const unnotarizedTransaction = builder
 
 const signature = await sign(fromAccountPublicKey, unnotarizedTransaction.hashToNotarize);
 
-const notarizedTransactionBytes = unnotarizedTransaction.notarizeAsSigner(signature).toByteArray();
+const transaction = unnotarizedTransaction.notarizeAsSigner(signature);
+
+// Will throw if the transaction is not valid (eg the signature is incorrect)
+await transaction.staticallyValidate(NetworkId.Simulator);
+
+const notarizedTransactionHex = transaction.toHex();
 
 // You can then submit the notarized transaction bytes to `/lts/transaction/submit` on the Core API.
 ```
