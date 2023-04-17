@@ -20,7 +20,8 @@ import Decimal from "decimal.js";
 import secureRandom from "secure-random";
 import {
   CompileNotarizedTransactionResponse,
-  CompileSignedTransactionIntentResponse, CompileTransactionIntentResponse,
+  CompileSignedTransactionIntentResponse,
+  CompileTransactionIntentResponse,
   Instruction,
   InstructionList,
   ManifestAstValue,
@@ -421,7 +422,7 @@ export class CompiledTransactionIntent {
   }
 
   transactionId(): Uint8Array {
-    return hash(this.compiledIntent)
+    return hash(this.compiledIntent);
   }
 }
 
@@ -472,7 +473,7 @@ export class CompiledSignedTransactionIntent {
   }
 
   transactionId(): Uint8Array {
-    return transactionId(this.retWrapper, this.intent.intent)
+    return transactionId(this.retWrapper, this.intent.intent);
   }
 }
 
@@ -500,16 +501,19 @@ export class CompiledNotarizedTransaction {
   }
 
   transactionId(): Uint8Array {
-    return transactionId(this.retWrapper, this.intent.signedIntent.intent)
+    return transactionId(this.retWrapper, this.intent.signedIntent.intent);
   }
 }
 
-const transactionId = (retWrapper: RadixEngineToolkitWasmWrapper, transactionIntent: TransactionIntent): Uint8Array => {
+const transactionId = (
+  retWrapper: RadixEngineToolkitWasmWrapper,
+  transactionIntent: TransactionIntent
+): Uint8Array => {
   let request = transactionIntent;
   let response = retWrapper.invoke(
     request,
     retWrapper.exports.compile_transaction_intent,
     CompileTransactionIntentResponse
   );
-  return hash(response.compiledIntent)
-}
+  return hash(response.compiledIntent);
+};

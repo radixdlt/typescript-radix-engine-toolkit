@@ -17,9 +17,9 @@
 
 export {
   ActionTransactionBuilder,
-  CompiledTransactionIntent,
+  CompiledNotarizedTransaction,
   CompiledSignedTransactionIntent,
-  CompiledNotarizedTransaction
+  CompiledTransactionIntent,
 } from "./action_transaction_builder";
-export {ManifestBuilder} from "./manifest_builder";
-export {TransactionBuilder} from "./transaction_builder";
+export { ManifestBuilder } from "./manifest_builder";
+export { TransactionBuilder } from "./transaction_builder";

@@ -28,13 +28,13 @@ Despite the simple interface of the `ActionTransactionBuilder`, it is a powerful
 
 At the current moment of time, the `ActionTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases.
 
-In this document, we wish to categorize transactions into two main categories: single notary signature transactions, and multi-signature transactions. By far, the most common type of transactions that we expect most integrators to be using are the single notary signature transactions, however, integrators are free to use whatever fits best fits their needs. 
+In this document, we wish to categorize transactions into two main categories: single notary signature transactions, and multi-signature transactions. By far, the most common type of transactions that we expect most integrators to be using are the single notary signature transactions, however, integrators are free to use whatever fits best fits their needs.
 
 ### Single Notary Signature Transactions
 
-This category of transactions is the simplest to construct, thus, we expect that integrators that do not have complex needs would be constructing this type of transactions. This refers to transactions built with no intent signatures and with the `notaryAsSignatory` flag set to `true`. In this case, the notary signature (all transactions have exactly ONE notary signature) will be considered as a notary signature and an intent signature. In simpler terms, you can think of it as: when `notaryAsSignatory` is set to `true`, the transaction may withdraw funds from the notary's account, otherwise, it can't. 
+This category of transactions is the simplest to construct, thus, we expect that integrators that do not have complex needs would be constructing this type of transactions. This refers to transactions built with no intent signatures and with the `notaryAsSignatory` flag set to `true`. In this case, the notary signature (all transactions have exactly ONE notary signature) will be considered as a notary signature and an intent signature. In simpler terms, you can think of it as: when `notaryAsSignatory` is set to `true`, the transaction may withdraw funds from the notary's account, otherwise, it can't.
 
-The following is an example of how to transfer funds from account A to B and from A to C all in a single transaction. This will be a single notary signature transaction. 
+The following is an example of how to transfer funds from account A to B and from A to C all in a single transaction. This will be a single notary signature transaction.
 
 ```ts
 import {
@@ -44,16 +44,16 @@ import {
   ActionTransactionBuilder,
   Signature,
   PublicKey,
-  CompiledSignedTransactionIntent
+  CompiledSignedTransactionIntent,
 } from "../../src";
 
 const sign = (hashToSign: Uint8Array): Signature.Signature => {
   /* A function implemented in your internal systems that is able to sign a given hash and produce a sig. */
-}
+};
 
 const getNotaryPublicKey = (): PublicKey.PublicKey => {
   /* A function implemented in your internal systems that is able to get the public key of the notary. */
-}
+};
 
 let account1 = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
 let account2 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
@@ -62,18 +62,19 @@ let account3 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 let resourceAddress1 =
   "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
 
-let signedIntent: CompiledSignedTransactionIntent = await ActionTransactionBuilder.new(
-  10 /* The start epoch (inclusive) of when this transaction becomes valid */,
-  20 /* The end epoch (exclusive) of when this transaction is no longer valid */,
-  NetworkId.Simulator /* The id of the network that this transactions is destined for */,
-  account1 /* The fee payer */,
-  getNotaryPublicKey() /* The notary's public key */
-).then((builder) => {
-  return builder
-    .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
-    .fungibleResourceTransfer(account1, account3, resourceAddress1, 100)
-    .compileSignedTransactionIntent()
-});
+let signedIntent: CompiledSignedTransactionIntent =
+  await ActionTransactionBuilder.new(
+    10 /* The start epoch (inclusive) of when this transaction becomes valid */,
+    20 /* The end epoch (exclusive) of when this transaction is no longer valid */,
+    NetworkId.Simulator /* The id of the network that this transactions is destined for */,
+    account1 /* The fee payer */,
+    getNotaryPublicKey() /* The notary's public key */
+  ).then((builder) => {
+    return builder
+      .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
+      .fungibleResourceTransfer(account1, account3, resourceAddress1, 100)
+      .compileSignedTransactionIntent();
+  });
 let signature = sign(signedIntent.hashToSign);
 let transaction = signedIntent.compileNotarizedTransaction(signature);
 ```
