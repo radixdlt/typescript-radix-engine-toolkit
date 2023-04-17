@@ -16,6 +16,7 @@
 // under the License.
 
 import { Expose, Type, instanceToPlain } from "class-transformer";
+import { TransactionValidity } from "wrapper/default";
 import { InstructionList, SignedTransactionIntent } from ".";
 import { Signature } from "../../models/crypto";
 import {
@@ -80,7 +81,7 @@ export class NotarizedTransaction {
     return this.compile().then(hash);
   }
 
-  async staticallyValidate(validationConfig: ValidationConfig): Promise<void> {
+  async staticallyValidate(validationConfig: ValidationConfig): Promise<TransactionValidity> {
     return RadixEngineToolkit.staticallyValidateTransaction(
       this,
       validationConfig
