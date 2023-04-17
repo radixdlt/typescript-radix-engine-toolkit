@@ -79,7 +79,7 @@ const builder = await SimpleTransactionBuilder.new({
   signerPublicKey: fromAccountPublicKey,
 });
 
-const unnotarizedTransaction = builder
+const unsignedTransaction = builder
   /* The following defaults are used:
   .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
   .tipPercentage(0)                // No tip
@@ -87,18 +87,21 @@ const unnotarizedTransaction = builder
   */
   .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
   .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
-  .compileForNotarization();
+  .compileIntent();
 
-const signature = await sign(fromAccountPublicKey, unnotarizedTransaction.hashToNotarize);
+const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNotarize);
 
-const transaction = unnotarizedTransaction.notarizeAsSigner(signature);
+const transaction = unsignedTransaction.compileNotarized(signature);
 
-// Will throw if the transaction is not valid (eg the signature is incorrect)
-await transaction.staticallyValidate(NetworkId.Simulator);
+// Will throw if eg the signature is incorrect
+(await transaction.staticallyValidate(NetworkId.Simulator)).throwIfInvalid();
 
 const notarizedTransactionHex = transaction.toHex();
+const transactionIntentHashHex = transaction.transactionIdHex();
 
-// You can then submit the notarized transaction bytes to `/lts/transaction/submit` on the Core API.
+// You can then use these to interact with the Core API or Gateway API, eg with the Core API:
+// * Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit`
+// * Check commit status using `transactionIntentHashHex` with `/core/lts/transaction/status`
 ```
 
 ## `LTSRadixEngineToolkit` Functionality

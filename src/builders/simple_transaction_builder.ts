@@ -33,6 +33,7 @@ import {
   ValidationConfig,
 } from "../models";
 import { hash } from "../utils";
+import { TransactionValidity } from "../wrapper/default";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 import {
@@ -168,7 +169,11 @@ export class SimpleTransactionBuilder {
     return this;
   }
 
-  public compileForNotarization(): CompiledSignedTransactionIntent {
+  /**
+   * This compiles the "signed intent" without any additional signatures (other than the notary which will count as a signatory).
+   * @returns the compiled intent, along with the `hashToNotarize` which needs to be signed.
+   */
+  public compileIntent(): CompiledSignedTransactionIntent {
     let {
       compiledSignedTransactionIntent,
       signedTransactionIntent,
@@ -362,7 +367,7 @@ export class CompiledSignedTransactionIntent {
     return this.compiledSignedIntent;
   }
 
-  notarizeAsSigner(
+  compileNotarized(
     source: NotarySignatureSource
   ): CompiledNotarizedTransaction {
     let notarizedTransaction = new NotarizedTransaction(
@@ -417,7 +422,11 @@ export class CompiledNotarizedTransaction {
     return Convert.Uint8Array.toHexString(this.compiled);
   }
 
-  staticallyValidate(networkId: number): Promise<void> {
+  transactionIdHex(): string {
+    return Convert.Uint8Array.toHexString(this.transactionId);
+  }
+
+  staticallyValidate(networkId: number): Promise<TransactionValidity> {
     return RadixEngineToolkit.staticallyValidateTransaction(
       this.compiled,
       ValidationConfig.default(networkId)

@@ -24,7 +24,6 @@ import {
   PrivateKey,
   RadixEngineToolkit,
   SimpleTransactionBuilder,
-  ValidationConfig,
 } from "../../src";
 
 describe("SimpleTransactionBuilder Tests", () => {
@@ -57,11 +56,13 @@ describe("SimpleTransactionBuilder Tests", () => {
         resourceAddress: resourceAddress1,
         amount: 100,
       })
-      .compileForNotarization()
-      .notarizeAsSigner(privateKey);
+      .compileIntent()
+      .compileNotarized(privateKey);
 
     // Assert
-    await transaction.staticallyValidate(NetworkId.Simulator);
+    (
+      await transaction.staticallyValidate(NetworkId.Simulator)
+    ).throwIfInvalid();
     const decompiledNotarizedTransaction =
       await RadixEngineToolkit.decompileNotarizedTransactionIntent(
         transaction.compiled,
@@ -137,11 +138,13 @@ describe("SimpleTransactionBuilder Tests", () => {
         resourceAddress: resourceAddress2,
         amount: 5,
       })
-      .compileForNotarization()
-      .notarizeAsSigner(privateKey);
+      .compileIntent()
+      .compileNotarized(privateKey);
 
     // Assert
-    await transaction.staticallyValidate(NetworkId.Simulator);
+    (
+      await transaction.staticallyValidate(NetworkId.Simulator)
+    ).throwIfInvalid();
     const decompiledNotarizedTransaction =
       await RadixEngineToolkit.decompileNotarizedTransactionIntent(
         transaction.compiled,
@@ -237,11 +240,13 @@ describe("SimpleTransactionBuilder Tests", () => {
         resourceAddress: resourceAddress1,
         amount: 200,
       })
-      .compileForNotarization()
-      .notarizeAsSigner(privateKey);
+      .compileIntent()
+      .compileNotarized(privateKey);
 
     // Assert
-    await transaction.staticallyValidate(NetworkId.Simulator);
+    (
+      await transaction.staticallyValidate(NetworkId.Simulator)
+    ).throwIfInvalid();
     const decompiledNotarizedTransaction =
       await RadixEngineToolkit.decompileNotarizedTransactionIntent(
         transaction.compiled,
