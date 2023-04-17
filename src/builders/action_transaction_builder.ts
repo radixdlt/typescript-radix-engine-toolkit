@@ -19,17 +19,22 @@ import { IAddress } from "base";
 import Decimal from "decimal.js";
 import secureRandom from "secure-random";
 import {
+  CompileNotarizedTransactionResponse,
+  CompileSignedTransactionIntentResponse, CompileTransactionIntentResponse,
   Instruction,
   InstructionList,
   ManifestAstValue,
   NotarizedTransaction,
   PublicKey,
+  Signature,
+  SignatureWithPublicKey,
   SignedTransactionIntent,
   TransactionHeader,
   TransactionIntent,
   TransactionManifest,
 } from "../models";
 import { IPrivateKey } from "../models/crypto/private_key";
+import { hash } from "../utils";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 import {
@@ -155,24 +160,44 @@ export class ActionTransactionBuilder {
     return this.transition().sign(key);
   }
 
-  public notarize(key: IPrivateKey | notarizationFn): NotarizedTransaction {
-    return this.transition().notarize(key);
+  public notarize(
+    key: IPrivateKey | notarizationFn
+  ): CompiledNotarizedTransaction {
+    let notarizedTransaction = this.transition().notarize(key);
+
+    let request = notarizedTransaction;
+    let response = this.retWrapper.invoke(
+      request,
+      this.retWrapper.exports.compile_notarized_transaction,
+      CompileNotarizedTransactionResponse
+    );
+    let compiledIntent = response.compiledIntent;
+
+    return new CompiledNotarizedTransaction(
+      this.retWrapper,
+      notarizedTransaction,
+      compiledIntent
+    );
   }
 
-  public buildTransactionIntent(): {
-    compiledTransactionIntent: Uint8Array;
-    transactionIntent: TransactionIntent;
-    hashToSign: Uint8Array;
-  } {
-    return this.transition().buildTransactionIntent();
+  public compileTransactionIntent(): CompiledTransactionIntent {
+    let { compiledTransactionIntent, transactionIntent } =
+      this.transition().buildTransactionIntent();
+    return new CompiledTransactionIntent(
+      this.retWrapper,
+      transactionIntent,
+      compiledTransactionIntent
+    );
   }
 
-  public buildSignedTransactionIntent(): {
-    compiledSignedTransactionIntent: Uint8Array;
-    signedTransactionIntent: SignedTransactionIntent;
-    hashToSign: Uint8Array;
-  } {
-    return this.transition().buildSignedTransactionIntent();
+  public compileSignedTransactionIntent(): CompiledSignedTransactionIntent {
+    let { compiledSignedTransactionIntent, signedTransactionIntent } =
+      this.transition().buildSignedTransactionIntent();
+    return new CompiledSignedTransactionIntent(
+      this.retWrapper,
+      signedTransactionIntent,
+      compiledSignedTransactionIntent
+    );
   }
 
   //=================
@@ -347,4 +372,144 @@ export class FungibleResourceTransferAction {
     this.resourceAddress = resourceAddress;
     this.amount = amount;
   }
+}
+
+export class CompiledTransactionIntent {
+  private readonly retWrapper: RadixEngineToolkitWasmWrapper;
+  readonly intent: TransactionIntent;
+  readonly compiledIntent: Uint8Array;
+
+  constructor(
+    retWrapper: RadixEngineToolkitWasmWrapper,
+    intent: TransactionIntent,
+    compiledIntent: Uint8Array
+  ) {
+    this.retWrapper = retWrapper;
+    this.intent = intent;
+    this.compiledIntent = compiledIntent;
+  }
+
+  get hashToSign(): Uint8Array {
+    return hash(this.compiledIntent);
+  }
+
+  toByteArray(): Uint8Array {
+    return this.compiledIntent;
+  }
+
+  compileSignedIntent(
+    signatures: Array<SignatureWithPublicKey.SignatureWithPublicKey>
+  ): CompiledSignedTransactionIntent {
+    let signedTransactionIntent = new SignedTransactionIntent(
+      this.intent,
+      signatures
+    );
+
+    let request = signedTransactionIntent;
+    let response = this.retWrapper.invoke(
+      request,
+      this.retWrapper.exports.compile_signed_transaction_intent,
+      CompileSignedTransactionIntentResponse
+    );
+    let compiledIntent = response.compiledIntent;
+
+    return new CompiledSignedTransactionIntent(
+      this.retWrapper,
+      signedTransactionIntent,
+      compiledIntent
+    );
+  }
+
+  transactionId(): Uint8Array {
+    return hash(this.compiledIntent)
+  }
+}
+
+export class CompiledSignedTransactionIntent {
+  private readonly retWrapper: RadixEngineToolkitWasmWrapper;
+  readonly intent: SignedTransactionIntent;
+  readonly compiledIntent: Uint8Array;
+
+  constructor(
+    retWrapper: RadixEngineToolkitWasmWrapper,
+    intent: SignedTransactionIntent,
+    compiledIntent: Uint8Array
+  ) {
+    this.retWrapper = retWrapper;
+    this.intent = intent;
+    this.compiledIntent = compiledIntent;
+  }
+
+  get hashToSign(): Uint8Array {
+    return hash(this.compiledIntent);
+  }
+
+  toByteArray(): Uint8Array {
+    return this.compiledIntent;
+  }
+
+  compileNotarizedTransaction(
+    notarySignature: Signature.Signature
+  ): CompiledNotarizedTransaction {
+    let notarizedTransaction = new NotarizedTransaction(
+      this.intent,
+      notarySignature
+    );
+
+    let request = notarizedTransaction;
+    let response = this.retWrapper.invoke(
+      request,
+      this.retWrapper.exports.compile_notarized_transaction,
+      CompileNotarizedTransactionResponse
+    );
+    let compiledIntent = response.compiledIntent;
+
+    return new CompiledNotarizedTransaction(
+      this.retWrapper,
+      notarizedTransaction,
+      compiledIntent
+    );
+  }
+
+  transactionId(): Uint8Array {
+    return transactionId(this.retWrapper, this.intent.intent)
+  }
+}
+
+export class CompiledNotarizedTransaction {
+  private readonly retWrapper: RadixEngineToolkitWasmWrapper;
+  readonly intent: NotarizedTransaction;
+  readonly compiledIntent: Uint8Array;
+
+  constructor(
+    retWrapper: RadixEngineToolkitWasmWrapper,
+    intent: NotarizedTransaction,
+    compiledIntent: Uint8Array
+  ) {
+    this.retWrapper = retWrapper;
+    this.intent = intent;
+    this.compiledIntent = compiledIntent;
+  }
+
+  get hashToSign(): Uint8Array {
+    return hash(this.compiledIntent);
+  }
+
+  toByteArray(): Uint8Array {
+    return this.compiledIntent;
+  }
+
+  transactionId(): Uint8Array {
+    return transactionId(this.retWrapper, this.intent.signedIntent.intent)
+  }
+}
+
+const transactionId = (retWrapper: RadixEngineToolkitWasmWrapper, transactionIntent: TransactionIntent): Uint8Array => {
+  let request = transactionIntent;
+  let response = retWrapper.invoke(
+    request,
+    retWrapper.exports.compile_transaction_intent,
+    CompileTransactionIntentResponse
+  );
+  return hash(response.compiledIntent)
 }

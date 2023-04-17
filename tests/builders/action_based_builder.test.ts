@@ -21,7 +21,6 @@ import {
   ManifestAstValue,
   ManifestBuilder,
   NetworkId,
-  NotarizedTransaction,
   PrivateKey,
   ValidationConfig,
 } from "../../src";
@@ -44,7 +43,7 @@ describe("Action Builder Tests", () => {
       "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
 
     // Act
-    let transaction: NotarizedTransaction = await ActionTransactionBuilder.new(
+    let transaction = await ActionTransactionBuilder.new(
       10,
       20,
       242,
@@ -80,10 +79,12 @@ describe("Action Builder Tests", () => {
       .build();
 
     // Assert
-    expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(transaction.intent.signedIntent.intent.manifest).toEqual(
+      expectedManifest
+    );
     expect(
       (
-        await transaction.staticallyValidate(
+        await transaction.intent.staticallyValidate(
           ValidationConfig.default(NetworkId.Simulator)
         )
       ).isValid
@@ -109,7 +110,7 @@ describe("Action Builder Tests", () => {
       "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
 
     // Act
-    let transaction: NotarizedTransaction = await ActionTransactionBuilder.new(
+    let transaction = await ActionTransactionBuilder.new(
       10,
       20,
       242,
@@ -157,10 +158,12 @@ describe("Action Builder Tests", () => {
       .build();
 
     // Assert
-    expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(transaction.intent.signedIntent.intent.manifest).toEqual(
+      expectedManifest
+    );
     expect(
       (
-        await transaction.staticallyValidate(
+        await transaction.intent.staticallyValidate(
           ValidationConfig.default(NetworkId.Simulator)
         )
       ).isValid
@@ -186,7 +189,7 @@ describe("Action Builder Tests", () => {
       "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
 
     // Act
-    let transaction: NotarizedTransaction = await ActionTransactionBuilder.new(
+    let transaction = await ActionTransactionBuilder.new(
       10,
       20,
       242,
@@ -231,13 +234,55 @@ describe("Action Builder Tests", () => {
       .build();
 
     // Assert
-    expect(transaction.signedIntent.intent.manifest).toEqual(expectedManifest);
+    expect(transaction.intent.signedIntent.intent.manifest).toEqual(
+      expectedManifest
+    );
     expect(
       (
-        await transaction.staticallyValidate(
+        await transaction.intent.staticallyValidate(
           ValidationConfig.default(NetworkId.Simulator)
         )
       ).isValid
     ).toBeTruthy();
   });
 });
+
+import {
+  NetworkId,
+  PrivateKey,
+  NotarizedTransaction,
+  ActionTransactionBuilder,
+  Signature,
+  PublicKey,
+  CompiledSignedTransactionIntent
+} from "../../src";
+
+const sign = (hashToSign: Uint8Array): Signature.Signature => {
+  /* A function implemented in your internal systems that is able to sign a given hash and produce a sig. */
+}
+
+const getNotaryPublicKey = (): PublicKey.PublicKey => {
+  /* A function implemented in your internal systems that is able to get the public key of the notary. */
+}
+
+let account1 = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+let account2 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+let account3 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+
+let resourceAddress1 =
+  "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+
+let signedIntent: CompiledSignedTransactionIntent = await ActionTransactionBuilder.new(
+  10 /* The start epoch (inclusive) of when this transaction becomes valid */,
+  20 /* The end epoch (exclusive) of when this transaction is no longer valid */,
+  NetworkId.Simulator /* The id of the network that this transactions is destined for */,
+  account1 /* The fee payer */,
+  getNotaryPublicKey() /* The notary's public key */
+).then((builder) => {
+  return builder
+    .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
+    .fungibleResourceTransfer(account1, account3, resourceAddress1, 100)
+    .compileSignedTransactionIntent()
+});
+let signature = sign(signedIntent.hashToSign);
+let transaction = signedIntent.compileNotarizedTransaction(signature);

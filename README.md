@@ -11,35 +11,35 @@
 
 - [About](#about)
 - [Usage Guide](#usage-guide)
-  * [`LTSRadixEngineToolkit`](./LTS.md)
-  * [`RadixEngineToolkit`](#functionality)
+  - [`LTSRadixEngineToolkit`](./LTS.md)
+  - [`RadixEngineToolkit`](#functionality)
 - [Architecture](#architecture)
 - [Installation](#installation)
-  * [Yarn](#yarn)
-  * [Npm](#npm)
+  - [Yarn](#yarn)
+  - [Npm](#npm)
 - [High Level Functionality](#high-level-functionality)
-  * [Building Manifests](#building-manifests)
-  * [Constructing Transactions](#constructing-transactions)
+  - [Building Manifests](#building-manifests)
+  - [Constructing Transactions](#constructing-transactions)
 - [Functionality](#functionality)
-  * [Convert Manifest](#convert-manifest)
-  * [Transaction Compilation](#transaction-compilation)
-    + [Compiling `TransactionIntent`s](#compiling-transactionintents)
-    + [Compiling `SignedTransactionIntent`s](#compiling-signedtransactionintents)
-    + [Compiling `NotarizedTransaction`s](#compiling-notarizedtransactions)
-  * [Transaction Decompilation](#transaction-decompilation)
-    + [Decompiling Unknown Intents](#decompiling-unknown-intents)
-    + [Decompiling a `TransactionIntent`](#decompiling-a-transactionintent)
-    + [Decompiling a `SignedTransactionIntent`](#decompiling-a-signedtransactionintent)
-    + [Decompiling a `NotarizedTransaction`](#decompiling-a-notarizedtransaction)
-  * [Static Transaction Validation](#static-transaction-validation)
-  * [SBOR Encoding and Decoding](#sbor-encoding-and-decoding)
-    + [SBOR Encoding](#sbor-encoding)
-    + [SBOR Decoding](#sbor-decoding)
-  * [Address Derivations](#address-derivations)
-    + [Deriving Virtual Account Addresses from Public Keys](#deriving-virtual-account-addresses-from-public-keys)
-    + [Deriving Virtual Identity Addresses from Public Keys](#deriving-virtual-identity-addresses-from-public-keys)
-    + [Deriving Babylon Account Addresses from Olympia Account Addresses](#deriving-babylon-account-addresses-from-olympia-account-addresses)
-    + [Derive Known Entity Addresses](#derive-known-entity-addresses)
+  - [Convert Manifest](#convert-manifest)
+  - [Transaction Compilation](#transaction-compilation)
+    - [Compiling `TransactionIntent`s](#compiling-transactionintents)
+    - [Compiling `SignedTransactionIntent`s](#compiling-signedtransactionintents)
+    - [Compiling `NotarizedTransaction`s](#compiling-notarizedtransactions)
+  - [Transaction Decompilation](#transaction-decompilation)
+    - [Decompiling Unknown Intents](#decompiling-unknown-intents)
+    - [Decompiling a `TransactionIntent`](#decompiling-a-transactionintent)
+    - [Decompiling a `SignedTransactionIntent`](#decompiling-a-signedtransactionintent)
+    - [Decompiling a `NotarizedTransaction`](#decompiling-a-notarizedtransaction)
+  - [Static Transaction Validation](#static-transaction-validation)
+  - [SBOR Encoding and Decoding](#sbor-encoding-and-decoding)
+    - [SBOR Encoding](#sbor-encoding)
+    - [SBOR Decoding](#sbor-decoding)
+  - [Address Derivations](#address-derivations)
+    - [Deriving Virtual Account Addresses from Public Keys](#deriving-virtual-account-addresses-from-public-keys)
+    - [Deriving Virtual Identity Addresses from Public Keys](#deriving-virtual-identity-addresses-from-public-keys)
+    - [Deriving Babylon Account Addresses from Olympia Account Addresses](#deriving-babylon-account-addresses-from-olympia-account-addresses)
+    - [Derive Known Entity Addresses](#derive-known-entity-addresses)
 - [Frequently Asked Questions](#frequently-asked-questions)
 
 # About
@@ -57,10 +57,10 @@ This library brings the same support offered to Rust for transaction constructio
 # Usage Guide
 
 Depending on what your needs are, there are different classes with varying interfaces,
-complexity, and degrees of backward compatability that you can use. More specifically: 
+complexity, and degrees of backward compatability that you can use. More specifically:
 
-* If you are an integrator with basic needs (e.g., you only need to perform fungible resource transfers with a single signer) who would like a simple interface with backward compatibility guarantees, then use [`LTSRadixEngineToolkit`](./LTS.md).
-* If you have more advanced needs, you want to use the [`RadixEngineToolkit`](#functionality) class. This has no backwards compatibility guarantees but is more powerful and capable.
+- If you are an integrator with basic needs (e.g., you only need to perform fungible resource transfers with a single signer) who would like a simple interface with backward compatibility guarantees, then use [`LTSRadixEngineToolkit`](./LTS.md).
+- If you have more advanced needs, you want to use the [`RadixEngineToolkit`](#functionality) class. This has no backwards compatibility guarantees but is more powerful and capable.
 
 # Architecture
 
@@ -76,11 +76,11 @@ There are three main classes that act as entry points into the Radix Engine Tool
 - If you are a developer using this library, you want to use the `RadixEngineToolkit` class.
 - If you are an integrator who cares about having an interface with little changes and wish for higher backward compatibility guarantees, then use [`LTSRadixEngineToolkit`](./LTS.md).
 
-| Class Name              | Functionality                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `RawRadixEngineToolkit` | The main wrapper and WASM host around the Radix Engine Toolkit, this class abstracts the complexity of performing WASM invocation down to a single simple `invoke` function that can be called with a function pointer, some arguments for the function, and the type of the return. This class is not very user friendly to use since it deals in the raw request and response objects required by the core Radix Engine Toolkit. Thus, you will almost never find yourself using this class except in very niche cases.                                                              |
-| `RadixEngineToolkit`    | The main developer facing class that is used to invoke the core Radix Engine Toolkit. The interface of the functions defined on this class does not use the request and response objects. Instead, it provides a more idiomatic TypeScript/JavaScript interface that is familiar to developers and that is easy to use. Under the hood, the functions exposed in this class translate down to core Radix Engine Toolkit requests and are then forwarded to the appropriate functions on the `RawRadixEngineToolkit` class. This is the class that you will most likely use very often. |
-| [`LTSRadixEngineToolkit`](./LTS.md) | A thin wrapper around the `RadixEngineToolkit` class that exposes an API that will has much higher backward compatibility guarantees. The [`LTSRadixEngineToolkit`](./LTS.md) class is not meant to provide all of the functionality of the toolkit; quite the opposite: it's meant to provide little functionality with well defined simpler interfaces that won't change that integrators can use. However, it is very likely that some clients might quickly "outgrow" this class and it's simple interfaces. Clients who encounter that are recommended to use the `RadixEngineToolkit` class  |
+| Class Name                          | Functionality                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `RawRadixEngineToolkit`             | The main wrapper and WASM host around the Radix Engine Toolkit, this class abstracts the complexity of performing WASM invocation down to a single simple `invoke` function that can be called with a function pointer, some arguments for the function, and the type of the return. This class is not very user friendly to use since it deals in the raw request and response objects required by the core Radix Engine Toolkit. Thus, you will almost never find yourself using this class except in very niche cases.                                                                         |
+| `RadixEngineToolkit`                | The main developer facing class that is used to invoke the core Radix Engine Toolkit. The interface of the functions defined on this class does not use the request and response objects. Instead, it provides a more idiomatic TypeScript/JavaScript interface that is familiar to developers and that is easy to use. Under the hood, the functions exposed in this class translate down to core Radix Engine Toolkit requests and are then forwarded to the appropriate functions on the `RawRadixEngineToolkit` class. This is the class that you will most likely use very often.            |
+| [`LTSRadixEngineToolkit`](./LTS.md) | A thin wrapper around the `RadixEngineToolkit` class that exposes an API that will has much higher backward compatibility guarantees. The [`LTSRadixEngineToolkit`](./LTS.md) class is not meant to provide all of the functionality of the toolkit; quite the opposite: it's meant to provide little functionality with well defined simpler interfaces that won't change that integrators can use. However, it is very likely that some clients might quickly "outgrow" this class and it's simple interfaces. Clients who encounter that are recommended to use the `RadixEngineToolkit` class |
 
 # Installation
 

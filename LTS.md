@@ -1,8 +1,7 @@
 # Long Term Support (LTS) Radix Engine Toolkit
 
-
-| **Note** | It is recommended (but not required) to read the [README.md](./README.md) for additional context on the Radix Engine Toolkit as a library, it's architecture, advanced uses of the toolkit. | 
-| -------- | --- |
+| **Note** | It is recommended (but not required) to read the [README.md](./README.md) for additional context on the Radix Engine Toolkit as a library, it's architecture, advanced uses of the toolkit. |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 This `LTSRadixEngineToolkit` class is meant to provide a smaller interface with a higher degree of backward compatibility that is suitable for third parties hoping to integrate with the Radix Babylon ledger.
 
@@ -29,7 +28,13 @@ Despite the simple interface of the `ActionTransactionBuilder`, it is a powerful
 
 At the current moment of time, the `ActionTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases.
 
-The following is an example on how this class can be used to build a transaction that transfers funds from accounts A and B into account C.
+In this document, we wish to categorize transactions into two main categories: single notary signature transactions, and multi-signature transactions. By far, the most common type of transactions that we expect most integrators to be using are the single notary signature transactions, however, integrators are free to use whatever fits best fits their needs. 
+
+### Single Notary Signature Transactions
+
+This category of transactions is the simplest to construct, thus, we expect that integrators that do not have complex needs would be constructing this type of transactions. This refers to transactions built with no intent signatures and with the `notaryAsSignatory` flag set to `true`. In this case, the notary signature (all transactions have exactly ONE notary signature) will be considered as a notary signature and an intent signature. In simpler terms, you can think of it as: when `notaryAsSignatory` is set to `true`, the transaction may withdraw funds from the notary's account, otherwise, it can't. 
+
+The following is an example of how to transfer funds from account A to B and from A to C all in a single transaction. This will be a single notary signature transaction. 
 
 ```ts
 import {
@@ -37,14 +42,18 @@ import {
   PrivateKey,
   NotarizedTransaction,
   ActionTransactionBuilder,
-} from "@radixdlt/radix-engine-toolkit";
+  Signature,
+  PublicKey,
+  CompiledSignedTransactionIntent
+} from "../../src";
 
-let notaryPrivateKey = new PrivateKey.EddsaEd25519(
-  "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
-);
-let signerPrivateKey = new PrivateKey.EcdsaSecp256k1(
-  "5068952ca5aa655fe9257bf2d89f3b86f4dda6be6f5b76e4ed104c38fd21e8d7"
-);
+const sign = (hashToSign: Uint8Array): Signature.Signature => {
+  /* A function implemented in your internal systems that is able to sign a given hash and produce a sig. */
+}
+
+const getNotaryPublicKey = (): PublicKey.PublicKey => {
+  /* A function implemented in your internal systems that is able to get the public key of the notary. */
+}
 
 let account1 = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
 let account2 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
@@ -53,21 +62,20 @@ let account3 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 let resourceAddress1 =
   "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
 
-let transaction: NotarizedTransaction = await ActionTransactionBuilder.new(
+let signedIntent: CompiledSignedTransactionIntent = await ActionTransactionBuilder.new(
   10 /* The start epoch (inclusive) of when this transaction becomes valid */,
   20 /* The end epoch (exclusive) of when this transaction is no longer valid */,
   NetworkId.Simulator /* The id of the network that this transactions is destined for */,
   account1 /* The fee payer */,
-  notaryPrivateKey.publicKey() /* The notary's public key */
+  getNotaryPublicKey() /* The notary's public key */
 ).then((builder) => {
   return builder
     .fungibleResourceTransfer(account1, account2, resourceAddress1, 100)
-    .fungibleResourceTransfer(account3, account2, resourceAddress1, 100)
-    .sign(signerPrivateKey)
-    .notarize(notaryPrivateKey);
+    .fungibleResourceTransfer(account1, account3, resourceAddress1, 100)
+    .compileSignedTransactionIntent()
 });
-
-let transactionId: Uint8Array = await transaction.transactionId();
+let signature = sign(signedIntent.hashToSign);
+let transaction = signedIntent.compileNotarizedTransaction(signature);
 ```
 
 ## `LTSRadixEngineToolkit` Functionality
