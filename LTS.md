@@ -97,7 +97,13 @@ const transaction = unsignedTransaction.compileNotarized(signature);
 (await transaction.staticallyValidate(NetworkId.Simulator)).throwIfInvalid();
 
 const notarizedTransactionHex = transaction.toHex();
+
+// The transaction intent hash is also known as the transaction id - and is used to
+// query APIs or the dashboard for transaction status.
 const transactionIntentHashHex = transaction.intentHashHex();
+// The payload hash - used to disambiguate multiple payloads for the same intent - in the unlikely
+// situation where a notary submits multiple distinct payloads for the same intent.
+const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
 
 // You can then use these to interact with the Core API or Gateway API, eg with the Core API:
 // * Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit`

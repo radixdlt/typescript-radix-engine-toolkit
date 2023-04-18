@@ -394,10 +394,12 @@ export class CompiledSignedTransactionIntent {
       CompileNotarizedTransactionResponse
     );
     let compiledNotarizedTransaction = response.compiledIntent;
+    let notarizedPayloadHash = hash(compiledNotarizedTransaction);
 
     return new CompiledNotarizedTransaction(
       this.retWrapper,
       compiledNotarizedTransaction,
+      notarizedPayloadHash,
       this.intentHash
     );
   }
@@ -414,15 +416,18 @@ export class CompiledNotarizedTransaction {
   private readonly retWrapper: RadixEngineToolkitWasmWrapper;
   readonly compiled: Uint8Array;
   readonly intentHash: Uint8Array;
+  readonly notarizedPayloadHash: Uint8Array;
 
   constructor(
     retWrapper: RadixEngineToolkitWasmWrapper,
     compiled: Uint8Array,
-    transactionId: Uint8Array
+    notarizedPayloadHash: Uint8Array,
+    intentHash: Uint8Array
   ) {
     this.retWrapper = retWrapper;
     this.compiled = compiled;
-    this.intentHash = transactionId;
+    this.notarizedPayloadHash = notarizedPayloadHash;
+    this.intentHash = intentHash;
   }
 
   /**
@@ -445,6 +450,13 @@ export class CompiledNotarizedTransaction {
    */
   intentHashHex(): string {
     return Convert.Uint8Array.toHexString(this.intentHash);
+  }
+
+  /**
+   * @returns The (notarized) payload hash, encoded into hex.
+   */
+  notarizedPayloadHashHex(): string {
+    return Convert.Uint8Array.toHexString(this.notarizedPayloadHash);
   }
 
   staticallyValidate(networkId: number): Promise<TransactionValidity> {
