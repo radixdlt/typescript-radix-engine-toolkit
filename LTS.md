@@ -97,7 +97,7 @@ const transaction = unsignedTransaction.compileNotarized(signature);
 (await transaction.staticallyValidate(NetworkId.Simulator)).throwIfInvalid();
 
 const notarizedTransactionHex = transaction.toHex();
-const transactionIntentHashHex = transaction.transactionIdHex();
+const transactionIntentHashHex = transaction.intentHashHex();
 
 // You can then use these to interact with the Core API or Gateway API, eg with the Core API:
 // * Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit`

@@ -349,18 +349,30 @@ export class CompiledSignedTransactionIntent {
   private readonly retWrapper: RadixEngineToolkitWasmWrapper;
   private readonly signedIntent: SignedTransactionIntent;
   readonly compiledSignedIntent: Uint8Array;
+  readonly intentHash: Uint8Array;
   readonly hashToNotarize: Uint8Array;
 
   constructor(
     retWrapper: RadixEngineToolkitWasmWrapper,
-    intent: SignedTransactionIntent,
+    signedIntent: SignedTransactionIntent,
     compiledSignedIntent: Uint8Array,
     hashToNotarize: Uint8Array
   ) {
     this.retWrapper = retWrapper;
-    this.signedIntent = intent;
+    this.signedIntent = signedIntent;
     this.compiledSignedIntent = compiledSignedIntent;
+    this.intentHash = getTransactionIntentHash(
+      this.retWrapper,
+      this.signedIntent.intent
+    );
     this.hashToNotarize = hashToNotarize;
+  }
+
+  /**
+   * @returns The transaction identifier (also known as the intent hash) of the transaction.
+   */
+  get transactionId(): Uint8Array {
+    return this.intentHash;
   }
 
   toByteArray(): Uint8Array {
@@ -381,28 +393,27 @@ export class CompiledSignedTransactionIntent {
       this.retWrapper.exports.compile_notarized_transaction,
       CompileNotarizedTransactionResponse
     );
-    let compiledIntent = response.compiledIntent;
-    let transactionId = getTransactionId(
-      this.retWrapper,
-      this.signedIntent.intent
-    );
+    let compiledNotarizedTransaction = response.compiledIntent;
 
     return new CompiledNotarizedTransaction(
       this.retWrapper,
-      compiledIntent,
-      transactionId
+      compiledNotarizedTransaction,
+      this.intentHash
     );
   }
 
-  transactionId(): Uint8Array {
-    return getTransactionId(this.retWrapper, this.signedIntent.intent);
+  /**
+   * @returns The transaction identifier (also known as the intent hash) of the transaction, encoded into hex.
+   */
+  intentHashHex(): string {
+    return Convert.Uint8Array.toHexString(this.intentHash);
   }
 }
 
 export class CompiledNotarizedTransaction {
   private readonly retWrapper: RadixEngineToolkitWasmWrapper;
   readonly compiled: Uint8Array;
-  readonly transactionId: Uint8Array;
+  readonly intentHash: Uint8Array;
 
   constructor(
     retWrapper: RadixEngineToolkitWasmWrapper,
@@ -411,7 +422,14 @@ export class CompiledNotarizedTransaction {
   ) {
     this.retWrapper = retWrapper;
     this.compiled = compiled;
-    this.transactionId = transactionId;
+    this.intentHash = transactionId;
+  }
+
+  /**
+   * @returns The transaction identifier (also known as the intent hash) of the transaction.
+   */
+  get transactionId(): Uint8Array {
+    return this.intentHash;
   }
 
   toByteArray(): Uint8Array {
@@ -422,8 +440,11 @@ export class CompiledNotarizedTransaction {
     return Convert.Uint8Array.toHexString(this.compiled);
   }
 
-  transactionIdHex(): string {
-    return Convert.Uint8Array.toHexString(this.transactionId);
+  /**
+   * @returns The transaction identifier (also known as the intent hash) of the transaction, encoded into hex.
+   */
+  intentHashHex(): string {
+    return Convert.Uint8Array.toHexString(this.intentHash);
   }
 
   staticallyValidate(networkId: number): Promise<TransactionValidity> {
@@ -434,7 +455,7 @@ export class CompiledNotarizedTransaction {
   }
 }
 
-const getTransactionId = (
+const getTransactionIntentHash = (
   retWrapper: RadixEngineToolkitWasmWrapper,
   transactionIntent: TransactionIntent
 ): Uint8Array => {
