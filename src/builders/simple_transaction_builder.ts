@@ -173,19 +173,16 @@ export class SimpleTransactionBuilder {
    */
   public compileIntent(): CompiledSignedTransactionIntent {
     const transitioned = this.transition();
-    const { intentHash: intentHash } = transitioned.compileIntent();
+    const { intentHash } = transitioned.compileIntent();
 
-    const {
-      compiledSignedIntent: compiledSignedTransactionIntent,
-      signedIntent: signedTransactionIntent,
-      signedIntentHash: signedIntentHash,
-    } = transitioned.compileSignedIntent();
+    const { compiledSignedIntent, signedIntent, signedIntentHash } =
+      transitioned.compileSignedIntent();
 
     return new CompiledSignedTransactionIntent(
       this.retWrapper,
       intentHash,
-      signedTransactionIntent,
-      compiledSignedTransactionIntent,
+      signedIntent,
+      compiledSignedIntent,
       signedIntentHash
     );
   }
