@@ -112,27 +112,26 @@ export class TransactionBuilderIntentSignaturesStep {
   }
 
   public sign(source: SignatureSource): TransactionBuilderIntentSignaturesStep {
-    const { hashToSign } = this.buildTransactionIntent();
+    const { intentHash } = this.compileIntent();
 
-    this.intentSignatures.push(resolveSignature(source, hashToSign));
+    this.intentSignatures.push(resolveSignature(source, intentHash));
 
     return this;
   }
 
   public notarize(source: NotarySignatureSource): NotarizedTransaction {
-    let { signedTransactionIntent, hashToNotarize } =
-      this.buildSignedTransactionIntent();
+    const { signedIntent, signedIntentHash } = this.compileSignedIntent();
 
     return new NotarizedTransaction(
-      signedTransactionIntent,
-      resolveNotarySignature(source, hashToNotarize)
+      signedIntent,
+      resolveNotarySignature(source, signedIntentHash)
     );
   }
 
-  public buildTransactionIntent(): {
-    compiledTransactionIntent: Uint8Array;
-    transactionIntent: TransactionIntent;
-    hashToSign: Uint8Array;
+  public compileIntent(): {
+    compiledIntent: Uint8Array;
+    intent: TransactionIntent;
+    intentHash: Uint8Array;
   } {
     let request = this.intent;
     let response = this.retWrapper.invoke(
@@ -140,20 +139,20 @@ export class TransactionBuilderIntentSignaturesStep {
       this.retWrapper.exports.compile_transaction_intent,
       CompileTransactionIntentResponse
     );
-    let compiledTransactionIntent = response.compiledIntent;
+    let compiledIntent = response.compiledIntent;
 
-    let transactionIntentHash = hash(compiledTransactionIntent);
+    let intentHash = hash(compiledIntent);
     return {
-      compiledTransactionIntent,
-      transactionIntent: this.intent,
-      hashToSign: transactionIntentHash,
+      compiledIntent,
+      intent: this.intent,
+      intentHash,
     };
   }
 
-  public buildSignedTransactionIntent(): {
-    compiledSignedTransactionIntent: Uint8Array;
-    signedTransactionIntent: SignedTransactionIntent;
-    hashToNotarize: Uint8Array;
+  public compileSignedIntent(): {
+    compiledSignedIntent: Uint8Array;
+    signedIntent: SignedTransactionIntent;
+    signedIntentHash: Uint8Array;
   } {
     let signedIntent = new SignedTransactionIntent(
       this.intent,
@@ -164,13 +163,13 @@ export class TransactionBuilderIntentSignaturesStep {
       this.retWrapper.exports.compile_signed_transaction_intent,
       CompileSignedTransactionIntentResponse
     );
-    let compiledSignedTransactionIntent = response.compiledIntent;
+    let compiledSignedIntent = response.compiledIntent;
 
-    let signedTransactionIntentHash = hash(compiledSignedTransactionIntent);
+    let signedIntentHash = hash(compiledSignedIntent);
     return {
-      compiledSignedTransactionIntent,
-      signedTransactionIntent: signedIntent,
-      hashToNotarize: signedTransactionIntentHash,
+      compiledSignedIntent: compiledSignedIntent,
+      signedIntent,
+      signedIntentHash,
     };
   }
 }

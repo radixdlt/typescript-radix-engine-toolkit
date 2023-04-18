@@ -70,6 +70,10 @@ export class NotarizedTransaction {
   }
 
   async transactionId(): Promise<Uint8Array> {
+    return this.intentHash();
+  }
+
+  async intentHash(): Promise<Uint8Array> {
     return this.signedIntent.intent.transactionId();
   }
 
@@ -77,7 +81,7 @@ export class NotarizedTransaction {
     return this.signedIntent.signedIntentHash();
   }
 
-  async notarizedIntentHash(): Promise<Uint8Array> {
+  async notarizedPayloadHash(): Promise<Uint8Array> {
     return this.compile().then(hash);
   }
 

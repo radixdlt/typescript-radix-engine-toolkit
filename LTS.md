@@ -96,6 +96,7 @@ const transaction = unsignedTransaction.compileNotarized(signature);
 // Will throw if eg the signature is incorrect
 (await transaction.staticallyValidate(NetworkId.Simulator)).throwIfInvalid();
 
+// The notarized payload bytes in hex - for submitting to the network.
 const notarizedTransactionHex = transaction.toHex();
 
 // The transaction intent hash is also known as the transaction id - and is used to
