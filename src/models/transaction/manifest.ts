@@ -31,7 +31,7 @@ export class TransactionManifest {
       ],
     },
   })
-  instructions: InstructionList.InstructionList;
+  instructions: InstructionList.StringInstructions | InstructionList.ParsedInstructions;
 
   @Expose()
   @Type(() => Uint8Array)
@@ -47,7 +47,7 @@ export class TransactionManifest {
   blobs: Array<Uint8Array>;
 
   constructor(
-    instructions: InstructionList.InstructionList,
+    instructions: InstructionList.StringInstructions | InstructionList.ParsedInstructions,
     blobs: Array<Uint8Array | string> = []
   ) {
     this.instructions = instructions;
