@@ -9,7 +9,6 @@ module.exports = defineConfig({
     lib: {
       name: "radix-engine-toolkit",
       entry: pathe.resolve(__dirname, "src/index.ts"),
-      fileName: (format) => `index.${format}.js`,
     },
   },
   plugins: [wasm({ targetEnv: "auto-inline" })],

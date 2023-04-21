@@ -3,12 +3,12 @@
   "version": "0.1.2",
   "description": "A TypeScript wrapper for the Radix Engine Toolkit that provides many of the necessary tools to interact with the Radix ledger",
   "types": "./dist/index.d.ts",
-  "main": "./dist/index.umd.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/radix-engine-toolkit.umd.js",
+  "module": "./dist/radix-engine-toolkit.mjs",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.umd.js"
+      "import": "./dist/radix-engine-toolkit.mjs",
+      "require": "./dist/radix-engine-toolkit.umd.js"
     }
   },
   "readme": "README.md",
