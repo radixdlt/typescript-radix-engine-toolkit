@@ -1,5 +1,5 @@
 {
-  "name": "e2e-example",
+  "name": "gateway-e2e-example",
   "version": "1.0.0",
   "main": "main.js",
   "dependencies": {
