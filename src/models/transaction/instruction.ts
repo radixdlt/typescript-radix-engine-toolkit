@@ -1215,8 +1215,8 @@ export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
   idType: ManifestAstValue.Enum;
 
   @Expose({ name: "schema" })
-  @Type(() => ManifestAstValue.Blob)
-  schema: ManifestAstValue.Blob;
+  @Type(() => ManifestAstValue.Tuple)
+  schema: ManifestAstValue.Tuple;
 
   @Expose({ name: "metadata" })
   @Type(() => ManifestAstValue.Map)
@@ -1232,7 +1232,7 @@ export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
 
   constructor(
     idType: ManifestAstValue.Enum,
-    schema: ManifestAstValue.Blob,
+    schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
     initialSupply: ManifestAstValue.Value
