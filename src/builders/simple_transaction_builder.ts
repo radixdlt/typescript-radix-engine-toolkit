@@ -32,6 +32,7 @@ import {
 } from "../models";
 import { hash } from "../utils";
 import { TransactionValidity } from "../wrapper/default";
+import { LTSRadixEngineToolkit, TransactionSummary } from "../wrapper/lts";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 import {
@@ -415,6 +416,14 @@ export class CompiledSignedTransactionIntent {
   intentHashHex(): string {
     return Convert.Uint8Array.toHexString(this.intentHash);
   }
+
+  /**
+   * Decompiles and summarizes a compiled intent extracting information such as locked fees,
+   * deposits, and withdrawals.
+   */
+  summarizeTransaction(): Promise<TransactionSummary> {
+    return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
+  }
 }
 
 export class CompiledNotarizedTransaction {
@@ -476,5 +485,13 @@ export class CompiledNotarizedTransaction {
       this.compiled,
       ValidationConfig.default(networkId)
     );
+  }
+
+  /**
+   * Decompiles and summarizes a compiled intent extracting information such as locked fees,
+   * deposits, and withdrawals.
+   */
+  summarizeTransaction(): Promise<TransactionSummary> {
+    return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
   }
 }
