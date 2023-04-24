@@ -781,7 +781,7 @@ export class ManifestBuilder {
    */
   createNonFungibleResourceWithInitialSupply(
     idType: ManifestAstValue.Enum,
-    schema: ManifestAstValue.Blob,
+    schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
     initialSupply: ManifestAstValue.Value
