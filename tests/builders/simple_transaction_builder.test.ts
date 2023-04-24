@@ -299,6 +299,10 @@ describe("SimpleTransactionBuilder Tests", () => {
 
     let resourceAddress1 =
       "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+    let resourceAddress2 =
+      "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
+    let account3 =
+      "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 
     // Act
     const builder = await SimpleTransactionBuilder.new({
@@ -318,6 +322,16 @@ describe("SimpleTransactionBuilder Tests", () => {
         resourceAddress: resourceAddress1,
         amount: 200,
       })
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress2,
+        amount: 500,
+      })
+      .transferFungible({
+        toAccount: account3,
+        resourceAddress: resourceAddress1,
+        amount: 5,
+      })
       .compileIntent()
       .compileNotarized(privateKey);
 
@@ -327,18 +341,21 @@ describe("SimpleTransactionBuilder Tests", () => {
         account: account1,
         amount: new Decimal("5"),
       },
-      withdraws: (() => {
-        let withdraws = {};
-        withdraws[account1] = {};
-        withdraws[account1][resourceAddress1] = new Decimal("300");
-        return withdraws;
-      })(),
-      deposits: (() => {
-        let deposits = {};
-        deposits[account2] = {};
-        deposits[account2][resourceAddress1] = new Decimal("300");
-        return deposits;
-      })(),
+      withdraws: {
+        [account1]: {
+          [resourceAddress1]: new Decimal("305"),
+          [resourceAddress2]: new Decimal("500"),
+        },
+      },
+      deposits: {
+        [account2]: {
+          [resourceAddress1]: new Decimal("300"),
+          [resourceAddress2]: new Decimal("500"),
+        },
+        [account3]: {
+          [resourceAddress1]: new Decimal("5"),
+        },
+      },
     };
     let transactionSummary =
       await LTSRadixEngineToolkit.Transaction.summarizeTransaction(transaction);
