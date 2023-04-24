@@ -115,6 +115,26 @@ const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
 
 This section discusses the functionality provided by the `LTSRadixEngineToolkit` class and provides a number of examples.
 
+### Transaction API Group
+
+A majority of the functionality exposed by this API group is abstracted away by the `SimpleTransactionBuilder` which is responsible for handling the entire transaction construction process and making all of the necessary Radix Engine Toolkit invocations to construct transactions. However, not all of the functions in this group are available through the `SimpleTransactionBuilder` class. Namely, the `summarizeTransaction` function is not.
+
+#### Summarize Transaction
+
+The LTS Radix Engine Toolkit exposes a `summarizeTransaction` function that summarizes the withdraws, deposits, and fees locked in transactions based on the transaction manifest. This function is only able to produce a summary for transactions constructed by the `SimpleTransactionBuilder` and fails to produce a summary for any other more complex transactions.
+
+```ts
+import { 
+  CompiledNotarizedTransaction,
+  CompiledSignedTransactionIntent,
+  LTSRadixEngineToolkit
+} from "@radixdlt/radix-engine-toolkit";
+
+let compiledIntent: CompiledNotarizedTransaction | CompiledSignedTransactionIntent = /* Some compiled intent */;
+let transactionSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransaction(compiledIntent);
+console.log(transactionSummary)
+```
+
 ### Derive API Group
 
 This is a group of functions exposed by the `LTSRadixEngineToolkit` that are used to perform various kinds of derivations. Typically, these are address derivations.

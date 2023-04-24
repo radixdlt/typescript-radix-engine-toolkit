@@ -15,7 +15,15 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import Decimal from "decimal.js";
 import {
+  CompiledNotarizedTransaction,
+  CompiledSignedTransactionIntent,
+} from "../builders";
+import {
+  Instruction,
+  InstructionList,
+  ManifestAstValue,
   NotarizedTransaction,
   PublicKey,
   SignedTransactionIntent,
@@ -87,6 +95,28 @@ export namespace LTSRadixEngineToolkit {
       return RadixEngineToolkit.compileNotarizedTransactionIntent(
         notarizedTransactionIntent
       );
+    }
+
+    /**
+     * Decompiles and summarizes a compiled intent extracting information such as locked fees,
+     * deposits, and withdrawals.
+     * @param compiledIntent The compiled intent to produce a summary for. This function accepts
+     * compiled signed intents and compiled notarized transactions.
+     * @returns A summary on the transaction of the various withdraws, deposits, and locked fees
+     * that can be statically obtained from the manifest.
+     *
+     * @remarks
+     * This function only works for manifests that perform simple transfers which were created
+     * through the SimpleTransactionBuilder class and will not work for any other more complex
+     * transactions since this information might not be available to obtain statically from the
+     * manifest.
+     */
+    static async summarizeTransaction(
+      compiledIntent:
+        | CompiledNotarizedTransaction
+        | CompiledSignedTransactionIntent
+    ): Promise<TransactionSummary> {
+      return summarizeTransaction(compiledIntent);
     }
   }
 
@@ -210,3 +240,201 @@ export interface AddressBook {
     account: string;
   };
 }
+
+export interface TransactionSummary {
+  /// Information on which account this fee was locked against.
+  feesLocked: {
+    account: string;
+    amount: Decimal;
+  };
+
+  /// A record of the withdrawn resources. Maps the account address to a mapping of the resource
+  /// address and amount.
+  withdraws: Record<string, Record<string, Decimal>>;
+
+  /// A record of the deposited resources. Maps the account address to a mapping of the resource
+  /// address and amount.
+  deposits: Record<string, Record<string, Decimal>>;
+}
+
+const summarizeTransaction = async (
+  intent: CompiledSignedTransactionIntent | CompiledNotarizedTransaction
+): Promise<TransactionSummary> => {
+  // Get the instructions contained in the passed compiled intent
+  let instructions: Array<Instruction.Instruction> = [];
+  if (intent instanceof CompiledSignedTransactionIntent) {
+    let decompiledSignedIntent =
+      await RadixEngineToolkit.decompileSignedTransactionIntent(
+        intent.toByteArray(),
+        InstructionList.Kind.Parsed
+      );
+    instructions = (
+      decompiledSignedIntent.intent.manifest
+        .instructions as InstructionList.ParsedInstructions
+    ).value;
+  } else if (intent instanceof CompiledNotarizedTransaction) {
+    let decompiledNotarizedTransaction =
+      await RadixEngineToolkit.decompileNotarizedTransactionIntent(
+        intent.toByteArray(),
+        InstructionList.Kind.Parsed
+      );
+    instructions = (
+      decompiledNotarizedTransaction.signedIntent.intent.manifest
+        .instructions as InstructionList.ParsedInstructions
+    ).value;
+  } else {
+    throw new TypeError(
+      "Invalid type passed in for resource movement resolution."
+    );
+  }
+
+  // A map where the key is the bucket ID and the value is a tuple of the resource address and
+  // amount.
+  let bucketAmounts: Record<string, [string, Decimal]> = {};
+
+  let feesLocked:
+    | {
+        account: string;
+        amount: Decimal;
+      }
+    | undefined = undefined;
+  let withdraws: Record<string, Record<string, Decimal>> = {};
+  let deposits: Record<string, Record<string, Decimal>> = {};
+
+  // Iterate over the instructions and resolve them
+  for (const instruction of instructions) {
+    switch (instruction.instruction) {
+      case Instruction.Kind.TakeFromWorktopByAmount:
+        const takeFromWorktopInstruction =
+          instruction as Instruction.TakeFromWorktopByAmount;
+
+        // Assuming that the bucket id is a string since this is what the LTS library produces and
+        // because the non-string IDs are currently bugged in Scrypto.
+        const bucketId = (
+          takeFromWorktopInstruction.intoBucket
+            .identifier as ManifestAstValue.String
+        ).value;
+        const resourceAddress =
+          takeFromWorktopInstruction.resourceAddress.address;
+        const amount = takeFromWorktopInstruction.amount.value;
+
+        bucketAmounts[bucketId] = [resourceAddress, amount];
+        break;
+
+      case Instruction.Kind.CallMethod:
+        const callMethodInstruction = instruction as Instruction.CallMethod;
+
+        // Cases we support:
+        // 1. Withdraw by amount
+        // 2. Deposit by amount
+        // 3. Lock fee
+
+        // TODO: Support withdraw_and_lock_fee when the simple builder supports it
+
+        // Case: Lock Fee
+        if (
+          callMethodInstruction.methodName.value === "lock_fee" &&
+          callMethodInstruction.arguments?.length === 1 &&
+          callMethodInstruction.arguments[0].type ===
+            ManifestAstValue.Kind.Decimal
+        ) {
+          let lockFeeAccount = callMethodInstruction.componentAddress.address;
+          let lockFeeAmount = (
+            callMethodInstruction.arguments[0] as ManifestAstValue.Decimal
+          ).value;
+
+          feesLocked = {
+            account: lockFeeAccount,
+            amount: lockFeeAmount,
+          };
+        }
+
+        // Case: Withdraw from account by amount
+        else if (
+          callMethodInstruction.methodName.value === "withdraw" &&
+          callMethodInstruction.arguments?.length === 2 &&
+          callMethodInstruction.arguments[0].type ===
+            ManifestAstValue.Kind.Address &&
+          callMethodInstruction.arguments[1].type ===
+            ManifestAstValue.Kind.Decimal
+        ) {
+          let withdrawAccountAddress =
+            callMethodInstruction.componentAddress.address;
+          let withdrawResourceAddress = (
+            callMethodInstruction.arguments[0] as ManifestAstValue.Address
+          ).address;
+          let withdrawAmount = (
+            callMethodInstruction.arguments[1] as ManifestAstValue.Decimal
+          ).value;
+
+          if (withdraws?.[withdrawAccountAddress] === undefined) {
+            withdraws[withdrawAccountAddress] = {};
+          }
+          if (
+            withdraws[withdrawAccountAddress]?.[withdrawResourceAddress] ===
+            undefined
+          ) {
+            withdraws[withdrawAccountAddress][withdrawResourceAddress] =
+              new Decimal("0");
+          }
+
+          withdraws[withdrawAccountAddress][withdrawResourceAddress] =
+            withdraws[withdrawAccountAddress][withdrawResourceAddress].add(
+              withdrawAmount
+            );
+        }
+        // Case: Deposit bucket into account
+        else if (
+          callMethodInstruction.methodName.value === "deposit" &&
+          callMethodInstruction.arguments?.length === 1 &&
+          callMethodInstruction.arguments[0].type ===
+            ManifestAstValue.Kind.Bucket
+        ) {
+          let depositAccountAddress =
+            callMethodInstruction.componentAddress.address;
+          let depositBucketId = (
+            (callMethodInstruction.arguments[0] as ManifestAstValue.Bucket)
+              .identifier as ManifestAstValue.String
+          ).value;
+          let [depositResourceAddress, depositAmount] =
+            bucketAmounts[depositBucketId];
+
+          if (deposits?.[depositAccountAddress] === undefined) {
+            deposits[depositAccountAddress] = {};
+          }
+          if (
+            deposits[depositAccountAddress]?.[depositResourceAddress] ===
+            undefined
+          ) {
+            deposits[depositAccountAddress][depositResourceAddress] =
+              new Decimal("0");
+          }
+
+          deposits[depositAccountAddress][depositResourceAddress] =
+            deposits[depositAccountAddress][depositResourceAddress].add(
+              depositAmount
+            );
+        } else {
+          throw new Error(
+            `Unsupported CallMethod instruction: ${callMethodInstruction.toObject()}`
+          );
+        }
+        break;
+
+      default:
+        throw new Error(
+          `LTS resolution of resource movements does not support this instructions: ${instruction.instruction}`
+        );
+    }
+  }
+
+  if (feesLocked !== undefined) {
+    return {
+      feesLocked,
+      withdraws,
+      deposits,
+    };
+  } else {
+    throw new Error("No lock_fee instruction found in the manifest");
+  }
+};
