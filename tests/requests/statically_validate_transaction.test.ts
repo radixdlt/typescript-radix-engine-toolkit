@@ -20,6 +20,7 @@ import {
   ManifestBuilder,
   PrivateKey,
   RawRadixEngineToolkit,
+  SimpleTransactionBuilder,
   StaticallyValidateTransactionRequest,
   StaticallyValidateTransactionResponseInvalid,
   StaticallyValidateTransactionResponseValid,
@@ -90,6 +91,44 @@ describe("Statically Validate Transaction", () => {
       new StaticallyValidateTransactionRequest(
         compiledNotarizedTransaction,
         ValidationConfig.default(1)
+      )
+    );
+
+    // Assert
+    expect(
+      validationResult instanceof StaticallyValidateTransactionResponseValid
+    ).toBeTruthy();
+  });
+
+  it("faucet transactions produced by transaction builder are valid", async () => {
+    // Arrange
+    let notaryPrivateKey = new PrivateKey.EddsaEd25519(
+      "2342d54a97214bd669640acab5de23d6f44028f1232386d3f9d3a60a50d6f7b3"
+    );
+
+    let signatory1PrivateKey = new PrivateKey.EddsaEd25519(
+      "4293dd008ada84274fd828dde7f6662cbe6f38e4a2718266f08e5006d5b3c283"
+    );
+    let signatory2PrivateKey = new PrivateKey.EcdsaSecp256k1(
+      "f13c26917d52df6339ffa59c289bc4b6384a8b341413242a16272e7c168c72cc"
+    );
+
+    let notarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet(
+      {
+        forAccount:
+          "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+        networkId: 0xf2,
+        startEpoch: 10,
+        notaryPublicKey: notaryPrivateKey.publicKey(),
+      }
+    ).then((tx) => tx.compileNotarized(notaryPrivateKey));
+
+    let validationResult = await (
+      await RawRadixEngineToolkit
+    ).staticallyValidateTransaction(
+      new StaticallyValidateTransactionRequest(
+        notarizedTransaction.toByteArray(),
+        ValidationConfig.default(0xf2)
       )
     );
 

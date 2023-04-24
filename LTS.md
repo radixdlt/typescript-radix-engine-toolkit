@@ -111,6 +111,84 @@ const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
 // * Check commit status using `transactionIntentHashHex` with `/core/lts/transaction/status`
 ```
 
+### Getting XRD from a Testnet Faucet
+
+The `SimpleTransactionBuilder` has built-in support for creating transactions to get funds from testnet faucets and into an account.
+
+```ts
+import {
+  NetworkId,
+  PrivateKey,
+  NotarizedTransaction,
+  SimpleTransactionBuilder,
+  Signature,
+  PublicKey,
+  CompiledSignedTransactionIntent,
+} from "@radixdlt/radix-engine-toolkit";
+
+const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
+  /*
+    A function implemented in your internal systems that is able to sign a given hash using the
+    private key corresponding to the given public key, and produce a signature.
+
+    NOTE:
+    - If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures
+    - If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: v || r || s
+      > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
+      > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
+      > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
+  */
+};
+
+// Construction metadata
+const currentEpoch = /* Sourced from /lts/transaction/construction in the Core API - or the Gateway */;
+
+// Account information
+const fromAccountPublicKey: PublicKey.PublicKey = /* Get public key of account */;
+const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+
+// Recipient/s
+const toAccountAddress1 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+
+const builder = await SimpleTransactionBuilder.new({
+  networkId: NetworkId.RCNet,
+  validFromEpoch: currentEpoch,
+  fromAccount: fromAccountAddress,
+  signerPublicKey: fromAccountPublicKey,
+});
+
+const unsignedTransaction = builder
+  /* The following defaults are used:
+  .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
+  .tipPercentage(0)                // No tip
+  .lockedFee(5)                    // Maximum fee of 5 XRD - but requires at least 5 XRD in the account
+  */
+  .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
+  .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
+  .compileIntent();
+
+const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNotarize);
+
+const transaction = unsignedTransaction.compileNotarized(signature);
+
+// Will throw if eg the signature is incorrect
+(await transaction.staticallyValidate(NetworkId.Simulator)).throwIfInvalid();
+
+// The notarized payload bytes in hex - for submitting to the network.
+const notarizedTransactionHex = transaction.toHex();
+
+// The transaction intent hash is also known as the transaction id - and is used to
+// query APIs or the dashboard for transaction status.
+const transactionIntentHashHex = transaction.intentHashHex();
+// The payload hash - used to disambiguate multiple payloads for the same intent - in the unlikely
+// situation where a notary submits multiple distinct payloads for the same intent.
+const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
+
+// You can then use these to interact with the Core API or Gateway API, eg with the Core API:
+// * Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit`
+// * Check commit status using `transactionIntentHashHex` with `/core/lts/transaction/status`
+```
+
 ## `LTSRadixEngineToolkit` Functionality
 
 This section discusses the functionality provided by the `LTSRadixEngineToolkit` class and provides a number of examples.
@@ -124,15 +202,24 @@ A majority of the functionality exposed by this API group is abstracted away by 
 The LTS Radix Engine Toolkit exposes a `summarizeTransaction` function that summarizes the withdraws, deposits, and fees locked in transactions based on the transaction manifest. This function is only able to produce a summary for transactions constructed by the `SimpleTransactionBuilder` and fails to produce a summary for any other more complex transactions.
 
 ```ts
-import { 
-  CompiledNotarizedTransaction,
-  CompiledSignedTransactionIntent,
-  LTSRadixEngineToolkit
+import {
+  PrivateKey,
+  SimpleTransactionBuilder,
 } from "@radixdlt/radix-engine-toolkit";
 
-let compiledIntent: Uint8Array = /* Some compiled intent */;
-let transactionSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransaction(compiledIntent);
-console.log(transactionSummary)
+// Arrange
+let notaryPrivateKey = new PrivateKey.EddsaEd25519(
+  "2342d54a97214bd669640acab5de23d6f44028f1232386d3f9d3a60a50d6f7b3"
+);
+
+let notarizedTransaction =
+  await SimpleTransactionBuilder.freeXrdFromFaucet({
+    forAccount:
+      "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    networkId: 0xf2,
+    startEpoch: 10,
+    notaryPublicKey: notaryPrivateKey.publicKey(),
+  }).then((tx) => tx.compileNotarized(notaryPrivateKey));
 ```
 
 ### Derive API Group

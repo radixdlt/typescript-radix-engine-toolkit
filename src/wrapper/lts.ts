@@ -305,6 +305,25 @@ const summarizeTransaction = async (
     throw new Error("Invalid types");
   }
 
+  // Get the network id and the faucet component address on the specified network
+  let networkId: number;
+  if (decompiledIntent instanceof TransactionIntent) {
+    networkId = decompiledIntent.header.networkId;
+  } else if (decompiledIntent instanceof SignedTransactionIntent) {
+    networkId = decompiledIntent.intent.header.networkId;
+  } else if (decompiledIntent instanceof NotarizedTransaction) {
+    networkId = decompiledIntent.signedIntent.intent.header.networkId;
+  } else {
+    throw new Error("Invalid types");
+  }
+
+  let knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
+    networkId
+  );
+  let faucetComponentAddress: string | undefined =
+    networkId === 0 ? undefined : knownEntityAddresses.faucetComponentAddress;
+  let xrdResourceAddress = knownEntityAddresses.xrdResourceAddress;
+
   // A map where the key is the bucket ID and the value is a tuple of the resource address and
   // amount.
   let bucketAmounts: Record<string, [string, Decimal]> = {};
@@ -341,21 +360,22 @@ const summarizeTransaction = async (
       case Instruction.Kind.CallMethod:
         const callMethodInstruction = instruction as Instruction.CallMethod;
 
-        if (
-          !callMethodInstruction.componentAddress.address.startsWith("account_")
-        ) {
-          throw new Error("Only method calls to accounts are supported");
-        }
-
         // Cases we support:
         // 1. Withdraw by amount
         // 2. Deposit by amount
         // 3. Lock fee
+        // 4. Free XRD
 
         // TODO: Support withdraw_and_lock_fee when the simple builder supports it
 
         // Case: Lock Fee
         if (
+          (callMethodInstruction.componentAddress.address.startsWith(
+            "account_"
+          ) ||
+            (callMethodInstruction.componentAddress.address ==
+              faucetComponentAddress &&
+              faucetComponentAddress !== undefined)) &&
           callMethodInstruction.methodName.value === "lock_fee" &&
           callMethodInstruction.arguments?.length === 1 &&
           callMethodInstruction.arguments[0].type ===
@@ -374,6 +394,9 @@ const summarizeTransaction = async (
 
         // Case: Withdraw from account by amount
         else if (
+          callMethodInstruction.componentAddress.address.startsWith(
+            "account_"
+          ) &&
           callMethodInstruction.methodName.value === "withdraw" &&
           callMethodInstruction.arguments?.length === 2 &&
           callMethodInstruction.arguments[0].type ===
@@ -401,6 +424,9 @@ const summarizeTransaction = async (
         }
         // Case: Deposit bucket into account
         else if (
+          callMethodInstruction.componentAddress.address.startsWith(
+            "account_"
+          ) &&
           callMethodInstruction.methodName.value === "deposit" &&
           callMethodInstruction.arguments?.length === 1 &&
           callMethodInstruction.arguments[0].type ===
@@ -423,9 +449,29 @@ const summarizeTransaction = async (
             deposits[depositAccountAddress][depositResourceAddress].add(
               depositAmount
             );
+        }
+        // Case: Free XRD
+        else if (
+          faucetComponentAddress !== undefined &&
+          callMethodInstruction.componentAddress.address ===
+            faucetComponentAddress &&
+          callMethodInstruction.methodName.value === "free" &&
+          (callMethodInstruction.arguments?.length === 0 ||
+            callMethodInstruction.arguments === null)
+        ) {
+          withdraws[faucetComponentAddress] ??= {};
+          withdraws[faucetComponentAddress][xrdResourceAddress] ??= new Decimal(
+            "0"
+          );
+
+          withdraws[faucetComponentAddress][xrdResourceAddress] = withdraws[
+            faucetComponentAddress
+          ][xrdResourceAddress].add(new Decimal("1000"));
         } else {
           throw new Error(
-            `Unsupported CallMethod instruction: ${callMethodInstruction.toObject()}`
+            `Unsupported CallMethod instruction: ${JSON.stringify(
+              callMethodInstruction.toObject()
+            )}`
           );
         }
         break;

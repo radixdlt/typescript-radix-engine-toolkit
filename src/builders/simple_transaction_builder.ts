@@ -17,7 +17,7 @@
 
 import Decimal from "decimal.js";
 import secureRandom from "secure-random";
-import { Convert, RadixEngineToolkit } from "../";
+import { Convert, ManifestBuilder, RadixEngineToolkit } from "../";
 import {
   CompileNotarizedTransactionResponse,
   Instruction,
@@ -27,6 +27,7 @@ import {
   PublicKey,
   SignedTransactionIntent,
   TransactionHeader,
+  TransactionIntent,
   TransactionManifest,
   ValidationConfig,
 } from "../models";
@@ -87,10 +88,7 @@ export class SimpleTransactionBuilder {
     this._startEpoch = startEpoch;
     this._networkId = networkId;
     this._fromAccount = fromAccount;
-    this._nonce = new DataView(
-      secureRandom.randomBuffer(4).buffer,
-      0
-    ).getUint32(0, true);
+    this._nonce = randomNonce();
     this._notaryPublicKey = notaryPublicKey;
   }
 
@@ -106,6 +104,50 @@ export class SimpleTransactionBuilder {
       networkId,
       fromAccount,
       signerPublicKey
+    );
+  }
+
+  static async freeXrdFromFaucet(settings: {
+    forAccount: string;
+    networkId: number;
+    startEpoch: number;
+    notaryPublicKey: PublicKey.PublicKey;
+  }): Promise<CompiledSignedTransactionIntent> {
+    const knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
+      settings.networkId
+    );
+    const faucetComponentAddress = knownEntityAddresses.faucetComponentAddress;
+    const xrdResourceAddress = knownEntityAddresses.xrdResourceAddress;
+
+    const manifest = new ManifestBuilder()
+      .callMethod(faucetComponentAddress, "lock_fee", [
+        new ManifestAstValue.Decimal("10"),
+      ])
+      .callMethod(faucetComponentAddress, "free", [])
+      .takeFromWorktopByAmount(xrdResourceAddress, 1000, (builder, bucket) => {
+        return builder.callMethod(settings.forAccount, "deposit", [bucket]);
+      })
+      .build();
+    const header = new TransactionHeader(
+      0x01,
+      settings.networkId,
+      settings.startEpoch,
+      settings.startEpoch + 10,
+      randomNonce(),
+      settings.notaryPublicKey,
+      false,
+      100_000_000,
+      0
+    );
+    const intent = new TransactionIntent(header, manifest);
+    const signedIntent = new SignedTransactionIntent(intent, []);
+
+    return new CompiledSignedTransactionIntent(
+      await RET,
+      await intent.transactionId(),
+      signedIntent,
+      await signedIntent.compile(),
+      await signedIntent.signedIntentHash()
     );
   }
 
@@ -495,3 +537,6 @@ export class CompiledNotarizedTransaction {
     return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
   }
 }
+
+const randomNonce = () =>
+  new DataView(secureRandom.randomBuffer(4).buffer, 0).getUint32(0, true);

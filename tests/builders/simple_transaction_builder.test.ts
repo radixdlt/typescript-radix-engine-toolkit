@@ -362,4 +362,53 @@ describe("SimpleTransactionBuilder Tests", () => {
 
     expect(transactionSummary).toEqual(expectedSummary);
   });
+
+  it("Simple transaction builder free XRD transactions are summarized as expected", async () => {
+    // Arrange
+    let privateKey = new PrivateKey.EddsaEd25519(
+      "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+    );
+
+    let account1 =
+      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+
+    // Act
+    const notarizedTransaction =
+      await SimpleTransactionBuilder.freeXrdFromFaucet({
+        forAccount: account1,
+        networkId: 0xf2,
+        notaryPublicKey: privateKey.publicKey(),
+        startEpoch: 10,
+      }).then((tx) => tx.compileNotarized(privateKey));
+
+    // Assert
+    let [faucetComponentAddress, xrdResourceAddress] =
+      await RadixEngineToolkit.knownEntityAddresses(0xf2).then((x) => [
+        x.faucetComponentAddress,
+        x.xrdResourceAddress,
+      ]);
+    let expectedSummary: TransactionSummary = {
+      feesLocked: {
+        account: faucetComponentAddress,
+        amount: new Decimal("10"),
+      },
+      withdraws: {
+        [faucetComponentAddress]: {
+          [xrdResourceAddress]: new Decimal("1000"),
+        },
+      },
+      deposits: {
+        [account1]: {
+          [xrdResourceAddress]: new Decimal("1000"),
+        },
+      },
+    };
+
+    let transactionSummary =
+      await LTSRadixEngineToolkit.Transaction.summarizeTransaction(
+        notarizedTransaction
+      );
+
+    expect(transactionSummary).toEqual(expectedSummary);
+  });
 });
