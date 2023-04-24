@@ -24,6 +24,7 @@ import {
   InstructionList,
   ManifestAstValue,
   NotarizedTransaction,
+  PrivateKey,
   PublicKey,
   SignedTransactionIntent,
   TransactionHeader,
@@ -111,8 +112,11 @@ export class SimpleTransactionBuilder {
     forAccount: string;
     networkId: number;
     startEpoch: number;
-    notaryPublicKey: PublicKey.PublicKey;
-  }): Promise<CompiledSignedTransactionIntent> {
+  }): Promise<CompiledNotarizedTransaction> {
+    const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(
+      new Uint8Array(secureRandom.randomBuffer(32).buffer)
+    );
+
     const knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
       settings.networkId
     );
@@ -124,9 +128,13 @@ export class SimpleTransactionBuilder {
         new ManifestAstValue.Decimal("10"),
       ])
       .callMethod(faucetComponentAddress, "free", [])
-      .takeFromWorktopByAmount(xrdResourceAddress, 1000, (builder, bucket) => {
-        return builder.callMethod(settings.forAccount, "deposit", [bucket]);
-      })
+      .takeFromWorktopByAmount(
+        xrdResourceAddress,
+        10_000,
+        (builder, bucket) => {
+          return builder.callMethod(settings.forAccount, "deposit", [bucket]);
+        }
+      )
       .build();
     const header = new TransactionHeader(
       0x01,
@@ -134,7 +142,7 @@ export class SimpleTransactionBuilder {
       settings.startEpoch,
       settings.startEpoch + 10,
       randomNonce(),
-      settings.notaryPublicKey,
+      ephemeralPrivateKey.publicKey(),
       false,
       100_000_000,
       0
@@ -148,7 +156,7 @@ export class SimpleTransactionBuilder {
       signedIntent,
       await signedIntent.compile(),
       await signedIntent.signedIntentHash()
-    );
+    ).compileNotarized(ephemeralPrivateKey);
   }
 
   version(version: number): this {

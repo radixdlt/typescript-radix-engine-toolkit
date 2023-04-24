@@ -112,9 +112,8 @@ describe("Statically Validate Transaction", () => {
           "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
         networkId: 0xf2,
         startEpoch: 10,
-        notaryPublicKey: notaryPrivateKey.publicKey(),
       }
-    ).then((tx) => tx.compileNotarized(notaryPrivateKey));
+    );
 
     let validationResult = await (
       await RawRadixEngineToolkit

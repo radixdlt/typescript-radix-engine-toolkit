@@ -377,9 +377,8 @@ describe("SimpleTransactionBuilder Tests", () => {
       await SimpleTransactionBuilder.freeXrdFromFaucet({
         forAccount: account1,
         networkId: 0xf2,
-        notaryPublicKey: privateKey.publicKey(),
         startEpoch: 10,
-      }).then((tx) => tx.compileNotarized(privateKey));
+      });
 
     // Assert
     let [faucetComponentAddress, xrdResourceAddress] =
@@ -394,12 +393,12 @@ describe("SimpleTransactionBuilder Tests", () => {
       },
       withdraws: {
         [faucetComponentAddress]: {
-          [xrdResourceAddress]: new Decimal("1000"),
+          [xrdResourceAddress]: new Decimal("10000"),
         },
       },
       deposits: {
         [account1]: {
-          [xrdResourceAddress]: new Decimal("1000"),
+          [xrdResourceAddress]: new Decimal("10000"),
         },
       },
     };

@@ -466,7 +466,7 @@ const summarizeTransaction = async (
 
           withdraws[faucetComponentAddress][xrdResourceAddress] = withdraws[
             faucetComponentAddress
-          ][xrdResourceAddress].add(new Decimal("1000"));
+          ][xrdResourceAddress].add(new Decimal("10000"));
         } else {
           throw new Error(
             `Unsupported CallMethod instruction: ${JSON.stringify(
