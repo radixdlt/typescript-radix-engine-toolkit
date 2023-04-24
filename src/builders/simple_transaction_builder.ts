@@ -17,6 +17,7 @@
 
 import Decimal from "decimal.js";
 import secureRandom from "secure-random";
+import { LTSRadixEngineToolkit, TransactionSummary } from "wrapper/lts";
 import { Convert, RadixEngineToolkit } from "../";
 import {
   CompileNotarizedTransactionResponse,
@@ -415,6 +416,14 @@ export class CompiledSignedTransactionIntent {
   intentHashHex(): string {
     return Convert.Uint8Array.toHexString(this.intentHash);
   }
+
+  /**
+   * Decompiles and summarizes a compiled intent extracting information such as locked fees,
+   * deposits, and withdrawals.
+   */
+  summarizeTransaction(): Promise<TransactionSummary> {
+    return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
+  }
 }
 
 export class CompiledNotarizedTransaction {
@@ -476,5 +485,13 @@ export class CompiledNotarizedTransaction {
       this.compiled,
       ValidationConfig.default(networkId)
     );
+  }
+
+  /**
+   * Decompiles and summarizes a compiled intent extracting information such as locked fees,
+   * deposits, and withdrawals.
+   */
+  summarizeTransaction(): Promise<TransactionSummary> {
+    return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
   }
 }

@@ -324,6 +324,12 @@ const summarizeTransaction = async (
       case Instruction.Kind.CallMethod:
         const callMethodInstruction = instruction as Instruction.CallMethod;
 
+        if (
+          !callMethodInstruction.componentAddress.address.startsWith("account_")
+        ) {
+          throw new Error("Only method calls to accounts are supported");
+        }
+
         // Cases we support:
         // 1. Withdraw by amount
         // 2. Deposit by amount
@@ -338,15 +344,21 @@ const summarizeTransaction = async (
           callMethodInstruction.arguments[0].type ===
             ManifestAstValue.Kind.Decimal
         ) {
-          let lockFeeAccount = callMethodInstruction.componentAddress.address;
-          let lockFeeAmount = (
-            callMethodInstruction.arguments[0] as ManifestAstValue.Decimal
-          ).value;
+          if (feesLocked === undefined) {
+            let lockFeeAccount = callMethodInstruction.componentAddress.address;
+            let lockFeeAmount = (
+              callMethodInstruction.arguments[0] as ManifestAstValue.Decimal
+            ).value;
 
-          feesLocked = {
-            account: lockFeeAccount,
-            amount: lockFeeAmount,
-          };
+            feesLocked = {
+              account: lockFeeAccount,
+              amount: lockFeeAmount,
+            };
+          } else {
+            throw new Error(
+              "Multiple lock fee instructions found in the manifest"
+            );
+          }
         }
 
         // Case: Withdraw from account by amount
@@ -367,16 +379,9 @@ const summarizeTransaction = async (
             callMethodInstruction.arguments[1] as ManifestAstValue.Decimal
           ).value;
 
-          if (withdraws?.[withdrawAccountAddress] === undefined) {
-            withdraws[withdrawAccountAddress] = {};
-          }
-          if (
-            withdraws[withdrawAccountAddress]?.[withdrawResourceAddress] ===
-            undefined
-          ) {
-            withdraws[withdrawAccountAddress][withdrawResourceAddress] =
-              new Decimal("0");
-          }
+          withdraws[withdrawAccountAddress] ??= {};
+          withdraws[withdrawAccountAddress][withdrawResourceAddress] ??=
+            new Decimal("0");
 
           withdraws[withdrawAccountAddress][withdrawResourceAddress] =
             withdraws[withdrawAccountAddress][withdrawResourceAddress].add(
@@ -399,16 +404,9 @@ const summarizeTransaction = async (
           let [depositResourceAddress, depositAmount] =
             bucketAmounts[depositBucketId];
 
-          if (deposits?.[depositAccountAddress] === undefined) {
-            deposits[depositAccountAddress] = {};
-          }
-          if (
-            deposits[depositAccountAddress]?.[depositResourceAddress] ===
-            undefined
-          ) {
-            deposits[depositAccountAddress][depositResourceAddress] =
-              new Decimal("0");
-          }
+          deposits[depositAccountAddress] ??= {};
+          deposits[depositAccountAddress][depositResourceAddress] ??=
+            new Decimal("0");
 
           deposits[depositAccountAddress][depositResourceAddress] =
             deposits[depositAccountAddress][depositResourceAddress].add(
