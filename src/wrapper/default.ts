@@ -489,7 +489,7 @@ export class RadixEngineToolkit {
    * for the Bech32m encoding of addresses
    * @returns A `ScryptoSborValue` SBOR Value
    */
-  static async ScryptoDecode(
+  static async scryptoDecode(
     encodedValue: Uint8Array | string,
     networkId: number
   ): Promise<ScryptoSborValue.Value> {

@@ -115,6 +115,7 @@ export namespace LTSRadixEngineToolkit {
       compiledIntent:
         | CompiledNotarizedTransaction
         | CompiledSignedTransactionIntent
+        | Uint8Array
     ): Promise<TransactionSummary> {
       return summarizeTransaction(compiledIntent);
     }
@@ -258,34 +259,50 @@ export interface TransactionSummary {
 }
 
 const summarizeTransaction = async (
-  intent: CompiledSignedTransactionIntent | CompiledNotarizedTransaction
+  intent:
+    | CompiledSignedTransactionIntent
+    | CompiledNotarizedTransaction
+    | Uint8Array
 ): Promise<TransactionSummary> => {
+  // Getting the complex * intent bytes
+  let compiledIntent: Uint8Array;
+
+  if (intent instanceof Uint8Array) {
+    compiledIntent = intent;
+  } else if (intent instanceof CompiledSignedTransactionIntent) {
+    compiledIntent = intent.toByteArray();
+  } else if (intent instanceof CompiledNotarizedTransaction) {
+    compiledIntent = intent.toByteArray();
+  } else {
+    throw new TypeError("Invalid type passed in for transaction summary.");
+  }
+
   // Get the instructions contained in the passed compiled intent
-  let instructions: Array<Instruction.Instruction> = [];
-  if (intent instanceof CompiledSignedTransactionIntent) {
-    let decompiledSignedIntent =
-      await RadixEngineToolkit.decompileSignedTransactionIntent(
-        intent.toByteArray(),
-        InstructionList.Kind.Parsed
-      );
+  let instructions: Array<Instruction.Instruction>;
+
+  let decompiledIntent =
+    await RadixEngineToolkit.decompileUnknownTransactionIntent(
+      compiledIntent,
+      InstructionList.Kind.Parsed
+    );
+
+  if (decompiledIntent instanceof TransactionIntent) {
     instructions = (
-      decompiledSignedIntent.intent.manifest
+      decompiledIntent.manifest
         .instructions as InstructionList.ParsedInstructions
     ).value;
-  } else if (intent instanceof CompiledNotarizedTransaction) {
-    let decompiledNotarizedTransaction =
-      await RadixEngineToolkit.decompileNotarizedTransactionIntent(
-        intent.toByteArray(),
-        InstructionList.Kind.Parsed
-      );
+  } else if (decompiledIntent instanceof SignedTransactionIntent) {
     instructions = (
-      decompiledNotarizedTransaction.signedIntent.intent.manifest
+      decompiledIntent.intent.manifest
+        .instructions as InstructionList.ParsedInstructions
+    ).value;
+  } else if (decompiledIntent instanceof NotarizedTransaction) {
+    instructions = (
+      decompiledIntent.signedIntent.intent.manifest
         .instructions as InstructionList.ParsedInstructions
     ).value;
   } else {
-    throw new TypeError(
-      "Invalid type passed in for resource movement resolution."
-    );
+    throw new Error("Invalid types");
   }
 
   // A map where the key is the bucket ID and the value is a tuple of the resource address and
@@ -344,21 +361,15 @@ const summarizeTransaction = async (
           callMethodInstruction.arguments[0].type ===
             ManifestAstValue.Kind.Decimal
         ) {
-          if (feesLocked === undefined) {
-            let lockFeeAccount = callMethodInstruction.componentAddress.address;
-            let lockFeeAmount = (
-              callMethodInstruction.arguments[0] as ManifestAstValue.Decimal
-            ).value;
+          let lockFeeAccount = callMethodInstruction.componentAddress.address;
+          let lockFeeAmount = (
+            callMethodInstruction.arguments[0] as ManifestAstValue.Decimal
+          ).value;
 
-            feesLocked = {
-              account: lockFeeAccount,
-              amount: lockFeeAmount,
-            };
-          } else {
-            throw new Error(
-              "Multiple lock fee instructions found in the manifest"
-            );
-          }
+          feesLocked = {
+            account: lockFeeAccount,
+            amount: lockFeeAmount,
+          };
         }
 
         // Case: Withdraw from account by amount

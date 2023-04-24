@@ -130,7 +130,7 @@ import {
   LTSRadixEngineToolkit
 } from "@radixdlt/radix-engine-toolkit";
 
-let compiledIntent: CompiledNotarizedTransaction | CompiledSignedTransactionIntent = /* Some compiled intent */;
+let compiledIntent: Uint8Array = /* Some compiled intent */;
 let transactionSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransaction(compiledIntent);
 console.log(transactionSummary)
 ```

@@ -17,7 +17,6 @@
 
 import Decimal from "decimal.js";
 import secureRandom from "secure-random";
-import { LTSRadixEngineToolkit, TransactionSummary } from "wrapper/lts";
 import { Convert, RadixEngineToolkit } from "../";
 import {
   CompileNotarizedTransactionResponse,
@@ -33,6 +32,7 @@ import {
 } from "../models";
 import { hash } from "../utils";
 import { TransactionValidity } from "../wrapper/default";
+import { LTSRadixEngineToolkit, TransactionSummary } from "../wrapper/lts";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 import {
