@@ -16,7 +16,6 @@
 // under the License.
 
 import Decimal from "decimal.js";
-import secureRandom from "secure-random";
 import { Convert, ManifestBuilder, RadixEngineToolkit } from "../";
 import {
   CompileNotarizedTransactionResponse,
@@ -32,7 +31,7 @@ import {
   TransactionManifest,
   ValidationConfig,
 } from "../models";
-import { hash } from "../utils";
+import { hash, randomBytes, randomNonce } from "../utils";
 import { TransactionValidity } from "../wrapper/default";
 import { LTSRadixEngineToolkit, TransactionSummary } from "../wrapper/lts";
 import { RET } from "../wrapper/raw";
@@ -113,9 +112,7 @@ export class SimpleTransactionBuilder {
     networkId: number;
     startEpoch: number;
   }): Promise<CompiledNotarizedTransaction> {
-    const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(
-      new Uint8Array(secureRandom.randomBuffer(32).buffer)
-    );
+    const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(randomBytes(32));
 
     const knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
       settings.networkId
@@ -545,6 +542,3 @@ export class CompiledNotarizedTransaction {
     return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
   }
 }
-
-const randomNonce = () =>
-  new DataView(secureRandom.randomBuffer(4).buffer, 0).getUint32(0, true);

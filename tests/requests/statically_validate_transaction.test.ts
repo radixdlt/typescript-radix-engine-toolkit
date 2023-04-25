@@ -102,10 +102,6 @@ describe("Statically Validate Transaction", () => {
 
   it("faucet transactions produced by transaction builder are valid", async () => {
     // Arrange
-    let notaryPrivateKey = new PrivateKey.EddsaEd25519(
-      "2342d54a97214bd669640acab5de23d6f44028f1232386d3f9d3a60a50d6f7b3"
-    );
-
     let notarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet(
       {
         forAccount:

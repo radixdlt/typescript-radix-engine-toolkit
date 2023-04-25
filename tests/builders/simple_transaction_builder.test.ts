@@ -365,10 +365,6 @@ describe("SimpleTransactionBuilder Tests", () => {
 
   it("Simple transaction builder free XRD transactions are summarized as expected", async () => {
     // Arrange
-    let privateKey = new PrivateKey.EddsaEd25519(
-      "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
-    );
-
     let account1 =
       "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
 

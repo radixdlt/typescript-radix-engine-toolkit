@@ -21,6 +21,7 @@ import {
   instanceToPlain,
   plainToInstance,
 } from "class-transformer";
+import CryptoJSLib from "crypto-js";
 
 export const serialize = (object: any): string =>
   JSON.stringify(instanceToPlain(object));
@@ -30,3 +31,26 @@ export const deserialize = <T>(str: string, Class: ClassConstructor<T>) =>
 
 export const hash = (data: Uint8Array): Uint8Array =>
   blake2b(data, undefined, 32);
+
+export const randomBytes = (nBytes: number): Uint8Array => {
+  const randomWordArray = CryptoJSLib.lib.WordArray.random(nBytes);
+  const words = randomWordArray.words;
+  const masksAndShifts = [
+    [0xff000000, 24],
+    [0xff0000, 16],
+    [0xff00, 8],
+    [0xff, 0],
+  ];
+
+  let byteArray: number[] = [];
+  for (const word of words) {
+    for (const [mask, shift] of masksAndShifts) {
+      byteArray.push((word & mask) >> shift);
+    }
+  }
+
+  return new Uint8Array(byteArray);
+};
+
+export const randomNonce = () =>
+  new DataView(randomBytes(4).buffer, 0).getUint32(0, true);
