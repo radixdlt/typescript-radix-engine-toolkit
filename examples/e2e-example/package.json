@@ -4,8 +4,9 @@
   "main": "main.js",
   "dependencies": {
     "@radixdlt/babylon-gateway-api-sdk": "^1.0.0-rc.1.4",
-    "@radixdlt/radix-engine-toolkit": "../..",
-    "@types/secure-random": "^1.1.0",
-    "secure-random": "^1.1.2"
+    "@radixdlt/radix-engine-toolkit": "../.."
+  },
+  "scripts": {
+    "run": "tsc; node main.js"
   }
 }
