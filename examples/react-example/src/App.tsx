@@ -1,4 +1,8 @@
-import { Convert, RadixEngineToolkit, SimpleTransactionBuilder } from "@radixdlt/radix-engine-toolkit";
+import {
+  Convert,
+  RadixEngineToolkit,
+  SimpleTransactionBuilder,
+} from "@radixdlt/radix-engine-toolkit";
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -18,12 +22,16 @@ function App() {
       );
       setInformationResponse(JSON.stringify(informationResponse));
 
-      const notarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet({
-        toAccount: "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788",
-        networkId: 0xf2,
-        validFromEpoch: 10,
-      });
-      setTxValidity(JSON.stringify(await notarizedTransaction.staticallyValidate(0xf2)))
+      const notarizedTransaction =
+        await SimpleTransactionBuilder.freeXrdFromFaucet({
+          toAccount:
+            "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788",
+          networkId: 0xf2,
+          validFromEpoch: 10,
+        });
+      setTxValidity(
+        JSON.stringify(await notarizedTransaction.staticallyValidate(0xf2))
+      );
     })();
   }, [informationResponse, txValidity]);
 
@@ -40,7 +48,7 @@ function App() {
     >
       <p>The Radix Engine Toolkit works in react as an ES6 module</p>
       <pre style={{ textAlign: "left" }}>{informationResponse}</pre>
-      
+
       <p>Building a transaction to get funds from the faucet.</p>
       <pre style={{ textAlign: "left" }}>{txValidity}</pre>
     </div>

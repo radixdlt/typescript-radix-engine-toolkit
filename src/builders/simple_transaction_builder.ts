@@ -31,7 +31,7 @@ import {
   TransactionManifest,
   ValidationConfig,
 } from "../models";
-import { generateRandomNonce, generateSecureRandomBytes, hash } from "../utils";
+import { generateRandomNonce, hash } from "../utils";
 import { TransactionValidity } from "../wrapper/default";
 import { LTSRadixEngineToolkit, TransactionSummary } from "../wrapper/lts";
 import { RET } from "../wrapper/raw";
@@ -119,8 +119,25 @@ export class SimpleTransactionBuilder {
     settings: SimpleTransactionBuilderFreeXrdSettings
   ): Promise<CompiledNotarizedTransaction> {
     const { networkId, toAccount, validFromEpoch } = settings;
+    // NOTE: The following ephemeral key is intentionally NOT generated through a secure random
+    // number generator since in this case there are no risks associated with with this.
+    // The following are the reasons we do not see this as a security risk:
+    //
+    // * The transaction constructed here is a transaction to get funds from the faucet, an
+    //   operation that only works on testnets and NOT on mainnet.
+    // * The key used here is only used to notarize the transaction. It's not being used to create
+    //   a key to an account that would store actual funds.
+    // * The worst that can happen is that an attacker who could guess the private key can cancel
+    //   the faucet transaction (a feature which is not even implemented in Scrypto yet).
+    //
+    // Generating the following key through a secure random number generator requires the use of
+    // CryptoJS which is a library that's tough to get working with different versions of NodeJS,
+    // in different environments, and with different module systems. Thus, the choice was made not
+    // to make use of it.
+    //
+    // WARNING: DO NOT USE THE FOLLOWING CODE TO GENERATE YOUR OWN PRIVATE KEYS.
     const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(
-      await generateSecureRandomBytes(32)
+      new Uint8Array(Array(32).map((_) => Math.floor(Math.random() * 0xff)))
     );
 
     const knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
