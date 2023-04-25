@@ -5,6 +5,10 @@
 
 This `LTSRadixEngineToolkit` class is meant to provide a smaller interface with a higher degree of backward compatibility that is suitable for third parties looking to integrate with the Radix Babylon ledger.
 
+An end-to-end example of using the `LTSRadixEngineToolkit` alongside the `LTS` part of the `CoreApiClient` ([@radixdlt/babylon-core-api-sdk](https://www.npmjs.com/package/@radixdlt/babylon-core-api-sdk)) with Node.js is [presented here](./examples/core-e2e-example).
+
+## Summary
+
 The `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients. They are meant to provide focused, simple interfaces for functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS.
 
 The following set of classes currently are currently considered to be in LTS:
@@ -121,11 +125,12 @@ import {
   SimpleTransactionBuilder,
 } from "@radixdlt/radix-engine-toolkit";
 
-const compiledNotarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet({
-  toAccount: "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
-  networkId: NetworkId.RCNetV1,
-  validFromEpoch: 10,
-});
+const compiledNotarizedTransaction =
+  await SimpleTransactionBuilder.freeXrdFromFaucet({
+    toAccount: "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    networkId: NetworkId.RCNetV1,
+    validFromEpoch: 10,
+  });
 ```
 
 ## `LTSRadixEngineToolkit` Functionality

@@ -11,8 +11,8 @@ module.exports = defineConfig({
       entry: pathe.resolve(__dirname, "src/index.ts"),
     },
     rollupOptions: {
-      external: ["crypto"]
-    }
+      external: ["crypto"],
+    },
   },
   plugins: [wasm({ targetEnv: "auto-inline" })],
   test: {

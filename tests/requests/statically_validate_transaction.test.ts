@@ -108,10 +108,10 @@ describe("Statically Validate Transaction", () => {
 
     let notarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet(
       {
-        forAccount:
+        toAccount:
           "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
         networkId: 0xf2,
-        startEpoch: 10,
+        validFromEpoch: 10,
       }
     );
 

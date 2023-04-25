@@ -89,7 +89,7 @@ export class SimpleTransactionBuilder {
     networkId: number,
     fromAccount: string,
     notaryPublicKey: PublicKey.PublicKey,
-    nonce: number,
+    nonce: number
   ) {
     this.retWrapper = retWrapper;
     this._startEpoch = startEpoch;
@@ -111,7 +111,7 @@ export class SimpleTransactionBuilder {
       networkId,
       fromAccount,
       signerPublicKey,
-      await generateRandomNonce(),
+      await generateRandomNonce()
     );
   }
 

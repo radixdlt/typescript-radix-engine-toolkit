@@ -47,17 +47,20 @@ async function getWebCrypto(): Promise<Crypto> {
       return Promise.resolve(crypto.webcrypto as any);
     }
   } catch (ex) {}
-  throw new Error("No crypto implementation found - must be run in modern browser or Node 15+");
-};
+  throw new Error(
+    "No crypto implementation found - must be run in modern browser or Node 15+"
+  );
+}
 
-export async function generateSecureRandomBytes(count: number): Promise<Uint8Array> {
+export async function generateSecureRandomBytes(
+  count: number
+): Promise<Uint8Array> {
   var byteArray = new Uint8Array(count);
   (await getWebCrypto()).getRandomValues(byteArray);
   return byteArray;
-};
+}
 
 export async function generateRandomNonce(): Promise<number> {
   const randomBytes = await generateSecureRandomBytes(4);
-  return new DataView(randomBytes.buffer, 0).getUint32(0, true);;
-};
-  
+  return new DataView(randomBytes.buffer, 0).getUint32(0, true);
+}
