@@ -1380,10 +1380,10 @@ export class CreateIdentity extends Instruction {
  */
 export class CreateIdentityAdvanced extends Instruction {
   @Expose({ name: "config" })
-  @Type(() => ManifestAstValue.Enum)
-  config: ManifestAstValue.Enum;
+  @Type(() => ManifestAstValue.Value)
+  config: ManifestAstValue.Value;
 
-  constructor(config: ManifestAstValue.Enum) {
+  constructor(config: ManifestAstValue.Value) {
     super(Kind.CreateIdentityAdvanced);
     this.config = config;
   }
@@ -1441,10 +1441,10 @@ export class CreateAccount extends Instruction {
  */
 export class CreateAccountAdvanced extends Instruction {
   @Expose({ name: "config" })
-  @Type(() => ManifestAstValue.Enum)
-  config: ManifestAstValue.Enum;
+  @Type(() => ManifestAstValue.Value)
+  config: ManifestAstValue.Value;
 
-  constructor(config: ManifestAstValue.Enum) {
+  constructor(config: ManifestAstValue.Value) {
     super(Kind.CreateAccountAdvanced);
     this.config = config;
   }
