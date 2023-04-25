@@ -341,13 +341,8 @@ describe.each([
     expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY","divisibility":{"type":"U8","value":"18"},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_value_kind":"Enum","value_value_kind":"Tuple","entries":[]},"initial_supply":{"type":"Decimal","value":"1"}}`,
   },
   {
-    expectedObject: new Instruction.CreateIdentity(
-      new ManifestAstValue.Enum(
-        new ManifestAstValue.EnumU8Discriminator(0),
-        undefined
-      )
-    ),
-    expectedSerialization: `{"instruction":"CREATE_IDENTITY","access_rule":{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
+    expectedObject: new Instruction.CreateIdentity(),
+    expectedSerialization: `{"instruction":"CREATE_IDENTITY"}`,
   },
   {
     expectedObject: new Instruction.CreateValidator(
@@ -357,28 +352,13 @@ describe.each([
           11, 7, 2, 155, 252, 219, 45, 206, 40, 217, 89, 242, 129, 91, 22, 248,
           23, 152,
         ])
-      ),
-      new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0))
+      )
     ),
-    expectedSerialization: `{"instruction":"CREATE_VALIDATOR","key":{"type":"Bytes","value":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"},"owner_access_rule":{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
+    expectedSerialization: `{"instruction":"CREATE_VALIDATOR","key":{"type":"Bytes","value":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"}}`,
   },
   {
-    expectedObject: new Instruction.CreateIdentity(
-      new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0))
-    ),
-    expectedSerialization: `{"instruction":"CREATE_IDENTITY","access_rule":{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
-  },
-  {
-    expectedObject: new Instruction.AssertAccessRule(
-      new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0))
-    ),
-    expectedSerialization: `{"instruction":"ASSERT_ACCESS_RULE","access_rule":{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
-  },
-  {
-    expectedObject: new Instruction.CreateAccount(
-      new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0))
-    ),
-    expectedSerialization: `{"instruction":"CREATE_ACCOUNT","withdraw_rule":{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
+    expectedObject: new Instruction.CreateAccount(),
+    expectedSerialization: `{"instruction":"CREATE_ACCOUNT"}`,
   },
   {
     expectedObject: new Instruction.CreateAccessController(
@@ -475,6 +455,35 @@ describe.each([
         ManifestAstValue.Kind.String,
         ManifestAstValue.Kind.String,
         []
+      )
+    ),
+    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE","code":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"royalty_config":{"type":"Map","key_value_kind":"String","value_value_kind":"Tuple","entries":[]},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]}}`,
+  },
+  {
+    expectedObject: new Instruction.PublishPackageAdvanced(
+      new ManifestAstValue.Blob(
+        new Uint8Array([
+          1, 186, 71, 25, 200, 11, 111, 233, 17, 176, 145, 167, 192, 81, 36,
+          182, 78, 238, 206, 150, 78, 9, 192, 88, 239, 143, 152, 5, 218, 202,
+          84, 107,
+        ])
+      ),
+      new ManifestAstValue.Blob(
+        new Uint8Array([
+          1, 186, 71, 25, 200, 11, 111, 233, 17, 176, 145, 167, 192, 81, 36,
+          182, 78, 238, 206, 150, 78, 9, 192, 88, 239, 143, 152, 5, 218, 202,
+          84, 107,
+        ])
+      ),
+      new ManifestAstValue.Map(
+        ManifestAstValue.Kind.String,
+        ManifestAstValue.Kind.Tuple,
+        []
+      ),
+      new ManifestAstValue.Map(
+        ManifestAstValue.Kind.String,
+        ManifestAstValue.Kind.String,
+        []
       ),
       new ManifestAstValue.Tuple([
         new ManifestAstValue.Map(
@@ -501,7 +510,7 @@ describe.each([
         new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0)),
       ])
     ),
-    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE","code":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"royalty_config":{"type":"Map","key_value_kind":"String","value_value_kind":"Tuple","entries":[]},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Tuple","elements":[{"type":"Map","key_value_kind":"Tuple","value_value_kind":"Enum","entries":[]},{"type":"Map","key_value_kind":"String","value_value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},{"type":"Map","key_value_kind":"Tuple","value_value_kind":"Enum","entries":[]},{"type":"Map","key_value_kind":"String","value_value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]}}`,
+    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE_ADVANCED","code":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"royalty_config":{"type":"Map","key_value_kind":"String","value_value_kind":"Tuple","entries":[]},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Tuple","elements":[{"type":"Map","key_value_kind":"Tuple","value_value_kind":"Enum","entries":[]},{"type":"Map","key_value_kind":"String","value_value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},{"type":"Map","key_value_kind":"Tuple","value_value_kind":"Enum","entries":[]},{"type":"Map","key_value_kind":"String","value_value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]}}`,
   },
 ])(
   "Serialization test for $expectedSerialization",

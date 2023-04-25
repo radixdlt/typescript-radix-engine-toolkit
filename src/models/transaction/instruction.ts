@@ -94,6 +94,7 @@ export enum Kind {
   DropProof = "DROP_PROOF",
   DropAllProofs = "DROP_ALL_PROOFS",
   PublishPackage = "PUBLISH_PACKAGE",
+  PublishPackageAdvanced = "PUBLISH_PACKAGE_ADVANCED",
   BurnResource = "BURN_RESOURCE",
   RecallResource = "RECALL_RESOURCE",
   SetMetadata = "SET_METADATA",
@@ -112,9 +113,10 @@ export enum Kind {
   CreateNonFungibleResourceWithInitialSupply = "CREATE_NON_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY",
   CreateAccessController = "CREATE_ACCESS_CONTROLLER",
   CreateIdentity = "CREATE_IDENTITY",
-  AssertAccessRule = "ASSERT_ACCESS_RULE",
+  CreateIdentityAdvanced = "CREATE_IDENTITY_ADVANCED",
   CreateValidator = "CREATE_VALIDATOR",
   CreateAccount = "CREATE_ACCOUNT",
+  CreateAccountAdvanced = "CREATE_ACCOUNT_ADVANCED",
 }
 
 /**
@@ -709,6 +711,49 @@ export class PublishPackage extends Instruction {
   @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
 
+  constructor(
+    code: ManifestAstValue.Blob,
+    schema: ManifestAstValue.Blob,
+    royaltyConfig: ManifestAstValue.Map,
+    metadata: ManifestAstValue.Map
+  ) {
+    super(Kind.PublishPackage);
+    this.code = code;
+    this.schema = schema;
+    this.royaltyConfig = royaltyConfig;
+    this.metadata = metadata;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to publish a package and set it's associated royalty configs, metadata, and access
+ * rules.
+ */
+export class PublishPackageAdvanced extends Instruction {
+  @Expose({ name: "code" })
+  @Type(() => ManifestAstValue.Blob)
+  code: ManifestAstValue.Blob;
+
+  @Expose({ name: "schema" })
+  @Type(() => ManifestAstValue.Blob)
+  schema: ManifestAstValue.Blob;
+
+  @Expose({ name: "royalty_config" })
+  @Type(() => ManifestAstValue.Map)
+  royaltyConfig: ManifestAstValue.Map;
+
+  @Expose({ name: "metadata" })
+  @Type(() => ManifestAstValue.Map)
+  metadata: ManifestAstValue.Map;
+
   @Expose({ name: "access_rules" })
   @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
   accessRules: ManifestAstValue.Value;
@@ -720,7 +765,7 @@ export class PublishPackage extends Instruction {
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Value
   ) {
-    super(Kind.PublishPackage);
+    super(Kind.PublishPackageAdvanced);
     this.code = code;
     this.schema = schema;
     this.royaltyConfig = royaltyConfig;
@@ -1317,13 +1362,8 @@ export class CreateAccessController extends Instruction {
  * Creates a new identity native component with the passed access rule.
  */
 export class CreateIdentity extends Instruction {
-  @Expose({ name: "access_rule" })
-  @Type(() => ManifestAstValue.Enum)
-  accessRule: ManifestAstValue.Enum;
-
-  constructor(accessRule: ManifestAstValue.Enum) {
+  constructor() {
     super(Kind.CreateIdentity);
-    this.accessRule = accessRule;
   }
 
   toString(): string {
@@ -1336,17 +1376,16 @@ export class CreateIdentity extends Instruction {
 }
 
 /**
- * Assert that the given access rule is currently fulfilled by the proofs in the Auth Zone of the
- * transaction
+ * Creates a new identity native component with the passed access rule.
  */
-export class AssertAccessRule extends Instruction {
-  @Expose({ name: "access_rule" })
+export class CreateIdentityAdvanced extends Instruction {
+  @Expose({ name: "config" })
   @Type(() => ManifestAstValue.Enum)
-  accessRule: ManifestAstValue.Enum;
+  config: ManifestAstValue.Enum;
 
-  constructor(accessRule: ManifestAstValue.Enum) {
-    super(Kind.AssertAccessRule);
-    this.accessRule = accessRule;
+  constructor(config: ManifestAstValue.Enum) {
+    super(Kind.CreateIdentityAdvanced);
+    this.config = config;
   }
 
   toString(): string {
@@ -1366,17 +1405,9 @@ export class CreateValidator extends Instruction {
   @Type(() => ManifestAstValue.Bytes)
   key: ManifestAstValue.Bytes;
 
-  @Expose({ name: "owner_access_rule" })
-  @Type(() => ManifestAstValue.Enum)
-  ownerAccessRule: ManifestAstValue.Enum;
-
-  constructor(
-    key: ManifestAstValue.Bytes,
-    ownerAccessRule: ManifestAstValue.Enum
-  ) {
+  constructor(key: ManifestAstValue.Bytes) {
     super(Kind.CreateValidator);
     this.key = key;
-    this.ownerAccessRule = ownerAccessRule;
   }
 
   toString(): string {
@@ -1392,13 +1423,8 @@ export class CreateValidator extends Instruction {
  * Creates a new global account component which has the withdraw rule seen in the rule.
  */
 export class CreateAccount extends Instruction {
-  @Expose({ name: "withdraw_rule" })
-  @Type(() => ManifestAstValue.Enum)
-  withdrawRule: ManifestAstValue.Enum;
-
-  constructor(withdrawRule: ManifestAstValue.Enum) {
+  constructor() {
     super(Kind.CreateAccount);
-    this.withdrawRule = withdrawRule;
   }
 
   toString(): string {
@@ -1410,76 +1436,24 @@ export class CreateAccount extends Instruction {
   }
 }
 
-// export const valueTypeOptions: TypeOptions = {
-//   discriminator: {
-//     property: "instruction",
-//     subTypes: [
-//       { name: "CALL_FUNCTION", value: CallFunction },
-//       { name: "CALL_METHOD", value: CallMethod },
-//       { name: "TAKE_FROM_WORKTOP", value: TakeFromWorktop },
-//       { name: "TAKE_FROM_WORKTOP_BY_AMOUNT", value: TakeFromWorktopByAmount },
-//       { name: "TAKE_FROM_WORKTOP_BY_IDS", value: TakeFromWorktopByIds },
-//       { name: "RETURN_TO_WORKTOP", value: ReturnToWorktop },
-//       { name: "ASSERT_WORKTOP_CONTAINS", value: AssertWorktopContains },
-//       {
-//         name: "AssertWorktopContainsByAmount",
-//         value: AssertWorktopContainsByAmount,
-//       },
-//       {
-//         name: "ASSERT_WORKTOP_CONTAINS_BY_IDS",
-//         value: AssertWorktopContainsByIds,
-//       },
-//       { name: "POP_FROM_AUTH_ZONE", value: PopFromAuthZone },
-//       { name: "PUSH_TO_AUTH_ZONE", value: PushToAuthZone },
-//       { name: "CLEAR_AUTH_ZONE", value: ClearAuthZone },
-//       { name: "CLEAR_SIGNATURE_PROOFS", value: ClearSignatureProofs },
-//       { name: "CREATE_PROOF_FROM_AUTH_ZONE", value: CreateProofFromAuthZone },
-//       {
-//         name: "CreateProofFromAuthZoneByAmount",
-//         value: CreateProofFromAuthZoneByAmount,
-//       },
-//       {
-//         name: "CreateProofFromAuthZoneByIds",
-//         value: CreateProofFromAuthZoneByIds,
-//       },
-//       { name: "CREATE_PROOF_FROM_BUCKET", value: CreateProofFromBucket },
-//       { name: "CLONE_PROOF", value: CloneProof },
-//       { name: "DROP_PROOF", value: DropProof },
-//       { name: "DROP_ALL_PROOFS", value: DropAllProofs },
-//       { name: "PUBLISH_PACKAGE", value: PublishPackage },
-//       { name: "BURN_RESOURCE", value: BurnResource },
-//       { name: "RECALL_RESOURCE", value: RecallResource },
-//       { name: "SET_METADATA", value: SetMetadata },
-//       { name: "REMOVE_METADATA", value: RemoveMetadata },
-//       { name: "SET_PACKAGE_ROYALTY_CONFIG", value: SetPackageRoyaltyConfig },
-//       {
-//         name: "SET_COMPONENT_ROYALTY_CONFIG",
-//         value: SetComponentRoyaltyConfig,
-//       },
-//       { name: "CLAIM_PACKAGE_ROYALTY", value: ClaimPackageRoyalty },
-//       { name: "CLAIM_COMPONENT_ROYALTY", value: ClaimComponentRoyalty },
-//       { name: "SET_METHOD_ACCESS_RULE", value: SetMethodAccessRule },
-//       { name: "MINT_FUNGIBLE", value: MintFungible },
-//       { name: "MINT_NON_FUNGIBLE", value: MintNonFungible },
-//       { name: "MINT_UUID_NON_FUNGIBLE", value: MintUuidNonFungible },
-//       { name: "CREATE_FUNGIBLE_RESOURCE", value: CreateFungibleResource },
-//       {
-//         name: "CreateFungibleResourceWithInitialSupply",
-//         value: CreateFungibleResourceWithInitialSupply,
-//       },
-//       {
-//         name: "CREATE_NON_FUNGIBLE_RESOURCE",
-//         value: CreateNonFungibleResource,
-//       },
-//       {
-//         name: "CreateNonFungibleResourceWithInitialSupply",
-//         value: CreateNonFungibleResourceWithInitialSupply,
-//       },
-//       { name: "CREATE_ACCESS_CONTROLLER", value: CreateAccessController },
-//       { name: "CREATE_IDENTITY", value: CreateIdentity },
-//       { name: "ASSERT_ACCESS_RULE", value: AssertAccessRule },
-//       { name: "CREATE_VALIDATOR", value: CreateValidator },
-//       { name: "CREATE_ACCOUNT", value: CreateAccount },
-//     ],
-//   },
-// };
+/**
+ * Creates a new global account component which has the withdraw rule seen in the rule.
+ */
+export class CreateAccountAdvanced extends Instruction {
+  @Expose({ name: "config" })
+  @Type(() => ManifestAstValue.Enum)
+  config: ManifestAstValue.Enum;
+
+  constructor(config: ManifestAstValue.Enum) {
+    super(Kind.CreateAccountAdvanced);
+    this.config = config;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}

@@ -73,6 +73,10 @@ const instructionTypeOptions: TypeOptions = {
       { name: "DROP_PROOF", value: Instruction.DropProof },
       { name: "DROP_ALL_PROOFS", value: Instruction.DropAllProofs },
       { name: "PUBLISH_PACKAGE", value: Instruction.PublishPackage },
+      {
+        name: "PUBLISH_PACKAGE_ADVANCED",
+        value: Instruction.PublishPackageAdvanced,
+      },
       { name: "BURN_RESOURCE", value: Instruction.BurnResource },
       { name: "RECALL_RESOURCE", value: Instruction.RecallResource },
       { name: "SET_METADATA", value: Instruction.SetMetadata },
@@ -121,9 +125,16 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.CreateAccessController,
       },
       { name: "CREATE_IDENTITY", value: Instruction.CreateIdentity },
-      { name: "ASSERT_ACCESS_RULE", value: Instruction.AssertAccessRule },
+      {
+        name: "CREATE_IDENTITY_ADVANCED",
+        value: Instruction.CreateIdentityAdvanced,
+      },
       { name: "CREATE_VALIDATOR", value: Instruction.CreateValidator },
       { name: "CREATE_ACCOUNT", value: Instruction.CreateAccount },
+      {
+        name: "CREATE_ACCOUNT_ADVANCED",
+        value: Instruction.CreateAccountAdvanced,
+      },
     ],
   },
 };

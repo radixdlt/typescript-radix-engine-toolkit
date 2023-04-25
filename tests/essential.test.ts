@@ -29,7 +29,7 @@ describe("essential", () => {
     );
     let expected = new InformationResponse(
       "0.9.0",
-      "9d140797d5641179fa78566b0f3e66fc6fe01e4c"
+      "c6ece171926b97911347771d1e65b56afc9aacd6"
     );
 
     expect(information).toEqual(expected);
