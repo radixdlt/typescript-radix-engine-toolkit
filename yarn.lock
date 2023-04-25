@@ -199,14 +199,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/ed25519@npm:^2.0.0":
+"@noble/ed25519@npm:2.0.0":
   version: 2.0.0
   resolution: "@noble/ed25519@npm:2.0.0"
   checksum: 4404deb3ca4f7a07863a362d697dc624ff0e82083ca4e41f976f76ec6fe879363b4722529389aa1ae280fe62558d9f229c8403b0a077add8b5f1ec1290d6e2d7
   languageName: node
   linkType: hard
 
-"@noble/hashes@npm:^1.3.0":
+"@noble/hashes@npm:1.3.0":
   version: 1.3.0
   resolution: "@noble/hashes@npm:1.3.0"
   checksum: d7ddb6d7c60f1ce1f87facbbef5b724cdea536fc9e7f59ae96e0fc9de96c8f1a2ae2bdedbce10f7dcc621338dfef8533daa73c873f2b5c87fa1a4e05a95c2e2e
@@ -271,30 +271,30 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@radixdlt/radix-engine-toolkit@workspace:."
   dependencies:
-    "@noble/ed25519": ^2.0.0
-    "@noble/hashes": ^1.3.0
-    "@rollup/plugin-wasm": ^6.1.2
-    "@types/node": ^18.15.11
-    "@types/secp256k1": ^4.0.3
-    "@types/secure-random": ^1.1.0
-    "@vitest/ui": ^0.30.1
-    blakejs: ^1.2.1
-    change-case: ^4.1.2
-    class-transformer: ^0.5.1
-    decimal.js: ^10.4.3
-    happy-dom: ^9.1.0
-    prettier: ^2.8.7
-    prettier-plugin-organize-imports: ^3.2.2
-    reflect-metadata: ^0.1.13
-    secp256k1: ^5.0.0
-    ts-node: ^10.9.1
-    typescript: ^5.0.2
-    vite: ^4.2.1
-    vitest: ^0.29.8
+    "@noble/ed25519": 2.0.0
+    "@noble/hashes": 1.3.0
+    "@rollup/plugin-wasm": 6.1.2
+    "@types/node": 18.15.11
+    "@types/secp256k1": 4.0.3
+    "@types/secure-random": 1.1.0
+    "@vitest/ui": 0.30.1
+    blakejs: 1.2.1
+    change-case: 4.1.2
+    class-transformer: 0.5.1
+    decimal.js: 10.4.3
+    happy-dom: 9.1.0
+    prettier: 2.8.7
+    prettier-plugin-organize-imports: 3.2.2
+    reflect-metadata: 0.1.13
+    secp256k1: 5.0.0
+    ts-node: 10.9.1
+    typescript: 5.0.2
+    vite: 4.2.1
+    vitest: 0.29.8
   languageName: unknown
   linkType: soft
 
-"@rollup/plugin-wasm@npm:^6.1.2":
+"@rollup/plugin-wasm@npm:6.1.2":
   version: 6.1.2
   resolution: "@rollup/plugin-wasm@npm:6.1.2"
   peerDependencies:
@@ -357,14 +357,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.15.11":
+"@types/node@npm:*, @types/node@npm:18.15.11":
   version: 18.15.11
   resolution: "@types/node@npm:18.15.11"
   checksum: 977b4ad04708897ff0eb049ecf82246d210939c82461922d20f7d2dcfd81bbc661582ba3af28869210f7e8b1934529dcd46bff7d448551400f9d48b9d3bddec3
   languageName: node
   linkType: hard
 
-"@types/secp256k1@npm:^4.0.3":
+"@types/secp256k1@npm:4.0.3":
   version: 4.0.3
   resolution: "@types/secp256k1@npm:4.0.3"
   dependencies:
@@ -373,7 +373,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/secure-random@npm:^1.1.0":
+"@types/secure-random@npm:1.1.0":
   version: 1.1.0
   resolution: "@types/secure-random@npm:1.1.0"
   dependencies:
@@ -413,7 +413,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/ui@npm:^0.30.1":
+"@vitest/ui@npm:0.30.1":
   version: 0.30.1
   resolution: "@vitest/ui@npm:0.30.1"
   dependencies:
@@ -570,7 +570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blakejs@npm:^1.2.1":
+"blakejs@npm:1.2.1":
   version: 1.2.1
   resolution: "blakejs@npm:1.2.1"
   checksum: d699ba116cfa21d0b01d12014a03e484dd76d483133e6dc9eb415aa70a119f08beb3bcefb8c71840106a00b542cba77383f8be60cd1f0d4589cb8afb922eefbe
@@ -695,7 +695,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"change-case@npm:^4.1.2":
+"change-case@npm:4.1.2":
   version: 4.1.2
   resolution: "change-case@npm:4.1.2"
   dependencies:
@@ -729,7 +729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"class-transformer@npm:^0.5.1":
+"class-transformer@npm:0.5.1":
   version: 0.5.1
   resolution: "class-transformer@npm:0.5.1"
   checksum: f191c8b4cc4239990f5efdd790cabdd852c243ed66248e39f6616a349c910c6eed2d9fd1fbf7ee6ea89f69b4f1d0b493b27347fe0cd0ae26b47c3745a805b6d3
@@ -838,7 +838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decimal.js@npm:^10.4.3":
+"decimal.js@npm:10.4.3":
   version: 10.4.3
   resolution: "decimal.js@npm:10.4.3"
   checksum: 796404dcfa9d1dbfdc48870229d57f788b48c21c603c3f6554a1c17c10195fc1024de338b0cf9e1efe0c7c167eeb18f04548979bcc5fdfabebb7cc0ae3287bae
@@ -1195,9 +1195,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"happy-dom@npm:^9.1.0":
-  version: 9.8.0
-  resolution: "happy-dom@npm:9.8.0"
+"happy-dom@npm:9.1.0":
+  version: 9.1.0
+  resolution: "happy-dom@npm:9.1.0"
   dependencies:
     css.escape: ^1.5.1
     he: ^1.2.0
@@ -1205,7 +1205,7 @@ __metadata:
     webidl-conversions: ^7.0.0
     whatwg-encoding: ^2.0.0
     whatwg-mimetype: ^3.0.0
-  checksum: 6766cd53bf1b42c4e4ed7d9bdfb2d148cd928e74ecd3e74999c5203d2ebca6104677fcea24e46b2e68075f889c57de51e56e9947109d93f9d0493a211267ee32
+  checksum: 51c174701df32e914bc3efeec9f09bb4ad041e88038844fd74ad0797527ac472e18ead0b912dbcef940ea16df3d7c4360e2608b77d91ab1a039ffddf6f42566a
   languageName: node
   linkType: hard
 
@@ -1896,7 +1896,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-organize-imports@npm:^3.2.2":
+"prettier-plugin-organize-imports@npm:3.2.2":
   version: 3.2.2
   resolution: "prettier-plugin-organize-imports@npm:3.2.2"
   peerDependencies:
@@ -1913,7 +1913,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.8.7":
+"prettier@npm:2.8.7":
   version: 2.8.7
   resolution: "prettier@npm:2.8.7"
   bin:
@@ -1975,7 +1975,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.1.13":
+"reflect-metadata@npm:0.1.13":
   version: 0.1.13
   resolution: "reflect-metadata@npm:0.1.13"
   checksum: 798d379a7b6f6455501145419505c97dd11cbc23857a386add2b9ef15963ccf15a48d9d15507afe01d4cd74116df8a213247200bac00320bd7c11ddeaa5e8fb4
@@ -2070,7 +2070,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secp256k1@npm:^5.0.0":
+"secp256k1@npm:5.0.0":
   version: 5.0.0
   resolution: "secp256k1@npm:5.0.0"
   dependencies:
@@ -2344,7 +2344,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-node@npm:^10.9.1":
+"ts-node@npm:10.9.1":
   version: 10.9.1
   resolution: "ts-node@npm:10.9.1"
   dependencies:
@@ -2396,23 +2396,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.0.2":
-  version: 5.0.4
-  resolution: "typescript@npm:5.0.4"
+"typescript@npm:5.0.2":
+  version: 5.0.2
+  resolution: "typescript@npm:5.0.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 82b94da3f4604a8946da585f7d6c3025fff8410779e5bde2855ab130d05e4fd08938b9e593b6ebed165bda6ad9292b230984f10952cf82f0a0ca07bbeaa08172
+  checksum: bef1dcd166acfc6934b2ec4d72f93edb8961a5fab36b8dd2aaf6f4f4cd5c0210f2e0850aef4724f3b4913d5aef203a94a28ded731b370880c8bcff7e4ff91fc1
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^5.0.2#~builtin<compat/typescript>":
-  version: 5.0.4
-  resolution: "typescript@patch:typescript@npm%3A5.0.4#~builtin<compat/typescript>::version=5.0.4&hash=85af82"
+"typescript@patch:typescript@5.0.2#~builtin<compat/typescript>":
+  version: 5.0.2
+  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: bb309d320c59a26565fb3793dba550576ab861018ff3fd1b7fccabbe46ae4a35546bc45f342c0a0b6f265c801ccdf64ffd68f548f117ceb7f0eac4b805cd52a9
+  checksum: b63cb742fbb9aeb3085e002ad8f10d5fd963606aa4d6b3b65b4e76c396ff09739f03b5dbae08e1698c3bce9d5619d3f67aeb7ee470ed4016bd345b3cfe37b54a
   languageName: node
   linkType: hard
 
@@ -2489,7 +2489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^3.0.0 || ^4.0.0, vite@npm:^4.2.1":
+"vite@npm:4.2.1, vite@npm:^3.0.0 || ^4.0.0":
   version: 4.2.1
   resolution: "vite@npm:4.2.1"
   dependencies:
@@ -2527,7 +2527,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitest@npm:^0.29.8":
+"vitest@npm:0.29.8":
   version: 0.29.8
   resolution: "vitest@npm:0.29.8"
   dependencies:
