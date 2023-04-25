@@ -87,21 +87,20 @@ class RadixEngineToolkitWasmWrapper {
 
     // Read and deserialize the response
     let responseString = this.readStringFromMemory(responsePointer);
-    let response = plainToInstance(Response, JSON.parse(responseString));
+    let parsedResponse = JSON.parse(responseString);
+    if (isRetInvocationError(parsedResponse?.["error"])) {
+      throw new Error(
+        `Invocation Error. Invocation: """${JSON.stringify(
+          request
+        )}""". Response: """${JSON.stringify(parsedResponse)}"""`
+      );
+    }
+
+    let response = plainToInstance(Response, parsedResponse);
 
     // Deallocate the request and response pointers
     this.deallocateMemory(requestPointer);
     this.deallocateMemory(responsePointer);
-
-    // Ensure that the responseObject is not an error object.
-    // @ts-ignore
-    if (isRetInvocationError(response?.["error"])) {
-      throw new Error(
-        `Invocation Error. Invocation: """${JSON.stringify(
-          request
-        )}""". Response: """${JSON.stringify(response)}"""`
-      );
-    }
 
     // Return the object back to the caller
     return response as O;
