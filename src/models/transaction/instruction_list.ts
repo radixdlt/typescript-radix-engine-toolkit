@@ -39,7 +39,7 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.AssertWorktopContains,
       },
       {
-        name: "AssertWorktopContainsByAmount",
+        name: "ASSERT_WORKTOP_CONTAINS_BY_AMOUNT",
         value: Instruction.AssertWorktopContainsByAmount,
       },
       {
@@ -58,11 +58,11 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.CreateProofFromAuthZone,
       },
       {
-        name: "CreateProofFromAuthZoneByAmount",
+        name: "CREATE_PROOF_FROM_AUTH_ZONE_BY_AMOUNT",
         value: Instruction.CreateProofFromAuthZoneByAmount,
       },
       {
-        name: "CreateProofFromAuthZoneByIds",
+        name: "CREATE_PROOF_FROM_AUTH_ZONE_BY_IDS",
         value: Instruction.CreateProofFromAuthZoneByIds,
       },
       {
@@ -105,7 +105,7 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.CreateFungibleResource,
       },
       {
-        name: "CreateFungibleResourceWithInitialSupply",
+        name: "CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY",
         value: Instruction.CreateFungibleResourceWithInitialSupply,
       },
       {
@@ -113,7 +113,7 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.CreateNonFungibleResource,
       },
       {
-        name: "CreateNonFungibleResourceWithInitialSupply",
+        name: "CREATE_NON_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY",
         value: Instruction.CreateNonFungibleResourceWithInitialSupply,
       },
       {

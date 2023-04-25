@@ -121,7 +121,7 @@ import {
   SimpleTransactionBuilder,
 } from "@radixdlt/radix-engine-toolkit";
 
-let notarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet({
+const compiledNotarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet({
   toAccount: "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
   networkId: NetworkId.RCNetV1,
   validFromEpoch: 10,
