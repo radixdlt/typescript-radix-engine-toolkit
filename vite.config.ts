@@ -10,6 +10,9 @@ module.exports = defineConfig({
       name: "radix-engine-toolkit",
       entry: pathe.resolve(__dirname, "src/index.ts"),
     },
+    rollupOptions: {
+      external: ["crypto"],
+    },
   },
   plugins: [wasm({ targetEnv: "auto-inline" })],
   test: {

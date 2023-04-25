@@ -30,3 +30,5 @@ export const deserialize = <T>(str: string, Class: ClassConstructor<T>) =>
 
 export const hash = (data: Uint8Array): Uint8Array =>
   blake2b(data, undefined, 32);
+
+export const generateRandomNonce = () => Math.floor(Math.random() * 0xffffffff);

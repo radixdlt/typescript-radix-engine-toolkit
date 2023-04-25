@@ -1,6 +1,6 @@
 dist
 package-lock.json
-yarn.lock
 node_modules
 .idea
+.yarn
 examples/e2e-example/*.js

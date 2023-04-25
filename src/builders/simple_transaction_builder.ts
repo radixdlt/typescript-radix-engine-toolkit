@@ -16,7 +16,6 @@
 // under the License.
 
 import Decimal from "decimal.js";
-import secureRandom from "secure-random";
 import { Convert, ManifestBuilder, RadixEngineToolkit } from "../";
 import {
   CompileNotarizedTransactionResponse,
@@ -32,7 +31,7 @@ import {
   TransactionManifest,
   ValidationConfig,
 } from "../models";
-import { hash } from "../utils";
+import { generateRandomNonce, hash } from "../utils";
 import { TransactionValidity } from "../wrapper/default";
 import { LTSRadixEngineToolkit, TransactionSummary } from "../wrapper/lts";
 import { RET } from "../wrapper/raw";
@@ -53,11 +52,17 @@ export interface FungibleTransfer {
   amount: Amount;
 }
 
-export interface ActionTransactionBuilderSettings {
+export interface SimpleTransactionBuilderSettings {
   networkId: number;
   validFromEpoch: number;
   fromAccount: string;
   signerPublicKey: PublicKey.PublicKey;
+}
+
+export interface SimpleTransactionBuilderFreeXrdSettings {
+  networkId: number;
+  validFromEpoch: number;
+  toAccount: string;
 }
 
 /// For building single-signer, notary-as-signer transactions.
@@ -83,18 +88,19 @@ export class SimpleTransactionBuilder {
     startEpoch: number,
     networkId: number,
     fromAccount: string,
-    notaryPublicKey: PublicKey.PublicKey
+    notaryPublicKey: PublicKey.PublicKey,
+    nonce: number
   ) {
     this.retWrapper = retWrapper;
     this._startEpoch = startEpoch;
     this._networkId = networkId;
     this._fromAccount = fromAccount;
-    this._nonce = randomNonce();
+    this._nonce = nonce;
     this._notaryPublicKey = notaryPublicKey;
   }
 
   static async new(
-    settings: ActionTransactionBuilderSettings
+    settings: SimpleTransactionBuilderSettings
   ): Promise<SimpleTransactionBuilder> {
     const { networkId, validFromEpoch, fromAccount, signerPublicKey } =
       settings;
@@ -104,21 +110,38 @@ export class SimpleTransactionBuilder {
       validFromEpoch,
       networkId,
       fromAccount,
-      signerPublicKey
+      signerPublicKey,
+      await generateRandomNonce()
     );
   }
 
-  static async freeXrdFromFaucet(settings: {
-    forAccount: string;
-    networkId: number;
-    startEpoch: number;
-  }): Promise<CompiledNotarizedTransaction> {
+  static async freeXrdFromFaucet(
+    settings: SimpleTransactionBuilderFreeXrdSettings
+  ): Promise<CompiledNotarizedTransaction> {
+    const { networkId, toAccount, validFromEpoch } = settings;
+    // NOTE: The following ephemeral key is intentionally NOT generated through a secure random
+    // number generator since in this case there are no risks associated with with this.
+    // The following are the reasons we do not see this as a security risk:
+    //
+    // * The transaction constructed here is a transaction to get funds from the faucet, an
+    //   operation that only works on testnets and NOT on mainnet.
+    // * The key used here is only used to notarize the transaction. It's not being used to create
+    //   a key to an account that would store actual funds.
+    // * The worst that can happen is that an attacker who could guess the private key can cancel
+    //   the faucet transaction (a feature which is not even implemented in Scrypto yet).
+    //
+    // Generating the following key through a secure random number generator requires the use of
+    // CryptoJS which is a library that's tough to get working with different versions of NodeJS,
+    // in different environments, and with different module systems. Thus, the choice was made not
+    // to make use of it.
+    //
+    // WARNING: DO NOT USE THE FOLLOWING CODE TO GENERATE YOUR OWN PRIVATE KEYS.
     const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(
-      new Uint8Array(secureRandom.randomBuffer(32).buffer)
+      new Uint8Array(Array(32).map((_) => Math.floor(Math.random() * 0xff)))
     );
 
     const knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
-      settings.networkId
+      networkId
     );
     const faucetComponentAddress = knownEntityAddresses.faucetComponentAddress;
     const xrdResourceAddress = knownEntityAddresses.xrdResourceAddress;
@@ -132,16 +155,16 @@ export class SimpleTransactionBuilder {
         xrdResourceAddress,
         10_000,
         (builder, bucket) => {
-          return builder.callMethod(settings.forAccount, "deposit", [bucket]);
+          return builder.callMethod(toAccount, "deposit", [bucket]);
         }
       )
       .build();
     const header = new TransactionHeader(
       0x01,
-      settings.networkId,
-      settings.startEpoch,
-      settings.startEpoch + 10,
-      randomNonce(),
+      networkId,
+      validFromEpoch,
+      validFromEpoch + 2,
+      await generateRandomNonce(),
       ephemeralPrivateKey.publicKey(),
       false,
       100_000_000,
@@ -545,6 +568,3 @@ export class CompiledNotarizedTransaction {
     return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
   }
 }
-
-const randomNonce = () =>
-  new DataView(secureRandom.randomBuffer(4).buffer, 0).getUint32(0, true);
