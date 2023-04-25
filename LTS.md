@@ -73,7 +73,7 @@ const toAccountAddress2 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmy
 const resourceAddress = "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
 
 const builder = await SimpleTransactionBuilder.new({
-  networkId: NetworkId.RCNet,
+  networkId: NetworkId.RCNetV1,
   validFromEpoch: currentEpoch,
   fromAccount: fromAccountAddress,
   signerPublicKey: fromAccountPublicKey,
@@ -94,7 +94,7 @@ const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNot
 const transaction = unsignedTransaction.compileNotarized(signature);
 
 // Will throw if eg the signature is incorrect
-(await transaction.staticallyValidate(NetworkId.Simulator)).throwIfInvalid();
+(await transaction.staticallyValidate(NetworkId.RCNetV1)).throwIfInvalid();
 
 // The notarized payload bytes in hex - for submitting to the network.
 const notarizedTransactionHex = transaction.toHex();
@@ -113,7 +113,7 @@ const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
 
 ### Getting XRD from a Testnet Faucet
 
-The `SimpleTransactionBuilder` has built-in support for creating transactions to get funds from testnet faucets and into an account. 
+The `SimpleTransactionBuilder` has built-in support for creating transactions to get funds from testnet faucets and into an account.
 
 ```ts
 import {
@@ -121,13 +121,11 @@ import {
   SimpleTransactionBuilder,
 } from "@radixdlt/radix-engine-toolkit";
 
-let notarizedTransaction =
-  await SimpleTransactionBuilder.freeXrdFromFaucet({
-    forAccount:
-      "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
-    networkId: 0xf2,
-    startEpoch: 10,
-  }).then((tx) => tx.compileNotarized(notaryPrivateKey));
+let notarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet({
+  toAccount: "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+  networkId: NetworkId.RCNetV1,
+  validFromEpoch: 10,
+});
 ```
 
 ## `LTSRadixEngineToolkit` Functionality
@@ -143,7 +141,7 @@ A majority of the functionality exposed by this API group is abstracted away by 
 The LTS Radix Engine Toolkit exposes a `summarizeTransaction` function that summarizes the withdraws, deposits, and fees locked in transactions based on the transaction manifest. This function is only able to produce a summary for transactions constructed by the `SimpleTransactionBuilder` and fails to produce a summary for any other more complex transactions.
 
 ```ts
-import { 
+import {
   CompiledNotarizedTransaction,
   CompiledSignedTransactionIntent,
   LTSRadixEngineToolkit

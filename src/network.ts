@@ -20,7 +20,11 @@ export namespace NetworkId {
   export const Stokenet: number = 0x02;
   export const Alphanet: number = 0x0a;
   export const Betanet: number = 0x0b;
-  export const RCNet: number = 0x0c;
+  export const Kisharnet: number = 0x0c;
+  export const RCnetV1: number = Kisharnet;
+  export const Ansharnet: number = 0x0d;
+  // To save confusing anyone just yet - we will uncomment this line when RCnetV2 is ready for release
+  // export const RCnetV2: number = Ansharnet;
   export const Gilganet: number = 0x20;
   export const Enkinet: number = 0x21;
   export const Hammunet: number = 0x22;

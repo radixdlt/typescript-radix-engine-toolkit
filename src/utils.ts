@@ -30,3 +30,31 @@ export const deserialize = <T>(str: string, Class: ClassConstructor<T>) =>
 
 export const hash = (data: Uint8Array): Uint8Array =>
   blake2b(data, undefined, 32);
+
+const getWebCrypto = (): Crypto => {
+  if (typeof window !== "undefined" && window.crypto) {
+    return window.crypto;
+  }
+  if (typeof global !== "undefined" && global.crypto) {
+    return global.crypto;
+  }
+  try {
+    // Attempt importing from NodeJS - webcrypto was added in NodeJS 15.0.0
+    // Somehow vite/rollup doesn't break this require statement, even though it
+    // breaks it inside dependencies
+    const webCrypto = require("crypto").webcrypto;
+    if (webCrypto) {
+      return webCrypto;
+    }
+  } catch (ex) {}
+  throw new Error("No crypto implementation found");
+};
+
+export const generateSecureRandomBytes = (count: number): Uint8Array => {
+  var byteArray = new Uint8Array(count);
+  getWebCrypto().getRandomValues(byteArray);
+  return byteArray;
+};
+
+export const generateRandomNonce = (): number =>
+  new DataView(generateSecureRandomBytes(4).buffer, 0).getUint32(0, true);

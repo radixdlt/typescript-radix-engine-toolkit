@@ -14,8 +14,8 @@ import {
   RadixEngineToolkit,
   TransactionBuilder,
   TransactionHeader,
+  generateSecureRandomBytes,
 } from "@radixdlt/radix-engine-toolkit";
-import secureRandom from "secure-random";
 
 const NetworkConfiguration = {
   gatewayBaseUrl: "https://rcnet.radixdlt.com",
@@ -47,7 +47,7 @@ const getTransactionStatus = async (
   });
 
 const randomNonce = () =>
-  new DataView(secureRandom.randomBuffer(4).buffer, 0).getUint32(0, true);
+  new DataView(generateSecureRandomBytes(4).buffer, 0).getUint32(0, true);
 
 const main = async () => {
   // Setting up the Gateway Sub-APIs that will be used in this example. We will be utilizing two sub

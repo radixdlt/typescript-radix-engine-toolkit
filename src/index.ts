@@ -21,4 +21,5 @@ export * from "./builders";
 export * as Convert from "./convert";
 export * from "./models";
 export * from "./network";
+export { generateRandomNonce, generateSecureRandomBytes } from "./utils";
 export * from "./wrapper";
