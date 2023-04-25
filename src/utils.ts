@@ -31,30 +31,33 @@ export const deserialize = <T>(str: string, Class: ClassConstructor<T>) =>
 export const hash = (data: Uint8Array): Uint8Array =>
   blake2b(data, undefined, 32);
 
-const getWebCrypto = (): Crypto => {
+async function getWebCrypto(): Promise<Crypto> {
   if (typeof window !== "undefined" && window.crypto) {
-    return window.crypto;
+    return Promise.resolve(window.crypto);
   }
   if (typeof global !== "undefined" && global.crypto) {
-    return global.crypto;
+    return Promise.resolve(global.crypto);
   }
   try {
     // Attempt importing from NodeJS - webcrypto was added in NodeJS 15.0.0
-    // Somehow vite/rollup doesn't break this require statement, even though it
-    // breaks it inside dependencies
-    const webCrypto = require("crypto").webcrypto;
-    if (webCrypto) {
-      return webCrypto;
+    // Note that rollup/vite will convert this into Promise.resolve(require("crypto"))
+    // if the build is targetting CommonJS/UMD
+    const crypto = await import("crypto");
+    if (crypto && crypto.webcrypto) {
+      return Promise.resolve(crypto.webcrypto as any);
     }
   } catch (ex) {}
-  throw new Error("No crypto implementation found");
+  throw new Error("No crypto implementation found - must be run in modern browser or Node 15+");
 };
 
-export const generateSecureRandomBytes = (count: number): Uint8Array => {
+export async function generateSecureRandomBytes(count: number): Promise<Uint8Array> {
   var byteArray = new Uint8Array(count);
-  getWebCrypto().getRandomValues(byteArray);
+  (await getWebCrypto()).getRandomValues(byteArray);
   return byteArray;
 };
 
-export const generateRandomNonce = (): number =>
-  new DataView(generateSecureRandomBytes(4).buffer, 0).getUint32(0, true);
+export async function generateRandomNonce(): Promise<number> {
+  const randomBytes = await generateSecureRandomBytes(4);
+  return new DataView(randomBytes.buffer, 0).getUint32(0, true);;
+};
+  

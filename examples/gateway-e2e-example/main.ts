@@ -14,7 +14,7 @@ import {
   RadixEngineToolkit,
   TransactionBuilder,
   TransactionHeader,
-  generateSecureRandomBytes,
+  generateRandomNonce,
 } from "@radixdlt/radix-engine-toolkit";
 
 const NetworkConfiguration = {
@@ -45,9 +45,6 @@ const getTransactionStatus = async (
       intent_hash_hex: Convert.Uint8Array.toHexString(transactionId),
     },
   });
-
-const randomNonce = () =>
-  new DataView(generateSecureRandomBytes(4).buffer, 0).getUint32(0, true);
 
 const main = async () => {
   // Setting up the Gateway Sub-APIs that will be used in this example. We will be utilizing two sub
@@ -88,7 +85,7 @@ const main = async () => {
         NetworkConfiguration.networkId,
         currentEpoch,
         currentEpoch + 10,
-        randomNonce(),
+        await generateRandomNonce(),
         notaryPrivateKey.publicKey(),
         true,
         100_000_000,

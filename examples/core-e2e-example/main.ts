@@ -13,10 +13,8 @@ import { default as http, default as https } from "node:http";
 // To run this, you will need to have a local node running - see https://github.com/radixdlt/babylon-node/tree/main/testnet-node
 // Then check out this repository, go to examples/core-e2e-example, and run `yarn` to install followed by `yarn start`
 
-function generateEd25519PrivateKey() {
-  return new PrivateKey.EddsaEd25519(
-    new Uint8Array(generateSecureRandomBytes(32).buffer)
-  );
+async function generateEd25519PrivateKey(): Promise<PrivateKey.EddsaEd25519> {
+  return new PrivateKey.EddsaEd25519(await generateSecureRandomBytes(32));
 }
 
 const networkId = NetworkId.Kisharnet;
@@ -25,7 +23,7 @@ const coreApiBase = "http://127.0.0.1:3333/core"; // Note - in nodeJS, you may n
 const dashboardBase = "https://rcnet-dashboard.radixdlt.com";
 
 async function generateNewEd25519VirtualAccount(networkId: number) {
-  const privateKey = generateEd25519PrivateKey();
+  const privateKey = await generateEd25519PrivateKey();
   const publicKey = privateKey.publicKey();
   const address = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(
     publicKey,

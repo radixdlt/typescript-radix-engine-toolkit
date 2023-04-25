@@ -55,7 +55,7 @@ __metadata:
 
 "@radixdlt/radix-engine-toolkit@file:../..::locator=core-e2e-example%40workspace%3A.":
   version: 0.1.6
-  resolution: "@radixdlt/radix-engine-toolkit@file:../..#../..::hash=b1fc0d&locator=core-e2e-example%40workspace%3A."
+  resolution: "@radixdlt/radix-engine-toolkit@file:../..#../..::hash=ca78dc&locator=core-e2e-example%40workspace%3A."
   dependencies:
     "@noble/ed25519": ^2.0.0
     "@noble/hashes": ^1.3.0
@@ -67,8 +67,7 @@ __metadata:
     decimal.js: ^10.4.3
     reflect-metadata: ^0.1.13
     secp256k1: ^5.0.0
-    secure-random: ^1.1.2
-  checksum: eb29893c95d40237ef7d9fbfda3cbce222404f9219958cf287830bfff003be9aa929974ed9a8d1c8894bb1fbdbc63feb02292890df30394a5386a2be65dc4d2f
+  checksum: 7f741767b29ff76c44a4631bc330847aae35df6b403990977e5cccd9e171e8f344322c4e7af21ced9d3b5a24b9e5c2cbdf97615718b0f49c6f7d284d402d086e
   languageName: node
   linkType: hard
 

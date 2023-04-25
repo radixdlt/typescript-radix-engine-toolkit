@@ -88,13 +88,14 @@ export class SimpleTransactionBuilder {
     startEpoch: number,
     networkId: number,
     fromAccount: string,
-    notaryPublicKey: PublicKey.PublicKey
+    notaryPublicKey: PublicKey.PublicKey,
+    nonce: number,
   ) {
     this.retWrapper = retWrapper;
     this._startEpoch = startEpoch;
     this._networkId = networkId;
     this._fromAccount = fromAccount;
-    this._nonce = generateRandomNonce();
+    this._nonce = nonce;
     this._notaryPublicKey = notaryPublicKey;
   }
 
@@ -109,7 +110,8 @@ export class SimpleTransactionBuilder {
       validFromEpoch,
       networkId,
       fromAccount,
-      signerPublicKey
+      signerPublicKey,
+      await generateRandomNonce(),
     );
   }
 
@@ -118,7 +120,7 @@ export class SimpleTransactionBuilder {
   ): Promise<CompiledNotarizedTransaction> {
     const { networkId, toAccount, validFromEpoch } = settings;
     const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(
-      generateSecureRandomBytes(32)
+      await generateSecureRandomBytes(32)
     );
 
     const knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
@@ -145,7 +147,7 @@ export class SimpleTransactionBuilder {
       networkId,
       validFromEpoch,
       validFromEpoch + 2,
-      generateRandomNonce(),
+      await generateRandomNonce(),
       ephemeralPrivateKey.publicKey(),
       false,
       100_000_000,
