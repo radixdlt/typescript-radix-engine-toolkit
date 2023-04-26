@@ -111,7 +111,7 @@ export class SimpleTransactionBuilder {
       networkId,
       fromAccount,
       signerPublicKey,
-      await generateRandomNonce()
+      generateRandomNonce()
     );
   }
 
@@ -121,6 +121,11 @@ export class SimpleTransactionBuilder {
     const { networkId, toAccount, validFromEpoch } = settings;
     // NOTE: The following ephemeral key is intentionally NOT generated through a secure random
     // number generator since in this case there are no risks associated with with this.
+    //
+    // Importing the browser crypto/ Node.JS webcrypto module in a manner which works in the browser
+    // with different client bundlers and on all supported versions of Node.js was proving hard.
+    // But in this case, secure random was not required.
+    //
     // The following are the reasons we do not see this as a security risk:
     //
     // * The transaction constructed here is a transaction to get funds from the faucet, an
@@ -128,14 +133,15 @@ export class SimpleTransactionBuilder {
     // * The key used here is only used to notarize the transaction. It's not being used to create
     //   a key to an account that would store actual funds.
     // * The worst that can happen is that an attacker who could guess the private key can cancel
-    //   the faucet transaction (a feature which is not even implemented in Scrypto yet).
+    //   the faucet transaction (a feature which is not even implemented as-of-yet).
     //
-    // Generating the following key through a secure random number generator requires the use of
-    // CryptoJS which is a library that's tough to get working with different versions of NodeJS,
-    // in different environments, and with different module systems. Thus, the choice was made not
-    // to make use of it.
+    // NOTE - If the toolkit needs to use secure random generator in future, the docs
+    // should explain that a user of the library needs to ensure globalThis.crypto
+    // is polyfilled with the webcrypto API.
     //
-    // WARNING: DO NOT USE THE FOLLOWING CODE TO GENERATE YOUR OWN PRIVATE KEYS.
+    // WARNING:
+    // - DO NOT USE THE FOLLOWING CODE TO GENERATE YOUR OWN PRIVATE KEYS.
+    // - See `examples/core-e2e-example` for code to securely generate an Ed25519 keypair on Node.js
     const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(
       new Uint8Array(Array(32).map((_) => Math.floor(Math.random() * 0xff)))
     );
@@ -164,7 +170,7 @@ export class SimpleTransactionBuilder {
       networkId,
       validFromEpoch,
       validFromEpoch + 2,
-      await generateRandomNonce(),
+      generateRandomNonce(),
       ephemeralPrivateKey.publicKey(),
       false,
       100_000_000,
