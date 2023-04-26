@@ -31,4 +31,13 @@ export const deserialize = <T>(str: string, Class: ClassConstructor<T>) =>
 export const hash = (data: Uint8Array): Uint8Array =>
   blake2b(data, undefined, 32);
 
+/**
+ * The transaction nonce is only used to ensure that a given intent can be repeated
+ * if it needs to be submitted more than once.
+ *
+ * The nonce therefore doesn't need to be securely random, it can just
+ * be any random number which makes it very unlikely for a duplicate intent to
+ * be constructed.
+ * @returns a random 32-bit integer
+ */
 export const generateRandomNonce = () => Math.floor(Math.random() * 0xffffffff);

@@ -4,17 +4,23 @@ import {
   NetworkId,
   PrivateKey,
   SimpleTransactionBuilder,
-  generateSecureRandomBytes,
 } from "@radixdlt/radix-engine-toolkit";
 import fetch from "node-fetch"; // 2.6.9
+import { webcrypto } from "node:crypto";
 import { default as http, default as https } from "node:http";
 
 // NOTE:
 // To run this, you will need to have a local node running - see https://github.com/radixdlt/babylon-node/tree/main/testnet-node
 // Then check out this repository, go to examples/core-e2e-example, and run `yarn` to install followed by `yarn start`
 
+export function generateSecureRandomBytes(count: number): Uint8Array {
+  var byteArray = new Uint8Array(count);
+  webcrypto.getRandomValues(byteArray);
+  return byteArray;
+}
+
 async function generateEd25519PrivateKey(): Promise<PrivateKey.EddsaEd25519> {
-  return new PrivateKey.EddsaEd25519(await generateSecureRandomBytes(32));
+  return new PrivateKey.EddsaEd25519(generateSecureRandomBytes(32));
 }
 
 const networkId = NetworkId.Kisharnet;
@@ -94,7 +100,6 @@ async function getTestnetXrd(
   const constructionMetadata =
     await coreApiClient.LTS.getConstructionMetadata();
 
-  const notary = await generateNewEd25519VirtualAccount(networkId);
   const freeXrdForAccount1Transaction =
     await SimpleTransactionBuilder.freeXrdFromFaucet({
       networkId,

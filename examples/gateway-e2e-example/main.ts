@@ -85,7 +85,7 @@ const main = async () => {
         NetworkConfiguration.networkId,
         currentEpoch,
         currentEpoch + 10,
-        await generateRandomNonce(),
+        generateRandomNonce(),
         notaryPrivateKey.publicKey(),
         true,
         100_000_000,
