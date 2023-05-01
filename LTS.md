@@ -70,15 +70,15 @@ const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Pro
 const currentEpoch = /* Sourced from /lts/transaction/construction in the Core API - or the Gateway */;
 
 // Example of public key creation (you can also provide a Uint8Array instead of hex in the constructors)
-const publicKey2 = new PublicKey.EddsaEd25519(
+const exampleEd25519PublicKey = new PublicKey.EddsaEd25519(
   "026f08db98ef1d0231eb15580da9123db8e25aa1747c8c32e5fd2ec47b8db73d5c"
 );
-const publicKey1 = new PublicKey.EcdsaSecp256k1(
+const exampleSecp256k1PublicKey = new PublicKey.EcdsaSecp256k1(
   "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 
 // Account information
-const fromAccountPublicKey = publicKey1;
+const fromAccountPublicKey = exampleEd25519PublicKey;
 const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
 
 // Recipient/s
