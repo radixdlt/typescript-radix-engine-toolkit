@@ -55,9 +55,9 @@ const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Pro
 
     NOTE:
     - If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures
-      and return Signature.EddsaEd25519(sig_bytes) where sig_bytes are hex or a Uint8Array
+      and return Signature.EddsaEd25519(sig_bytes) where sig_bytes are a hex string or a Uint8Array
     - If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: v || r || s
-      and return Signature.EcdsaSecp256k1(sig_bytes) where sig_bytes are hex or a Uint8Array
+      and return Signature.EcdsaSecp256k1(sig_bytes) where sig_bytes are a hex string or a Uint8Array
       > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
       > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
       > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
@@ -76,6 +76,9 @@ const exampleSecp256k1PublicKey = new PublicKey.EcdsaSecp256k1(
 );
 
 // Account information
+// Note - the address can either be derived from a public key with `LTSRadixEngineToolkit.Derive.virtualAccountAddress`
+// or from an Olympia address with `LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress`-
+// discussed in more detail in the section below.
 const fromAccountPublicKey = exampleEd25519PublicKey;
 const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
 
@@ -83,7 +86,7 @@ const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5t
 const toAccountAddress1 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
 const toAccountAddress2 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 
-// The fungible resource being transfered
+// The fungible resource being transferred
 const resourceAddress = "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
 
 const builder = await SimpleTransactionBuilder.new({
