@@ -61,6 +61,9 @@ const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Pro
       > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
       > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
       > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
+      
+     If you have the private key in memory, you can also do PrivateKey.EddsaEd25519(private_key_bytes).sign(hashToSign) or
+     PrivateKey.EcdsaSecp256k1(private_key_bytes).sign(hashToSign).
   */
 };
 
