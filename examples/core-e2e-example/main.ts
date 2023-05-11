@@ -4,7 +4,6 @@ import {
   NetworkId,
   PrivateKey,
   SimpleTransactionBuilder,
-  generateSecureRandomBytes,
 } from "@radixdlt/radix-engine-toolkit";
 import fetch from "node-fetch"; // 2.6.9
 import { default as http, default as https } from "node:http";
@@ -13,6 +12,19 @@ import { default as http, default as https } from "node:http";
 // To run this, you will need to have a local node running - see https://github.com/radixdlt/babylon-node/tree/main/testnet-node
 // Then check out this repository, go to examples/core-e2e-example, and run `yarn` to install followed by `yarn start`
 
+// Polyfill global crypto (works on NodeJS 15+) - comment the below line out if wanting to run this a web browser
+global.crypto = require("crypto").webcrypto;
+
+export async function generateSecureRandomBytes(
+  count: number
+): Promise<Uint8Array> {
+  var byteArray = new Uint8Array(count);
+  global.crypto.getRandomValues(byteArray);
+  return byteArray;
+}
+
+// NOTE - the below function is for example purposes only
+// It is up to you to ensure that your generation of key pairs is safe for production use
 async function generateEd25519PrivateKey(): Promise<PrivateKey.EddsaEd25519> {
   return new PrivateKey.EddsaEd25519(await generateSecureRandomBytes(32));
 }
