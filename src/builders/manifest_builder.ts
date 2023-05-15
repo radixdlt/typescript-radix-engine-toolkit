@@ -25,7 +25,6 @@ import {
   TransactionManifest,
 } from "../models";
 import {
-  AssertAccessRule,
   AssertWorktopContains,
   AssertWorktopContainsByAmount,
   AssertWorktopContainsByIds,
@@ -39,9 +38,11 @@ import {
   CloneProof,
   CreateAccessController,
   CreateAccount,
+  CreateAccountAdvanced,
   CreateFungibleResource,
   CreateFungibleResourceWithInitialSupply,
   CreateIdentity,
+  CreateIdentityAdvanced,
   CreateNonFungibleResource,
   CreateNonFungibleResourceWithInitialSupply,
   CreateProofFromAuthZone,
@@ -56,6 +57,7 @@ import {
   MintUuidNonFungible,
   PopFromAuthZone,
   PublishPackage,
+  PublishPackageAdvanced,
   PushToAuthZone,
   RecallResource,
   RemoveMetadata,
@@ -470,17 +472,46 @@ export class ManifestBuilder {
    * this is the actual schema of the package.
    * @param royaltyConfig The configurations of the royalty for the package
    * @param metadata The metadata to use for the package
-   * @param accessRules The access rules to use for the package.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   publishPackage(
     code: Uint8Array | string,
     schema: Uint8Array | string,
     royaltyConfig: ManifestAstValue.Map,
+    metadata: ManifestAstValue.Map
+  ): ManifestBuilder {
+    let instruction = new PublishPackage(
+      new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
+      new ManifestAstValue.Blob(blake2b(schema, undefined, 32)),
+      royaltyConfig,
+      metadata
+    );
+    this.instructions.push(instruction);
+    this.blobs.push(Convert.Uint8Array.from(code));
+    this.blobs.push(Convert.Uint8Array.from(schema));
+    return this;
+  }
+
+  /**
+   * An instruction to publish a package and set it's associated royalty configs, metadata, and
+   * access rules.
+   * @param code The code of the package. Note that this isn't the code blob or the blob hash, this
+   * is the actual code of the package.
+   * @param schema The schema of the package. Note that this isn't the schema blob or the blob hash,
+   * this is the actual schema of the package.
+   * @param royaltyConfig The configurations of the royalty for the package
+   * @param metadata The metadata to use for the package
+   * @param accessRules The access rules to use for the package.
+   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
+   */
+  publishPackageAdvanced(
+    code: Uint8Array | string,
+    schema: Uint8Array | string,
+    royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Value
   ): ManifestBuilder {
-    let instruction = new PublishPackage(
+    let instruction = new PublishPackageAdvanced(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
       new ManifestAstValue.Blob(blake2b(schema, undefined, 32)),
       royaltyConfig,
@@ -826,23 +857,10 @@ export class ManifestBuilder {
 
   /**
    * Creates a new identity native component with the passed access rule.
-   * @param accessRule The access rule to protect the identity with
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createIdentity(accessRule: ManifestAstValue.Enum): ManifestBuilder {
-    let instruction = new CreateIdentity(accessRule);
-    this.instructions.push(instruction);
-    return this;
-  }
-
-  /**
-   * Assert that the given access rule is currently fulfilled by the proofs in the Auth Zone of the
-   * transaction
-   * @param accessRule The access rule to assert
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  assertAccessRule(accessRule: ManifestAstValue.Enum): ManifestBuilder {
-    let instruction = new AssertAccessRule(accessRule);
+  createIdentity(): ManifestBuilder {
+    let instruction = new CreateIdentity();
     this.instructions.push(instruction);
     return this;
   }
@@ -850,14 +868,10 @@ export class ManifestBuilder {
   /**
    * Creates a validator given the public key of the owner who controls it
    * @param key The ECDSA Secp256k1 public key of the owner of the validator
-   * @param ownerAccessRule The access rule to protect the validator with
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createValidator(
-    key: ManifestAstValue.Bytes,
-    ownerAccessRule: ManifestAstValue.Enum
-  ): ManifestBuilder {
-    let instruction = new CreateValidator(key, ownerAccessRule);
+  createValidator(key: ManifestAstValue.Bytes): ManifestBuilder {
+    let instruction = new CreateValidator(key);
     this.instructions.push(instruction);
     return this;
   }
@@ -867,8 +881,30 @@ export class ManifestBuilder {
    * @param withdrawRule The withdraw rule to associate with the account.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createAccount(withdrawRule: ManifestAstValue.Enum): ManifestBuilder {
-    let instruction = new CreateAccount(withdrawRule);
+  createAccount(): ManifestBuilder {
+    let instruction = new CreateAccount();
+    this.instructions.push(instruction);
+    return this;
+  }
+
+  /**
+   * Creates a new identity native component with the passed access rule.
+   * @param accessRule The access rule to protect the identity with
+   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
+   */
+  createIdentityAdvanced(accessRule: ManifestAstValue.Enum): ManifestBuilder {
+    let instruction = new CreateIdentityAdvanced(accessRule);
+    this.instructions.push(instruction);
+    return this;
+  }
+
+  /**
+   * Creates a new global account component which has the withdraw rule seen in the rule.
+   * @param withdrawRule The withdraw rule to associate with the account.
+   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
+   */
+  createAccountAdvanced(withdrawRule: ManifestAstValue.Enum): ManifestBuilder {
+    let instruction = new CreateAccountAdvanced(withdrawRule);
     this.instructions.push(instruction);
     return this;
   }
