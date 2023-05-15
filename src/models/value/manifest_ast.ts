@@ -35,10 +35,10 @@ import {
 import * as Serializers from "../serializers";
 
 export abstract class Value {
-  readonly type: Kind;
+  readonly kind: Kind;
 
   constructor(type: Kind) {
-    this.type = type;
+    this.kind = type;
   }
 
   abstract toString(): string;
@@ -605,21 +605,19 @@ export class Map extends Value {
 export class Tuple extends Value {
   @Expose({ name: "elements" })
   @Type(() => Object)
-  internalElements: globalThis.Array<Object>;
+  internalFields: globalThis.Array<Object>;
 
-  get elements(): globalThis.Array<Value> {
-    return this.internalElements.map(resolveValue);
+  get fields(): globalThis.Array<Value> {
+    return this.internalFields.map(resolveValue);
   }
 
-  set elements(elements: globalThis.Array<Value>) {
-    this.internalElements = elements.map((instance) =>
-      instanceToPlain(instance)
-    );
+  set fields(elements: globalThis.Array<Value>) {
+    this.internalFields = elements.map((instance) => instanceToPlain(instance));
   }
 
   constructor(elements: globalThis.Array<Value>) {
     super(Kind.Tuple);
-    this.internalElements = elements?.map((instance) =>
+    this.internalFields = elements?.map((instance) =>
       instanceToPlain(instance)
     );
   }
@@ -701,11 +699,11 @@ export class PreciseDecimal extends Value {
 
 export class Address extends Value implements IAddress {
   @Expose()
-  address: string;
+  value: string;
 
   constructor(address: string) {
     super(Kind.Address);
-    this.address = address;
+    this.value = address;
   }
 
   static async virtualAccountAddress(
@@ -835,7 +833,7 @@ export class Address extends Value implements IAddress {
   }
 
   private async addressInformation(): Promise<AddressInformation> {
-    return RadixEngineToolkit.decodeAddress(this.address);
+    return RadixEngineToolkit.decodeAddress(this.value);
   }
 
   toString(): string {
@@ -864,11 +862,11 @@ export class Bucket extends Value {
       ],
     },
   })
-  identifier: String | U32;
+  value: String | U32;
 
   constructor(identifier: String | U32) {
     super(Kind.Bucket);
-    this.identifier = identifier;
+    this.value = identifier;
   }
 
   toString(): string {
@@ -897,11 +895,11 @@ export class Proof extends Value {
       ],
     },
   })
-  identifier: String | U32;
+  value: String | U32;
 
   constructor(identifier: String | U32) {
     super(Kind.Proof);
-    this.identifier = identifier;
+    this.value = identifier;
   }
 
   toString(): string {
@@ -994,11 +992,11 @@ export class Blob extends Value {
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  hash: Uint8Array;
+  value: Uint8Array;
 
   constructor(hash: Uint8Array | string) {
     super(Kind.Blob);
-    this.hash = Convert.Uint8Array.from(hash);
+    this.value = Convert.Uint8Array.from(hash);
   }
 
   toString(): string {
@@ -1017,11 +1015,11 @@ export class Bytes extends Value {
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  value: Uint8Array;
+  hex: Uint8Array;
 
   constructor(value: Uint8Array | string) {
     super(Kind.Bytes);
-    this.value = Convert.Uint8Array.from(value);
+    this.hex = Convert.Uint8Array.from(value);
   }
 
   toString(): string {
@@ -1093,7 +1091,7 @@ export class NonFungibleGlobalId extends Value {
 function resolveValue(object: Object): Value {
   let resolveSingleFn = <T>(object: Object, Class: ClassConstructor<T>): T =>
     plainToInstance(Class, instanceToPlain(object));
-  let type: Kind = (object as Value).type;
+  let type: Kind = (object as Value).kind;
 
   switch (type) {
     case Kind.Bool:

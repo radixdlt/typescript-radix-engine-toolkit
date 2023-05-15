@@ -347,11 +347,10 @@ const summarizeTransaction = async (
         // Assuming that the bucket id is a string since this is what the LTS library produces and
         // because the non-string IDs are currently bugged in Scrypto.
         const bucketId = (
-          takeFromWorktopInstruction.intoBucket
-            .identifier as ManifestAstValue.String
+          takeFromWorktopInstruction.intoBucket.value as ManifestAstValue.String
         ).value;
         const resourceAddress =
-          takeFromWorktopInstruction.resourceAddress.address;
+          takeFromWorktopInstruction.resourceAddress.value;
         const amount = takeFromWorktopInstruction.amount.value;
 
         bucketAmounts[bucketId] = [resourceAddress, amount];
@@ -370,18 +369,18 @@ const summarizeTransaction = async (
 
         // Case: Lock Fee
         if (
-          (callMethodInstruction.componentAddress.address.startsWith(
+          (callMethodInstruction.componentAddress.value.startsWith(
             "account_"
           ) ||
-            (callMethodInstruction.componentAddress.address ==
+            (callMethodInstruction.componentAddress.value ==
               faucetComponentAddress &&
               faucetComponentAddress !== undefined)) &&
           callMethodInstruction.methodName.value === "lock_fee" &&
           callMethodInstruction.arguments?.length === 1 &&
-          callMethodInstruction.arguments[0].type ===
+          callMethodInstruction.arguments[0].kind ===
             ManifestAstValue.Kind.Decimal
         ) {
-          let lockFeeAccount = callMethodInstruction.componentAddress.address;
+          let lockFeeAccount = callMethodInstruction.componentAddress.value;
           let lockFeeAmount = (
             callMethodInstruction.arguments[0] as ManifestAstValue.Decimal
           ).value;
@@ -394,21 +393,19 @@ const summarizeTransaction = async (
 
         // Case: Withdraw from account by amount
         else if (
-          callMethodInstruction.componentAddress.address.startsWith(
-            "account_"
-          ) &&
+          callMethodInstruction.componentAddress.value.startsWith("account_") &&
           callMethodInstruction.methodName.value === "withdraw" &&
           callMethodInstruction.arguments?.length === 2 &&
-          callMethodInstruction.arguments[0].type ===
+          callMethodInstruction.arguments[0].kind ===
             ManifestAstValue.Kind.Address &&
-          callMethodInstruction.arguments[1].type ===
+          callMethodInstruction.arguments[1].kind ===
             ManifestAstValue.Kind.Decimal
         ) {
           let withdrawAccountAddress =
-            callMethodInstruction.componentAddress.address;
+            callMethodInstruction.componentAddress.value;
           let withdrawResourceAddress = (
             callMethodInstruction.arguments[0] as ManifestAstValue.Address
-          ).address;
+          ).value;
           let withdrawAmount = (
             callMethodInstruction.arguments[1] as ManifestAstValue.Decimal
           ).value;
@@ -424,19 +421,17 @@ const summarizeTransaction = async (
         }
         // Case: Deposit bucket into account
         else if (
-          callMethodInstruction.componentAddress.address.startsWith(
-            "account_"
-          ) &&
+          callMethodInstruction.componentAddress.value.startsWith("account_") &&
           callMethodInstruction.methodName.value === "deposit" &&
           callMethodInstruction.arguments?.length === 1 &&
-          callMethodInstruction.arguments[0].type ===
+          callMethodInstruction.arguments[0].kind ===
             ManifestAstValue.Kind.Bucket
         ) {
           let depositAccountAddress =
-            callMethodInstruction.componentAddress.address;
+            callMethodInstruction.componentAddress.value;
           let depositBucketId = (
             (callMethodInstruction.arguments[0] as ManifestAstValue.Bucket)
-              .identifier as ManifestAstValue.String
+              .value as ManifestAstValue.String
           ).value;
           let [depositResourceAddress, depositAmount] =
             bucketAmounts[depositBucketId];
@@ -453,7 +448,7 @@ const summarizeTransaction = async (
         // Case: Free XRD
         else if (
           faucetComponentAddress !== undefined &&
-          callMethodInstruction.componentAddress.address ===
+          callMethodInstruction.componentAddress.value ===
             faucetComponentAddress &&
           callMethodInstruction.methodName.value === "free" &&
           (callMethodInstruction.arguments?.length === 0 ||

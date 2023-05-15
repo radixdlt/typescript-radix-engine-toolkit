@@ -7,7 +7,7 @@ export type Address = string | IAddress;
 export type Amount = string | number | Decimal;
 
 export function resolveAddress(address: Address): string {
-  return typeof address === "string" ? address : address.address;
+  return typeof address === "string" ? address : address.value;
 }
 
 export function resolveDecimal(amount: Amount): Decimal {

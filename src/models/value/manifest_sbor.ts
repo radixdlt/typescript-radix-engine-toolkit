@@ -35,10 +35,10 @@ import { PublicKey } from "../crypto";
 import * as Serializers from "../serializers";
 
 export abstract class Value {
-  readonly type: Kind;
+  readonly kind: Kind;
 
   constructor(type: Kind) {
-    this.type = type;
+    this.kind = type;
   }
 
   abstract toString(): string;
@@ -69,6 +69,7 @@ export enum Kind {
   NonFungibleLocalId = "NonFungibleLocalId",
   Expression = "Expression",
   Blob = "Blob",
+  Bytes = "Bytes",
 }
 
 export class Bool extends Value {
@@ -333,7 +334,7 @@ export class Enum extends Value {
   @Transform(Serializers.NumberAsString.deserialize, {
     toClassOnly: true,
   })
-  variant: number;
+  variant_id: number;
 
   @Expose({ name: "fields" })
   @Type(() => Object)
@@ -349,7 +350,7 @@ export class Enum extends Value {
 
   constructor(variant: number, fields: globalThis.Array<Value> = []) {
     super(Kind.Enum);
-    this.variant = variant;
+    this.variant_id = variant;
     this.internalFields = fields?.map((instance) => instanceToPlain(instance));
   }
 
@@ -398,42 +399,62 @@ export class Array extends Value {
 }
 
 export class Map extends Value {
-  @Expose({ name: "key_value_kind" })
-  keyValueKind: Kind;
+  @Expose({ name: "key_kind" })
+  keyKind: Kind;
 
-  @Expose({ name: "value_value_kind" })
-  valueValueKind: Kind;
+  @Expose({ name: "value_kind" })
+  valueKind: Kind;
 
   @Expose({ name: "entries" })
   @Type(() => Object)
-  internalEntries: globalThis.Array<[Object, Object]>;
+  internalEntries: globalThis.Array<{
+    key: Object;
+    value: Object;
+  }>;
 
-  get entries(): globalThis.Array<[Value, Value]> {
-    return this.internalEntries.map(([key, value]) => [
-      resolveValue(key),
-      resolveValue(value),
-    ]);
+  get entries(): globalThis.Array<{
+    key: Object;
+    value: Object;
+  }> {
+    return this.internalEntries.map(({ key, value }) => {
+      return {
+        key: resolveValue(key),
+        value: resolveValue(value),
+      };
+    });
   }
 
-  set entries(entries: globalThis.Array<[Value, Value]>) {
-    this.internalEntries = entries.map(([key, value]) => [
-      instanceToPlain(key),
-      instanceToPlain(value),
-    ]);
+  set entries(
+    entries: globalThis.Array<{
+      key: Object;
+      value: Object;
+    }>
+  ) {
+    this.internalEntries = entries.map(({ key, value }) => {
+      return {
+        key: instanceToPlain(key),
+        value: instanceToPlain(value),
+      };
+    });
   }
 
   constructor(
     keyValueKind: Kind,
     valueValueKind: Kind,
-    entries: globalThis.Array<[Value, Value]> = []
+    entries: globalThis.Array<{
+      key: Object;
+      value: Object;
+    }> = []
   ) {
     super(Kind.Map);
-    this.keyValueKind = keyValueKind;
-    this.valueValueKind = valueValueKind;
-    this.internalEntries = entries?.map(([key, value]) => [
-      instanceToPlain(key),
-      instanceToPlain(value),
-    ]);
+    this.keyKind = keyValueKind;
+    this.valueKind = valueValueKind;
+    this.internalEntries = entries?.map(({ key, value }) => {
+      return {
+        key: instanceToPlain(key),
+        value: instanceToPlain(value),
+      };
+    });
   }
 
   toString(): string {
@@ -448,21 +469,19 @@ export class Map extends Value {
 export class Tuple extends Value {
   @Expose({ name: "elements" })
   @Type(() => Object)
-  internalElements: globalThis.Array<Object>;
+  internalFields: globalThis.Array<Object>;
 
-  get elements(): globalThis.Array<Value> {
-    return this.internalElements.map(resolveValue);
+  get fields(): globalThis.Array<Value> {
+    return this.internalFields.map(resolveValue);
   }
 
-  set elements(elements: globalThis.Array<Value>) {
-    this.internalElements = elements.map((instance) =>
-      instanceToPlain(instance)
-    );
+  set fields(elements: globalThis.Array<Value>) {
+    this.internalFields = elements.map((instance) => instanceToPlain(instance));
   }
 
   constructor(elements: globalThis.Array<Value>) {
     super(Kind.Tuple);
-    this.internalElements = elements?.map((instance) =>
+    this.internalFields = elements?.map((instance) =>
       instanceToPlain(instance)
     );
   }
@@ -544,11 +563,11 @@ export class PreciseDecimal extends Value {
 
 export class Address extends Value implements IAddress {
   @Expose()
-  address: string;
+  value: string;
 
   constructor(address: string) {
     super(Kind.Address);
-    this.address = address;
+    this.value = address;
   }
 
   static async virtualAccountAddress(
@@ -678,7 +697,7 @@ export class Address extends Value implements IAddress {
   }
 
   private async addressInformation(): Promise<AddressInformation> {
-    return RadixEngineToolkit.decodeAddress(this.address);
+    return RadixEngineToolkit.decodeAddress(this.value);
   }
 
   toString(): string {
@@ -696,11 +715,11 @@ export class Bucket extends Value {
   @Transform(Serializers.NumberAsString.deserialize, {
     toClassOnly: true,
   })
-  identifier: number;
+  value: number;
 
   constructor(identifier: number) {
     super(Kind.Bucket);
-    this.identifier = identifier;
+    this.value = identifier;
   }
 
   toString(): string {
@@ -718,11 +737,11 @@ export class Proof extends Value {
   @Transform(Serializers.NumberAsString.deserialize, {
     toClassOnly: true,
   })
-  identifier: number;
+  value: number;
 
   constructor(identifier: number) {
     super(Kind.Proof);
-    this.identifier = identifier;
+    this.value = identifier;
   }
 
   toString(): string {
@@ -759,57 +778,7 @@ export class Expression extends Value {
   }
 }
 
-export class Integer {
-  @Expose()
-  readonly type: string = "Integer";
-
-  @Expose()
-  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.BigIntAsString.deserialize, {
-    toClassOnly: true,
-  })
-  value: bigint;
-
-  constructor(value: bigint) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class UUID {
-  @Expose()
-  readonly type: string = "UUID";
-
-  @Expose()
-  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.BigIntAsString.deserialize, {
-    toClassOnly: true,
-  })
-  value: bigint;
-
-  constructor(value: bigint) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class Bytes {
-  readonly type: string = "Bytes";
-
+export class Blob extends Value {
   @Expose()
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
@@ -818,31 +787,9 @@ export class Bytes {
   })
   value: Uint8Array;
 
-  constructor(value: Uint8Array | string) {
-    this.value = Convert.Uint8Array.from(value);
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class Blob extends Value {
-  @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  hash: Uint8Array;
-
   constructor(hash: Uint8Array | string) {
     super(Kind.Blob);
-    this.hash = Convert.Uint8Array.from(hash);
+    this.value = Convert.Uint8Array.from(hash);
   }
 
   toString(): string {
@@ -856,23 +803,35 @@ export class Blob extends Value {
 
 export class NonFungibleLocalId extends Value {
   @Expose()
-  @Type(() => Object, {
-    discriminator: {
-      property: "type",
-      subTypes: [
-        { name: "UUID", value: UUID },
-        { name: "Integer", value: Integer },
-        { name: "String", value: String },
-        { name: "Bytes", value: Bytes },
-      ],
-    },
-    keepDiscriminatorProperty: true,
-  })
-  value: UUID | Integer | String | Bytes;
+  @Type(() => String)
+  value: string;
 
-  constructor(value: UUID | Integer | String | Bytes) {
+  constructor(value: string) {
     super(Kind.NonFungibleLocalId);
     this.value = value;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+export class Bytes extends Value {
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  hex: Uint8Array;
+
+  constructor(value: Uint8Array) {
+    super(Kind.Bytes);
+    this.hex = value;
   }
 
   toString(): string {
@@ -887,7 +846,7 @@ export class NonFungibleLocalId extends Value {
 function resolveValue(object: Object): Value {
   let resolveSingleFn = <T>(object: Object, Class: ClassConstructor<T>): T =>
     plainToInstance(Class, instanceToPlain(object));
-  let type: Kind = (object as Value).type;
+  let type: Kind = (object as Value).kind;
 
   switch (type) {
     case Kind.Bool:
@@ -938,5 +897,7 @@ function resolveValue(object: Object): Value {
       return resolveSingleFn(object, Expression);
     case Kind.Blob:
       return resolveSingleFn(object, Blob);
+    case Kind.Bytes:
+      return resolveSingleFn(object, Bytes);
   }
 }

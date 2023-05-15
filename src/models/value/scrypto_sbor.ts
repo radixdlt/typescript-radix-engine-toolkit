@@ -332,7 +332,7 @@ export class Enum extends Value {
   @Transform(Serializers.NumberAsString.deserialize, {
     toClassOnly: true,
   })
-  variant: number;
+  variant_id: number;
 
   @Expose({ name: "fields" })
   @Type(() => Object)
@@ -348,7 +348,7 @@ export class Enum extends Value {
 
   constructor(variant: number, fields: globalThis.Array<Value> = []) {
     super(Kind.Enum);
-    this.variant = variant;
+    this.variant_id = variant;
     this.internalFields = fields?.map((instance) => instanceToPlain(instance));
   }
 
@@ -561,11 +561,11 @@ export class PreciseDecimal extends Value {
 
 export class Address extends Value implements IAddress {
   @Expose()
-  address: string;
+  value: string;
 
   constructor(address: string) {
     super(Kind.Address);
-    this.address = address;
+    this.value = address;
   }
 
   static async virtualAccountAddress(
@@ -695,7 +695,7 @@ export class Address extends Value implements IAddress {
   }
 
   private async addressInformation(): Promise<AddressInformation> {
-    return RadixEngineToolkit.decodeAddress(this.address);
+    return RadixEngineToolkit.decodeAddress(this.value);
   }
 
   toString(): string {
@@ -709,11 +709,11 @@ export class Address extends Value implements IAddress {
 
 export class Own extends Value implements IAddress {
   @Expose()
-  address: string;
+  value: string;
 
   constructor(address: string) {
     super(Kind.Address);
-    this.address = address;
+    this.value = address;
   }
 
   async networkId(): Promise<number> {
@@ -733,7 +733,7 @@ export class Own extends Value implements IAddress {
   }
 
   private async addressInformation(): Promise<AddressInformation> {
-    return RadixEngineToolkit.decodeAddress(this.address);
+    return RadixEngineToolkit.decodeAddress(this.value);
   }
 
   toString(): string {
@@ -842,11 +842,11 @@ export class Bytes extends Value {
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  value: Uint8Array;
+  hex: Uint8Array;
 
   constructor(value: Uint8Array) {
     super(Kind.Bytes);
-    this.value = value;
+    this.hex = value;
   }
 
   toString(): string {

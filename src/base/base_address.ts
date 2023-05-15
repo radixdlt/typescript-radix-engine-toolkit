@@ -16,7 +16,7 @@
 // under the License.
 
 export interface IAddress {
-  address: string;
+  value: string;
   networkId: () => Promise<number>;
   networkName: () => Promise<string>;
   entityType: () => Promise<string>;
