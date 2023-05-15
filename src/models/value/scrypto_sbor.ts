@@ -465,7 +465,7 @@ export class Map extends Value {
 }
 
 export class Tuple extends Value {
-  @Expose({ name: "elements" })
+  @Expose({ name: "fields" })
   @Type(() => Object)
   internalFields: globalThis.Array<Object>;
 
@@ -712,7 +712,7 @@ export class Own extends Value implements IAddress {
   value: string;
 
   constructor(address: string) {
-    super(Kind.Address);
+    super(Kind.Own);
     this.value = address;
   }
 
@@ -812,18 +812,33 @@ export class NonFungibleLocalId extends Value {
   }
 }
 
-export class Reference extends Value {
+export class Reference extends Value implements IAddress {
   @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  value: Uint8Array;
+  value: string;
 
-  constructor(value: Uint8Array) {
+  constructor(address: string) {
     super(Kind.Reference);
-    this.value = value;
+    this.value = address;
+  }
+
+  async networkId(): Promise<number> {
+    return (await this.addressInformation()).networkId;
+  }
+
+  async networkName(): Promise<string> {
+    return (await this.addressInformation()).networkName;
+  }
+
+  async entityType(): Promise<EntityType> {
+    return (await this.addressInformation()).entityType;
+  }
+
+  async data(): Promise<Uint8Array> {
+    return (await this.addressInformation()).data;
+  }
+
+  private async addressInformation(): Promise<AddressInformation> {
+    return RadixEngineToolkit.decodeAddress(this.value);
   }
 
   toString(): string {
@@ -834,7 +849,6 @@ export class Reference extends Value {
     return instanceToPlain(this);
   }
 }
-
 export class Bytes extends Value {
   @Expose()
   @Type(() => Uint8Array)
@@ -844,9 +858,14 @@ export class Bytes extends Value {
   })
   hex: Uint8Array;
 
+  @Expose({ name: "element_kind" })
+  @Type(() => Uint8Array)
+  elementKind: string;
+
   constructor(value: Uint8Array) {
     super(Kind.Bytes);
     this.hex = value;
+    this.elementKind = "U8";
   }
 
   toString(): string {
