@@ -49,4 +49,20 @@ export class EncodeAddressRequest {
   }
 }
 
-export type EncodeAddressResponse = string;
+export class EncodeAddressResponse {
+  @Expose({ name: "address" })
+  @Type(() => Uint8Array)
+  address: string;
+
+  constructor(address: string) {
+    this.address = address;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}

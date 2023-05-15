@@ -248,9 +248,13 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let response = ret.invoke(request, ret.exports.encode_address, String);
+    let response = ret.invoke(
+      request,
+      ret.exports.encode_address,
+      EncodeAddressResponse
+    );
 
-    return response.toString();
+    return response;
   }
 
   public static async decodeAddress(
