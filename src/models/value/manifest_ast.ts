@@ -828,10 +828,6 @@ export class Address extends Value implements IAddress {
     return (await this.addressInformation()).data;
   }
 
-  async hrp(): Promise<string> {
-    return (await this.addressInformation()).hrp;
-  }
-
   private static async knownEntityAddresses(
     networkId: number
   ): Promise<AddressBook> {

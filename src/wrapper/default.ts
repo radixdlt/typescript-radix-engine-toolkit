@@ -269,13 +269,12 @@ export class RadixEngineToolkit {
   static async decodeAddress(address: string): Promise<AddressInformation> {
     return RawRadixEngineToolkit.decodeAddress(
       new DecodeAddressRequest(address)
-    ).then(({ networkId, networkName, entityType, data, hrp }) => {
+    ).then(({ networkId, networkName, entityType, data }) => {
       return {
         networkId: networkId,
         networkName: networkName,
         entityType: entityType,
         data: data,
-        hrp: hrp,
       };
     });
   }
@@ -557,11 +556,6 @@ export interface AddressInformation {
    * The data encoded in the address.
    */
   data: Uint8Array;
-
-  /**
-   * The HRP used to encode the address
-   */
-  hrp: string;
 }
 
 export interface OlympiaToBabylonAddressMapping {

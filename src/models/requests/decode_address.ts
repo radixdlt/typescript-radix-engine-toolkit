@@ -49,21 +49,16 @@ export class DecodeAddressResponse {
   })
   data: Uint8Array;
 
-  @Expose()
-  hrp: string;
-
   constructor(
     networkId: number,
     networkName: string,
     entityType: EntityType,
-    data: Uint8Array | string,
-    hrp: string
+    data: Uint8Array | string
   ) {
     this.networkId = networkId;
     this.networkName = networkName;
     this.entityType = entityType;
     this.data = Convert.Uint8Array.from(data);
-    this.hrp = hrp;
   }
 
   toString(): string {

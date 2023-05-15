@@ -21,5 +21,4 @@ export interface IAddress {
   networkName: () => Promise<string>;
   entityType: () => Promise<string>;
   data: () => Promise<Uint8Array>;
-  hrp: () => Promise<string>;
 }
