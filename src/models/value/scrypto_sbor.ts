@@ -24,7 +24,7 @@ import {
   plainToInstance,
 } from "class-transformer";
 import { Decimal as DecimalJs } from "decimal.js";
-import { Convert, EntityType } from "../..";
+import { EntityType } from "../..";
 import { IAddress } from "../../base/base_address";
 import {
   AddressBook,
@@ -35,10 +35,10 @@ import { PublicKey } from "../crypto";
 import * as Serializers from "../serializers";
 
 export abstract class Value {
-  readonly type: Kind;
+  readonly kind: Kind;
 
   constructor(type: Kind) {
-    this.type = type;
+    this.kind = type;
   }
 
   abstract toString(): string;
@@ -67,6 +67,7 @@ export enum Kind {
   PreciseDecimal = "PreciseDecimal",
   NonFungibleLocalId = "NonFungibleLocalId",
   Reference = "Reference",
+  Bytes = "Bytes",
 }
 
 export class Bool extends Value {
@@ -396,42 +397,62 @@ export class Array extends Value {
 }
 
 export class Map extends Value {
-  @Expose({ name: "key_value_kind" })
-  keyValueKind: Kind;
+  @Expose({ name: "key_kind" })
+  keyKind: Kind;
 
-  @Expose({ name: "value_value_kind" })
-  valueValueKind: Kind;
+  @Expose({ name: "value_kind" })
+  valueKind: Kind;
 
   @Expose({ name: "entries" })
   @Type(() => Object)
-  internalEntries: globalThis.Array<[Object, Object]>;
+  internalEntries: globalThis.Array<{
+    key: Object;
+    value: Object;
+  }>;
 
-  get entries(): globalThis.Array<[Value, Value]> {
-    return this.internalEntries.map(([key, value]) => [
-      resolveValue(key),
-      resolveValue(value),
-    ]);
+  get entries(): globalThis.Array<{
+    key: Object;
+    value: Object;
+  }> {
+    return this.internalEntries.map(({ key, value }) => {
+      return {
+        key: resolveValue(key),
+        value: resolveValue(value),
+      };
+    });
   }
 
-  set entries(entries: globalThis.Array<[Value, Value]>) {
-    this.internalEntries = entries.map(([key, value]) => [
-      instanceToPlain(key),
-      instanceToPlain(value),
-    ]);
+  set entries(
+    entries: globalThis.Array<{
+      key: Object;
+      value: Object;
+    }>
+  ) {
+    this.internalEntries = entries.map(({ key, value }) => {
+      return {
+        key: instanceToPlain(key),
+        value: instanceToPlain(value),
+      };
+    });
   }
 
   constructor(
     keyValueKind: Kind,
     valueValueKind: Kind,
-    entries: globalThis.Array<[Value, Value]> = []
+    entries: globalThis.Array<{
+      key: Object;
+      value: Object;
+    }> = []
   ) {
     super(Kind.Map);
-    this.keyValueKind = keyValueKind;
-    this.valueValueKind = valueValueKind;
-    this.internalEntries = entries?.map(([key, value]) => [
-      instanceToPlain(key),
-      instanceToPlain(value),
-    ]);
+    this.keyKind = keyValueKind;
+    this.valueKind = valueValueKind;
+    this.internalEntries = entries?.map(({ key, value }) => {
+      return {
+        key: instanceToPlain(key),
+        value: instanceToPlain(value),
+      };
+    });
   }
 
   toString(): string {
@@ -446,21 +467,19 @@ export class Map extends Value {
 export class Tuple extends Value {
   @Expose({ name: "elements" })
   @Type(() => Object)
-  internalElements: globalThis.Array<Object>;
+  internalFields: globalThis.Array<Object>;
 
-  get elements(): globalThis.Array<Value> {
-    return this.internalElements.map(resolveValue);
+  get fields(): globalThis.Array<Value> {
+    return this.internalFields.map(resolveValue);
   }
 
-  set elements(elements: globalThis.Array<Value>) {
-    this.internalElements = elements.map((instance) =>
-      instanceToPlain(instance)
-    );
+  set fields(elements: globalThis.Array<Value>) {
+    this.internalFields = elements.map((instance) => instanceToPlain(instance));
   }
 
   constructor(elements: globalThis.Array<Value>) {
     super(Kind.Tuple);
-    this.internalElements = elements?.map((instance) =>
+    this.internalFields = elements?.map((instance) =>
       instanceToPlain(instance)
     );
   }
@@ -774,47 +793,12 @@ export class UUID {
   }
 }
 
-export class Bytes {
-  readonly type: string = "Bytes";
-
-  @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  value: Uint8Array;
-
-  constructor(value: Uint8Array | string) {
-    this.value = Convert.Uint8Array.from(value);
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
 export class NonFungibleLocalId extends Value {
   @Expose()
-  @Type(() => Object, {
-    discriminator: {
-      property: "type",
-      subTypes: [
-        { name: "UUID", value: UUID },
-        { name: "Integer", value: Integer },
-        { name: "String", value: String },
-        { name: "Bytes", value: Bytes },
-      ],
-    },
-    keepDiscriminatorProperty: true,
-  })
-  value: UUID | Integer | String | Bytes;
+  @Type(() => String)
+  value: string;
 
-  constructor(value: UUID | Integer | String | Bytes) {
+  constructor(value: string) {
     super(Kind.NonFungibleLocalId);
     this.value = value;
   }
@@ -851,10 +835,33 @@ export class Reference extends Value {
   }
 }
 
+export class Bytes extends Value {
+  @Expose()
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  value: Uint8Array;
+
+  constructor(value: Uint8Array) {
+    super(Kind.Bytes);
+    this.value = value;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
 function resolveValue(object: Object): Value {
   let resolveSingleFn = <T>(object: Object, Class: ClassConstructor<T>): T =>
     plainToInstance(Class, instanceToPlain(object));
-  let type: Kind = (object as Value).type;
+  let type: Kind = (object as Value).kind;
 
   switch (type) {
     case Kind.Bool:
@@ -901,5 +908,7 @@ function resolveValue(object: Object): Value {
       return resolveSingleFn(object, Own);
     case Kind.Reference:
       return resolveSingleFn(object, Reference);
+    case Kind.Bytes:
+      return resolveSingleFn(object, Bytes);
   }
 }
