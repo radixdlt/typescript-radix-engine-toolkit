@@ -27,29 +27,28 @@ import {
 import { StringInstructions } from "../../src/models/transaction/instruction_list";
 
 describe.each([
-  "../test_vectors/manifests/access_controller/new.rtm",
-  "../test_vectors/manifests/royalty/royalty.rtm",
-  "../test_vectors/manifests/identity/new.rtm",
-  "../test_vectors/manifests/resources/recall.rtm",
-  "../test_vectors/manifests/resources/auth_zone.rtm",
-  "../test_vectors/manifests/resources/worktop.rtm",
-  "../test_vectors/manifests/resources/mint/non_fungible/mint.rtm",
-  "../test_vectors/manifests/resources/mint/fungible/mint.rtm",
-  "../test_vectors/manifests/resources/creation/non_fungible/no_initial_supply.rtm",
-  "../test_vectors/manifests/resources/creation/non_fungible/with_initial_supply.rtm",
-  "../test_vectors/manifests/resources/creation/fungible/no_initial_supply.rtm",
-  "../test_vectors/manifests/resources/creation/fungible/with_initial_supply.rtm",
-  "../test_vectors/manifests/values/values.rtm",
-  "../test_vectors/manifests/call/call_method.rtm",
-  "../test_vectors/manifests/call/call_function.rtm",
-  "../test_vectors/manifests/faucet/free_funds.rtm",
-  "../test_vectors/manifests/access_rule/assert_access_rule.rtm",
-  "../test_vectors/manifests/access_rule/access_rule.rtm",
-  "../test_vectors/manifests/account/multi_account_resource_transfer.rtm",
-  "../test_vectors/manifests/account/new.rtm",
-  "../test_vectors/manifests/account/resource_transfer.rtm",
-  "../test_vectors/manifests/metadata/metadata.rtm",
-  "../test_vectors/manifests/package/publish.rtm",
+  "../test_vectors/manifest/access_controller/new.rtm",
+  "../test_vectors/manifest/access_rule/access_rule.rtm",
+  "../test_vectors/manifest/account/multi_account_resource_transfer.rtm",
+  "../test_vectors/manifest/account/new.rtm",
+  "../test_vectors/manifest/account/resource_transfer.rtm",
+  "../test_vectors/manifest/call/call_function.rtm",
+  "../test_vectors/manifest/call/call_method.rtm",
+  "../test_vectors/manifest/faucet/free_funds.rtm",
+  "../test_vectors/manifest/identity/new.rtm",
+  "../test_vectors/manifest/metadata/metadata.rtm",
+  "../test_vectors/manifest/package/publish.rtm",
+  "../test_vectors/manifest/resources/creation/fungible/no_initial_supply.rtm",
+  "../test_vectors/manifest/resources/creation/fungible/with_initial_supply.rtm",
+  "../test_vectors/manifest/resources/creation/non_fungible/no_initial_supply.rtm",
+  "../test_vectors/manifest/resources/creation/non_fungible/with_initial_supply.rtm",
+  "../test_vectors/manifest/resources/mint/fungible/mint.rtm",
+  "../test_vectors/manifest/resources/mint/non_fungible/mint.rtm",
+  "../test_vectors/manifest/resources/auth_zone.rtm",
+  "../test_vectors/manifest/resources/recall.rtm",
+  "../test_vectors/manifest/resources/worktop.rtm",
+  "../test_vectors/manifest/royalty/royalty.rtm",
+  "../test_vectors/manifest/values/values.rtm",
 ])("Convert manifest works for $0", (path) => {
   test(`${path} can be converted to String`, async () => {
     // Arrange
@@ -88,68 +87,111 @@ const prepareManifest = (manifestPath: string): TransactionManifest => {
   // Perform replacements on the manifest string
   let stringManifest = fileContent
     // @ts-ignore
-    .replaceAll("${", "{")
     .replaceAll(
-      "{xrd_resource_address}",
-      "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+      "${xrd_resource_address}",
+      "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
     )
     .replaceAll(
-      "{faucet_component_address}",
-      "component_sim1q0kryz5scup945usk39qjc2yjh6l5zsyuh8t7v5pk0tshjs68x"
+      "${fungible_resource_address}",
+      "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
     )
     .replaceAll(
-      "{this_account_component_address}",
-      "account_sim1qspjlnwx4gdcazhral74rjgzgysrslf8ngrfmprecrrss3p9md"
+      "${resource_address}",
+      "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
     )
     .replaceAll(
-      "{account_component_address}",
-      "account_sim1qspjlnwx4gdcazhral74rjgzgysrslf8ngrfmprecrrss3p9md"
+      "${gumball_resource_address}",
+      "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
     )
     .replaceAll(
-      "{other_account_component_address}",
-      "account_sim1qspjlnwx4gdcazhral74rjgzgysrslf8ngrfmprecrrss3p9md"
+      "${non_fungible_resource_address}",
+      "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
     )
     .replaceAll(
-      "{account_a_component_address}",
-      "account_sim1qspjlnwx4gdcazhral74rjgzgysrslf8ngrfmprecrrss3p9md"
+      "${badge_resource_address}",
+      "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
     )
     .replaceAll(
-      "{account_b_component_address}",
-      "account_sim1qspjlnwx4gdcazhral74rjgzgysrslf8ngrfmprecrrss3p9md"
+      "${account_address}",
+      "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
     )
     .replaceAll(
-      "{account_c_component_address}",
-      "account_sim1qspjlnwx4gdcazhral74rjgzgysrslf8ngrfmprecrrss3p9md"
+      "${this_account_address}",
+      "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
     )
     .replaceAll(
-      "{owner_badge_resource_address}",
-      "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+      "${account_a_component_address}",
+      "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
     )
     .replaceAll(
-      "{minter_badge_resource_address}",
-      "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+      "${account_b_component_address}",
+      "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
     )
     .replaceAll(
-      "{auth_badge_resource_address}",
-      "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+      "${account_c_component_address}",
+      "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
     )
     .replaceAll(
-      "{mintable_resource_address}",
-      "resource_sim1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqs6d89k"
+      "${other_account_address}",
+      "account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9"
     )
-    .replaceAll("{owner_badge_non_fungible_local_id}", "#1#")
-    .replaceAll("{auth_badge_non_fungible_local_id}", "#1#")
     .replaceAll(
-      "{code_blob_hash}",
+      "${component_address}",
+      "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
+    )
+    .replaceAll(
+      "${faucet_component_address}",
+      "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
+    )
+    .replaceAll(
+      "${package_address}",
+      "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
+    )
+    .replaceAll(
+      "${minter_badge_resource_address}",
+      "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+    )
+    .replaceAll(
+      "${mintable_resource_address}",
+      "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6"
+    )
+    .replaceAll(
+      "${vault_address}",
+      "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
+    )
+    .replaceAll("${owner_badge_non_fungible_local_id}", "#1#")
+    .replaceAll(
+      "${code_blob_hash}",
       "5b4b01a4a3892ea3751793da57f072ae08eec694ddcda872239fc8239e4bcd1b"
     )
+    .replaceAll("${initial_supply}", "12")
+    .replaceAll("${mint_amount}", "12")
+    .replaceAll("${non_fungible_local_id}", "#12#")
     .replaceAll(
-      "{schema_blob_hash}",
-      "5b4b01a4a3892ea3751793da57f072ae08eec694ddcda872239fc8239e4bcd1b"
+      "${auth_badge_resource_address}",
+      "resource_sim1n24hvnrgmhj6j8dpjuu85vfsagdjafcl5x4ewc9yh436jh2hpu4qdj"
     )
-    .replaceAll("{initial_supply}", "12")
-    .replaceAll("{mint_amount}", "12")
-    .replaceAll("{non_fungible_local_id}", "#1#");
+    .replaceAll("${auth_badge_non_fungible_local_id}", "#1#")
+    .replaceAll(
+      "${package_address}",
+      "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
+    )
+    .replaceAll(
+      "${epochmanager_address}",
+      "epochmanager_sim1sexxxxxxxxxxephmgrxxxxxxxxx009352500589xxxxxxxxx82g6cl"
+    )
+    .replaceAll(
+      "${clock_address}",
+      "clock_sim1skxxxxxxxxxxclckxxxxxxxxxxx002253583992xxxxxxxxxx58hk6"
+    )
+    .replaceAll(
+      "${validator_address}",
+      "validator_sim1sgvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvedzgr3l"
+    )
+    .replaceAll(
+      "${accesscontroller_address}",
+      "accesscontroller_sim1cvvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvexaj7at"
+    );
 
   return new TransactionManifest(new StringInstructions(stringManifest), [
     new Uint8Array([10]),

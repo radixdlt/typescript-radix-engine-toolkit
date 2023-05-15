@@ -1,0 +1,5 @@
+CALL_METHOD
+    Address("${component_address}")
+    "complicated_method"
+    Decimal("1")
+    PreciseDecimal("2");
