@@ -36,9 +36,14 @@ export class SborDecodeRequest {
   })
   networkId: number;
 
+  // TODO: Proper type
+  @Expose({ name: "schema" })
+  schema: null;
+
   constructor(encodedValue: Uint8Array | string, networkId: number) {
     this.encodedValue = Convert.Uint8Array.from(encodedValue);
     this.networkId = networkId;
+    this.schema = null;
   }
 
   toString(): string {
