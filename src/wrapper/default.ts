@@ -293,7 +293,7 @@ export class RadixEngineToolkit {
     } else if (value instanceof ScryptoSborValue.Value) {
       sborValue = new SborValue.ScryptoSbor(value);
     } else if (value instanceof ManifestSborValue.Value) {
-      sborValue = new SborValue.ManifestSbor(value);
+      sborValue = new SborValue.ManifestSbor(value, "");
     } else {
       throw new TypeError("Invalid type passed in as an SBOR argument");
     }

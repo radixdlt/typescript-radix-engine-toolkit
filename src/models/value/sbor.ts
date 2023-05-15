@@ -122,9 +122,14 @@ export class ManifestSbor extends Value {
   @Type(() => ManifestSborValue.Value, manifestSborValueTypeOptions)
   value: ManifestSborValue.Value;
 
-  constructor(value: ManifestSborValue.Value) {
+  @Expose({ name: "manifest_string" })
+  @Type(() => String)
+  manifestString: string;
+
+  constructor(value: ManifestSborValue.Value, manifestString: string) {
     super("ManifestSbor");
     this.value = value;
+    this.manifestString = manifestString;
   }
 
   toString(): string {

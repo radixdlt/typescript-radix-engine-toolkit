@@ -700,8 +700,8 @@ export class PublishPackage extends Instruction {
   code: ManifestAstValue.Blob;
 
   @Expose({ name: "schema" })
-  @Type(() => ManifestAstValue.Blob)
-  schema: ManifestAstValue.Blob;
+  @Type(() => ManifestAstValue.Bytes)
+  schema: ManifestAstValue.Bytes;
 
   @Expose({ name: "royalty_config" })
   @Type(() => ManifestAstValue.Map)
@@ -713,7 +713,7 @@ export class PublishPackage extends Instruction {
 
   constructor(
     code: ManifestAstValue.Blob,
-    schema: ManifestAstValue.Blob,
+    schema: ManifestAstValue.Bytes,
     royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map
   ) {
@@ -743,8 +743,8 @@ export class PublishPackageAdvanced extends Instruction {
   code: ManifestAstValue.Blob;
 
   @Expose({ name: "schema" })
-  @Type(() => ManifestAstValue.Blob)
-  schema: ManifestAstValue.Blob;
+  @Type(() => ManifestAstValue.Bytes)
+  schema: ManifestAstValue.Bytes;
 
   @Expose({ name: "royalty_config" })
   @Type(() => ManifestAstValue.Map)
@@ -760,7 +760,7 @@ export class PublishPackageAdvanced extends Instruction {
 
   constructor(
     code: ManifestAstValue.Blob,
-    schema: ManifestAstValue.Blob,
+    schema: ManifestAstValue.Bytes,
     royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Value

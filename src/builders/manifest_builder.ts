@@ -482,13 +482,12 @@ export class ManifestBuilder {
   ): ManifestBuilder {
     let instruction = new PublishPackage(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
-      new ManifestAstValue.Blob(blake2b(schema, undefined, 32)),
+      new ManifestAstValue.Bytes(schema),
       royaltyConfig,
       metadata
     );
     this.instructions.push(instruction);
     this.blobs.push(Convert.Uint8Array.from(code));
-    this.blobs.push(Convert.Uint8Array.from(schema));
     return this;
   }
 
@@ -513,14 +512,13 @@ export class ManifestBuilder {
   ): ManifestBuilder {
     let instruction = new PublishPackageAdvanced(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
-      new ManifestAstValue.Blob(blake2b(schema, undefined, 32)),
+      new ManifestAstValue.Bytes(schema),
       royaltyConfig,
       metadata,
       accessRules
     );
     this.instructions.push(instruction);
     this.blobs.push(Convert.Uint8Array.from(code));
-    this.blobs.push(Convert.Uint8Array.from(schema));
     return this;
   }
 
