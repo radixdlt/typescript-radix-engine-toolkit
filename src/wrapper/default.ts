@@ -17,7 +17,6 @@
 
 import { Convert } from "..";
 import {
-  AnalyzeManifestRequest,
   ConvertManifestRequest,
   DecodeAddressRequest,
   DecompileNotarizedTransactionIntentRequest,
@@ -29,6 +28,7 @@ import {
   DeriveVirtualIdentityAddressRequest,
   EncodeAddressRequest,
   EntityType,
+  ExtractAddressesFromManifestRequest,
   InformationRequest,
   InstructionList,
   KnownEntityAddressesRequest,
@@ -95,7 +95,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<AddressAnalysis> {
     return RawRadixEngineToolkit.analyzeManifest(
-      new AnalyzeManifestRequest(networkId, manifest)
+      new ExtractAddressesFromManifestRequest(networkId, manifest)
     ).then(
       ({
         packageAddresses,

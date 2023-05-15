@@ -16,10 +16,10 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { TransactionManifest } from "../../models";
+import { TransactionManifest } from "..";
 import * as Serializers from "../serializers";
 
-export class AnalyzeManifestRequest {
+export class ExtractAddressesFromManifestRequest {
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -45,7 +45,7 @@ export class AnalyzeManifestRequest {
   }
 }
 
-export class AnalyzeManifestResponse {
+export class ExtractAddressesFromManifestResponse {
   packageAddresses: Array<string>;
   componentAddresses: Array<string>;
   resourceAddresses: Array<string>;

@@ -15,7 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./analyze_manifest";
 export * from "./compile_notarized_transaction_intent";
 export * from "./compile_signed_transaction_intent";
 export * from "./compile_transaction_intent";
@@ -29,6 +28,7 @@ export * from "./derive_babylon_address_from_olympia_address";
 export * from "./derive_virtual_account_address";
 export * from "./derive_virtual_identity_address";
 export * from "./encode_address";
+export * from "./extract_addresses_from_manifest";
 export * from "./information";
 export * from "./known_entity_addresses";
 export * from "./sbor_decode";

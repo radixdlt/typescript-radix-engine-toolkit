@@ -228,7 +228,7 @@ interface RadixEngineToolkitExports {
 
   convert_manifest(pointer: number): number;
 
-  analyze_manifest(pointer: number): number;
+  extract_addresses_from_manifest(pointer: number): number;
 
   compile_transaction_intent(pointer: number): number;
 

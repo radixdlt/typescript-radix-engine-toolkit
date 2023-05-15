@@ -17,8 +17,6 @@
 
 import { instanceToPlain, plainToInstance } from "class-transformer";
 import {
-  AnalyzeManifestRequest,
-  AnalyzeManifestResponse,
   CompileNotarizedTransactionRequest,
   CompileNotarizedTransactionResponse,
   CompileSignedTransactionIntentRequest,
@@ -46,6 +44,8 @@ import {
   DeriveVirtualIdentityAddressResponse,
   EncodeAddressRequest,
   EncodeAddressResponse,
+  ExtractAddressesFromManifestRequest,
+  ExtractAddressesFromManifestResponse,
   InformationRequest,
   InformationResponse,
   KnownEntityAddressesRequest,
@@ -89,8 +89,8 @@ export class RawRadixEngineToolkit {
   }
 
   public static async analyzeManifest(
-    request: AnalyzeManifestRequest
-  ): Promise<AnalyzeManifestResponse> {
+    request: ExtractAddressesFromManifestRequest
+  ): Promise<ExtractAddressesFromManifestResponse> {
     // Get the instance of the Radix Engine Toolkit
     let ret = await RET;
 
@@ -98,7 +98,7 @@ export class RawRadixEngineToolkit {
     return ret.invoke(
       request,
       ret.exports.information,
-      AnalyzeManifestResponse
+      ExtractAddressesFromManifestResponse
     );
   }
 
