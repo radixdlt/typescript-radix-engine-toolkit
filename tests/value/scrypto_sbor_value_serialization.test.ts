@@ -150,6 +150,12 @@ describe.each([
     expectedSerialization: `{"kind":"Reference","value":"package_rdx1pkgxxxxxxxxxaccntxxxxxxxxxx000929625493xxxxxxxxxaccntx"}`,
   },
   {
+    expectedObject: new Address(
+      "clock_rdx1skxxxxxxxxxxclckxxxxxxxxxxx002253583992xxxxxxxxxclckxx"
+    ),
+    expectedSerialization: `{"kind":"Address","value":"clock_rdx1skxxxxxxxxxxclckxxxxxxxxxxx002253583992xxxxxxxxxclckxx"}`,
+  },
+  {
     expectedObject: new Bytes(
       Convert.HexString.toUint8Array(
         "d28d2c3710601fbc097000ec73455693f4861dc0eb7c90d8821f2a13f617313e"

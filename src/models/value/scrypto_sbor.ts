@@ -849,6 +849,7 @@ export class Reference extends Value implements IAddress {
     return instanceToPlain(this);
   }
 }
+
 export class Bytes extends Value {
   @Expose()
   @Type(() => Uint8Array)

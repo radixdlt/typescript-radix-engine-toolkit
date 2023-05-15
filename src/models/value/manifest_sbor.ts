@@ -467,7 +467,7 @@ export class Map extends Value {
 }
 
 export class Tuple extends Value {
-  @Expose({ name: "elements" })
+  @Expose({ name: "fields" })
   @Type(() => Object)
   internalFields: globalThis.Array<Object>;
 
@@ -829,9 +829,14 @@ export class Bytes extends Value {
   })
   hex: Uint8Array;
 
+  @Expose({ name: "element_kind" })
+  @Type(() => Uint8Array)
+  elementKind: string;
+
   constructor(value: Uint8Array) {
     super(Kind.Bytes);
     this.hex = value;
+    this.elementKind = "U8";
   }
 
   toString(): string {

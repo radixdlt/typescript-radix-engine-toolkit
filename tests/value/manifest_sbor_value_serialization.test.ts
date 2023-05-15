@@ -16,197 +16,162 @@
 // under the License.
 
 import { describe, expect, test } from "vitest";
-import { ManifestSborValue } from "../../src";
+import { Convert, ManifestSborValue } from "../../src";
 import { deserialize, serialize } from "../../src/utils";
 import { assertSerializationEquals } from "../test_utils";
 
+const Kind = ManifestSborValue.Kind;
+const Bool = ManifestSborValue.Bool;
+const U8 = ManifestSborValue.U8;
+const U16 = ManifestSborValue.U16;
+const U32 = ManifestSborValue.U32;
+const U64 = ManifestSborValue.U64;
+const U128 = ManifestSborValue.U128;
+const I8 = ManifestSborValue.I8;
+const I16 = ManifestSborValue.I16;
+const I32 = ManifestSborValue.I32;
+const I64 = ManifestSborValue.I64;
+const I128 = ManifestSborValue.I128;
+const String = ManifestSborValue.String;
+const Enum = ManifestSborValue.Enum;
+const Array = ManifestSborValue.Array;
+const Map = ManifestSborValue.Map;
+const Tuple = ManifestSborValue.Tuple;
+const Address = ManifestSborValue.Address;
+const Bucket = ManifestSborValue.Bucket;
+const Proof = ManifestSborValue.Proof;
+const Decimal = ManifestSborValue.Decimal;
+const PreciseDecimal = ManifestSborValue.PreciseDecimal;
+const NonFungibleLocalId = ManifestSborValue.NonFungibleLocalId;
+const Expression = ManifestSborValue.Expression;
+const Blob = ManifestSborValue.Blob;
+const Bytes = ManifestSborValue.Bytes;
+
 describe.each([
   {
-    expectedObject: new ManifestSborValue.Bool(true),
-    expectedSerialization: `{"type":"Bool","value":true}`,
+    expectedObject: new Bool(true),
+    expectedSerialization: `{"kind":"Bool","value":true}`,
   },
   {
-    expectedObject: new ManifestSborValue.Bool(false),
-    expectedSerialization: `{"type":"Bool","value":false}`,
+    expectedObject: new Bool(false),
+    expectedSerialization: `{"kind":"Bool","value":false}`,
   },
   {
-    expectedObject: new ManifestSborValue.U8(1),
-    expectedSerialization: `{"type":"U8","value":"1"}`,
+    expectedObject: new U8(1),
+    expectedSerialization: `{"kind":"U8","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.U16(1),
-    expectedSerialization: `{"type":"U16","value":"1"}`,
+    expectedObject: new U16(1),
+    expectedSerialization: `{"kind":"U16","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.U32(1),
-    expectedSerialization: `{"type":"U32","value":"1"}`,
+    expectedObject: new U32(1),
+    expectedSerialization: `{"kind":"U32","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.U64(BigInt(1)),
-    expectedSerialization: `{"type":"U64","value":"1"}`,
+    expectedObject: new U64(BigInt(1)),
+    expectedSerialization: `{"kind":"U64","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.U128(BigInt("1")),
-    expectedSerialization: `{"type":"U128","value":"1"}`,
+    expectedObject: new U128(BigInt(1)),
+    expectedSerialization: `{"kind":"U128","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.I8(1),
-    expectedSerialization: `{"type":"I8","value":"1"}`,
+    expectedObject: new I8(1),
+    expectedSerialization: `{"kind":"I8","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.I16(1),
-    expectedSerialization: `{"type":"I16","value":"1"}`,
+    expectedObject: new I16(1),
+    expectedSerialization: `{"kind":"I16","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.I32(1),
-    expectedSerialization: `{"type":"I32","value":"1"}`,
+    expectedObject: new I32(1),
+    expectedSerialization: `{"kind":"I32","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.I64(BigInt(1)),
-    expectedSerialization: `{"type":"I64","value":"1"}`,
+    expectedObject: new I64(BigInt(1)),
+    expectedSerialization: `{"kind":"I64","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.I128(BigInt("1")),
-    expectedSerialization: `{"type":"I128","value":"1"}`,
+    expectedObject: new I128(BigInt(1)),
+    expectedSerialization: `{"kind":"I128","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.String("Scrypto"),
-    expectedSerialization: `{"type":"String","value":"Scrypto"}`,
+    expectedObject: new String("Scrypto"),
+    expectedSerialization: `{"kind":"String","value":"Scrypto"}`,
   },
   {
-    expectedObject: new ManifestSborValue.Enum(1),
-    expectedSerialization: `{"type":"Enum","variant":"1","fields":[]}`,
+    expectedObject: new Enum(1),
+    expectedSerialization: `{"kind":"Enum","variant_id":"1","fields":[]}`,
   },
   {
-    expectedObject: new ManifestSborValue.Enum(1, [
-      new ManifestSborValue.U8(1),
+    expectedObject: new Enum(1, [new U8(1)]),
+    expectedSerialization: `{"kind":"Enum","variant_id":"1","fields":[{"kind":"U8","value":"1"}]}`,
+  },
+  {
+    expectedObject: new Array(Kind.U8, [new U8(1), new U8(2), new U8(3)]),
+    expectedSerialization: `{"kind":"Array","element_kind":"U8","elements":[{"kind":"U8","value":"1"},{"kind":"U8","value":"2"},{"kind":"U8","value":"3"}]}`,
+  },
+  {
+    expectedObject: new Map(Kind.U8, Kind.String, [
+      { key: new U8(65), value: new String("A") },
+      { key: new U8(66), value: new String("B") },
     ]),
-    expectedSerialization: `{"type":"Enum","variant":"1","fields":[{"type":"U8","value":"1"}]}`,
+    expectedSerialization: `{"kind":"Map","key_kind":"U8","value_kind":"String","entries":[{"key":{"kind":"U8","value":"65"},"value":{"kind":"String","value":"A"}},{"key":{"kind":"U8","value":"66"},"value":{"kind":"String","value":"B"}}]}`,
   },
   {
-    expectedObject: new ManifestSborValue.Array(ManifestSborValue.Kind.U8, [
-      new ManifestSborValue.U8(1),
-      new ManifestSborValue.U8(2),
-      new ManifestSborValue.U8(3),
+    expectedObject: new Tuple([
+      new Tuple([new U8(1), new String("Something")]),
     ]),
-    expectedSerialization: `{"type":"Array","element_kind":"U8","elements":[{"type":"U8","value":"1"},{"type":"U8","value":"2"},{"type":"U8","value":"3"}]}`,
+    expectedSerialization: `{"kind":"Tuple","fields":[{"kind":"Tuple","fields":[{"kind":"U8","value":"1"},{"kind":"String","value":"Something"}]}]}`,
   },
   {
-    expectedObject: new ManifestSborValue.Map(
-      ManifestSborValue.Kind.U8,
-      ManifestSborValue.Kind.String,
-      [
-        [new ManifestSborValue.U8(65), new ManifestSborValue.String("A")],
-        [new ManifestSborValue.U8(66), new ManifestSborValue.String("B")],
-      ]
-    ),
-    expectedSerialization: `{"type":"Map","key_kind":"U8","value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
+    expectedObject: new Decimal(1),
+    expectedSerialization: `{"kind":"Decimal","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.Map(
-      ManifestSborValue.Kind.U8,
-      ManifestSborValue.Kind.String,
-      [
-        [new ManifestSborValue.U8(65), new ManifestSborValue.String("A")],
-        [new ManifestSborValue.U8(66), new ManifestSborValue.String("B")],
-      ]
-    ),
-    expectedSerialization: `{"type":"Map","key_kind":"U8","value_kind":"String","entries":[[{"type":"U8","value":"65"},{"type":"String","value":"A"}],[{"type":"U8","value":"66"},{"type":"String","value":"B"}]]}`,
+    expectedObject: new PreciseDecimal(1),
+    expectedSerialization: `{"kind":"PreciseDecimal","value":"1"}`,
   },
   {
-    expectedObject: new ManifestSborValue.Tuple([
-      new ManifestSborValue.Tuple([
-        new ManifestSborValue.U8(1),
-        new ManifestSborValue.String("Something"),
-      ]),
-    ]),
-    expectedSerialization: `{"type":"Tuple","elements":[{"type":"Tuple","elements":[{"type":"U8","value":"1"},{"type":"String","value":"Something"}]}]}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Decimal("1"),
-    expectedSerialization: `{"type":"Decimal","value":"1"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.PreciseDecimal("1"),
-    expectedSerialization: `{"type":"PreciseDecimal","value":"1"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Address(
-      "component_rdx1qtkryz5scup945usk39qjc2yjh6l5zsyuh8t7v5pk0tsrdcazt"
-    ),
-    expectedSerialization: `{"type":"Address","address":"component_rdx1qtkryz5scup945usk39qjc2yjh6l5zsyuh8t7v5pk0tsrdcazt"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Address(
-      "resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"
-    ),
-    expectedSerialization: `{"type":"Address","address":"resource_rdx1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqy99qqm"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Address(
-      "package_rdx1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqzrhqe8"
-    ),
-    expectedSerialization: `{"type":"Address","address":"package_rdx1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqzrhqe8"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Bucket(1),
-    expectedSerialization: `{"type":"Bucket","identifier":"1"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Proof(1),
-    expectedSerialization: `{"type":"Proof","identifier":"1"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.NonFungibleLocalId(
-      new ManifestSborValue.UUID(
-        BigInt("241008287272164729465721528295504357972")
+    expectedObject: new Bytes(
+      Convert.HexString.toUint8Array(
+        "d28d2c3710601fbc097000ec73455693f4861dc0eb7c90d8821f2a13f617313e"
       )
     ),
-    expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"UUID","value":"241008287272164729465721528295504357972"}}`,
+    expectedSerialization: `{"kind":"Bytes","element_kind":"U8","hex":"d28d2c3710601fbc097000ec73455693f4861dc0eb7c90d8821f2a13f617313e"}`,
   },
   {
-    expectedObject: new ManifestSborValue.NonFungibleLocalId(
-      new ManifestSborValue.Integer(BigInt(1))
+    expectedObject: new Blob(
+      Convert.HexString.toUint8Array(
+        "d28d2c3710601fbc097000ec73455693f4861dc0eb7c90d8821f2a13f617313e"
+      )
     ),
-    expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"Integer","value":"1"}}`,
+    expectedSerialization: `{"kind":"Blob","value":"d28d2c3710601fbc097000ec73455693f4861dc0eb7c90d8821f2a13f617313e"}`,
   },
   {
-    expectedObject: new ManifestSborValue.NonFungibleLocalId(
-      new ManifestSborValue.String("Scrypto")
+    expectedObject: new Address(
+      "clock_rdx1skxxxxxxxxxxclckxxxxxxxxxxx002253583992xxxxxxxxxclckxx"
     ),
-    expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"String","value":"Scrypto"}}`,
+    expectedSerialization: `{"kind":"Address","value":"clock_rdx1skxxxxxxxxxxclckxxxxxxxxxxx002253583992xxxxxxxxxclckxx"}`,
   },
   {
-    expectedObject: new ManifestSborValue.NonFungibleLocalId(
-      new ManifestSborValue.Bytes(new Uint8Array([0x01, 0x02, 0x03, 0x04]))
+    expectedObject: new Bucket(1),
+    expectedSerialization: `{"kind":"Bucket","value":"1"}`,
+  },
+  {
+    expectedObject: new Proof(1),
+    expectedSerialization: `{"kind":"Proof","value":"1"}`,
+  },
+  {
+    expectedObject: new NonFungibleLocalId(
+      "{b55081fa-9cd1-48c2-95d4-efe2db322a54}"
     ),
-    expectedSerialization: `{"type":"NonFungibleLocalId","value":{"type":"Bytes","value":"01020304"}}`,
+    expectedSerialization: `{"kind":"NonFungibleLocalId","value":"{b55081fa-9cd1-48c2-95d4-efe2db322a54}"}`,
   },
   {
-    expectedObject: ManifestSborValue.Expression.entireWorktop(),
-    expectedSerialization: `{"type":"Expression","value":"ENTIRE_WORKTOP"}`,
-  },
-  {
-    expectedObject: ManifestSborValue.Expression.entireAuthZone(),
-    expectedSerialization: `{"type":"Expression","value":"ENTIRE_AUTH_ZONE"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Blob(
-      new Uint8Array([
-        210, 141, 44, 55, 16, 96, 31, 188, 9, 112, 0, 236, 115, 69, 86, 147,
-        244, 134, 29, 192, 235, 124, 144, 216, 130, 31, 42, 19, 246, 23, 49, 62,
-      ])
-    ),
-    expectedSerialization: `{"type":"Blob","hash":"d28d2c3710601fbc097000ec73455693f4861dc0eb7c90d8821f2a13f617313e"}`,
-  },
-  {
-    expectedObject: new ManifestSborValue.Bytes(
-      new Uint8Array([
-        210, 141, 44, 55, 16, 96, 31, 188, 9, 112, 0, 236, 115, 69, 86, 147,
-        244, 134, 29, 192, 235, 124, 144, 216, 130, 31, 42, 19, 246, 23, 49, 62,
-      ])
-    ),
-    expectedSerialization: `{"type":"Bytes","value":"d28d2c3710601fbc097000ec73455693f4861dc0eb7c90d8821f2a13f617313e"}`,
+    expectedObject: Expression.entireAuthZone(),
+    expectedSerialization: `{"kind":"Expression","value":"ENTIRE_AUTH_ZONE"}`,
   },
 ])(
   "Serialization test for $expectedSerialization",
