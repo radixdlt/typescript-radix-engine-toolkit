@@ -693,19 +693,37 @@ export class Address extends Value implements IAddress {
   }
 }
 
-export class Bucket {
-  readonly type: OwnKind = OwnKind.Bucket;
-
+export class Own extends Value implements IAddress {
   @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  value: Uint8Array;
+  address: string;
 
-  constructor(value: Uint8Array) {
-    this.value = value;
+  constructor(address: string) {
+    super(Kind.Address);
+    this.address = address;
+  }
+
+  async networkId(): Promise<number> {
+    return (await this.addressInformation()).networkId;
+  }
+
+  async networkName(): Promise<string> {
+    return (await this.addressInformation()).networkName;
+  }
+
+  async entityType(): Promise<EntityAddress.EntityType> {
+    return (await this.addressInformation()).entityType;
+  }
+
+  async data(): Promise<Uint8Array> {
+    return (await this.addressInformation()).data;
+  }
+
+  async hrp(): Promise<string> {
+    return (await this.addressInformation()).hrp;
+  }
+
+  private async addressInformation(): Promise<AddressInformation> {
+    return RadixEngineToolkit.decodeAddress(this.address);
   }
 
   toString(): string {
@@ -715,140 +733,6 @@ export class Bucket {
   toObject(): Record<string, any> {
     return instanceToPlain(this);
   }
-}
-
-export class Proof {
-  readonly type: OwnKind = OwnKind.Proof;
-
-  @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  value: Uint8Array;
-
-  constructor(value: Uint8Array) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class Vault {
-  readonly type: OwnKind = OwnKind.Vault;
-
-  @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  value: Uint8Array;
-
-  constructor(value: Uint8Array) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class ObjectNode {
-  readonly type: OwnKind = OwnKind.ObjectNode;
-
-  @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  value: Uint8Array;
-
-  constructor(value: Uint8Array) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class KeyValueStore {
-  readonly type: OwnKind = OwnKind.KeyValueStore;
-
-  @Expose()
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  value: Uint8Array;
-
-  constructor(value: Uint8Array) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class Own extends Value {
-  @Expose()
-  @Type(Object, {
-    discriminator: {
-      property: "type",
-      subTypes: [
-        { name: "Bucket", value: Bucket },
-        { name: "Proof", value: Proof },
-        { name: "Vault", value: Vault },
-        { name: "Object", value: ObjectNode },
-        { name: "KeyValueStore", value: KeyValueStore },
-      ],
-    },
-  })
-  value: Bucket | Proof | Vault | ObjectNode | KeyValueStore;
-
-  constructor(value: Bucket | Proof | Vault | ObjectNode | KeyValueStore) {
-    super(Kind.Own);
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export enum OwnKind {
-  Bucket = "Bucket",
-  Proof = "Proof",
-  Vault = "Vault",
-  ObjectNode = "Object",
-  KeyValueStore = "KeyValueStore",
 }
 
 export class Integer {

@@ -148,61 +148,6 @@ describe.each([
   },
 
   {
-    expectedObject: new ScryptoSborValue.Own(
-      new ScryptoSborValue.Bucket(
-        new Uint8Array([
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0,
-        ])
-      )
-    ),
-    expectedSerialization: `{"type":"Own","value":{"type":"Bucket","value":"00000000000000000000000000000000000000000000000000000000000000"}}`,
-  },
-  {
-    expectedObject: new ScryptoSborValue.Own(
-      new ScryptoSborValue.Proof(
-        new Uint8Array([
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0,
-        ])
-      )
-    ),
-    expectedSerialization: `{"type":"Own","value":{"type":"Proof","value":"00000000000000000000000000000000000000000000000000000000000000"}}`,
-  },
-  {
-    expectedObject: new ScryptoSborValue.Own(
-      new ScryptoSborValue.Vault(
-        new Uint8Array([
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0,
-        ])
-      )
-    ),
-    expectedSerialization: `{"type":"Own","value":{"type":"Vault","value":"00000000000000000000000000000000000000000000000000000000000000"}}`,
-  },
-  {
-    expectedObject: new ScryptoSborValue.Own(
-      new ScryptoSborValue.ObjectNode(
-        new Uint8Array([
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0,
-        ])
-      )
-    ),
-    expectedSerialization: `{"type":"Own","value":{"type":"Object","value":"00000000000000000000000000000000000000000000000000000000000000"}}`,
-  },
-  {
-    expectedObject: new ScryptoSborValue.Own(
-      new ScryptoSborValue.KeyValueStore(
-        new Uint8Array([
-          0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0, 0,
-        ])
-      )
-    ),
-    expectedSerialization: `{"type":"Own","value":{"type":"KeyValueStore","value":"00000000000000000000000000000000000000000000000000000000000000"}}`,
-  },
-  {
     expectedObject: new ScryptoSborValue.NonFungibleLocalId(
       new ScryptoSborValue.UUID(
         BigInt("241008287272164729465721528295504357972")
