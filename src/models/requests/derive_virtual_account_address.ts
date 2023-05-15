@@ -16,7 +16,6 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { EntityAddress } from "..";
 import { PublicKey } from "../crypto";
 import * as Serializers from "../serializers";
 
@@ -56,10 +55,10 @@ export class DeriveVirtualAccountAddressRequest {
 
 export class DeriveVirtualAccountAddressResponse {
   @Expose({ name: "virtual_account_address" })
-  @Type(() => EntityAddress.ComponentAddress)
-  virtualAccountAddress: EntityAddress.ComponentAddress;
+  @Type(() => String)
+  virtualAccountAddress: string;
 
-  constructor(virtualAccountAddress: EntityAddress.ComponentAddress) {
+  constructor(virtualAccountAddress: string) {
     this.virtualAccountAddress = virtualAccountAddress;
   }
 

@@ -24,7 +24,7 @@ import {
   plainToInstance,
 } from "class-transformer";
 import { Decimal as DecimalJs } from "decimal.js";
-import { EntityAddress, PublicKey } from "..";
+import { EntityType, PublicKey } from "..";
 import { Convert } from "../..";
 import { IAddress } from "../../base/base_address";
 import {
@@ -820,7 +820,7 @@ export class Address extends Value implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 

@@ -24,8 +24,7 @@ import {
   plainToInstance,
 } from "class-transformer";
 import { Decimal as DecimalJs } from "decimal.js";
-import { EntityAddress } from "..";
-import { Convert } from "../..";
+import { Convert, EntityType } from "../..";
 import { IAddress } from "../../base/base_address";
 import {
   AddressBook,
@@ -662,7 +661,7 @@ export class Address extends Value implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 
@@ -710,7 +709,7 @@ export class Own extends Value implements IAddress {
     return (await this.addressInformation()).networkName;
   }
 
-  async entityType(): Promise<EntityAddress.EntityType> {
+  async entityType(): Promise<EntityType> {
     return (await this.addressInformation()).entityType;
   }
 

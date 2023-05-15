@@ -16,7 +16,7 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { EntityAddress, PublicKey } from "..";
+import { PublicKey } from "..";
 import * as Serializers from "../serializers";
 
 export class DeriveBabylonAddressFromOlympiaAddressRequest {
@@ -46,8 +46,8 @@ export class DeriveBabylonAddressFromOlympiaAddressRequest {
 
 export class DeriveBabylonAddressFromOlympiaAddressResponse {
   @Expose({ name: "babylon_account_address" })
-  @Type(() => EntityAddress.ComponentAddress)
-  babylonAccountAddress: EntityAddress.ComponentAddress;
+  @Type(() => String)
+  babylonAccountAddress: string;
 
   @Expose({ name: "public_key" })
   @Type(() => PublicKey.PublicKey, {
@@ -61,10 +61,7 @@ export class DeriveBabylonAddressFromOlympiaAddressResponse {
   })
   publicKey: PublicKey.PublicKey;
 
-  constructor(
-    babylonAccountAddress: EntityAddress.ComponentAddress,
-    publicKey: PublicKey.PublicKey
-  ) {
+  constructor(babylonAccountAddress: string, publicKey: PublicKey.PublicKey) {
     this.babylonAccountAddress = babylonAccountAddress;
     this.publicKey = publicKey;
   }

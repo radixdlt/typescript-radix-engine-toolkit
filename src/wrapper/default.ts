@@ -28,7 +28,7 @@ import {
   DeriveVirtualAccountAddressRequest,
   DeriveVirtualIdentityAddressRequest,
   EncodeAddressRequest,
-  EntityAddress,
+  EntityType,
   InformationRequest,
   InstructionList,
   KnownEntityAddressesRequest,
@@ -107,19 +107,13 @@ export class RadixEngineToolkit {
         accountsDepositedInto,
       }) => {
         return {
-          packageAddresses: packageAddresses.map(({ address }) => address),
-          componentAddresses: componentAddresses.map(({ address }) => address),
-          resourceAddresses: resourceAddresses.map(({ address }) => address),
-          accountAddresses: accountAddresses.map(({ address }) => address),
-          accountsRequiringAuth: accountsRequiringAuth.map(
-            ({ address }) => address
-          ),
-          accountsWithdrawnFrom: accountsWithdrawnFrom.map(
-            ({ address }) => address
-          ),
-          accountsDepositedInto: accountsDepositedInto.map(
-            ({ address }) => address
-          ),
+          packageAddresses: packageAddresses,
+          componentAddresses: componentAddresses,
+          resourceAddresses: resourceAddresses,
+          accountAddresses: accountAddresses,
+          accountsRequiringAuth: accountsRequiringAuth,
+          accountsWithdrawnFrom: accountsWithdrawnFrom,
+          accountsDepositedInto: accountsDepositedInto,
         };
       }
     );
@@ -343,7 +337,7 @@ export class RadixEngineToolkit {
   ): Promise<string> {
     return RawRadixEngineToolkit.deriveVirtualAccountAddress(
       new DeriveVirtualAccountAddressRequest(networkId, publicKey)
-    ).then(({ virtualAccountAddress }) => virtualAccountAddress.address);
+    ).then(({ virtualAccountAddress }) => virtualAccountAddress);
   }
 
   /**
@@ -361,7 +355,7 @@ export class RadixEngineToolkit {
   ): Promise<string> {
     return RawRadixEngineToolkit.deriveVirtualIdentityAddress(
       new DeriveVirtualIdentityAddressRequest(networkId, publicKey)
-    ).then(({ virtualIdentityAddress }) => virtualIdentityAddress.address);
+    ).then(({ virtualIdentityAddress }) => virtualIdentityAddress);
   }
 
   /**
@@ -386,7 +380,7 @@ export class RadixEngineToolkit {
     ).then(({ babylonAccountAddress, publicKey }) => {
       return {
         olympiaAccountAddress: olympiaAddress,
-        babylonAccountAddress: babylonAccountAddress.address,
+        babylonAccountAddress: babylonAccountAddress,
         publicKey: publicKey,
       };
     });
@@ -414,18 +408,17 @@ export class RadixEngineToolkit {
         clockSystemAddress,
       }) => {
         return {
-          faucetComponentAddress: faucetComponentAddress.address,
-          faucetPackageAddress: faucetPackageAddress.address,
-          accountPackageAddress: accountPackageAddress.address,
-          xrdResourceAddress: xrdResourceAddress.address,
-          systemTokenResourceAddress: systemTokenResourceAddress.address,
+          faucetComponentAddress: faucetComponentAddress,
+          faucetPackageAddress: faucetPackageAddress,
+          accountPackageAddress: accountPackageAddress,
+          xrdResourceAddress: xrdResourceAddress,
+          systemTokenResourceAddress: systemTokenResourceAddress,
           ecdsaSecp256k1TokenResourceAddress:
-            ecdsaSecp256k1TokenResourceAddress.address,
-          eddsaEd25519TokenResourceAddress:
-            eddsaEd25519TokenResourceAddress.address,
-          packageTokenResourceAddress: packageTokenResourceAddress.address,
-          epochManagerComponentAddress: epochManagerSystemAddress.address,
-          clockComponentAddress: clockSystemAddress.address,
+            ecdsaSecp256k1TokenResourceAddress,
+          eddsaEd25519TokenResourceAddress: eddsaEd25519TokenResourceAddress,
+          packageTokenResourceAddress: packageTokenResourceAddress,
+          epochManagerComponentAddress: epochManagerSystemAddress,
+          clockComponentAddress: clockSystemAddress,
         };
       }
     );
@@ -558,7 +551,7 @@ export interface AddressInformation {
   /**
    * The type of entity that's referenced by the address.
    */
-  entityType: EntityAddress.EntityType;
+  entityType: EntityType;
 
   /**
    * The data encoded in the address.

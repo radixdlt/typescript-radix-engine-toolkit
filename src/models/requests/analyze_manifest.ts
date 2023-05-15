@@ -16,7 +16,7 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { EntityAddress, TransactionManifest } from "../../models";
+import { TransactionManifest } from "../../models";
 import * as Serializers from "../serializers";
 
 export class AnalyzeManifestRequest {
@@ -46,22 +46,22 @@ export class AnalyzeManifestRequest {
 }
 
 export class AnalyzeManifestResponse {
-  packageAddresses: Array<EntityAddress.PackageAddress>;
-  componentAddresses: Array<EntityAddress.ComponentAddress>;
-  resourceAddresses: Array<EntityAddress.ResourceAddress>;
-  accountAddresses: Array<EntityAddress.ComponentAddress>;
-  accountsRequiringAuth: Array<EntityAddress.ComponentAddress>;
-  accountsWithdrawnFrom: Array<EntityAddress.ComponentAddress>;
-  accountsDepositedInto: Array<EntityAddress.ComponentAddress>;
+  packageAddresses: Array<string>;
+  componentAddresses: Array<string>;
+  resourceAddresses: Array<string>;
+  accountAddresses: Array<string>;
+  accountsRequiringAuth: Array<string>;
+  accountsWithdrawnFrom: Array<string>;
+  accountsDepositedInto: Array<string>;
 
   constructor(
-    packageAddresses: Array<EntityAddress.PackageAddress>,
-    componentAddresses: Array<EntityAddress.ComponentAddress>,
-    resourceAddresses: Array<EntityAddress.ResourceAddress>,
-    accountAddresses: Array<EntityAddress.ComponentAddress>,
-    accountsRequiringAuth: Array<EntityAddress.ComponentAddress>,
-    accountsWithdrawnFrom: Array<EntityAddress.ComponentAddress>,
-    accountsDepositedInto: Array<EntityAddress.ComponentAddress>
+    packageAddresses: Array<string>,
+    componentAddresses: Array<string>,
+    resourceAddresses: Array<string>,
+    accountAddresses: Array<string>,
+    accountsRequiringAuth: Array<string>,
+    accountsWithdrawnFrom: Array<string>,
+    accountsDepositedInto: Array<string>
   ) {
     this.packageAddresses = packageAddresses;
     this.componentAddresses = componentAddresses;

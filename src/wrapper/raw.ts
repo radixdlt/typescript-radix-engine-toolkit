@@ -46,7 +46,6 @@ import {
   DeriveVirtualIdentityAddressResponse,
   EncodeAddressRequest,
   EncodeAddressResponse,
-  EntityAddress,
   InformationRequest,
   InformationResponse,
   KnownEntityAddressesRequest,
@@ -249,29 +248,9 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let response = ret.invoke(
-      request,
-      ret.exports.encode_address,
-      EntityAddress.EntityAddress
-    );
-    if (response.type === "ComponentAddress") {
-      response = plainToInstance(
-        EntityAddress.ComponentAddress,
-        instanceToPlain(response)
-      );
-    } else if (response.type === "ResourceAddress") {
-      response = plainToInstance(
-        EntityAddress.ResourceAddress,
-        instanceToPlain(response)
-      );
-    } else if (response.type === "PackageAddress") {
-      response = plainToInstance(
-        EntityAddress.PackageAddress,
-        instanceToPlain(response)
-      );
-    }
+    let response = ret.invoke(request, ret.exports.encode_address, String);
 
-    return response;
+    return response.toString();
   }
 
   public static async decodeAddress(

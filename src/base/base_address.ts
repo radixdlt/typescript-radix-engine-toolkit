@@ -15,13 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { EntityAddress } from "../models";
-
 export interface IAddress {
   address: string;
   networkId: () => Promise<number>;
   networkName: () => Promise<string>;
-  entityType: () => Promise<EntityAddress.EntityType>;
+  entityType: () => Promise<string>;
   data: () => Promise<Uint8Array>;
   hrp: () => Promise<string>;
 }

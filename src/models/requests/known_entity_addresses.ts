@@ -16,7 +16,6 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { EntityAddress } from "../../models";
 import * as Serializers from "../serializers";
 
 export class KnownEntityAddressesRequest {
@@ -34,56 +33,56 @@ export class KnownEntityAddressesRequest {
 
 export class KnownEntityAddressesResponse {
   @Expose({ name: "faucet_component_address" })
-  @Type(() => EntityAddress.ComponentAddress)
-  faucetComponentAddress: EntityAddress.ComponentAddress;
+  @Type(() => String)
+  faucetComponentAddress: string;
 
   @Expose({ name: "faucet_package_address" })
-  @Type(() => EntityAddress.PackageAddress)
-  faucetPackageAddress: EntityAddress.PackageAddress;
+  @Type(() => String)
+  faucetPackageAddress: string;
 
   @Expose({ name: "account_package_address" })
-  @Type(() => EntityAddress.PackageAddress)
-  accountPackageAddress: EntityAddress.PackageAddress;
+  @Type(() => String)
+  accountPackageAddress: string;
 
   @Expose({ name: "xrd_resource_address" })
-  @Type(() => EntityAddress.ResourceAddress)
-  xrdResourceAddress: EntityAddress.ResourceAddress;
+  @Type(() => String)
+  xrdResourceAddress: string;
 
   @Expose({ name: "system_token_resource_address" })
-  @Type(() => EntityAddress.ResourceAddress)
-  systemTokenResourceAddress: EntityAddress.ResourceAddress;
+  @Type(() => String)
+  systemTokenResourceAddress: string;
 
   @Expose({ name: "ecdsa_secp256k1_token_resource_address" })
-  @Type(() => EntityAddress.ResourceAddress)
-  ecdsaSecp256k1TokenResourceAddress: EntityAddress.ResourceAddress;
+  @Type(() => String)
+  ecdsaSecp256k1TokenResourceAddress: string;
 
   @Expose({ name: "eddsa_ed25519_token_resource_address" })
-  @Type(() => EntityAddress.ResourceAddress)
-  eddsaEd25519TokenResourceAddress: EntityAddress.ResourceAddress;
+  @Type(() => String)
+  eddsaEd25519TokenResourceAddress: string;
 
   @Expose({ name: "package_token_resource_address" })
-  @Type(() => EntityAddress.ResourceAddress)
-  packageTokenResourceAddress: EntityAddress.ResourceAddress;
+  @Type(() => String)
+  packageTokenResourceAddress: string;
 
   @Expose({ name: "epoch_manager_system_address" })
-  @Type(() => EntityAddress.ComponentAddress)
-  epochManagerSystemAddress: EntityAddress.ComponentAddress;
+  @Type(() => String)
+  epochManagerSystemAddress: string;
 
   @Expose({ name: "clock_system_address" })
-  @Type(() => EntityAddress.ComponentAddress)
-  clockSystemAddress: EntityAddress.ComponentAddress;
+  @Type(() => String)
+  clockSystemAddress: string;
 
   constructor(
-    faucetComponentAddress: EntityAddress.ComponentAddress,
-    faucetPackageAddress: EntityAddress.PackageAddress,
-    accountPackageAddress: EntityAddress.PackageAddress,
-    xrdResourceAddress: EntityAddress.ResourceAddress,
-    systemTokenResourceAddress: EntityAddress.ResourceAddress,
-    ecdsaSecp256k1TokenResourceAddress: EntityAddress.ResourceAddress,
-    eddsaEd25519TokenResourceAddress: EntityAddress.ResourceAddress,
-    packageTokenResourceAddress: EntityAddress.ResourceAddress,
-    epochManagerSystemAddress: EntityAddress.ComponentAddress,
-    clockSystemAddress: EntityAddress.ComponentAddress
+    faucetComponentAddress: string,
+    faucetPackageAddress: string,
+    accountPackageAddress: string,
+    xrdResourceAddress: string,
+    systemTokenResourceAddress: string,
+    ecdsaSecp256k1TokenResourceAddress: string,
+    eddsaEd25519TokenResourceAddress: string,
+    packageTokenResourceAddress: string,
+    epochManagerSystemAddress: string,
+    clockSystemAddress: string
   ) {
     this.faucetComponentAddress = faucetComponentAddress;
     this.faucetPackageAddress = faucetPackageAddress;

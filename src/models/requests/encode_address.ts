@@ -17,7 +17,6 @@
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { Convert } from "../..";
-import { EntityAddress } from "../../models";
 import * as Serializers from "../serializers";
 
 export class EncodeAddressRequest {
@@ -50,4 +49,4 @@ export class EncodeAddressRequest {
   }
 }
 
-export type EncodeAddressResponse = EntityAddress.EntityAddress;
+export type EncodeAddressResponse = string;

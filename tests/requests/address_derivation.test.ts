@@ -20,7 +20,6 @@ import {
   DeriveBabylonAddressFromOlympiaAddressRequest,
   DeriveVirtualAccountAddressRequest,
   DeriveVirtualIdentityAddressRequest,
-  EntityAddress,
   PublicKey,
   RawRadixEngineToolkit,
 } from "../../src";
@@ -31,12 +30,10 @@ describe.each([
     expectedPublicKey: new PublicKey.EcdsaSecp256k1(
       "03c32f9761dd3f961a3d12747e54db6b821bd022ef92b9ebf591bfe186885baa21"
     ),
-    expectedAccountAddress: new EntityAddress.ComponentAddress(
-      "account_sim1ppkfdmv0q2cwz9cjxk5t8u0zx6pdydd9p2jv22nuwdhqyn4rgj"
-    ),
-    expectedIdentityAddress: new EntityAddress.ComponentAddress(
-      "identity_sim1pdkfdmv0q2cwz9cjxk5t8u0zx6pdydd9p2jv22nuwdhqkcvkcq"
-    ),
+    expectedAccountAddress:
+      "account_sim1ppkfdmv0q2cwz9cjxk5t8u0zx6pdydd9p2jv22nuwdhqyn4rgj",
+    expectedIdentityAddress:
+      "identity_sim1pdkfdmv0q2cwz9cjxk5t8u0zx6pdydd9p2jv22nuwdhqkcvkcq",
     expectedOlympiaAddress:
       "rdx1qspuxtuhv8wnl9s685f8glj5md4cyx7sythe9w0t7kgmlcvx3pd65gg593xqj",
   },

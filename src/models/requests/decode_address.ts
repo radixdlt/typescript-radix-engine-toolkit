@@ -16,7 +16,7 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { Convert, EntityAddress } from "../../";
+import { Convert, EntityType } from "../../";
 import * as Serializers from "../serializers";
 
 export class DecodeAddressRequest {
@@ -39,7 +39,7 @@ export class DecodeAddressResponse {
   networkName: string;
 
   @Expose({ name: "entity_type" })
-  entityType: EntityAddress.EntityType;
+  entityType: EntityType;
 
   @Expose()
   @Type(() => Uint8Array)
@@ -55,7 +55,7 @@ export class DecodeAddressResponse {
   constructor(
     networkId: number,
     networkName: string,
-    entityType: EntityAddress.EntityType,
+    entityType: EntityType,
     data: Uint8Array | string,
     hrp: string
   ) {
