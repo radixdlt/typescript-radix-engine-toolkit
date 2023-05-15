@@ -53,6 +53,8 @@ export class ExtractAddressesFromManifestResponse {
   accountsRequiringAuth: Array<string>;
   accountsWithdrawnFrom: Array<string>;
   accountsDepositedInto: Array<string>;
+  identityAddresses: Array<string>;
+  identitiesRequiringAuth: Array<string>;
 
   constructor(
     packageAddresses: Array<string>,
@@ -61,7 +63,9 @@ export class ExtractAddressesFromManifestResponse {
     accountAddresses: Array<string>,
     accountsRequiringAuth: Array<string>,
     accountsWithdrawnFrom: Array<string>,
-    accountsDepositedInto: Array<string>
+    accountsDepositedInto: Array<string>,
+    identityAddresses: Array<string>,
+    identitiesRequiringAuth: Array<string>
   ) {
     this.packageAddresses = packageAddresses;
     this.componentAddresses = componentAddresses;
@@ -70,6 +74,8 @@ export class ExtractAddressesFromManifestResponse {
     this.accountsRequiringAuth = accountsRequiringAuth;
     this.accountsWithdrawnFrom = accountsWithdrawnFrom;
     this.accountsDepositedInto = accountsDepositedInto;
+    this.identityAddresses = identityAddresses;
+    this.identitiesRequiringAuth = identitiesRequiringAuth;
   }
 
   toString(): string {
