@@ -49,6 +49,7 @@ const manifestSborValueTypeOptions: TypeOptions = {
       },
       { name: "Expression", value: ManifestSborValue.Expression },
       { name: "Blob", value: ManifestSborValue.Blob },
+      { name: "Bytes", value: ManifestSborValue.Bytes },
     ],
   },
 };
@@ -82,6 +83,7 @@ const scryptoSborValueTypeOptions: TypeOptions = {
         value: ScryptoSborValue.NonFungibleLocalId,
       },
       { name: "Reference", value: ScryptoSborValue.Reference },
+      { name: "Bytes", value: ScryptoSborValue.Bytes },
     ],
   },
 };

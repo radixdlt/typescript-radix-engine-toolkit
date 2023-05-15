@@ -555,10 +555,10 @@ export class Array extends Value {
 }
 
 export class Map extends Value {
-  @Expose({ name: "key_value_kind" })
+  @Expose({ name: "key_kind" })
   keyValueKind: Kind;
 
-  @Expose({ name: "value_value_kind" })
+  @Expose({ name: "value_kind" })
   valueValueKind: Kind;
 
   @Expose({ name: "entries" })
@@ -603,7 +603,7 @@ export class Map extends Value {
 }
 
 export class Tuple extends Value {
-  @Expose({ name: "elements" })
+  @Expose({ name: "fields" })
   @Type(() => Object)
   internalFields: globalThis.Array<Object>;
 
@@ -847,24 +847,10 @@ export class Address extends Value implements IAddress {
 
 export class Bucket extends Value {
   @Expose()
-  @Type(() => Value, {
-    discriminator: {
-      property: "type",
-      subTypes: [
-        {
-          name: "String",
-          value: String,
-        },
-        {
-          name: "U32",
-          value: U32,
-        },
-      ],
-    },
-  })
-  value: String | U32;
+  @Type(() => String)
+  value: string;
 
-  constructor(identifier: String | U32) {
+  constructor(identifier: string) {
     super(Kind.Bucket);
     this.value = identifier;
   }
@@ -880,24 +866,10 @@ export class Bucket extends Value {
 
 export class Proof extends Value {
   @Expose()
-  @Type(() => Value, {
-    discriminator: {
-      property: "type",
-      subTypes: [
-        {
-          name: "String",
-          value: String,
-        },
-        {
-          name: "U32",
-          value: U32,
-        },
-      ],
-    },
-  })
-  value: String | U32;
+  @Type(() => String)
+  value: string;
 
-  constructor(identifier: String | U32) {
+  constructor(identifier: string) {
     super(Kind.Proof);
     this.value = identifier;
   }
@@ -926,54 +898,6 @@ export class Expression extends Value {
 
   static entireAuthZone(): Expression {
     return new Expression("ENTIRE_AUTH_ZONE");
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class Integer {
-  @Expose()
-  readonly type: string = "Integer";
-
-  @Expose()
-  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.BigIntAsString.deserialize, {
-    toClassOnly: true,
-  })
-  value: bigint;
-
-  constructor(value: bigint) {
-    this.value = value;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class UUID {
-  @Expose()
-  readonly type: string = "UUID";
-
-  @Expose()
-  @Transform(Serializers.BigIntAsString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.BigIntAsString.deserialize, {
-    toClassOnly: true,
-  })
-  value: bigint;
-
-  constructor(value: bigint) {
-    this.value = value;
   }
 
   toString(): string {
@@ -1033,21 +957,10 @@ export class Bytes extends Value {
 
 export class NonFungibleLocalId extends Value {
   @Expose()
-  @Type(() => Object, {
-    discriminator: {
-      property: "type",
-      subTypes: [
-        { name: "UUID", value: UUID },
-        { name: "Integer", value: Integer },
-        { name: "String", value: String },
-        { name: "Bytes", value: Bytes },
-      ],
-    },
-    keepDiscriminatorProperty: true,
-  })
-  value: UUID | Integer | String | Bytes;
+  @Type(() => String)
+  value: string;
 
-  constructor(value: UUID | Integer | String | Bytes) {
+  constructor(value: string) {
     super(Kind.NonFungibleLocalId);
     this.value = value;
   }

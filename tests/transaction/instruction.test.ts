@@ -251,7 +251,7 @@ describe.each([
         []
       )
     ),
-    expectedSerialization: `{"instruction":"SET_PACKAGE_ROYALTY_CONFIG","package_address":{"type":"Address","address":"package_rdx1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqzrhqe8"},"royalty_config":{"type":"Map","key_value_kind":"String","value_value_kind":"Tuple","entries":[]}}`,
+    expectedSerialization: `{"instruction":"SET_PACKAGE_ROYALTY_CONFIG","package_address":{"type":"Address","address":"package_rdx1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqqzrhqe8"},"royalty_config":{"type":"Map","key_kind":"String","value_kind":"Tuple","entries":[]}}`,
   },
   {
     expectedObject: new Instruction.SetComponentRoyaltyConfig(
@@ -267,7 +267,7 @@ describe.each([
         new ManifestAstValue.U32(1),
       ])
     ),
-    expectedSerialization: `{"instruction":"SET_COMPONENT_ROYALTY_CONFIG","component_address":{"type":"Address","address":"component_rdx1qtkryz5scup945usk39qjc2yjh6l5zsyuh8t7v5pk0tsrdcazt"},"royalty_config":{"type":"Tuple","elements":[{"type":"Map","key_value_kind":"String","value_value_kind":"U32","entries":[]},{"type":"U32","value":"1"}]}}`,
+    expectedSerialization: `{"instruction":"SET_COMPONENT_ROYALTY_CONFIG","component_address":{"type":"Address","address":"component_rdx1qtkryz5scup945usk39qjc2yjh6l5zsyuh8t7v5pk0tsrdcazt"},"royalty_config":{"type":"Tuple","elements":[{"type":"Map","key_kind":"String","value_kind":"U32","entries":[]},{"type":"U32","value":"1"}]}}`,
   },
   {
     expectedObject: new Instruction.ClaimPackageRoyalty(
@@ -305,7 +305,7 @@ describe.each([
         []
       )
     ),
-    expectedSerialization: `{"instruction":"MINT_NON_FUNGIBLE","resource_address":{"type":"Address","address":"resource_sim1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqz8qety"},"entries":{"type":"Map","key_value_kind":"NonFungibleLocalId","value_value_kind":"Tuple","entries":[]}}`,
+    expectedSerialization: `{"instruction":"MINT_NON_FUNGIBLE","resource_address":{"type":"Address","address":"resource_sim1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqz8qety"},"entries":{"type":"Map","key_kind":"NonFungibleLocalId","value_kind":"Tuple","entries":[]}}`,
   },
   {
     expectedObject: new Instruction.CreateFungibleResource(
@@ -321,7 +321,7 @@ describe.each([
         []
       )
     ),
-    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE","divisibility":{"type":"U8","value":"18"},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_value_kind":"Enum","value_value_kind":"Tuple","entries":[]}}`,
+    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE","divisibility":{"type":"U8","value":"18"},"metadata":{"type":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]}}`,
   },
   {
     expectedObject: new Instruction.CreateFungibleResourceWithInitialSupply(
@@ -338,7 +338,7 @@ describe.each([
       ),
       new ManifestAstValue.Decimal(1)
     ),
-    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY","divisibility":{"type":"U8","value":"18"},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_value_kind":"Enum","value_value_kind":"Tuple","entries":[]},"initial_supply":{"type":"Decimal","value":"1"}}`,
+    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY","divisibility":{"type":"U8","value":"18"},"metadata":{"type":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]},"initial_supply":{"type":"Decimal","value":"1"}}`,
   },
   {
     expectedObject: new Instruction.CreateIdentity(
@@ -448,7 +448,7 @@ describe.each([
         []
       )
     ),
-    expectedSerialization: `{"instruction":"CREATE_NON_FUNGIBLE_RESOURCE","id_type":{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"schema":{"type":"Tuple","elements":[{"type":"Tuple","elements":[{"type":"Array","element_kind":"Enum","elements":[]},{"type":"Array","element_kind":"Tuple","elements":[]},{"type":"Array","element_kind":"Enum","elements":[]}]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"type":"U8","value":"64"}]},{"type":"Array","element_kind":"String","elements":[]}]},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_value_kind":"Enum","value_value_kind":"Tuple","entries":[]}}`,
+    expectedSerialization: `{"instruction":"CREATE_NON_FUNGIBLE_RESOURCE","id_type":{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"schema":{"type":"Tuple","elements":[{"type":"Tuple","elements":[{"type":"Array","element_kind":"Enum","elements":[]},{"type":"Array","element_kind":"Tuple","elements":[]},{"type":"Array","element_kind":"Enum","elements":[]}]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"type":"U8","value":"64"}]},{"type":"Array","element_kind":"String","elements":[]}]},"metadata":{"type":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"type":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]}}`,
   },
   {
     expectedObject: new Instruction.PublishPackage(
@@ -501,7 +501,7 @@ describe.each([
         new ManifestAstValue.Enum(new ManifestAstValue.EnumU8Discriminator(0)),
       ])
     ),
-    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE","code":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"royalty_config":{"type":"Map","key_value_kind":"String","value_value_kind":"Tuple","entries":[]},"metadata":{"type":"Map","key_value_kind":"String","value_value_kind":"String","entries":[]},"access_rules":{"type":"Tuple","elements":[{"type":"Map","key_value_kind":"Tuple","value_value_kind":"Enum","entries":[]},{"type":"Map","key_value_kind":"String","value_value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},{"type":"Map","key_value_kind":"Tuple","value_value_kind":"Enum","entries":[]},{"type":"Map","key_value_kind":"String","value_value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]}}`,
+    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE","code":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"type":"Blob","hash":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"royalty_config":{"type":"Map","key_kind":"String","value_kind":"Tuple","entries":[]},"metadata":{"type":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"type":"Tuple","elements":[{"type":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"type":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},{"type":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"type":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"type":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]}}`,
   },
 ])(
   "Serialization test for $expectedSerialization",
