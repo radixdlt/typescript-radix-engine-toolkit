@@ -30,7 +30,7 @@ export abstract class Instruction {
 
 const manifestAstValueTypeOptions: TypeOptions = {
   discriminator: {
-    property: "type",
+    property: "kind",
     subTypes: [
       { name: "Bool", value: ManifestAstValue.Bool },
       { name: "U8", value: ManifestAstValue.U8 },
@@ -809,15 +809,15 @@ export class BurnResource extends Instruction {
  */
 export class RecallResource extends Instruction {
   @Expose({ name: "vault_id" })
-  @Type(() => ManifestAstValue.Bytes)
-  vaultId: ManifestAstValue.Bytes;
+  @Type(() => ManifestAstValue.Address)
+  vaultId: ManifestAstValue.Address;
 
   @Expose({ name: "amount" })
   @Type(() => ManifestAstValue.Decimal)
   amount: ManifestAstValue.Decimal;
 
   constructor(
-    vaultId: ManifestAstValue.Bytes,
+    vaultId: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
   ) {
     super(Kind.RecallResource);
@@ -1315,7 +1315,7 @@ export class CreateAccessController extends Instruction {
   @Expose({ name: "timed_recovery_delay_in_minutes" })
   @Type(() => ManifestAstValue.Value, {
     discriminator: {
-      property: "type",
+      property: "kind",
       subTypes: [
         { name: "Some", value: ManifestAstValue.Some },
         { name: "None", value: ManifestAstValue.None },
@@ -1379,13 +1379,13 @@ export class CreateIdentity extends Instruction {
  * Creates a new identity native component with the passed access rule.
  */
 export class CreateIdentityAdvanced extends Instruction {
-  @Expose({ name: "access_rule" })
-  @Type(() => ManifestAstValue.Enum)
-  accessRule: ManifestAstValue.Enum;
+  @Expose({ name: "config" })
+  @Type(() => ManifestAstValue.Tuple)
+  config: ManifestAstValue.Tuple;
 
-  constructor(accessRule: ManifestAstValue.Enum) {
+  constructor(config: ManifestAstValue.Tuple) {
     super(Kind.CreateIdentityAdvanced);
-    this.accessRule = accessRule;
+    this.config = config;
   }
 
   toString(): string {
@@ -1440,13 +1440,13 @@ export class CreateAccount extends Instruction {
  * Creates a new global account component which has the withdraw rule seen in the rule.
  */
 export class CreateAccountAdvanced extends Instruction {
-  @Expose({ name: "withdraw_rule" })
-  @Type(() => ManifestAstValue.Enum)
-  withdrawRule: ManifestAstValue.Enum;
+  @Expose({ name: "config" })
+  @Type(() => ManifestAstValue.Tuple)
+  config: ManifestAstValue.Tuple;
 
-  constructor(withdrawRule: ManifestAstValue.Enum) {
+  constructor(config: ManifestAstValue.Tuple) {
     super(Kind.CreateAccountAdvanced);
-    this.withdrawRule = withdrawRule;
+    this.config = config;
   }
 
   toString(): string {

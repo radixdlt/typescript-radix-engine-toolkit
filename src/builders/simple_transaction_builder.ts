@@ -328,20 +328,14 @@ export class SimpleTransactionBuilder {
           new Instruction.TakeFromWorktopByAmount(
             new ManifestAstValue.Address(resourceAddress),
             new ManifestAstValue.Decimal(amount),
-            new ManifestAstValue.Bucket(
-              new ManifestAstValue.String(`bucket${depositCounter}`)
-            )
+            new ManifestAstValue.Bucket(`bucket${depositCounter}`)
           )
         );
         instructions.push(
           new Instruction.CallMethod(
             new ManifestAstValue.Address(to),
             new ManifestAstValue.String("deposit"),
-            [
-              new ManifestAstValue.Bucket(
-                new ManifestAstValue.String(`bucket${depositCounter}`)
-              ),
-            ]
+            [new ManifestAstValue.Bucket(`bucket${depositCounter}`)]
           )
         );
         depositCounter++;

@@ -346,9 +346,7 @@ const summarizeTransaction = async (
 
         // Assuming that the bucket id is a string since this is what the LTS library produces and
         // because the non-string IDs are currently bugged in Scrypto.
-        const bucketId = (
-          takeFromWorktopInstruction.intoBucket.value as ManifestAstValue.String
-        ).value;
+        const bucketId = takeFromWorktopInstruction.intoBucket.value;
         const resourceAddress =
           takeFromWorktopInstruction.resourceAddress.value;
         const amount = takeFromWorktopInstruction.amount.value;
@@ -430,8 +428,7 @@ const summarizeTransaction = async (
           let depositAccountAddress =
             callMethodInstruction.componentAddress.value;
           let depositBucketId = (
-            (callMethodInstruction.arguments[0] as ManifestAstValue.Bucket)
-              .value as ManifestAstValue.String
+            callMethodInstruction.arguments[0] as ManifestAstValue.Bucket
           ).value;
           let [depositResourceAddress, depositAmount] =
             bucketAmounts[depositBucketId];

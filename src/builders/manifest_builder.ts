@@ -540,7 +540,7 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   recallResource(
-    vaultId: ManifestAstValue.Bytes,
+    vaultId: ManifestAstValue.Address,
     amount: Decimal | number | string | ManifestAstValue.Decimal
   ): ManifestBuilder {
     let instruction = new RecallResource(vaultId, resolveDecimal(amount));
@@ -890,7 +890,7 @@ export class ManifestBuilder {
    * @param accessRule The access rule to protect the identity with
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createIdentityAdvanced(accessRule: ManifestAstValue.Enum): ManifestBuilder {
+  createIdentityAdvanced(accessRule: ManifestAstValue.Tuple): ManifestBuilder {
     let instruction = new CreateIdentityAdvanced(accessRule);
     this.instructions.push(instruction);
     return this;
@@ -901,7 +901,7 @@ export class ManifestBuilder {
    * @param withdrawRule The withdraw rule to associate with the account.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createAccountAdvanced(withdrawRule: ManifestAstValue.Enum): ManifestBuilder {
+  createAccountAdvanced(withdrawRule: ManifestAstValue.Tuple): ManifestBuilder {
     let instruction = new CreateAccountAdvanced(withdrawRule);
     this.instructions.push(instruction);
     return this;
@@ -926,17 +926,13 @@ class SequentialIdAllocator {
   constructor() {}
 
   newBucket(): ManifestAstValue.Bucket {
-    let bucket = new ManifestAstValue.Bucket(
-      new ManifestAstValue.String(`bucket${this.bucketId}`)
-    );
+    let bucket = new ManifestAstValue.Bucket(`bucket${this.bucketId}`);
     this.bucketId++;
     return bucket;
   }
 
   newProof(): ManifestAstValue.Proof {
-    let proof = new ManifestAstValue.Proof(
-      new ManifestAstValue.String(`proof${this.proofId}`)
-    );
+    let proof = new ManifestAstValue.Proof(`proof${this.proofId}`);
     this.proofId++;
     return proof;
   }
