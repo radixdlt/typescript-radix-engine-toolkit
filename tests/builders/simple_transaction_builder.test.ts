@@ -39,14 +39,14 @@ describe("SimpleTransactionBuilder Tests", () => {
     );
 
     let account1 =
-      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+      "account_sim1c8vgq8vk50vjtu7xqmg23cxy02pwepdnpkkgecxum5552e9nq7an47";
     let account2 =
-      "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+      "account_sim1cy0vpwuud0shkqjh83w2rjrq8q2gdc9lnuq8gpwcmemn5l6mp8s3cg";
 
     let resourceAddress1 =
-      "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+      "resource_sim1thl0ly2vj88x4pl5nezlpu9jry565d032x2aepl9z8u3hf5r0hlntq";
     let resourceAddress2 =
-      "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
+      "resource_sim1th8c3mcq3nahd7k2urjc0e7ak93jhxqdlw5q85ql9sjl09085mepzq";
 
     // Act
     const builder = await SimpleTransactionBuilder.new({
@@ -109,16 +109,16 @@ describe("SimpleTransactionBuilder Tests", () => {
     );
 
     let account1 =
-      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+      "account_sim1c8vgq8vk50vjtu7xqmg23cxy02pwepdnpkkgecxum5552e9nq7an47";
     let account2 =
-      "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+      "account_sim1cy0vpwuud0shkqjh83w2rjrq8q2gdc9lnuq8gpwcmemn5l6mp8s3cg";
     let account3 =
-      "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+      "account_sim1cys6csq3fych50s9wuh78y36q7e2j9pkn8f8wntf7zp727w3dutt45";
 
     let resourceAddress1 =
-      "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+      "resource_sim1thl0ly2vj88x4pl5nezlpu9jry565d032x2aepl9z8u3hf5r0hlntq";
     let resourceAddress2 =
-      "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
+      "resource_sim1t555v3tetksc9f2k7a0ssjj6taad6sxkxaurjht2lu8x577e4mvkxe";
 
     // Act
     const builder = await SimpleTransactionBuilder.new({
@@ -220,12 +220,12 @@ describe("SimpleTransactionBuilder Tests", () => {
     );
 
     let account1 =
-      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+      "account_sim1c8vgq8vk50vjtu7xqmg23cxy02pwepdnpkkgecxum5552e9nq7an47";
     let account2 =
-      "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+      "account_sim1cy0vpwuud0shkqjh83w2rjrq8q2gdc9lnuq8gpwcmemn5l6mp8s3cg";
 
     let resourceAddress1 =
-      "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+      "resource_sim1thl0ly2vj88x4pl5nezlpu9jry565d032x2aepl9z8u3hf5r0hlntq";
 
     // Act
     const builder = await SimpleTransactionBuilder.new({
@@ -293,16 +293,16 @@ describe("SimpleTransactionBuilder Tests", () => {
     );
 
     let account1 =
-      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+      "account_sim1c8vgq8vk50vjtu7xqmg23cxy02pwepdnpkkgecxum5552e9nq7an47";
     let account2 =
-      "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+      "account_sim1cy0vpwuud0shkqjh83w2rjrq8q2gdc9lnuq8gpwcmemn5l6mp8s3cg";
 
     let resourceAddress1 =
-      "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+      "resource_sim1thl0ly2vj88x4pl5nezlpu9jry565d032x2aepl9z8u3hf5r0hlntq";
     let resourceAddress2 =
-      "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
+      "resource_sim1th8c3mcq3nahd7k2urjc0e7ak93jhxqdlw5q85ql9sjl09085mepzq";
     let account3 =
-      "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+      "account_sim1cys6csq3fych50s9wuh78y36q7e2j9pkn8f8wntf7zp727w3dutt45";
 
     // Act
     const builder = await SimpleTransactionBuilder.new({
@@ -366,7 +366,7 @@ describe("SimpleTransactionBuilder Tests", () => {
   it("Simple transaction builder free XRD transactions are summarized as expected", async () => {
     // Arrange
     let account1 =
-      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+      "account_sim1c8vgq8vk50vjtu7xqmg23cxy02pwepdnpkkgecxum5552e9nq7an47";
 
     // Act
     const notarizedTransaction =

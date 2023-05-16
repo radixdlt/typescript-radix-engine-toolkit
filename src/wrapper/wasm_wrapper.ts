@@ -88,7 +88,7 @@ class RadixEngineToolkitWasmWrapper {
     // Read and deserialize the response
     let responseString = this.readStringFromMemory(responsePointer);
     let parsedResponse = JSON.parse(responseString);
-    if (isRetInvocationError(parsedResponse?.["error"])) {
+    if (isRetInvocationError(parsedResponse?.["type"])) {
       throw new Error(
         `Invocation Error. Invocation: """${JSON.stringify(
           request
@@ -293,36 +293,8 @@ interface RadixEngineToolkitExports {
 const isRetInvocationError = (str: any) =>
   str === undefined
     ? false
-    : [
-        "FailedToDecodeHex",
-        "InvalidLength ",
-        "AddressError",
-        "InvalidKind ",
-        "InvalidEnumDiscriminator",
-        "SborEncodeError",
-        "SborDecodeError",
-        "InvalidSborPrefix",
-        "EmptyPayloadError",
-        "UnexpectedAstContents",
-        "ParseError",
-        "InvalidExpressionString",
-        "ManifestCompileError",
-        "ManifestDecompileError",
-        "ManifestGenerationError",
-        "NetworkMismatchError",
-        "UnrecognizedCompiledIntentFormat",
-        "UnrecognizedAddressFormat",
-        "ContentValidationError",
-        "InvalidRequestString",
-        "Infallible",
-        "InvalidConversion",
-        "NoResourceChangesForInstruction",
-        "InvalidBucketId",
-        "BucketExistsError",
-        "TransactionRejectionOrCommitFailure",
-        "NotAnOlympiaAddress",
-        "TransactionNotCommitted",
-        "InvalidPublicKeyType",
-      ].includes(str);
+    : ["InvocationHandlingError", "InvocationInterpretationError"].includes(
+        str
+      );
 
 export { RadixEngineToolkitWasmWrapper };
