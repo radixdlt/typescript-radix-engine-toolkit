@@ -31,9 +31,9 @@ describe.each([
       "03c32f9761dd3f961a3d12747e54db6b821bd022ef92b9ebf591bfe186885baa21"
     ),
     expectedAccountAddress:
-      "account_sim1ppkfdmv0q2cwz9cjxk5t8u0zx6pdydd9p2jv22nuwdhqyn4rgj",
+      "account_sim168gge5mvjmkc7q4suyt3yddgk0c7yd5z6g662z4yc548cumw8nztch",
     expectedIdentityAddress:
-      "identity_sim1pdkfdmv0q2cwz9cjxk5t8u0zx6pdydd9p2jv22nuwdhqkcvkcq",
+      "identity_sim16tgge5mvjmkc7q4suyt3yddgk0c7yd5z6g662z4yc548cumwdmnyar",
     expectedOlympiaAddress:
       "rdx1qspuxtuhv8wnl9s685f8glj5md4cyx7sythe9w0t7kgmlcvx3pd65gg593xqj",
   },

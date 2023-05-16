@@ -29,7 +29,10 @@ describe("essential", () => {
     );
     let expected = new InformationResponse(
       "0.9.0",
-      "9d140797d5641179fa78566b0f3e66fc6fe01e4c"
+      new Uint8Array([
+        90, 126, 108, 82, 70, 91, 148, 113, 124, 115, 179, 253, 48, 20, 52, 255,
+        246, 59, 75, 32,
+      ])
     );
 
     expect(information).toEqual(expected);
