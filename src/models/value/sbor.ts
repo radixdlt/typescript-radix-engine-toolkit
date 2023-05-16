@@ -20,7 +20,7 @@ import { ManifestSborValue, ScryptoSborValue } from "./index";
 
 const manifestSborValueTypeOptions: TypeOptions = {
   discriminator: {
-    property: "type",
+    property: "kind",
     subTypes: [
       { name: "Bool", value: ManifestSborValue.Bool },
       { name: "U8", value: ManifestSborValue.U8 },
@@ -56,7 +56,7 @@ const manifestSborValueTypeOptions: TypeOptions = {
 
 const scryptoSborValueTypeOptions: TypeOptions = {
   discriminator: {
-    property: "type",
+    property: "kind",
     subTypes: [
       { name: "Bool", value: ScryptoSborValue.Bool },
       { name: "U8", value: ScryptoSborValue.U8 },

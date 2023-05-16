@@ -20,16 +20,18 @@ import {
   Convert,
   DecodeAddressRequest,
   EncodeAddressRequest,
+  EncodeAddressResponse,
   RawRadixEngineToolkit,
 } from "../../src";
 
 describe.each([
   {
     expectedAddressBytes: Convert.Uint8Array.from(
-      "000000000000000000000000000000000000000000000000000002"
+      "0d906318c6318c6c4d63f8cc6318c6318cf7bf553d3ca51686318c6318c6"
     ),
-    expectedAddress:
-      "package_sim1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqmre2w5",
+    expectedAddress: new EncodeAddressResponse(
+      "package_sim1pkgxxxxxxxxxcntrlrxxxxxxxxx000648572295xxxxxxxxxxc5z0l"
+    ),
   },
 ])(
   "Address encoding and decoding for $intent",
@@ -47,7 +49,7 @@ describe.each([
     test(`${expectedAddress} decodes to ${expectedAddressBytes}`, async () => {
       // Act
       let address = await RawRadixEngineToolkit.decodeAddress(
-        new DecodeAddressRequest(expectedAddress)
+        new DecodeAddressRequest(expectedAddress.address)
       );
 
       // Assert
