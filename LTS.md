@@ -15,9 +15,9 @@ The following set of classes currently are currently considered to be in LTS:
 
 - `SimpleTransactionBuilder`
 - `LTSRadixEngineToolkit`
-  - `Transaction` API Group
-  - `Derive` API Group
-  - `Utils` API Group
+  - `Transaction` Class
+  - `Derive` Class
+  - `Utils` Class
 
 ## `SimpleTransactionBuilder` - constructing transactions through high-level actions
 
@@ -61,7 +61,7 @@ const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Pro
       > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
       > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
       > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
-      
+
      If you have the private key in memory, you can also do PrivateKey.EddsaEd25519(private_key_bytes).signToSignature(hashToSign) or
      PrivateKey.EcdsaSecp256k1(private_key_bytes).signToSignature(hashToSign).
   */
@@ -153,9 +153,9 @@ const compiledNotarizedTransaction =
 
 This section discusses the functionality provided by the `LTSRadixEngineToolkit` class and provides a number of examples.
 
-### Transaction API Group
+### Transaction Class
 
-A majority of the functionality exposed by this API group is abstracted away by the `SimpleTransactionBuilder` which is responsible for handling the entire transaction construction process and making all of the necessary Radix Engine Toolkit invocations to construct transactions. However, not all of the functions in this group are available through the `SimpleTransactionBuilder` class. Namely, the `summarizeTransaction` function is not.
+A majority of the functionality exposed by this Class is abstracted away by the `SimpleTransactionBuilder` which is responsible for handling the entire transaction construction process and making all of the necessary Radix Engine Toolkit invocations to construct transactions. However, not all of the functions in this group are available through the `SimpleTransactionBuilder` class. Namely, the `summarizeTransaction` function is not.
 
 #### Summarize Transaction
 
@@ -173,13 +173,13 @@ let transactionSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransa
 console.log(transactionSummary)
 ```
 
-### Derive API Group
+### Derive Class
 
 This is a group of functions exposed by the `LTSRadixEngineToolkit` that are used to perform various kinds of derivations. Typically, these are address derivations.
 
 #### Deriving The (Virtual) Account Address from a Public Key
 
-The `Derive` API group of the `LTSRadixEngineToolkit` class exposes methods for deriving the (virtual) account component address associated with a public key.
+The `Derive` Class of the `LTSRadixEngineToolkit` class exposes methods for deriving the (virtual) account component address associated with a public key.
 
 ```ts
 import {
@@ -200,7 +200,7 @@ console.log(address);
 
 #### Deriving The Babylon (Virtual) Account Address from an Olympia Account Address
 
-The `Derive` API group of the `LTSRadixEngineToolkit` class exposes methods for deriving the Babylon (virtual) account component address associated with an Olympia account address.
+The `Derive` Class of the `LTSRadixEngineToolkit` class exposes methods for deriving the Babylon (virtual) account component address associated with an Olympia account address.
 
 ```ts
 import {
@@ -251,11 +251,30 @@ const knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
 console.log(knownAddresses);
 ```
 
-### Utils API Group
+### Address Class
+
+The LTS Radix Engine Toolkit exposes an `Address` class which (as of the time of writing) implements a number of static methods that are useful for determining what type the address is. The following are the methods implemented on this class:
+
+- `isGlobalAccount`: Takes in an address and returns `true` if the address is of a global account component. Otherwise, it returns false.
+- `isFungibleResource`: Takes in an address and returns `true` if the address is of a fungible resource. Otherwise, it returns false.
+- `isNonFungibleResource`: Takes in an address and returns `true` if the address is of a non-fungible resource. Otherwise, it returns false.
+
+The following is an example of how the `isGlobalAccount` method can be used to verify that a string we've been given is of an account address:
+
+```ts
+import { LTSRadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
+
+const isAccountAddress = await LTSRadixEngineToolkit.Address.isGlobalAccount(
+  "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp"
+);
+console.log(isAccountAddress);
+```
+
+### Utils Class
 
 #### Hashing
 
-The `Utils` API group of the `LTSRadixEngineToolkit` offers a method for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests.
+The `Utils` Class of the `LTSRadixEngineToolkit` offers a method for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests.
 
 ```ts
 import {
