@@ -29,6 +29,7 @@ import {
   SignedTransactionIntent,
   TransactionIntent,
 } from "../models";
+import { EntityType } from "../models/entity_address";
 import { hash } from "../utils";
 import { OlympiaToBabylonAddressMapping, RadixEngineToolkit } from "./default";
 
@@ -203,6 +204,30 @@ export namespace LTSRadixEngineToolkit {
           };
         }
       );
+    }
+  }
+
+  export class Address {
+    static async isGlobalAccount(address: string): Promise<boolean> {
+      const entityType = (await RadixEngineToolkit.decodeAddress(address))
+        .entityType;
+      return (
+        entityType == EntityType.EcdsaSecp256k1VirtualAccountComponent ||
+        entityType == EntityType.EddsaEd25519VirtualAccountComponent ||
+        entityType == EntityType.AccountComponent
+      );
+    }
+
+    static async isFungibleResource(address: string): Promise<boolean> {
+      const entityType = (await RadixEngineToolkit.decodeAddress(address))
+        .entityType;
+      return entityType == EntityType.FungibleResource;
+    }
+
+    static async isNonFungibleResource(address: string): Promise<boolean> {
+      const entityType = (await RadixEngineToolkit.decodeAddress(address))
+        .entityType;
+      return entityType == EntityType.NonFungibleResource;
     }
   }
 
