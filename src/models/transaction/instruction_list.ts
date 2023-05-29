@@ -128,7 +128,7 @@ const instructionTypeOptions: TypeOptions = {
   },
 };
 
-export class InstructionList {
+export abstract class InstructionList {
   readonly type: Kind;
 
   constructor(type: Kind) {
