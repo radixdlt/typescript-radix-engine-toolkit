@@ -277,7 +277,7 @@ export class SimpleTransactionBuilder {
     const transitioned = this.transition();
     const { intentHash } = transitioned.compileIntent();
 
-    for (var signatureSource of signatureSources) {
+    for (const signatureSource of signatureSources) {
       transitioned.sign(signatureSource);
     }
 
@@ -299,7 +299,7 @@ export class SimpleTransactionBuilder {
     const transitioned = this.transition();
     const { intentHash } = transitioned.compileIntent();
 
-    for (var signatureSource of signatureSources) {
+    for (const signatureSource of signatureSources) {
       const signature = await resolveSignatureAsync(
         signatureSource,
         intentHash
