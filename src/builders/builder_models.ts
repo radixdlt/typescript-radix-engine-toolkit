@@ -23,11 +23,18 @@ export function resolveDecimal(amount: Amount): Decimal {
 export type SignFn = (
   hashToSign: Uint8Array
 ) => SignatureWithPublicKey.SignatureWithPublicKey;
+export type AsyncSignFn = (
+  hashToSign: Uint8Array
+) => Promise<SignatureWithPublicKey.SignatureWithPublicKey>;
 export type NotarizeFn = (hashToSign: Uint8Array) => Signature.Signature;
 
 export type SignatureSource =
   | IPrivateKey
   | SignFn
+  | SignatureWithPublicKey.SignatureWithPublicKey;
+export type AsyncSignatureSource =
+  | IPrivateKey
+  | AsyncSignFn
   | SignatureWithPublicKey.SignatureWithPublicKey;
 export type NotarySignatureSource =
   | IPrivateKey
@@ -44,6 +51,21 @@ export function resolveSignature(
     return source;
   } else if (typeof source.signToSignatureWithPublicKey === "function") {
     return source.signToSignatureWithPublicKey(hashToSign);
+  } else {
+    throw new TypeError("Invalid type passed in for signature source");
+  }
+}
+
+export async function resolveSignatureAsync(
+  source: AsyncSignatureSource,
+  hashToSign: Uint8Array
+): Promise<SignatureWithPublicKey.SignatureWithPublicKey> {
+  if (typeof source === "function") {
+    return source(hashToSign);
+  } else if (source instanceof SignatureWithPublicKey.SignatureWithPublicKey) {
+    return Promise.resolve(source);
+  } else if (typeof source.signToSignatureWithPublicKey === "function") {
+    return Promise.resolve(source.signToSignatureWithPublicKey(hashToSign));
   } else {
     throw new TypeError("Invalid type passed in for signature source");
   }

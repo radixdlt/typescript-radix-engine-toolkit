@@ -406,4 +406,106 @@ describe("SimpleTransactionBuilder Tests", () => {
 
     expect(transactionSummary).toEqual(expectedSummary);
   });
+
+  it("Simple transaction builder can generate transactions with more than a single signer", async () => {
+    // Arrange
+    let privateKey1 = new PrivateKey.EddsaEd25519(
+      "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+    );
+    let privateKey2 = new PrivateKey.EddsaEd25519(
+      "3d7f447bce7a669581452010226dc6437cf5efbdaee5ceff25894e8299410404"
+    );
+
+    let resourceAddress1 =
+      "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+    let resourceAddress2 =
+      "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
+    let account3 =
+      "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+
+    let account1 =
+      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+    let account2 =
+      "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+
+    // Act
+    const builder = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 10,
+      fromAccount: account1,
+      signerPublicKey: privateKey1.publicKey(),
+    });
+    const signedTransactionIntent = builder
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 100,
+      })
+      .compileIntentWithSignatures([
+        (hashToSign: Uint8Array) =>
+          privateKey2.signToSignatureWithPublicKey(hashToSign),
+      ]);
+
+    // Assert
+    expect(
+      signedTransactionIntent["signedIntent"].intentSignatures.length
+    ).toBe(1);
+
+    const notarizedTransaction =
+      signedTransactionIntent.compileNotarized(privateKey1);
+    notarizedTransaction
+      .staticallyValidate(0xf2)
+      .then((x) => x.throwIfInvalid());
+  });
+
+  it("Simple transaction builder can generate transactions with more than a single signer async", async () => {
+    // Arrange
+    let privateKey1 = new PrivateKey.EddsaEd25519(
+      "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+    );
+    let privateKey2 = new PrivateKey.EddsaEd25519(
+      "3d7f447bce7a669581452010226dc6437cf5efbdaee5ceff25894e8299410404"
+    );
+
+    let resourceAddress1 =
+      "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+    let resourceAddress2 =
+      "resource_sim1qymzzch4zj3k3emvtx0hxw98e4zktx96z2ewtsrqjprslqfpu7";
+    let account3 =
+      "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+
+    let account1 =
+      "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+    let account2 =
+      "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+
+    // Act
+    const builder = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 10,
+      fromAccount: account1,
+      signerPublicKey: privateKey1.publicKey(),
+    });
+    const signedTransactionIntent = await builder
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 100,
+      })
+      .compileIntentWithSignaturesAsync([
+        (hashToSign: Uint8Array) =>
+          Promise.resolve(privateKey2.signToSignatureWithPublicKey(hashToSign)),
+      ]);
+
+    // Assert
+    expect(
+      signedTransactionIntent["signedIntent"].intentSignatures.length
+    ).toBe(1);
+
+    const notarizedTransaction =
+      signedTransactionIntent.compileNotarized(privateKey1);
+    notarizedTransaction
+      .staticallyValidate(0xf2)
+      .then((x) => x.throwIfInvalid());
+  });
 });
