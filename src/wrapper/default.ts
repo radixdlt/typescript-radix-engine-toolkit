@@ -25,6 +25,7 @@ import {
   DecompileTransactionIntentRequest,
   DecompileUnknownTransactionIntentRequest,
   DeriveBabylonAddressFromOlympiaAddressRequest,
+  DeriveBabylonResourceAddressFromOlympiaResourceAddressRequest,
   DeriveVirtualAccountAddressRequest,
   DeriveVirtualIdentityAddressRequest,
   EncodeAddressRequest,
@@ -370,8 +371,7 @@ export class RadixEngineToolkit {
    * @param olympiaAddress The Olympia account address to derive the associated Babylon virtual
    * account address for.
    * @param networkId The **Babylon** network id to derive the Babylon account address for. This is
-   * primarily used for the Bech32m encoding of addresses. This argument defaults to `1` which is
-   * the network id of the Babylon mainnet
+   * primarily used for the Bech32m encoding of addresses.
    * @returns An object containing all of the mapping information of the address
    */
   static async deriveBabylonAddressFromOlympiaAddress(
@@ -390,6 +390,27 @@ export class RadixEngineToolkit {
         publicKey: publicKey,
       };
     });
+  }
+
+  /**
+   * Given an Olympia resource address, this function deterministically calculates the address of the
+   * associated resource on a Babylon network of a given network id.
+   * @param olympiaResourceAddress The Olympia resource address to derive the associated Babylon
+   * resource address for.
+   * @param networkId The **Babylon** network id to derive the Babylon resource address for. This is
+   * primarily used for the Bech32m encoding of addresses.
+   * @returns A string of the resource address on Babylon
+   */
+  static async deriveBabylonResourceAddressFromOlympiaResourceAddress(
+    olympiaResourceAddress: string,
+    networkId: number
+  ): Promise<string> {
+    return RawRadixEngineToolkit.deriveBabylonResourceAddressFromOlympiaResourceAddress(
+      new DeriveBabylonResourceAddressFromOlympiaResourceAddressRequest(
+        networkId,
+        olympiaResourceAddress
+      )
+    ).then((response) => response.babylonResourceAddress.address);
   }
 
   /**
