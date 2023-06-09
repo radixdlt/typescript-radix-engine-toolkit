@@ -104,10 +104,116 @@ const unsignedTransaction = builder
   .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
   .tipPercentage(0)                // No tip
   .lockedFee(5)                    // Maximum fee of 5 XRD - but requires at least 5 XRD in the account
+  .feePayer(fromAccountAddress)    // The origin of the funds also pays the fees
   */
   .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
   .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
   .compileIntent();
+
+const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNotarize);
+
+const transaction = unsignedTransaction.compileNotarized(signature);
+
+// Will throw if eg the signature is incorrect
+(await transaction.staticallyValidate(NetworkId.RCNetV1)).throwIfInvalid();
+
+// The notarized payload bytes in hex - for submitting to the network.
+const notarizedTransactionHex = transaction.toHex();
+
+// The transaction intent hash is also known as the transaction id - and is used to
+// query APIs or the dashboard for transaction status.
+const transactionIntentHashHex = transaction.intentHashHex();
+// The payload hash - used to disambiguate multiple payloads for the same intent - in the unlikely
+// situation where a notary submits multiple distinct payloads for the same intent.
+const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
+
+// You can then use these to interact with the Core API or Gateway API, eg with the Core API:
+// * Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit`
+// * Check commit status using `transactionIntentHashHex` with `/core/lts/transaction/status`
+```
+
+The `SimpleTransactionBuilder` defaults to the `fromAccount` specified at the object's instantiation-time being the payer of the fees. However, this can be configured such that the `fromAccount` (the account that the resources are being withdrawn from) is different from the `feePayer` (the account that will be paying the network fees). Thus, transactions built with the `fromAccount` and `feePayer` being different will often times need to provide two signatures to be able to access funds from both accounts. The `SimpleTransactionBuilder` allows for that through the `compileIntentWithSignatures` and `compileIntentWithSignaturesAsync` methods which allows the caller to add additional signatures to the transaction. The most convenient way of using this feature is by providing a `sign` function (similar to the one seen in the previous example) to these methods.
+
+The following example expands on the previous example where we now wish to pay fees through one account but transfer funds from another account. This example shows how the `SimpleTransactionBuilder` may be configured to do that and also shows an example `signIntent` method which we will be using here to allow the transaction to spend funds from the `feePayer`'s account.
+
+```ts
+import {
+  NetworkId,
+  PrivateKey,
+  NotarizedTransaction,
+  SimpleTransactionBuilder,
+  Signature,
+  SignatureWithPublicKey,
+  PublicKey,
+  CompiledSignedTransactionIntent,
+} from "@radixdlt/radix-engine-toolkit";
+
+const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
+  /*
+    A function implemented in your internal systems that is able to sign a given hash using the
+    private key corresponding to the given public key, and produce a signature.
+
+    NOTE:
+    - If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures
+      and return Signature.EddsaEd25519(sig_bytes) where sig_bytes are a hex string or a Uint8Array
+    - If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: v || r || s
+      and return Signature.EcdsaSecp256k1(sig_bytes) where sig_bytes are a hex string or a Uint8Array
+      > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
+      > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
+      > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
+
+     If you have the private key in memory, you can also do PrivateKey.EddsaEd25519(private_key_bytes).signToSignature(hashToSign) or
+     PrivateKey.EcdsaSecp256k1(private_key_bytes).signToSignature(hashToSign).
+  */
+};
+
+const signIntent = async (hashToSign: Uint8Array) -> Promise<SignatureWithPublicKey.SignatureWithPublicKey> => {
+  /* Same comment as above. */
+}
+
+// Construction metadata
+const currentEpoch = /* Sourced from /lts/transaction/construction in the Core API - or the Gateway */;
+
+// Example of public key creation (you can also provide a Uint8Array instead of hex in the constructors)
+const exampleEd25519PublicKey = new PublicKey.EddsaEd25519(
+  "026f08db98ef1d0231eb15580da9123db8e25aa1747c8c32e5fd2ec47b8db73d5c"
+);
+const exampleSecp256k1PublicKey = new PublicKey.EcdsaSecp256k1(
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
+);
+
+// Account information
+// Note - the address can either be derived from a public key with `LTSRadixEngineToolkit.Derive.virtualAccountAddress`
+// or from an Olympia address with `LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress`-
+// discussed in more detail in the section below.
+const fromAccountPublicKey = exampleEd25519PublicKey;
+const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+const feePayerAccountAddress = "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp";
+
+// Recipient/s
+const toAccountAddress1 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+const toAccountAddress2 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+
+// The fungible resource being transferred
+const resourceAddress = "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+
+const builder = await SimpleTransactionBuilder.new({
+  networkId: NetworkId.RCNetV1,
+  validFromEpoch: currentEpoch,
+  fromAccount: fromAccountAddress,
+  signerPublicKey: fromAccountPublicKey,
+});
+
+const unsignedTransaction = await builder
+  /* The following defaults are used:
+  .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
+  .tipPercentage(0)                // No tip
+  .lockedFee(5)                    // Maximum fee of 5 XRD - but requires at least 5 XRD in the account
+  */
+  .feePayer(feePayerAccountAddress)
+  .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
+  .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
+  .compileIntentWithSignaturesAsync([signIntent]);
 
 const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNotarize);
 
