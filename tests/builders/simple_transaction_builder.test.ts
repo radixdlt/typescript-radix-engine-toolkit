@@ -494,7 +494,7 @@ describe("SimpleTransactionBuilder Tests", () => {
       })
       .compileIntentWithSignaturesAsync([
         (hashToSign: Uint8Array) =>
-          Promise.resolve(privateKey2.signToSignatureWithPublicKey(hashToSign)),
+          privateKey2.signToSignatureWithPublicKey(hashToSign),
       ]);
 
     // Assert
