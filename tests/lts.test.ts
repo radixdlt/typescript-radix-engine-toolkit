@@ -79,4 +79,39 @@ describe("Address Class", () => {
     // Assert
     expect(isResourceAddress).toBeTruthy();
   });
+
+  it("Address of an Olympia resource can be derived for Babylon", async () => {
+    // Arrange
+    const olympiaResourceAddress =
+      "fix_tr1qdaj7qea3xz8gup5lgaw8duwwwc3z60w9vrnr7p0xr4q98vkk6";
+    const expectedBabylonResourceAddress =
+      "resource_rdx1q9aj7qea3xz8gup5lgaw8duwwwc3z60w9vrnr7p0xr4qpyqs75";
+
+    // Act
+    const babylonResourceAddress =
+      await LTSRadixEngineToolkit.Derive.babylonResourceAddressFromOlympiaResourceAddress(
+        olympiaResourceAddress,
+        NetworkId.Mainnet
+      );
+
+    // Assert
+    expect(babylonResourceAddress).toEqual(expectedBabylonResourceAddress);
+  });
+
+  it("Address of XRD on Olympia resource can be derived for Babylon", async () => {
+    // Arrange
+    const olympiaResourceAddress = "xrd_tr1qyf0x76s";
+    const expectedBabylonResourceAddress =
+      "resource_rdx1qyqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqkcg7wf";
+
+    // Act
+    const babylonResourceAddress =
+      await LTSRadixEngineToolkit.Derive.babylonResourceAddressFromOlympiaResourceAddress(
+        olympiaResourceAddress,
+        NetworkId.Mainnet
+      );
+
+    // Assert
+    expect(babylonResourceAddress).toEqual(expectedBabylonResourceAddress);
+  });
 });
