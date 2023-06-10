@@ -325,6 +325,24 @@ const { babylonAccountAddress, publicKey } =
 console.log(babylonAccountAddress);
 ```
 
+#### Deriving The Babylon Resource Address from an Olympia Account Address
+
+The `Derive` Class of the `LTSRadixEngineToolkit` class exposes methods for deriving the Babylon resource address from an Olympia resource address.
+
+```ts
+import {
+  LTSRadixEngineToolkit,
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
+
+const olympiaResourceAddress = /* Some Olympia resource address */ 
+const babylonResourceAddress =
+  await LTSRadixEngineToolkit.Derive.babylonResourceAddressFromOlympiaResourceAddress(
+    olympiaResourceAddress,
+    NetworkId.Mainnet
+  );
+```
+
 #### Deriving Known Addresses
 
 There are various entities created at the Babylon genesis which have a known set of addresses. The following entities (and their addresses) are all created at genesis:

@@ -166,6 +166,26 @@ export namespace LTSRadixEngineToolkit {
     }
 
     /**
+     * Given an Olympia account address, this function deterministically calculates the address of
+     * the associated virtual account on a Babylon network of a given network id.
+     * @param olympiaResourceAddress The Olympia account address to derive the associated Babylon virtual
+     * account address for.
+     * @param networkId The **Babylon** network id to derive the Babylon account address for. This is
+     * primarily used for the Bech32m encoding of addresses. This argument defaults to `1` which is
+     * the network id of the Babylon mainnet
+     * @returns An object containing all of the mapping information of the address
+     */
+    static async babylonResourceAddressFromOlympiaResourceAddress(
+      olympiaResourceAddress: string,
+      networkId: number
+    ): Promise<string> {
+      return RadixEngineToolkit.deriveBabylonResourceAddressFromOlympiaResourceAddress(
+        olympiaResourceAddress,
+        networkId
+      );
+    }
+
+    /**
      * Derives the addresses of a set of known entities on the specified network.
      * @param networkId The network id to ge the known entity addresses for.
      * @returns An object containing the entity addresses on the network with the specified id.
