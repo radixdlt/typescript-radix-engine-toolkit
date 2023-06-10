@@ -41,10 +41,12 @@ import {
   Amount,
   AsyncSignatureSource,
   NotarySignatureSource,
+  NotarySignatureSourceAsync,
   SignatureSource,
   resolveAddress,
   resolveDecimal,
   resolveNotarySignature,
+  resolveNotarySignatureAsync,
   resolveSignatureAsync,
 } from "./builder_models";
 import { TransactionBuilderIntentSignaturesStep } from "./transaction_builder";
@@ -522,6 +524,31 @@ export class CompiledSignedTransactionIntent {
     let notarizedTransaction = new NotarizedTransaction(
       this.signedIntent,
       resolveNotarySignature(source, this.hashToNotarize)
+    );
+
+    let request = notarizedTransaction;
+    let response = this.retWrapper.invoke(
+      request,
+      this.retWrapper.exports.compile_notarized_transaction,
+      CompileNotarizedTransactionResponse
+    );
+    let compiledNotarizedTransaction = response.compiledIntent;
+    let notarizedPayloadHash = hash(compiledNotarizedTransaction);
+
+    return new CompiledNotarizedTransaction(
+      this.retWrapper,
+      this.intentHash,
+      compiledNotarizedTransaction,
+      notarizedPayloadHash
+    );
+  }
+
+  async compileNotarizedAsync(
+    source: NotarySignatureSourceAsync
+  ): Promise<CompiledNotarizedTransaction> {
+    let notarizedTransaction = new NotarizedTransaction(
+      this.signedIntent,
+      await resolveNotarySignatureAsync(source, this.hashToNotarize)
     );
 
     let request = notarizedTransaction;
