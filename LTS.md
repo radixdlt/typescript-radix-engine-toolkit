@@ -9,9 +9,9 @@ An end-to-end example of using the `LTSRadixEngineToolkit` alongside the `LTS` p
 
 ## Summary
 
-The `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients. They are meant to provide focused, simple interfaces for functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside of the LTS.
+The `LTSRadixEngineToolkit` and other classes that fall under the LTS umbrella are not meant to provide the complete functionality of the core Radix Engine Toolkit to clients. They are meant to provide focused, simple interfaces for functionality that integrators need. There is a chance that a client might outgrow the LTS garden and need utilize some of the classes and concepts outside the LTS.
 
-The following set of classes currently are currently considered to be in LTS:
+The following set of classes are currently considered to be in LTS:
 
 - `SimpleTransactionBuilder`
 - `LTSRadixEngineToolkit`
@@ -49,22 +49,7 @@ import {
 } from "@radixdlt/radix-engine-toolkit";
 
 const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
-  /*
-    A function implemented in your internal systems that is able to sign a given hash using the
-    private key corresponding to the given public key, and produce a signature.
-
-    NOTE:
-    - If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures
-      and return Signature.EddsaEd25519(sig_bytes) where sig_bytes are a hex string or a Uint8Array
-    - If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: v || r || s
-      and return Signature.EcdsaSecp256k1(sig_bytes) where sig_bytes are a hex string or a Uint8Array
-      > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
-      > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
-      > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
-
-     If you have the private key in memory, you can also do PrivateKey.EddsaEd25519(private_key_bytes).signToSignature(hashToSign) or
-     PrivateKey.EcdsaSecp256k1(private_key_bytes).signToSignature(hashToSign).
-  */
+  /* See "External Signing" section of this document */
 };
 
 // Construction metadata
@@ -149,26 +134,11 @@ import {
 } from "@radixdlt/radix-engine-toolkit";
 
 const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
-  /*
-    A function implemented in your internal systems that is able to sign a given hash using the
-    private key corresponding to the given public key, and produce a signature.
-
-    NOTE:
-    - If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures
-      and return Signature.EddsaEd25519(sig_bytes) where sig_bytes are a hex string or a Uint8Array
-    - If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: v || r || s
-      and return Signature.EcdsaSecp256k1(sig_bytes) where sig_bytes are a hex string or a Uint8Array
-      > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
-      > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
-      > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
-
-     If you have the private key in memory, you can also do PrivateKey.EddsaEd25519(private_key_bytes).signToSignature(hashToSign) or
-     PrivateKey.EcdsaSecp256k1(private_key_bytes).signToSignature(hashToSign).
-  */
+  /* See "External Signing" section of this document */
 };
 
-const signIntent = async (hashToSign: Uint8Array) -> Promise<SignatureWithPublicKey.SignatureWithPublicKey> => {
-  /* Same comment as above. */
+const signIntent = async (hashToSign: Uint8Array): Promise<SignatureWithPublicKey.SignatureWithPublicKey> => {
+  /* See "External Signing" section of this document */
 }
 
 // Construction metadata
@@ -253,6 +223,54 @@ const compiledNotarizedTransaction =
     networkId: NetworkId.RCNetV1,
     validFromEpoch: 10,
   });
+```
+
+### External Signing
+
+The TypeScript Radix Engine Toolkit offers clients of the library two main ways to sign or notarize their transactions:
+
+1. If the private keys are already loaded in memory then the easiest and most convenient way to provide signatures is through the `PrivateKey` class which all methods in the Radix Engine Toolkit that add signatures take as an argument.
+2. If the private keys can not be loaded into memory such as cases where a custodian or HSM is used, then the library allows for clients to provide it with "signature functions" in place of the private key. These signature functions typically have a function signature of: `(hashToSign: Uint8Array) -> SignatureWithPublicKey.SignatureWithPublicKey` in case of intent signatures and `(hashToSign: Uint8Array) -> Signature.Signature` in case of notary signatures.
+
+The second item is what we refer to as "external signing" where a signature function is provided as a signature source.
+
+The two curves supported by this library and by the Radix stack are the Ecdsa Secp256k1 and EdDSA Ed25519 curves and signature schemes. If you will be using an external service or external library to produce signatures for hashes provided by this library then keep the following items in mind:
+
+* This library will always provide you with the hash to sign, which is the data after it has been hashed with the Blake2b-256 algorithm. Thus, if you will be signing this data through Secp256k1, there is no need to hash the data again. If you will be signing it through Ed25519, there is also no need to hash it again, the Ed25519 signature scheme will internally hash it again through SHA-512, which is acceptable.
+* If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures.
+* If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: `v || r || s`.
+  * Note that there isn’t a de-facto convention for serialization of compact Secp256k1 signatures. On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
+  * Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as `reverse(r) || reverse(s) || v`.
+
+All the signature sources that this library uses requires functions which return either a `Signature.Signature` or a `SignatureWithPublicKey.SignatureWithPublicKey`. The following examples will showcase how these can be constructed. For the purpose of these examples we will be using the `PrivateKey` class from this library. However, you do not have to do that, in fact, the external signing features of this library are designed such that you do not have to use the `PrivateKey` class or load your keys in memory at all!.
+
+First, say we would like to write a function that produces intent signatures using the `PrivateKey` class. 
+
+```ts
+const sign = (hashToSign: Uint8Array): Signature.Signature => {
+  // We will be using only the most primitive methods of a private key here.
+  const privateKey: PrivateKey.EcdsaSecp256k1 = /* Initialization */;
+
+  const signature = privateKey.sign(hashToSign);
+  const signatureObject = new Signature.EcdsaSecp256k1(signature);
+
+  return signatureObject
+}
+```
+
+Similarly, if w would like to write a signature function that returns a `SignatureWithPublicKey` then we we can do the following:
+
+```ts
+const sign = (hashToSign: Uint8Array): SignatureWithPublicKey.SignatureWithPublicKey => {
+  // We will be using only the most primitive methods of a private key here.
+  const privateKey: PrivateKey.EddsaEd25519 = /* Initialization */;
+
+  const signature = privateKey.sign(hashToSign);
+  const publicKey = privateKey.publicKeyBytes();
+  const signatureObject = new SignatureWithPublicKey.EddsaEd25519(signature, publicKey);
+
+  return signatureObject
+}
 ```
 
 ## `LTSRadixEngineToolkit` Functionality
