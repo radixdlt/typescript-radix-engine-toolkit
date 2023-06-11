@@ -5,7 +5,7 @@
 
 This `LTSRadixEngineToolkit` class is meant to provide a smaller interface with a higher degree of backward compatibility that is suitable for third parties looking to integrate with the Radix Babylon ledger.
 
-An end-to-end example of using the `LTSRadixEngineToolkit` alongside the `LTS` part of the `CoreApiClient` ([@radixdlt/babylon-core-api-sdk](https://www.npmjs.com/package/@radixdlt/babylon-core-api-sdk)) with Node.js is [presented here](./examples/core-e2e-example).
+An end-to-end example of using the `LTSRadixEngineToolkit` alongside the `LTS` part of the `CoreApiClient` ([@radixdlt/babylon-core-api-sdk](https://www.npmjs.com/package/@radixdlt/babylon-core-api-sdk)) with TypeScript and Node.js is [presented here](./examples/core-e2e-example).
 
 ## Summary
 
@@ -23,16 +23,19 @@ The following set of classes are currently considered to be in LTS:
 
 The `SimpleTransactionBuilder` is a class which allows for the construction of transactions through higher-level actions to specify intent.
 
-Constructing transactions in such a manner means that a client does not need to interact with or build their own transaction manifest or header, or worry about hashing or other construction tools.
+`SimpleTransactionBuilder` currently supports creation of two transaction types:
+* Transferring fungible resources - by using the `transferFungible` action. Multiple such actions are allowed in one transaction, from a single sender.
+* Topping up an account with XRD from a faucet on a test network.
 
-To simplify things as much as possible, `SimpleTransactionBuilder` only supports a single signer for the transaction, and it makes this signer also the tranasction's notary, with `notaryAsSigner` set to `true`. At the current moment of time, the `SimpleTransactionBuilder` supports a single action: the transfer of fungible tokens. Additional actions can be added to this class in the future to allow it to be more useful for other use cases.
+By default, `SimpleTransactionBuilder` uses a single signer for the transaction. This signer doubles as the notary by setting `notaryIsSigner` set to `true`.
+It is also possible to pay fees from a separate account to the sender. Example code for this is also given below.
 
-### Simple Transfer Construction
+### Simple Transfer Construction (single signer)
 
-The following demonstrates how to create a fungible resource transaction to transfer from `fromAccountAddress` to one or more other accounts.
+The following demonstrates how to create a fungible resource transaction to transfer from `fromAccountAddress`.
 
-The `fromAccountAddress` is used to pay fees. If the account is a standard virtual account protected by its corresponding public key, then the
-`fromAccountPublicKey` will be the public key which was used to derive the `fromAccountAddress`, via `LTSRadixEngineToolkit.Derive.virtualAccountAddress` (see the next section).
+In this example, the `fromAccountAddress` is used to pay fees. If the account is a standard virtual account protected by its corresponding public key, then the
+`fromAccountPublicKey` will be the public key which was used to derive the `fromAccountAddress`, via `LTSRadixEngineToolkit.Derive.virtualAccountAddress` (see the later `Derive Class` section).
 
 Note that virtual account addresses only contain the hash of the public key - so you will need to store the mapping of account
 address to public / private key for your accounts yourself.
@@ -48,229 +51,243 @@ import {
   CompiledSignedTransactionIntent,
 } from "@radixdlt/radix-engine-toolkit";
 
-const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
-  /* See "External Signing" section of this document */
-};
+// CONSTRUCTION METADATA
+// - The NetworkId (see https://github.com/radixdlt/typescript-radix-engine-toolkit/blob/main/src/network.ts)
+// - The current epoch is sourced from /lts/transaction/construction in the Core API - or the Gateway
+const networkId = NetworkId.RCNetV1;
+const currentEpoch = /* Sourced from the API */;
 
-// Construction metadata
-const currentEpoch = /* Sourced from /lts/transaction/construction in the Core API - or the Gateway */;
+// SENDER ACCOUNT INFORMATION
+// - Radix supports both Ed25519 and Secp256k1 key-pairs for signing
+// - Keys are associated with a "virtual" account
+//
+// IMPORTANT: You are responsible for safely generating, storing and signing with your keys:
+// - See the "External Signing" section for using externally provided keys or HSMs (recommended)
+// - The below example uses an example in-memory key.
+//   In-memory keys might not be suitable for your requirements.
+//   Such keys can be created from hex or with `new PrivateKey.EddsaEd25519` / `new PrivateKey.EcdsaSecp256k1`
+// - See the "Derive Class" section for more information on how to derive addresses
+const fromAccountPrivateKey = new PrivateKey.EddsaEd25519("d1d59441b3cc702aa9f314853c7111825a679c240b09402723c8825be356021a");
+const fromAccountPublicKey = fromAccountPrivateKey.publicKey();
+const fromAccountAddress = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(fromAccountPublicKey);
 
-// Example of public key creation (you can also provide a Uint8Array instead of hex in the constructors)
-const exampleEd25519PublicKey = new PublicKey.EddsaEd25519(
-  "026f08db98ef1d0231eb15580da9123db8e25aa1747c8c32e5fd2ec47b8db73d5c"
-);
-const exampleSecp256k1PublicKey = new PublicKey.EcdsaSecp256k1(
-  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
-);
-
-// Account information
-// Note - the address can either be derived from a public key with `LTSRadixEngineToolkit.Derive.virtualAccountAddress`
-// or from an Olympia address with `LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress`-
-// discussed in more detail in the section below.
-const fromAccountPublicKey = exampleEd25519PublicKey;
-const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
-
-// Recipient/s
-const toAccountAddress1 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
-const toAccountAddress2 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
-
-// The fungible resource being transferred
+// RESOURCE INFORMATION
+// - Provide the resource address of the fungible resource you wish to transfer.
+// - If transferring XRD, the address can be read from:
+//   `(await LTSRadixEngineToolkit.Derive.knownAddresses(networkId)).xrdResource`
 const resourceAddress = "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
 
 const builder = await SimpleTransactionBuilder.new({
-  networkId: NetworkId.RCNetV1,
+  networkId,
   validFromEpoch: currentEpoch,
   fromAccount: fromAccountAddress,
   signerPublicKey: fromAccountPublicKey,
 });
 
-const unsignedTransaction = builder
-  /* The following defaults are used:
-  .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
-  .tipPercentage(0)                // No tip
-  .lockedFee(5)                    // Maximum fee of 5 XRD - but requires at least 5 XRD in the account
-  .feePayer(fromAccountAddress)    // The origin of the funds also pays the fees
-  */
-  .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
-  .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
-  .compileIntent();
-
-const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNotarize);
-
-const transaction = unsignedTransaction.compileNotarized(signature);
-
-// Will throw if eg the signature is incorrect
-(await transaction.staticallyValidate(NetworkId.RCNetV1)).throwIfInvalid();
-
-// The notarized payload bytes in hex - for submitting to the network.
-const notarizedTransactionHex = transaction.toHex();
-
-// The transaction intent hash is also known as the transaction id - and is used to
-// query APIs or the dashboard for transaction status.
-const transactionIntentHashHex = transaction.intentHashHex();
-// The payload hash - used to disambiguate multiple payloads for the same intent - in the unlikely
-// situation where a notary submits multiple distinct payloads for the same intent.
-const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
-
-// You can then use these to interact with the Core API or Gateway API, eg with the Core API:
-// * Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit`
-// * Check commit status using `transactionIntentHashHex` with `/core/lts/transaction/status`
+const transaction = await builder
+  .transferFungible({
+    toAccount: "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us",
+    resourceAddress: resourceAddress,
+    amount: "23.12323312"
+  })
+  .compileIntent()
+  .compileNotarizedAsync(
+    // TRANSACTION SIGNING
+    // - Sign the hash with the private key for the "from account"
+    // - See the "External Signing" section if using an external key
+    // - Notary signatures must return a `Signature` object (not a `SignatureWithPublicKey`)
+    async (hash) => fromAccountPrivateKey.signToSignature(hash)
+  );
 ```
 
-The `SimpleTransactionBuilder` defaults to the `fromAccount` specified at the object's instantiation-time being the payer of the fees. However, this can be configured such that the `fromAccount` (the account that the resources are being withdrawn from) is different from the `feePayer` (the account that will be paying the network fees). Thus, transactions built with the `fromAccount` and `feePayer` being different will often times need to provide two signatures to be able to access funds from both accounts. The `SimpleTransactionBuilder` allows for that through the `compileIntentWithSignatures` and `compileIntentWithSignaturesAsync` methods which allows the caller to add additional signatures to the transaction. The most convenient way of using this feature is by providing a `sign` function (similar to the one seen in the previous example) to these methods.
+The transaction can then be validated / summarized as follows:
+```ts
+// [OPTIONAL] VALIDATION & PARSING
+// - To validate that the transaction has been correctly signed, you can use `staticallyValidate` as follows
+// - If you wish to see the contents of the transaction before submission, this can be performed with `summarizeTransaction`
+(await transaction.staticallyValidate(networkId)).throwIfInvalid();
+const summary = await transaction.summarizeTransaction();
+```
 
-The following example expands on the previous example where we now wish to pay fees through one account but transfer funds from another account. This example shows how the `SimpleTransactionBuilder` may be configured to do that and also shows an example `signIntent` method which we will be using here to allow the transaction to spend funds from the `feePayer`'s account.
+And the hex payload for submission, and transaction hashes for monitoring can be read from it as follows:
+```ts
+// TRANSACTION DATA
+// The following are important pieces of data which can be read from the transaction object:
+// - `notarizedTransactionHex`
+//   > This is the transaction payload - for submitting to the network.
+//   > Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit` to submit the transaction to the network
+// - `intentHashHex`
+//   > Also known as the transaction id
+//   > Used to query APIs or the dashboard for transaction status.
+//   > Check commit status using `intentHashHex` with `/core/lts/transaction/status`
+// - `notarizedTransactionHashHex`
+//   > In the unlikely situation where a notary submits multiple distinct payloads for the same intent
+//     this can be used to disambiguate those submitted intents
+//   > Used to inspect further information in the `/core/lts/transaction/status` response
+//
+// Example code for submission and polling for commit is given at:
+// https://github.com/radixdlt/typescript-radix-engine-toolkit/blob/main/examples/core-e2e-example/main.ts
+const notarizedTransactionHex = transaction.toHex();
+const intentHashHex = transaction.intentHashHex();
+const notarizedTransactionHashHex = transaction.notarizedPayloadHashHex();
+```
+
+### Simple Transfer Construction (separate fee payer)
+
+By default, the `SimpleTransactionBuilder` also uses the `fromAccount` to pay the XRD network fees for the transaction. However, it is also possible to pay for fees from a separate account (for example, to avoid temporary accounts being left with unused resources).
+
+This can be achieved by setting the `feePayer` to be a different account address. Such transactions will need to provide two signatures to be able to access funds from both accounts. The `SimpleTransactionBuilder` allows for that through the `compileIntentWithSignaturesAsync` method adding additional signatures to the transaction.
+
+Note that these additional intent signatures need to be a `SignatureWithPublicKey.SignatureWithPublicKey` rather then a `Signature.Signature` - see the "External Signing" section for more information on how to construct these objects from externally provided signatures.
+
+As an example, take the `Simple Transfer Construction (single signer)` code and adapt it as follows:
 
 ```ts
 import {
   NetworkId,
   PrivateKey,
-  NotarizedTransaction,
   SimpleTransactionBuilder,
-  Signature,
-  SignatureWithPublicKey,
   PublicKey,
-  CompiledSignedTransactionIntent,
+  LTSRadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
-const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
-  /* See "External Signing" section of this document */
-};
+// Account information for the "fee payer"
+const feePayerPrivateKey = /* See previous section */;
+const feePayerPublicKey = /* See previous section */;
+const feePayerAccountAddress = /* See previous section */;
 
-const signIntent = async (hashToSign: Uint8Array): Promise<SignatureWithPublicKey.SignatureWithPublicKey> => {
-  /* See "External Signing" section of this document */
-}
-
-// Construction metadata
-const currentEpoch = /* Sourced from /lts/transaction/construction in the Core API - or the Gateway */;
-
-// Example of public key creation (you can also provide a Uint8Array instead of hex in the constructors)
-const exampleEd25519PublicKey = new PublicKey.EddsaEd25519(
-  "026f08db98ef1d0231eb15580da9123db8e25aa1747c8c32e5fd2ec47b8db73d5c"
-);
-const exampleSecp256k1PublicKey = new PublicKey.EcdsaSecp256k1(
-  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
-);
-
-// Account information
-// Note - the address can either be derived from a public key with `LTSRadixEngineToolkit.Derive.virtualAccountAddress`
-// or from an Olympia address with `LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress`-
-// discussed in more detail in the section below.
-const fromAccountPublicKey = exampleEd25519PublicKey;
-const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
-const feePayerAccountAddress = "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp";
-
-// Recipient/s
-const toAccountAddress1 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
-const toAccountAddress2 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
-
-// The fungible resource being transferred
-const resourceAddress = "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+// Account information for the "from account"
+const fromAccountPrivateKey = /* See previous section */;
+const fromAccountPublicKey = /* See previous section */;
+const fromAccountAddress = /* See previous section */;
 
 const builder = await SimpleTransactionBuilder.new({
-  networkId: NetworkId.RCNetV1,
+  networkId,
   validFromEpoch: currentEpoch,
   fromAccount: fromAccountAddress,
   signerPublicKey: fromAccountPublicKey,
 });
 
-const unsignedTransaction = await builder
-  /* The following defaults are used:
-  .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
-  .tipPercentage(0)                // No tip
-  .lockedFee(5)                    // Maximum fee of 5 XRD - but requires at least 5 XRD in the account
-  */
+const signedIntent = await builder
   .feePayer(feePayerAccountAddress)
-  .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
-  .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
-  .compileIntentWithSignaturesAsync([signIntent]);
+  .transferFungible({
+    toAccount: "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us",
+    resourceAddress: "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73",
+    amount: "23.12323312"
+  })
+  .compileIntentWithSignaturesAsync([
+    // TRANSACTION SIGNING (Additional signature/s)
+    // - Sign the hash with the private key for the "fee payer", and provide it along with the public key.
+    // - See the "External Signing" section for more information or if using an external key
+    // - Intent signature/s must return a `SignatureWithPublicKey` object (not a `Signature`)
+    // - NOTE: This is inside an array. It is possible to sign with multiple keys by providing multiple signing functions.
+    async (hash) => feePayerPrivateKey.signToSignatureWithPublicKey(hash)
+  ]);
 
-const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNotarize);
-
-const transaction = unsignedTransaction.compileNotarized(signature);
-
-// Will throw if eg the signature is incorrect
-(await transaction.staticallyValidate(NetworkId.RCNetV1)).throwIfInvalid();
-
-// The notarized payload bytes in hex - for submitting to the network.
-const notarizedTransactionHex = transaction.toHex();
-
-// The transaction intent hash is also known as the transaction id - and is used to
-// query APIs or the dashboard for transaction status.
-const transactionIntentHashHex = transaction.intentHashHex();
-// The payload hash - used to disambiguate multiple payloads for the same intent - in the unlikely
-// situation where a notary submits multiple distinct payloads for the same intent.
-const notarizedPayloadHashHex = transaction.notarizedPayloadHashHex();
-
-// You can then use these to interact with the Core API or Gateway API, eg with the Core API:
-// * Submit the `notarizedTransactionHex` to `/core/lts/transaction/submit`
-// * Check commit status using `transactionIntentHashHex` with `/core/lts/transaction/status`
+const transaction = await signedIntent
+  .compileNotarizedAsync(
+    // TRANSACTION SIGNING (Main signature)
+    // - Sign the hash with the private key for the "from account"
+    // - See the "External Signing" section if using an external key
+    // - Notary signatures must return a `Signature` object (not a `SignatureWithPublicKey`)
+    async (hash) => fromAccountPrivateKey.signToSignature(hash)
+  );
 ```
 
 ### Getting XRD from a Testnet Faucet
 
 The `SimpleTransactionBuilder` has built-in support for creating transactions to get funds from testnet faucets and into an account.
 
-```ts
-import {
-  PrivateKey,
-  SimpleTransactionBuilder,
-} from "@radixdlt/radix-engine-toolkit";
+You can adapt the `Simple Transfer Construction (single signer)` example, by creating the transaction as follows.
+Note that `freeXrdFromFaucet` automatically signs the transaction for you - you just need to provide the `networkId`, `validFromEpoch` and `toAccount`.
 
-const compiledNotarizedTransaction =
+```ts
+const transaction =
   await SimpleTransactionBuilder.freeXrdFromFaucet({
+    networkId,
+    validFromEpoch: currentEpoch,
     toAccount: "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
-    networkId: NetworkId.RCNetV1,
-    validFromEpoch: 10,
   });
+```
+
+### Advanced builder options
+
+The simple transaction builder has support for the following options:
+
+* `.permanentlyRejectAfterEpochs(X)` - `X` defaults to `2` (epochs), which means uncommitted transactions will permanently reject after approximately 5-10 minutes.
+* `.tipPercentage(X)` - `X` defaults to `0` (percent), which specifies no tip. A tip percentage can be added if the network is congested, to have the transaction
+  priotized, at the expense of paying a larger fee.
+* `.lockedFee(X)` - with `X` defaulting to `5` (XRD). This much fee needs to be present in the account for the transaction to execute. The amount of fee locked must cover all the work in the transaction. For simple transactions, this number can be decreased.
+* `.feePayer(X)` - with `X` defaulting to the `fromAccountAddress`. This is the account from which the fee is locked.
+
+The simple transaction builder can also support sending multiple transfers from the sender account.
+
+## Keys and Signatures
+
+Radix supports using either EdDSA Ed25519 or ECDSA Secp256k1 for signing.
+
+This library will always provide you with the hash to sign, which will be 32 bytes:
+* If you will be signing with Ed25519, you should sign this hash as the message. The Ed25519 signature scheme will internally hash it again through SHA-512 before signing with EdDSA.
+* If you will be signing with Secp256k1, you should sign this hash. If you will be signing it through Ed25519, there is also no need to hash it again, the Ed25519 signature scheme will internally hash it again through SHA-512, which is acceptable.
+
+Users of the TypeScript Radix Engine Toolkit are responsible for deciding how they wish to safely generate, store, and work with/use their keys.
+
+### In-memory signing
+
+Whilst the toolkit provides an option of signing with in-memory private keys (via the `PrivateKey` class), this may not be suitable for your use case / security model, and it is up to the user to decide the correct pattern.
+
+For testing purposes, an example of generating a random Ed25519 public key is [presented here](./examples/core-e2e-example) - although this is only an example, and it is up to users to generate keys securely for their use cases.
+
+```ts
+// In memory private keys can be created by passing the hex-encoded (or Uint8Array) private key in the constructor.
+const exampleEd25519PrivateKey = new PrivateKey.EddsaEd25519("853fb22a561daf33c15b740032d4c0a29b250ce9dd6ead6de87233f8e0673951");
+const exampleSecp256k1PrivateKey = new PrivateKey.EcdsaSecp256k1("5e6274f50230ef9f9fe51f958ca7d3fe5a69750928c12840b2282a22e15947f0");
 ```
 
 ### External Signing
 
-The TypeScript Radix Engine Toolkit offers clients of the library two main ways to sign or notarize their transactions:
+Where possible, clients of the toolkit are encouraged to consider using external keys or HSMs.
 
-1. If the private keys are already loaded in memory then the easiest and most convenient way to provide signatures is through the `PrivateKey` class which all methods in the Radix Engine Toolkit that add signatures take as an argument.
-2. If the private keys can not be loaded into memory such as cases where a custodian or HSM is used, then the library allows for clients to provide it with "signature functions" in place of the private key. These signature functions typically have a function signature of: `(hashToSign: Uint8Array) -> SignatureWithPublicKey.SignatureWithPublicKey` in case of intent signatures and `(hashToSign: Uint8Array) -> Signature.Signature` in case of notary signatures.
+To use with the toolkit, the public keys and signatures will need to be wrapped in their corresponding wrapper object 
+(`PublicKey`, `Signature` and `SignatureWithPublicKey`). All of these constructors take either a `Uint8Array` or the hex-encoded bytes as a string.
 
-The second item is what we refer to as "external signing" where a signature function is provided as a signature source.
+Public keys should be encoded as bytes as follows:
 
-The two curves supported by this library and by the Radix stack are the Ecdsa Secp256k1 and EdDSA Ed25519 curves and signature schemes. If you will be using an external service or external library to produce signatures for hashes provided by this library then keep the following items in mind:
+* If using Ed25519, the public key is encoded as the standard 32-byte encoding for Ed25519 public keys.
+* If using Secp256k1, the public key is encoded as the standard 33-byte encoding for compressed Secp256k1 public keys (X coordinate and the sign byte).
 
-* This library will always provide you with the hash to sign, which is the data after it has been hashed with the Blake2b-256 algorithm. Thus, if you will be signing this data through Secp256k1, there is no need to hash the data again. If you will be signing it through Ed25519, there is also no need to hash it again, the Ed25519 signature scheme will internally hash it again through SHA-512, which is acceptable.
+```ts
+const exampleEd25519PublicKey = new PublicKey.EddsaEd25519("ea691c49cf2cbf26ada3677069e6196dc85b9357af7a732f46b3e9d6ff28a44c");
+const exampleSecp256k1PublicKey = new PublicKey.EcdsaSecp256k1("02668a20dc7916eaa1eb1965538f4964ad2061844aa559e2063b4e6040700a8fdf");
+```
+
+Signatures should be encoded as bytes as follows:
+
 * If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures.
 * If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: `v || r || s`.
   * Note that there isn’t a de-facto convention for serialization of compact Secp256k1 signatures. On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
   * Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as `reverse(r) || reverse(s) || v`.
 
-All the signature sources that this library uses requires functions which return either a `Signature.Signature` or a `SignatureWithPublicKey.SignatureWithPublicKey`. The following examples will showcase how these can be constructed. For the purpose of these examples we will be using the `PrivateKey` class from this library. However, you do not have to do that, in fact, the external signing features of this library are designed such that you do not have to use the `PrivateKey` class or load your keys in memory at all!.
-
-First, say we would like to write a function that produces intent signatures using the `PrivateKey` class. 
+Signatures are used in one of two variants, "normal" or "with public key". Normal signatures are used for the notary signature, and signatures "with public key" are used for additional intent signatures. These `Signature` / `SignatureWithPublicKey` objects are created as follows:
 
 ```ts
-const sign = (hashToSign: Uint8Array): Signature.Signature => {
-  // We will be using only the most primitive methods of a private key here.
-  const privateKey: PrivateKey.EcdsaSecp256k1 = /* Initialization */;
+// Signature (without explicit public key)
+const exampleEd25519Signature = new Signature.EddsaEd2551(
+  "0cc77c60db5c294f157a7898443034a71a220be6029283fad619dfbde29f3b877552a5b215748e7c76d3961ae48e6ec3fc100e0af9f55bd0a79835fdc32a5904"
+);
+const exampleSecp256k1Signature = new Signature.EcdsaSecp256k1(
+  "00e357e470c78e557a6f62517633c628765616213eb1dc34f6fb01f8a7d6b4b4034795a2231d3b1c694dd5b8a65ac5ee342f7d552017d15cd279f996742b3da436"
+);
 
-  const signature = privateKey.sign(hashToSign);
-  const signatureObject = new Signature.EcdsaSecp256k1(signature);
-
-  return signatureObject
-}
-```
-
-Similarly, if w would like to write a signature function that returns a `SignatureWithPublicKey` then we we can do the following:
-
-```ts
-const sign = (hashToSign: Uint8Array): SignatureWithPublicKey.SignatureWithPublicKey => {
-  // We will be using only the most primitive methods of a private key here.
-  const privateKey: PrivateKey.EddsaEd25519 = /* Initialization */;
-
-  const signature = privateKey.sign(hashToSign);
-  const publicKey = privateKey.publicKeyBytes();
-  const signatureObject = new SignatureWithPublicKey.EddsaEd25519(signature, publicKey);
-
-  return signatureObject
-}
+// SignatureWithPublicKey
+const exampleEd25519SignatureWithPublicKey = new SignatureWithPublicKey.EddsaEd25519(
+  exampleEd25519Signature.bytes(), // The signature hex or Uint8Array
+  exampleEd25519PublicKey.bytes(), // The public key hex or Uint8Array
+)
+// Note that because the Secp256k1 signature is recoverable, a separate public key does not need to be provided
+const exampleSecp256k1SignatureWithPublicKey = new SignatureWithPublicKey.EcdsaSecp256k1(
+  exampleSecp256k1Signature.bytes(), // The public key hex or Uint8Array
+);
 ```
 
 ## `LTSRadixEngineToolkit` Functionality

@@ -42,6 +42,14 @@ export class EcdsaSecp256k1 extends Signature {
     this.signature = Convert.Uint8Array.from(signature);
   }
 
+  bytes(): Uint8Array {
+    return this.signature;
+  }
+
+  hex(): string {
+    return Convert.Uint8Array.toHexString(this.signature);
+  }
+
   toString(): string {
     return JSON.stringify(this.toObject());
   }
@@ -63,6 +71,14 @@ export class EddsaEd25519 extends Signature {
   constructor(signature: Uint8Array | string) {
     super(Curve.EddsaEd25519);
     this.signature = Convert.Uint8Array.from(signature);
+  }
+
+  bytes(): Uint8Array {
+    return this.signature;
+  }
+
+  hex(): string {
+    return Convert.Uint8Array.toHexString(this.signature);
   }
 
   toString(): string {

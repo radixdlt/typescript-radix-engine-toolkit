@@ -23,14 +23,15 @@ export namespace NetworkId {
   export const Kisharnet: number = 0x0c;
   export const RCnetV1: number = Kisharnet;
   export const Ansharnet: number = 0x0d;
-  // To save confusing anyone just yet - we will uncomment this line when RCnetV2 is ready for release
-  // export const RCnetV2: number = Ansharnet;
+  export const RCnetV2: number = Ansharnet;
   export const Gilganet: number = 0x20;
   export const Enkinet: number = 0x21;
   export const Hammunet: number = 0x22;
   export const Nergalnet: number = 0x23;
   export const Mardunet: number = 0x24;
-  export const LocalNet: number = 0xf0;
-  export const InternalTestNet: number = 0xf1;
+  export const Localnet: number = 0xf0;
+  export const LocalNet: number = Localnet; // Legacy alias - kept in for backwards compatibility
+  export const InternalTestnet: number = 0xf1;
+  export const InternalTestNet: number = InternalTestnet; // Legacy alias - kept in for backwards compatibility
   export const Simulator: number = 0xf2;
 }

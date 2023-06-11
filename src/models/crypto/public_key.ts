@@ -42,6 +42,14 @@ export class EcdsaSecp256k1 extends PublicKey {
     this.publicKey = Convert.Uint8Array.from(publicKey);
   }
 
+  bytes(): Uint8Array {
+    return this.publicKey;
+  }
+
+  hex(): string {
+    return Convert.Uint8Array.toHexString(this.publicKey);
+  }
+
   toString(): string {
     return JSON.stringify(this.toObject());
   }
@@ -63,6 +71,14 @@ export class EddsaEd25519 extends PublicKey {
   constructor(publicKey: Uint8Array | string) {
     super(Curve.EddsaEd25519);
     this.publicKey = Convert.Uint8Array.from(publicKey);
+  }
+
+  bytes(): Uint8Array {
+    return this.publicKey;
+  }
+
+  hex(): string {
+    return Convert.Uint8Array.toHexString(this.publicKey);
   }
 
   toString(): string {
