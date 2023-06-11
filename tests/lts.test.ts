@@ -115,18 +115,4 @@ describe("Address Class", () => {
     // Assert
     expect(babylonResourceAddress).toEqual(expectedBabylonResourceAddress);
   });
-
-  it("", () => {
-    const sign = (hashToSign: Uint8Array): SignatureWithPublicKey.SignatureWithPublicKey => {
-      // We will be using only the most primitive methods of a private key here.
-      const privateKey: PrivateKey.EddsaEd25519 = /* Initialization */;
-
-      const signature = privateKey.sign(hashToSign);
-      const publicKey = privateKey.publicKeyBytes();
-      const signatureObject = new SignatureWithPublicKey.EddsaEd25519(signature, publicKey);
-
-      return signatureObject
-    }
-
-  })
 });
