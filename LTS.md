@@ -234,7 +234,7 @@ Users of the TypeScript Radix Engine Toolkit are responsible for deciding how th
 
 ### In-memory signing
 
-Whilst the toolkit provides an option of signing with in-memory private keys (via the `PrivateKey` class), this may not be suitable for your use case / security model, and it is up to the user to decide the correct pattern.
+Whilst the toolkit provides an option of signing with in-memory private keys (via the `PrivateKey` class), this may not be suitable for your use case / security model. It is up to you to ensure you safely generate, store, and work with / use your keys.
 
 For testing purposes, an example of generating a random Ed25519 public key is [presented here](./examples/core-e2e-example) - although this is only an example, and it is up to users to generate keys securely for their use cases.
 
@@ -268,25 +268,28 @@ Signatures should be encoded as bytes as follows:
   * Note that there isn’t a de-facto convention for serialization of compact Secp256k1 signatures. On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
   * Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as `reverse(r) || reverse(s) || v`.
 
-Signatures are used in one of two variants, "normal" or "with public key". Normal signatures are used for the notary signature, and signatures "with public key" are used for additional intent signatures. These `Signature` / `SignatureWithPublicKey` objects are created as follows:
+Signatures are used in one of two variants, "normal" `Signature` or a `SignatureWithPublicKey`.
+
+The `Signature` object is used for the notary signature, and is created from the signature-encoded bytes as follows:
 
 ```ts
-// Signature (without explicit public key)
 const exampleEd25519Signature = new Signature.EddsaEd2551(
   "0cc77c60db5c294f157a7898443034a71a220be6029283fad619dfbde29f3b877552a5b215748e7c76d3961ae48e6ec3fc100e0af9f55bd0a79835fdc32a5904"
 );
 const exampleSecp256k1Signature = new Signature.EcdsaSecp256k1(
   "00e357e470c78e557a6f62517633c628765616213eb1dc34f6fb01f8a7d6b4b4034795a2231d3b1c694dd5b8a65ac5ee342f7d552017d15cd279f996742b3da436"
 );
+```
 
-// SignatureWithPublicKey
+The `SignatureWithPublicKey` object is used for the additional intent signatures. For Ed25519, the signature is accompanied by a public key, but this isn't necessary for Secp256k1 because the signature is recoverable. The `SignatureWithPublicKey` object is created from the signature-encoded bytes (and for Ed25519, the public-key-encoded bytes) as follows:
+
+```ts
 const exampleEd25519SignatureWithPublicKey = new SignatureWithPublicKey.EddsaEd25519(
   exampleEd25519Signature.bytes(), // The signature hex or Uint8Array
-  exampleEd25519PublicKey.bytes(), // The public key hex or Uint8Array
+  exampleEd25519PublicKey.bytes() // The public key hex or Uint8Array
 )
-// Note that because the Secp256k1 signature is recoverable, a separate public key does not need to be provided
 const exampleSecp256k1SignatureWithPublicKey = new SignatureWithPublicKey.EcdsaSecp256k1(
-  exampleSecp256k1Signature.bytes(), // The public key hex or Uint8Array
+  exampleSecp256k1Signature.bytes() // The signature hex or Uint8Array
 );
 ```
 
