@@ -39,10 +39,15 @@ import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 import {
   Address,
   Amount,
+  AsyncSignatureSource,
   NotarySignatureSource,
+  NotarySignatureSourceAsync,
+  SignatureSource,
   resolveAddress,
   resolveDecimal,
   resolveNotarySignature,
+  resolveNotarySignatureAsync,
+  resolveSignatureAsync,
 } from "./builder_models";
 import { TransactionBuilderIntentSignaturesStep } from "./transaction_builder";
 
@@ -80,6 +85,7 @@ export class SimpleTransactionBuilder {
   private _notaryPublicKey: PublicKey.PublicKey;
 
   private _fromAccount: string;
+  private _feePayer: string;
   private _feeAmount: Decimal | undefined;
   private _actions: Array<Action> = [];
 
@@ -95,6 +101,7 @@ export class SimpleTransactionBuilder {
     this._startEpoch = startEpoch;
     this._networkId = networkId;
     this._fromAccount = fromAccount;
+    this._feePayer = fromAccount;
     this._nonce = nonce;
     this._notaryPublicKey = notaryPublicKey;
   }
@@ -192,6 +199,11 @@ export class SimpleTransactionBuilder {
     return this;
   }
 
+  feePayer(address: string): this {
+    this._feePayer = address;
+    return this;
+  }
+
   /**
    * Set the number of epochs this transaction is valid for (including the current epoch - which might nearly be over!)
    * Each epoch is approximately 5 minutes long.
@@ -261,6 +273,54 @@ export class SimpleTransactionBuilder {
     );
   }
 
+  public compileIntentWithSignatures(
+    signatureSources: Array<SignatureSource>
+  ): CompiledSignedTransactionIntent {
+    const transitioned = this.transition();
+    const { intentHash } = transitioned.compileIntent();
+
+    for (const signatureSource of signatureSources) {
+      transitioned.sign(signatureSource);
+    }
+
+    const { compiledSignedIntent, signedIntent, signedIntentHash } =
+      transitioned.compileSignedIntent();
+
+    return new CompiledSignedTransactionIntent(
+      this.retWrapper,
+      intentHash,
+      signedIntent,
+      compiledSignedIntent,
+      signedIntentHash
+    );
+  }
+
+  public async compileIntentWithSignaturesAsync(
+    signatureSources: Array<AsyncSignatureSource>
+  ): Promise<CompiledSignedTransactionIntent> {
+    const transitioned = this.transition();
+    const { intentHash } = transitioned.compileIntent();
+
+    for (const signatureSource of signatureSources) {
+      const signature = await resolveSignatureAsync(
+        signatureSource,
+        intentHash
+      );
+      transitioned.sign(signature);
+    }
+
+    const { compiledSignedIntent, signedIntent, signedIntentHash } =
+      transitioned.compileSignedIntent();
+
+    return new CompiledSignedTransactionIntent(
+      this.retWrapper,
+      intentHash,
+      signedIntent,
+      compiledSignedIntent,
+      signedIntentHash
+    );
+  }
+
   //=================
   // Private Methods
   //=================
@@ -296,7 +356,7 @@ export class SimpleTransactionBuilder {
 
     instructions.push(
       new Instruction.CallMethod(
-        new ManifestAstValue.Address(this._fromAccount),
+        new ManifestAstValue.Address(this._feePayer),
         new ManifestAstValue.String("lock_fee"),
         [new ManifestAstValue.Decimal(feeAmount)]
       )
@@ -464,6 +524,31 @@ export class CompiledSignedTransactionIntent {
     let notarizedTransaction = new NotarizedTransaction(
       this.signedIntent,
       resolveNotarySignature(source, this.hashToNotarize)
+    );
+
+    let request = notarizedTransaction;
+    let response = this.retWrapper.invoke(
+      request,
+      this.retWrapper.exports.compile_notarized_transaction,
+      CompileNotarizedTransactionResponse
+    );
+    let compiledNotarizedTransaction = response.compiledIntent;
+    let notarizedPayloadHash = hash(compiledNotarizedTransaction);
+
+    return new CompiledNotarizedTransaction(
+      this.retWrapper,
+      this.intentHash,
+      compiledNotarizedTransaction,
+      notarizedPayloadHash
+    );
+  }
+
+  async compileNotarizedAsync(
+    source: NotarySignatureSourceAsync
+  ): Promise<CompiledNotarizedTransaction> {
+    let notarizedTransaction = new NotarizedTransaction(
+      this.signedIntent,
+      await resolveNotarySignatureAsync(source, this.hashToNotarize)
     );
 
     let request = notarizedTransaction;

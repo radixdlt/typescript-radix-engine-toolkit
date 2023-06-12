@@ -4,6 +4,8 @@ import {
   NetworkId,
   PrivateKey,
   SimpleTransactionBuilder,
+  Signature,
+  SignatureWithPublicKey
 } from "@radixdlt/radix-engine-toolkit";
 import fetch from "node-fetch"; // 2.6.9
 import { default as http, default as https } from "node:http";
@@ -106,7 +108,6 @@ async function getTestnetXrd(
   const constructionMetadata =
     await coreApiClient.LTS.getConstructionMetadata();
 
-  const notary = await generateNewEd25519VirtualAccount(networkId);
   const freeXrdForAccount1Transaction =
     await SimpleTransactionBuilder.freeXrdFromFaucet({
       networkId,
@@ -126,6 +127,7 @@ async function getTestnetXrd(
 }
 
 const main = async () => {
+  const feePayer = await generateNewEd25519VirtualAccount(networkId);
   const account1 = await generateNewEd25519VirtualAccount(networkId);
   const account2 = await generateNewEd25519VirtualAccount(networkId);
   const knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
@@ -133,6 +135,7 @@ const main = async () => {
   );
   const xrd = knownAddresses.resources.xrdResource;
 
+  console.log(`Fee Payer: ${feePayer.dashboardLink}`);
   console.log(`Account 1: ${account1.dashboardLink}`);
   console.log(`Account 2: ${account2.dashboardLink}`);
 
@@ -154,6 +157,15 @@ const main = async () => {
     `Account 1 has been topped up with 10000 Testnet XRD: ${dashboardBase}/transaction/${faucetTransactionIntentHash}`
   );
 
+  const faucetTransaction2IntentHash = await getTestnetXrd(
+    coreApiClient,
+    feePayer.address
+  );
+
+  console.log(
+    `Fee payer has been topped up with 10000 Testnet XRD: ${dashboardBase}/transaction/${faucetTransaction2IntentHash}`
+  );
+
   const constructionMetadata =
     await coreApiClient.LTS.getConstructionMetadata();
   const builder = await SimpleTransactionBuilder.new({
@@ -164,20 +176,26 @@ const main = async () => {
   });
 
   // Note - by default this sets to permanently reject after 2 epochs (5-10 minutes)
-  const unsignedTransaction = builder
+  const signedIntent = await builder
     .transferFungible({
       toAccount: account2.address,
       resourceAddress: xrd,
       amount: 100,
     })
-    .compileIntent();
-
-  const notarySignature = account1.privateKey.signToSignature(
-    unsignedTransaction.hashToNotarize
-  );
-
-  const notarizedTransaction =
-    unsignedTransaction.compileNotarized(notarySignature);
+    // NOTE - if not using a separate fee payer, you can remove this line
+    .feePayer(feePayer.address)
+    .compileIntentWithSignaturesAsync([
+      // NOTE - if not using a separate fee payer, you can use an empty array here
+      async (hash: Uint8Array): Promise<SignatureWithPublicKey.SignatureWithPublicKey> => {
+        return feePayer.privateKey.signToSignatureWithPublicKey(hash);
+      }
+    ]);
+  const notarizedTransaction = await signedIntent
+    .compileNotarizedAsync(async (hash: Uint8Array): Promise<Signature.Signature> => {
+      return account1.privateKey.signToSignature(hash);
+    });
+  
+  (await notarizedTransaction.staticallyValidate(networkId)).throwIfInvalid();
 
   const intentHashHex = notarizedTransaction.intentHashHex();
 

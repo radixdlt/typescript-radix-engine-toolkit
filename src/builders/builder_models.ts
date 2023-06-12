@@ -23,15 +23,31 @@ export function resolveDecimal(amount: Amount): Decimal {
 export type SignFn = (
   hashToSign: Uint8Array
 ) => SignatureWithPublicKey.SignatureWithPublicKey;
+export type AsyncSignFn = (
+  hashToSign: Uint8Array
+) => Promise<SignatureWithPublicKey.SignatureWithPublicKey>;
+
 export type NotarizeFn = (hashToSign: Uint8Array) => Signature.Signature;
+export type AsyncNotarizeFn = (
+  hashToSign: Uint8Array
+) => Promise<Signature.Signature>;
 
 export type SignatureSource =
   | IPrivateKey
   | SignFn
   | SignatureWithPublicKey.SignatureWithPublicKey;
+export type AsyncSignatureSource =
+  | IPrivateKey
+  | AsyncSignFn
+  | SignatureWithPublicKey.SignatureWithPublicKey;
+
 export type NotarySignatureSource =
   | IPrivateKey
   | NotarizeFn
+  | Signature.Signature;
+export type NotarySignatureSourceAsync =
+  | IPrivateKey
+  | AsyncNotarizeFn
   | Signature.Signature;
 
 export function resolveSignature(
@@ -49,6 +65,21 @@ export function resolveSignature(
   }
 }
 
+export async function resolveSignatureAsync(
+  source: AsyncSignatureSource,
+  hashToSign: Uint8Array
+): Promise<SignatureWithPublicKey.SignatureWithPublicKey> {
+  if (typeof source === "function") {
+    return source(hashToSign);
+  } else if (source instanceof SignatureWithPublicKey.SignatureWithPublicKey) {
+    return Promise.resolve(source);
+  } else if (typeof source.signToSignatureWithPublicKey === "function") {
+    return Promise.resolve(source.signToSignatureWithPublicKey(hashToSign));
+  } else {
+    throw new TypeError("Invalid type passed in for signature source");
+  }
+}
+
 export function resolveNotarySignature(
   source: NotarySignatureSource,
   hashToNotarize: Uint8Array
@@ -59,6 +90,21 @@ export function resolveNotarySignature(
     return source;
   } else if (typeof source.signToSignature === "function") {
     return source.signToSignature(hashToNotarize);
+  } else {
+    throw new TypeError("Invalid type passed in for signature source");
+  }
+}
+
+export async function resolveNotarySignatureAsync(
+  source: NotarySignatureSourceAsync,
+  hashToNotarize: Uint8Array
+): Promise<Signature.Signature> {
+  if (typeof source === "function") {
+    return source(hashToNotarize);
+  } else if (source instanceof Signature.Signature) {
+    return Promise.resolve(source);
+  } else if (typeof source.signToSignature === "function") {
+    return Promise.resolve(source.signToSignature(hashToNotarize));
   } else {
     throw new TypeError("Invalid type passed in for signature source");
   }

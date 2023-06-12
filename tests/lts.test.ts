@@ -21,6 +21,7 @@ import {
   NetworkId,
   PrivateKey,
   RadixEngineToolkit,
+  SignatureWithPublicKey
 } from "../src";
 
 describe("Address Class", () => {
