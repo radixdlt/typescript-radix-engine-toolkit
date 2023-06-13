@@ -984,9 +984,9 @@ export class PublishPackageAdvanced extends Instruction {
   @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
 
-  @Expose({ name: "access_rules" })
+  @Expose({ name: "authority_rules" })
   @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  accessRules: ManifestAstValue.Value;
+  authorityRules: ManifestAstValue.Value;
 
   constructor(
     code: ManifestAstValue.Blob,
@@ -1000,7 +1000,7 @@ export class PublishPackageAdvanced extends Instruction {
     this.schema = schema;
     this.royaltyConfig = royaltyConfig;
     this.metadata = metadata;
-    this.accessRules = authorityRules;
+    this.authorityRules = authorityRules;
   }
 
   toString(): string {
@@ -1302,7 +1302,7 @@ export class SetAuthorityMutability extends Instruction {
     authorityKey: ManifestAstValue.Value,
     mutability: ManifestAstValue.Value
   ) {
-    super(Kind.SetAuthorityAccessRule);
+    super(Kind.SetAuthorityMutability);
     this.entityAddress = entityAddress;
     this.objectKey = objectKey;
     this.authorityKey = authorityKey;

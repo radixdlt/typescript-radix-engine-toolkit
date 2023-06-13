@@ -17,6 +17,10 @@
 
 import { describe, expect, test } from "vitest";
 import { Instruction, ManifestAstValue } from "../../src";
+import {
+  CreateProofFromAuthZoneOfAll,
+  SetAuthorityMutability,
+} from "../../src/models/transaction/instruction";
 import { EnumU8Discriminator } from "../../src/models/value/manifest_ast";
 import { deserialize, serialize } from "../../src/utils";
 import { assertSerializationEquals } from "../test_utils";
@@ -206,6 +210,15 @@ describe.each([
     expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_proof":{"kind":"Proof","value":"ident"}}`,
   },
   {
+    expectedObject: new CreateProofFromAuthZoneOfAll(
+      new Address(
+        "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
+      ),
+      new Proof("ident")
+    ),
+    expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE_OF_ALL","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_proof":{"kind":"Proof","value":"ident"}}`,
+  },
+  {
     expectedObject: new CreateProofFromAuthZoneOfAmount(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
@@ -269,7 +282,7 @@ describe.each([
         ]),
       ])
     ),
-    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE_ADVANCED","code":{"kind":"Blob","value":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"kind":"Bytes","hex":"4d2101230c2100"},"royalty_config":{"kind":"Map","key_kind":"String","value_kind":"Tuple","entries":[]},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"kind":"Tuple","fields":[{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]},{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]}]}}`,
+    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE_ADVANCED","code":{"kind":"Blob","value":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"kind":"Bytes","hex":"4d2101230c2100"},"royalty_config":{"kind":"Map","key_kind":"String","value_kind":"Tuple","entries":[]},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"authority_rules":{"kind":"Tuple","fields":[{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]},{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]}]}}`,
   },
   {
     expectedObject: new BurnResource(new Bucket("ident")),
@@ -347,16 +360,28 @@ describe.each([
     ),
     expectedSerialization: `{"instruction":"CLAIM_COMPONENT_ROYALTY","component_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"}}`,
   },
-  // {
-  //   expectedObject: new SetAuthorityAccessRule(
-  //     new Address(
-  //       "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
-  //     ),
-  //     new Tuple([new Enum(new EnumU8Discriminator(0)), new String("free")]),
-  //     new Enum(new EnumU8Discriminator(0))
-  //   ),
-  //   expectedSerialization: `{"instruction":"SET_AUTHORITY_ACCESS_RULE","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"key":{"kind":"Tuple","fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},{"kind":"String","value":"free"}]},"rule":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
-  // },
+  {
+    expectedObject: new SetAuthorityAccessRule(
+      new Address(
+        "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
+      ),
+      new Enum(new EnumU8Discriminator(0), []),
+      new Enum(new EnumU8Discriminator(0), []),
+      new Enum(new EnumU8Discriminator(0), [])
+    ),
+    expectedSerialization: `{"instruction":"SET_AUTHORITY_ACCESS_RULE","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"object_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"authority_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"rule":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
+  },
+  {
+    expectedObject: new SetAuthorityMutability(
+      new Address(
+        "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
+      ),
+      new Enum(new EnumU8Discriminator(0), []),
+      new Enum(new EnumU8Discriminator(0), []),
+      new Enum(new EnumU8Discriminator(0), [])
+    ),
+    expectedSerialization: `{"instruction":"SET_AUTHORITY_MUTABILITY","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"object_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"authority_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"mutability":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
+  },
   {
     expectedObject: new MintFungible(
       new Address(
