@@ -73,9 +73,7 @@ export class SimpleTransactionBuilder {
   private _expiresAfterEpochs: number = 2;
   private _networkId: number;
 
-  private _version: number = 1;
   private _nonce: number;
-  private _costUnitLimit: number = 100_000_000;
   private _tipPercentage: number = 0;
   private _notaryPublicKey: PublicKey.PublicKey;
 
@@ -160,14 +158,12 @@ export class SimpleTransactionBuilder {
       )
       .build();
     const header = new TransactionHeader(
-      0x01,
       networkId,
       validFromEpoch,
       validFromEpoch + 2,
       await generateRandomNonce(),
       ephemeralPrivateKey.publicKey(),
       false,
-      100_000_000,
       0
     );
     const intent = new TransactionIntent(header, manifest);
@@ -180,11 +176,6 @@ export class SimpleTransactionBuilder {
       await signedIntent.compile(),
       await signedIntent.signedIntentHash()
     ).compileNotarized(ephemeralPrivateKey);
-  }
-
-  version(version: number): this {
-    this._version = version;
-    return this;
   }
 
   nonce(nonce: number): this {
@@ -207,11 +198,6 @@ export class SimpleTransactionBuilder {
       throw new Error("Epochs valid must be between 1 and 100");
     }
     this._expiresAfterEpochs = epochCount;
-    return this;
-  }
-
-  costUnitLimit(costUnitLimit: number): this {
-    this._costUnitLimit = costUnitLimit;
     return this;
   }
 
@@ -274,17 +260,15 @@ export class SimpleTransactionBuilder {
   }
 
   private constructTransactionHeader(): TransactionHeader {
-    const notaryAsSignatory = true;
+    const notaryIsSignatory = true;
     const endEpoch = this._startEpoch + this._expiresAfterEpochs;
     return new TransactionHeader(
-      this._version,
       this._networkId,
       this._startEpoch,
       endEpoch,
       this._nonce,
       this._notaryPublicKey,
-      notaryAsSignatory,
-      this._costUnitLimit,
+      notaryIsSignatory,
       this._tipPercentage
     );
   }

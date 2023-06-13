@@ -171,14 +171,12 @@ let signer2PrivateKey = new PrivateKey.EcdsaSecp256k1(
 
 // We first begin by creating the transaction header that will be used for the transaction.
 let transactionHeader = new TransactionHeader(
-  1 /* The transaction version. Currently always 1 */,
   NetworkId.Simulator /* The network that this transaction is destined to */,
   3910 /* The start epoch (inclusive) of when this transaction becomes valid */,
   3920 /* The end epoch (exclusive) of when this transaction is no longer valid */,
   await generateRandomNonce() /* A random nonce */,
   notaryPrivateKey.publicKey() /* The public key of the notary */,
   true /* Whether the notary signature is also considered as an intent signature */,
-  100_000_000 /* A limit on the amount of cost units that the transaction can consume */,
   0 /* The percentage of fees that goes to validators */
 );
 
@@ -259,14 +257,12 @@ const notarizeIntent = (
 
 // We first begin by creating the transaction header that will be used for the transaction.
 let transactionHeader = new TransactionHeader(
-  1 /* The transaction version. Currently always 1 */,
   NetworkId.Simulator /* The network that this transaction is destined to */,
   3910 /* The start epoch (inclusive) of when this transaction becomes valid */,
   3920 /* The end epoch (exclusive) of when this transaction is no longer valid */,
   await generateRandomNonce() /* A random nonce */,
   notaryPublicKey /* The public key of the notary */,
   true /* Whether the notary signature is also considered as an intent signature */,
-  100_000_000 /* A limit on the amount of cost units that the transaction can consume */,
   0 /* The percentage of fees that goes to validators */
 );
 

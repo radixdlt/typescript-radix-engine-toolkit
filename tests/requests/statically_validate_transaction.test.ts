@@ -65,13 +65,11 @@ describe("Statically Validate Transaction", () => {
       .header(
         new TransactionHeader(
           1,
-          1,
           100,
           105,
           5144,
           notaryPrivateKey.publicKey(),
           false,
-          100000000,
           12
         )
       )

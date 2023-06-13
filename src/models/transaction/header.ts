@@ -23,13 +23,6 @@ import * as Serializers from "../serializers";
  * A transaction header containing metadata and other transaction information.
  */
 export class TransactionHeader {
-  @Expose({ name: "version" })
-  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.NumberAsString.deserialize, {
-    toClassOnly: true,
-  })
-  version: number;
-
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -70,15 +63,8 @@ export class TransactionHeader {
   })
   notaryPublicKey: PublicKey.PublicKey;
 
-  @Expose({ name: "notary_as_signatory" })
-  notaryAsSignatory: boolean;
-
-  @Expose({ name: "cost_unit_limit" })
-  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.NumberAsString.deserialize, {
-    toClassOnly: true,
-  })
-  costUnitLimit: number;
+  @Expose({ name: "notary_is_signatory" })
+  notaryIsSignatory: boolean;
 
   @Expose({ name: "tip_percentage" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
@@ -88,24 +74,20 @@ export class TransactionHeader {
   tipPercentage: number;
 
   constructor(
-    version: number,
     networkId: number,
     startEpochInclusive: number,
     endEpochExclusive: number,
     nonce: number,
     notaryPublicKey: PublicKey.PublicKey,
-    notaryAsSignatory: boolean,
-    costUnitLimit: number,
+    notaryIsSignatory: boolean,
     tipPercentage: number
   ) {
-    this.version = version;
     this.networkId = networkId;
     this.startEpochInclusive = startEpochInclusive;
     this.endEpochExclusive = endEpochExclusive;
     this.nonce = nonce;
     this.notaryPublicKey = notaryPublicKey;
-    this.notaryAsSignatory = notaryAsSignatory;
-    this.costUnitLimit = costUnitLimit;
+    this.notaryIsSignatory = notaryIsSignatory;
     this.tipPercentage = tipPercentage;
   }
 

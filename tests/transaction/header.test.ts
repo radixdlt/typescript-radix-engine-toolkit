@@ -25,7 +25,6 @@ describe.each([
   {
     expectedObject: new TransactionHeader(
       1,
-      1,
       100,
       105,
       5144,
@@ -33,14 +32,12 @@ describe.each([
         "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
       ),
       false,
-      100000000,
       12
     ),
-    expectedSerialization: `{"version":"1","network_id":"1","start_epoch_inclusive":"100","end_epoch_exclusive":"105","nonce":"5144","notary_public_key":{"curve":"EcdsaSecp256k1","public_key":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"},"notary_as_signatory":false,"cost_unit_limit":"100000000","tip_percentage":"12"}`,
+    expectedSerialization: `{"network_id":"1","start_epoch_inclusive":"100","end_epoch_exclusive":"105","nonce":"5144","notary_public_key":{"curve":"EcdsaSecp256k1","public_key":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"},"notary_is_signatory":false,"tip_percentage":"12"}`,
   },
   {
     expectedObject: new TransactionHeader(
-      1,
       1,
       100,
       105,
@@ -49,10 +46,9 @@ describe.each([
         "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
       ),
       false,
-      100000000,
       12
     ),
-    expectedSerialization: `{"version":"1","network_id":"1","start_epoch_inclusive":"100","end_epoch_exclusive":"105","nonce":"5144","notary_public_key":{"curve":"EddsaEd25519","public_key":"4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"},"notary_as_signatory":false,"cost_unit_limit":"100000000","tip_percentage":"12"}`,
+    expectedSerialization: `{"network_id":"1","start_epoch_inclusive":"100","end_epoch_exclusive":"105","nonce":"5144","notary_public_key":{"curve":"EddsaEd25519","public_key":"4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"},"notary_is_signatory":false,"tip_percentage":"12"}`,
   },
 ])(
   "Serialization test for $expectedSerialization",

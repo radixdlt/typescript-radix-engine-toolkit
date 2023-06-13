@@ -81,14 +81,12 @@ const main = async () => {
   let notarizedTransaction = (await TransactionBuilder.new())
     .header(
       new TransactionHeader(
-        1,
         NetworkConfiguration.networkId,
         currentEpoch,
         currentEpoch + 10,
         await generateRandomNonce(),
         notaryPrivateKey.publicKey(),
         true,
-        100_000_000,
         0
       )
     )

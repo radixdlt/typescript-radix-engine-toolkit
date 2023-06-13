@@ -34,7 +34,6 @@ describe.each([
     expectedIntent: new TransactionIntent(
       new TransactionHeader(
         1,
-        1,
         100,
         105,
         5144,
@@ -42,7 +41,6 @@ describe.each([
           "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
         ),
         false,
-        100000000,
         12
       ),
       new TransactionManifest(
