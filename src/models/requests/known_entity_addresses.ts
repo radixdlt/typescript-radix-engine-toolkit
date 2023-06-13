@@ -64,13 +64,9 @@ export class KnownEntityAddressesResponse {
   @Type(() => String)
   packageTokenResourceAddress: string;
 
-  @Expose({ name: "epoch_manager_system_address" })
+  @Expose({ name: "consensus_manager_system_address" })
   @Type(() => String)
-  epochManagerSystemAddress: string;
-
-  @Expose({ name: "clock_system_address" })
-  @Type(() => String)
-  clockSystemAddress: string;
+  consensusManagerSystemAddress: string;
 
   constructor(
     faucetComponentAddress: string,
@@ -81,8 +77,7 @@ export class KnownEntityAddressesResponse {
     ecdsaSecp256k1TokenResourceAddress: string,
     eddsaEd25519TokenResourceAddress: string,
     packageTokenResourceAddress: string,
-    epochManagerSystemAddress: string,
-    clockSystemAddress: string
+    consensusManagerSystemAddress: string
   ) {
     this.faucetComponentAddress = faucetComponentAddress;
     this.faucetPackageAddress = faucetPackageAddress;
@@ -93,8 +88,7 @@ export class KnownEntityAddressesResponse {
       ecdsaSecp256k1TokenResourceAddress;
     this.eddsaEd25519TokenResourceAddress = eddsaEd25519TokenResourceAddress;
     this.packageTokenResourceAddress = packageTokenResourceAddress;
-    this.epochManagerSystemAddress = epochManagerSystemAddress;
-    this.clockSystemAddress = clockSystemAddress;
+    this.consensusManagerSystemAddress = consensusManagerSystemAddress;
   }
 
   toString(): string {

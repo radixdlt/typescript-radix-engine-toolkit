@@ -177,8 +177,8 @@ const prepareManifest = (manifestPath: string): TransactionManifest => {
       "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
     )
     .replaceAll(
-      "${epochmanager_address}",
-      "epochmanager_sim1sexxxxxxxxxxephmgrxxxxxxxxx009352500589xxxxxxxxx82g6cl"
+      "${consensusmanager_address}",
+      "consensusmanager_sim1sexxxxxxxxxxephmgrxxxxxxxxx009352500589xxxxxxxxx82g6cl"
     )
     .replaceAll(
       "${clock_address}",

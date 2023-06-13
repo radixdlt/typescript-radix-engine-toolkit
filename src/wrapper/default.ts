@@ -403,7 +403,7 @@ export class RadixEngineToolkit {
         ecdsaSecp256k1TokenResourceAddress,
         eddsaEd25519TokenResourceAddress,
         packageTokenResourceAddress,
-        epochManagerSystemAddress,
+        consensusManagerSystemAddress,
         clockSystemAddress,
       }) => {
         return {
@@ -416,7 +416,7 @@ export class RadixEngineToolkit {
             ecdsaSecp256k1TokenResourceAddress,
           eddsaEd25519TokenResourceAddress: eddsaEd25519TokenResourceAddress,
           packageTokenResourceAddress: packageTokenResourceAddress,
-          epochManagerComponentAddress: epochManagerSystemAddress,
+          consensusManagerComponentAddress: consensusManagerSystemAddress,
           clockComponentAddress: clockSystemAddress,
         };
       }
@@ -617,9 +617,9 @@ export interface AddressBook {
   packageTokenResourceAddress: string;
 
   /**
-   * The address of the EpochManager component
+   * The address of the ConsensusManager component
    */
-  epochManagerComponentAddress: string;
+  consensusManagerComponentAddress: string;
 
   /**
    * The address of the Clock component

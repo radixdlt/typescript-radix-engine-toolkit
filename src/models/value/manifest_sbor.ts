@@ -661,11 +661,11 @@ export class Address extends Value implements IAddress {
       .then(({ packageTokenResourceAddress }) => packageTokenResourceAddress)
       .then((address) => new Address(address));
   }
-  static async epochManagerComponentAddress(
+  static async consensusManagerComponentAddress(
     networkId: number
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
-      .then(({ epochManagerComponentAddress }) => epochManagerComponentAddress)
+      .then(({ consensusManagerComponentAddress }) => consensusManagerComponentAddress)
       .then((address) => new Address(address));
   }
   static async clockComponentAddress(networkId: number): Promise<Address> {

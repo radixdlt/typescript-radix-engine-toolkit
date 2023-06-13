@@ -180,8 +180,6 @@ export namespace LTSRadixEngineToolkit {
           ecdsaSecp256k1TokenResourceAddress,
           eddsaEd25519TokenResourceAddress,
           packageTokenResourceAddress,
-          epochManagerComponentAddress,
-          clockComponentAddress,
         }) => {
           return {
             resources: {
@@ -193,8 +191,6 @@ export namespace LTSRadixEngineToolkit {
             },
             components: {
               faucet: faucetComponentAddress,
-              epochManager: epochManagerComponentAddress,
-              clock: clockComponentAddress,
             },
             packages: {
               faucet: faucetPackageAddress,
@@ -233,8 +229,6 @@ export interface AddressBook {
   };
   components: {
     faucet: string;
-    epochManager: string;
-    clock: string;
   };
   packages: {
     faucet: string;

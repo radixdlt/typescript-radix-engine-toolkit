@@ -19,7 +19,7 @@ export enum EntityType {
   GlobalPackage = "GlobalPackage",
   GlobalFungibleResource = "GlobalFungibleResource",
   GlobalNonFungibleResource = "GlobalNonFungibleResource",
-  GlobalEpochManager = "GlobalEpochManager",
+  GlobalConsensusManager = "GlobalConsensusManager",
   GlobalValidator = "GlobalValidator",
   GlobalClock = "GlobalClock",
   GlobalAccessController = "GlobalAccessController",
