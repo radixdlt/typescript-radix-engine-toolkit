@@ -44,14 +44,14 @@ export class TransactionBuilder {
   }
 
   public static async new(): Promise<TransactionBuilder> {
-    let ret = await RET;
+    const ret = await RET;
     return new TransactionBuilder(ret);
   }
 
   public static async from(
     transactionIntent: TransactionIntent | SignedTransactionIntent
   ): Promise<TransactionBuilderIntentSignaturesStep> {
-    let builder = await TransactionBuilder.new();
+    const builder = await TransactionBuilder.new();
     if (transactionIntent instanceof TransactionIntent) {
       return builder
         .header(transactionIntent.header)

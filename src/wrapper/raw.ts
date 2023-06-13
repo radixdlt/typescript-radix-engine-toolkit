@@ -88,7 +88,7 @@ export class RawRadixEngineToolkit {
     input: InformationInput
   ): Promise<InformationOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(input, ret.exports.information, InformationOutput);
@@ -98,7 +98,7 @@ export class RawRadixEngineToolkit {
     input: ExtractAddressesFromManifestInput
   ): Promise<ExtractAddressesFromManifestOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -112,7 +112,7 @@ export class RawRadixEngineToolkit {
     input: ConvertManifestInput
   ): Promise<ConvertManifestOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(input, ret.exports.convert_manifest, TransactionManifest);
@@ -122,7 +122,7 @@ export class RawRadixEngineToolkit {
     input: CompileTransactionIntentInput
   ): Promise<CompileTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -136,7 +136,7 @@ export class RawRadixEngineToolkit {
     input: HashTransactionIntentInput
   ): Promise<HashTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -150,7 +150,7 @@ export class RawRadixEngineToolkit {
     input: HashSignedTransactionIntentInput
   ): Promise<HashSignedTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -164,7 +164,7 @@ export class RawRadixEngineToolkit {
     input: HashNotarizedTransactionInput
   ): Promise<HashNotarizedTransactionOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -178,7 +178,7 @@ export class RawRadixEngineToolkit {
     input: CompileSignedTransactionIntentInput
   ): Promise<CompileSignedTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -192,7 +192,7 @@ export class RawRadixEngineToolkit {
     input: CompileNotarizedTransactionInput
   ): Promise<CompileNotarizedTransactionOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -206,7 +206,7 @@ export class RawRadixEngineToolkit {
     input: DecompileTransactionIntentInput
   ): Promise<DecompileTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -220,7 +220,7 @@ export class RawRadixEngineToolkit {
     input: DecompileSignedTransactionIntentInput
   ): Promise<DecompileSignedTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -234,7 +234,7 @@ export class RawRadixEngineToolkit {
     input: DecompileNotarizedTransactionIntentInput
   ): Promise<DecompileNotarizedTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -248,10 +248,10 @@ export class RawRadixEngineToolkit {
     input: DecompileUnknownTransactionIntentInput
   ): Promise<DecompileUnknownTransactionIntentOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let output = ret.invoke(
+    const output = ret.invoke(
       input,
       ret.exports.decompile_unknown_transaction_intent,
       DecompileUnknownTransactionIntentOutput
@@ -289,10 +289,10 @@ export class RawRadixEngineToolkit {
     input: EncodeAddressInput
   ): Promise<EncodeAddressOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let output = ret.invoke(
+    const output = ret.invoke(
       input,
       ret.exports.encode_address,
       EncodeAddressOutput
@@ -305,7 +305,7 @@ export class RawRadixEngineToolkit {
     input: DecodeAddressInput
   ): Promise<DecodeAddressOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(input, ret.exports.decode_address, DecodeAddressOutput);
@@ -315,7 +315,7 @@ export class RawRadixEngineToolkit {
     input: SborEncodeInput
   ): Promise<SborEncodeOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(input, ret.exports.sbor_encode, SborEncodeOutput);
@@ -325,7 +325,7 @@ export class RawRadixEngineToolkit {
     input: SborDecodeInput
   ): Promise<SborDecodeOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     let output = ret.invoke(input, ret.exports.sbor_decode, SborValue.Value);
@@ -341,7 +341,7 @@ export class RawRadixEngineToolkit {
     input: DeriveVirtualAccountAddressInput
   ): Promise<DeriveVirtualAccountAddressOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -355,7 +355,7 @@ export class RawRadixEngineToolkit {
     input: DeriveVirtualIdentityAddressInput
   ): Promise<DeriveVirtualIdentityAddressOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -369,7 +369,7 @@ export class RawRadixEngineToolkit {
     input: DeriveBabylonAddressFromOlympiaAddressInput
   ): Promise<DeriveBabylonAddressFromOlympiaAddressOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -383,7 +383,7 @@ export class RawRadixEngineToolkit {
     input: KnownEntityAddressesInput
   ): Promise<KnownEntityAddressesOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     return ret.invoke(
@@ -397,7 +397,7 @@ export class RawRadixEngineToolkit {
     input: StaticallyValidateTransactionInput
   ): Promise<StaticallyValidateTransactionOutput> {
     // Get the instance of the Radix Engine Toolkit
-    let ret = await RET;
+    const ret = await RET;
 
     // Invoke the Radix Engine Toolkit
     let output = ret.invoke(

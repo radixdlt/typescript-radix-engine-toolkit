@@ -877,9 +877,9 @@ export class Bytes extends Value {
 }
 
 function resolveValue(object: Object): Value {
-  let resolveSingleFn = <T>(object: Object, Class: ClassConstructor<T>): T =>
+  const resolveSingleFn = <T>(object: Object, Class: ClassConstructor<T>): T =>
     plainToInstance(Class, instanceToPlain(object));
-  let type: Kind = (object as Value).kind;
+  const type: Kind = (object as Value).kind;
 
   switch (type) {
     case Kind.Bool:

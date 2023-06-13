@@ -24,10 +24,10 @@ import {
 
 describe("essential", () => {
   it("essential", async () => {
-    let information = await RawRadixEngineToolkit.information(
+    const information = await RawRadixEngineToolkit.information(
       new InformationInput()
     );
-    let expected = new InformationOutput(
+    const expected = new InformationOutput(
       "0.9.0",
       new Uint8Array([
         102, 62, 156, 195, 224, 76, 56, 140, 3, 175, 240, 169, 230, 68, 6, 174,

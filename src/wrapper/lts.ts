@@ -274,7 +274,7 @@ const summarizeTransaction = async (
   // Get the instructions contained in the passed compiled intent
   let instructions: Array<Instruction.Instruction>;
 
-  let decompiledIntent =
+  const decompiledIntent =
     await RadixEngineToolkit.decompileUnknownTransactionIntent(
       compiledIntent,
       InstructionList.Kind.Parsed
@@ -311,16 +311,16 @@ const summarizeTransaction = async (
     throw new Error("Invalid types");
   }
 
-  let knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
+  const knownEntityAddresses = await RadixEngineToolkit.knownEntityAddresses(
     networkId
   );
-  let faucetComponentAddress: string | undefined =
+  const faucetComponentAddress: string | undefined =
     networkId === 0 ? undefined : knownEntityAddresses.faucetComponentAddress;
-  let xrdResourceAddress = knownEntityAddresses.xrdResourceAddress;
+  const xrdResourceAddress = knownEntityAddresses.xrdResourceAddress;
 
   // A map where the key is the bucket ID and the value is a tuple of the resource address and
   // amount.
-  let bucketAmounts: Record<string, [string, Decimal]> = {};
+  const bucketAmounts: Record<string, [string, Decimal]> = {};
 
   let feesLocked:
     | {
@@ -328,8 +328,8 @@ const summarizeTransaction = async (
         amount: Decimal;
       }
     | undefined = undefined;
-  let withdraws: Record<string, Record<string, Decimal>> = {};
-  let deposits: Record<string, Record<string, Decimal>> = {};
+  const withdraws: Record<string, Record<string, Decimal>> = {};
+  const deposits: Record<string, Record<string, Decimal>> = {};
 
   // Iterate over the instructions and resolve them
   for (const instruction of instructions) {
@@ -372,8 +372,8 @@ const summarizeTransaction = async (
           callMethodInstruction.arguments[0].kind ===
             ManifestAstValue.Kind.Decimal
         ) {
-          let lockFeeAccount = callMethodInstruction.componentAddress.value;
-          let lockFeeAmount = (
+          const lockFeeAccount = callMethodInstruction.componentAddress.value;
+          const lockFeeAmount = (
             callMethodInstruction.arguments[0] as ManifestAstValue.Decimal
           ).value;
 
@@ -393,12 +393,12 @@ const summarizeTransaction = async (
           callMethodInstruction.arguments[1].kind ===
             ManifestAstValue.Kind.Decimal
         ) {
-          let withdrawAccountAddress =
+          const withdrawAccountAddress =
             callMethodInstruction.componentAddress.value;
-          let withdrawResourceAddress = (
+          const withdrawResourceAddress = (
             callMethodInstruction.arguments[0] as ManifestAstValue.Address
           ).value;
-          let withdrawAmount = (
+          const withdrawAmount = (
             callMethodInstruction.arguments[1] as ManifestAstValue.Decimal
           ).value;
 
@@ -419,12 +419,12 @@ const summarizeTransaction = async (
           callMethodInstruction.arguments[0].kind ===
             ManifestAstValue.Kind.Bucket
         ) {
-          let depositAccountAddress =
+          const depositAccountAddress =
             callMethodInstruction.componentAddress.value;
-          let depositBucketId = (
+          const depositBucketId = (
             callMethodInstruction.arguments[0] as ManifestAstValue.Bucket
           ).value;
-          let [depositResourceAddress, depositAmount] =
+          const [depositResourceAddress, depositAmount] =
             bucketAmounts[depositBucketId];
 
           deposits[depositAccountAddress] ??= {};

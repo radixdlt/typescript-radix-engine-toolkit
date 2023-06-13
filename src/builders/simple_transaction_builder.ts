@@ -271,9 +271,9 @@ export class SimpleTransactionBuilder {
   }
 
   private constructTransactionManifest(): TransactionManifest {
-    let feeAmount = this.resolveFeeAmount();
-    let instructions: Array<Instruction.Instruction> = [];
-    let { withdraws, deposits } = this.resolveActions();
+    const feeAmount = this.resolveFeeAmount();
+    const instructions: Array<Instruction.Instruction> = [];
+    const { withdraws, deposits } = this.resolveActions();
 
     instructions.push(
       new Instruction.CallMethod(
@@ -333,12 +333,12 @@ export class SimpleTransactionBuilder {
     withdraws: Record<string, Record<string, Decimal>>;
     deposits: Record<string, Record<string, Decimal>>;
   } {
-    let withdraws: Record<string, Record<string, Decimal>> = {}; // Account Address => (Resource Address => amount)
-    let deposits: Record<string, Record<string, Decimal>> = {}; // Account Address => (Resource Address => amount)
+    const withdraws: Record<string, Record<string, Decimal>> = {}; // Account Address => (Resource Address => amount)
+    const deposits: Record<string, Record<string, Decimal>> = {}; // Account Address => (Resource Address => amount)
 
-    for (let action of this._actions) {
+    for (const action of this._actions) {
       if (action instanceof FungibleResourceTransferAction) {
-        let { from, to, resourceAddress, amount } = action;
+        const { from, to, resourceAddress, amount } = action;
 
         // Resolve the withdraws
         if (withdraws?.[from] === undefined) {

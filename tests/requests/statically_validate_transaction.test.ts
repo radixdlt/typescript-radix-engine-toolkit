@@ -32,19 +32,19 @@ import {} from "../../src/utils";
 describe("Statically Validate Transaction", () => {
   it("transactions produced by transaction builder are valid", async () => {
     // Arrange
-    let notaryPrivateKey = new PrivateKey.EddsaEd25519(
+    const notaryPrivateKey = new PrivateKey.EddsaEd25519(
       "2342d54a97214bd669640acab5de23d6f44028f1232386d3f9d3a60a50d6f7b3"
     );
 
-    let signatory1PrivateKey = new PrivateKey.EddsaEd25519(
+    const signatory1PrivateKey = new PrivateKey.EddsaEd25519(
       "4293dd008ada84274fd828dde7f6662cbe6f38e4a2718266f08e5006d5b3c283"
     );
-    let signatory2PrivateKey = new PrivateKey.EcdsaSecp256k1(
+    const signatory2PrivateKey = new PrivateKey.EcdsaSecp256k1(
       "f13c26917d52df6339ffa59c289bc4b6384a8b341413242a16272e7c168c72cc"
     );
 
     // Act
-    let notarizedTransaction = (await TransactionBuilder.new())
+    const notarizedTransaction = (await TransactionBuilder.new())
       .header(
         new TransactionHeader(
           1,
@@ -60,13 +60,13 @@ describe("Statically Validate Transaction", () => {
       .sign(signatory1PrivateKey)
       .sign(signatory2PrivateKey)
       .notarize(notaryPrivateKey);
-    let compiledNotarizedTransaction = (
+    const compiledNotarizedTransaction = (
       await RawRadixEngineToolkit.compileNotarizedTransactionIntent(
         notarizedTransaction
       )
     ).compiledIntent;
 
-    let validationResult = await (
+    const validationResult = await (
       await RawRadixEngineToolkit
     ).staticallyValidateTransaction(
       new StaticallyValidateTransactionInput(
@@ -83,20 +83,19 @@ describe("Statically Validate Transaction", () => {
 
   it("faucet transactions produced by transaction builder are valid", async () => {
     // Arrange
-    let notaryPrivateKey = new PrivateKey.EddsaEd25519(
+    const notaryPrivateKey = new PrivateKey.EddsaEd25519(
       "2342d54a97214bd669640acab5de23d6f44028f1232386d3f9d3a60a50d6f7b3"
     );
 
-    let notarizedTransaction = await SimpleTransactionBuilder.freeXrdFromFaucet(
-      {
+    const notarizedTransaction =
+      await SimpleTransactionBuilder.freeXrdFromFaucet({
         toAccount:
           "account_sim1c95lpadykhzwy6tv7ncwprda04v58yaxnafglv63dl6j797ky0g57v",
         networkId: 0xf2,
         validFromEpoch: 10,
-      }
-    );
+      });
 
-    let validationResult = await (
+    const validationResult = await (
       await RawRadixEngineToolkit
     ).staticallyValidateTransaction(
       new StaticallyValidateTransactionInput(

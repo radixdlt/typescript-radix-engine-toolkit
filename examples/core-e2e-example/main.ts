@@ -18,7 +18,7 @@ global.crypto = require("crypto").webcrypto;
 export async function generateSecureRandomBytes(
   count: number
 ): Promise<Uint8Array> {
-  var byteArray = new Uint8Array(count);
+  const byteArray = new Uint8Array(count);
   global.crypto.getRandomValues(byteArray);
   return byteArray;
 }

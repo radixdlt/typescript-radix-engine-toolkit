@@ -50,24 +50,24 @@ const main = async () => {
   // Setting up the Gateway Sub-APIs that will be used in this example. We will be utilizing two sub
   // APIs: the Status API to get the current epoch and the transaction API to submit and query the
   // status of transactions on the network.
-  let apiConfiguration = new Configuration({
+  const apiConfiguration = new Configuration({
     basePath: NetworkConfiguration.gatewayBaseUrl,
   });
-  let statusApi = new StatusApi(apiConfiguration);
-  let transactionApi = new TransactionApi(apiConfiguration);
+  const statusApi = new StatusApi(apiConfiguration);
+  const transactionApi = new TransactionApi(apiConfiguration);
 
   // Setting up the private key of the transaction notary.
-  let notaryPrivateKey = new PrivateKey.EcdsaSecp256k1(
+  const notaryPrivateKey = new PrivateKey.EcdsaSecp256k1(
     "1df0292c520543a4d8e43e230c29e4c7b49669ec71940fea1b87be3224bc6442"
   );
 
   // Building the manifest of this example. The manifest for this example will be quite simple: it
   // will lock some amount of XRD in fees from the faucet's component.
-  let faucetComponentAddress = await RadixEngineToolkit.knownEntityAddresses(
+  const faucetComponentAddress = await RadixEngineToolkit.knownEntityAddresses(
     NetworkConfiguration.networkId
   ).then((output) => output.faucetComponentAddress);
 
-  let manifest = new ManifestBuilder()
+  const manifest = new ManifestBuilder()
     .callMethod(faucetComponentAddress, "lock_fee", [
       new ManifestAstValue.Decimal(10),
     ])
@@ -77,8 +77,8 @@ const main = async () => {
   // transaction construction requires knowledge of the ledger state, more specifically, we need to
   // have knowledge of the current epoch of the network to set the epoch bounds in the transaction
   // header. This information can be obtained from the gateway API through the status API.
-  let currentEpoch = await getCurrentEpoch(statusApi);
-  let notarizedTransaction = (await TransactionBuilder.new())
+  const currentEpoch = await getCurrentEpoch(statusApi);
+  const notarizedTransaction = (await TransactionBuilder.new())
     .header(
       new TransactionHeader(
         NetworkConfiguration.networkId,
@@ -95,7 +95,7 @@ const main = async () => {
 
   // After the transaction has been built, we can get the transaction id (transaction hash) which is
   // the identifier used to get information on this transaction through the gateway.
-  let transactionId = await notarizedTransaction.transactionId();
+  const transactionId = await notarizedTransaction.transactionId();
   console.log("Transaction ID:", Convert.Uint8Array.toHexString(transactionId));
 
   // After the transaction has been built, it can be printed to the console as a JSON string if the
@@ -105,14 +105,14 @@ const main = async () => {
   // To submit the transaction to the Gateway API, it must first be compiled or converted from its
   // human readable format down to an array of bytes that can be consumed by the gateway. This can
   // be done by calling the compile method on the transaction object.
-  let compiledTransaction = await notarizedTransaction.compile();
+  const compiledTransaction = await notarizedTransaction.compile();
   console.log(
     "Compiled Transaction:",
     Convert.Uint8Array.toHexString(compiledTransaction)
   );
 
   // Now that we have the compiled transaction, we can submit it to the Gateway API.
-  let submissionResult = await submitTransaction(
+  const submissionResult = await submitTransaction(
     transactionApi,
     compiledTransaction
   );
@@ -121,7 +121,7 @@ const main = async () => {
   // There will be some time needed for the transaction to be propagated to nodes and then processed
   // by the network. We will poll the transaction status until the transaction is eventually
   // committed
-  let transactionStatus = undefined;
+  const transactionStatus = undefined;
   while (
     transactionStatus === undefined ||
     transactionStatus?.status === TransactionStatus.Pending

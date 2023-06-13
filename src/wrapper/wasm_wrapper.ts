@@ -54,7 +54,7 @@ class RadixEngineToolkitWasmWrapper {
   }
 
   public static async new(): Promise<RadixEngineToolkitWasmWrapper> {
-    let instance = await radixEngineToolkitWasm({});
+    const instance = await radixEngineToolkitWasm({});
     return new RadixEngineToolkitWasmWrapper(instance.instance);
   }
 
@@ -80,14 +80,14 @@ class RadixEngineToolkitWasmWrapper {
     Output: ClassConstructor<O>
   ): O {
     // Write the input object to memory and get a pointer to where it was written
-    let inputPointer = this.writeObjectToMemory(input);
+    const inputPointer = this.writeObjectToMemory(input);
 
     // Call the WASM function with the input pointer
-    let outputPointer = fn(inputPointer);
+    const outputPointer = fn(inputPointer);
 
     // Read and deserialize the output
-    let outputString = this.readStringFromMemory(outputPointer);
-    let parsedOutput = JSON.parse(outputString);
+    const outputString = this.readStringFromMemory(outputPointer);
+    const parsedOutput = JSON.parse(outputString);
     if (isRetInvocationError(parsedOutput?.["type"])) {
       throw new Error(
         `Invocation Error. Invocation: """${JSON.stringify(
@@ -96,7 +96,7 @@ class RadixEngineToolkitWasmWrapper {
       );
     }
 
-    let output = plainToInstance(Output, parsedOutput);
+    const output = plainToInstance(Output, parsedOutput);
 
     // Deallocate the input and output pointers
     this.deallocateMemory(inputPointer);
@@ -123,14 +123,14 @@ class RadixEngineToolkitWasmWrapper {
    */
   private readStringFromMemory(pointer: number): string {
     // Determine the length of the string based on the first null terminator
-    let view = new Uint8Array(this.exports.memory.buffer, pointer);
-    let length = view.findIndex((byte) => byte === 0);
+    const view = new Uint8Array(this.exports.memory.buffer, pointer);
+    const length = view.findIndex((byte) => byte === 0);
 
     if (length == -1) {
       throw new Error("No null terminator found");
     } else {
       // Read the UTF-8 encoded string from memory
-      let nullTerminatedUtf8EncodedString = new Uint8Array(
+      const nullTerminatedUtf8EncodedString = new Uint8Array(
         this.exports.memory.buffer,
         pointer,
         length
@@ -152,7 +152,7 @@ class RadixEngineToolkitWasmWrapper {
    */
   private writeObjectToMemory(obj: any): number {
     // Serialize the object to json
-    let serializedObject: string = this.serializeObject(obj);
+    const serializedObject: string = this.serializeObject(obj);
 
     // Write the string to memory and return the pointer
     return this.writeStringToMemory(serializedObject);
@@ -192,13 +192,13 @@ class RadixEngineToolkitWasmWrapper {
    */
   private writeStringToMemory(str: string): number {
     // UTF-8 encode the string and add the null terminator to it.
-    let nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array([
+    const nullTerminatedUtf8EncodedString: Uint8Array = new Uint8Array([
       ...this.encoder.encode(str),
       0,
     ]);
 
     // Allocate memory for the string
-    let memoryPointer: number = this.allocateMemory(
+    const memoryPointer: number = this.allocateMemory(
       nullTerminatedUtf8EncodedString.length
     );
 

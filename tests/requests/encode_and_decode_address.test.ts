@@ -38,7 +38,7 @@ describe.each([
   ({ expectedAddressBytes, expectedAddress }) => {
     test(`${expectedAddressBytes} encodes to ${expectedAddress}`, async () => {
       // Act
-      let encodedAddress = await RawRadixEngineToolkit.encodeAddress(
+      const encodedAddress = await RawRadixEngineToolkit.encodeAddress(
         new EncodeAddressInput(expectedAddressBytes, 0xf2)
       );
 
@@ -48,7 +48,7 @@ describe.each([
 
     test(`${expectedAddress} decodes to ${expectedAddressBytes}`, async () => {
       // Act
-      let address = await RawRadixEngineToolkit.decodeAddress(
+      const address = await RawRadixEngineToolkit.decodeAddress(
         new DecodeAddressInput(expectedAddress.address)
       );
 

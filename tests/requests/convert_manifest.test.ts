@@ -54,10 +54,10 @@ describe.each([
 ])("Convert manifest works for $0", (path) => {
   test(`${path} can be converted to String`, async () => {
     // Arrange
-    let manifest = prepareManifest(path);
+    const manifest = prepareManifest(path);
 
     // Act
-    let convertedManifest = await RawRadixEngineToolkit.convertManifest(
+    const convertedManifest = await RawRadixEngineToolkit.convertManifest(
       new ConvertManifestInput(0xf2, InstructionList.Kind.String, manifest)
     );
 
@@ -67,10 +67,10 @@ describe.each([
 
   test(`${path} can be converted to Parsed`, async () => {
     // Arrange
-    let manifest = prepareManifest(path);
+    const manifest = prepareManifest(path);
 
     // Act
-    let convertedManifest = await RawRadixEngineToolkit.convertManifest(
+    const convertedManifest = await RawRadixEngineToolkit.convertManifest(
       new ConvertManifestInput(0xf2, InstructionList.Kind.Parsed, manifest)
     );
 
@@ -81,13 +81,13 @@ describe.each([
 
 const prepareManifest = (manifestPath: string): TransactionManifest => {
   // Read the manifest at the given path
-  let fileContent = fs.readFileSync(
+  const fileContent = fs.readFileSync(
     path.join(__dirname, manifestPath),
     "utf-8"
   );
 
   // Perform replacements on the manifest string
-  let stringManifest = fileContent
+  const stringManifest = fileContent
     // @ts-ignore
     .replaceAll(
       "${xrd_resource_address}",

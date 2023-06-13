@@ -63,7 +63,7 @@ export namespace DecimalAsString {
 
 export namespace Array1DAsArray2D {
   export const serialize: TransformFn = ({ value }: TransformFnParams): any => {
-    let array = [];
+    const array = [];
     for (let i = 0; i < (value as any[]).length; i += 2) {
       array.push([value[i], value[i + 1]]);
     }
@@ -73,9 +73,9 @@ export namespace Array1DAsArray2D {
   export const deserialize: TransformFn = ({
     value,
   }: TransformFnParams): any => {
-    let array = [];
-    for (let row of value as any[]) {
-      for (let element of row as any[]) {
+    const array = [];
+    for (const row of value as any[]) {
+      for (const element of row as any[]) {
         array.push(element);
       }
     }

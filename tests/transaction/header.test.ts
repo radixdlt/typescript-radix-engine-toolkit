@@ -55,7 +55,7 @@ describe.each([
   ({ expectedObject, expectedSerialization }) => {
     test(`${expectedObject} is serialized as expected`, () => {
       // Act
-      let actualSerialization = serialize(expectedObject);
+      const actualSerialization = serialize(expectedObject);
 
       // Assert
       assertSerializationEquals(actualSerialization, expectedSerialization);
@@ -63,7 +63,7 @@ describe.each([
 
     test(`${expectedSerialization} is deserialized as expected`, () => {
       // Act
-      let actualObject = deserialize(
+      const actualObject = deserialize(
         expectedSerialization,
         // @ts-ignore
         expectedObject.constructor

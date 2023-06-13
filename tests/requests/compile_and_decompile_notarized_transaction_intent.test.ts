@@ -106,7 +106,7 @@ describe.each([
   ({ expectedIntent, expectedCompiledIntent }) => {
     test(`${expectedIntent} is compiled as expected`, async () => {
       // Act
-      let compiledIntent = (
+      const compiledIntent = (
         await RawRadixEngineToolkit.compileNotarizedTransactionIntent(
           expectedIntent
         )
@@ -118,7 +118,7 @@ describe.each([
 
     test(`${expectedIntent} is decompiled as expected`, async () => {
       // Act
-      let intent =
+      const intent =
         await RawRadixEngineToolkit.decompileNotarizedTransactionIntent(
           new DecompileNotarizedTransactionIntentInput(
             InstructionList.Kind.Parsed,
@@ -132,7 +132,7 @@ describe.each([
 
     test(`${expectedIntent} as unknown is decompiled as expected`, async () => {
       // Act
-      let intent =
+      const intent =
         await RawRadixEngineToolkit.decompileUnknownTransactionIntent(
           new DecompileUnknownTransactionIntentInput(
             InstructionList.Kind.Parsed,
@@ -146,7 +146,7 @@ describe.each([
 
     test(`Shorthand decompile notarized transaction intent succeeds`, async () => {
       // Act
-      let recompiled = await NotarizedTransaction.decompile(
+      const recompiled = await NotarizedTransaction.decompile(
         expectedCompiledIntent
       ).then((intent) => intent.compile());
 

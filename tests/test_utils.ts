@@ -25,11 +25,11 @@ const sortByKey = <T>(object: T): T => {
     return object.map(sortByKey);
   } else if (typeof object == "object") {
     // @ts-ignore
-    let keys = Object.keys(object);
+    const keys = Object.keys(object);
     keys.sort();
 
     // @ts-ignore
-    let newObject: T = {};
+    const newObject: T = {};
     for (let i = 0; i < keys.length; i++) {
       // @ts-ignore
       newObject[keys[i]] = sortByKey(object[keys[i]]);

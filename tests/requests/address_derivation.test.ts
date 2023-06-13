@@ -47,7 +47,7 @@ describe.each([
   }) => {
     test(`account address for ${expectedPublicKey} should be ${expectedAccountAddress}`, async () => {
       // Act
-      let virtualAddress = (
+      const virtualAddress = (
         await RawRadixEngineToolkit.deriveVirtualAccountAddress(
           new DeriveVirtualAccountAddressInput(0xf2, expectedPublicKey)
         )
@@ -59,7 +59,7 @@ describe.each([
 
     test(`identity address for ${expectedPublicKey} should be ${expectedIdentityAddress}`, async () => {
       // Act
-      let virtualAddress = (
+      const virtualAddress = (
         await RawRadixEngineToolkit.deriveVirtualIdentityAddress(
           new DeriveVirtualIdentityAddressInput(0xf2, expectedPublicKey)
         )
@@ -71,7 +71,7 @@ describe.each([
 
     test(`Olympia address for ${expectedPublicKey} should be ${expectedOlympiaAddress}`, async () => {
       // Act
-      let publicKey = (
+      const publicKey = (
         await RawRadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
           new DeriveBabylonAddressFromOlympiaAddressInput(
             0xf2,

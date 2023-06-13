@@ -44,7 +44,7 @@ export class EcdsaSecp256k1 implements IPrivateKey {
   }
 
   sign(data: Uint8Array): Uint8Array {
-    let { signature, recid } = ecdsaSign(data, this.bytes);
+    const { signature, recid } = ecdsaSign(data, this.bytes);
     return new Uint8Array([recid, ...signature]);
   }
 
@@ -87,7 +87,7 @@ export class EddsaEd25519 implements IPrivateKey {
   }
 
   sign(data: Uint8Array): Uint8Array {
-    let signature = ed.sign(data, this.bytes);
+    const signature = ed.sign(data, this.bytes);
     return signature;
   }
 

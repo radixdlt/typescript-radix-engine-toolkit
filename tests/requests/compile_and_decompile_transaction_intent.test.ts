@@ -57,7 +57,7 @@ describe.each([
   ({ expectedIntent, expectedCompiledIntent }) => {
     test(`${expectedIntent} is compiled as expected`, async () => {
       // Act
-      let compiledIntent = (
+      const compiledIntent = (
         await RawRadixEngineToolkit.compileTransactionIntent(expectedIntent)
       ).compiledIntent;
 
@@ -67,7 +67,7 @@ describe.each([
 
     test(`${expectedIntent} is decompiled as expected`, async () => {
       // Act
-      let intent = await RawRadixEngineToolkit.decompileTransactionIntent(
+      const intent = await RawRadixEngineToolkit.decompileTransactionIntent(
         new DecompileTransactionIntentInput(
           InstructionList.Kind.String,
           expectedCompiledIntent
@@ -80,7 +80,7 @@ describe.each([
 
     test(`${expectedIntent} as unknown is decompiled as expected`, async () => {
       // Act
-      let intent =
+      const intent =
         await RawRadixEngineToolkit.decompileUnknownTransactionIntent(
           new DecompileUnknownTransactionIntentInput(
             InstructionList.Kind.String,
@@ -94,7 +94,7 @@ describe.each([
 
     test(`Shorthand decompile transaction intent succeeds`, async () => {
       // Act
-      let recompiled = await TransactionIntent.decompile(
+      const recompiled = await TransactionIntent.decompile(
         expectedCompiledIntent
       ).then((intent) => intent.compile());
 

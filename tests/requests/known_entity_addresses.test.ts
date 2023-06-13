@@ -25,7 +25,7 @@ import {
 
 describe("Known Entity Addresses", () => {
   it("Known Entity Addresses", async () => {
-    let output = await RawRadixEngineToolkit.knownEntityAddresses(
+    const output = await RawRadixEngineToolkit.knownEntityAddresses(
       new KnownEntityAddressesInput(0x01)
     );
 
@@ -33,16 +33,17 @@ describe("Known Entity Addresses", () => {
   });
 
   it("Known entity addresses through default wrapper succeeds", async () => {
-    let xrdResourceAddress = await RadixEngineToolkit.knownEntityAddresses(
+    const xrdResourceAddress = await RadixEngineToolkit.knownEntityAddresses(
       0x01
     ).then((output) => output.xrdResourceAddress);
     expect(xrdResourceAddress).toBeDefined();
   });
 
   it("Known entity addresses through LTS wrapper succeeds", async () => {
-    let xrdResourceAddress = await LTSRadixEngineToolkit.Derive.knownAddresses(
-      0x01
-    ).then((output) => output.resources.xrdResource);
+    const xrdResourceAddress =
+      await LTSRadixEngineToolkit.Derive.knownAddresses(0x01).then(
+        (output) => output.resources.xrdResource
+      );
     expect(xrdResourceAddress).toBeDefined();
   });
 });
