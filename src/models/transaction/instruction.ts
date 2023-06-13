@@ -75,21 +75,27 @@ const manifestAstValueTypeOptions: TypeOptions = {
 export enum Kind {
   CallFunction = "CALL_FUNCTION",
   CallMethod = "CALL_METHOD",
+  CallRoyaltyMethod = "CALL_ROYALTY_METHOD",
+  CallMetadataMethod = "CALL_METADATA_METHOD",
+  CallAccessRulesMethod = "CALL_ACCESS_RULES_METHOD",
+  TakeAllFromWorktop = "TAKE_ALL_FROM_WORKTOP",
   TakeFromWorktop = "TAKE_FROM_WORKTOP",
-  TakeFromWorktopByAmount = "TAKE_FROM_WORKTOP_BY_AMOUNT",
-  TakeFromWorktopByIds = "TAKE_FROM_WORKTOP_BY_IDS",
+  TakeNonFungiblesFromWorktop = "TAKE_NON_FUNGIBLES_FROM_WORKTOP",
   ReturnToWorktop = "RETURN_TO_WORKTOP",
   AssertWorktopContains = "ASSERT_WORKTOP_CONTAINS",
-  AssertWorktopContainsByAmount = "ASSERT_WORKTOP_CONTAINS_BY_AMOUNT",
-  AssertWorktopContainsByIds = "ASSERT_WORKTOP_CONTAINS_BY_IDS",
+  AssertWorktopContainsNonFungibles = "ASSERT_WORKTOP_CONTAINS_NON_FUNGIBLES",
   PopFromAuthZone = "POP_FROM_AUTH_ZONE",
   PushToAuthZone = "PUSH_TO_AUTH_ZONE",
   ClearAuthZone = "CLEAR_AUTH_ZONE",
   ClearSignatureProofs = "CLEAR_SIGNATURE_PROOFS",
   CreateProofFromAuthZone = "CREATE_PROOF_FROM_AUTH_ZONE",
-  CreateProofFromAuthZoneByAmount = "CREATE_PROOF_FROM_AUTH_ZONE_BY_AMOUNT",
-  CreateProofFromAuthZoneByIds = "CREATE_PROOF_FROM_AUTH_ZONE_BY_IDS",
+  CreateProofFromAuthZoneOfAll = "CREATE_PROOF_FROM_AUTH_ZONE_OF_ALL",
+  CreateProofFromAuthZoneOfAmount = "CREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT",
+  CreateProofFromAuthZoneOfNonFungibles = "CREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES",
   CreateProofFromBucket = "CREATE_PROOF_FROM_BUCKET",
+  CreateProofFromBucketOfAll = "CREATE_PROOF_FROM_BUCKET_OF_ALL",
+  CreateProofFromBucketOfAmount = "CREATE_PROOF_FROM_BUCKET_OF_AMOUNT",
+  CreateProofFromBucketOfNonFungibles = "CREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES",
   CloneProof = "CLONE_PROOF",
   DropProof = "DROP_PROOF",
   DropAllProofs = "DROP_ALL_PROOFS",
@@ -103,7 +109,8 @@ export enum Kind {
   SetComponentRoyaltyConfig = "SET_COMPONENT_ROYALTY_CONFIG",
   ClaimPackageRoyalty = "CLAIM_PACKAGE_ROYALTY",
   ClaimComponentRoyalty = "CLAIM_COMPONENT_ROYALTY",
-  SetMethodAccessRule = "SET_METHOD_ACCESS_RULE",
+  SetAuthorityAccessRule = "SET_AUTHORITY_ACCESS_RULE",
+  SetAuthorityMutability = "SET_AUTHORITY_MUTABILITY",
   MintFungible = "MINT_FUNGIBLE",
   MintNonFungible = "MINT_NON_FUNGIBLE",
   MintUuidNonFungible = "MINT_UUID_NON_FUNGIBLE",
@@ -138,13 +145,13 @@ export class CallFunction extends Instruction {
 
   @Expose({ name: "arguments" })
   @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  arguments: Array<ManifestAstValue.Value> | null;
+  arguments: Array<ManifestAstValue.Value>;
 
   constructor(
     packageAddress: ManifestAstValue.Address,
     blueprintName: ManifestAstValue.String,
     functionName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Value> | null = null
+    args: Array<ManifestAstValue.Value>
   ) {
     super(Kind.CallFunction);
     this.packageAddress = packageAddress;
@@ -177,14 +184,125 @@ export class CallMethod extends Instruction {
 
   @Expose({ name: "arguments" })
   @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  arguments: Array<ManifestAstValue.Value>;
+
+  constructor(
+    componentAddress: ManifestAstValue.Address,
+    methodName: ManifestAstValue.String,
+    args: Array<ManifestAstValue.Value>
+  ) {
+    super(Kind.CallMethod);
+    this.componentAddress = componentAddress;
+    this.methodName = methodName;
+    this.arguments = args;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to call a method with a given name on a given component address with the given
+ * list of arguments.
+ */
+export class CallRoyaltyMethod extends Instruction {
+  @Expose({ name: "component_address" })
+  @Type(() => ManifestAstValue.Address)
+  componentAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "method_name" })
+  @Type(() => ManifestAstValue.String)
+  methodName: ManifestAstValue.String;
+
+  @Expose({ name: "arguments" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
   arguments: Array<ManifestAstValue.Value> | null;
 
   constructor(
     componentAddress: ManifestAstValue.Address,
     methodName: ManifestAstValue.String,
-    args: Array<ManifestAstValue.Value> | null = null
+    args: Array<ManifestAstValue.Value>
   ) {
-    super(Kind.CallMethod);
+    super(Kind.CallRoyaltyMethod);
+    this.componentAddress = componentAddress;
+    this.methodName = methodName;
+    this.arguments = args;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to call a method with a given name on a given component address with the given
+ * list of arguments.
+ */
+export class CallMetadataMethod extends Instruction {
+  @Expose({ name: "component_address" })
+  @Type(() => ManifestAstValue.Address)
+  componentAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "method_name" })
+  @Type(() => ManifestAstValue.String)
+  methodName: ManifestAstValue.String;
+
+  @Expose({ name: "arguments" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  arguments: Array<ManifestAstValue.Value> | null;
+
+  constructor(
+    componentAddress: ManifestAstValue.Address,
+    methodName: ManifestAstValue.String,
+    args: Array<ManifestAstValue.Value>
+  ) {
+    super(Kind.CallMetadataMethod);
+    this.componentAddress = componentAddress;
+    this.methodName = methodName;
+    this.arguments = args;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to call a method with a given name on a given component address with the given
+ * list of arguments.
+ */
+export class CallAccessRulesMethod extends Instruction {
+  @Expose({ name: "component_address" })
+  @Type(() => ManifestAstValue.Address)
+  componentAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "method_name" })
+  @Type(() => ManifestAstValue.String)
+  methodName: ManifestAstValue.String;
+
+  @Expose({ name: "arguments" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  arguments: Array<ManifestAstValue.Value> | null;
+
+  constructor(
+    componentAddress: ManifestAstValue.Address,
+    methodName: ManifestAstValue.String,
+    args: Array<ManifestAstValue.Value>
+  ) {
+    super(Kind.CallAccessRulesMethod);
     this.componentAddress = componentAddress;
     this.methodName = methodName;
     this.arguments = args;
@@ -203,7 +321,7 @@ export class CallMethod extends Instruction {
  * An instruction to take the entire amount of a given resource address from the worktop and put it
  * in a bucket.
  */
-export class TakeFromWorktop extends Instruction {
+export class TakeAllFromWorktop extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
@@ -216,7 +334,7 @@ export class TakeFromWorktop extends Instruction {
     resourceAddress: ManifestAstValue.Address,
     intoBucket: ManifestAstValue.Bucket
   ) {
-    super(Kind.TakeFromWorktop);
+    super(Kind.TakeAllFromWorktop);
     this.resourceAddress = resourceAddress;
     this.intoBucket = intoBucket;
   }
@@ -234,7 +352,7 @@ export class TakeFromWorktop extends Instruction {
  * An instruction to take the an amount of a given resource address from the worktop and put it in a
  * bucket.
  */
-export class TakeFromWorktopByAmount extends Instruction {
+export class TakeFromWorktop extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
@@ -252,7 +370,7 @@ export class TakeFromWorktopByAmount extends Instruction {
     amount: ManifestAstValue.Decimal,
     intoBucket: ManifestAstValue.Bucket
   ) {
-    super(Kind.TakeFromWorktopByAmount);
+    super(Kind.TakeFromWorktop);
     this.resourceAddress = resourceAddress;
     this.amount = amount;
     this.intoBucket = intoBucket;
@@ -271,7 +389,7 @@ export class TakeFromWorktopByAmount extends Instruction {
  * An instruction to take the a set of non-fungible ids of a given resource address from the worktop
  * and put it in a bucket.
  */
-export class TakeFromWorktopByIds extends Instruction {
+export class TakeNonFungiblesFromWorktop extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
@@ -289,7 +407,7 @@ export class TakeFromWorktopByIds extends Instruction {
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     intoBucket: ManifestAstValue.Bucket
   ) {
-    super(Kind.TakeFromWorktopByIds);
+    super(Kind.TakeNonFungiblesFromWorktop);
     this.resourceAddress = resourceAddress;
     this.ids = ids;
     this.intoBucket = intoBucket;
@@ -327,32 +445,10 @@ export class ReturnToWorktop extends Instruction {
 }
 
 /**
- * An instruction to assert that a given resource exists in the worktop.
- */
-export class AssertWorktopContains extends Instruction {
-  @Expose({ name: "resource_address" })
-  @Type(() => ManifestAstValue.Address)
-  resourceAddress: ManifestAstValue.Address;
-
-  constructor(resourceAddress: ManifestAstValue.Address) {
-    super(Kind.AssertWorktopContains);
-    this.resourceAddress = resourceAddress;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-/**
  * An instruction to assert that a specific amount of a specific resource address exists in the
  * worktop.
  */
-export class AssertWorktopContainsByAmount extends Instruction {
+export class AssertWorktopContains extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
@@ -365,7 +461,7 @@ export class AssertWorktopContainsByAmount extends Instruction {
     resourceAddress: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
   ) {
-    super(Kind.AssertWorktopContainsByAmount);
+    super(Kind.AssertWorktopContains);
     this.resourceAddress = resourceAddress;
     this.amount = amount;
   }
@@ -382,7 +478,7 @@ export class AssertWorktopContainsByAmount extends Instruction {
 /**
  * An instruction to assert that a set ids of a specific resource address exists in the worktop.
  */
-export class AssertWorktopContainsByIds extends Instruction {
+export class AssertWorktopContainsNonFungibles extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
@@ -395,7 +491,7 @@ export class AssertWorktopContainsByIds extends Instruction {
     resourceAddress: ManifestAstValue.Address,
     ids: Array<ManifestAstValue.NonFungibleLocalId>
   ) {
-    super(Kind.AssertWorktopContainsByIds);
+    super(Kind.AssertWorktopContainsNonFungibles);
     this.resourceAddress = resourceAddress;
     this.ids = ids;
   }
@@ -519,9 +615,40 @@ export class CreateProofFromAuthZone extends Instruction {
 }
 
 /**
+ * An instruction to create a proof of the entire amount of a given resource address from the auth
+ * zone.
+ */
+export class CreateProofFromAuthZoneOfAll extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
+  resourceAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
+  intoProof: ManifestAstValue.Proof;
+
+  constructor(
+    resourceAddress: ManifestAstValue.Address,
+    intoProof: ManifestAstValue.Proof
+  ) {
+    super(Kind.CreateProofFromAuthZoneOfAll);
+    this.resourceAddress = resourceAddress;
+    this.intoProof = intoProof;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
  * An instruction to create a proof of the an amount of a given resource address from the auth zone.
  */
-export class CreateProofFromAuthZoneByAmount extends Instruction {
+export class CreateProofFromAuthZoneOfAmount extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
@@ -539,7 +666,7 @@ export class CreateProofFromAuthZoneByAmount extends Instruction {
     amount: ManifestAstValue.Decimal,
     intoProof: ManifestAstValue.Proof
   ) {
-    super(Kind.CreateProofFromAuthZoneByAmount);
+    super(Kind.CreateProofFromAuthZoneOfAmount);
     this.resourceAddress = resourceAddress;
     this.amount = amount;
     this.intoProof = intoProof;
@@ -558,7 +685,7 @@ export class CreateProofFromAuthZoneByAmount extends Instruction {
  * An instruction to create a proof of the a set of non-fungible ids of a given resource address
  * from the auth zone.
  */
-export class CreateProofFromAuthZoneByIds extends Instruction {
+export class CreateProofFromAuthZoneOfNonFungibles extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
   resourceAddress: ManifestAstValue.Address;
@@ -576,8 +703,111 @@ export class CreateProofFromAuthZoneByIds extends Instruction {
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     intoProof: ManifestAstValue.Proof
   ) {
-    super(Kind.CreateProofFromAuthZoneByIds);
+    super(Kind.CreateProofFromAuthZoneOfNonFungibles);
     this.resourceAddress = resourceAddress;
+    this.ids = ids;
+    this.intoProof = intoProof;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to create a proof of the entire amount from a bucket.
+ */
+export class CreateProofFromBucketOfAll extends Instruction {
+  @Expose({ name: "bucket" })
+  @Type(() => ManifestAstValue.Bucket)
+  bucket: ManifestAstValue.Bucket;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
+  intoProof: ManifestAstValue.Proof;
+
+  constructor(
+    bucket: ManifestAstValue.Bucket,
+    intoProof: ManifestAstValue.Proof
+  ) {
+    super(Kind.CreateProofFromBucketOfAll);
+    this.bucket = bucket;
+    this.intoProof = intoProof;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to create a proof of the an amount from a bucket.
+ */
+export class CreateProofFromBucketOfAmount extends Instruction {
+  @Expose({ name: "bucket" })
+  @Type(() => ManifestAstValue.Bucket)
+  bucket: ManifestAstValue.Bucket;
+
+  @Expose({ name: "amount" })
+  @Type(() => ManifestAstValue.Decimal)
+  amount: ManifestAstValue.Decimal;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
+  intoProof: ManifestAstValue.Proof;
+
+  constructor(
+    bucket: ManifestAstValue.Bucket,
+    amount: ManifestAstValue.Decimal,
+    intoProof: ManifestAstValue.Proof
+  ) {
+    super(Kind.CreateProofFromBucketOfAmount);
+    this.bucket = bucket;
+    this.amount = amount;
+    this.intoProof = intoProof;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to create a proof of the a set of non-fungible ids
+ * from a bucket.
+ */
+export class CreateProofFromBucketOfNonFungibles extends Instruction {
+  @Expose({ name: "bucket" })
+  @Type(() => ManifestAstValue.Bucket)
+  bucket: ManifestAstValue.Bucket;
+
+  @Expose({ name: "ids" })
+  @Type(() => ManifestAstValue.NonFungibleLocalId)
+  ids: Array<ManifestAstValue.NonFungibleLocalId>;
+
+  @Expose({ name: "into_proof" })
+  @Type(() => ManifestAstValue.Proof)
+  intoProof: ManifestAstValue.Proof;
+
+  constructor(
+    bucket: ManifestAstValue.Bucket,
+    ids: Array<ManifestAstValue.NonFungibleLocalId>,
+    intoProof: ManifestAstValue.Proof
+  ) {
+    super(Kind.CreateProofFromBucketOfNonFungibles);
+    this.bucket = bucket;
     this.ids = ids;
     this.intoProof = intoProof;
   }
@@ -763,14 +993,14 @@ export class PublishPackageAdvanced extends Instruction {
     schema: ManifestAstValue.Bytes,
     royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map,
-    accessRules: ManifestAstValue.Value
+    authorityRules: ManifestAstValue.Value
   ) {
     super(Kind.PublishPackageAdvanced);
     this.code = code;
     this.schema = schema;
     this.royaltyConfig = royaltyConfig;
     this.metadata = metadata;
-    this.accessRules = accessRules;
+    this.accessRules = authorityRules;
   }
 
   toString(): string {
@@ -1007,28 +1237,76 @@ export class ClaimComponentRoyalty extends Instruction {
 /**
  * An instruction to modify the access rules of a method that an entity has.
  */
-export class SetMethodAccessRule extends Instruction {
+export class SetAuthorityAccessRule extends Instruction {
   @Expose({ name: "entity_address" })
   @Type(() => ManifestAstValue.Address)
   entityAddress: ManifestAstValue.Address;
 
-  @Expose({ name: "key" })
-  @Type(() => ManifestAstValue.Tuple)
-  key: ManifestAstValue.Tuple;
+  @Expose({ name: "object_key" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  objectKey: ManifestAstValue.Value;
+
+  @Expose({ name: "authority_key" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  authorityKey: ManifestAstValue.Value;
 
   @Expose({ name: "rule" })
-  @Type(() => ManifestAstValue.Enum)
-  rule: ManifestAstValue.Enum;
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  rule: ManifestAstValue.Value;
 
   constructor(
     entityAddress: ManifestAstValue.Address,
-    key: ManifestAstValue.Tuple,
-    rule: ManifestAstValue.Enum
+    objectKey: ManifestAstValue.Value,
+    authorityKey: ManifestAstValue.Value,
+    rule: ManifestAstValue.Value
   ) {
-    super(Kind.SetMethodAccessRule);
+    super(Kind.SetAuthorityAccessRule);
     this.entityAddress = entityAddress;
-    this.key = key;
+    this.objectKey = objectKey;
+    this.authorityKey = authorityKey;
     this.rule = rule;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+/**
+ * An instruction to modify the access rules of a method that an entity has.
+ */
+export class SetAuthorityMutability extends Instruction {
+  @Expose({ name: "entity_address" })
+  @Type(() => ManifestAstValue.Address)
+  entityAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "object_key" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  objectKey: ManifestAstValue.Value;
+
+  @Expose({ name: "authority_key" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  authorityKey: ManifestAstValue.Value;
+
+  @Expose({ name: "mutability" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  mutability: ManifestAstValue.Value;
+
+  constructor(
+    entityAddress: ManifestAstValue.Address,
+    objectKey: ManifestAstValue.Value,
+    authorityKey: ManifestAstValue.Value,
+    mutability: ManifestAstValue.Value
+  ) {
+    super(Kind.SetAuthorityAccessRule);
+    this.entityAddress = entityAddress;
+    this.objectKey = objectKey;
+    this.authorityKey = authorityKey;
+    this.mutability = mutability;
   }
 
   toString(): string {

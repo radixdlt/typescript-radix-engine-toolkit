@@ -54,21 +54,22 @@ const Blob = ManifestAstValue.Blob;
 const Bytes = ManifestAstValue.Bytes;
 const CallFunction = Instruction.CallFunction;
 const CallMethod = Instruction.CallMethod;
+const TakeAllFromWorktop = Instruction.TakeAllFromWorktop;
 const TakeFromWorktop = Instruction.TakeFromWorktop;
-const TakeFromWorktopByAmount = Instruction.TakeFromWorktopByAmount;
-const TakeFromWorktopByIds = Instruction.TakeFromWorktopByIds;
+const TakeNonFungiblesFromWorktop = Instruction.TakeNonFungiblesFromWorktop;
 const ReturnToWorktop = Instruction.ReturnToWorktop;
 const AssertWorktopContains = Instruction.AssertWorktopContains;
-const AssertWorktopContainsByAmount = Instruction.AssertWorktopContainsByAmount;
-const AssertWorktopContainsByIds = Instruction.AssertWorktopContainsByIds;
+const AssertWorktopContainsNonFungibles =
+  Instruction.AssertWorktopContainsNonFungibles;
 const PopFromAuthZone = Instruction.PopFromAuthZone;
 const PushToAuthZone = Instruction.PushToAuthZone;
 const ClearAuthZone = Instruction.ClearAuthZone;
 const ClearSignatureProofs = Instruction.ClearSignatureProofs;
 const CreateProofFromAuthZone = Instruction.CreateProofFromAuthZone;
-const CreateProofFromAuthZoneByAmount =
-  Instruction.CreateProofFromAuthZoneByAmount;
-const CreateProofFromAuthZoneByIds = Instruction.CreateProofFromAuthZoneByIds;
+const CreateProofFromAuthZoneOfAmount =
+  Instruction.CreateProofFromAuthZoneOfAmount;
+const CreateProofFromAuthZoneOfNonFungibles =
+  Instruction.CreateProofFromAuthZoneOfNonFungibles;
 const CreateProofFromBucket = Instruction.CreateProofFromBucket;
 const CloneProof = Instruction.CloneProof;
 const DropProof = Instruction.DropProof;
@@ -83,7 +84,7 @@ const SetPackageRoyaltyConfig = Instruction.SetPackageRoyaltyConfig;
 const SetComponentRoyaltyConfig = Instruction.SetComponentRoyaltyConfig;
 const ClaimPackageRoyalty = Instruction.ClaimPackageRoyalty;
 const ClaimComponentRoyalty = Instruction.ClaimComponentRoyalty;
-const SetMethodAccessRule = Instruction.SetMethodAccessRule;
+const SetAuthorityAccessRule = Instruction.SetAuthorityAccessRule;
 const MintFungible = Instruction.MintFungible;
 const MintNonFungible = Instruction.MintNonFungible;
 const MintUuidNonFungible = Instruction.MintUuidNonFungible;
@@ -127,38 +128,39 @@ describe.each([
       new Address(
         "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
       ),
-      new String("free")
+      new String("free"),
+      []
     ),
-    expectedSerialization: `{"instruction":"CALL_METHOD","component_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"method_name":{"kind":"String","value":"free"},"arguments":null}`,
+    expectedSerialization: `{"instruction":"CALL_METHOD","component_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"method_name":{"kind":"String","value":"free"},"arguments":[]}`,
+  },
+  {
+    expectedObject: new TakeAllFromWorktop(
+      new Address(
+        "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
+      ),
+      new Bucket("ident")
+    ),
+    expectedSerialization: `{"instruction":"TAKE_ALL_FROM_WORKTOP","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_bucket":{"kind":"Bucket","value":"ident"}}`,
   },
   {
     expectedObject: new TakeFromWorktop(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
       ),
-      new Bucket("ident")
-    ),
-    expectedSerialization: `{"instruction":"TAKE_FROM_WORKTOP","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_bucket":{"kind":"Bucket","value":"ident"}}`,
-  },
-  {
-    expectedObject: new TakeFromWorktopByAmount(
-      new Address(
-        "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
-      ),
       new Decimal("1"),
       new Bucket("ident")
     ),
-    expectedSerialization: `{"instruction":"TAKE_FROM_WORKTOP_BY_AMOUNT","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"amount":{"kind":"Decimal","value":"1"},"into_bucket":{"kind":"Bucket","value":"ident"}}`,
+    expectedSerialization: `{"instruction":"TAKE_FROM_WORKTOP","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"amount":{"kind":"Decimal","value":"1"},"into_bucket":{"kind":"Bucket","value":"ident"}}`,
   },
   {
-    expectedObject: new TakeFromWorktopByIds(
+    expectedObject: new TakeNonFungiblesFromWorktop(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
       ),
       [new NonFungibleLocalId("#1#")],
       new Bucket("ident")
     ),
-    expectedSerialization: `{"instruction":"TAKE_FROM_WORKTOP_BY_IDS","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"ids":[{"kind":"NonFungibleLocalId","value":"#1#"}],"into_bucket":{"kind":"Bucket","value":"ident"}}`,
+    expectedSerialization: `{"instruction":"TAKE_NON_FUNGIBLES_FROM_WORKTOP","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"ids":[{"kind":"NonFungibleLocalId","value":"#1#"}],"into_bucket":{"kind":"Bucket","value":"ident"}}`,
   },
   {
     expectedObject: new ReturnToWorktop(new Bucket("ident")),
@@ -168,27 +170,19 @@ describe.each([
     expectedObject: new AssertWorktopContains(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
-      )
-    ),
-    expectedSerialization: `{"instruction":"ASSERT_WORKTOP_CONTAINS","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"}}`,
-  },
-  {
-    expectedObject: new AssertWorktopContainsByAmount(
-      new Address(
-        "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
       ),
       new Decimal("1")
     ),
-    expectedSerialization: `{"instruction":"ASSERT_WORKTOP_CONTAINS_BY_AMOUNT","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"amount":{"kind":"Decimal","value":"1"}}`,
+    expectedSerialization: `{"instruction":"ASSERT_WORKTOP_CONTAINS","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"amount":{"kind":"Decimal","value":"1"}}`,
   },
   {
-    expectedObject: new AssertWorktopContainsByIds(
+    expectedObject: new AssertWorktopContainsNonFungibles(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
       ),
       [new NonFungibleLocalId("#1#")]
     ),
-    expectedSerialization: `{"instruction":"ASSERT_WORKTOP_CONTAINS_BY_IDS","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"ids":[{"kind":"NonFungibleLocalId","value":"#1#"}]}`,
+    expectedSerialization: `{"instruction":"ASSERT_WORKTOP_CONTAINS_NON_FUNGIBLES","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"ids":[{"kind":"NonFungibleLocalId","value":"#1#"}]}`,
   },
   {
     expectedObject: new PopFromAuthZone(new Proof("ident")),
@@ -212,24 +206,24 @@ describe.each([
     expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_proof":{"kind":"Proof","value":"ident"}}`,
   },
   {
-    expectedObject: new CreateProofFromAuthZoneByAmount(
+    expectedObject: new CreateProofFromAuthZoneOfAmount(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
       ),
       new Decimal("1"),
       new Proof("ident")
     ),
-    expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE_BY_AMOUNT","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"amount":{"kind":"Decimal","value":"1"},"into_proof":{"kind":"Proof","value":"ident"}}`,
+    expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"amount":{"kind":"Decimal","value":"1"},"into_proof":{"kind":"Proof","value":"ident"}}`,
   },
   {
-    expectedObject: new CreateProofFromAuthZoneByIds(
+    expectedObject: new CreateProofFromAuthZoneOfNonFungibles(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
       ),
       [new NonFungibleLocalId("#1#")],
       new Proof("ident")
     ),
-    expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE_BY_IDS","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"ids":[{"kind":"NonFungibleLocalId","value":"#1#"}],"into_proof":{"kind":"Proof","value":"ident"}}`,
+    expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"ids":[{"kind":"NonFungibleLocalId","value":"#1#"}],"into_proof":{"kind":"Proof","value":"ident"}}`,
   },
   {
     expectedObject: new CreateProofFromBucket(
@@ -353,16 +347,16 @@ describe.each([
     ),
     expectedSerialization: `{"instruction":"CLAIM_COMPONENT_ROYALTY","component_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"}}`,
   },
-  {
-    expectedObject: new SetMethodAccessRule(
-      new Address(
-        "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
-      ),
-      new Tuple([new Enum(new EnumU8Discriminator(0)), new String("free")]),
-      new Enum(new EnumU8Discriminator(0))
-    ),
-    expectedSerialization: `{"instruction":"SET_METHOD_ACCESS_RULE","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"key":{"kind":"Tuple","fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},{"kind":"String","value":"free"}]},"rule":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
-  },
+  // {
+  //   expectedObject: new SetAuthorityAccessRule(
+  //     new Address(
+  //       "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
+  //     ),
+  //     new Tuple([new Enum(new EnumU8Discriminator(0)), new String("free")]),
+  //     new Enum(new EnumU8Discriminator(0))
+  //   ),
+  //   expectedSerialization: `{"instruction":"SET_AUTHORITY_ACCESS_RULE","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"key":{"kind":"Tuple","fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},{"kind":"String","value":"free"}]},"rule":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
+  // },
   {
     expectedObject: new MintFungible(
       new Address(

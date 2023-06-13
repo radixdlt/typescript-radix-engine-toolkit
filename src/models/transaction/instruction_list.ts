@@ -24,14 +24,20 @@ const instructionTypeOptions: TypeOptions = {
     subTypes: [
       { name: "CALL_FUNCTION", value: Instruction.CallFunction },
       { name: "CALL_METHOD", value: Instruction.CallMethod },
-      { name: "TAKE_FROM_WORKTOP", value: Instruction.TakeFromWorktop },
+      { name: "CALL_ROYALTY_METHOD", value: Instruction.CallRoyaltyMethod },
+      { name: "CALL_METADATA_METHOD", value: Instruction.CallMetadataMethod },
       {
-        name: "TAKE_FROM_WORKTOP_BY_AMOUNT",
-        value: Instruction.TakeFromWorktopByAmount,
+        name: "CALL_ACCESS_RULES_METHOD",
+        value: Instruction.CallAccessRulesMethod,
+      },
+      { name: "TAKE_ALL_FROM_WORKTOP", value: Instruction.TakeAllFromWorktop },
+      {
+        name: "TAKE_FROM_WORKTOP",
+        value: Instruction.TakeFromWorktop,
       },
       {
-        name: "TAKE_FROM_WORKTOP_BY_IDS",
-        value: Instruction.TakeFromWorktopByIds,
+        name: "TAKE_NON_FUNGIBLES_FROM_WORKTOP",
+        value: Instruction.TakeNonFungiblesFromWorktop,
       },
       { name: "RETURN_TO_WORKTOP", value: Instruction.ReturnToWorktop },
       {
@@ -39,12 +45,8 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.AssertWorktopContains,
       },
       {
-        name: "ASSERT_WORKTOP_CONTAINS_BY_AMOUNT",
-        value: Instruction.AssertWorktopContainsByAmount,
-      },
-      {
-        name: "ASSERT_WORKTOP_CONTAINS_BY_IDS",
-        value: Instruction.AssertWorktopContainsByIds,
+        name: "ASSERT_WORKTOP_CONTAINS_NON_FUNGIBLES",
+        value: Instruction.AssertWorktopContainsNonFungibles,
       },
       { name: "POP_FROM_AUTH_ZONE", value: Instruction.PopFromAuthZone },
       { name: "PUSH_TO_AUTH_ZONE", value: Instruction.PushToAuthZone },
@@ -58,16 +60,36 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.CreateProofFromAuthZone,
       },
       {
-        name: "CREATE_PROOF_FROM_AUTH_ZONE_BY_AMOUNT",
-        value: Instruction.CreateProofFromAuthZoneByAmount,
+        name: "CREATE_PROOF_FROM_AUTH_ZONE_OF_ALL",
+        value: Instruction.CreateProofFromAuthZoneOfAll,
       },
       {
-        name: "CREATE_PROOF_FROM_AUTH_ZONE_BY_IDS",
-        value: Instruction.CreateProofFromAuthZoneByIds,
+        name: "CREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT",
+        value: Instruction.CreateProofFromAuthZoneOfAmount,
+      },
+      {
+        name: "CREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES",
+        value: Instruction.CreateProofFromAuthZoneOfNonFungibles,
       },
       {
         name: "CREATE_PROOF_FROM_BUCKET",
         value: Instruction.CreateProofFromBucket,
+      },
+      {
+        name: "CREATE_PROOF_FROM_BUCKET",
+        value: Instruction.CreateProofFromBucket,
+      },
+      {
+        name: "CREATE_PROOF_FROM_BUCKET_OF_ALL",
+        value: Instruction.CreateProofFromBucketOfAll,
+      },
+      {
+        name: "CREATE_PROOF_FROM_BUCKET_OF_AMOUNT",
+        value: Instruction.CreateProofFromBucketOfAmount,
+      },
+      {
+        name: "CREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES",
+        value: Instruction.CreateProofFromBucketOfNonFungibles,
       },
       { name: "CLONE_PROOF", value: Instruction.CloneProof },
       { name: "DROP_PROOF", value: Instruction.DropProof },
@@ -95,8 +117,12 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.ClaimComponentRoyalty,
       },
       {
-        name: "SET_METHOD_ACCESS_RULE",
-        value: Instruction.SetMethodAccessRule,
+        name: "SET_AUTHORITY_ACCESS_RULE",
+        value: Instruction.SetAuthorityAccessRule,
+      },
+      {
+        name: "SET_AUTHORITY_MUTABILITY",
+        value: Instruction.SetAuthorityMutability,
       },
       { name: "MINT_FUNGIBLE", value: Instruction.MintFungible },
       { name: "MINT_NON_FUNGIBLE", value: Instruction.MintNonFungible },

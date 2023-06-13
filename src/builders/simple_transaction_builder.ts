@@ -149,7 +149,7 @@ export class SimpleTransactionBuilder {
         new ManifestAstValue.Decimal("10"),
       ])
       .callMethod(faucetComponentAddress, "free", [])
-      .takeFromWorktopByAmount(
+      .takeFromWorktop(
         xrdResourceAddress,
         10_000,
         (builder, bucket) => {
@@ -309,7 +309,7 @@ export class SimpleTransactionBuilder {
         resourceAmountMapping
       )) {
         instructions.push(
-          new Instruction.TakeFromWorktopByAmount(
+          new Instruction.TakeFromWorktop(
             new ManifestAstValue.Address(resourceAddress),
             new ManifestAstValue.Decimal(amount),
             new ManifestAstValue.Bucket(`bucket${depositCounter}`)

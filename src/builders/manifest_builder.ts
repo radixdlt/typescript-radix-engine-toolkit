@@ -26,8 +26,7 @@ import {
 } from "../models";
 import {
   AssertWorktopContains,
-  AssertWorktopContainsByAmount,
-  AssertWorktopContainsByIds,
+  AssertWorktopContainsNonFungibles,
   BurnResource,
   CallFunction,
   CallMethod,
@@ -46,8 +45,8 @@ import {
   CreateNonFungibleResource,
   CreateNonFungibleResourceWithInitialSupply,
   CreateProofFromAuthZone,
-  CreateProofFromAuthZoneByAmount,
-  CreateProofFromAuthZoneByIds,
+  CreateProofFromAuthZoneOfAmount,
+  CreateProofFromAuthZoneOfNonFungibles,
   CreateProofFromBucket,
   CreateValidator,
   DropAllProofs,
@@ -62,13 +61,14 @@ import {
   RecallResource,
   RemoveMetadata,
   ReturnToWorktop,
+  SetAuthorityAccessRule,
+  SetAuthorityMutability,
   SetComponentRoyaltyConfig,
   SetMetadata,
-  SetMethodAccessRule,
   SetPackageRoyaltyConfig,
+  TakeAllFromWorktop,
   TakeFromWorktop,
-  TakeFromWorktopByAmount,
-  TakeFromWorktopByIds,
+  TakeNonFungiblesFromWorktop,
 } from "../models/transaction/instruction";
 
 export class ManifestBuilder {
@@ -96,7 +96,7 @@ export class ManifestBuilder {
     packageAddress: ManifestAstValue.Address | string,
     blueprintName: ManifestAstValue.String | string,
     functionName: ManifestAstValue.String | string,
-    args: Array<ManifestAstValue.Value> | null
+    args: Array<ManifestAstValue.Value>
   ): ManifestBuilder {
     let instruction = new CallFunction(
       resolveAddress(packageAddress),
@@ -121,7 +121,7 @@ export class ManifestBuilder {
   callMethod(
     componentAddress: ManifestAstValue.Address | string,
     methodName: ManifestAstValue.String | string,
-    args: Array<ManifestAstValue.Value> | null
+    args: Array<ManifestAstValue.Value>
   ): ManifestBuilder {
     let instruction = new CallMethod(
       resolveAddress(componentAddress),
@@ -139,7 +139,7 @@ export class ManifestBuilder {
    * @param andThen A callback function with the manifest builder and bucket.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  takeFromWorktop(
+  takeAllFromWorktop(
     resourceAddress: ManifestAstValue.Address | string,
     andThen: (
       builder: ManifestBuilder,
@@ -147,7 +147,7 @@ export class ManifestBuilder {
     ) => ManifestBuilder
   ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
-    let instruction = new TakeFromWorktop(
+    let instruction = new TakeAllFromWorktop(
       resolveAddress(resourceAddress),
       bucket
     );
@@ -164,7 +164,7 @@ export class ManifestBuilder {
    * @param andThen A callback function with the manifest builder and bucket.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  takeFromWorktopByAmount(
+  takeFromWorktop(
     resourceAddress: ManifestAstValue.Address | string,
     amount: Decimal | number | string | ManifestAstValue.Decimal,
     andThen: (
@@ -173,7 +173,7 @@ export class ManifestBuilder {
     ) => ManifestBuilder
   ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
-    let instruction = new TakeFromWorktopByAmount(
+    let instruction = new TakeFromWorktop(
       resolveAddress(resourceAddress),
       resolveDecimal(amount),
       bucket
@@ -192,7 +192,7 @@ export class ManifestBuilder {
    * @param andThen A callback function with the manifest builder and bucket.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  takeFromWorktopByIds(
+  takeNonFungiblesFromWorktop(
     resourceAddress: ManifestAstValue.Address | string,
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     andThen: (
@@ -201,7 +201,7 @@ export class ManifestBuilder {
     ) => ManifestBuilder
   ): ManifestBuilder {
     let bucket = this.idAllocator.newBucket();
-    let instruction = new TakeFromWorktopByIds(
+    let instruction = new TakeNonFungiblesFromWorktop(
       resolveAddress(resourceAddress),
       ids,
       bucket
@@ -223,32 +223,17 @@ export class ManifestBuilder {
   }
 
   /**
-   * An instruction to assert that a given resource exists in the worktop.
-   * @param resourceAddress The address of the resource to perform the assertion on.
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  assertWorktopContains(
-    resourceAddress: ManifestAstValue.Address | string
-  ): ManifestBuilder {
-    let instruction = new AssertWorktopContains(
-      resolveAddress(resourceAddress)
-    );
-    this.instructions.push(instruction);
-    return this;
-  }
-
-  /**
    * An instruction to assert that a specific amount of a specific resource address exists in the
    * worktop.
    * @param resourceAddress The address of the resource to perform the assertion on.
    * @param amount The amount of the resource to assert their existence in the worktop.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  assertWorktopContainsByAmount(
+  assertWorktopContains(
     resourceAddress: ManifestAstValue.Address | string,
     amount: Decimal | number | string | ManifestAstValue.Decimal
   ): ManifestBuilder {
-    let instruction = new AssertWorktopContainsByAmount(
+    let instruction = new AssertWorktopContains(
       resolveAddress(resourceAddress),
       resolveDecimal(amount)
     );
@@ -263,11 +248,11 @@ export class ManifestBuilder {
    * is a set (serialized as a JSON array) of `NonFungibleLocalId`s from the ManifestAstValue model.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  assertWorktopContainsByIds(
+  assertWorktopContainsNonFungibles(
     resourceAddress: ManifestAstValue.Address | string,
     ids: Array<ManifestAstValue.NonFungibleLocalId>
   ): ManifestBuilder {
-    let instruction = new AssertWorktopContainsByIds(
+    let instruction = new AssertWorktopContainsNonFungibles(
       resolveAddress(resourceAddress),
       ids
     );
@@ -356,7 +341,7 @@ export class ManifestBuilder {
    * @param andThen A callback function with the manifest builder and bucket.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createProofFromAuthZoneByAmount(
+  createProofFromAuthZoneOfAmount(
     resourceAddress: ManifestAstValue.Address | string,
     amount: Decimal | number | string | ManifestAstValue.Decimal,
     andThen: (
@@ -365,7 +350,7 @@ export class ManifestBuilder {
     ) => ManifestBuilder
   ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
-    let instruction = new CreateProofFromAuthZoneByAmount(
+    let instruction = new CreateProofFromAuthZoneOfAmount(
       resolveAddress(resourceAddress),
       resolveDecimal(amount),
       proof
@@ -384,7 +369,7 @@ export class ManifestBuilder {
    * @param andThen A callback function with the manifest builder and bucket.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createProofFromAuthZoneByIds(
+  createProofFromAuthZoneOfNonFungibles(
     resourceAddress: ManifestAstValue.Address | string,
     ids: Array<ManifestAstValue.NonFungibleLocalId>,
     andThen: (
@@ -393,7 +378,7 @@ export class ManifestBuilder {
     ) => ManifestBuilder
   ): ManifestBuilder {
     let proof = this.idAllocator.newProof();
-    let instruction = new CreateProofFromAuthZoneByIds(
+    let instruction = new CreateProofFromAuthZoneOfNonFungibles(
       resolveAddress(resourceAddress),
       ids,
       proof
@@ -500,7 +485,7 @@ export class ManifestBuilder {
    * this is the actual schema of the package.
    * @param royaltyConfig The configurations of the royalty for the package
    * @param metadata The metadata to use for the package
-   * @param accessRules The access rules to use for the package.
+   * @param authorityRules The access rules to use for the package.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   publishPackageAdvanced(
@@ -508,14 +493,14 @@ export class ManifestBuilder {
     schema: Uint8Array | string,
     royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map,
-    accessRules: ManifestAstValue.Value
+    authorityRules: ManifestAstValue.Value
   ): ManifestBuilder {
     let instruction = new PublishPackageAdvanced(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
       new ManifestAstValue.Bytes(schema),
       royaltyConfig,
       metadata,
-      accessRules
+      authorityRules
     );
     this.instructions.push(instruction);
     this.blobs.push(Convert.Uint8Array.from(code));
@@ -655,19 +640,38 @@ export class ManifestBuilder {
 
   /**
    * An instruction to modify the access rules of a method that an entity has.
-   * @param entityAddress The entity address of the entity to modify the access rules for.
-   * @param key The method key for the method to set the access rule of.
-   * @param rule The new access rule to set in-place of the old one.
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  setMethodAccessRule(
+  setAuthorityAccessRule(
     entityAddress: ManifestAstValue.Address | string,
-    key: ManifestAstValue.Tuple,
+    object_key: ManifestAstValue.Tuple,
+    authority_key: ManifestAstValue.Value,
     rule: ManifestAstValue.Enum
   ): ManifestBuilder {
-    let instruction = new SetMethodAccessRule(
+    let instruction = new SetAuthorityAccessRule(
       resolveAddress(entityAddress),
-      key,
+      object_key,
+      authority_key,
+      rule
+    );
+    this.instructions.push(instruction);
+    return this;
+  }
+
+  /**
+   * An instruction to modify the access rules of a method that an entity has.
+   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
+   */
+  setAuthorityMutability(
+    entityAddress: ManifestAstValue.Address | string,
+    object_key: ManifestAstValue.Tuple,
+    authority_key: ManifestAstValue.Value,
+    rule: ManifestAstValue.Enum
+  ): ManifestBuilder {
+    let instruction = new SetAuthorityMutability(
+      resolveAddress(entityAddress),
+      object_key,
+      authority_key,
       rule
     );
     this.instructions.push(instruction);

@@ -334,16 +334,16 @@ const summarizeTransaction = async (
   // Iterate over the instructions and resolve them
   for (const instruction of instructions) {
     switch (instruction.instruction) {
-      case Instruction.Kind.TakeFromWorktopByAmount:
-        const takeFromWorktopInstruction =
-          instruction as Instruction.TakeFromWorktopByAmount;
+      case Instruction.Kind.TakeFromWorktop:
+        const takeAllFromWorktopInstruction =
+          instruction as Instruction.TakeFromWorktop;
 
         // Assuming that the bucket id is a string since this is what the LTS library produces and
         // because the non-string IDs are currently bugged in Scrypto.
-        const bucketId = takeFromWorktopInstruction.intoBucket.value;
+        const bucketId = takeAllFromWorktopInstruction.intoBucket.value;
         const resourceAddress =
-          takeFromWorktopInstruction.resourceAddress.value;
-        const amount = takeFromWorktopInstruction.amount.value;
+          takeAllFromWorktopInstruction.resourceAddress.value;
+        const amount = takeAllFromWorktopInstruction.amount.value;
 
         bucketAmounts[bucketId] = [resourceAddress, amount];
         break;

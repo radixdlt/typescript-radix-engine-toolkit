@@ -84,7 +84,7 @@ describe("SimpleTransactionBuilder Tests", () => {
           new ManifestAstValue.Decimal(100),
         ]
       )
-      .takeFromWorktopByAmount(
+      .takeFromWorktop(
         new ManifestAstValue.Address(resourceAddress1),
         new ManifestAstValue.Decimal(100),
         (builder, bucket) => {
@@ -174,7 +174,7 @@ describe("SimpleTransactionBuilder Tests", () => {
           new ManifestAstValue.Decimal(5),
         ]
       )
-      .takeFromWorktopByAmount(
+      .takeFromWorktop(
         new ManifestAstValue.Address(resourceAddress1),
         new ManifestAstValue.Decimal(100),
         (builder, bucket) => {
@@ -185,7 +185,7 @@ describe("SimpleTransactionBuilder Tests", () => {
           );
         }
       )
-      .takeFromWorktopByAmount(
+      .takeFromWorktop(
         new ManifestAstValue.Address(resourceAddress1),
         new ManifestAstValue.Decimal(200),
         (builder, bucket) => {
@@ -196,7 +196,7 @@ describe("SimpleTransactionBuilder Tests", () => {
           );
         }
       )
-      .takeFromWorktopByAmount(
+      .takeFromWorktop(
         new ManifestAstValue.Address(resourceAddress2),
         new ManifestAstValue.Decimal(5),
         (builder, bucket) => {
@@ -268,7 +268,7 @@ describe("SimpleTransactionBuilder Tests", () => {
           new ManifestAstValue.Decimal(300),
         ]
       )
-      .takeFromWorktopByAmount(
+      .takeFromWorktop(
         new ManifestAstValue.Address(resourceAddress1),
         new ManifestAstValue.Decimal(300),
         (builder, bucket) => {
