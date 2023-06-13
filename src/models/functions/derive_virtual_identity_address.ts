@@ -16,19 +16,10 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { SborValue } from "models/value";
-import { Convert } from "../..";
+import { PublicKey } from "../crypto";
 import * as Serializers from "../serializers";
 
-export class SborDecodeRequest {
-  @Expose({ name: "encoded_value" })
-  @Type(() => Uint8Array)
-  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
-    toClassOnly: true,
-  })
-  encodedValue: Uint8Array;
-
+export class DeriveVirtualIdentityAddressInput {
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -36,14 +27,21 @@ export class SborDecodeRequest {
   })
   networkId: number;
 
-  // TODO: Proper type
-  @Expose({ name: "schema" })
-  schema: null;
+  @Expose({ name: "public_key" })
+  @Type(() => PublicKey.PublicKey, {
+    discriminator: {
+      property: "curve",
+      subTypes: [
+        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
+        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
+      ],
+    },
+  })
+  publicKey: PublicKey.PublicKey;
 
-  constructor(encodedValue: Uint8Array | string, networkId: number) {
-    this.encodedValue = Convert.Uint8Array.from(encodedValue);
+  constructor(networkId: number, publicKey: PublicKey.PublicKey) {
     this.networkId = networkId;
-    this.schema = null;
+    this.publicKey = publicKey;
   }
 
   toString(): string {
@@ -55,4 +53,20 @@ export class SborDecodeRequest {
   }
 }
 
-export type SborDecodeResponse = SborValue.Value;
+export class DeriveVirtualIdentityAddressOutput {
+  @Expose({ name: "virtual_identity_address" })
+  @Type(() => String)
+  virtualIdentityAddress: string;
+
+  constructor(virtualIdentityAddress: string) {
+    this.virtualIdentityAddress = virtualIdentityAddress;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}

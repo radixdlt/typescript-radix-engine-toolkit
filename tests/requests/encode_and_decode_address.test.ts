@@ -18,9 +18,9 @@
 import { describe, expect, test } from "vitest";
 import {
   Convert,
-  DecodeAddressRequest,
-  EncodeAddressRequest,
-  EncodeAddressResponse,
+  DecodeAddressInput,
+  EncodeAddressInput,
+  EncodeAddressOutput,
   RawRadixEngineToolkit,
 } from "../../src";
 
@@ -29,7 +29,7 @@ describe.each([
     expectedAddressBytes: Convert.Uint8Array.from(
       "0d906318c6318c6c4d63f8cc6318c6318cf7bf553d3ca51686318c6318c6"
     ),
-    expectedAddress: new EncodeAddressResponse(
+    expectedAddress: new EncodeAddressOutput(
       "package_sim1pkgxxxxxxxxxcntrlrxxxxxxxxx000648572295xxxxxxxxxxc5z0l"
     ),
   },
@@ -39,7 +39,7 @@ describe.each([
     test(`${expectedAddressBytes} encodes to ${expectedAddress}`, async () => {
       // Act
       let encodedAddress = await RawRadixEngineToolkit.encodeAddress(
-        new EncodeAddressRequest(expectedAddressBytes, 0xf2)
+        new EncodeAddressInput(expectedAddressBytes, 0xf2)
       );
 
       // Assert
@@ -49,7 +49,7 @@ describe.each([
     test(`${expectedAddress} decodes to ${expectedAddressBytes}`, async () => {
       // Act
       let address = await RawRadixEngineToolkit.decodeAddress(
-        new DecodeAddressRequest(expectedAddress.address)
+        new DecodeAddressInput(expectedAddress.address)
       );
 
       // Assert

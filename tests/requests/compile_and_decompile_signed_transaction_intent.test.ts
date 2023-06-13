@@ -18,8 +18,8 @@
 import { describe, expect, test } from "vitest";
 import {
   Convert,
-  DecompileSignedTransactionIntentRequest,
-  DecompileUnknownTransactionIntentRequest,
+  DecompileSignedTransactionIntentInput,
+  DecompileUnknownTransactionIntentInput,
   InstructionList,
   PublicKey,
   RawRadixEngineToolkit,
@@ -112,7 +112,7 @@ describe.each([
     test(`${expectedIntent} is decompiled as expected`, async () => {
       // Act
       let intent = await RawRadixEngineToolkit.decompileSignedTransactionIntent(
-        new DecompileSignedTransactionIntentRequest(
+        new DecompileSignedTransactionIntentInput(
           InstructionList.Kind.Parsed,
           expectedCompiledIntent
         )
@@ -126,7 +126,7 @@ describe.each([
       // Act
       let intent =
         await RawRadixEngineToolkit.decompileUnknownTransactionIntent(
-          new DecompileUnknownTransactionIntentRequest(
+          new DecompileUnknownTransactionIntentInput(
             InstructionList.Kind.Parsed,
             expectedCompiledIntent
           )

@@ -17,6 +17,6 @@
 
 export * from "./crypto";
 export * from "./entity_address";
-export * from "./requests";
+export * from "./functions";
 export * from "./transaction";
 export * from "./value";

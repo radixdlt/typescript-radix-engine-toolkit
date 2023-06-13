@@ -16,23 +16,28 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { SignedTransactionIntent } from "..";
+import { InstructionList, SignedTransactionIntent } from "models/transaction";
 import { Convert } from "../..";
 import * as Serializers from "../serializers";
 
-export type CompileSignedTransactionIntentRequest = SignedTransactionIntent;
+export class DecompileSignedTransactionIntentInput {
+  @Expose({ name: "instructions_output_kind" })
+  instructionsOutputKind: InstructionList.Kind;
 
-export class CompileSignedTransactionIntentResponse {
-  @Expose({ name: "compiled_intent" })
+  @Expose({ name: "compiled_signed_intent" })
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  compiledIntent: Uint8Array;
+  compiledSignedIntent: Uint8Array;
 
-  constructor(compiledIntent: Uint8Array | string) {
-    this.compiledIntent = Convert.Uint8Array.from(compiledIntent);
+  constructor(
+    instructionsOutputKind: InstructionList.Kind,
+    compiledSignedIntent: Uint8Array | string
+  ) {
+    this.instructionsOutputKind = instructionsOutputKind;
+    this.compiledSignedIntent = Convert.Uint8Array.from(compiledSignedIntent);
   }
 
   toString(): string {
@@ -43,3 +48,5 @@ export class CompileSignedTransactionIntentResponse {
     return instanceToPlain(this);
   }
 }
+
+export type DecompileSignedTransactionIntentOutput = SignedTransactionIntent;

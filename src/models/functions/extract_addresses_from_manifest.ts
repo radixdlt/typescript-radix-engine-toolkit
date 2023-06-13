@@ -19,7 +19,7 @@ import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { TransactionManifest } from "..";
 import * as Serializers from "../serializers";
 
-export class ExtractAddressesFromManifestRequest {
+export class ExtractAddressesFromManifestInput {
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -45,7 +45,7 @@ export class ExtractAddressesFromManifestRequest {
   }
 }
 
-export class ExtractAddressesFromManifestResponse {
+export class ExtractAddressesFromManifestOutput {
   packageAddresses: Array<string>;
   componentAddresses: Array<string>;
   resourceAddresses: Array<string>;

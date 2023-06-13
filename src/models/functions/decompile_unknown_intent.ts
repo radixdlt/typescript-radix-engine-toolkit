@@ -18,16 +18,16 @@
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import {
   Convert,
-  DecompileNotarizedTransactionIntentResponse,
-  DecompileSignedTransactionIntentResponse,
-  DecompileTransactionIntentResponse,
+  DecompileNotarizedTransactionIntentOutput,
+  DecompileSignedTransactionIntentOutput,
+  DecompileTransactionIntentOutput,
   InstructionList,
   SignedTransactionIntent,
   TransactionIntent,
 } from "../..";
 import * as Serializers from "../serializers";
 
-export class DecompileUnknownTransactionIntentRequest {
+export class DecompileUnknownTransactionIntentInput {
   @Expose({ name: "instructions_output_kind" })
   instructionsOutputKind: InstructionList.Kind;
 
@@ -56,39 +56,39 @@ export class DecompileUnknownTransactionIntentRequest {
   }
 }
 
-export enum DecompileUnknownTransactionIntentResponseKind {
+export enum DecompileUnknownTransactionIntentOutputKind {
   TransactionIntent = "TransactionIntent",
   SignedTransactionIntent = "SignedTransactionIntent",
   NotarizedTransactionIntent = "NotarizedTransactionIntent",
 }
 
-export class DecompileUnknownTransactionIntentResponse {
+export class DecompileUnknownTransactionIntentOutput {
   @Expose()
-  readonly type: DecompileUnknownTransactionIntentResponseKind;
+  readonly type: DecompileUnknownTransactionIntentOutputKind;
 
   @Expose()
   public value:
-    | DecompileTransactionIntentResponse
-    | DecompileSignedTransactionIntentResponse
-    | DecompileNotarizedTransactionIntentResponse;
+    | DecompileTransactionIntentOutput
+    | DecompileSignedTransactionIntentOutput
+    | DecompileNotarizedTransactionIntentOutput;
 
   constructor(
     value:
-      | DecompileTransactionIntentResponse
-      | DecompileSignedTransactionIntentResponse
-      | DecompileNotarizedTransactionIntentResponse
+      | DecompileTransactionIntentOutput
+      | DecompileSignedTransactionIntentOutput
+      | DecompileNotarizedTransactionIntentOutput
   ) {
     this.value = value;
     if (value instanceof TransactionIntent) {
       this.type =
-        DecompileUnknownTransactionIntentResponseKind.TransactionIntent;
+        DecompileUnknownTransactionIntentOutputKind.TransactionIntent;
     } else if (value instanceof SignedTransactionIntent) {
       this.type =
-        DecompileUnknownTransactionIntentResponseKind.SignedTransactionIntent;
+        DecompileUnknownTransactionIntentOutputKind.SignedTransactionIntent;
     } else {
       // Not exactly true
       this.type =
-        DecompileUnknownTransactionIntentResponseKind.NotarizedTransactionIntent;
+        DecompileUnknownTransactionIntentOutputKind.NotarizedTransactionIntent;
     }
   }
 

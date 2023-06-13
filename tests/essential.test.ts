@@ -17,17 +17,17 @@
 
 import { describe, expect, it } from "vitest";
 import {
-  InformationRequest,
-  InformationResponse,
+  InformationInput,
+  InformationOutput,
   RawRadixEngineToolkit,
 } from "../src";
 
 describe("essential", () => {
   it("essential", async () => {
     let information = await RawRadixEngineToolkit.information(
-      new InformationRequest()
+      new InformationInput()
     );
-    let expected = new InformationResponse(
+    let expected = new InformationOutput(
       "0.9.0",
       new Uint8Array([
         0, 76, 150, 20, 144, 54, 107, 223, 157, 101, 153, 222, 176, 220, 181,

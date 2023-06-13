@@ -19,7 +19,7 @@ import { describe, expect, test } from "vitest";
 import {
   Convert,
   RawRadixEngineToolkit,
-  SborDecodeRequest,
+  SborDecodeInput,
   SborValue,
   ScryptoSborValue,
 } from "../../src";
@@ -43,7 +43,7 @@ describe.each([
     test(`${expectedEncoding} decodes to ${expectedValue}`, async () => {
       // Act
       let value = await RawRadixEngineToolkit.sborDecode(
-        new SborDecodeRequest(expectedEncoding, 0xf2)
+        new SborDecodeInput(expectedEncoding, 0xf2)
       );
 
       // Assert

@@ -3,8 +3,8 @@ import {
   StatusApi,
   TransactionApi,
   TransactionStatus,
-  TransactionStatusResponse,
-  TransactionSubmitResponse,
+  TransactionStatusOutput,
+  TransactionSubmitOutput,
 } from "@radixdlt/babylon-gateway-api-sdk";
 import {
   Convert,
@@ -23,14 +23,14 @@ const NetworkConfiguration = {
 };
 
 const getCurrentEpoch = async (statusApi: StatusApi): Promise<number> =>
-  statusApi.gatewayStatus().then((response) => response.ledger_state.epoch);
+  statusApi.gatewayStatus().then((output) => output.ledger_state.epoch);
 
 const submitTransaction = async (
   transactionApi: TransactionApi,
   compiledTransaction: Uint8Array
-): Promise<TransactionSubmitResponse> =>
+): Promise<TransactionSubmitOutput> =>
   transactionApi.transactionSubmit({
-    transactionSubmitRequest: {
+    transactionSubmitInput: {
       notarized_transaction_hex:
         Convert.Uint8Array.toHexString(compiledTransaction),
     },
@@ -39,9 +39,9 @@ const submitTransaction = async (
 const getTransactionStatus = async (
   transactionApi: TransactionApi,
   transactionId: Uint8Array
-): Promise<TransactionStatusResponse> =>
+): Promise<TransactionStatusOutput> =>
   transactionApi.transactionStatus({
-    transactionStatusRequest: {
+    transactionStatusInput: {
       intent_hash_hex: Convert.Uint8Array.toHexString(transactionId),
     },
   });
@@ -65,7 +65,7 @@ const main = async () => {
   // will lock some amount of XRD in fees from the faucet's component.
   let faucetComponentAddress = await RadixEngineToolkit.knownEntityAddresses(
     NetworkConfiguration.networkId
-  ).then((response) => response.faucetComponentAddress);
+  ).then((output) => output.faucetComponentAddress);
 
   let manifest = new ManifestBuilder()
     .callMethod(faucetComponentAddress, "lock_fee", [

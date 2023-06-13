@@ -18,7 +18,7 @@
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import * as Serializers from "../serializers";
 
-export class KnownEntityAddressesRequest {
+export class KnownEntityAddressesInput {
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -31,7 +31,7 @@ export class KnownEntityAddressesRequest {
   }
 }
 
-export class KnownEntityAddressesResponse {
+export class KnownEntityAddressesOutput {
   @Expose({ name: "faucet_component_address" })
   @Type(() => String)
   faucetComponentAddress: string;

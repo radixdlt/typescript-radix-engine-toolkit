@@ -57,10 +57,10 @@ async function pollForCommit(
   const pollDelayMs = 5000;
 
   for (let i = 0; i < pollAttempts; i++) {
-    const statusResponse = await coreApiClient.LTS.getTransactionStatus({
+    const statusOutput = await coreApiClient.LTS.getTransactionStatus({
       intent_hash: intentHash,
     });
-    switch (statusResponse.intent_status) {
+    switch (statusOutput.intent_status) {
       case "CommittedSuccess":
         console.info(
           `Transaction ${intentHash} was committed successfully: ${dashboardBase}/transaction/${intentHash}`
@@ -70,7 +70,7 @@ async function pollForCommit(
       case "PermanentRejection":
         // You will typically wish to build a new transaction and try again.
         throw new Error(
-          `Transaction was not committed successfully - instead it resulted in: ${statusResponse.intent_status} with description: ${statusResponse.status_description}`
+          `Transaction was not committed successfully - instead it resulted in: ${statusOutput.intent_status} with description: ${statusOutput.status_description}`
         );
       case "NotSeen":
       case "InMempool":
@@ -82,8 +82,8 @@ async function pollForCommit(
             `Transaction ${intentHash} [status poll ${
               i + 1
             }/${pollAttempts} - retrying in ${pollDelayMs}ms] - STATUS: ${
-              statusResponse.intent_status
-            } DESCRIPTION: ${statusResponse.status_description}`
+              statusOutput.intent_status
+            } DESCRIPTION: ${statusOutput.status_description}`
           );
           await new Promise((resolve) => setTimeout(resolve, pollDelayMs));
         } else {
@@ -91,8 +91,8 @@ async function pollForCommit(
             `Transaction was not committed successfully within ${pollAttempts} poll attempts over ${
               pollAttempts * pollDelayMs
             }ms - instead it resulted in STATUS: ${
-              statusResponse.intent_status
-            } DESCRIPTION: ${statusResponse.status_description}`
+              statusOutput.intent_status
+            } DESCRIPTION: ${statusOutput.status_description}`
           );
         }
     }

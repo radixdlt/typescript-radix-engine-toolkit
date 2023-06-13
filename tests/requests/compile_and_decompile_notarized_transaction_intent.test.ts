@@ -18,8 +18,8 @@
 import { describe, expect, test } from "vitest";
 import {
   Convert,
-  DecompileNotarizedTransactionIntentRequest,
-  DecompileUnknownTransactionIntentRequest,
+  DecompileNotarizedTransactionIntentInput,
+  DecompileUnknownTransactionIntentInput,
   InstructionList,
   NotarizedTransaction,
   PublicKey,
@@ -120,7 +120,7 @@ describe.each([
       // Act
       let intent =
         await RawRadixEngineToolkit.decompileNotarizedTransactionIntent(
-          new DecompileNotarizedTransactionIntentRequest(
+          new DecompileNotarizedTransactionIntentInput(
             InstructionList.Kind.Parsed,
             expectedCompiledIntent
           )
@@ -134,7 +134,7 @@ describe.each([
       // Act
       let intent =
         await RawRadixEngineToolkit.decompileUnknownTransactionIntent(
-          new DecompileUnknownTransactionIntentRequest(
+          new DecompileUnknownTransactionIntentInput(
             InstructionList.Kind.Parsed,
             expectedCompiledIntent
           )

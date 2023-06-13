@@ -16,46 +16,23 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { SignedTransactionIntent } from "..";
 import { Convert } from "../..";
 import * as Serializers from "../serializers";
 
-export class EncodeAddressRequest {
-  @Expose({ name: "address_bytes" })
+export type CompileSignedTransactionIntentInput = SignedTransactionIntent;
+
+export class CompileSignedTransactionIntentOutput {
+  @Expose({ name: "compiled_intent" })
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  addressBytes: Uint8Array;
+  compiledIntent: Uint8Array;
 
-  @Expose({ name: "network_id" })
-  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
-  @Transform(Serializers.NumberAsString.deserialize, {
-    toClassOnly: true,
-  })
-  networkId: number;
-
-  constructor(addressBytes: Uint8Array | string, networkId: number) {
-    this.addressBytes = Convert.Uint8Array.from(addressBytes);
-    this.networkId = networkId;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-export class EncodeAddressResponse {
-  @Expose({ name: "address" })
-  @Type(() => Uint8Array)
-  address: string;
-
-  constructor(address: string) {
-    this.address = address;
+  constructor(compiledIntent: Uint8Array | string) {
+    this.compiledIntent = Convert.Uint8Array.from(compiledIntent);
   }
 
   toString(): string {

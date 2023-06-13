@@ -18,9 +18,9 @@
 import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionIntent } from ".";
 import { SignatureWithPublicKey } from "../../models/crypto";
-import { DecompileSignedTransactionIntentRequest } from "../../models/requests";
 import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
+import { DecompileSignedTransactionIntentInput } from "../functions";
 
 export class SignedTransactionIntent {
   @Expose()
@@ -52,7 +52,7 @@ export class SignedTransactionIntent {
 
   async compile(): Promise<Uint8Array> {
     return RawRadixEngineToolkit.compileSignedTransactionIntent(this).then(
-      (response) => response.compiledIntent
+      (output) => output.compiledIntent
     );
   }
 
@@ -61,7 +61,7 @@ export class SignedTransactionIntent {
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<SignedTransactionIntent> {
     return RawRadixEngineToolkit.decompileSignedTransactionIntent(
-      new DecompileSignedTransactionIntentRequest(
+      new DecompileSignedTransactionIntentInput(
         instructionsOutputKind,
         compiledIntent
       )

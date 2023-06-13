@@ -19,7 +19,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { describe, expect, test } from "vitest";
 import {
-  ConvertManifestRequest,
+  ConvertManifestInput,
   InstructionList,
   RawRadixEngineToolkit,
   TransactionManifest,
@@ -56,7 +56,7 @@ describe.each([
 
     // Act
     let convertedManifest = await RawRadixEngineToolkit.convertManifest(
-      new ConvertManifestRequest(0xf2, InstructionList.Kind.String, manifest)
+      new ConvertManifestInput(0xf2, InstructionList.Kind.String, manifest)
     );
 
     // Act
@@ -69,7 +69,7 @@ describe.each([
 
     // Act
     let convertedManifest = await RawRadixEngineToolkit.convertManifest(
-      new ConvertManifestRequest(0xf2, InstructionList.Kind.Parsed, manifest)
+      new ConvertManifestInput(0xf2, InstructionList.Kind.Parsed, manifest)
     );
 
     // Act

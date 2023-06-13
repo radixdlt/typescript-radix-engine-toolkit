@@ -19,12 +19,12 @@ import { Expose, Type, instanceToPlain } from "class-transformer";
 import { TransactionValidity } from "wrapper/default";
 import { InstructionList, SignedTransactionIntent } from ".";
 import { Signature } from "../../models/crypto";
-import {
-  DecompileNotarizedTransactionIntentRequest,
-  ValidationConfig,
-} from "../../models/requests";
 import { hash } from "../../utils";
 import { RadixEngineToolkit, RawRadixEngineToolkit } from "../../wrapper";
+import {
+  DecompileNotarizedTransactionIntentInput,
+  ValidationConfig,
+} from "../functions";
 
 export class NotarizedTransaction {
   @Expose({ name: "signed_intent" })
@@ -53,7 +53,7 @@ export class NotarizedTransaction {
 
   async compile(): Promise<Uint8Array> {
     return RawRadixEngineToolkit.compileNotarizedTransactionIntent(this).then(
-      (response) => response.compiledIntent
+      (output) => output.compiledIntent
     );
   }
 
@@ -62,7 +62,7 @@ export class NotarizedTransaction {
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<NotarizedTransaction> {
     return RawRadixEngineToolkit.decompileNotarizedTransactionIntent(
-      new DecompileNotarizedTransactionIntentRequest(
+      new DecompileNotarizedTransactionIntentInput(
         instructionsOutputKind,
         compiledIntent
       )

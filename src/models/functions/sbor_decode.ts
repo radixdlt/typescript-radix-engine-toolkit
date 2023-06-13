@@ -16,10 +16,19 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { PublicKey } from "../crypto";
+import { SborValue } from "models/value";
+import { Convert } from "../..";
 import * as Serializers from "../serializers";
 
-export class DeriveVirtualAccountAddressRequest {
+export class SborDecodeInput {
+  @Expose({ name: "encoded_value" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  encodedValue: Uint8Array;
+
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -27,21 +36,14 @@ export class DeriveVirtualAccountAddressRequest {
   })
   networkId: number;
 
-  @Expose({ name: "public_key" })
-  @Type(() => PublicKey.PublicKey, {
-    discriminator: {
-      property: "curve",
-      subTypes: [
-        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
-        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
-      ],
-    },
-  })
-  publicKey: PublicKey.PublicKey;
+  // TODO: Proper type
+  @Expose({ name: "schema" })
+  schema: null;
 
-  constructor(networkId: number, publicKey: PublicKey.PublicKey) {
+  constructor(encodedValue: Uint8Array | string, networkId: number) {
+    this.encodedValue = Convert.Uint8Array.from(encodedValue);
     this.networkId = networkId;
-    this.publicKey = publicKey;
+    this.schema = null;
   }
 
   toString(): string {
@@ -53,20 +55,4 @@ export class DeriveVirtualAccountAddressRequest {
   }
 }
 
-export class DeriveVirtualAccountAddressResponse {
-  @Expose({ name: "virtual_account_address" })
-  @Type(() => String)
-  virtualAccountAddress: string;
-
-  constructor(virtualAccountAddress: string) {
-    this.virtualAccountAddress = virtualAccountAddress;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
+export type SborDecodeOutput = SborValue.Value;

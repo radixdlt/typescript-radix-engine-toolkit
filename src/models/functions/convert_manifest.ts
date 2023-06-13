@@ -16,8 +16,8 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { InstructionList, TransactionManifest } from "../../models/transaction";
 import * as Serializers from "../serializers";
+import { InstructionList, TransactionManifest } from "../transaction";
 
 /**
  * Clients have a need to be able to read, parse, understand, and interrogate transaction manifests
@@ -38,7 +38,7 @@ import * as Serializers from "../serializers";
  * This function allows the client the convert their manifest between the two supported manifest
  * types: string and parsed.
  */
-export class ConvertManifestRequest {
+export class ConvertManifestInput {
   /**
    * An unsigned 8 bit integer serialized as a string which represents the ID of the network that
    * the manifest will be used on. The primary use of this is for any Bech32m encoding or decoding
@@ -52,7 +52,7 @@ export class ConvertManifestRequest {
   networkId: number;
 
   /**
-   * Defines the output format that we would like the manifest to be in after this request is
+   * Defines the output format that we would like the manifest to be in after this input is
    * performed.
    */
   @Expose({ name: "instructions_output_kind" })
@@ -85,6 +85,6 @@ export class ConvertManifestRequest {
 }
 
 /**
- * The response of the [`ConvertManifestRequest`]
+ * The output of the [`ConvertManifestInput`]
  */
-export type ConvertManifestResponse = TransactionManifest;
+export type ConvertManifestOutput = TransactionManifest;

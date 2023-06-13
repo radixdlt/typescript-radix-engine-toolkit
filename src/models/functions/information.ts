@@ -16,28 +16,43 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { InstructionList, SignedTransactionIntent } from "models/transaction";
 import { Convert } from "../..";
 import * as Serializers from "../serializers";
 
-export class DecompileSignedTransactionIntentRequest {
-  @Expose({ name: "instructions_output_kind" })
-  instructionsOutputKind: InstructionList.Kind;
+/**
+ * The input provides information on the currently in-use radix engine toolkit such as the version
+ * of the radix engine toolkit. In most cases, this is the first function written when integrating
+ * new clients; so, this function is often times seen as the "Hello World" example of the radix
+ * engine toolkit.
+ */
+export class InformationInput {}
 
-  @Expose({ name: "compiled_signed_intent" })
+/**
+ * The output from `InformationInput`s
+ */
+export class InformationOutput {
+  /**
+   * A SemVer string of the version of the Radix Engine Toolkit. Ideally, if the toolkit is version
+   * X then that means that it is compatible with version X of Scrypto.
+   */
+  @Expose({ name: "package_version" })
+  packageVersion: string;
+
+  /**
+   * The hash of the commit that this build of the Radix Engine Toolkit was built against. This is
+   * useful when doing any form of debugging and trying to determine the version of the library
+   */
+  @Expose({ name: "last_commit_hash" })
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  compiledSignedIntent: Uint8Array;
+  lastCommitHash: Uint8Array;
 
-  constructor(
-    instructionsOutputKind: InstructionList.Kind,
-    compiledSignedIntent: Uint8Array | string
-  ) {
-    this.instructionsOutputKind = instructionsOutputKind;
-    this.compiledSignedIntent = Convert.Uint8Array.from(compiledSignedIntent);
+  constructor(packageVersion: string, lastCommitHash: string | Uint8Array) {
+    this.packageVersion = packageVersion;
+    this.lastCommitHash = Convert.Uint8Array.from(lastCommitHash);
   }
 
   toString(): string {
@@ -48,5 +63,3 @@ export class DecompileSignedTransactionIntentRequest {
     return instanceToPlain(this);
   }
 }
-
-export type DecompileSignedTransactionIntentResponse = SignedTransactionIntent;

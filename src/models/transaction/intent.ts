@@ -17,9 +17,9 @@
 
 import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionHeader, TransactionManifest } from ".";
-import { DecompileTransactionIntentRequest } from "../../models/requests";
 import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
+import { DecompileTransactionIntentInput } from "../functions";
 
 export class TransactionIntent {
   @Expose()
@@ -37,7 +37,7 @@ export class TransactionIntent {
 
   async compile(): Promise<Uint8Array> {
     return RawRadixEngineToolkit.compileTransactionIntent(this).then(
-      (response) => response.compiledIntent
+      (output) => output.compiledIntent
     );
   }
 
@@ -46,7 +46,7 @@ export class TransactionIntent {
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<TransactionIntent> {
     return RawRadixEngineToolkit.decompileTransactionIntent(
-      new DecompileTransactionIntentRequest(
+      new DecompileTransactionIntentInput(
         instructionsOutputKind,
         compiledIntent
       )

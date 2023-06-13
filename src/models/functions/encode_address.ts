@@ -16,10 +16,18 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { PublicKey } from "../crypto";
+import { Convert } from "../..";
 import * as Serializers from "../serializers";
 
-export class DeriveVirtualIdentityAddressRequest {
+export class EncodeAddressInput {
+  @Expose({ name: "address_bytes" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  addressBytes: Uint8Array;
+
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -27,21 +35,9 @@ export class DeriveVirtualIdentityAddressRequest {
   })
   networkId: number;
 
-  @Expose({ name: "public_key" })
-  @Type(() => PublicKey.PublicKey, {
-    discriminator: {
-      property: "curve",
-      subTypes: [
-        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
-        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
-      ],
-    },
-  })
-  publicKey: PublicKey.PublicKey;
-
-  constructor(networkId: number, publicKey: PublicKey.PublicKey) {
+  constructor(addressBytes: Uint8Array | string, networkId: number) {
+    this.addressBytes = Convert.Uint8Array.from(addressBytes);
     this.networkId = networkId;
-    this.publicKey = publicKey;
   }
 
   toString(): string {
@@ -53,13 +49,13 @@ export class DeriveVirtualIdentityAddressRequest {
   }
 }
 
-export class DeriveVirtualIdentityAddressResponse {
-  @Expose({ name: "virtual_identity_address" })
-  @Type(() => String)
-  virtualIdentityAddress: string;
+export class EncodeAddressOutput {
+  @Expose({ name: "address" })
+  @Type(() => Uint8Array)
+  address: string;
 
-  constructor(virtualIdentityAddress: string) {
-    this.virtualIdentityAddress = virtualIdentityAddress;
+  constructor(address: string) {
+    this.address = address;
   }
 
   toString(): string {

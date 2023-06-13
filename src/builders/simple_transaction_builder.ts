@@ -18,7 +18,7 @@
 import Decimal from "decimal.js";
 import { Convert, ManifestBuilder, RadixEngineToolkit } from "../";
 import {
-  CompileNotarizedTransactionResponse,
+  CompileNotarizedTransactionOutput,
   Instruction,
   InstructionList,
   ManifestAstValue,
@@ -444,13 +444,13 @@ export class CompiledSignedTransactionIntent {
       resolveNotarySignature(source, this.hashToNotarize)
     );
 
-    let request = notarizedTransaction;
-    let response = this.retWrapper.invoke(
-      request,
+    let input = notarizedTransaction;
+    let output = this.retWrapper.invoke(
+      input,
       this.retWrapper.exports.compile_notarized_transaction,
-      CompileNotarizedTransactionResponse
+      CompileNotarizedTransactionOutput
     );
-    let compiledNotarizedTransaction = response.compiledIntent;
+    let compiledNotarizedTransaction = output.compiledIntent;
     let notarizedPayloadHash = hash(compiledNotarizedTransaction);
 
     return new CompiledNotarizedTransaction(

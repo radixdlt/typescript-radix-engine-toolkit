@@ -19,9 +19,9 @@ import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { Convert, TransactionIntent } from "../..";
 import * as Serializers from "../serializers";
 
-export type CompileTransactionIntentRequest = TransactionIntent;
+export type CompileTransactionIntentInput = TransactionIntent;
 
-export class CompileTransactionIntentResponse {
+export class CompileTransactionIntentOutput {
   @Expose({ name: "compiled_intent" })
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })

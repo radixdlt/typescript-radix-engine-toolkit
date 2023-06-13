@@ -16,8 +16,8 @@
 // under the License.
 
 import {
-  CompileSignedTransactionIntentResponse,
-  CompileTransactionIntentResponse,
+  CompileSignedTransactionIntentOutput,
+  CompileTransactionIntentOutput,
   NotarizedTransaction,
   SignatureWithPublicKey,
   SignedTransactionIntent,
@@ -133,13 +133,13 @@ export class TransactionBuilderIntentSignaturesStep {
     intent: TransactionIntent;
     intentHash: Uint8Array;
   } {
-    let request = this.intent;
-    let response = this.retWrapper.invoke(
-      request,
+    let input = this.intent;
+    let output = this.retWrapper.invoke(
+      input,
       this.retWrapper.exports.compile_transaction_intent,
-      CompileTransactionIntentResponse
+      CompileTransactionIntentOutput
     );
-    let compiledIntent = response.compiledIntent;
+    let compiledIntent = output.compiledIntent;
 
     let intentHash = hash(compiledIntent);
     return {
@@ -158,12 +158,12 @@ export class TransactionBuilderIntentSignaturesStep {
       this.intent,
       this.intentSignatures
     );
-    let response = this.retWrapper.invoke(
+    let output = this.retWrapper.invoke(
       signedIntent,
       this.retWrapper.exports.compile_signed_transaction_intent,
-      CompileSignedTransactionIntentResponse
+      CompileSignedTransactionIntentOutput
     );
-    let compiledSignedIntent = response.compiledIntent;
+    let compiledSignedIntent = output.compiledIntent;
 
     let signedIntentHash = hash(compiledSignedIntent);
     return {

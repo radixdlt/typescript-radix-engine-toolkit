@@ -16,23 +16,23 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { NotarizedTransaction } from "..";
+import { SborValue } from "models/value";
 import { Convert } from "../..";
 import * as Serializers from "../serializers";
 
-export type CompileNotarizedTransactionRequest = NotarizedTransaction;
+export type SborEncodeInput = SborValue.Value;
 
-export class CompileNotarizedTransactionResponse {
-  @Expose({ name: "compiled_intent" })
+export class SborEncodeOutput {
+  @Expose({ name: "encoded_value" })
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  compiledIntent: Uint8Array;
+  encodedValue: Uint8Array;
 
-  constructor(compiledIntent: Uint8Array | string) {
-    this.compiledIntent = Convert.Uint8Array.from(compiledIntent);
+  constructor(encodedValue: Uint8Array) {
+    this.encodedValue = Convert.Uint8Array.from(encodedValue);
   }
 
   toString(): string {

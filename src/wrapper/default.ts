@@ -17,30 +17,30 @@
 
 import { Convert } from "..";
 import {
-  ConvertManifestRequest,
-  DecodeAddressRequest,
-  DecompileNotarizedTransactionIntentRequest,
-  DecompileSignedTransactionIntentRequest,
-  DecompileTransactionIntentRequest,
-  DecompileUnknownTransactionIntentRequest,
-  DeriveBabylonAddressFromOlympiaAddressRequest,
-  DeriveVirtualAccountAddressRequest,
-  DeriveVirtualIdentityAddressRequest,
-  EncodeAddressRequest,
+  ConvertManifestInput,
+  DecodeAddressInput,
+  DecompileNotarizedTransactionIntentInput,
+  DecompileSignedTransactionIntentInput,
+  DecompileTransactionIntentInput,
+  DecompileUnknownTransactionIntentInput,
+  DeriveBabylonAddressFromOlympiaAddressInput,
+  DeriveVirtualAccountAddressInput,
+  DeriveVirtualIdentityAddressInput,
+  EncodeAddressInput,
   EntityType,
-  ExtractAddressesFromManifestRequest,
-  InformationRequest,
+  ExtractAddressesFromManifestInput,
+  InformationInput,
   InstructionList,
-  KnownEntityAddressesRequest,
+  KnownEntityAddressesInput,
   ManifestSborValue,
   NotarizedTransaction,
   PublicKey,
-  SborDecodeRequest,
+  SborDecodeInput,
   SborValue,
   ScryptoSborValue,
   SignedTransactionIntent,
-  StaticallyValidateTransactionRequest,
-  StaticallyValidateTransactionResponseInvalid,
+  StaticallyValidateTransactionInput,
+  StaticallyValidateTransactionOutputInvalid,
   TransactionIntent,
   TransactionManifest,
   ValidationConfig,
@@ -54,7 +54,7 @@ export class RadixEngineToolkit {
    * version as well as the Git hash of the last commit are returned.
    */
   static async information(): Promise<LibraryInformation> {
-    return RawRadixEngineToolkit.information(new InformationRequest()).then(
+    return RawRadixEngineToolkit.information(new InformationInput()).then(
       ({ packageVersion, lastCommitHash }) => {
         return {
           libraryVersion: packageVersion,
@@ -79,7 +79,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<TransactionManifest> {
     return RawRadixEngineToolkit.convertManifest(
-      new ConvertManifestRequest(networkId, outputInstructionKind, manifest)
+      new ConvertManifestInput(networkId, outputInstructionKind, manifest)
     );
   }
 
@@ -95,7 +95,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<AddressAnalysis> {
     return RawRadixEngineToolkit.analyzeManifest(
-      new ExtractAddressesFromManifestRequest(networkId, manifest)
+      new ExtractAddressesFromManifestInput(networkId, manifest)
     ).then(
       ({
         packageAddresses,
@@ -170,7 +170,7 @@ export class RadixEngineToolkit {
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<TransactionIntent> {
     return RawRadixEngineToolkit.decompileTransactionIntent(
-      new DecompileTransactionIntentRequest(
+      new DecompileTransactionIntentInput(
         instructionsOutputKind,
         Convert.Uint8Array.from(compiledIntent)
       )
@@ -190,7 +190,7 @@ export class RadixEngineToolkit {
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<SignedTransactionIntent> {
     return RawRadixEngineToolkit.decompileSignedTransactionIntent(
-      new DecompileSignedTransactionIntentRequest(
+      new DecompileSignedTransactionIntentInput(
         instructionsOutputKind,
         Convert.Uint8Array.from(compiledIntent)
       )
@@ -210,7 +210,7 @@ export class RadixEngineToolkit {
     instructionsOutputKind: InstructionList.Kind = InstructionList.Kind.String
   ): Promise<NotarizedTransaction> {
     return RawRadixEngineToolkit.decompileNotarizedTransactionIntent(
-      new DecompileNotarizedTransactionIntentRequest(
+      new DecompileNotarizedTransactionIntentInput(
         instructionsOutputKind,
         Convert.Uint8Array.from(compiledIntent)
       )
@@ -235,7 +235,7 @@ export class RadixEngineToolkit {
     NotarizedTransaction | SignedTransactionIntent | TransactionIntent
   > {
     return RawRadixEngineToolkit.decompileUnknownTransactionIntent(
-      new DecompileUnknownTransactionIntentRequest(
+      new DecompileUnknownTransactionIntentInput(
         instructionsOutputKind,
         Convert.Uint8Array.from(compiledIntent)
       )
@@ -255,9 +255,9 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<string> {
     return RawRadixEngineToolkit.encodeAddress(
-      new EncodeAddressRequest(Convert.Uint8Array.from(addressBytes), networkId)
+      new EncodeAddressInput(Convert.Uint8Array.from(addressBytes), networkId)
       // @ts-ignore
-    ).then((response) => response.address);
+    ).then((output) => output.address);
   }
 
   /**
@@ -268,7 +268,7 @@ export class RadixEngineToolkit {
    */
   static async decodeAddress(address: string): Promise<AddressInformation> {
     return RawRadixEngineToolkit.decodeAddress(
-      new DecodeAddressRequest(address)
+      new DecodeAddressInput(address)
     ).then(({ networkId, networkName, entityType, data }) => {
       return {
         networkId: networkId,
@@ -317,7 +317,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<SborValue.Value> {
     return RawRadixEngineToolkit.sborDecode(
-      new SborDecodeRequest(Convert.Uint8Array.from(encodedValue), networkId)
+      new SborDecodeInput(Convert.Uint8Array.from(encodedValue), networkId)
     );
   }
 
@@ -335,7 +335,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<string> {
     return RawRadixEngineToolkit.deriveVirtualAccountAddress(
-      new DeriveVirtualAccountAddressRequest(networkId, publicKey)
+      new DeriveVirtualAccountAddressInput(networkId, publicKey)
     ).then(({ virtualAccountAddress }) => virtualAccountAddress);
   }
 
@@ -353,7 +353,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<string> {
     return RawRadixEngineToolkit.deriveVirtualIdentityAddress(
-      new DeriveVirtualIdentityAddressRequest(networkId, publicKey)
+      new DeriveVirtualIdentityAddressInput(networkId, publicKey)
     ).then(({ virtualIdentityAddress }) => virtualIdentityAddress);
   }
 
@@ -372,7 +372,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<OlympiaToBabylonAddressMapping> {
     return RawRadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
-      new DeriveBabylonAddressFromOlympiaAddressRequest(
+      new DeriveBabylonAddressFromOlympiaAddressInput(
         networkId,
         olympiaAddress
       )
@@ -392,7 +392,7 @@ export class RadixEngineToolkit {
    */
   static async knownEntityAddresses(networkId: number): Promise<AddressBook> {
     return RawRadixEngineToolkit.knownEntityAddresses(
-      new KnownEntityAddressesRequest(networkId)
+      new KnownEntityAddressesInput(networkId)
     ).then(
       ({
         faucetComponentAddress,
@@ -447,12 +447,12 @@ export class RadixEngineToolkit {
     }
 
     const result = await RawRadixEngineToolkit.staticallyValidateTransaction(
-      new StaticallyValidateTransactionRequest(
+      new StaticallyValidateTransactionInput(
         compiledNotarizedTransaction,
         validationConfig
       )
     );
-    if (result instanceof StaticallyValidateTransactionResponseInvalid) {
+    if (result instanceof StaticallyValidateTransactionOutputInvalid) {
       return {
         isValid: false,
         errorMessage: result.error,

@@ -16,27 +16,49 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { Convert, InstructionList, TransactionIntent } from "../..";
+import { Convert, EntityType } from "../..";
 import * as Serializers from "../serializers";
 
-export class DecompileTransactionIntentRequest {
-  @Expose({ name: "instructions_output_kind" })
-  instructionsOutputKind: InstructionList.Kind;
+export class DecodeAddressInput {
+  address: string;
 
-  @Expose({ name: "compiled_intent" })
+  constructor(address: string) {
+    this.address = address;
+  }
+}
+
+export class DecodeAddressOutput {
+  @Expose({ name: "network_id" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  networkId: number;
+
+  @Expose({ name: "network_name" })
+  networkName: string;
+
+  @Expose({ name: "entity_type" })
+  entityType: EntityType;
+
+  @Expose()
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
     toClassOnly: true,
   })
-  compiledIntent: Uint8Array;
+  data: Uint8Array;
 
   constructor(
-    instructionsOutputKind: InstructionList.Kind,
-    compiledIntent: Uint8Array | string
+    networkId: number,
+    networkName: string,
+    entityType: EntityType,
+    data: Uint8Array | string
   ) {
-    this.instructionsOutputKind = instructionsOutputKind;
-    this.compiledIntent = Convert.Uint8Array.from(compiledIntent);
+    this.networkId = networkId;
+    this.networkName = networkName;
+    this.entityType = entityType;
+    this.data = Convert.Uint8Array.from(data);
   }
 
   toString(): string {
@@ -47,5 +69,3 @@ export class DecompileTransactionIntentRequest {
     return instanceToPlain(this);
   }
 }
-
-export type DecompileTransactionIntentResponse = TransactionIntent;

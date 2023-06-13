@@ -17,9 +17,9 @@
 
 import { describe, expect, test } from "vitest";
 import {
-  DeriveBabylonAddressFromOlympiaAddressRequest,
-  DeriveVirtualAccountAddressRequest,
-  DeriveVirtualIdentityAddressRequest,
+  DeriveBabylonAddressFromOlympiaAddressInput,
+  DeriveVirtualAccountAddressInput,
+  DeriveVirtualIdentityAddressInput,
   PublicKey,
   RawRadixEngineToolkit,
 } from "../../src";
@@ -49,7 +49,7 @@ describe.each([
       // Act
       let virtualAddress = (
         await RawRadixEngineToolkit.deriveVirtualAccountAddress(
-          new DeriveVirtualAccountAddressRequest(0xf2, expectedPublicKey)
+          new DeriveVirtualAccountAddressInput(0xf2, expectedPublicKey)
         )
       ).virtualAccountAddress;
 
@@ -61,7 +61,7 @@ describe.each([
       // Act
       let virtualAddress = (
         await RawRadixEngineToolkit.deriveVirtualIdentityAddress(
-          new DeriveVirtualIdentityAddressRequest(0xf2, expectedPublicKey)
+          new DeriveVirtualIdentityAddressInput(0xf2, expectedPublicKey)
         )
       ).virtualIdentityAddress;
 
@@ -73,7 +73,7 @@ describe.each([
       // Act
       let publicKey = (
         await RawRadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
-          new DeriveBabylonAddressFromOlympiaAddressRequest(
+          new DeriveBabylonAddressFromOlympiaAddressInput(
             0xf2,
             expectedOlympiaAddress
           )

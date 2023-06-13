@@ -19,7 +19,7 @@ import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { PublicKey } from "..";
 import * as Serializers from "../serializers";
 
-export class DeriveBabylonAddressFromOlympiaAddressRequest {
+export class DeriveBabylonAddressFromOlympiaAddressInput {
   @Expose({ name: "network_id" })
   @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
   @Transform(Serializers.NumberAsString.deserialize, {
@@ -44,7 +44,7 @@ export class DeriveBabylonAddressFromOlympiaAddressRequest {
   }
 }
 
-export class DeriveBabylonAddressFromOlympiaAddressResponse {
+export class DeriveBabylonAddressFromOlympiaAddressOutput {
   @Expose({ name: "babylon_account_address" })
   @Type(() => String)
   babylonAccountAddress: string;

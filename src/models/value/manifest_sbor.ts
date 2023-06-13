@@ -605,7 +605,7 @@ export class Address extends Value implements IAddress {
     networkId: number
   ): Promise<Address> {
     return RadixEngineToolkit.encodeAddress(bytes, networkId).then(
-      (response) => new Address(response)
+      (output) => new Address(output)
     );
   }
 

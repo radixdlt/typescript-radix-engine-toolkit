@@ -108,7 +108,7 @@ export class ValidationConfig {
   }
 }
 
-export class StaticallyValidateTransactionRequest {
+export class StaticallyValidateTransactionInput {
   @Expose({ name: "compiled_notarized_intent" })
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
   @Transform(Serializers.ByteArrayAsHexString.deserialize, {
@@ -140,7 +140,7 @@ export class StaticallyValidateTransactionRequest {
   }
 }
 
-export class StaticallyValidateTransactionResponse {
+export class StaticallyValidateTransactionOutput {
   readonly validity: "Valid" | "Invalid";
 
   constructor(validity: "Valid" | "Invalid") {
@@ -148,7 +148,7 @@ export class StaticallyValidateTransactionResponse {
   }
 }
 
-export class StaticallyValidateTransactionResponseValid extends StaticallyValidateTransactionResponse {
+export class StaticallyValidateTransactionOutputValid extends StaticallyValidateTransactionOutput {
   constructor() {
     super("Valid");
   }
@@ -162,7 +162,7 @@ export class StaticallyValidateTransactionResponseValid extends StaticallyValida
   }
 }
 
-export class StaticallyValidateTransactionResponseInvalid extends StaticallyValidateTransactionResponse {
+export class StaticallyValidateTransactionOutputInvalid extends StaticallyValidateTransactionOutput {
   @Expose()
   error: string;
 

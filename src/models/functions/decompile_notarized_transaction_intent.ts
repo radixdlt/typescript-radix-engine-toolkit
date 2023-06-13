@@ -19,7 +19,7 @@ import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
 import { Convert, InstructionList, NotarizedTransaction } from "../..";
 import * as Serializers from "../serializers";
 
-export class DecompileNotarizedTransactionIntentRequest {
+export class DecompileNotarizedTransactionIntentInput {
   @Expose({ name: "instructions_output_kind" })
   instructionsOutputKind: InstructionList.Kind;
 
@@ -50,4 +50,4 @@ export class DecompileNotarizedTransactionIntentRequest {
   }
 }
 
-export type DecompileNotarizedTransactionIntentResponse = NotarizedTransaction;
+export type DecompileNotarizedTransactionIntentOutput = NotarizedTransaction;

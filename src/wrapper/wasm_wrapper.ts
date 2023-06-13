@@ -66,44 +66,44 @@ class RadixEngineToolkitWasmWrapper {
    * `RadixEngineToolkit`, as such, this method performs all required memory allocation,
    * deallocation, object serialization, deserialization encoding, and decoding required for any
    * call into the RadixEngineToolkit
-   * @param request An object containing the request payload
+   * @param input An object containing the input payload
    * @param fn The function to call of the `RadixEngineToolkitFFI`
-   * @param Response The constructor function. This constructor will not actually be used to
+   * @param Output The constructor function. This constructor will not actually be used to
    * construct any objects. Rather, it will be used as the type to cast the object to after it has
    * been deserialized.
-   * @return A generic object of type `O` of the response to the request
+   * @return A generic object of type `O` of the output to the input
    * @private
    */
   public invoke<I, O>(
-    request: I,
+    input: I,
     fn: (pointer: number) => number,
-    Response: ClassConstructor<O>
+    Output: ClassConstructor<O>
   ): O {
-    // Write the request object to memory and get a pointer to where it was written
-    let requestPointer = this.writeObjectToMemory(request);
+    // Write the input object to memory and get a pointer to where it was written
+    let inputPointer = this.writeObjectToMemory(input);
 
-    // Call the WASM function with the request pointer
-    let responsePointer = fn(requestPointer);
+    // Call the WASM function with the input pointer
+    let outputPointer = fn(inputPointer);
 
-    // Read and deserialize the response
-    let responseString = this.readStringFromMemory(responsePointer);
-    let parsedResponse = JSON.parse(responseString);
-    if (isRetInvocationError(parsedResponse?.["type"])) {
+    // Read and deserialize the output
+    let outputString = this.readStringFromMemory(outputPointer);
+    let parsedOutput = JSON.parse(outputString);
+    if (isRetInvocationError(parsedOutput?.["type"])) {
       throw new Error(
         `Invocation Error. Invocation: """${JSON.stringify(
-          request
-        )}""". Response: """${JSON.stringify(parsedResponse)}"""`
+          input
+        )}""". Output: """${JSON.stringify(parsedOutput)}"""`
       );
     }
 
-    let response = plainToInstance(Response, parsedResponse);
+    let output = plainToInstance(Output, parsedOutput);
 
-    // Deallocate the request and response pointers
-    this.deallocateMemory(requestPointer);
-    this.deallocateMemory(responsePointer);
+    // Deallocate the input and output pointers
+    this.deallocateMemory(inputPointer);
+    this.deallocateMemory(outputPointer);
 
     // Return the object back to the caller
-    return response as O;
+    return output as O;
   }
 
   /**
