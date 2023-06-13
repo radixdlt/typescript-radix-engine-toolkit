@@ -62,13 +62,21 @@ export class ValidationConfig {
   })
   maxEpochRange: number;
 
+  @Expose({ name: "max_notarized_payload_size" })
+  @Transform(Serializers.NumberAsString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.NumberAsString.deserialize, {
+    toClassOnly: true,
+  })
+  maxNotarizedPayloadSize: number;
+
   constructor(
     networkId: number,
     minCostUnitLimit: number,
     maxCostUnitLimit: number,
     minTipPercentage: number,
     maxTipPercentage: number,
-    maxEpochRange: number
+    maxEpochRange: number,
+    maxNotarizedPayloadSize: number
   ) {
     this.networkId = networkId;
     this.minCostUnitLimit = minCostUnitLimit;
@@ -76,6 +84,7 @@ export class ValidationConfig {
     this.minTipPercentage = minTipPercentage;
     this.maxTipPercentage = maxTipPercentage;
     this.maxEpochRange = maxEpochRange;
+    this.maxNotarizedPayloadSize = maxNotarizedPayloadSize;
   }
 
   public static default(networkId: number): ValidationConfig {
@@ -85,7 +94,8 @@ export class ValidationConfig {
       100_000_000,
       0,
       0xffff,
-      100
+      100,
+      1 * 1024 * 1024
     );
   }
 
