@@ -18,6 +18,8 @@
 import {
   CompileSignedTransactionIntentOutput,
   CompileTransactionIntentOutput,
+  HashSignedTransactionIntentOutput,
+  HashTransactionIntentOutput,
   NotarizedTransaction,
   SignatureWithPublicKey,
   SignedTransactionIntent,
@@ -25,7 +27,6 @@ import {
   TransactionIntent,
   TransactionManifest,
 } from "../models";
-import { hash } from "../utils";
 import { RET } from "../wrapper/raw";
 import { RadixEngineToolkitWasmWrapper } from "../wrapper/wasm_wrapper";
 import {
@@ -133,15 +134,16 @@ export class TransactionBuilderIntentSignaturesStep {
     intent: TransactionIntent;
     intentHash: Uint8Array;
   } {
-    let input = this.intent;
-    let output = this.retWrapper.invoke(
+    const input = this.intent;
+    const output = this.retWrapper.invoke(
       input,
-      this.retWrapper.exports.compile_transaction_intent,
-      CompileTransactionIntentOutput
+      this.retWrapper.exports.hash_transaction_intent,
+      HashTransactionIntentOutput
     );
-    let compiledIntent = output.compiledIntent;
+    const intentHash = output.hash;
 
-    let intentHash = hash(compiledIntent);
+    const compiledIntent = this.compileIntentInternal(this.intent);
+
     return {
       compiledIntent,
       intent: this.intent,
@@ -154,22 +156,47 @@ export class TransactionBuilderIntentSignaturesStep {
     signedIntent: SignedTransactionIntent;
     signedIntentHash: Uint8Array;
   } {
-    let signedIntent = new SignedTransactionIntent(
+    const signedIntent = new SignedTransactionIntent(
       this.intent,
       this.intentSignatures
     );
-    let output = this.retWrapper.invoke(
-      signedIntent,
-      this.retWrapper.exports.compile_signed_transaction_intent,
-      CompileSignedTransactionIntentOutput
-    );
-    let compiledSignedIntent = output.compiledIntent;
 
-    let signedIntentHash = hash(compiledSignedIntent);
+    const input = signedIntent;
+    const output = this.retWrapper.invoke(
+      input,
+      this.retWrapper.exports.hash_signed_transaction_intent,
+      HashSignedTransactionIntentOutput
+    );
+    const signedIntentHash = output.hash;
+
+    const compiledSignedIntent = this.compileSignedIntentInternal(signedIntent);
+
     return {
-      compiledSignedIntent: compiledSignedIntent,
+      compiledSignedIntent,
       signedIntent,
       signedIntentHash,
     };
+  }
+
+  private compileIntentInternal(intent: TransactionIntent): Uint8Array {
+    const input = intent;
+    const output = this.retWrapper.invoke(
+      input,
+      this.retWrapper.exports.compile_transaction_intent,
+      CompileTransactionIntentOutput
+    );
+    return output.compiledIntent;
+  }
+
+  private compileSignedIntentInternal(
+    intent: SignedTransactionIntent
+  ): Uint8Array {
+    const input = intent;
+    const output = this.retWrapper.invoke(
+      input,
+      this.retWrapper.exports.compile_signed_transaction_intent,
+      CompileSignedTransactionIntentOutput
+    );
+    return output.compiledIntent;
   }
 }

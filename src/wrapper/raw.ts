@@ -46,6 +46,12 @@ import {
   EncodeAddressOutput,
   ExtractAddressesFromManifestInput,
   ExtractAddressesFromManifestOutput,
+  HashNotarizedTransactionInput,
+  HashNotarizedTransactionOutput,
+  HashSignedTransactionIntentInput,
+  HashSignedTransactionIntentOutput,
+  HashTransactionIntentInput,
+  HashTransactionIntentOutput,
   InformationInput,
   InformationOutput,
   KnownEntityAddressesInput,
@@ -109,11 +115,7 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    return ret.invoke(
-      input,
-      ret.exports.convert_manifest,
-      TransactionManifest
-    );
+    return ret.invoke(input, ret.exports.convert_manifest, TransactionManifest);
   }
 
   public static async compileTransactionIntent(
@@ -127,6 +129,48 @@ export class RawRadixEngineToolkit {
       input,
       ret.exports.compile_transaction_intent,
       CompileTransactionIntentOutput
+    );
+  }
+
+  public static async hashTransactionIntent(
+    input: HashTransactionIntentInput
+  ): Promise<HashTransactionIntentOutput> {
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      input,
+      ret.exports.hash_transaction_intent,
+      HashTransactionIntentOutput
+    );
+  }
+
+  public static async hashSignedTransactionIntent(
+    input: HashSignedTransactionIntentInput
+  ): Promise<HashSignedTransactionIntentOutput> {
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      input,
+      ret.exports.hash_signed_transaction_intent,
+      HashSignedTransactionIntentOutput
+    );
+  }
+
+  public static async hashNotarizedTransaction(
+    input: HashNotarizedTransactionInput
+  ): Promise<HashNotarizedTransactionOutput> {
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      input,
+      ret.exports.hash_notarized_transaction,
+      HashNotarizedTransactionOutput
     );
   }
 
@@ -264,11 +308,7 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    return ret.invoke(
-      input,
-      ret.exports.decode_address,
-      DecodeAddressOutput
-    );
+    return ret.invoke(input, ret.exports.decode_address, DecodeAddressOutput);
   }
 
   public static async sborEncode(
@@ -288,21 +328,11 @@ export class RawRadixEngineToolkit {
     let ret = await RET;
 
     // Invoke the Radix Engine Toolkit
-    let output = ret.invoke(
-      input,
-      ret.exports.sbor_decode,
-      SborValue.Value
-    );
+    let output = ret.invoke(input, ret.exports.sbor_decode, SborValue.Value);
     if (output.type === "ScryptoSbor") {
-      output = plainToInstance(
-        SborValue.ScryptoSbor,
-        instanceToPlain(output)
-      );
+      output = plainToInstance(SborValue.ScryptoSbor, instanceToPlain(output));
     } else if (output.type === "ManifestSbor") {
-      output = plainToInstance(
-        SborValue.ManifestSbor,
-        instanceToPlain(output)
-      );
+      output = plainToInstance(SborValue.ManifestSbor, instanceToPlain(output));
     }
     return output;
   }

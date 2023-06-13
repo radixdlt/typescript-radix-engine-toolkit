@@ -29,6 +29,7 @@ import { StringInstructions } from "../../src/models/transaction/instruction_lis
 describe.each([
   "../test_vectors/manifest/access_controller/new.rtm",
   "../test_vectors/manifest/access_rule/access_rule.rtm",
+  "../test_vectors/manifest/account/deposit_modes.rtm",
   "../test_vectors/manifest/account/multi_account_resource_transfer.rtm",
   "../test_vectors/manifest/account/new.rtm",
   "../test_vectors/manifest/account/resource_transfer.rtm",
@@ -48,6 +49,7 @@ describe.each([
   "../test_vectors/manifest/resources/recall.rtm",
   "../test_vectors/manifest/resources/worktop.rtm",
   "../test_vectors/manifest/royalty/royalty.rtm",
+  "../test_vectors/manifest/validator/new.rtm",
   "../test_vectors/manifest/values/values.rtm",
 ])("Convert manifest works for $0", (path) => {
   test(`${path} can be converted to String`, async () => {
@@ -156,6 +158,18 @@ const prepareManifest = (manifestPath: string): TransactionManifest => {
       "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6"
     )
     .replaceAll(
+      "${mintable_fungible_resource_address}",
+      "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6"
+    )
+    .replaceAll(
+      "${second_resource_address}",
+      "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6"
+    )
+    .replaceAll(
+      "${mintable_non_fungible_resource_address}",
+      "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6"
+    )
+    .replaceAll(
       "${vault_address}",
       "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
     )
@@ -178,7 +192,7 @@ const prepareManifest = (manifestPath: string): TransactionManifest => {
     )
     .replaceAll(
       "${consensusmanager_address}",
-      "consensusmanager_sim1sexxxxxxxxxxephmgrxxxxxxxxx009352500589xxxxxxxxx82g6cl"
+      "consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl"
     )
     .replaceAll(
       "${clock_address}",

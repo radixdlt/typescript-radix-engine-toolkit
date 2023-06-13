@@ -801,12 +801,10 @@ export class Address extends Value implements IAddress {
     networkId: number
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
-      .then(({ consensusManagerComponentAddress }) => consensusManagerComponentAddress)
-      .then((address) => new Address(address));
-  }
-  static async clockComponentAddress(networkId: number): Promise<Address> {
-    return Address.knownEntityAddresses(networkId)
-      .then(({ clockComponentAddress }) => clockComponentAddress)
+      .then(
+        ({ consensusManagerComponentAddress }) =>
+          consensusManagerComponentAddress
+      )
       .then((address) => new Address(address));
   }
 

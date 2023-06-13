@@ -159,6 +159,45 @@ export class RadixEngineToolkit {
   }
 
   /**
+   * Hashs the `TransactionIntent` by calling through the Hashing algorithm of the toolkit.
+   * @param transactionIntent The transaction intent to hash
+   * @returns The hashed transaction intent
+   */
+  static async hashTransactionIntent(
+    transactionIntent: TransactionIntent
+  ): Promise<Uint8Array> {
+    return RawRadixEngineToolkit.hashTransactionIntent(transactionIntent).then(
+      ({ hash }) => hash
+    );
+  }
+
+  /**
+   * Hashs the `SignedTransactionIntent` by calling through the Hashing algorithm of the toolkit.
+   * @param signedTransactionIntent The signed transaction intent to hash
+   * @returns The hashed signed transaction intent
+   */
+  static async hashSignedTransactionIntent(
+    signedTransactionIntent: SignedTransactionIntent
+  ): Promise<Uint8Array> {
+    return RawRadixEngineToolkit.hashSignedTransactionIntent(
+      signedTransactionIntent
+    ).then(({ hash }) => hash);
+  }
+
+  /**
+   * Hashs the `NotarizedTransaction` by calling through the Hashing algorithm of the toolkit.
+   * @param notarizedTransactionIntent The signed transaction intent to hash
+   * @returns The hashed signed transaction intent
+   */
+  static async hashNotarizedTransaction(
+    notarizedTransactionIntent: NotarizedTransaction
+  ): Promise<Uint8Array> {
+    return RawRadixEngineToolkit.hashNotarizedTransaction(
+      notarizedTransactionIntent
+    ).then(({ hash }) => hash);
+  }
+
+  /**
    * Decompiles a transaction intent from a byte array of compiled transaction intent
    * @param compiledIntent A `Uint8Array` compiled intent or a `string` of the hex encoded intent
    * @param instructionsOutputKind The format of instructions to use in the manifest. This is either
@@ -372,10 +411,7 @@ export class RadixEngineToolkit {
     networkId: number
   ): Promise<OlympiaToBabylonAddressMapping> {
     return RawRadixEngineToolkit.deriveBabylonAddressFromOlympiaAddress(
-      new DeriveBabylonAddressFromOlympiaAddressInput(
-        networkId,
-        olympiaAddress
-      )
+      new DeriveBabylonAddressFromOlympiaAddressInput(networkId, olympiaAddress)
     ).then(({ babylonAccountAddress, publicKey }) => {
       return {
         olympiaAccountAddress: olympiaAddress,
@@ -404,7 +440,6 @@ export class RadixEngineToolkit {
         eddsaEd25519TokenResourceAddress,
         packageTokenResourceAddress,
         consensusManagerSystemAddress,
-        clockSystemAddress,
       }) => {
         return {
           faucetComponentAddress: faucetComponentAddress,
@@ -417,7 +452,6 @@ export class RadixEngineToolkit {
           eddsaEd25519TokenResourceAddress: eddsaEd25519TokenResourceAddress,
           packageTokenResourceAddress: packageTokenResourceAddress,
           consensusManagerComponentAddress: consensusManagerSystemAddress,
-          clockComponentAddress: clockSystemAddress,
         };
       }
     );
@@ -620,11 +654,6 @@ export interface AddressBook {
    * The address of the ConsensusManager component
    */
   consensusManagerComponentAddress: string;
-
-  /**
-   * The address of the Clock component
-   */
-  clockComponentAddress: string;
 }
 
 export interface TransactionValidity {

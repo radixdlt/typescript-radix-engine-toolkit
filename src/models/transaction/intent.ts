@@ -17,7 +17,6 @@
 
 import { Expose, Type, instanceToPlain } from "class-transformer";
 import { InstructionList, TransactionHeader, TransactionManifest } from ".";
-import { hash } from "../../utils";
 import { RawRadixEngineToolkit } from "../../wrapper";
 import { DecompileTransactionIntentInput } from "../functions";
 
@@ -54,7 +53,9 @@ export class TransactionIntent {
   }
 
   async transactionId(): Promise<Uint8Array> {
-    return this.compile().then(hash);
+    return RawRadixEngineToolkit.hashTransactionIntent(this).then(
+      ({ hash }) => hash
+    );
   }
 
   toString(): string {

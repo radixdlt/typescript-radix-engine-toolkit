@@ -19,6 +19,7 @@ import Decimal from "decimal.js";
 import { Convert, ManifestBuilder, RadixEngineToolkit } from "../";
 import {
   CompileNotarizedTransactionOutput,
+  HashNotarizedTransactionOutput,
   Instruction,
   InstructionList,
   ManifestAstValue,
@@ -31,7 +32,7 @@ import {
   TransactionManifest,
   ValidationConfig,
 } from "../models";
-import { generateRandomNonce, hash } from "../utils";
+import { generateRandomNonce } from "../utils";
 import { TransactionValidity } from "../wrapper/default";
 import { LTSRadixEngineToolkit, TransactionSummary } from "../wrapper/lts";
 import { RET } from "../wrapper/raw";
@@ -149,13 +150,9 @@ export class SimpleTransactionBuilder {
         new ManifestAstValue.Decimal("10"),
       ])
       .callMethod(faucetComponentAddress, "free", [])
-      .takeFromWorktop(
-        xrdResourceAddress,
-        10_000,
-        (builder, bucket) => {
-          return builder.callMethod(toAccount, "deposit", [bucket]);
-        }
-      )
+      .takeFromWorktop(xrdResourceAddress, 10_000, (builder, bucket) => {
+        return builder.callMethod(toAccount, "deposit", [bucket]);
+      })
       .build();
     const header = new TransactionHeader(
       networkId,
@@ -439,19 +436,28 @@ export class CompiledSignedTransactionIntent {
   compileNotarized(
     source: NotarySignatureSource
   ): CompiledNotarizedTransaction {
-    let notarizedTransaction = new NotarizedTransaction(
+    const notarizedTransaction = new NotarizedTransaction(
       this.signedIntent,
       resolveNotarySignature(source, this.hashToNotarize)
     );
 
-    let input = notarizedTransaction;
-    let output = this.retWrapper.invoke(
+    const input = notarizedTransaction;
+    const output = this.retWrapper.invoke(
       input,
       this.retWrapper.exports.compile_notarized_transaction,
       CompileNotarizedTransactionOutput
     );
-    let compiledNotarizedTransaction = output.compiledIntent;
-    let notarizedPayloadHash = hash(compiledNotarizedTransaction);
+    const compiledNotarizedTransaction = output.compiledIntent;
+
+    const notarizedPayloadHash = (() => {
+      const input = notarizedTransaction;
+      const output = this.retWrapper.invoke(
+        input,
+        this.retWrapper.exports.hash_notarized_transaction,
+        HashNotarizedTransactionOutput
+      );
+      return output.hash;
+    })();
 
     return new CompiledNotarizedTransaction(
       this.retWrapper,

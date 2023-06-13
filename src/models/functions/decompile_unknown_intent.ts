@@ -80,8 +80,7 @@ export class DecompileUnknownTransactionIntentOutput {
   ) {
     this.value = value;
     if (value instanceof TransactionIntent) {
-      this.type =
-        DecompileUnknownTransactionIntentOutputKind.TransactionIntent;
+      this.type = DecompileUnknownTransactionIntentOutputKind.TransactionIntent;
     } else if (value instanceof SignedTransactionIntent) {
       this.type =
         DecompileUnknownTransactionIntentOutputKind.SignedTransactionIntent;

@@ -244,6 +244,12 @@ interface RadixEngineToolkitExports {
 
   decompile_unknown_transaction_intent(pointer: number): number;
 
+  hash_transaction_intent(pointer: number): number;
+
+  hash_signed_transaction_intent(pointer: number): number;
+
+  hash_notarized_transaction(pointer: number): number;
+
   derive_babylon_address_from_olympia_address(pointer: number): number;
 
   derive_virtual_account_address(pointer: number): number;

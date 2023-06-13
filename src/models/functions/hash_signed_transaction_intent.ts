@@ -15,26 +15,30 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { describe, expect, it } from "vitest";
-import {
-  InformationInput,
-  InformationOutput,
-  RawRadixEngineToolkit,
-} from "../src";
+import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
+import { Convert, SignedTransactionIntent } from "../..";
+import * as Serializers from "../serializers";
 
-describe("essential", () => {
-  it("essential", async () => {
-    let information = await RawRadixEngineToolkit.information(
-      new InformationInput()
-    );
-    let expected = new InformationOutput(
-      "0.9.0",
-      new Uint8Array([
-        102, 62, 156, 195, 224, 76, 56, 140, 3, 175, 240, 169, 230, 68, 6, 174,
-        136, 215, 19, 37,
-      ])
-    );
+export type HashSignedTransactionIntentInput = SignedTransactionIntent;
 
-    expect(information).toEqual(expected);
-  });
-});
+export class HashSignedTransactionIntentOutput {
+  @Expose({ name: "hash" })
+  @Type(() => Uint8Array)
+  @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
+  @Transform(Serializers.ByteArrayAsHexString.deserialize, {
+    toClassOnly: true,
+  })
+  hash: Uint8Array;
+
+  constructor(hash: Uint8Array | string) {
+    this.hash = Convert.Uint8Array.from(hash);
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}

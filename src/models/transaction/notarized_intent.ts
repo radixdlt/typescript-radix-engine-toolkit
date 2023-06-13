@@ -19,7 +19,6 @@ import { Expose, Type, instanceToPlain } from "class-transformer";
 import { TransactionValidity } from "wrapper/default";
 import { InstructionList, SignedTransactionIntent } from ".";
 import { Signature } from "../../models/crypto";
-import { hash } from "../../utils";
 import { RadixEngineToolkit, RawRadixEngineToolkit } from "../../wrapper";
 import {
   DecompileNotarizedTransactionIntentInput,
@@ -82,7 +81,9 @@ export class NotarizedTransaction {
   }
 
   async notarizedPayloadHash(): Promise<Uint8Array> {
-    return this.compile().then(hash);
+    return RawRadixEngineToolkit.hashNotarizedTransaction(this).then(
+      ({ hash }) => hash
+    );
   }
 
   async staticallyValidate(
