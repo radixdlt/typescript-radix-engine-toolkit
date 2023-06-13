@@ -252,6 +252,10 @@ interface RadixEngineToolkitExports {
 
   derive_babylon_address_from_olympia_address(pointer: number): number;
 
+  derive_babylon_resource_address_from_olympia_resource_address(
+    pointer: number
+  ): number;
+
   derive_virtual_account_address(pointer: number): number;
 
   derive_virtual_identity_address(pointer: number): number;

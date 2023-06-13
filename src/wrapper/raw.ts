@@ -38,6 +38,8 @@ import {
   DecompileUnknownTransactionIntentOutputKind,
   DeriveBabylonAddressFromOlympiaAddressInput,
   DeriveBabylonAddressFromOlympiaAddressOutput,
+  DeriveBabylonResourceAddressFromOlympiaResourceAddressInput,
+  DeriveBabylonResourceAddressFromOlympiaResourceAddressOutput,
   DeriveVirtualAccountAddressInput,
   DeriveVirtualAccountAddressOutput,
   DeriveVirtualIdentityAddressInput,
@@ -376,6 +378,20 @@ export class RawRadixEngineToolkit {
       input,
       ret.exports.derive_babylon_address_from_olympia_address,
       DeriveBabylonAddressFromOlympiaAddressOutput
+    );
+  }
+
+  public static async deriveBabylonResourceAddressFromOlympiaResourceAddress(
+    input: DeriveBabylonResourceAddressFromOlympiaResourceAddressInput
+  ): Promise<DeriveBabylonResourceAddressFromOlympiaResourceAddressOutput> {
+    // Get the instance of the Radix Engine Toolkit
+    let ret = await RET;
+
+    // Invoke the Radix Engine Toolkit
+    return ret.invoke(
+      input,
+      ret.exports.derive_babylon_resource_address_from_olympia_resource_address,
+      DeriveBabylonResourceAddressFromOlympiaResourceAddressOutput
     );
   }
 

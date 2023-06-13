@@ -24,6 +24,7 @@ import {
   DecompileTransactionIntentInput,
   DecompileUnknownTransactionIntentInput,
   DeriveBabylonAddressFromOlympiaAddressInput,
+  DeriveBabylonResourceAddressFromOlympiaResourceAddressInput,
   DeriveVirtualAccountAddressInput,
   DeriveVirtualIdentityAddressInput,
   EncodeAddressInput,
@@ -419,6 +420,27 @@ export class RadixEngineToolkit {
         publicKey: publicKey,
       };
     });
+  }
+
+  /**
+   * Given an Olympia resource address, this function deterministically calculates the address of the
+   * associated resource on a Babylon network of a given network id.
+   * @param olympiaResourceAddress The Olympia resource address to derive the associated Babylon
+   * resource address for.
+   * @param networkId The **Babylon** network id to derive the Babylon resource address for. This is
+   * primarily used for the Bech32m encoding of addresses.
+   * @returns A string of the resource address on Babylon
+   */
+  static async deriveBabylonResourceAddressFromOlympiaResourceAddress(
+    olympiaResourceAddress: string,
+    networkId: number
+  ): Promise<string> {
+    return RawRadixEngineToolkit.deriveBabylonResourceAddressFromOlympiaResourceAddress(
+      new DeriveBabylonResourceAddressFromOlympiaResourceAddressInput(
+        networkId,
+        olympiaResourceAddress
+      )
+    ).then((response) => response.babylonResourceAddress);
   }
 
   /**

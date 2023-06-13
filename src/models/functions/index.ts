@@ -25,6 +25,7 @@ export * from "./decompile_signed_transaction_intent";
 export * from "./decompile_transaction_intent";
 export * from "./decompile_unknown_intent";
 export * from "./derive_babylon_address_from_olympia_address";
+export * from "./derive_babylon_resource_address_from_olympia_resource_address";
 export * from "./derive_virtual_account_address";
 export * from "./derive_virtual_identity_address";
 export * from "./encode_address";
