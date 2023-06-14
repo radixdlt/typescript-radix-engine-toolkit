@@ -127,7 +127,7 @@ let manifest = new ManifestBuilder()
     (builder, bucket) =>
       builder.callMethod(
         "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
-        "deposit",
+        "try_deposit_or_abort",
         [bucket]
       )
   )
@@ -197,7 +197,7 @@ let transactionManifest: TransactionManifest = new ManifestBuilder()
     (builder, bucket) =>
       builder.callMethod(
         "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
-        "deposit",
+        "try_deposit_or_abort",
         [bucket]
       )
   )
@@ -283,7 +283,7 @@ let transactionManifest: TransactionManifest = new ManifestBuilder()
     (builder, bucket) =>
       builder.callMethod(
         "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
-        "deposit",
+        "try_deposit_or_abort",
         [bucket]
       )
   )

@@ -459,7 +459,9 @@ const summarizeTransaction = async (
         // Case: Deposit bucket into account
         else if (
           callMethodInstruction.componentAddress.value.startsWith("account_") &&
-          callMethodInstruction.methodName.value === "deposit" &&
+          (callMethodInstruction.methodName.value === "deposit" ||
+            callMethodInstruction.methodName.value ===
+              "try_deposit_or_abort") &&
           callMethodInstruction.arguments?.length === 1 &&
           callMethodInstruction.arguments[0].kind ===
             ManifestAstValue.Kind.Bucket

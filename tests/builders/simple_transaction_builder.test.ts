@@ -90,7 +90,7 @@ describe("SimpleTransactionBuilder Tests", () => {
         (builder, bucket) => {
           return builder.callMethod(
             new ManifestAstValue.Address(account2),
-            new ManifestAstValue.String("deposit"),
+            new ManifestAstValue.String("try_deposit_or_abort"),
             [bucket]
           );
         }
@@ -180,7 +180,7 @@ describe("SimpleTransactionBuilder Tests", () => {
         (builder, bucket) => {
           return builder.callMethod(
             new ManifestAstValue.Address(account2),
-            new ManifestAstValue.String("deposit"),
+            new ManifestAstValue.String("try_deposit_or_abort"),
             [bucket]
           );
         }
@@ -191,7 +191,7 @@ describe("SimpleTransactionBuilder Tests", () => {
         (builder, bucket) => {
           return builder.callMethod(
             new ManifestAstValue.Address(account3),
-            new ManifestAstValue.String("deposit"),
+            new ManifestAstValue.String("try_deposit_or_abort"),
             [bucket]
           );
         }
@@ -202,7 +202,7 @@ describe("SimpleTransactionBuilder Tests", () => {
         (builder, bucket) => {
           return builder.callMethod(
             new ManifestAstValue.Address(account3),
-            new ManifestAstValue.String("deposit"),
+            new ManifestAstValue.String("try_deposit_or_abort"),
             [bucket]
           );
         }
@@ -274,7 +274,7 @@ describe("SimpleTransactionBuilder Tests", () => {
         (builder, bucket) => {
           return builder.callMethod(
             new ManifestAstValue.Address(account2),
-            new ManifestAstValue.String("deposit"),
+            new ManifestAstValue.String("try_deposit_or_abort"),
             [bucket]
           );
         }

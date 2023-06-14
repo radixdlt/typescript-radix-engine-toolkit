@@ -151,7 +151,7 @@ export class SimpleTransactionBuilder {
       ])
       .callMethod(faucetComponentAddress, "free", [])
       .takeFromWorktop(xrdResourceAddress, 10_000, (builder, bucket) => {
-        return builder.callMethod(toAccount, "deposit", [bucket]);
+        return builder.callMethod(toAccount, "try_deposit_or_abort", [bucket]);
       })
       .build();
     const header = new TransactionHeader(
@@ -315,7 +315,7 @@ export class SimpleTransactionBuilder {
         instructions.push(
           new Instruction.CallMethod(
             new ManifestAstValue.Address(to),
-            new ManifestAstValue.String("deposit"),
+            new ManifestAstValue.String("try_deposit_or_abort"),
             [new ManifestAstValue.Bucket(`bucket${depositCounter}`)]
           )
         );
