@@ -90,9 +90,9 @@ class RadixEngineToolkitWasmWrapper {
     const parsedOutput = JSON.parse(outputString);
     if (isRetInvocationError(parsedOutput?.["type"])) {
       throw new Error(
-        `Invocation Error. Invocation: """${JSON.stringify(
+        `Invocation Error. Invocation: """${this.serializeObject(
           input
-        )}""". Output: """${JSON.stringify(parsedOutput)}"""`
+        )}""". Output: """${outputString}"""`
       );
     }
 
