@@ -972,8 +972,8 @@ export class PublishPackage extends Instruction {
  */
 export class PublishPackageAdvanced extends Instruction {
   @Expose({ name: "address" })
-  @Type(() => ManifestAstValue.Address)
-  address: ManifestAstValue.Address;
+  @Type(() => ManifestAstValue.Enum)
+  address: ManifestAstValue.Enum;
 
   @Expose({ name: "code" })
   @Type(() => ManifestAstValue.Blob)
@@ -992,7 +992,7 @@ export class PublishPackageAdvanced extends Instruction {
   authorityRules: ManifestAstValue.Value;
 
   constructor(
-    address: ManifestAstValue.Address,
+    address: ManifestAstValue.Enum,
     code: ManifestAstValue.Blob,
     schema: ManifestAstValue.Bytes,
     metadata: ManifestAstValue.Map,

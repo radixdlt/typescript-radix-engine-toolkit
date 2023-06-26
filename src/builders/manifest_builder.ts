@@ -57,16 +57,11 @@ import {
   MintUuidNonFungible,
   PopFromAuthZone,
   PublishPackage,
-  PublishPackageAdvanced,
   PushToAuthZone,
-  RecallResource,
   RemoveMetadata,
   ReturnToWorktop,
-  SetAuthorityAccessRule,
-  SetAuthorityMutability,
   SetComponentRoyaltyConfig,
   SetMetadata,
-  SetPackageRoyaltyConfig,
   TakeAllFromWorktop,
   TakeFromWorktop,
   TakeNonFungiblesFromWorktop,
@@ -480,52 +475,18 @@ export class ManifestBuilder {
    * is the actual code of the package.
    * @param schema The schema of the package. Note that this isn't the schema blob or the blob hash,
    * this is the actual schema of the package.
-   * @param royaltyConfig The configurations of the royalty for the package
    * @param metadata The metadata to use for the package
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   publishPackage(
     code: Uint8Array | string,
     schema: Uint8Array | string,
-    royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map
   ): ManifestBuilder {
     const instruction = new PublishPackage(
       new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
       new ManifestAstValue.Bytes(schema),
-      royaltyConfig,
       metadata
-    );
-    this.instructions.push(instruction);
-    this.blobs.push(Convert.Uint8Array.from(code));
-    return this;
-  }
-
-  /**
-   * An instruction to publish a package and set it's associated royalty configs, metadata, and
-   * access rules.
-   * @param code The code of the package. Note that this isn't the code blob or the blob hash, this
-   * is the actual code of the package.
-   * @param schema The schema of the package. Note that this isn't the schema blob or the blob hash,
-   * this is the actual schema of the package.
-   * @param royaltyConfig The configurations of the royalty for the package
-   * @param metadata The metadata to use for the package
-   * @param authorityRules The access rules to use for the package.
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  publishPackageAdvanced(
-    code: Uint8Array | string,
-    schema: Uint8Array | string,
-    royaltyConfig: ManifestAstValue.Map,
-    metadata: ManifestAstValue.Map,
-    authorityRules: ManifestAstValue.Value
-  ): ManifestBuilder {
-    const instruction = new PublishPackageAdvanced(
-      new ManifestAstValue.Blob(blake2b(code, undefined, 32)),
-      new ManifestAstValue.Bytes(schema),
-      royaltyConfig,
-      metadata,
-      authorityRules
     );
     this.instructions.push(instruction);
     this.blobs.push(Convert.Uint8Array.from(code));
@@ -539,21 +500,6 @@ export class ManifestBuilder {
    */
   burnResource(bucket: ManifestAstValue.Bucket): ManifestBuilder {
     const instruction = new BurnResource(bucket);
-    this.instructions.push(instruction);
-    return this;
-  }
-
-  /**
-   * An instruction ot recall resources from a known vault.
-   * @param vaultId The id of the vault of the tokens to recall.
-   * @param amount The amount of tokens to recall from the vault.
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  recallResource(
-    vaultId: ManifestAstValue.Address,
-    amount: Decimal | number | string | ManifestAstValue.Decimal
-  ): ManifestBuilder {
-    const instruction = new RecallResource(vaultId, resolveDecimal(amount));
     this.instructions.push(instruction);
     return this;
   }
@@ -599,24 +545,6 @@ export class ManifestBuilder {
   }
 
   /**
-   * An instruction to modify the royalties of a package.
-   * @param packageAddress The address of the package to set the royalty on.
-   * @param royaltyConfig The configurations of the royalty for the package
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  setPackageRoyaltyConfig(
-    packageAddress: ManifestAstValue.Address | string,
-    royaltyConfig: ManifestAstValue.Map
-  ): ManifestBuilder {
-    const instruction = new SetPackageRoyaltyConfig(
-      resolveAddress(packageAddress),
-      royaltyConfig
-    );
-    this.instructions.push(instruction);
-    return this;
-  }
-
-  /**
    * An instruction to modify the royalties on a component
    * @param componentAddress The component address of the component to modify royalties for.
    * @param royaltyConfig The royalty config to set on the component. This is an `Enum` from the
@@ -625,10 +553,12 @@ export class ManifestBuilder {
    */
   setComponentRoyaltyConfig(
     componentAddress: ManifestAstValue.Address | string,
+    methodName: ManifestAstValue.String,
     royaltyConfig: ManifestAstValue.Tuple
   ): ManifestBuilder {
     const instruction = new SetComponentRoyaltyConfig(
       resolveAddress(componentAddress),
+      methodName,
       royaltyConfig
     );
     this.instructions.push(instruction);
@@ -658,46 +588,6 @@ export class ManifestBuilder {
   ): ManifestBuilder {
     const instruction = new ClaimComponentRoyalty(
       resolveAddress(componentAddress)
-    );
-    this.instructions.push(instruction);
-    return this;
-  }
-
-  /**
-   * An instruction to modify the access rules of a method that an entity has.
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  setAuthorityAccessRule(
-    entityAddress: ManifestAstValue.Address | string,
-    object_key: ManifestAstValue.Enum,
-    authority_key: ManifestAstValue.Enum,
-    rule: ManifestAstValue.Enum
-  ): ManifestBuilder {
-    const instruction = new SetAuthorityAccessRule(
-      resolveAddress(entityAddress),
-      object_key,
-      authority_key,
-      rule
-    );
-    this.instructions.push(instruction);
-    return this;
-  }
-
-  /**
-   * An instruction to modify the access rules of a method that an entity has.
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  setAuthorityMutability(
-    entityAddress: ManifestAstValue.Address | string,
-    object_key: ManifestAstValue.Tuple,
-    authority_key: ManifestAstValue.Value,
-    rule: ManifestAstValue.Enum
-  ): ManifestBuilder {
-    const instruction = new SetAuthorityMutability(
-      resolveAddress(entityAddress),
-      object_key,
-      authority_key,
-      rule
     );
     this.instructions.push(instruction);
     return this;
@@ -766,11 +656,13 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createFungibleResource(
+    isSupplyTrackable: ManifestAstValue.Bool,
     divisibility: ManifestAstValue.U8,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
   ): ManifestBuilder {
     const instruction = new CreateFungibleResource(
+      isSupplyTrackable,
       divisibility,
       metadata,
       accessRules
@@ -789,12 +681,14 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createFungibleResourceWithInitialSupply(
+    isSupplyTrackable: ManifestAstValue.Bool,
     divisibility: ManifestAstValue.U8,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
     initialSupply: Decimal | number | string | ManifestAstValue.Decimal
   ): ManifestBuilder {
     const instruction = new CreateFungibleResourceWithInitialSupply(
+      isSupplyTrackable,
       divisibility,
       metadata,
       accessRules,
@@ -813,12 +707,14 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createNonFungibleResource(
+    isSupplyTrackable: ManifestAstValue.Bool,
     idType: ManifestAstValue.Enum,
     schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
   ): ManifestBuilder {
     const instruction = new CreateNonFungibleResource(
+      isSupplyTrackable,
       idType,
       schema,
       metadata,
@@ -838,6 +734,7 @@ export class ManifestBuilder {
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
   createNonFungibleResourceWithInitialSupply(
+    isSupplyTrackable: ManifestAstValue.Bool,
     idType: ManifestAstValue.Enum,
     schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
@@ -845,6 +742,7 @@ export class ManifestBuilder {
     initialSupply: ManifestAstValue.Value
   ): ManifestBuilder {
     const instruction = new CreateNonFungibleResourceWithInitialSupply(
+      isSupplyTrackable,
       idType,
       schema,
       metadata,
@@ -897,8 +795,11 @@ export class ManifestBuilder {
    * @param key The ECDSA Secp256k1 public key of the owner of the validator
    * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
    */
-  createValidator(key: ManifestAstValue.Bytes): ManifestBuilder {
-    const instruction = new CreateValidator(key);
+  createValidator(
+    key: ManifestAstValue.Bytes,
+    feeFactor: ManifestAstValue.Decimal
+  ): ManifestBuilder {
+    const instruction = new CreateValidator(key, feeFactor);
     this.instructions.push(instruction);
     return this;
   }
