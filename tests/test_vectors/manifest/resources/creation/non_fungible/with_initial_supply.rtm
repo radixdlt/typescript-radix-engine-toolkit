@@ -9,7 +9,7 @@
 
 # Locking 10 XRD in fees from the account component. 
 CALL_METHOD 
-    Address("${account_address}") 
+    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q") 
     "lock_fee"
     Decimal("10");
 
@@ -53,12 +53,12 @@ CREATE_NON_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
         Enum<ResourceMethodAuthKey::Deposit>() => Tuple(Enum<AccessRule::AllowAll>(), Enum<AccessRule::DenyAll>())
     )
     Map<NonFungibleLocalId, Tuple>(
-        NonFungibleLocalId("${non_fungible_local_id}") => Tuple(Tuple("Hello World", Decimal("12")))
+        NonFungibleLocalId("#12#") => Tuple(Tuple("Hello World", Decimal("12")))
     );
 
 # Depositing the entirety of the initial supply of the newly created resource into our account 
 # component.
 CALL_METHOD
-    Address("${account_address}") 
+    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q") 
     "deposit_batch"
     Expression("ENTIRE_WORKTOP");

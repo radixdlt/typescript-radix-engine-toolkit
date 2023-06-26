@@ -1,6 +1,6 @@
 # Set String Metadata on Package
 SET_METADATA
-    Address("${package_address}")
+    Address("package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk")
     "field_name"
     # "Metadata::String" is equivalent to 0u8
     Enum<Metadata::String>(
@@ -9,7 +9,7 @@ SET_METADATA
 
 # Set String Metadata on Account component
 SET_METADATA
-    Address("${account_address}")
+    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q")
     "field_name"
     # "Metadata::String" is equivalent to 0u8
     Enum<Metadata::String>(
@@ -18,7 +18,7 @@ SET_METADATA
 
 # Set String Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::String" is equivalent to 0u8
     Enum<Metadata::String>(
@@ -27,7 +27,7 @@ SET_METADATA
 
 # Set Bool Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::Bool" is equivalent to 1u8
     Enum<Metadata::Bool>(
@@ -36,7 +36,7 @@ SET_METADATA
 
 # Set u8 Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::U8" is equivalent to 2u8
     Enum<Metadata::U8>(
@@ -45,7 +45,7 @@ SET_METADATA
 
 # Set u32 Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::U32" is equivalent to 3u8
     Enum<Metadata::U32>(
@@ -54,7 +54,7 @@ SET_METADATA
 
 # Set u64 Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::U64" is equivalent to 4u8
     Enum<Metadata::U64>(
@@ -63,7 +63,7 @@ SET_METADATA
 
 # Set i32 Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::I32" is equivalent to 5u8
     Enum<Metadata::I32>(
@@ -72,7 +72,7 @@ SET_METADATA
 
 # Set i64 Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::I64" is equivalent to 6u8
     Enum<Metadata::I64>(
@@ -81,7 +81,7 @@ SET_METADATA
 
 # Set Decimal Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::Decimal" is equivalent to 7u8
     Enum<Metadata::Decimal>( # Single item
@@ -90,17 +90,17 @@ SET_METADATA
 
 # Set Address Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::Address" is equivalent to 8u8
     Enum<Metadata::Address>(
-        Address("${account_address}")
+        Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q")
     );
 
 # Set Public Key Metadata on Resource
 # NOTE: Also see "PublicKeyHash" further down
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::PublicKey" is equivalent to 9u8
     Enum<Metadata::PublicKey>(
@@ -112,16 +112,16 @@ SET_METADATA
 
 # Set NonFungibleGlobalId Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::NonFungibleGlobalId" is equivalent to 10u8
     Enum<Metadata::NonFungibleGlobalId>(
-        NonFungibleGlobalId("${non_fungible_resource_address}:<some_string>")
+        NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:<some_string>")
     );
 
 # Set NonFungibleLocalId Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::NonFungibleLocalId" is equivalent to 11u8
     Enum<Metadata::NonFungibleLocalId>(
@@ -130,7 +130,7 @@ SET_METADATA
 
 # Set Instant (or the value in seconds since unix epoch) Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::Instant" is equivalent to 12u8
     Enum<Metadata::Instant>(
@@ -140,7 +140,7 @@ SET_METADATA
 
 # Set Url Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::Url" is equivalent to 13u8
     Enum<Metadata::Url>( # Single item
@@ -149,7 +149,7 @@ SET_METADATA
 
 # Set Origin Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::Origin" is equivalent to 14u8
     Enum<Metadata::Origin>(
@@ -158,7 +158,7 @@ SET_METADATA
 
 # Set PublicKeyHash Metadata on Resource
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::PublicKeyHash" is equivalent to 15u8
     Enum<Metadata::PublicKeyHash>(
@@ -177,7 +177,7 @@ SET_METADATA
 #
 # For example, for strings:
 SET_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name"
     # "Metadata::StringArray" is equivalent to 128u8
     Enum<Metadata::StringArray>(
@@ -189,13 +189,13 @@ SET_METADATA
     );
 
 REMOVE_METADATA
-    Address("${package_address}")
+    Address("package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk")
     "field_name";
 
 REMOVE_METADATA
-    Address("${account_address}")
+    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q")
     "field_name";
 
 REMOVE_METADATA
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     "field_name";

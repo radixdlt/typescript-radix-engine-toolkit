@@ -9,7 +9,7 @@
 
 # Locking 10 XRD in fees from the account component. 
 CALL_METHOD 
-    Address("${account_address}") 
+    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q") 
     "lock_fee"
     Decimal("10");
 
@@ -53,11 +53,11 @@ CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY
         Enum<ResourceMethodAuthKey::Withdraw>() => Tuple(Enum<AccessRule::AllowAll>(), Enum<AccessRule::DenyAll>()),
         Enum<ResourceMethodAuthKey::Deposit>() => Tuple(Enum<AccessRule::AllowAll>(), Enum<AccessRule::DenyAll>())
     )
-    Decimal("${initial_supply}");
+    Decimal("12");
 
 # Depositing the entirety of the initial supply of the newly created resource into our account 
 # component.
 CALL_METHOD
-    Address("${account_address}") 
+    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q") 
     "deposit_batch"
     Expression("ENTIRE_WORKTOP");

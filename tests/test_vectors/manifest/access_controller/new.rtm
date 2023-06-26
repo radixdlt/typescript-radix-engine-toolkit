@@ -1,5 +1,5 @@
 TAKE_ALL_FROM_WORKTOP 
-    Address("${badge_resource_address}") 
+    Address("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha") 
     Bucket("some_xrd");
 
 CREATE_ACCESS_CONTROLLER 

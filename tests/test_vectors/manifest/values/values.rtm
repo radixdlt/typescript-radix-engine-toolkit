@@ -1,12 +1,12 @@
 TAKE_ALL_FROM_WORKTOP
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     Bucket("temp1");
 CREATE_PROOF_FROM_AUTH_ZONE
-    Address("${resource_address}")
+    Address("resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez")
     Proof("temp2");
 
 CALL_METHOD 
-    Address("${component_address}")
+    Address("component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu")
     "aliases"
 
     # enum
@@ -28,18 +28,18 @@ CALL_METHOD
     Array<U8>(5u8, 10u8, 255u8)
 
     # non-fungible address
-    NonFungibleGlobalId("${non_fungible_resource_address}:<value>")
-    NonFungibleGlobalId("${non_fungible_resource_address}:#123#")
-    NonFungibleGlobalId("${non_fungible_resource_address}:#456#")
-    NonFungibleGlobalId("${non_fungible_resource_address}:[031b84c5567b126440995d3ed5aaba0565d71e1834604819ff9c17f5e9d5dd078f]")
-    NonFungibleGlobalId("${non_fungible_resource_address}:#1234567890#")
-    Tuple(Address("${non_fungible_resource_address}"), NonFungibleLocalId("#1#"))
+    NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:<value>")
+    NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:#123#")
+    NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:#456#")
+    NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:[031b84c5567b126440995d3ed5aaba0565d71e1834604819ff9c17f5e9d5dd078f]")
+    NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:#1234567890#")
+    Tuple(Address("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"), NonFungibleLocalId("#1#"))
 
     # array
     Array<Bytes>(Bytes("dead"), Array<U8>(5u8, 10u8, 255u8))
     Array<Array>(Bytes("dead"), Array<U8>(5u8, 10u8, 255u8))
-    Array<NonFungibleGlobalId>(NonFungibleGlobalId("${non_fungible_resource_address}:<value>"), Tuple(Address("${non_fungible_resource_address}"), NonFungibleLocalId("#1#")))
-    Array<Tuple>(NonFungibleGlobalId("${non_fungible_resource_address}:<value>"), Tuple(Address("${non_fungible_resource_address}"), NonFungibleLocalId("#1#")))
+    Array<NonFungibleGlobalId>(NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:<value>"), Tuple(Address("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"), NonFungibleLocalId("#1#")))
+    Array<Tuple>(NonFungibleGlobalId("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha:<value>"), Tuple(Address("resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"), NonFungibleLocalId("#1#")))
     Array<Enum>(Some("hello"))
     Array<Enum>(Enum<1u8>(), Enum<Option::None>())
     Array<Map>(Map<U8, U16>())
@@ -49,15 +49,15 @@ CALL_METHOD
 ;
 
 CALL_METHOD 
-    Address("${component_address}")
+    Address("component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu")
     "custom_types"
 
     # Address
-    Address("${package_address}")
-    Address("${account_address}")
-    Address("${consensusmanager_address}")
-    Address("${validator_address}")
-    Address("${accesscontroller_address}")
+    Address("package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk")
+    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q")
+    Address("consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl")
+    Address("validator_sim1svzs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9wr6hj0")
+    Address("accesscontroller_sim1cvvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvexaj7at")
 
     Bucket("temp1")
     Proof("temp2")
@@ -69,5 +69,5 @@ CALL_METHOD
     NonFungibleLocalId("<SomeId>")
     NonFungibleLocalId("#12#")
     NonFungibleLocalId("[031b84c5567b126440995d3ed5aaba0565d71e1834604819ff9c17f5e9d5dd078f]")
-    NonFungibleLocalId("{43968a72-5954-45da-9678-8659dd399faa}")
+    NonFungibleLocalId("{1111111111111111-1111111111111111-1111111111111111-1111111111111111}")
 ;
