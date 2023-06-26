@@ -28,7 +28,7 @@ export class SignatureWithPublicKey {
   }
 }
 
-export class EcdsaSecp256k1 extends SignatureWithPublicKey {
+export class Secp256k1 extends SignatureWithPublicKey {
   @Expose()
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
@@ -38,7 +38,7 @@ export class EcdsaSecp256k1 extends SignatureWithPublicKey {
   signature: Uint8Array;
 
   constructor(signature: Uint8Array | string) {
-    super(Curve.EcdsaSecp256k1);
+    super(Curve.Secp256k1);
     this.signature = Convert.Uint8Array.from(signature);
   }
 
@@ -51,7 +51,7 @@ export class EcdsaSecp256k1 extends SignatureWithPublicKey {
   }
 }
 
-export class EddsaEd25519 extends SignatureWithPublicKey {
+export class Ed25519 extends SignatureWithPublicKey {
   @Expose()
   @Type(() => Uint8Array)
   @Transform(Serializers.ByteArrayAsHexString.serialize, { toPlainOnly: true })
@@ -69,7 +69,7 @@ export class EddsaEd25519 extends SignatureWithPublicKey {
   publicKey: Uint8Array;
 
   constructor(signature: Uint8Array | string, publicKey: Uint8Array | string) {
-    super(Curve.EddsaEd25519);
+    super(Curve.Ed25519);
     this.signature = Convert.Uint8Array.from(signature);
     this.publicKey = Convert.Uint8Array.from(publicKey);
   }

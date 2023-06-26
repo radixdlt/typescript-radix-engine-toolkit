@@ -32,8 +32,8 @@ export class DeriveVirtualIdentityAddressInput {
     discriminator: {
       property: "curve",
       subTypes: [
-        { name: "EcdsaSecp256k1", value: PublicKey.EcdsaSecp256k1 },
-        { name: "EddsaEd25519", value: PublicKey.EddsaEd25519 },
+        { name: "Secp256k1", value: PublicKey.Secp256k1 },
+        { name: "Ed25519", value: PublicKey.Ed25519 },
       ],
     },
   })

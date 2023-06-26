@@ -135,7 +135,7 @@ export class SimpleTransactionBuilder {
     // to make use of it.
     //
     // WARNING: DO NOT USE THE FOLLOWING CODE TO GENERATE YOUR OWN PRIVATE KEYS.
-    const ephemeralPrivateKey = new PrivateKey.EddsaEd25519(
+    const ephemeralPrivateKey = new PrivateKey.Ed25519(
       new Uint8Array(Array(32).map((_) => Math.floor(Math.random() * 0xff)))
     );
 

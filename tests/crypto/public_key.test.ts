@@ -22,16 +22,16 @@ import { assertSerializationEquals } from "../test_utils";
 
 describe.each([
   {
-    expectedObject: new PublicKey.EcdsaSecp256k1(
+    expectedObject: new PublicKey.Secp256k1(
       "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
     ),
-    expectedSerialization: `{"curve":"EcdsaSecp256k1","public_key":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"}`,
+    expectedSerialization: `{"curve":"Secp256k1","public_key":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"}`,
   },
   {
-    expectedObject: new PublicKey.EddsaEd25519(
+    expectedObject: new PublicKey.Ed25519(
       "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
     ),
-    expectedSerialization: `{"curve":"EddsaEd25519","public_key":"4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"}`,
+    expectedSerialization: `{"curve":"Ed25519","public_key":"4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"}`,
   },
 ])(
   "Serialization test for $expectedSerialization",

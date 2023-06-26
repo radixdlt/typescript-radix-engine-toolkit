@@ -158,14 +158,14 @@ import {
 
 // For this transaction, we wish to have multiple signers (and of course, a single notary). So, we
 // define their cryptographic private keys.
-let notaryPrivateKey = new PrivateKey.EcdsaSecp256k1(
+let notaryPrivateKey = new PrivateKey.Secp256k1(
   "40c1b9deccc56c0da69821dd652782887b5d31fe6bf6ead519a23f9e9472b49b"
 );
 
-let signer1PrivateKey = new PrivateKey.EddsaEd25519(
+let signer1PrivateKey = new PrivateKey.Ed25519(
   "69366e446ad19a7540b4272c614bbc2b242656815eb03b1d29a53c950201ae76"
 );
-let signer2PrivateKey = new PrivateKey.EcdsaSecp256k1(
+let signer2PrivateKey = new PrivateKey.Secp256k1(
   "5068952ca5aa655fe9257bf2d89f3b86f4dda6be6f5b76e4ed104c38fd21e8d7"
 );
 
@@ -927,7 +927,7 @@ import {
   NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1(
+let publicKey = new PublicKey.Secp256k1(
   "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 let virtualAccountAddress =
@@ -949,7 +949,7 @@ import {
   NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1(
+let publicKey = new PublicKey.Secp256k1(
   "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 let address: string = await RadixEngineToolkit.deriveVirtualAccountAddress(
@@ -974,7 +974,7 @@ import {
   NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1(
+let publicKey = new PublicKey.Secp256k1(
   "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 let virtualIdentityAddress =
@@ -996,7 +996,7 @@ import {
   NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1(
+let publicKey = new PublicKey.Secp256k1(
   "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 let address: string = await RadixEngineToolkit.deriveVirtualIdentityAddress(

@@ -22,16 +22,16 @@ import { assertSerializationEquals } from "../test_utils";
 
 describe.each([
   {
-    expectedObject: new Signature.EcdsaSecp256k1(
+    expectedObject: new Signature.Secp256k1(
       "007f054d0a376fb5cce93c5836531ce5d116dcdb134211650553ddeba408e53b4725b8fe89d120c41667fe457acae408025371a61b8fe05b20d2c2b9e8d81f1a53"
     ),
-    expectedSerialization: `{"curve":"EcdsaSecp256k1","signature":"007f054d0a376fb5cce93c5836531ce5d116dcdb134211650553ddeba408e53b4725b8fe89d120c41667fe457acae408025371a61b8fe05b20d2c2b9e8d81f1a53"}`,
+    expectedSerialization: `{"curve":"Secp256k1","signature":"007f054d0a376fb5cce93c5836531ce5d116dcdb134211650553ddeba408e53b4725b8fe89d120c41667fe457acae408025371a61b8fe05b20d2c2b9e8d81f1a53"}`,
   },
   {
-    expectedObject: new Signature.EddsaEd25519(
+    expectedObject: new Signature.Ed25519(
       "e5f1e508cc91a95a280613618a1ccb5142744b5b8a6042e232dcaadf17e41f1f0131d535ea3fa56b6ae8164586cd6b4e89e3224e994b3109ca51cae02e7dce01"
     ),
-    expectedSerialization: `{"curve":"EddsaEd25519","signature":"e5f1e508cc91a95a280613618a1ccb5142744b5b8a6042e232dcaadf17e41f1f0131d535ea3fa56b6ae8164586cd6b4e89e3224e994b3109ca51cae02e7dce01"}`,
+    expectedSerialization: `{"curve":"Ed25519","signature":"e5f1e508cc91a95a280613618a1ccb5142744b5b8a6042e232dcaadf17e41f1f0131d535ea3fa56b6ae8164586cd6b4e89e3224e994b3109ca51cae02e7dce01"}`,
   },
 ])(
   "Serialization test for $expectedSerialization",

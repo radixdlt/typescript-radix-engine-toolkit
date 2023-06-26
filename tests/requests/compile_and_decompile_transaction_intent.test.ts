@@ -37,7 +37,7 @@ describe.each([
         100,
         105,
         5144,
-        new PublicKey.EcdsaSecp256k1(
+        new PublicKey.Secp256k1(
           "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
         ),
         false,

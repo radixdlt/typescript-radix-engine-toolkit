@@ -26,7 +26,7 @@ import {
 describe("Address Class", () => {
   it("account components are picked up by the toolkit", async () => {
     // Arrange
-    const privateKey = new PrivateKey.EcdsaSecp256k1(
+    const privateKey = new PrivateKey.Secp256k1(
       "3b840a679a9728ef0d844fd1a8c963482ecacc8328f2a0de0184954abe04aba1"
     );
     const publicKey = privateKey.publicKey();
@@ -68,7 +68,7 @@ describe("Address Class", () => {
     const knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
       NetworkId.RCnetV1
     );
-    const xrdResourceAddress = knownAddresses.resources.ecdsaSecp256k1Resource;
+    const xrdResourceAddress = knownAddresses.resources.Secp256k1Resource;
 
     // Act
     let isResourceAddress =

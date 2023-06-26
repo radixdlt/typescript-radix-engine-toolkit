@@ -27,7 +27,7 @@ import {} from "../../src/utils";
 
 describe.each([
   {
-    expectedPublicKey: new PublicKey.EcdsaSecp256k1(
+    expectedPublicKey: new PublicKey.Secp256k1(
       "03c32f9761dd3f961a3d12747e54db6b821bd022ef92b9ebf591bfe186885baa21"
     ),
     expectedAccountAddress:

@@ -198,15 +198,15 @@ export namespace LTSRadixEngineToolkit {
           accountPackageAddress,
           xrdResourceAddress,
           systemTokenResourceAddress,
-          ecdsaSecp256k1TokenResourceAddress,
-          eddsaEd25519TokenResourceAddress,
+          Secp256k1TokenResourceAddress,
+          Ed25519TokenResourceAddress,
           packageTokenResourceAddress,
         }) => {
           return {
             resources: {
               xrdResource: xrdResourceAddress,
-              ecdsaSecp256k1Resource: ecdsaSecp256k1TokenResourceAddress,
-              eddsaEd25519Resource: eddsaEd25519TokenResourceAddress,
+              Secp256k1Resource: Secp256k1TokenResourceAddress,
+              Ed25519Resource: Ed25519TokenResourceAddress,
               systemResource: systemTokenResourceAddress,
               packageBadgeResource: packageTokenResourceAddress,
             },
@@ -267,8 +267,8 @@ export namespace LTSRadixEngineToolkit {
 export interface AddressBook {
   resources: {
     xrdResource: string;
-    ecdsaSecp256k1Resource: string;
-    eddsaEd25519Resource: string;
+    Secp256k1Resource: string;
+    Ed25519Resource: string;
     systemResource: string;
     packageBadgeResource: string;
   };

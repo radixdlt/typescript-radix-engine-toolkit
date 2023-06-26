@@ -34,7 +34,7 @@ import {
 describe("SimpleTransactionBuilder Tests", () => {
   it("Simple transaction builder manifest matches expected", async () => {
     // Arrange
-    const privateKey = new PrivateKey.EddsaEd25519(
+    const privateKey = new PrivateKey.Ed25519(
       "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
     );
 
@@ -104,7 +104,7 @@ describe("SimpleTransactionBuilder Tests", () => {
 
   it("Simple transaction builder manifest aggregates withdraws as expected", async () => {
     // Arrange
-    const privateKey = new PrivateKey.EddsaEd25519(
+    const privateKey = new PrivateKey.Ed25519(
       "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
     );
 
@@ -215,7 +215,7 @@ describe("SimpleTransactionBuilder Tests", () => {
 
   it("Simple transaction builder manifest aggregates deposits as expected", async () => {
     // Arrange
-    const privateKey = new PrivateKey.EddsaEd25519(
+    const privateKey = new PrivateKey.Ed25519(
       "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
     );
 
@@ -288,7 +288,7 @@ describe("SimpleTransactionBuilder Tests", () => {
 
   it("Simple transaction builder manifests are summarized as expected", async () => {
     // Arrange
-    const privateKey = new PrivateKey.EddsaEd25519(
+    const privateKey = new PrivateKey.Ed25519(
       "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
     );
 

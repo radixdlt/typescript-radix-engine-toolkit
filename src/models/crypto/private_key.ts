@@ -24,15 +24,15 @@ import { Convert } from "../..";
 
 ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
-export class EcdsaSecp256k1 implements IPrivateKey {
+export class Secp256k1 implements IPrivateKey {
   public readonly bytes: Uint8Array;
 
   constructor(privateKey: Uint8Array | string) {
     this.bytes = Convert.Uint8Array.from(privateKey);
   }
 
-  publicKey(): PublicKey.EcdsaSecp256k1 {
-    return new PublicKey.EcdsaSecp256k1(this.publicKeyBytes());
+  publicKey(): PublicKey.Secp256k1 {
+    return new PublicKey.Secp256k1(this.publicKeyBytes());
   }
 
   publicKeyBytes(): Uint8Array {
@@ -48,14 +48,14 @@ export class EcdsaSecp256k1 implements IPrivateKey {
     return new Uint8Array([recid, ...signature]);
   }
 
-  signToSignature(data: Uint8Array): Signature.EcdsaSecp256k1 {
-    return new Signature.EcdsaSecp256k1(this.sign(data));
+  signToSignature(data: Uint8Array): Signature.Secp256k1 {
+    return new Signature.Secp256k1(this.sign(data));
   }
 
   signToSignatureWithPublicKey(
     data: Uint8Array
-  ): SignatureWithPublicKey.EcdsaSecp256k1 {
-    return new SignatureWithPublicKey.EcdsaSecp256k1(this.sign(data));
+  ): SignatureWithPublicKey.Secp256k1 {
+    return new SignatureWithPublicKey.Secp256k1(this.sign(data));
   }
 
   toString(): string {
@@ -67,15 +67,15 @@ export class EcdsaSecp256k1 implements IPrivateKey {
   }
 }
 
-export class EddsaEd25519 implements IPrivateKey {
+export class Ed25519 implements IPrivateKey {
   public readonly bytes: Uint8Array;
 
   constructor(privateKey: Uint8Array | string) {
     this.bytes = Convert.Uint8Array.from(privateKey);
   }
 
-  publicKey(): PublicKey.EddsaEd25519 {
-    return new PublicKey.EddsaEd25519(this.publicKeyBytes());
+  publicKey(): PublicKey.Ed25519 {
+    return new PublicKey.Ed25519(this.publicKeyBytes());
   }
 
   publicKeyBytes(): Uint8Array {
@@ -91,14 +91,14 @@ export class EddsaEd25519 implements IPrivateKey {
     return signature;
   }
 
-  signToSignature(data: Uint8Array): Signature.EddsaEd25519 {
-    return new Signature.EddsaEd25519(this.sign(data));
+  signToSignature(data: Uint8Array): Signature.Ed25519 {
+    return new Signature.Ed25519(this.sign(data));
   }
 
   signToSignatureWithPublicKey(
     data: Uint8Array
-  ): SignatureWithPublicKey.EddsaEd25519 {
-    return new SignatureWithPublicKey.EddsaEd25519(
+  ): SignatureWithPublicKey.Ed25519 {
+    return new SignatureWithPublicKey.Ed25519(
       this.sign(data),
       this.publicKeyBytes()
     );

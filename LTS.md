@@ -55,15 +55,15 @@ const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Pro
 
     NOTE:
     - If using Ed25519, the signature is encoded as the standard 64-byte encoding for Ed25519 signatures
-      and return Signature.EddsaEd25519(sig_bytes) where sig_bytes are a hex string or a Uint8Array
+      and return Signature.Ed25519(sig_bytes) where sig_bytes are a hex string or a Uint8Array
     - If using Secp256k1, signatures should be serialized as recoverable signatures of 65 bytes, with the recovery byte first, as: v || r || s
-      and return Signature.EcdsaSecp256k1(sig_bytes) where sig_bytes are a hex string or a Uint8Array
+      and return Signature.Secp256k1(sig_bytes) where sig_bytes are a hex string or a Uint8Array
       > There isn’t a de-facto convention for serialization of compact Secp256k1 signatures.
       > On Olympia, ASN.1 was used - the above format for Babylon is different - and more compact.
       > Note that some libraries (such as libsecp256k1) have their own compact serialization and a few serialize it as reverse(r) || reverse(s) || v.
 
-     If you have the private key in memory, you can also do PrivateKey.EddsaEd25519(private_key_bytes).signToSignature(hashToSign) or
-     PrivateKey.EcdsaSecp256k1(private_key_bytes).signToSignature(hashToSign).
+     If you have the private key in memory, you can also do PrivateKey.Ed25519(private_key_bytes).signToSignature(hashToSign) or
+     PrivateKey.Secp256k1(private_key_bytes).signToSignature(hashToSign).
   */
 };
 
@@ -71,10 +71,10 @@ const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Pro
 const currentEpoch = /* Sourced from /lts/transaction/construction in the Core API - or the Gateway */;
 
 // Example of public key creation (you can also provide a Uint8Array instead of hex in the constructors)
-const exampleEd25519PublicKey = new PublicKey.EddsaEd25519(
+const exampleEd25519PublicKey = new PublicKey.Ed25519(
   "026f08db98ef1d0231eb15580da9123db8e25aa1747c8c32e5fd2ec47b8db73d5c"
 );
-const exampleSecp256k1PublicKey = new PublicKey.EcdsaSecp256k1(
+const exampleSecp256k1PublicKey = new PublicKey.Secp256k1(
   "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 
@@ -188,7 +188,7 @@ import {
   NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
-let publicKey = new PublicKey.EcdsaSecp256k1(
+let publicKey = new PublicKey.Secp256k1(
   "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 let address: string = await LTSRadixEngineToolkit.Derive.virtualAccountAddress(

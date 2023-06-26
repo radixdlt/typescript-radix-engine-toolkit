@@ -458,8 +458,8 @@ export class RadixEngineToolkit {
         accountPackageAddress,
         xrdResourceAddress,
         systemTokenResourceAddress,
-        ecdsaSecp256k1TokenResourceAddress,
-        eddsaEd25519TokenResourceAddress,
+        Secp256k1TokenResourceAddress,
+        Ed25519TokenResourceAddress,
         packageTokenResourceAddress,
         consensusManagerSystemAddress,
       }) => {
@@ -469,9 +469,9 @@ export class RadixEngineToolkit {
           accountPackageAddress: accountPackageAddress,
           xrdResourceAddress: xrdResourceAddress,
           systemTokenResourceAddress: systemTokenResourceAddress,
-          ecdsaSecp256k1TokenResourceAddress:
-            ecdsaSecp256k1TokenResourceAddress,
-          eddsaEd25519TokenResourceAddress: eddsaEd25519TokenResourceAddress,
+          Secp256k1TokenResourceAddress:
+            Secp256k1TokenResourceAddress,
+          Ed25519TokenResourceAddress: Ed25519TokenResourceAddress,
           packageTokenResourceAddress: packageTokenResourceAddress,
           consensusManagerComponentAddress: consensusManagerSystemAddress,
         };
@@ -660,12 +660,12 @@ export interface AddressBook {
   /**
    * The address of the Ecdsa Secp256k1
    */
-  ecdsaSecp256k1TokenResourceAddress: string;
+  Secp256k1TokenResourceAddress: string;
 
   /**
    * The address of the EdDsa Ed25519
    */
-  eddsaEd25519TokenResourceAddress: string;
+  Ed25519TokenResourceAddress: string;
 
   /**
    * The address of the Package token

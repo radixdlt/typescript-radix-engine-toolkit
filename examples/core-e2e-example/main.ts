@@ -25,8 +25,8 @@ export async function generateSecureRandomBytes(
 
 // NOTE - the below function is for example purposes only
 // It is up to you to ensure that your generation of key pairs is safe for production use
-async function generateEd25519PrivateKey(): Promise<PrivateKey.EddsaEd25519> {
-  return new PrivateKey.EddsaEd25519(await generateSecureRandomBytes(32));
+async function generateEd25519PrivateKey(): Promise<PrivateKey.Ed25519> {
+  return new PrivateKey.Ed25519(await generateSecureRandomBytes(32));
 }
 
 const networkId = NetworkId.Kisharnet;

@@ -32,10 +32,10 @@ export class SignedTransactionIntent {
       property: "curve",
       subTypes: [
         {
-          name: "EcdsaSecp256k1",
-          value: SignatureWithPublicKey.EcdsaSecp256k1,
+          name: "Secp256k1",
+          value: SignatureWithPublicKey.Secp256k1,
         },
-        { name: "EddsaEd25519", value: SignatureWithPublicKey.EddsaEd25519 },
+        { name: "Ed25519", value: SignatureWithPublicKey.Ed25519 },
       ],
     },
   })

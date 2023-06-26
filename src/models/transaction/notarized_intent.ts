@@ -35,8 +35,8 @@ export class NotarizedTransaction {
     discriminator: {
       property: "curve",
       subTypes: [
-        { name: "EcdsaSecp256k1", value: Signature.EcdsaSecp256k1 },
-        { name: "EddsaEd25519", value: Signature.EddsaEd25519 },
+        { name: "Secp256k1", value: Signature.Secp256k1 },
+        { name: "Ed25519", value: Signature.Ed25519 },
       ],
     },
   })

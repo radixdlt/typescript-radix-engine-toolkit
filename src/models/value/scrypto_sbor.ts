@@ -632,23 +632,23 @@ export class Address extends Value implements IAddress {
       .then(({ systemTokenResourceAddress }) => systemTokenResourceAddress)
       .then((address) => new Address(address));
   }
-  static async ecdsaSecp256k1TokenResourceAddress(
+  static async Secp256k1TokenResourceAddress(
     networkId: number
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
       .then(
-        ({ ecdsaSecp256k1TokenResourceAddress }) =>
-          ecdsaSecp256k1TokenResourceAddress
+        ({ Secp256k1TokenResourceAddress }) =>
+          Secp256k1TokenResourceAddress
       )
       .then((address) => new Address(address));
   }
-  static async eddsaEd25519TokenResourceAddress(
+  static async Ed25519TokenResourceAddress(
     networkId: number
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
       .then(
-        ({ eddsaEd25519TokenResourceAddress }) =>
-          eddsaEd25519TokenResourceAddress
+        ({ Ed25519TokenResourceAddress }) =>
+          Ed25519TokenResourceAddress
       )
       .then((address) => new Address(address));
   }

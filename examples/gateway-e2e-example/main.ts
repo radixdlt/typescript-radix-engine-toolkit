@@ -57,7 +57,7 @@ const main = async () => {
   const transactionApi = new TransactionApi(apiConfiguration);
 
   // Setting up the private key of the transaction notary.
-  const notaryPrivateKey = new PrivateKey.EcdsaSecp256k1(
+  const notaryPrivateKey = new PrivateKey.Secp256k1(
     "1df0292c520543a4d8e43e230c29e4c7b49669ec71940fea1b87be3224bc6442"
   );
 

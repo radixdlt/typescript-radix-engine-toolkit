@@ -16,6 +16,6 @@
 // under the License.
 
 export enum Curve {
-  EcdsaSecp256k1 = "EcdsaSecp256k1",
-  EddsaEd25519 = "EddsaEd25519",
+  Secp256k1 = "Secp256k1",
+  Ed25519 = "Ed25519",
 }

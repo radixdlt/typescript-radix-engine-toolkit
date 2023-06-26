@@ -54,11 +54,11 @@ export class KnownEntityAddressesOutput {
 
   @Expose({ name: "ecdsa_secp256k1_token_resource_address" })
   @Type(() => String)
-  ecdsaSecp256k1TokenResourceAddress: string;
+  Secp256k1TokenResourceAddress: string;
 
   @Expose({ name: "eddsa_ed25519_token_resource_address" })
   @Type(() => String)
-  eddsaEd25519TokenResourceAddress: string;
+  Ed25519TokenResourceAddress: string;
 
   @Expose({ name: "package_token_resource_address" })
   @Type(() => String)
@@ -74,8 +74,8 @@ export class KnownEntityAddressesOutput {
     accountPackageAddress: string,
     xrdResourceAddress: string,
     systemTokenResourceAddress: string,
-    ecdsaSecp256k1TokenResourceAddress: string,
-    eddsaEd25519TokenResourceAddress: string,
+    Secp256k1TokenResourceAddress: string,
+    Ed25519TokenResourceAddress: string,
     packageTokenResourceAddress: string,
     consensusManagerSystemAddress: string
   ) {
@@ -84,9 +84,9 @@ export class KnownEntityAddressesOutput {
     this.accountPackageAddress = accountPackageAddress;
     this.xrdResourceAddress = xrdResourceAddress;
     this.systemTokenResourceAddress = systemTokenResourceAddress;
-    this.ecdsaSecp256k1TokenResourceAddress =
-      ecdsaSecp256k1TokenResourceAddress;
-    this.eddsaEd25519TokenResourceAddress = eddsaEd25519TokenResourceAddress;
+    this.Secp256k1TokenResourceAddress =
+      Secp256k1TokenResourceAddress;
+    this.Ed25519TokenResourceAddress = Ed25519TokenResourceAddress;
     this.packageTokenResourceAddress = packageTokenResourceAddress;
     this.consensusManagerSystemAddress = consensusManagerSystemAddress;
   }
