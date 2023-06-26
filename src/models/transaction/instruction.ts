@@ -107,7 +107,7 @@ export enum Kind {
   PublishPackage = "PUBLISH_PACKAGE",
   PublishPackageAdvanced = "PUBLISH_PACKAGE_ADVANCED",
   BurnResource = "BURN_RESOURCE",
-  RecallResource = "RECALL_RESOURCE",
+  RecallVault = "RECALL_RESOURCE",
   SetMetadata = "SET_METADATA",
   RemoveMetadata = "REMOVE_METADATA",
   SetPackageRoyaltyConfig = "SET_PACKAGE_ROYALTY_CONFIG",
@@ -129,6 +129,10 @@ export enum Kind {
   CreateValidator = "CREATE_VALIDATOR",
   CreateAccount = "CREATE_ACCOUNT",
   CreateAccountAdvanced = "CREATE_ACCOUNT_ADVANCED",
+  FreezeVault = "FREEZE_VAULT",
+  UnfreezeVault = "UNFREEZE_VAULT",
+  UpdateRole = "UPDATE_ROLE",
+  AllocateGlobalAddress = "ALLOCATE_GLOBAL_ADDRESS",
 }
 
 /**
@@ -938,10 +942,6 @@ export class PublishPackage extends Instruction {
   @Type(() => ManifestAstValue.Bytes)
   schema: ManifestAstValue.Bytes;
 
-  @Expose({ name: "royalty_config" })
-  @Type(() => ManifestAstValue.Map)
-  royaltyConfig: ManifestAstValue.Map;
-
   @Expose({ name: "metadata" })
   @Type(() => ManifestAstValue.Map)
   metadata: ManifestAstValue.Map;
@@ -949,13 +949,11 @@ export class PublishPackage extends Instruction {
   constructor(
     code: ManifestAstValue.Blob,
     schema: ManifestAstValue.Bytes,
-    royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map
   ) {
     super(Kind.PublishPackage);
     this.code = code;
     this.schema = schema;
-    this.royaltyConfig = royaltyConfig;
     this.metadata = metadata;
   }
 
@@ -973,6 +971,10 @@ export class PublishPackage extends Instruction {
  * rules.
  */
 export class PublishPackageAdvanced extends Instruction {
+  @Expose({ name: "address" })
+  @Type(() => ManifestAstValue.Address)
+  address: ManifestAstValue.Address;
+
   @Expose({ name: "code" })
   @Type(() => ManifestAstValue.Blob)
   code: ManifestAstValue.Blob;
@@ -980,10 +982,6 @@ export class PublishPackageAdvanced extends Instruction {
   @Expose({ name: "schema" })
   @Type(() => ManifestAstValue.Bytes)
   schema: ManifestAstValue.Bytes;
-
-  @Expose({ name: "royalty_config" })
-  @Type(() => ManifestAstValue.Map)
-  royaltyConfig: ManifestAstValue.Map;
 
   @Expose({ name: "metadata" })
   @Type(() => ManifestAstValue.Map)
@@ -994,16 +992,16 @@ export class PublishPackageAdvanced extends Instruction {
   authorityRules: ManifestAstValue.Value;
 
   constructor(
+    address: ManifestAstValue.Address,
     code: ManifestAstValue.Blob,
     schema: ManifestAstValue.Bytes,
-    royaltyConfig: ManifestAstValue.Map,
     metadata: ManifestAstValue.Map,
     authorityRules: ManifestAstValue.Value
   ) {
     super(Kind.PublishPackageAdvanced);
+    this.address = address;
     this.code = code;
     this.schema = schema;
-    this.royaltyConfig = royaltyConfig;
     this.metadata = metadata;
     this.authorityRules = authorityRules;
   }
@@ -1042,7 +1040,7 @@ export class BurnResource extends Instruction {
 /**
  * An instruction ot recall resources from a known vault.
  */
-export class RecallResource extends Instruction {
+export class RecallVault extends Instruction {
   @Expose({ name: "vault_id" })
   @Type(() => ManifestAstValue.Address)
   vaultId: ManifestAstValue.Address;
@@ -1055,9 +1053,90 @@ export class RecallResource extends Instruction {
     vaultId: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
   ) {
-    super(Kind.RecallResource);
+    super(Kind.RecallVault);
     this.vaultId = vaultId;
     this.amount = amount;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+export class FreezeVault extends Instruction {
+  @Expose({ name: "vault_id" })
+  @Type(() => ManifestAstValue.Address)
+  vaultId: ManifestAstValue.Address;
+
+  @Expose({ name: "args" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  args: Array<ManifestAstValue.Value>;
+
+  constructor(
+    vaultId: ManifestAstValue.Address,
+    args: Array<ManifestAstValue.Value>
+  ) {
+    super(Kind.FreezeVault);
+    this.vaultId = vaultId;
+    this.args = args;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+export class UnfreezeVault extends Instruction {
+  @Expose({ name: "vault_id" })
+  @Type(() => ManifestAstValue.Address)
+  vaultId: ManifestAstValue.Address;
+
+  @Expose({ name: "args" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  args: Array<ManifestAstValue.Value>;
+
+  constructor(
+    vaultId: ManifestAstValue.Address,
+    args: Array<ManifestAstValue.Value>
+  ) {
+    super(Kind.UnfreezeVault);
+    this.vaultId = vaultId;
+    this.args = args;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+export class UpdateRole extends Instruction {
+  @Expose({ name: "address" })
+  @Type(() => ManifestAstValue.Address)
+  address: ManifestAstValue.Address;
+
+  @Expose({ name: "args" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  args: Array<ManifestAstValue.Value>;
+
+  constructor(
+    address: ManifestAstValue.Address,
+    args: Array<ManifestAstValue.Value>
+  ) {
+    super(Kind.UpdateRole);
+    this.address = address;
+    this.args = args;
   }
 
   toString(): string {
@@ -1136,36 +1215,6 @@ export class RemoveMetadata extends Instruction {
 }
 
 /**
- * An instruction to modify the royalties of a package.
- */
-export class SetPackageRoyaltyConfig extends Instruction {
-  @Expose({ name: "package_address" })
-  @Type(() => ManifestAstValue.Address)
-  packageAddress: ManifestAstValue.Address;
-
-  @Expose({ name: "royalty_config" })
-  @Type(() => ManifestAstValue.Map)
-  royaltyConfig: ManifestAstValue.Map;
-
-  constructor(
-    packageAddress: ManifestAstValue.Address,
-    royaltyConfig: ManifestAstValue.Map
-  ) {
-    super(Kind.SetPackageRoyaltyConfig);
-    this.packageAddress = packageAddress;
-    this.royaltyConfig = royaltyConfig;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-/**
  * An instruction to modify the royalties on a component
  */
 export class SetComponentRoyaltyConfig extends Instruction {
@@ -1173,16 +1222,22 @@ export class SetComponentRoyaltyConfig extends Instruction {
   @Type(() => ManifestAstValue.Address)
   componentAddress: ManifestAstValue.Address;
 
+  @Expose({ name: "method_name" })
+  @Type(() => ManifestAstValue.String)
+  methodName: ManifestAstValue.String;
+
   @Expose({ name: "royalty_config" })
   @Type(() => ManifestAstValue.Tuple)
   royaltyConfig: ManifestAstValue.Tuple;
 
   constructor(
     componentAddress: ManifestAstValue.Address,
+    methodName: ManifestAstValue.String,
     royaltyConfig: ManifestAstValue.Tuple
   ) {
     super(Kind.SetComponentRoyaltyConfig);
     this.componentAddress = componentAddress;
+    this.methodName = methodName;
     this.royaltyConfig = royaltyConfig;
   }
 
@@ -1228,90 +1283,6 @@ export class ClaimComponentRoyalty extends Instruction {
   constructor(componentAddress: ManifestAstValue.Address) {
     super(Kind.ClaimComponentRoyalty);
     this.componentAddress = componentAddress;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-/**
- * An instruction to modify the access rules of a method that an entity has.
- */
-export class SetAuthorityAccessRule extends Instruction {
-  @Expose({ name: "entity_address" })
-  @Type(() => ManifestAstValue.Address)
-  entityAddress: ManifestAstValue.Address;
-
-  @Expose({ name: "object_key" })
-  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  objectKey: ManifestAstValue.Value;
-
-  @Expose({ name: "authority_key" })
-  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  authorityKey: ManifestAstValue.Value;
-
-  @Expose({ name: "rule" })
-  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  rule: ManifestAstValue.Value;
-
-  constructor(
-    entityAddress: ManifestAstValue.Address,
-    objectKey: ManifestAstValue.Value,
-    authorityKey: ManifestAstValue.Value,
-    rule: ManifestAstValue.Value
-  ) {
-    super(Kind.SetAuthorityAccessRule);
-    this.entityAddress = entityAddress;
-    this.objectKey = objectKey;
-    this.authorityKey = authorityKey;
-    this.rule = rule;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-/**
- * An instruction to modify the access rules of a method that an entity has.
- */
-export class SetAuthorityMutability extends Instruction {
-  @Expose({ name: "entity_address" })
-  @Type(() => ManifestAstValue.Address)
-  entityAddress: ManifestAstValue.Address;
-
-  @Expose({ name: "object_key" })
-  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  objectKey: ManifestAstValue.Value;
-
-  @Expose({ name: "authority_key" })
-  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  authorityKey: ManifestAstValue.Value;
-
-  @Expose({ name: "mutability" })
-  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
-  mutability: ManifestAstValue.Value;
-
-  constructor(
-    entityAddress: ManifestAstValue.Address,
-    objectKey: ManifestAstValue.Value,
-    authorityKey: ManifestAstValue.Value,
-    mutability: ManifestAstValue.Value
-  ) {
-    super(Kind.SetAuthorityMutability);
-    this.entityAddress = entityAddress;
-    this.objectKey = objectKey;
-    this.authorityKey = authorityKey;
-    this.mutability = mutability;
   }
 
   toString(): string {
@@ -1418,6 +1389,10 @@ export class MintUuidNonFungible extends Instruction {
  * An instruction to create a new fungible resource.
  */
 export class CreateFungibleResource extends Instruction {
+  @Expose({ name: "is_supply_tracked" })
+  @Type(() => ManifestAstValue.Bool)
+  isSupplyTracked: ManifestAstValue.Bool;
+
   @Expose({ name: "divisibility" })
   @Type(() => ManifestAstValue.U8)
   divisibility: ManifestAstValue.U8;
@@ -1431,11 +1406,13 @@ export class CreateFungibleResource extends Instruction {
   accessRules: ManifestAstValue.Map;
 
   constructor(
+    isSupplyTracked: ManifestAstValue.Bool,
     divisibility: ManifestAstValue.U8,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
   ) {
     super(Kind.CreateFungibleResource);
+    this.isSupplyTracked = isSupplyTracked;
     this.divisibility = divisibility;
     this.metadata = metadata;
     this.accessRules = accessRules;
@@ -1454,6 +1431,10 @@ export class CreateFungibleResource extends Instruction {
  * An instruction to create a fungible resource with initial supply
  */
 export class CreateFungibleResourceWithInitialSupply extends Instruction {
+  @Expose({ name: "is_supply_tracked" })
+  @Type(() => ManifestAstValue.Bool)
+  isSupplyTracked: ManifestAstValue.Bool;
+
   @Expose({ name: "divisibility" })
   @Type(() => ManifestAstValue.U8)
   divisibility: ManifestAstValue.U8;
@@ -1471,12 +1452,14 @@ export class CreateFungibleResourceWithInitialSupply extends Instruction {
   initialSupply: ManifestAstValue.Decimal;
 
   constructor(
+    isSupplyTracked: ManifestAstValue.Bool,
     divisibility: ManifestAstValue.U8,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map,
     initialSupply: ManifestAstValue.Decimal
   ) {
     super(Kind.CreateFungibleResourceWithInitialSupply);
+    this.isSupplyTracked = isSupplyTracked;
     this.divisibility = divisibility;
     this.metadata = metadata;
     this.accessRules = accessRules;
@@ -1496,6 +1479,10 @@ export class CreateFungibleResourceWithInitialSupply extends Instruction {
  * An instruction to create a new non-fungible resource.
  */
 export class CreateNonFungibleResource extends Instruction {
+  @Expose({ name: "is_supply_tracked" })
+  @Type(() => ManifestAstValue.Bool)
+  isSupplyTracked: ManifestAstValue.Bool;
+
   @Expose({ name: "id_type" })
   @Type(() => ManifestAstValue.Enum)
   idType: ManifestAstValue.Enum;
@@ -1513,12 +1500,14 @@ export class CreateNonFungibleResource extends Instruction {
   accessRules: ManifestAstValue.Map;
 
   constructor(
+    isSupplyTracked: ManifestAstValue.Bool,
     idType: ManifestAstValue.Enum,
     schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
     accessRules: ManifestAstValue.Map
   ) {
     super(Kind.CreateNonFungibleResource);
+    this.isSupplyTracked = isSupplyTracked;
     this.idType = idType;
     this.schema = schema;
     this.metadata = metadata;
@@ -1538,6 +1527,10 @@ export class CreateNonFungibleResource extends Instruction {
  * An instruction to create a non-fungible resource with an initial supply
  */
 export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
+  @Expose({ name: "is_supply_tracked" })
+  @Type(() => ManifestAstValue.Bool)
+  isSupplyTracked: ManifestAstValue.Bool;
+
   @Expose({ name: "id_type" })
   @Type(() => ManifestAstValue.Enum)
   idType: ManifestAstValue.Enum;
@@ -1559,6 +1552,7 @@ export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
   initialSupply: ManifestAstValue.Value;
 
   constructor(
+    isSupplyTracked: ManifestAstValue.Bool,
     idType: ManifestAstValue.Enum,
     schema: ManifestAstValue.Tuple,
     metadata: ManifestAstValue.Map,
@@ -1566,6 +1560,7 @@ export class CreateNonFungibleResourceWithInitialSupply extends Instruction {
     initialSupply: ManifestAstValue.Value
   ) {
     super(Kind.CreateNonFungibleResourceWithInitialSupply);
+    this.isSupplyTracked = isSupplyTracked;
     this.idType = idType;
     this.schema = schema;
     this.metadata = metadata;
@@ -1688,9 +1683,17 @@ export class CreateValidator extends Instruction {
   @Type(() => ManifestAstValue.Bytes)
   key: ManifestAstValue.Bytes;
 
-  constructor(key: ManifestAstValue.Bytes) {
+  @Expose({ name: "fee_factor" })
+  @Type(() => ManifestAstValue.Decimal)
+  feeFactor: ManifestAstValue.Decimal;
+
+  constructor(
+    key: ManifestAstValue.Bytes,
+    feeFactor: ManifestAstValue.Decimal
+  ) {
     super(Kind.CreateValidator);
     this.key = key;
+    this.feeFactor = feeFactor;
   }
 
   toString(): string {
@@ -1730,6 +1733,45 @@ export class CreateAccountAdvanced extends Instruction {
   constructor(config: ManifestAstValue.Tuple) {
     super(Kind.CreateAccountAdvanced);
     this.config = config;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+export class AllocateGlobalAddress extends Instruction {
+  @Expose({ name: "package_address" })
+  @Type(() => ManifestAstValue.Address)
+  packageAddress: ManifestAstValue.Address;
+
+  @Expose({ name: "blueprint_name" })
+  @Type(() => ManifestAstValue.String)
+  blueprintName: ManifestAstValue.String;
+
+  @Expose({ name: "address_reservation" })
+  @Type(() => ManifestAstValue.AddressReservation)
+  addressReservation: ManifestAstValue.AddressReservation;
+
+  @Expose({ name: "named_address" })
+  @Type(() => ManifestAstValue.NamedAddress)
+  namedAddress: ManifestAstValue.NamedAddress;
+
+  constructor(
+    packageAddress: ManifestAstValue.Address,
+    blueprintName: ManifestAstValue.String,
+    addressReservation: ManifestAstValue.AddressReservation,
+    namedAddress: ManifestAstValue.NamedAddress
+  ) {
+    super(Kind.AllocateGlobalAddress);
+    this.packageAddress = packageAddress;
+    this.blueprintName = blueprintName;
+    this.addressReservation = addressReservation;
+    this.namedAddress = namedAddress;
   }
 
   toString(): string {
