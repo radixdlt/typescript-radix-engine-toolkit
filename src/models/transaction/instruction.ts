@@ -68,6 +68,11 @@ const manifestAstValueTypeOptions: TypeOptions = {
       { name: "Expression", value: ManifestAstValue.Expression },
       { name: "Blob", value: ManifestAstValue.Blob },
       { name: "Bytes", value: ManifestAstValue.Bytes },
+      {
+        name: "AddressReservation",
+        value: ManifestAstValue.AddressReservation,
+      },
+      { name: "NamedAddress", value: ManifestAstValue.NamedAddress },
     ],
   },
 };

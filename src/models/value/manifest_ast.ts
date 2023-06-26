@@ -75,6 +75,8 @@ export enum Kind {
   Expression = "Expression",
   Blob = "Blob",
   Bytes = "Bytes",
+  AddressReservation = "AddressReservation",
+  NamedAddress = "NamedAddress",
 }
 
 export class Bool extends Value {
@@ -775,8 +777,7 @@ export class Address extends Value implements IAddress {
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
       .then(
-        ({ Secp256k1TokenResourceAddress }) =>
-          Secp256k1TokenResourceAddress
+        ({ Secp256k1TokenResourceAddress }) => Secp256k1TokenResourceAddress
       )
       .then((address) => new Address(address));
   }
@@ -784,10 +785,7 @@ export class Address extends Value implements IAddress {
     networkId: number
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
-      .then(
-        ({ Ed25519TokenResourceAddress }) =>
-          Ed25519TokenResourceAddress
-      )
+      .then(({ Ed25519TokenResourceAddress }) => Ed25519TokenResourceAddress)
       .then((address) => new Address(address));
   }
   static async packageTokenResourceAddress(
@@ -999,6 +997,44 @@ export class NonFungibleGlobalId extends Value {
   }
 }
 
+export class AddressReservation extends Value {
+  @Expose()
+  @Type(() => String)
+  value: string;
+
+  constructor(identifier: string) {
+    super(Kind.AddressReservation);
+    this.value = identifier;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+export class NamedAddress extends Value {
+  @Expose()
+  @Type(() => String)
+  value: string;
+
+  constructor(identifier: string) {
+    super(Kind.NamedAddress);
+    this.value = identifier;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
 function resolveValue(object: Object): Value {
   const resolveSingleFn = <T>(object: Object, Class: ClassConstructor<T>): T =>
     plainToInstance(Class, instanceToPlain(object));
@@ -1065,5 +1101,9 @@ function resolveValue(object: Object): Value {
       return resolveSingleFn(object, Blob);
     case Kind.Bytes:
       return resolveSingleFn(object, Bytes);
+    case Kind.AddressReservation:
+      return resolveSingleFn(object, AddressReservation);
+    case Kind.NamedAddress:
+      return resolveSingleFn(object, NamedAddress);
   }
 }
