@@ -100,13 +100,11 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.PublishPackageAdvanced,
       },
       { name: "BURN_RESOURCE", value: Instruction.BurnResource },
-      { name: "RECALL_RESOURCE", value: Instruction.RecallResource },
+      { name: "RECALL_VAULT", value: Instruction.RecallVault },
+      { name: "FREEZE_VAULT", value: Instruction.FreezeVault },
+      { name: "UNFREEZE_VAULT", value: Instruction.UnfreezeVault },
       { name: "SET_METADATA", value: Instruction.SetMetadata },
       { name: "REMOVE_METADATA", value: Instruction.RemoveMetadata },
-      {
-        name: "SET_PACKAGE_ROYALTY_CONFIG",
-        value: Instruction.SetPackageRoyaltyConfig,
-      },
       {
         name: "SET_COMPONENT_ROYALTY_CONFIG",
         value: Instruction.SetComponentRoyaltyConfig,
@@ -115,14 +113,6 @@ const instructionTypeOptions: TypeOptions = {
       {
         name: "CLAIM_COMPONENT_ROYALTY",
         value: Instruction.ClaimComponentRoyalty,
-      },
-      {
-        name: "SET_AUTHORITY_ACCESS_RULE",
-        value: Instruction.SetAuthorityAccessRule,
-      },
-      {
-        name: "SET_AUTHORITY_MUTABILITY",
-        value: Instruction.SetAuthorityMutability,
       },
       { name: "MINT_FUNGIBLE", value: Instruction.MintFungible },
       { name: "MINT_NON_FUNGIBLE", value: Instruction.MintNonFungible },
@@ -160,6 +150,10 @@ const instructionTypeOptions: TypeOptions = {
       {
         name: "CREATE_ACCOUNT_ADVANCED",
         value: Instruction.CreateAccountAdvanced,
+      },
+      {
+        name: "UPDATE_ROLE",
+        value: Instruction.UpdateRole,
       },
     ],
   },

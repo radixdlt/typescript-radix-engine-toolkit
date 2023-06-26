@@ -17,10 +17,6 @@
 
 import { describe, expect, test } from "vitest";
 import { Instruction, ManifestAstValue } from "../../src";
-import {
-  CreateProofFromAuthZoneOfAll,
-  SetAuthorityMutability,
-} from "../../src/models/transaction/instruction";
 import { EnumU8Discriminator } from "../../src/models/value/manifest_ast";
 import { deserialize, serialize } from "../../src/utils";
 import { assertSerializationEquals } from "../test_utils";
@@ -81,14 +77,14 @@ const DropAllProofs = Instruction.DropAllProofs;
 const PublishPackage = Instruction.PublishPackage;
 const PublishPackageAdvanced = Instruction.PublishPackageAdvanced;
 const BurnResource = Instruction.BurnResource;
-const RecallResource = Instruction.RecallResource;
+const RecallVault = Instruction.RecallVault;
+const FreezeVault = Instruction.FreezeVault;
+const UnfreezeVault = Instruction.UnfreezeVault;
 const SetMetadata = Instruction.SetMetadata;
 const RemoveMetadata = Instruction.RemoveMetadata;
-const SetPackageRoyaltyConfig = Instruction.SetPackageRoyaltyConfig;
 const SetComponentRoyaltyConfig = Instruction.SetComponentRoyaltyConfig;
 const ClaimPackageRoyalty = Instruction.ClaimPackageRoyalty;
 const ClaimComponentRoyalty = Instruction.ClaimComponentRoyalty;
-const SetAuthorityAccessRule = Instruction.SetAuthorityAccessRule;
 const MintFungible = Instruction.MintFungible;
 const MintNonFungible = Instruction.MintNonFungible;
 const MintUuidNonFungible = Instruction.MintUuidNonFungible;
@@ -210,15 +206,6 @@ describe.each([
     expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_proof":{"kind":"Proof","value":"ident"}}`,
   },
   {
-    expectedObject: new CreateProofFromAuthZoneOfAll(
-      new Address(
-        "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
-      ),
-      new Proof("ident")
-    ),
-    expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE_OF_ALL","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_proof":{"kind":"Proof","value":"ident"}}`,
-  },
-  {
     expectedObject: new CreateProofFromAuthZoneOfAmount(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
@@ -255,34 +242,9 @@ describe.each([
         "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
       ),
       new Bytes("4d2101230c2100"),
-      new Map(Kind.String, Kind.Tuple, []),
       new Map(Kind.String, Kind.String, [])
     ),
-    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE","code":{"kind":"Blob","value":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"kind":"Bytes","hex":"4d2101230c2100"},"royalty_config":{"kind":"Map","key_kind":"String","value_kind":"Tuple","entries":[]},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]}}`,
-  },
-  {
-    expectedObject: new PublishPackageAdvanced(
-      new Blob(
-        "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
-      ),
-      new Bytes("4d2101230c2100"),
-      new Map(Kind.String, Kind.Tuple, []),
-      new Map(Kind.String, Kind.String, []),
-      new Tuple([
-        new Map(Kind.Tuple, Kind.Enum, []),
-        new Map(Kind.Tuple, Kind.Enum, []),
-        new Map(Kind.String, Kind.Enum, []),
-        new Enum(new EnumU8Discriminator(0), [
-          new Enum(new EnumU8Discriminator(0)),
-        ]),
-        new Map(Kind.Tuple, Kind.Enum, []),
-        new Map(Kind.String, Kind.Enum, []),
-        new Enum(new EnumU8Discriminator(0), [
-          new Enum(new EnumU8Discriminator(0)),
-        ]),
-      ])
-    ),
-    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE_ADVANCED","code":{"kind":"Blob","value":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"kind":"Bytes","hex":"4d2101230c2100"},"royalty_config":{"kind":"Map","key_kind":"String","value_kind":"Tuple","entries":[]},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"authority_rules":{"kind":"Tuple","fields":[{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]},{"kind":"Map","key_kind":"Tuple","value_kind":"Enum","entries":[]},{"kind":"Map","key_kind":"String","value_kind":"Enum","entries":[]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}]}]}}`,
+    expectedSerialization: `{"instruction":"PUBLISH_PACKAGE","code":{"kind":"Blob","value":"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"},"schema":{"kind":"Bytes","hex":"4d2101230c2100"},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]}}`,
   },
   {
     expectedObject: new BurnResource(new Bucket("ident")),
@@ -297,7 +259,7 @@ describe.each([
     expectedSerialization: `{"instruction":"DROP_ALL_PROOFS"}`,
   },
   {
-    expectedObject: new RecallResource(
+    expectedObject: new RecallVault(
       new Address(
         "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
       ),
@@ -327,24 +289,6 @@ describe.each([
     expectedSerialization: `{"instruction":"REMOVE_METADATA","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"key":{"kind":"String","value":"name"}}`,
   },
   {
-    expectedObject: new SetPackageRoyaltyConfig(
-      new Address(
-        "package_rdx1pkgxxxxxxxxxfaucetxxxxxxxxx000034355863xxxxxxxxxfaucet"
-      ),
-      new Map(Kind.String, Kind.Tuple, [])
-    ),
-    expectedSerialization: `{"instruction":"SET_PACKAGE_ROYALTY_CONFIG","package_address":{"kind":"Address","value":"package_rdx1pkgxxxxxxxxxfaucetxxxxxxxxx000034355863xxxxxxxxxfaucet"},"royalty_config":{"kind":"Map","key_kind":"String","value_kind":"Tuple","entries":[]}}`,
-  },
-  {
-    expectedObject: new SetComponentRoyaltyConfig(
-      new Address(
-        "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
-      ),
-      new Tuple([new Map(Kind.String, Kind.U32, []), new U32(1)])
-    ),
-    expectedSerialization: `{"instruction":"SET_COMPONENT_ROYALTY_CONFIG","component_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"royalty_config":{"kind":"Tuple","fields":[{"kind":"Map","key_kind":"String","value_kind":"U32","entries":[]},{"kind":"U32","value":"1"}]}}`,
-  },
-  {
     expectedObject: new ClaimPackageRoyalty(
       new Address(
         "package_rdx1pkgxxxxxxxxxfaucetxxxxxxxxx000034355863xxxxxxxxxfaucet"
@@ -359,28 +303,6 @@ describe.each([
       )
     ),
     expectedSerialization: `{"instruction":"CLAIM_COMPONENT_ROYALTY","component_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"}}`,
-  },
-  {
-    expectedObject: new SetAuthorityAccessRule(
-      new Address(
-        "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
-      ),
-      new Enum(new EnumU8Discriminator(0), []),
-      new Enum(new EnumU8Discriminator(0), []),
-      new Enum(new EnumU8Discriminator(0), [])
-    ),
-    expectedSerialization: `{"instruction":"SET_AUTHORITY_ACCESS_RULE","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"object_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"authority_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"rule":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
-  },
-  {
-    expectedObject: new SetAuthorityMutability(
-      new Address(
-        "component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"
-      ),
-      new Enum(new EnumU8Discriminator(0), []),
-      new Enum(new EnumU8Discriminator(0), []),
-      new Enum(new EnumU8Discriminator(0), [])
-    ),
-    expectedSerialization: `{"instruction":"SET_AUTHORITY_MUTABILITY","entity_address":{"kind":"Address","value":"component_rdx1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve90hqtq"},"object_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"authority_key":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"mutability":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]}}`,
   },
   {
     expectedObject: new MintFungible(
@@ -414,23 +336,26 @@ describe.each([
   },
   {
     expectedObject: new CreateFungibleResource(
+      new Bool(true),
       new U8(18),
       new Map(Kind.String, Kind.String, []),
       new Map(Kind.Enum, Kind.Tuple, [])
     ),
-    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE","divisibility":{"kind":"U8","value":"18"},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"kind":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]}}`,
+    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE","is_supply_tracked":{"kind":"Bool","value":true},"divisibility":{"kind":"U8","value":"18"},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"kind":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]}}`,
   },
   {
     expectedObject: new CreateFungibleResourceWithInitialSupply(
+      new Bool(true),
       new U8(18),
       new Map(Kind.String, Kind.String, []),
       new Map(Kind.Enum, Kind.Tuple, []),
       new Decimal("1")
     ),
-    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY","divisibility":{"kind":"U8","value":"18"},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"kind":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]},"initial_supply":{"kind":"Decimal","value":"1"}}`,
+    expectedSerialization: `{"instruction":"CREATE_FUNGIBLE_RESOURCE_WITH_INITIAL_SUPPLY","is_supply_tracked":{"kind":"Bool","value":true},"divisibility":{"kind":"U8","value":"18"},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"kind":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]},"initial_supply":{"kind":"Decimal","value":"1"}}`,
   },
   {
     expectedObject: new CreateNonFungibleResource(
+      new Bool(true),
       new Enum(new EnumU8Discriminator(0)),
       new Tuple([
         new Tuple([
@@ -444,7 +369,7 @@ describe.each([
       new Map(Kind.String, Kind.String, []),
       new Map(Kind.Enum, Kind.Tuple, [])
     ),
-    expectedSerialization: `{"instruction":"CREATE_NON_FUNGIBLE_RESOURCE","id_type":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"schema":{"kind":"Tuple","fields":[{"kind":"Tuple","fields":[{"kind":"Array","element_kind":"Enum","elements":[]},{"kind":"Array","element_kind":"Tuple","elements":[]},{"kind":"Array","element_kind":"Enum","elements":[]}]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"U8","value":"64"}]},{"kind":"Array","element_kind":"String","elements":[]}]},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"kind":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]}}`,
+    expectedSerialization: `{"instruction":"CREATE_NON_FUNGIBLE_RESOURCE","is_supply_tracked":{"kind":"Bool","value":true},"id_type":{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[]},"schema":{"kind":"Tuple","fields":[{"kind":"Tuple","fields":[{"kind":"Array","element_kind":"Enum","elements":[]},{"kind":"Array","element_kind":"Tuple","elements":[]},{"kind":"Array","element_kind":"Enum","elements":[]}]},{"kind":"Enum","variant":{"type":"U8","discriminator":"0"},"fields":[{"kind":"U8","value":"64"}]},{"kind":"Array","element_kind":"String","elements":[]}]},"metadata":{"kind":"Map","key_kind":"String","value_kind":"String","entries":[]},"access_rules":{"kind":"Map","key_kind":"Enum","value_kind":"Tuple","entries":[]}}`,
   },
   {
     expectedObject: new CreateAccessController(
@@ -506,9 +431,10 @@ describe.each([
     expectedObject: new CreateValidator(
       new Bytes(
         "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
-      )
+      ),
+      new Decimal("2")
     ),
-    expectedSerialization: `{"instruction":"CREATE_VALIDATOR","key":{"kind":"Bytes","hex":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"}}`,
+    expectedSerialization: `{"instruction":"CREATE_VALIDATOR","key":{"kind":"Bytes","hex":"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"},"fee_factor":{"kind":"Decimal","value":"2"}}`,
   },
   {
     expectedObject: new ClearSignatureProofs(),

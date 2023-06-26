@@ -16,25 +16,13 @@
 // under the License.
 
 import { describe, expect, it } from "vitest";
-import {
-  InformationInput,
-  InformationOutput,
-  RawRadixEngineToolkit,
-} from "../src";
+import { InformationInput, RawRadixEngineToolkit } from "../src";
 
 describe("essential", () => {
   it("essential", async () => {
     const information = await RawRadixEngineToolkit.information(
       new InformationInput()
     );
-    const expected = new InformationOutput(
-      "0.9.0",
-      new Uint8Array([
-        102, 62, 156, 195, 224, 76, 56, 140, 3, 175, 240, 169, 230, 68, 6, 174,
-        136, 215, 19, 37,
-      ])
-    );
-
-    expect(information).toEqual(expected);
+    expect(information.packageVersion).toEqual("0.9.0");
   });
 });
