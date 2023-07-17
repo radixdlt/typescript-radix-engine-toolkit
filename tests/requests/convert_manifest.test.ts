@@ -27,7 +27,6 @@ import {
 import { StringInstructions } from "../../src/models/transaction/instruction_list";
 
 describe.each([
-  "../test_vectors/manifest/access_controller/new.rtm",
   "../test_vectors/manifest/access_rule/access_rule.rtm",
   "../test_vectors/manifest/account/deposit_modes.rtm",
   "../test_vectors/manifest/account/multi_account_resource_transfer.rtm",
@@ -46,6 +45,8 @@ describe.each([
   "../test_vectors/manifest/resources/mint/fungible/mint.rtm",
   "../test_vectors/manifest/resources/mint/non_fungible/mint.rtm",
   "../test_vectors/manifest/resources/auth_zone.rtm",
+  "../test_vectors/manifest/resources/freeze.rtm",
+  "../test_vectors/manifest/resources/recall_non_fungibles.rtm",
   "../test_vectors/manifest/resources/recall.rtm",
   "../test_vectors/manifest/resources/worktop.rtm",
   "../test_vectors/manifest/royalty/royalty.rtm",

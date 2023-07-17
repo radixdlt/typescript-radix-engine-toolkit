@@ -65,7 +65,6 @@ const PopFromAuthZone = Instruction.PopFromAuthZone;
 const PushToAuthZone = Instruction.PushToAuthZone;
 const ClearAuthZone = Instruction.ClearAuthZone;
 const ClearSignatureProofs = Instruction.ClearSignatureProofs;
-const CreateProofFromAuthZone = Instruction.CreateProofFromAuthZone;
 const CreateProofFromAuthZoneOfAmount =
   Instruction.CreateProofFromAuthZoneOfAmount;
 const CreateProofFromAuthZoneOfNonFungibles =
@@ -77,7 +76,7 @@ const DropAllProofs = Instruction.DropAllProofs;
 const PublishPackage = Instruction.PublishPackage;
 const PublishPackageAdvanced = Instruction.PublishPackageAdvanced;
 const BurnResource = Instruction.BurnResource;
-const RecallVault = Instruction.RecallVault;
+const RecallFromVault = Instruction.RecallFromVault;
 const FreezeVault = Instruction.FreezeVault;
 const UnfreezeVault = Instruction.UnfreezeVault;
 const SetMetadata = Instruction.SetMetadata;
@@ -197,15 +196,6 @@ describe.each([
     expectedSerialization: `{"instruction":"CLEAR_AUTH_ZONE"}`,
   },
   {
-    expectedObject: new CreateProofFromAuthZone(
-      new Address(
-        "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
-      ),
-      new Proof("ident")
-    ),
-    expectedSerialization: `{"instruction":"CREATE_PROOF_FROM_AUTH_ZONE","resource_address":{"kind":"Address","value":"resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"},"into_proof":{"kind":"Proof","value":"ident"}}`,
-  },
-  {
     expectedObject: new CreateProofFromAuthZoneOfAmount(
       new Address(
         "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd"
@@ -259,7 +249,7 @@ describe.each([
     expectedSerialization: `{"instruction":"DROP_ALL_PROOFS"}`,
   },
   {
-    expectedObject: new RecallVault(
+    expectedObject: new RecallFromVault(
       new Address(
         "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
       ),

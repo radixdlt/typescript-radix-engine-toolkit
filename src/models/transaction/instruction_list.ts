@@ -45,6 +45,10 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.AssertWorktopContains,
       },
       {
+        name: "ASSERT_WORKTOP_CONTAINS_ANY",
+        value: Instruction.AssertWorktopContainsAny,
+      },
+      {
         name: "ASSERT_WORKTOP_CONTAINS_NON_FUNGIBLES",
         value: Instruction.AssertWorktopContainsNonFungibles,
       },
@@ -54,10 +58,6 @@ const instructionTypeOptions: TypeOptions = {
       {
         name: "CLEAR_SIGNATURE_PROOFS",
         value: Instruction.ClearSignatureProofs,
-      },
-      {
-        name: "CREATE_PROOF_FROM_AUTH_ZONE",
-        value: Instruction.CreateProofFromAuthZone,
       },
       {
         name: "CREATE_PROOF_FROM_AUTH_ZONE_OF_ALL",
@@ -80,10 +80,6 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.CreateProofFromBucket,
       },
       {
-        name: "CREATE_PROOF_FROM_BUCKET_OF_ALL",
-        value: Instruction.CreateProofFromBucketOfAll,
-      },
-      {
         name: "CREATE_PROOF_FROM_BUCKET_OF_AMOUNT",
         value: Instruction.CreateProofFromBucketOfAmount,
       },
@@ -100,7 +96,11 @@ const instructionTypeOptions: TypeOptions = {
         value: Instruction.PublishPackageAdvanced,
       },
       { name: "BURN_RESOURCE", value: Instruction.BurnResource },
-      { name: "RECALL_VAULT", value: Instruction.RecallVault },
+      { name: "RECALL_VAULT", value: Instruction.RecallFromVault },
+      {
+        name: "RECALL_NON_FUNGIBLES_VAULT",
+        value: Instruction.RecallNonFungiblesFromVault,
+      },
       { name: "FREEZE_VAULT", value: Instruction.FreezeVault },
       { name: "UNFREEZE_VAULT", value: Instruction.UnfreezeVault },
       { name: "SET_METADATA", value: Instruction.SetMetadata },

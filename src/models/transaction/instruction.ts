@@ -107,7 +107,7 @@ export enum Kind {
   PublishPackage = "PUBLISH_PACKAGE",
   PublishPackageAdvanced = "PUBLISH_PACKAGE_ADVANCED",
   BurnResource = "BURN_RESOURCE",
-  RecallVault = "RECALL_RESOURCE",
+  RecallFromVault = "RECALL_RESOURCE",
   SetMetadata = "SET_METADATA",
   RemoveMetadata = "REMOVE_METADATA",
   SetPackageRoyaltyConfig = "SET_PACKAGE_ROYALTY_CONFIG",
@@ -130,6 +130,7 @@ export enum Kind {
   CreateAccount = "CREATE_ACCOUNT",
   CreateAccountAdvanced = "CREATE_ACCOUNT_ADVANCED",
   FreezeVault = "FREEZE_VAULT",
+  RecallNonFungiblesFromVault = "RECALL_NON_FUNGIBLES_FROM_VAULT",
   UnfreezeVault = "UNFREEZE_VAULT",
   UpdateRole = "UPDATE_ROLE",
   AllocateGlobalAddress = "ALLOCATE_GLOBAL_ADDRESS",
@@ -484,6 +485,25 @@ export class AssertWorktopContains extends Instruction {
   }
 }
 
+export class AssertWorktopContainsAny extends Instruction {
+  @Expose({ name: "resource_address" })
+  @Type(() => ManifestAstValue.Address)
+  resourceAddress: ManifestAstValue.Address;
+
+  constructor(resourceAddress: ManifestAstValue.Address) {
+    super(Kind.AssertWorktopContains);
+    this.resourceAddress = resourceAddress;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
 /**
  * An instruction to assert that a set ids of a specific resource address exists in the worktop.
  */
@@ -596,37 +616,6 @@ export class ClearSignatureProofs extends Instruction {
  * An instruction to create a proof of the entire amount of a given resource address from the auth
  * zone.
  */
-export class CreateProofFromAuthZone extends Instruction {
-  @Expose({ name: "resource_address" })
-  @Type(() => ManifestAstValue.Address)
-  resourceAddress: ManifestAstValue.Address;
-
-  @Expose({ name: "into_proof" })
-  @Type(() => ManifestAstValue.Proof)
-  intoProof: ManifestAstValue.Proof;
-
-  constructor(
-    resourceAddress: ManifestAstValue.Address,
-    intoProof: ManifestAstValue.Proof
-  ) {
-    super(Kind.CreateProofFromAuthZone);
-    this.resourceAddress = resourceAddress;
-    this.intoProof = intoProof;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-/**
- * An instruction to create a proof of the entire amount of a given resource address from the auth
- * zone.
- */
 export class CreateProofFromAuthZoneOfAll extends Instruction {
   @Expose({ name: "resource_address" })
   @Type(() => ManifestAstValue.Address)
@@ -715,36 +704,6 @@ export class CreateProofFromAuthZoneOfNonFungibles extends Instruction {
     super(Kind.CreateProofFromAuthZoneOfNonFungibles);
     this.resourceAddress = resourceAddress;
     this.ids = ids;
-    this.intoProof = intoProof;
-  }
-
-  toString(): string {
-    return JSON.stringify(this.toObject());
-  }
-
-  toObject(): Record<string, any> {
-    return instanceToPlain(this);
-  }
-}
-
-/**
- * An instruction to create a proof of the entire amount from a bucket.
- */
-export class CreateProofFromBucketOfAll extends Instruction {
-  @Expose({ name: "bucket" })
-  @Type(() => ManifestAstValue.Bucket)
-  bucket: ManifestAstValue.Bucket;
-
-  @Expose({ name: "into_proof" })
-  @Type(() => ManifestAstValue.Proof)
-  intoProof: ManifestAstValue.Proof;
-
-  constructor(
-    bucket: ManifestAstValue.Bucket,
-    intoProof: ManifestAstValue.Proof
-  ) {
-    super(Kind.CreateProofFromBucketOfAll);
-    this.bucket = bucket;
     this.intoProof = intoProof;
   }
 
@@ -1040,7 +999,7 @@ export class BurnResource extends Instruction {
 /**
  * An instruction ot recall resources from a known vault.
  */
-export class RecallVault extends Instruction {
+export class RecallFromVault extends Instruction {
   @Expose({ name: "vault_id" })
   @Type(() => ManifestAstValue.Address)
   vaultId: ManifestAstValue.Address;
@@ -1053,7 +1012,7 @@ export class RecallVault extends Instruction {
     vaultId: ManifestAstValue.Address,
     amount: ManifestAstValue.Decimal
   ) {
-    super(Kind.RecallVault);
+    super(Kind.RecallFromVault);
     this.vaultId = vaultId;
     this.amount = amount;
   }
@@ -1081,6 +1040,33 @@ export class FreezeVault extends Instruction {
     args: Array<ManifestAstValue.Value>
   ) {
     super(Kind.FreezeVault);
+    this.vaultId = vaultId;
+    this.args = args;
+  }
+
+  toString(): string {
+    return JSON.stringify(this.toObject());
+  }
+
+  toObject(): Record<string, any> {
+    return instanceToPlain(this);
+  }
+}
+
+export class RecallNonFungiblesFromVault extends Instruction {
+  @Expose({ name: "vault_id" })
+  @Type(() => ManifestAstValue.Address)
+  vaultId: ManifestAstValue.Address;
+
+  @Expose({ name: "args" })
+  @Type(() => ManifestAstValue.Value, manifestAstValueTypeOptions)
+  args: Array<ManifestAstValue.Value>;
+
+  constructor(
+    vaultId: ManifestAstValue.Address,
+    args: Array<ManifestAstValue.Value>
+  ) {
+    super(Kind.RecallNonFungiblesFromVault);
     this.vaultId = vaultId;
     this.args = args;
   }
