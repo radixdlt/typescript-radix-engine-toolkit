@@ -44,7 +44,6 @@ import {
   CreateIdentityAdvanced,
   CreateNonFungibleResource,
   CreateNonFungibleResourceWithInitialSupply,
-  CreateProofFromAuthZone,
   CreateProofFromAuthZoneOfAll,
   CreateProofFromAuthZoneOfAmount,
   CreateProofFromAuthZoneOfNonFungibles,
@@ -302,30 +301,6 @@ export class ManifestBuilder {
   clearSignatureProofs(): ManifestBuilder {
     const instruction = new ClearSignatureProofs();
     this.instructions.push(instruction);
-    return this;
-  }
-
-  /**
-   * An instruction to create a proof of one of a given resource address from the auth
-   * zone.
-   * @param resourceAddress The address of the resource to create a proof of.
-   * @param andThen A callback function with the manifest builder and bucket.
-   * @returns A `ManifestBuilder` which the caller can continue chaining calls to.
-   */
-  createProofFromAuthZone(
-    resourceAddress: ManifestAstValue.Address | string,
-    andThen: (
-      builder: ManifestBuilder,
-      bucket: ManifestAstValue.Proof
-    ) => ManifestBuilder
-  ): ManifestBuilder {
-    const proof = this.idAllocator.newProof();
-    const instruction = new CreateProofFromAuthZone(
-      resolveAddress(resourceAddress),
-      proof
-    );
-    this.instructions.push(instruction);
-    andThen(this, proof);
     return this;
   }
 
