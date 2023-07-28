@@ -15,5 +15,15 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./models";
-export * from "./wasm";
+import { describe, expect, it } from "vitest";
+import { RadixEngineToolkit } from "../src";
+
+describe("Default Radix Engine Toolkit Tests", () => {
+  it("Build Information can be obtained from the toolkit", async () => {
+    // Act
+    const buildInformation = await RadixEngineToolkit.Build.information();
+
+    // Assert
+    expect(buildInformation.version).toEqual("0.12.0");
+  });
+});
