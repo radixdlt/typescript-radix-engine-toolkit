@@ -15,5 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./build";
-export * from "./derive";
+export type PublicKey =
+  | { kind: "Secp256k1"; value: Uint8Array }
+  | { kind: "Ed25519"; value: Uint8Array };

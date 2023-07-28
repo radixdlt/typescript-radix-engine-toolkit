@@ -15,5 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./build";
-export * from "./derive";
+export enum OlympiaNetwork {
+  Mainnet = "Mainnet",
+  Stokenet = "Stokenet",
+  Releasenet = "Releasenet",
+  RCNet = "RCNet",
+  Milestonenet = "Milestonenet",
+  Devopsnet = "Devopsnet",
+  Sandpitnet = "Sandpitnet",
+  Localnet = "Localnet",
+}

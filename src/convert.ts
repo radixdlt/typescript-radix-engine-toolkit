@@ -15,5 +15,26 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./build";
-export * from "./derive";
+export class Convert {
+  static String = class {
+    static toNumber = (str: string): number => globalThis.Number(str);
+    static toBigInt = (str: string): bigint => globalThis.BigInt(str);
+  };
+
+  static Number = class {
+    static toString = (num: number): string =>
+      num.toLocaleString("fullwide", { useGrouping: false });
+  };
+
+  static Uint8Array = class {
+    static toHexString = (array: Uint8Array): string =>
+      Array.from(array)
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+  };
+
+  static HexString = class {
+    static toUint8Array = (str: string): Uint8Array =>
+      Uint8Array.from(str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16)));
+  };
+}

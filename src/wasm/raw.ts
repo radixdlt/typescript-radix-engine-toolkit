@@ -24,6 +24,10 @@ import {
   DeriveOlympiaAccountAddressFromPublicKeyOutput,
   DerivePublicKeyFromOlympiaAccountAddressInput,
   DerivePublicKeyFromOlympiaAccountAddressOutput,
+  DeriveResourceAddressFromOlympiaResourceAddressInput,
+  DeriveResourceAddressFromOlympiaResourceAddressOutput,
+  DeriveVirtualAccountAddressFromOlympiaAccountAddressInput,
+  DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput,
   DeriveVirtualAccountAddressFromPublicKeyInput,
   DeriveVirtualAccountAddressFromPublicKeyOutput,
   DeriveVirtualIdentityAddressFromPublicKeyInput,
@@ -125,6 +129,24 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     return this.callFunction(
       input,
       this.exports.derive_public_key_from_olympia_account_address
+    );
+  }
+
+  public deriveVirtualAccountAddressFromOlympiaAccountAddress(
+    input: DeriveVirtualAccountAddressFromOlympiaAccountAddressInput
+  ): DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput {
+    return this.callFunction(
+      input,
+      this.exports.derive_virtual_account_address_from_olympia_account_address
+    );
+  }
+
+  public deriveResourceAddressFromOlympiaResourceAddress(
+    input: DeriveResourceAddressFromOlympiaResourceAddressInput
+  ): DeriveResourceAddressFromOlympiaResourceAddressOutput {
+    return this.callFunction(
+      input,
+      this.exports.derive_resource_address_from_olympia_resource_address
     );
   }
 

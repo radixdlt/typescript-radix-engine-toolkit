@@ -1,0 +1,14 @@
+{
+  "build_information": [
+    {
+      "input": {},
+      "output": {
+        "version": "0.12.0",
+        "scrypto_dependency": {
+          "kind": "Tag",
+          "value": "develop-0e5d82a0"
+        }
+      }
+    }
+  ]
+}

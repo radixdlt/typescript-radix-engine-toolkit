@@ -22,4 +22,5 @@
  * index, instead, wrappers around these models should be exposed when needed.
  */
 
+export * from "./converter";
 export * from "./generated";
