@@ -15,4 +15,6 @@
 // specific language governing permissions and limitations
 // under the License.
 
+export { wasmBindgenImports } from "./constants";
 export { Host } from "./host";
+export { RawRadixEngineToolkit, rawRadixEngineToolkit } from "./raw";

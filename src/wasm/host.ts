@@ -52,8 +52,8 @@ export abstract class Host<Exports> {
    * Provides an abstract way of calling functions on the Radix Engine Toolkit handling memory
    * allocation/deallocation and input/output encoding/decoding on behalf of the caller. Allowing
    * for a higher-level API for calling into the RET and getting responses.
-   * @param input The input of the RET function.
-   * @param fn The RET function to invoke.
+   * @param input The input of the Radix Engine Toolkit function.
+   * @param fn The Radix Engine Toolkit function to invoke.
    * @returns An object of the generic type {@link O} of the expected output from the function.
    */
   public callFunction<O>(input: any, fn: (input: number) => number): O {

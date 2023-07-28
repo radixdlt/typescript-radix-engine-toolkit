@@ -2,6 +2,7 @@
   "cSpell.words": [
     "Alphanet",
     "Enkinet",
+    "externref",
     "fileoverview",
     "fullwide",
     "Gilganet",
@@ -10,7 +11,9 @@
     "Nergalnet",
     "radixdlt",
     "recid",
-    "ttypescript"
+    "ttypescript",
+    "wbindgen",
+    "xform"
   ],
   "[typescript]": {
     "editor.tabSize": 2,
