@@ -45,176 +45,140 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
   it("Derive Virtual Account Address From Public Key works as expected", async () => {
     // Arrange
-    const fileContent = fs.readFileSync(
-      "./resources/function_examples/derive.json",
-      "utf8"
-    );
-    const examples: {
-      input: DeriveVirtualAccountAddressFromPublicKeyInput;
-      output: DeriveVirtualAccountAddressFromPublicKeyOutput;
-    }[] =
-      JSON.parse(fileContent)["derive_virtual_account_address_from_public_key"];
+    const testVectorsProvider = new TestVectorsProvider<
+      DeriveVirtualAccountAddressFromPublicKeyInput,
+      DeriveVirtualAccountAddressFromPublicKeyOutput
+    >("derive", "derive_virtual_account_address_from_public_key");
 
-    for (const {
-      input: serializableInput,
-      output: expectedOutput,
-    } of examples) {
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
-          GeneratedConverter.PublicKey.fromGenerated(
-            serializableInput.public_key
-          ),
-          Convert.String.toNumber(serializableInput.network_id)
+          GeneratedConverter.PublicKey.fromGenerated(inputVector.public_key),
+          Convert.String.toNumber(inputVector.network_id)
         );
 
       // Assert
-      expect(output).toEqual(expectedOutput);
-    }
+      expect(output).toEqual(outputVector);
+    });
   });
 
   it("Derive Virtual Identity Address From Public Key works as expected", async () => {
     // Arrange
-    const fileContent = fs.readFileSync(
-      "./resources/function_examples/derive.json",
-      "utf8"
-    );
-    const examples: {
-      input: DeriveVirtualIdentityAddressFromPublicKeyInput;
-      output: DeriveVirtualIdentityAddressFromPublicKeyOutput;
-    }[] =
-      JSON.parse(fileContent)[
-        "derive_virtual_identity_address_from_public_key"
-      ];
+    const testVectorsProvider = new TestVectorsProvider<
+      DeriveVirtualIdentityAddressFromPublicKeyInput,
+      DeriveVirtualIdentityAddressFromPublicKeyOutput
+    >("derive", "derive_virtual_identity_address_from_public_key");
 
-    for (const {
-      input: serializableInput,
-      output: expectedOutput,
-    } of examples) {
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(
-          GeneratedConverter.PublicKey.fromGenerated(
-            serializableInput.public_key
-          ),
-          Convert.String.toNumber(serializableInput.network_id)
+          GeneratedConverter.PublicKey.fromGenerated(inputVector.public_key),
+          Convert.String.toNumber(inputVector.network_id)
         );
-
       // Assert
-      expect(output).toEqual(expectedOutput);
-    }
+      expect(output).toEqual(outputVector);
+    });
   });
 
   it("Derive Virtual Account Address From Olympia Account Address works as expected", async () => {
     // Arrange
-    const fileContent = fs.readFileSync(
-      "./resources/function_examples/derive.json",
-      "utf8"
-    );
-    const examples: {
-      input: DeriveVirtualAccountAddressFromOlympiaAccountAddressInput;
-      output: DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput;
-    }[] =
-      JSON.parse(fileContent)[
-        "derive_virtual_account_address_from_olympia_account_address"
-      ];
+    const testVectorsProvider = new TestVectorsProvider<
+      DeriveVirtualAccountAddressFromOlympiaAccountAddressInput,
+      DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput
+    >("derive", "derive_virtual_account_address_from_olympia_account_address");
 
-    for (const {
-      input: serializableInput,
-      output: expectedOutput,
-    } of examples) {
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
-          serializableInput.olympia_account_address,
-          Convert.String.toNumber(serializableInput.network_id)
+          inputVector.olympia_account_address,
+          Convert.String.toNumber(inputVector.network_id)
         );
-
       // Assert
-      expect(output).toEqual(expectedOutput);
-    }
+      expect(output).toEqual(outputVector);
+    });
   });
 
   it("Derive Public Key From Olympia Account Address works as expected", async () => {
     // Arrange
-    const fileContent = fs.readFileSync(
-      "./resources/function_examples/derive.json",
-      "utf8"
-    );
-    const examples: {
-      input: DerivePublicKeyFromOlympiaAccountAddressInput;
-      output: DerivePublicKeyFromOlympiaAccountAddressOutput;
-    }[] =
-      JSON.parse(fileContent)["derive_public_key_from_olympia_account_address"];
+    const testVectorsProvider = new TestVectorsProvider<
+      DerivePublicKeyFromOlympiaAccountAddressInput,
+      DerivePublicKeyFromOlympiaAccountAddressOutput
+    >("derive", "derive_public_key_from_olympia_account_address");
 
-    for (const {
-      input: serializableInput,
-      output: expectedOutput,
-    } of examples) {
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(
-          serializableInput
+          inputVector
         );
 
       // Assert
-      expect(output).toEqual(Convert.HexString.toUint8Array(expectedOutput));
-    }
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
   });
 
   it("Derive Olympia Address from Public Key works as expected", async () => {
     // Arrange
-    const fileContent = fs.readFileSync(
-      "./resources/function_examples/derive.json",
-      "utf8"
-    );
-    const examples: {
-      input: DeriveOlympiaAccountAddressFromPublicKeyInput;
-      output: DeriveOlympiaAccountAddressFromPublicKeyOutput;
-    }[] =
-      JSON.parse(fileContent)["derive_olympia_account_address_from_public_key"];
+    const testVectorsProvider = new TestVectorsProvider<
+      DeriveOlympiaAccountAddressFromPublicKeyInput,
+      DeriveOlympiaAccountAddressFromPublicKeyOutput
+    >("derive", "derive_olympia_account_address_from_public_key");
 
-    for (const {
-      input: serializableInput,
-      output: expectedOutput,
-    } of examples) {
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.olympiaAccountAddressFromPublicKey(
-          Convert.HexString.toUint8Array(serializableInput.public_key),
+          Convert.HexString.toUint8Array(inputVector.public_key),
           GeneratedConverter.OlympiaNetwork.fromGenerated(
-            serializableInput.olympia_network
+            inputVector.olympia_network
           )
         );
 
       // Assert
-      expect(output).toEqual(expectedOutput);
-    }
+      expect(output).toEqual(outputVector);
+    });
   });
 
   it("Derive Node Address from Public Key works as expected", async () => {
     // Arrange
-    const fileContent = fs.readFileSync(
-      "./resources/function_examples/derive.json",
-      "utf8"
-    );
-    const examples: {
-      input: DeriveNodeAddressFromPublicKeyInput;
-      output: DeriveNodeAddressFromPublicKeyOutput;
-    }[] = JSON.parse(fileContent)["derive_node_address_from_public_key"];
+    const testVectorsProvider = new TestVectorsProvider<
+      DeriveNodeAddressFromPublicKeyInput,
+      DeriveNodeAddressFromPublicKeyOutput
+    >("derive", "derive_node_address_from_public_key");
 
-    for (const {
-      input: serializableInput,
-      output: expectedOutput,
-    } of examples) {
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Derive.nodeAddressFromPublicKey(
-        Convert.HexString.toUint8Array(serializableInput.public_key),
-        Convert.String.toNumber(serializableInput.network_id)
+        Convert.HexString.toUint8Array(inputVector.public_key),
+        Convert.String.toNumber(inputVector.network_id)
       );
 
       // Assert
-      expect(output).toEqual(expectedOutput);
-    }
+      expect(output).toEqual(outputVector);
+    });
   });
 });
+
+class TestVectorsProvider<I, O> {
+  private testVectors: {
+    input: I;
+    output: O;
+  }[];
+
+  constructor(moduleName: string, functionName: string) {
+    const fileContent = fs.readFileSync(
+      `./resources/function_examples/${moduleName}.json`,
+      "utf8"
+    );
+    this.testVectors = JSON.parse(fileContent)[functionName];
+  }
+
+  async forEach(callback: (input: I, output: O) => void): Promise<void> {
+    for (const { input, output } of this.testVectors) {
+      await callback(input, output);
+    }
+  }
+}
