@@ -15,7 +15,19 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./build";
-export * from "./common";
-export * from "./derive";
-export * from "./utils";
+export type StaticValidationResult =
+  | { kind: "Valid" }
+  | { kind: "Invalid"; error: string };
+
+export enum SerializationMode {
+  Programmatic = "Programmatic",
+  Model = "Model",
+  Natural = "Natural",
+}
+
+export enum ManifestSborStringRepresentation {
+  ManifestString = "ManifestString",
+  ProgrammaticJson = "ProgrammaticJson",
+  ModelJson = "ModelJson",
+  NaturalJson = "NaturalJson",
+}

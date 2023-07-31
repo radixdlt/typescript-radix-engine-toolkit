@@ -15,40 +15,50 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { NotarizedTransaction } from "models/transaction/notarized_transaction";
 import {
   Convert,
+  EntityType,
   Expression,
   Instruction,
   Instructions,
   Intent,
   ManifestAddress,
+  ManifestSborStringRepresentation,
+  MessageValidationConfig,
+  NotarizedTransaction,
   OlympiaNetwork,
   PublicKey,
+  SerializationMode,
   Signature,
   SignatureWithPublicKey,
   SignedIntent,
   TransactionHeader,
   TransactionManifest,
+  ValidationConfig,
   Value,
   ValueKind,
 } from "../index";
 import {
+  SerializableEntityType,
   SerializableExpression,
   SerializableInstruction,
   SerializableInstructions,
   SerializableIntent,
   SerializableManifestAddress,
+  SerializableManifestSborStringRepresentation,
   SerializableManifestValue,
   SerializableManifestValueKind,
+  SerializableMessageValidationConfig,
   SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
   SerializablePublicKey,
+  SerializableSerializationMode,
   SerializableSignature,
   SerializableSignatureWithPublicKey,
   SerializableSignedIntent,
   SerializableTransactionHeader,
   SerializableTransactionManifest,
+  SerializableValidationConfig,
 } from "./generated";
 
 /**
@@ -137,6 +147,66 @@ export class GeneratedConverter {
 
     static fromGenerated(value: SerializableOlympiaNetwork): OlympiaNetwork {
       return OlympiaNetwork[SerializableOlympiaNetwork[value]];
+    }
+  };
+
+  static SerializationMode = class {
+    static toGenerated(
+      value: SerializationMode
+    ): SerializableSerializationMode {
+      return SerializableSerializationMode[SerializationMode[value]];
+    }
+
+    static fromGenerated(
+      value: SerializableSerializationMode
+    ): SerializationMode {
+      return SerializationMode[SerializableSerializationMode[value]];
+    }
+  };
+
+  static ManifestSborStringRepresentation = class {
+    static toGenerated(
+      value: ManifestSborStringRepresentation
+    ): SerializableManifestSborStringRepresentation {
+      switch (value) {
+        case ManifestSborStringRepresentation.ManifestString:
+          return {
+            kind: "ManifestString",
+          };
+        case ManifestSborStringRepresentation.ProgrammaticJson:
+          return {
+            kind: "Json",
+            value: SerializableSerializationMode.Programmatic,
+          };
+        case ManifestSborStringRepresentation.NaturalJson:
+          return {
+            kind: "Json",
+            value: SerializableSerializationMode.Natural,
+          };
+        case ManifestSborStringRepresentation.ModelJson:
+          return {
+            kind: "Json",
+            value: SerializableSerializationMode.Model,
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableManifestSborStringRepresentation
+    ): ManifestSborStringRepresentation {
+      switch (value.kind) {
+        case "ManifestString":
+          return ManifestSborStringRepresentation.ManifestString;
+        case "Json":
+          switch (value.value) {
+            case SerializableSerializationMode.Programmatic:
+              return ManifestSborStringRepresentation.ProgrammaticJson;
+            case SerializableSerializationMode.Natural:
+              return ManifestSborStringRepresentation.NaturalJson;
+            case SerializableSerializationMode.Model:
+              return ManifestSborStringRepresentation.ModelJson;
+          }
+      }
     }
   };
 
@@ -921,6 +991,88 @@ export class GeneratedConverter {
         notarySignature: GeneratedConverter.Signature.fromGenerated(
           value.notary_signature
         ),
+      };
+    }
+  };
+
+  static EntityType = class {
+    static toGenerated(value: EntityType): SerializableEntityType {
+      return SerializableEntityType[EntityType[value]];
+    }
+
+    static fromGenerated(value: SerializableEntityType): EntityType {
+      return EntityType[SerializableEntityType[value]];
+    }
+  };
+
+  static MessageValidationConfig = class {
+    static toGenerated(
+      value: MessageValidationConfig
+    ): SerializableMessageValidationConfig {
+      return {
+        max_plaintext_message_length: Convert.BigInt.toString(
+          value.maxPlaintextMessageLength
+        ),
+        max_encrypted_message_length: Convert.BigInt.toString(
+          value.maxEncryptedMessageLength
+        ),
+        max_mime_type_length: Convert.BigInt.toString(value.maxMimeTypeLength),
+        max_decryptors: Convert.BigInt.toString(value.maxDecryptors),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableMessageValidationConfig
+    ): MessageValidationConfig {
+      return {
+        maxPlaintextMessageLength: Convert.String.toBigInt(
+          value.max_plaintext_message_length
+        ),
+        maxEncryptedMessageLength: Convert.String.toBigInt(
+          value.max_encrypted_message_length
+        ),
+        maxMimeTypeLength: Convert.String.toBigInt(value.max_mime_type_length),
+        maxDecryptors: Convert.String.toBigInt(value.max_decryptors),
+      };
+    }
+  };
+
+  static ValidationConfig = class {
+    static toGenerated(value: ValidationConfig): SerializableValidationConfig {
+      return {
+        network_id: Convert.Number.toString(value.networkId),
+        max_notarized_payload_size: Convert.BigInt.toString(
+          value.maxNotarizedPayloadSize
+        ),
+        min_cost_unit_limit: Convert.Number.toString(value.minCostUnitLimit),
+        max_cost_unit_limit: Convert.Number.toString(value.maxCostUnitLimit),
+        min_tip_percentage: Convert.Number.toString(value.minTipPercentage),
+        max_tip_percentage: Convert.Number.toString(value.maxTipPercentage),
+        max_epoch_range: Convert.BigInt.toString(value.maxEpochRange),
+        message_validation:
+          GeneratedConverter.MessageValidationConfig.toGenerated(
+            value.messageValidation
+          ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableValidationConfig
+    ): ValidationConfig {
+      return {
+        networkId: Convert.String.toNumber(value.network_id),
+        maxNotarizedPayloadSize: Convert.String.toBigInt(
+          value.max_notarized_payload_size
+        ),
+        minCostUnitLimit: Convert.String.toNumber(value.min_cost_unit_limit),
+        maxCostUnitLimit: Convert.String.toNumber(value.max_cost_unit_limit),
+        minTipPercentage: Convert.String.toNumber(value.min_tip_percentage),
+        maxTipPercentage: Convert.String.toNumber(value.max_tip_percentage),
+        maxEpochRange: Convert.String.toBigInt(value.max_epoch_range),
+        messageValidation:
+          GeneratedConverter.MessageValidationConfig.fromGenerated(
+            value.message_validation
+          ),
       };
     }
   };
