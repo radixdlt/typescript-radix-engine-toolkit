@@ -15,10 +15,4 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./builder";
-export * from "./convert";
-export * from "./models";
-export * from "./wasm";
-
-import Decimal from "decimal.js";
-Decimal.config({ precision: 64 });
+export * from "./manifest";
