@@ -15,11 +15,14 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./header";
-export * from "./instruction";
-export * from "./instructions";
-export * from "./intent";
-export * from "./manifest";
-export * from "./notarized_transaction";
-export * from "./signed_intent";
-export * from "./validation_config";
+import { PublicKey } from "../..";
+
+export interface TransactionHeader {
+  networkId: number;
+  startEpochInclusive: number;
+  endEpochExclusive: number;
+  nonce: number;
+  notaryPublicKey: PublicKey;
+  notaryIsSignatory: boolean;
+  tipPercentage: number;
+}

@@ -15,24 +15,40 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import { NotarizedTransaction } from "models/transaction/notarized_transaction";
 import {
   Convert,
   Expression,
   Instruction,
+  Instructions,
+  Intent,
   ManifestAddress,
   OlympiaNetwork,
   PublicKey,
+  Signature,
+  SignatureWithPublicKey,
+  SignedIntent,
+  TransactionHeader,
+  TransactionManifest,
   Value,
   ValueKind,
 } from "../index";
 import {
   SerializableExpression,
   SerializableInstruction,
+  SerializableInstructions,
+  SerializableIntent,
   SerializableManifestAddress,
   SerializableManifestValue,
   SerializableManifestValueKind,
+  SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
   SerializablePublicKey,
+  SerializableSignature,
+  SerializableSignatureWithPublicKey,
+  SerializableSignedIntent,
+  SerializableTransactionHeader,
+  SerializableTransactionManifest,
 } from "./generated";
 
 /**
@@ -53,6 +69,64 @@ export class GeneratedConverter {
         kind: value.kind,
         value: Convert.HexString.toUint8Array(value.value),
       };
+    }
+  };
+
+  static Signature = class {
+    static toGenerated(value: Signature): SerializableSignature {
+      return {
+        kind: value.kind,
+        value: Convert.Uint8Array.toHexString(value.value),
+      };
+    }
+
+    static fromGenerated(value: SerializableSignature): Signature {
+      return {
+        kind: value.kind,
+        value: Convert.HexString.toUint8Array(value.value),
+      };
+    }
+  };
+
+  static SignatureWithPublicKey = class {
+    static toGenerated(
+      value: SignatureWithPublicKey
+    ): SerializableSignatureWithPublicKey {
+      switch (value.kind) {
+        case "Ed25519":
+          return {
+            kind: "Ed25519",
+            value: {
+              public_key: Convert.Uint8Array.toHexString(value.publicKey),
+              signature: Convert.Uint8Array.toHexString(value.signature),
+            },
+          };
+        case "Secp256k1":
+          return {
+            kind: "Secp256k1",
+            value: {
+              signature: Convert.Uint8Array.toHexString(value.signature),
+            },
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableSignatureWithPublicKey
+    ): SignatureWithPublicKey {
+      switch (value.kind) {
+        case "Ed25519":
+          return {
+            kind: "Ed25519",
+            publicKey: Convert.HexString.toUint8Array(value.value.public_key),
+            signature: Convert.HexString.toUint8Array(value.value.signature),
+          };
+        case "Secp256k1":
+          return {
+            kind: "Secp256k1",
+            signature: Convert.HexString.toUint8Array(value.value.signature),
+          };
+      }
     }
   };
 
@@ -685,6 +759,169 @@ export class GeneratedConverter {
             blueprintName: value.value.blueprint_name,
           };
       }
+    }
+  };
+
+  static Instructions = class {
+    static toGenerated(value: Instructions): SerializableInstructions {
+      switch (value.kind) {
+        case "String":
+          return value;
+        case "Parsed":
+          return {
+            kind: "Parsed",
+            value: value.value.map(GeneratedConverter.Instruction.toGenerated),
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableInstructions): Instructions {
+      switch (value.kind) {
+        case "String":
+          return value;
+        case "Parsed":
+          return {
+            kind: "Parsed",
+            value: value.value.map(
+              GeneratedConverter.Instruction.fromGenerated
+            ),
+          };
+      }
+    }
+  };
+
+  static TransactionManifest = class {
+    static toGenerated(
+      value: TransactionManifest
+    ): SerializableTransactionManifest {
+      return {
+        instructions: GeneratedConverter.Instructions.toGenerated(
+          value.instructions
+        ),
+        blobs: value.blobs.map(Convert.Uint8Array.toString),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableTransactionManifest
+    ): TransactionManifest {
+      return {
+        instructions: GeneratedConverter.Instructions.fromGenerated(
+          value.instructions
+        ),
+        blobs: value.blobs.map(Convert.HexString.toUint8Array),
+      };
+    }
+  };
+
+  static TransactionHeader = class {
+    static toGenerated(
+      value: TransactionHeader
+    ): SerializableTransactionHeader {
+      return {
+        network_id: Convert.Number.toString(value.networkId),
+        start_epoch_inclusive: Convert.Number.toString(
+          value.startEpochInclusive
+        ),
+        end_epoch_exclusive: Convert.Number.toString(value.endEpochExclusive),
+        nonce: Convert.Number.toString(value.nonce),
+        notary_is_signatory: value.notaryIsSignatory,
+        notary_public_key: GeneratedConverter.PublicKey.toGenerated(
+          value.notaryPublicKey
+        ),
+        tip_percentage: Convert.Number.toString(value.tipPercentage),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableTransactionHeader
+    ): TransactionHeader {
+      return {
+        networkId: Convert.String.toNumber(value.network_id),
+        startEpochInclusive: Convert.String.toNumber(
+          value.start_epoch_inclusive
+        ),
+        endEpochExclusive: Convert.String.toNumber(value.end_epoch_exclusive),
+        nonce: Convert.String.toNumber(value.nonce),
+        notaryPublicKey: GeneratedConverter.PublicKey.fromGenerated(
+          value.notary_public_key
+        ),
+        notaryIsSignatory: value.notary_is_signatory,
+        tipPercentage: Convert.String.toNumber(value.tip_percentage),
+      };
+    }
+  };
+
+  static Intent = class {
+    static toGenerated(value: Intent): SerializableIntent {
+      return {
+        header: GeneratedConverter.TransactionHeader.toGenerated(value.header),
+        manifest: GeneratedConverter.TransactionManifest.toGenerated(
+          value.manifest
+        ),
+        message: {
+          kind: "None",
+        },
+      };
+    }
+
+    static fromGenerated(value: SerializableIntent): Intent {
+      return {
+        manifest: GeneratedConverter.TransactionManifest.fromGenerated(
+          value.manifest
+        ),
+        header: GeneratedConverter.TransactionHeader.fromGenerated(
+          value.header
+        ),
+      };
+    }
+  };
+
+  static SignedIntent = class {
+    static toGenerated(value: SignedIntent): SerializableSignedIntent {
+      return {
+        intent: GeneratedConverter.Intent.toGenerated(value.intent),
+        intent_signatures: value.intentSignatures.map(
+          GeneratedConverter.SignatureWithPublicKey.toGenerated
+        ),
+      };
+    }
+
+    static fromGenerated(value: SerializableSignedIntent): SignedIntent {
+      return {
+        intent: GeneratedConverter.Intent.fromGenerated(value.intent),
+        intentSignatures: value.intent_signatures.map(
+          GeneratedConverter.SignatureWithPublicKey.fromGenerated
+        ),
+      };
+    }
+  };
+
+  static NotarizedTransaction = class {
+    static toGenerated(
+      value: NotarizedTransaction
+    ): SerializableNotarizedTransaction {
+      return {
+        signed_intent: GeneratedConverter.SignedIntent.toGenerated(
+          value.signedIntent
+        ),
+        notary_signature: GeneratedConverter.Signature.toGenerated(
+          value.notarySignature
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableNotarizedTransaction
+    ): NotarizedTransaction {
+      return {
+        signedIntent: GeneratedConverter.SignedIntent.fromGenerated(
+          value.signed_intent
+        ),
+        notarySignature: GeneratedConverter.Signature.fromGenerated(
+          value.notary_signature
+        ),
+      };
     }
   };
 }

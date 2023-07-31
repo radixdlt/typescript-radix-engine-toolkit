@@ -16,3 +16,5 @@
 // under the License.
 
 export * from "./public_key";
+export * from "./signature";
+export * from "./signature_with_public_key";
