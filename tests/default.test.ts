@@ -42,6 +42,36 @@ import {
   InstructionsExtractAddressesOutput,
   InstructionsStaticallyValidateInput,
   InstructionsStaticallyValidateOutput,
+  IntentCompileInput,
+  IntentCompileOutput,
+  IntentDecompileInput,
+  IntentDecompileOutput,
+  IntentHashInput,
+  IntentHashOutput,
+  IntentStaticallyValidateInput,
+  IntentStaticallyValidateOutput,
+  ManifestCompileInput,
+  ManifestCompileOutput,
+  ManifestDecompileInput,
+  ManifestDecompileOutput,
+  ManifestStaticallyValidateInput,
+  ManifestStaticallyValidateOutput,
+  NotarizedTransactionCompileInput,
+  NotarizedTransactionCompileOutput,
+  NotarizedTransactionDecompileInput,
+  NotarizedTransactionDecompileOutput,
+  NotarizedTransactionHashInput,
+  NotarizedTransactionHashOutput,
+  NotarizedTransactionStaticallyValidateInput,
+  NotarizedTransactionStaticallyValidateOutput,
+  SignedIntentCompileInput,
+  SignedIntentCompileOutput,
+  SignedIntentDecompileInput,
+  SignedIntentDecompileOutput,
+  SignedIntentHashInput,
+  SignedIntentHashOutput,
+  SignedIntentStaticallyValidateInput,
+  SignedIntentStaticallyValidateOutput,
 } from "../src/generated";
 
 describe("Default Radix Engine Toolkit Tests", () => {
@@ -268,6 +298,310 @@ describe("Default Radix Engine Toolkit Tests", () => {
         GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
         Convert.String.toNumber(inputVector.network_id)
       );
+
+      // Assert
+      expect(output.kind).toEqual(outputVector.kind);
+    });
+  });
+
+  it("Compile Manifest works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      ManifestCompileInput,
+      ManifestCompileOutput
+    >("manifest", "manifest_compile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.TransactionManifest.compile(
+        GeneratedConverter.TransactionManifest.fromGenerated(
+          inputVector.manifest
+        ),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Decompile TransactionManifest works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      ManifestDecompileInput,
+      ManifestDecompileOutput
+    >("manifest", "manifest_decompile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.TransactionManifest.decompile(
+        Convert.HexString.toUint8Array(inputVector.compiled),
+        Convert.String.toNumber(inputVector.network_id),
+        inputVector.instructions_kind
+      );
+
+      // Assert
+      expect(
+        GeneratedConverter.TransactionManifest.toGenerated(output)
+      ).toEqual(outputVector);
+    });
+  });
+
+  it("Statically Validate TransactionManifest works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      ManifestStaticallyValidateInput,
+      ManifestStaticallyValidateOutput
+    >("manifest", "manifest_statically_validate");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output =
+        await RadixEngineToolkit.TransactionManifest.staticallyValidate(
+          GeneratedConverter.TransactionManifest.fromGenerated(
+            inputVector.manifest
+          ),
+          Convert.String.toNumber(inputVector.network_id)
+        );
+
+      // Assert
+      expect(output.kind).toEqual(outputVector.kind);
+    });
+  });
+
+  it("Compile Intent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      IntentCompileInput,
+      IntentCompileOutput
+    >("intent", "intent_compile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Intent.compile(
+        GeneratedConverter.Intent.fromGenerated(inputVector)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Hash Intent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      IntentHashInput,
+      IntentHashOutput
+    >("intent", "intent_hash");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Intent.hash(
+        GeneratedConverter.Intent.fromGenerated(inputVector)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Decompile Intent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      IntentDecompileInput,
+      IntentDecompileOutput
+    >("intent", "intent_decompile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Intent.decompile(
+        Convert.HexString.toUint8Array(inputVector.compiled),
+        inputVector.instructions_kind
+      );
+
+      // Assert
+      expect(GeneratedConverter.Intent.toGenerated(output)).toEqual(
+        outputVector
+      );
+    });
+  });
+
+  it("Statically Validate Intent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      IntentStaticallyValidateInput,
+      IntentStaticallyValidateOutput
+    >("intent", "intent_statically_validate");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Intent.staticallyValidate(
+        GeneratedConverter.Intent.fromGenerated(inputVector.intent),
+        GeneratedConverter.ValidationConfig.fromGenerated(
+          inputVector.validation_config
+        )
+      );
+
+      // Assert
+      expect(output.kind).toEqual(outputVector.kind);
+    });
+  });
+
+  it("Compile SignedIntent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      SignedIntentCompileInput,
+      SignedIntentCompileOutput
+    >("signed_intent", "signed_intent_compile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.SignedIntent.compile(
+        GeneratedConverter.SignedIntent.fromGenerated(inputVector)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Hash SignedIntent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      SignedIntentHashInput,
+      SignedIntentHashOutput
+    >("signed_intent", "signed_intent_hash");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.SignedIntent.hash(
+        GeneratedConverter.SignedIntent.fromGenerated(inputVector)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Decompile SignedIntent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      SignedIntentDecompileInput,
+      SignedIntentDecompileOutput
+    >("signed_intent", "signed_intent_decompile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.SignedIntent.decompile(
+        Convert.HexString.toUint8Array(inputVector.compiled),
+        inputVector.instructions_kind
+      );
+
+      // Assert
+      expect(GeneratedConverter.SignedIntent.toGenerated(output)).toEqual(
+        outputVector
+      );
+    });
+  });
+
+  it("Statically Validate SignedIntent works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      SignedIntentStaticallyValidateInput,
+      SignedIntentStaticallyValidateOutput
+    >("signed_intent", "signed_intent_statically_validate");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.SignedIntent.staticallyValidate(
+        GeneratedConverter.SignedIntent.fromGenerated(
+          inputVector.signed_intent
+        ),
+        GeneratedConverter.ValidationConfig.fromGenerated(
+          inputVector.validation_config
+        )
+      );
+
+      // Assert
+      expect(output.kind).toEqual(outputVector.kind);
+    });
+  });
+
+  it("Compile NotarizedTransaction works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      NotarizedTransactionCompileInput,
+      NotarizedTransactionCompileOutput
+    >("notarized_transaction", "notarized_transaction_compile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.NotarizedTransaction.compile(
+        GeneratedConverter.NotarizedTransaction.fromGenerated(inputVector)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Hash NotarizedTransaction works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      NotarizedTransactionHashInput,
+      NotarizedTransactionHashOutput
+    >("notarized_transaction", "notarized_transaction_hash");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.NotarizedTransaction.hash(
+        GeneratedConverter.NotarizedTransaction.fromGenerated(inputVector)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Decompile NotarizedTransaction works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      NotarizedTransactionDecompileInput,
+      NotarizedTransactionDecompileOutput
+    >("notarized_transaction", "notarized_transaction_decompile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.NotarizedTransaction.decompile(
+        Convert.HexString.toUint8Array(inputVector.compiled),
+        inputVector.instructions_kind
+      );
+
+      // Assert
+      expect(
+        GeneratedConverter.NotarizedTransaction.toGenerated(output)
+      ).toEqual(outputVector);
+    });
+  });
+
+  it("Statically Validate NotarizedTransaction works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      NotarizedTransactionStaticallyValidateInput,
+      NotarizedTransactionStaticallyValidateOutput
+    >("notarized_transaction", "notarized_transaction_statically_validate");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output =
+        await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
+          GeneratedConverter.NotarizedTransaction.fromGenerated(
+            inputVector.notarized_transaction
+          ),
+          GeneratedConverter.ValidationConfig.fromGenerated(
+            inputVector.validation_config
+          )
+        );
 
       // Assert
       expect(output.kind).toEqual(outputVector.kind);

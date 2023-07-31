@@ -159,13 +159,19 @@ export abstract class Host<Exports> {
       length
     );
 
-    this.deallocateMemory(pointer);
+    let output: T;
     try {
-      return JSON.parse(this.textDecoder.decode(nullTerminatedEncodedObject));
+      const decodedOutput = this.textDecoder.decode(
+        nullTerminatedEncodedObject
+      );
+      output = JSON.parse(decodedOutput);
     } catch {
       throw new Error(
         `Attempted to UTF-8 decode the response from the RET but failed: ${nullTerminatedEncodedObject}`
       );
     }
+
+    this.deallocateMemory(pointer);
+    return output;
   }
 }
