@@ -70,14 +70,14 @@ export class GeneratedConverter {
     static toGenerated(value: PublicKey): SerializablePublicKey {
       return {
         kind: value.kind,
-        value: Convert.Uint8Array.toHexString(value.value),
+        value: Convert.Uint8Array.toHexString(value.publicKey),
       };
     }
 
     static fromGenerated(value: SerializablePublicKey): PublicKey {
       return {
         kind: value.kind,
-        value: Convert.HexString.toUint8Array(value.value),
+        publicKey: Convert.HexString.toUint8Array(value.value),
       };
     }
   };
@@ -86,14 +86,14 @@ export class GeneratedConverter {
     static toGenerated(value: Signature): SerializableSignature {
       return {
         kind: value.kind,
-        value: Convert.Uint8Array.toHexString(value.value),
+        value: Convert.Uint8Array.toHexString(value.signature),
       };
     }
 
     static fromGenerated(value: SerializableSignature): Signature {
       return {
         kind: value.kind,
-        value: Convert.HexString.toUint8Array(value.value),
+        signature: Convert.HexString.toUint8Array(value.value),
       };
     }
   };

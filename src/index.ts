@@ -18,3 +18,6 @@
 export * from "./convert";
 export * from "./models";
 export * from "./wasm";
+
+import Decimal from "decimal.js";
+Decimal.config({ precision: 64 });

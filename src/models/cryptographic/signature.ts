@@ -16,5 +16,5 @@
 // under the License.
 
 export type Signature =
-  | { kind: "Secp256k1"; value: Uint8Array }
-  | { kind: "Ed25519"; value: Uint8Array };
+  | { kind: "Secp256k1"; signature: Uint8Array }
+  | { kind: "Ed25519"; signature: Uint8Array };

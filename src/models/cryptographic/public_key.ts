@@ -16,5 +16,5 @@
 // under the License.
 
 export type PublicKey =
-  | { kind: "Secp256k1"; value: Uint8Array }
-  | { kind: "Ed25519"; value: Uint8Array };
+  | { kind: "Secp256k1"; publicKey: Uint8Array }
+  | { kind: "Ed25519"; publicKey: Uint8Array };
