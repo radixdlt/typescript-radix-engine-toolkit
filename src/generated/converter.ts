@@ -18,6 +18,7 @@
 import {
   Convert,
   Expression,
+  Instruction,
   ManifestAddress,
   OlympiaNetwork,
   PublicKey,
@@ -26,6 +27,7 @@ import {
 } from "../index";
 import {
   SerializableExpression,
+  SerializableInstruction,
   SerializableManifestAddress,
   SerializableManifestValue,
   SerializableManifestValueKind,
@@ -89,12 +91,12 @@ export class GeneratedConverter {
       switch (value.kind) {
         case "Named":
           return {
-            kind: "Named",
+            kind: value.kind,
             value: Convert.Number.toString(value.value),
           };
         case "Static":
           return {
-            kind: "Static",
+            kind: value.kind,
             value: value.value,
           };
       }
@@ -104,12 +106,12 @@ export class GeneratedConverter {
       switch (value.kind) {
         case "Named":
           return {
-            kind: "Named",
+            kind: value.kind,
             value: Convert.String.toNumber(value.value),
           };
         case "Static":
           return {
-            kind: "Static",
+            kind: value.kind,
             value: value.value,
           };
       }
@@ -121,7 +123,7 @@ export class GeneratedConverter {
       switch (value.kind) {
         case ValueKind.Bool:
           return {
-            kind: "Bool",
+            kind: value.kind,
             value: {
               value: value.value,
             },
@@ -175,7 +177,7 @@ export class GeneratedConverter {
         /* Sum and Product Types */
         case ValueKind.Enum:
           return {
-            kind: "Enum",
+            kind: value.kind,
             value: {
               discriminator: Convert.Number.toString(value.discriminator),
               fields: value.fields.map(
@@ -185,10 +187,10 @@ export class GeneratedConverter {
           };
         case ValueKind.Array:
           return {
-            kind: "Array",
+            kind: value.kind,
             value: {
               element_value_kind:
-                SerializableManifestValueKind[value.element_value_kind],
+                SerializableManifestValueKind[value.elementValueKind],
               elements: value.elements.map(
                 GeneratedConverter.ManifestValue.toGenerated
               ),
@@ -196,7 +198,7 @@ export class GeneratedConverter {
           };
         case ValueKind.Tuple:
           return {
-            kind: "Tuple",
+            kind: value.kind,
             value: {
               fields: value.fields.map(
                 GeneratedConverter.ManifestValue.toGenerated
@@ -205,12 +207,11 @@ export class GeneratedConverter {
           };
         case ValueKind.Map:
           return {
-            kind: "Map",
+            kind: value.kind,
             value: {
-              key_value_kind:
-                SerializableManifestValueKind[value.key_value_kind],
+              key_value_kind: SerializableManifestValueKind[value.keyValueKind],
               value_value_kind:
-                SerializableManifestValueKind[value.value_value_kind],
+                SerializableManifestValueKind[value.valueValueKind],
               entries: value.entries.map((mapEntry) => {
                 return {
                   key: GeneratedConverter.ManifestValue.toGenerated(
@@ -226,7 +227,7 @@ export class GeneratedConverter {
         /* Misc */
         case ValueKind.Address:
           return {
-            kind: "Address",
+            kind: value.kind,
             value: {
               value: GeneratedConverter.ManifestAddress.toGenerated(
                 value.value
@@ -235,7 +236,7 @@ export class GeneratedConverter {
           };
         case ValueKind.Expression:
           return {
-            kind: "Expression",
+            kind: value.kind,
             value: {
               value: GeneratedConverter.Expression.toGenerated(value.value),
             },
@@ -295,7 +296,7 @@ export class GeneratedConverter {
         case "Array":
           return {
             kind: ValueKind.Array,
-            element_value_kind: ValueKind[value.value.element_value_kind],
+            elementValueKind: ValueKind[value.value.element_value_kind],
             elements: value.value.elements.map(
               GeneratedConverter.ManifestValue.fromGenerated
             ),
@@ -310,8 +311,8 @@ export class GeneratedConverter {
         case "Map":
           return {
             kind: ValueKind.Map,
-            key_value_kind: ValueKind[value.value.key_value_kind],
-            value_value_kind: ValueKind[value.value.value_value_kind],
+            keyValueKind: ValueKind[value.value.key_value_kind],
+            valueValueKind: ValueKind[value.value.value_value_kind],
             entries: value.value.entries.map((entry) => {
               return {
                 key: GeneratedConverter.ManifestValue.fromGenerated(entry.key),
@@ -334,6 +335,354 @@ export class GeneratedConverter {
             value: GeneratedConverter.Expression.fromGenerated(
               value.value.value
             ),
+          };
+      }
+    }
+  };
+
+  static Instruction = class {
+    static toGenerated(value: Instruction): SerializableInstruction {
+      switch (value.kind) {
+        case "TakeAllFromWorktop":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+            },
+          };
+        case "TakeFromWorktop":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              amount: Convert.Decimal.toString(value.amount),
+            },
+          };
+        case "TakeNonFungiblesFromWorktop":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              ids: value.ids,
+            },
+          };
+        case "ReturnToWorktop":
+          return {
+            kind: value.kind,
+            value: {
+              bucket_id: Convert.Number.toString(value.bucketId),
+            },
+          };
+        case "AssertWorktopContainsAny":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+            },
+          };
+        case "AssertWorktopContains":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              amount: Convert.Decimal.toString(value.amount),
+            },
+          };
+        case "AssertWorktopContainsNonFungibles":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              ids: value.ids,
+            },
+          };
+        case "PopFromAuthZone":
+          return {
+            kind: value.kind,
+          };
+        case "PushToAuthZone":
+          return {
+            kind: value.kind,
+            value: {
+              proof_id: Convert.Number.toString(value.proofId),
+            },
+          };
+        case "ClearAuthZone":
+          return {
+            kind: value.kind,
+          };
+        case "CreateProofFromAuthZoneOfAmount":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              amount: Convert.Decimal.toString(value.amount),
+            },
+          };
+        case "CreateProofFromAuthZoneOfNonFungibles":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              ids: value.ids,
+            },
+          };
+        case "CreateProofFromAuthZoneOfAll":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+            },
+          };
+        case "ClearSignatureProofs":
+          return {
+            kind: value.kind,
+          };
+        case "CreateProofFromBucketOfAmount":
+          return {
+            kind: value.kind,
+            value: {
+              bucket_id: Convert.Number.toString(value.bucketId),
+              amount: Convert.Decimal.toString(value.amount),
+            },
+          };
+        case "CreateProofFromBucketOfNonFungibles":
+          return {
+            kind: value.kind,
+            value: {
+              bucket_id: Convert.Number.toString(value.bucketId),
+              ids: value.ids,
+            },
+          };
+        case "CreateProofFromBucketOfAll":
+          return {
+            kind: value.kind,
+            value: {
+              bucket_id: Convert.Number.toString(value.bucketId),
+            },
+          };
+        case "BurnResource":
+          return {
+            kind: value.kind,
+            value: {
+              bucket_id: Convert.Number.toString(value.bucketId),
+            },
+          };
+        case "CloneProof":
+          return {
+            kind: value.kind,
+            value: {
+              proof_id: Convert.Number.toString(value.proofId),
+            },
+          };
+        case "DropProof":
+          return {
+            kind: value.kind,
+            value: {
+              proof_id: Convert.Number.toString(value.proofId),
+            },
+          };
+        case "CallFunction":
+          return {
+            kind: value.kind,
+            value: {
+              package_address: GeneratedConverter.ManifestAddress.toGenerated(
+                value.packageAddress
+              ),
+              blueprint_name: value.blueprintName,
+              function_name: value.functionName,
+              args: GeneratedConverter.ManifestValue.toGenerated(value.args),
+            },
+          };
+        case "CallMethod":
+        case "CallRoyaltyMethod":
+        case "CallMetadataMethod":
+        case "CallRoleAssignmentMethod":
+          return {
+            kind: value.kind,
+            value: {
+              address: GeneratedConverter.ManifestAddress.toGenerated(
+                value.address
+              ),
+              method_name: value.methodName,
+              args: GeneratedConverter.ManifestValue.toGenerated(value.args),
+            },
+          };
+        case "CallDirectVaultMethod":
+          return {
+            kind: value.kind,
+            value: {
+              address: value.address,
+              method_name: value.methodName,
+              args: GeneratedConverter.ManifestValue.toGenerated(value.args),
+            },
+          };
+        case "DropAllProofs":
+          return {
+            kind: value.kind,
+          };
+        case "AllocateGlobalAddress":
+          return {
+            kind: value.kind,
+            value: {
+              package_address: value.packageAddress,
+              blueprint_name: value.blueprintName,
+            },
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableInstruction): Instruction {
+      switch (value.kind) {
+        case "TakeAllFromWorktop":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+          };
+        case "TakeFromWorktop":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            amount: Convert.String.toDecimal(value.value.amount),
+          };
+        case "TakeNonFungiblesFromWorktop":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            ids: value.value.ids,
+          };
+        case "ReturnToWorktop":
+          return {
+            kind: value.kind,
+            bucketId: Convert.String.toNumber(value.value.bucket_id),
+          };
+        case "AssertWorktopContainsAny":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+          };
+        case "AssertWorktopContains":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            amount: Convert.String.toDecimal(value.value.amount),
+          };
+        case "AssertWorktopContainsNonFungibles":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            ids: value.value.ids,
+          };
+        case "PopFromAuthZone":
+          return {
+            kind: value.kind,
+          };
+        case "PushToAuthZone":
+          return {
+            kind: value.kind,
+            proofId: Convert.String.toNumber(value.value.proof_id),
+          };
+        case "ClearAuthZone":
+          return {
+            kind: value.kind,
+          };
+        case "CreateProofFromAuthZoneOfAmount":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            amount: Convert.String.toDecimal(value.value.amount),
+          };
+        case "CreateProofFromAuthZoneOfNonFungibles":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            ids: value.value.ids,
+          };
+        case "CreateProofFromAuthZoneOfAll":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+          };
+        case "ClearSignatureProofs":
+          return {
+            kind: value.kind,
+          };
+        case "CreateProofFromBucketOfAmount":
+          return {
+            kind: value.kind,
+            bucketId: Convert.String.toNumber(value.value.bucket_id),
+            amount: Convert.String.toDecimal(value.value.amount),
+          };
+        case "CreateProofFromBucketOfNonFungibles":
+          return {
+            kind: value.kind,
+            bucketId: Convert.String.toNumber(value.value.bucket_id),
+            ids: value.value.ids,
+          };
+        case "CreateProofFromBucketOfAll":
+          return {
+            kind: value.kind,
+            bucketId: Convert.String.toNumber(value.value.bucket_id),
+          };
+        case "BurnResource":
+          return {
+            kind: value.kind,
+            bucketId: Convert.String.toNumber(value.value.bucket_id),
+          };
+        case "CloneProof":
+          return {
+            kind: value.kind,
+            proofId: Convert.String.toNumber(value.value.proof_id),
+          };
+        case "DropProof":
+          return {
+            kind: value.kind,
+            proofId: Convert.String.toNumber(value.value.proof_id),
+          };
+        case "CallFunction":
+          return {
+            kind: value.kind,
+            packageAddress: GeneratedConverter.ManifestAddress.fromGenerated(
+              value.value.package_address
+            ),
+            blueprintName: value.value.blueprint_name,
+            functionName: value.value.function_name,
+            args: GeneratedConverter.ManifestValue.fromGenerated(
+              value.value.args
+            ),
+          };
+        case "CallMethod":
+        case "CallRoyaltyMethod":
+        case "CallMetadataMethod":
+        case "CallRoleAssignmentMethod":
+          return {
+            kind: value.kind,
+            address: GeneratedConverter.ManifestAddress.fromGenerated(
+              value.value.address
+            ),
+            methodName: value.value.method_name,
+            args: GeneratedConverter.ManifestValue.fromGenerated(
+              value.value.args
+            ),
+          };
+        case "CallDirectVaultMethod":
+          return {
+            kind: value.kind,
+            address: value.value.address,
+            methodName: value.value.method_name,
+            args: GeneratedConverter.ManifestValue.fromGenerated(
+              value.value.args
+            ),
+          };
+        case "DropAllProofs":
+          return {
+            kind: value.kind,
+          };
+        case "AllocateGlobalAddress":
+          return {
+            kind: value.kind,
+            packageAddress: value.value.package_address,
+            blueprintName: value.value.blueprint_name,
           };
       }
     }

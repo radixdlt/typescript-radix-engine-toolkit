@@ -21,123 +21,123 @@ import { ManifestAddress, Value } from "../../";
 export type Instruction =
   | {
       kind: "TakeAllFromWorktop";
-      resource_address: string;
+      resourceAddress: string;
     }
   | {
       kind: "TakeFromWorktop";
-      resource_address: string;
+      resourceAddress: string;
       amount: Decimal;
     }
   | {
       kind: "TakeNonFungiblesFromWorktop";
-      resource_address: string;
+      resourceAddress: string;
       ids: string[];
     }
   | {
       kind: "ReturnToWorktop";
-      bucket_id: number;
+      bucketId: number;
     }
   | {
       kind: "AssertWorktopContainsAny";
-      resource_address: string;
+      resourceAddress: string;
     }
   | {
       kind: "AssertWorktopContains";
-      resource_address: string;
+      resourceAddress: string;
       amount: Decimal;
     }
   | {
       kind: "AssertWorktopContainsNonFungibles";
-      resource_address: string;
+      resourceAddress: string;
       ids: string[];
     }
   | { kind: "PopFromAuthZone" }
   | {
       kind: "PushToAuthZone";
-      proof_id: number;
+      proofId: number;
     }
   | { kind: "ClearAuthZone" }
   | {
       kind: "CreateProofFromAuthZoneOfAmount";
-      resource_address: string;
+      resourceAddress: string;
       amount: Decimal;
     }
   | {
       kind: "CreateProofFromAuthZoneOfNonFungibles";
-      resource_address: string;
+      resourceAddress: string;
       ids: string[];
     }
   | {
       kind: "CreateProofFromAuthZoneOfAll";
-      resource_address: string;
+      resourceAddress: string;
     }
   | { kind: "ClearSignatureProofs" }
   | {
       kind: "CreateProofFromBucketOfAmount";
-      bucket_id: number;
+      bucketId: number;
       amount: Decimal;
     }
   | {
       kind: "CreateProofFromBucketOfNonFungibles";
-      bucket_id: number;
+      bucketId: number;
       ids: string[];
     }
   | {
       kind: "CreateProofFromBucketOfAll";
-      bucket_id: number;
+      bucketId: number;
     }
   | {
       kind: "BurnResource";
-      bucket_id: number;
+      bucketId: number;
     }
   | {
       kind: "CloneProof";
-      proof_id: number;
+      proofId: number;
     }
   | {
       kind: "DropProof";
-      proof_id: number;
+      proofId: number;
     }
   | {
       kind: "CallFunction";
-      package_address: ManifestAddress;
-      blueprint_name: string;
-      function_name: string;
+      packageAddress: ManifestAddress;
+      blueprintName: string;
+      functionName: string;
       args: Value;
     }
   | {
       kind: "CallMethod";
       address: ManifestAddress;
-      method_name: string;
+      methodName: string;
       args: Value;
     }
   | {
       kind: "CallRoyaltyMethod";
       address: ManifestAddress;
-      method_name: string;
+      methodName: string;
       args: Value;
     }
   | {
       kind: "CallMetadataMethod";
       address: ManifestAddress;
-      method_name: string;
+      methodName: string;
       args: Value;
     }
   | {
       kind: "CallRoleAssignmentMethod";
       address: ManifestAddress;
-      method_name: string;
+      methodName: string;
       args: Value;
     }
   | {
       kind: "CallDirectVaultMethod";
       address: string;
-      method_name: string;
+      methodName: string;
       args: Value;
     }
   | { kind: "DropAllProofs" }
   | {
       kind: "AllocateGlobalAddress";
-      package_address: string;
-      blueprint_name: string;
+      packageAddress: string;
+      blueprintName: string;
     };

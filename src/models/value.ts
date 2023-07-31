@@ -74,7 +74,7 @@ export type Value =
     }
   | {
       kind: ValueKind.Array;
-      element_value_kind: ValueKind;
+      elementValueKind: ValueKind;
       elements: Value[];
     }
   | {
@@ -83,8 +83,8 @@ export type Value =
     }
   | {
       kind: ValueKind.Map;
-      key_value_kind: ValueKind;
-      value_value_kind: ValueKind;
+      keyValueKind: ValueKind;
+      valueValueKind: ValueKind;
       entries: MapEntry[];
     }
   | {
