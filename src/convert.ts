@@ -15,10 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import Decimal from "decimal.js";
+
 export class Convert {
   static String = class {
-    static toNumber = (str: string): number => globalThis.Number(str);
-    static toBigInt = (str: string): bigint => globalThis.BigInt(str);
+    static toNumber = (str: string): number => Number(str);
+    static toBigInt = (str: string): bigint => BigInt(str);
+    static toDecimal = (str: string): Decimal => new Decimal(str);
   };
 
   static Number = class {
@@ -36,5 +39,14 @@ export class Convert {
   static HexString = class {
     static toUint8Array = (str: string): Uint8Array =>
       Uint8Array.from(str.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16)));
+  };
+
+  static BigInt = class {
+    static toString = (num: bigint): string =>
+      num.toLocaleString("fullwide", { useGrouping: false });
+  };
+
+  static Decimal = class {
+    static toString = (num: Decimal): string => num.toFixed();
   };
 }
