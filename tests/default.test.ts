@@ -32,6 +32,16 @@ import {
   DeriveVirtualIdentityAddressFromPublicKeyInput,
   DeriveVirtualIdentityAddressFromPublicKeyOutput,
   GeneratedConverter,
+  InstructionsCompileInput,
+  InstructionsCompileOutput,
+  InstructionsConvertInput,
+  InstructionsConvertOutput,
+  InstructionsDecompileInput,
+  InstructionsDecompileOutput,
+  InstructionsExtractAddressesInput,
+  InstructionsExtractAddressesOutput,
+  InstructionsStaticallyValidateInput,
+  InstructionsStaticallyValidateOutput,
 } from "../src/generated";
 
 describe("Default Radix Engine Toolkit Tests", () => {
@@ -160,6 +170,109 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(output).toEqual(outputVector);
     });
   });
+
+  it("Convert Instructions works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      InstructionsConvertInput,
+      InstructionsConvertOutput
+    >("instructions", "instructions_convert");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Instructions.convert(
+        GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
+        Convert.String.toNumber(inputVector.network_id),
+        inputVector.instructions_kind
+      );
+
+      // Assert
+      expect(GeneratedConverter.Instructions.toGenerated(output)).toEqual(
+        outputVector
+      );
+    });
+  });
+
+  it("Compile Instructions works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      InstructionsCompileInput,
+      InstructionsCompileOutput
+    >("instructions", "instructions_compile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Instructions.compile(
+        GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    });
+  });
+
+  it("Decompile Instructions works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      InstructionsDecompileInput,
+      InstructionsDecompileOutput
+    >("instructions", "instructions_decompile");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Instructions.decompile(
+        Convert.HexString.toUint8Array(inputVector.compiled),
+        Convert.String.toNumber(inputVector.network_id),
+        inputVector.instructions_kind
+      );
+
+      // Assert
+      expect(GeneratedConverter.Instructions.toGenerated(output)).toEqual(
+        outputVector
+      );
+    });
+  });
+
+  it("Extract Addresses from Instructions works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      InstructionsExtractAddressesInput,
+      InstructionsExtractAddressesOutput
+    >("instructions", "instructions_extract_addresses");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Instructions.extractAddresses(
+        GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(convertRecordValueToSet(output)).toEqual(
+        convertRecordValueToSet(outputVector.addresses)
+      );
+    });
+  });
+
+  it("Statically Validate Instructions works as expected", async () => {
+    // Arrange
+    const testVectorsProvider = new TestVectorsProvider<
+      InstructionsStaticallyValidateInput,
+      InstructionsStaticallyValidateOutput
+    >("instructions", "instructions_statically_validate");
+
+    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Instructions.staticallyValidate(
+        GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(output.kind).toEqual(outputVector.kind);
+    });
+  });
 });
 
 class TestVectorsProvider<I, O> {
@@ -181,4 +294,16 @@ class TestVectorsProvider<I, O> {
       await callback(input, output);
     }
   }
+}
+
+function convertRecordValueToSet<K extends string | number | symbol, V>(
+  map: Record<K, V[]>
+): Record<K, Set<V>> {
+  // @ts-ignore
+  let newMap: Record<K, Set<V>> = {};
+  for (const key in map) {
+    const value = map[key];
+    newMap[key] = new Set(value);
+  }
+  return newMap;
 }
