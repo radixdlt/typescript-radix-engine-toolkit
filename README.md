@@ -5,10 +5,12 @@
   </p>
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![License](https://img.shields.io/badge/Scrypto%20Compatibility-ash--8b6530b5d-blue)](https://github.com/radixdlt/radixdlt-scrypto/tree/ash-8b6530b5d)
 
 </div>
 
+More information to come after this change to the TypeScript toolkit.
+
+<!-- 
 - [About](#about)
 - [Usage Guide](#usage-guide)
   - [`LTSRadixEngineToolkit`](./LTS.md)
@@ -40,9 +42,9 @@
     - [Deriving Virtual Identity Addresses from Public Keys](#deriving-virtual-identity-addresses-from-public-keys)
     - [Deriving Babylon Account Addresses from Olympia Account Addresses](#deriving-babylon-account-addresses-from-olympia-account-addresses)
     - [Derive Known Entity Addresses](#derive-known-entity-addresses)
-- [Frequently Asked Questions](#frequently-asked-questions)
+- [Frequently Asked Questions](#frequently-asked-questions) -->
 
-# About
+<!-- # About
 
 This library brings the same support offered to Rust for transaction construction, validation, and decompilation, manifest parsing, **S**crypto **B**inary **O**bject **R**epresentation (SBOR) encoding and decoding, address derivations, and more to TypeScript and JavaScript through a [Rust backend](https://www.github.com/radixdlt/radix-engine-toolkit) that powers it all. The following is a list of the features offered by this library:
 
@@ -1117,4 +1119,4 @@ let transactionId: Uint8Array = await intent.transactionId();
 
 In addition to the `transactionId` method, some of these classes also offer methods for calculating the notarized transaction hash (often times referred to as payload hash in the Gateway API) and the signed transaction intent hash. However, these hashes are rarely needed in day-to-day interactions with the network.
 
-</details>
+</details> -->
