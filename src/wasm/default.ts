@@ -19,6 +19,7 @@ import {
   BuildInformation,
   Convert,
   EntityType,
+  ExecutionAnalysis,
   Instructions,
   Intent,
   KnownAddresses,
@@ -473,6 +474,22 @@ export class RadixEngineToolkit {
           GeneratedConverter.ValidationConfig.toGenerated(validationConfig),
       });
       return toStaticValidationResult(output);
+    }
+  };
+
+  static Execution = class {
+    static async analyze(
+      instructions: Instructions,
+      receipt: Uint8Array,
+      networkId: number
+    ): Promise<ExecutionAnalysis> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = await rawRet.executionAnalyze({
+        instructions: GeneratedConverter.Instructions.toGenerated(instructions),
+        network_id: Convert.Number.toString(networkId),
+        preview_receipt: Convert.Uint8Array.toHexString(receipt),
+      });
+      return GeneratedConverter.ExecutionAnalysis.fromGenerated(output);
     }
   };
 

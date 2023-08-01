@@ -39,6 +39,8 @@ import {
   DeriveVirtualAccountAddressFromPublicKeyOutput,
   DeriveVirtualIdentityAddressFromPublicKeyInput,
   DeriveVirtualIdentityAddressFromPublicKeyOutput,
+  ExecutionAnalyzeInput,
+  ExecutionAnalyzeOutput,
   GeneratedConverter,
   InstructionsCompileInput,
   InstructionsCompileOutput,
@@ -604,6 +606,24 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(outputRecord).toEqual(outputVector);
+    }
+  );
+
+  moduleTestVector<ExecutionAnalyzeInput, ExecutionAnalyzeOutput>(
+    "execution",
+    "execution_analyze",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Execution.analyze(
+        GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
+        Convert.HexString.toUint8Array(inputVector.preview_receipt),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Act
+      expect(output).toEqual(
+        GeneratedConverter.ExecutionAnalysis.fromGenerated(outputVector)
+      );
     }
   );
 

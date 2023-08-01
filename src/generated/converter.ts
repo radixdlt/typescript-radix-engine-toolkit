@@ -16,31 +16,50 @@
 // under the License.
 
 import {
+  AccountDefaultDepositRule,
+  AuthorizedDepositorsChanges,
   Convert,
+  DecimalSource,
   EntityType,
+  ExecutionAnalysis,
   Expression,
+  FeeLocks,
+  FeeSummary,
   Instruction,
   Instructions,
   Intent,
   ManifestAddress,
   ManifestSborStringRepresentation,
   MessageValidationConfig,
+  NonFungibleLocalIdArraySource,
   NotarizedTransaction,
   OlympiaNetwork,
   PublicKey,
+  ResourceDepositRule,
+  ResourceOrNonFungible,
+  ResourceSpecifier,
+  ResourceTracker,
+  Resources,
   SerializationMode,
   Signature,
   SignatureWithPublicKey,
   SignedIntent,
   TransactionHeader,
   TransactionManifest,
+  TransactionType,
   ValidationConfig,
   Value,
   ValueKind,
 } from "../index";
 import {
+  ExecutionAnalyzeOutput,
+  SerializableAccountDefaultDepositRule,
+  SerializableAuthorizedDepositorsChanges,
+  SerializableDecimal,
   SerializableEntityType,
   SerializableExpression,
+  SerializableFeeLocks,
+  SerializableFeeSummary,
   SerializableInstruction,
   SerializableInstructions,
   SerializableIntent,
@@ -49,15 +68,23 @@ import {
   SerializableManifestValue,
   SerializableManifestValueKind,
   SerializableMessageValidationConfig,
+  SerializableNonFungibleLocalId,
   SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
   SerializablePublicKey,
+  SerializableResourceDepositRule,
+  SerializableResourceOrNonFungible,
+  SerializableResourceSpecifier,
+  SerializableResourceTracker,
+  SerializableResources,
   SerializableSerializationMode,
   SerializableSignature,
   SerializableSignatureWithPublicKey,
   SerializableSignedIntent,
+  SerializableSource,
   SerializableTransactionHeader,
   SerializableTransactionManifest,
+  SerializableTransactionType,
   SerializableValidationConfig,
 } from "./generated";
 
@@ -1037,6 +1064,580 @@ export class GeneratedConverter {
     }
   };
 
+  static FeeSummary = class {
+    static toGenerated(value: FeeSummary): SerializableFeeSummary {
+      return {
+        network_fee: Convert.Decimal.toString(value.networkFee),
+        royalty_fee: Convert.Decimal.toString(value.royaltyFee),
+      };
+    }
+
+    static fromGenerated(value: SerializableFeeSummary): FeeSummary {
+      return {
+        networkFee: Convert.String.toDecimal(value.network_fee),
+        royaltyFee: Convert.String.toDecimal(value.royalty_fee),
+      };
+    }
+  };
+
+  static FeeLocks = class {
+    static toGenerated(value: FeeLocks): SerializableFeeLocks {
+      return {
+        lock: Convert.Decimal.toString(value.lock),
+        contingent_lock: Convert.Decimal.toString(value.contingentLock),
+      };
+    }
+
+    static fromGenerated(value: SerializableFeeLocks): FeeLocks {
+      return {
+        lock: Convert.String.toDecimal(value.lock),
+        contingentLock: Convert.String.toDecimal(value.contingent_lock),
+      };
+    }
+  };
+
+  static DecimalSource = class {
+    static toGenerated(
+      value: DecimalSource
+    ): SerializableSource<SerializableDecimal> {
+      switch (value.kind) {
+        case "Guaranteed":
+          return {
+            kind: value.kind,
+            value: {
+              value: Convert.Decimal.toString(value.value),
+            },
+          };
+        case "Predicted":
+          return {
+            kind: value.kind,
+            value: {
+              value: Convert.Decimal.toString(value.value),
+              instruction_index: Convert.Number.toString(
+                value.instructionIndex
+              ),
+            },
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableSource<SerializableDecimal>
+    ): DecimalSource {
+      switch (value.kind) {
+        case "Guaranteed":
+          return {
+            kind: value.kind,
+            value: Convert.String.toDecimal(value.value.value),
+          };
+        case "Predicted":
+          return {
+            kind: value.kind,
+            value: Convert.String.toDecimal(value.value.value),
+            instructionIndex: Convert.String.toNumber(
+              value.value.instruction_index
+            ),
+          };
+      }
+    }
+  };
+
+  static NonFungibleLocalIdArraySource = class {
+    static toGenerated(
+      value: NonFungibleLocalIdArraySource
+    ): SerializableSource<SerializableNonFungibleLocalId[]> {
+      switch (value.kind) {
+        case "Guaranteed":
+          return {
+            kind: value.kind,
+            value: {
+              value: value.value,
+            },
+          };
+        case "Predicted":
+          return {
+            kind: value.kind,
+            value: {
+              value: value.value,
+              instruction_index: Convert.Number.toString(
+                value.instructionIndex
+              ),
+            },
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableSource<SerializableNonFungibleLocalId[]>
+    ): NonFungibleLocalIdArraySource {
+      switch (value.kind) {
+        case "Guaranteed":
+          return {
+            kind: value.kind,
+            value: value.value.value,
+          };
+        case "Predicted":
+          return {
+            kind: value.kind,
+            value: value.value.value,
+            instructionIndex: Convert.String.toNumber(
+              value.value.instruction_index
+            ),
+          };
+      }
+    }
+  };
+
+  static ResourceTracker = class {
+    static toGenerated(value: ResourceTracker): SerializableResourceTracker {
+      switch (value.kind) {
+        case "Fungible":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              amount: GeneratedConverter.DecimalSource.toGenerated(
+                value.amount
+              ),
+            },
+          };
+        case "NonFungible":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              amount: GeneratedConverter.DecimalSource.toGenerated(
+                value.amount
+              ),
+              ids: GeneratedConverter.NonFungibleLocalIdArraySource.toGenerated(
+                value.ids
+              ),
+            },
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableResourceTracker): ResourceTracker {
+      switch (value.kind) {
+        case "Fungible":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            amount: GeneratedConverter.DecimalSource.fromGenerated(
+              value.value.amount
+            ),
+          };
+        case "NonFungible":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            amount: GeneratedConverter.DecimalSource.fromGenerated(
+              value.value.amount
+            ),
+            ids: GeneratedConverter.NonFungibleLocalIdArraySource.fromGenerated(
+              value.value.ids
+            ),
+          };
+      }
+    }
+  };
+
+  static ResourceOrNonFungible = class {
+    static toGenerated(
+      value: ResourceOrNonFungible
+    ): SerializableResourceOrNonFungible {
+      switch (value.kind) {
+        case "Resource":
+          return {
+            kind: value.kind,
+            value: value.resourceAddress,
+          };
+        case "NonFungible":
+          return {
+            kind: value.kind,
+            value: value.nonFungibleGlobalId,
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableResourceOrNonFungible
+    ): ResourceOrNonFungible {
+      switch (value.kind) {
+        case "Resource":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value,
+          };
+        case "NonFungible":
+          return {
+            kind: value.kind,
+            nonFungibleGlobalId: value.value,
+          };
+      }
+    }
+  };
+
+  static AuthorizedDepositorsChanges = class {
+    static toGenerated(
+      value: AuthorizedDepositorsChanges
+    ): SerializableAuthorizedDepositorsChanges {
+      return {
+        added: value.added.map(
+          GeneratedConverter.ResourceOrNonFungible.toGenerated
+        ),
+        removed: value.removed.map(
+          GeneratedConverter.ResourceOrNonFungible.toGenerated
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableAuthorizedDepositorsChanges
+    ): AuthorizedDepositorsChanges {
+      return {
+        added: value.added.map(
+          GeneratedConverter.ResourceOrNonFungible.fromGenerated
+        ),
+        removed: value.removed.map(
+          GeneratedConverter.ResourceOrNonFungible.fromGenerated
+        ),
+      };
+    }
+  };
+
+  static AccountDefaultDepositRule = class {
+    static toGenerated(
+      value: AccountDefaultDepositRule
+    ): SerializableAccountDefaultDepositRule {
+      return SerializableAccountDefaultDepositRule[
+        AccountDefaultDepositRule[value]
+      ];
+    }
+
+    static fromGenerated(
+      value: SerializableAccountDefaultDepositRule
+    ): AccountDefaultDepositRule {
+      return AccountDefaultDepositRule[
+        SerializableAccountDefaultDepositRule[value]
+      ];
+    }
+  };
+
+  static ResourceDepositRule = class {
+    static toGenerated(
+      value: ResourceDepositRule
+    ): SerializableResourceDepositRule {
+      return SerializableResourceDepositRule[ResourceDepositRule[value]];
+    }
+
+    static fromGenerated(
+      value: SerializableResourceDepositRule
+    ): ResourceDepositRule {
+      return ResourceDepositRule[SerializableResourceDepositRule[value]];
+    }
+  };
+
+  static Resources = class {
+    static toGenerated(value: Resources): SerializableResources {
+      switch (value.kind) {
+        case "Amount":
+          return {
+            kind: value.kind,
+            value: Convert.Decimal.toString(value.amount),
+          };
+        case "Ids":
+          return {
+            kind: value.kind,
+            value: value.nonFungibleLocalId,
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableResources): Resources {
+      switch (value.kind) {
+        case "Amount":
+          return {
+            kind: value.kind,
+            amount: Convert.String.toDecimal(value.value),
+          };
+        case "Ids":
+          return {
+            kind: value.kind,
+            nonFungibleLocalId: value.value,
+          };
+      }
+    }
+  };
+
+  static ResourceSpecifier = class {
+    static toGenerated(
+      value: ResourceSpecifier
+    ): SerializableResourceSpecifier {
+      switch (value.kind) {
+        case "Amount":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              amount: Convert.Decimal.toString(value.amount),
+            },
+          };
+        case "Ids":
+          return {
+            kind: value.kind,
+            value: {
+              resource_address: value.resourceAddress,
+              ids: value.ids,
+            },
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableResourceSpecifier
+    ): ResourceSpecifier {
+      switch (value.kind) {
+        case "Amount":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            amount: Convert.String.toDecimal(value.value.amount),
+          };
+        case "Ids":
+          return {
+            kind: value.kind,
+            resourceAddress: value.value.resource_address,
+            ids: value.value.ids,
+          };
+      }
+    }
+  };
+
+  static TransactionType = class {
+    static toGenerated(value: TransactionType): SerializableTransactionType {
+      switch (value.kind) {
+        case "SimpleTransfer":
+          return {
+            kind: value.kind,
+            value: {
+              from: value.from,
+              to: value.to,
+              transferred: GeneratedConverter.ResourceSpecifier.toGenerated(
+                value.transferred
+              ),
+            },
+          };
+        case "Transfer":
+          return {
+            kind: value.kind,
+            value: {
+              from: value.from,
+              transfers: recordMap(value.transfers, (key, value) => [
+                key,
+                recordMap(value, (key, value) => [
+                  key,
+                  GeneratedConverter.Resources.toGenerated(value),
+                ]),
+              ]),
+            },
+          };
+        case "AccountDepositSettings":
+          return {
+            kind: value.kind,
+            value: {
+              resource_preference_changes: recordMap(
+                value.resourcePreferenceChanges,
+                (key, value) => [
+                  key,
+                  recordMap(value, (key, value) => [
+                    key,
+                    GeneratedConverter.ResourceDepositRule.toGenerated(value),
+                  ]),
+                ]
+              ),
+              default_deposit_rule_changes: recordMap(
+                value.defaultDepositRuleChanges,
+                (key, value) => [
+                  key,
+                  GeneratedConverter.AccountDefaultDepositRule.toGenerated(
+                    value
+                  ),
+                ]
+              ),
+              authorized_depositors_changes: recordMap(
+                value.authorizedDepositorsChanges,
+                (key, value) => [
+                  key,
+                  GeneratedConverter.AuthorizedDepositorsChanges.toGenerated(
+                    value
+                  ),
+                ]
+              ),
+            },
+          };
+        case "GeneralTransaction":
+          return {
+            kind: value.kind,
+            value: {
+              account_proofs: value.accountProofs,
+              account_withdraws: recordMap(
+                value.accountWithdraws,
+                (key, value) => [
+                  key,
+                  value.map(GeneratedConverter.ResourceTracker.toGenerated),
+                ]
+              ),
+              account_deposits: recordMap(
+                value.accountDeposits,
+                (key, value) => [
+                  key,
+                  value.map(GeneratedConverter.ResourceTracker.toGenerated),
+                ]
+              ),
+              addresses_in_manifest: {
+                addresses: value.addressesInManifest,
+                named_addresses: [],
+              },
+              data_of_newly_minted_non_fungibles: recordMap(
+                value.dataOfNewlyMintedNonFungibles,
+                (key, value) => [
+                  key,
+                  recordMap(value, (key, value) => [
+                    key,
+                    Convert.Uint8Array.toHexString(value),
+                  ]),
+                ]
+              ),
+              metadata_of_newly_created_entities: {},
+            },
+          };
+        case "NonConforming":
+          return {
+            kind: value.kind,
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableTransactionType): TransactionType {
+      switch (value.kind) {
+        case "SimpleTransfer":
+          return {
+            kind: value.kind,
+            from: value.value.from,
+            to: value.value.to,
+            transferred: GeneratedConverter.ResourceSpecifier.fromGenerated(
+              value.value.transferred
+            ),
+          };
+        case "Transfer":
+          return {
+            kind: value.kind,
+            from: value.value.from,
+            transfers: recordMap(value.value.transfers, (key, value) => [
+              key,
+              recordMap(value, (key, value) => [
+                key,
+                GeneratedConverter.Resources.fromGenerated(value),
+              ]),
+            ]),
+          };
+        case "AccountDepositSettings":
+          return {
+            kind: value.kind,
+            resourcePreferenceChanges: recordMap(
+              value.value.resource_preference_changes,
+              (key, value) => [
+                key,
+                recordMap(value, (key, value) => [
+                  key,
+                  GeneratedConverter.ResourceDepositRule.fromGenerated(value),
+                ]),
+              ]
+            ),
+            defaultDepositRuleChanges: recordMap(
+              value.value.default_deposit_rule_changes,
+              (key, value) => [
+                key,
+                GeneratedConverter.AccountDefaultDepositRule.fromGenerated(
+                  value
+                ),
+              ]
+            ),
+            authorizedDepositorsChanges: recordMap(
+              value.value.authorized_depositors_changes,
+              (key, value) => [
+                key,
+                GeneratedConverter.AuthorizedDepositorsChanges.fromGenerated(
+                  value
+                ),
+              ]
+            ),
+          };
+        case "GeneralTransaction":
+          return {
+            kind: value.kind,
+            accountProofs: value.value.account_proofs,
+            accountWithdraws: recordMap(
+              value.value.account_withdraws,
+              (key, value) => [
+                key,
+                value.map(GeneratedConverter.ResourceTracker.fromGenerated),
+              ]
+            ),
+            accountDeposits: recordMap(
+              value.value.account_deposits,
+              (key, value) => [
+                key,
+                value.map(GeneratedConverter.ResourceTracker.fromGenerated),
+              ]
+            ),
+            addressesInManifest: value.value.addresses_in_manifest.addresses,
+            dataOfNewlyMintedNonFungibles: recordMap(
+              value.value.data_of_newly_minted_non_fungibles,
+              (key, value) => [
+                key,
+                recordMap(value, (key, value) => [
+                  key,
+                  Convert.HexString.toUint8Array(value),
+                ]),
+              ]
+            ),
+          };
+        case "NonConforming":
+          return {
+            kind: value.kind,
+          };
+      }
+    }
+  };
+
+  static ExecutionAnalysis = class {
+    static toGenerated(value: ExecutionAnalysis): ExecutionAnalyzeOutput {
+      return {
+        fee_locks: GeneratedConverter.FeeLocks.toGenerated(value.feeLocks),
+        fee_summary: GeneratedConverter.FeeSummary.toGenerated(
+          value.feeSummary
+        ),
+        transaction_types: value.transactionTypes.map(
+          GeneratedConverter.TransactionType.toGenerated
+        ),
+      };
+    }
+
+    static fromGenerated(value: ExecutionAnalyzeOutput): ExecutionAnalysis {
+      return {
+        feeLocks: GeneratedConverter.FeeLocks.fromGenerated(value.fee_locks),
+        feeSummary: GeneratedConverter.FeeSummary.fromGenerated(
+          value.fee_summary
+        ),
+        transactionTypes: value.transaction_types.map(
+          GeneratedConverter.TransactionType.fromGenerated
+        ),
+      };
+    }
+  };
+
   static ValidationConfig = class {
     static toGenerated(value: ValidationConfig): SerializableValidationConfig {
       return {
@@ -1077,3 +1678,24 @@ export class GeneratedConverter {
     }
   };
 }
+
+const recordMap = <
+  K1 extends string | number | symbol,
+  K2 extends string | number | symbol,
+  V1,
+  V2
+>(
+  record: Record<K1, V1>,
+  callback: (key: K1, value: V1) => [K2, V2]
+): Record<K2, V2> => {
+  // @ts-ignore
+  let newRecord: Record<K2, V2> = {};
+
+  for (const key in record) {
+    const value = record[key];
+    const [newKey, newValue] = callback(key, value);
+    newRecord[newKey] = newValue;
+  }
+
+  return newRecord;
+};
