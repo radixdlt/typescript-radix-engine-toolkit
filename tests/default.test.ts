@@ -17,7 +17,15 @@
 
 import * as fs from "fs";
 import { describe, expect, it } from "vitest";
-import { Convert, RadixEngineToolkit } from "../src";
+import {
+  Convert,
+  PrivateKey,
+  RadixEngineToolkit,
+  TransactionBuilder,
+  TransactionHeader,
+  defaultValidationConfig,
+  publicKey,
+} from "../src";
 import {
   DeriveNodeAddressFromPublicKeyInput,
   DeriveNodeAddressFromPublicKeyOutput,
@@ -606,6 +614,48 @@ describe("Default Radix Engine Toolkit Tests", () => {
       // Assert
       expect(output.kind).toEqual(outputVector.kind);
     });
+  });
+
+  it("Transaction Builder Produces Statically Valid Transactions", async () => {
+    // Arrange
+    const notaryPrivateKey: PrivateKey = {
+      kind: "Ed25519",
+      privateKey: Convert.HexString.toUint8Array(
+        "f9d5cd3cbd7bd0defcad16f92f2c03f97d9441335e28411a0bfadb634e192738"
+      ),
+    };
+    const header: TransactionHeader = {
+      networkId: 0x01,
+      startEpochInclusive: 0x00,
+      endEpochExclusive: 0x10,
+      nonce: 0x00,
+      notaryPublicKey: publicKey(notaryPrivateKey),
+      notaryIsSignatory: true,
+      tipPercentage: 0x00,
+    };
+    const validationConfig = defaultValidationConfig(0x01);
+
+    // Act
+    let notarizedTransaction = await TransactionBuilder.new().then((builder) =>
+      builder
+        .header(header)
+        .manifest({
+          instructions: {
+            kind: "String",
+            value: "DROP_ALL_PROOFS;",
+          },
+          blobs: [],
+        })
+        .notarize(notaryPrivateKey)
+    );
+    const staticValidationResult =
+      await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
+        notarizedTransaction,
+        validationConfig
+      );
+
+    // Assert
+    expect(staticValidationResult.kind).toEqual("Valid");
   });
 });
 

@@ -32,3 +32,23 @@ export interface ValidationConfig {
   maxEpochRange: bigint;
   messageValidation: MessageValidationConfig;
 }
+
+export const defaultValidationConfig = (
+  networkId: number
+): ValidationConfig => {
+  return {
+    networkId: networkId,
+    maxNotarizedPayloadSize: BigInt(1048576),
+    minCostUnitLimit: 1000000,
+    maxCostUnitLimit: 100000000,
+    minTipPercentage: 0,
+    maxTipPercentage: 65535,
+    maxEpochRange: BigInt(8640),
+    messageValidation: {
+      maxPlaintextMessageLength: BigInt(2048),
+      maxEncryptedMessageLength: BigInt(2076),
+      maxMimeTypeLength: BigInt(128),
+      maxDecryptors: BigInt(20),
+    },
+  };
+};

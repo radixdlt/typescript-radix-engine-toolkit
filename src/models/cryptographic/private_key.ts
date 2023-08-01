@@ -16,8 +16,11 @@
 // under the License.
 
 import * as ed from "@noble/ed25519";
+import { sha512 } from "@noble/hashes/sha512";
 import { ecdsaSign, publicKeyCreate } from "secp256k1";
 import { PublicKey, Signature, SignatureWithPublicKey } from "../..";
+
+ed.etc.sha512Sync = (...m) => sha512(ed.etc.concatBytes(...m));
 
 export type PrivateKey =
   | { kind: "Secp256k1"; privateKey: Uint8Array }
