@@ -16,8 +16,8 @@
 // under the License.
 
 import { Expose, Transform, Type, instanceToPlain } from "class-transformer";
-import { SborValue } from "models/value";
 import { Convert } from "../..";
+import { SborValue } from "../../models";
 import * as Serializers from "../serializers";
 
 export class SborDecodeInput {

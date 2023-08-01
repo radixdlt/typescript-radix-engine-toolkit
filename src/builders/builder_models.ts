@@ -1,7 +1,7 @@
 import Decimal from "decimal.js";
-import { IPrivateKey } from "models/crypto/private_key";
 import { IAddress } from "../base";
 import { Signature, SignatureWithPublicKey } from "../models";
+import { IPrivateKey } from "../models/crypto/private_key";
 
 export type Address = string | IAddress;
 export type Amount = string | number | Decimal;
