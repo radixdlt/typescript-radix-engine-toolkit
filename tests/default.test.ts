@@ -80,6 +80,8 @@ import {
   SignedIntentHashOutput,
   SignedIntentStaticallyValidateInput,
   SignedIntentStaticallyValidateOutput,
+  UtilsKnownAddressesInput,
+  UtilsKnownAddressesOutput,
 } from "../src/generated";
 
 describe("Default Radix Engine Toolkit Tests", () => {
@@ -580,6 +582,31 @@ describe("Default Radix Engine Toolkit Tests", () => {
     }
   );
 
+  moduleTestVector<UtilsKnownAddressesInput, UtilsKnownAddressesOutput>(
+    "utils",
+    "utils_known_address",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Utils.knownAddresses(
+        Convert.String.toNumber(inputVector)
+      );
+
+      let outputRecord: Record<string, Record<string, string>> = {};
+      for (const outerKey in output) {
+        outputRecord[camelToSnakeCase(outerKey)] = {};
+        const value = output[outerKey];
+
+        for (const innerKey in value) {
+          outputRecord[camelToSnakeCase(outerKey)][camelToSnakeCase(innerKey)] =
+            output[outerKey][innerKey];
+        }
+      }
+
+      // Assert
+      expect(outputRecord).toEqual(outputVector);
+    }
+  );
+
   it("Transaction Builder Produces Statically Valid Transactions", async () => {
     // Arrange
     const notaryPrivateKey: PrivateKey = {
@@ -647,6 +674,9 @@ const moduleTestVector = <I, O>(
     }
   );
 };
+
+const camelToSnakeCase = (str: string) =>
+  str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
 
 function convertRecordValueToSet<K extends string | number | symbol, V>(
   map: Record<K, V[]>

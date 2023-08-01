@@ -15,13 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { KnownAddresses } from "models/modules/utils";
 import {
   BuildInformation,
   Convert,
   EntityType,
   Instructions,
   Intent,
+  KnownAddresses,
   ManifestSborStringRepresentation,
   NotarizedTransaction,
   OlympiaNetwork,
