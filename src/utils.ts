@@ -15,6 +15,15 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./manifest";
-export * from "./transaction";
-export * from "./types";
+import { blake2b } from "blakejs";
+
+/**
+ * Hashes some byte array of data through the Blake 2b algorithm producing 32-byte long hash digests
+ * which follows the hashing algorithm used in Scrypto and the Radix Engine.
+ * @param data The data to hash.
+ * @returns The hash of the data.
+ */
+export const hash = (data: Uint8Array): Uint8Array =>
+  blake2b(data, undefined, 32);
+
+export const generateRandomNonce = () => Math.floor(Math.random() * 0xffffffff);

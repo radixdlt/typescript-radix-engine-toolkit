@@ -15,6 +15,8 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./manifest";
-export * from "./transaction";
-export * from "./types";
+import { PrivateKey } from "../";
+
+export type SignatureSource<T> = PrivateKey | T | SignatureFunction<T>;
+
+export type SignatureFunction<T> = (messageHash: Uint8Array) => T;

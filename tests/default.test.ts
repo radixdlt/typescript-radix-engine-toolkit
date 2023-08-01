@@ -623,7 +623,9 @@ class TestVectorsProvider<I, O> {
     this.testVectors = JSON.parse(fileContent)[functionName];
   }
 
-  async forEach(callback: (input: I, output: O) => void): Promise<void> {
+  async forEach(
+    callback: (input: I, output: O) => Promise<void>
+  ): Promise<void> {
     for (const { input, output } of this.testVectors) {
       await callback(input, output);
     }

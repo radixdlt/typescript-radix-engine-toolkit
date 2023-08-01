@@ -18,6 +18,7 @@
 export * from "./builder";
 export * from "./convert";
 export * from "./models";
+export * from "./utils";
 export * from "./wasm";
 
 import Decimal from "decimal.js";
