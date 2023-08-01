@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import wasmModule from "../../resources/radix_engine_toolkit.wasm";
 import {
   BuildInformationInput,
   BuildInformationOutput,
@@ -84,8 +85,7 @@ import {
   SignedIntentStaticallyValidateOutput,
   UtilsKnownAddressesInput,
   UtilsKnownAddressesOutput,
-} from "generated";
-import wasmModule from "../../resources/radix_engine_toolkit.wasm";
+} from "../generated";
 import { wasmBindgenImports } from "./constants";
 import { Host } from "./host";
 
