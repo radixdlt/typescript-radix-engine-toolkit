@@ -16,7 +16,7 @@
 // under the License.
 
 import * as fs from "fs";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, test } from "vitest";
 import {
   Convert,
   PrivateKey,
@@ -91,14 +91,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
     expect(buildInformation.version).toEqual("0.12.0");
   });
 
-  it("Derive Virtual Account Address From Public Key works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      DeriveVirtualAccountAddressFromPublicKeyInput,
-      DeriveVirtualAccountAddressFromPublicKeyOutput
-    >("derive", "derive_virtual_account_address_from_public_key");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    DeriveVirtualAccountAddressFromPublicKeyInput,
+    DeriveVirtualAccountAddressFromPublicKeyOutput
+  >(
+    "derive",
+    "derive_virtual_account_address_from_public_key",
+    async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
@@ -108,17 +107,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(outputVector);
-    });
-  });
+    }
+  );
 
-  it("Derive Virtual Identity Address From Public Key works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      DeriveVirtualIdentityAddressFromPublicKeyInput,
-      DeriveVirtualIdentityAddressFromPublicKeyOutput
-    >("derive", "derive_virtual_identity_address_from_public_key");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    DeriveVirtualIdentityAddressFromPublicKeyInput,
+    DeriveVirtualIdentityAddressFromPublicKeyOutput
+  >(
+    "derive",
+    "derive_virtual_identity_address_from_public_key",
+    async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(
@@ -127,17 +125,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
         );
       // Assert
       expect(output).toEqual(outputVector);
-    });
-  });
+    }
+  );
 
-  it("Derive Virtual Account Address From Olympia Account Address works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      DeriveVirtualAccountAddressFromOlympiaAccountAddressInput,
-      DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput
-    >("derive", "derive_virtual_account_address_from_olympia_account_address");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    DeriveVirtualAccountAddressFromOlympiaAccountAddressInput,
+    DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput
+  >(
+    "derive",
+    "derive_virtual_account_address_from_olympia_account_address",
+    async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
@@ -146,17 +143,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
         );
       // Assert
       expect(output).toEqual(outputVector);
-    });
-  });
+    }
+  );
 
-  it("Derive Public Key From Olympia Account Address works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      DerivePublicKeyFromOlympiaAccountAddressInput,
-      DerivePublicKeyFromOlympiaAccountAddressOutput
-    >("derive", "derive_public_key_from_olympia_account_address");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    DerivePublicKeyFromOlympiaAccountAddressInput,
+    DerivePublicKeyFromOlympiaAccountAddressOutput
+  >(
+    "derive",
+    "derive_public_key_from_olympia_account_address",
+    async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(
@@ -165,17 +161,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Derive Olympia Address from Public Key works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      DeriveOlympiaAccountAddressFromPublicKeyInput,
-      DeriveOlympiaAccountAddressFromPublicKeyOutput
-    >("derive", "derive_olympia_account_address_from_public_key");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    DeriveOlympiaAccountAddressFromPublicKeyInput,
+    DeriveOlympiaAccountAddressFromPublicKeyOutput
+  >(
+    "derive",
+    "derive_olympia_account_address_from_public_key",
+    async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.Derive.olympiaAccountAddressFromPublicKey(
@@ -187,17 +182,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(outputVector);
-    });
-  });
+    }
+  );
 
-  it("Derive Node Address from Public Key works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      DeriveNodeAddressFromPublicKeyInput,
-      DeriveNodeAddressFromPublicKeyOutput
-    >("derive", "derive_node_address_from_public_key");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    DeriveNodeAddressFromPublicKeyInput,
+    DeriveNodeAddressFromPublicKeyOutput
+  >(
+    "derive",
+    "derive_node_address_from_public_key",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Derive.nodeAddressFromPublicKey(
         Convert.HexString.toUint8Array(inputVector.public_key),
@@ -206,17 +200,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(outputVector);
-    });
-  });
+    }
+  );
 
-  it("Convert Instructions works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      InstructionsConvertInput,
-      InstructionsConvertOutput
-    >("instructions", "instructions_convert");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<InstructionsConvertInput, InstructionsConvertOutput>(
+    "instructions",
+    "instructions_convert",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Instructions.convert(
         GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
@@ -228,17 +218,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(GeneratedConverter.Instructions.toGenerated(output)).toEqual(
         outputVector
       );
-    });
-  });
+    }
+  );
 
-  it("Compile Instructions works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      InstructionsCompileInput,
-      InstructionsCompileOutput
-    >("instructions", "instructions_compile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<InstructionsCompileInput, InstructionsCompileOutput>(
+    "instructions",
+    "instructions_compile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Instructions.compile(
         GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
@@ -247,17 +233,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Decompile Instructions works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      InstructionsDecompileInput,
-      InstructionsDecompileOutput
-    >("instructions", "instructions_decompile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<InstructionsDecompileInput, InstructionsDecompileOutput>(
+    "instructions",
+    "instructions_decompile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Instructions.decompile(
         Convert.HexString.toUint8Array(inputVector.compiled),
@@ -269,17 +251,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(GeneratedConverter.Instructions.toGenerated(output)).toEqual(
         outputVector
       );
-    });
-  });
+    }
+  );
 
-  it("Extract Addresses from Instructions works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      InstructionsExtractAddressesInput,
-      InstructionsExtractAddressesOutput
-    >("instructions", "instructions_extract_addresses");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    InstructionsExtractAddressesInput,
+    InstructionsExtractAddressesOutput
+  >(
+    "instructions",
+    "instructions_extract_addresses",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Instructions.extractAddresses(
         GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
@@ -290,17 +271,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(convertRecordValueToSet(output)).toEqual(
         convertRecordValueToSet(outputVector.addresses)
       );
-    });
-  });
+    }
+  );
 
-  it("Statically Validate Instructions works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      InstructionsStaticallyValidateInput,
-      InstructionsStaticallyValidateOutput
-    >("instructions", "instructions_statically_validate");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    InstructionsStaticallyValidateInput,
+    InstructionsStaticallyValidateOutput
+  >(
+    "instructions",
+    "instructions_statically_validate",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Instructions.staticallyValidate(
         GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
@@ -309,17 +289,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output.kind).toEqual(outputVector.kind);
-    });
-  });
+    }
+  );
 
-  it("Compile Manifest works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      ManifestCompileInput,
-      ManifestCompileOutput
-    >("manifest", "manifest_compile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<ManifestCompileInput, ManifestCompileOutput>(
+    "manifest",
+    "manifest_compile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.TransactionManifest.compile(
         GeneratedConverter.TransactionManifest.fromGenerated(
@@ -330,17 +306,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Decompile TransactionManifest works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      ManifestDecompileInput,
-      ManifestDecompileOutput
-    >("manifest", "manifest_decompile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<ManifestDecompileInput, ManifestDecompileOutput>(
+    "manifest",
+    "manifest_decompile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.TransactionManifest.decompile(
         Convert.HexString.toUint8Array(inputVector.compiled),
@@ -352,17 +324,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(
         GeneratedConverter.TransactionManifest.toGenerated(output)
       ).toEqual(outputVector);
-    });
-  });
+    }
+  );
 
-  it("Statically Validate TransactionManifest works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      ManifestStaticallyValidateInput,
-      ManifestStaticallyValidateOutput
-    >("manifest", "manifest_statically_validate");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    ManifestStaticallyValidateInput,
+    ManifestStaticallyValidateOutput
+  >(
+    "manifest",
+    "manifest_statically_validate",
+    async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.TransactionManifest.staticallyValidate(
@@ -374,17 +345,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output.kind).toEqual(outputVector.kind);
-    });
-  });
+    }
+  );
 
-  it("Compile Intent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      IntentCompileInput,
-      IntentCompileOutput
-    >("intent", "intent_compile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<IntentCompileInput, IntentCompileOutput>(
+    "intent",
+    "intent_compile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.compile(
         GeneratedConverter.Intent.fromGenerated(inputVector)
@@ -392,17 +359,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Hash Intent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      IntentHashInput,
-      IntentHashOutput
-    >("intent", "intent_hash");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<IntentHashInput, IntentHashOutput>(
+    "intent",
+    "intent_hash",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.hash(
         GeneratedConverter.Intent.fromGenerated(inputVector)
@@ -410,17 +373,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Decompile Intent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      IntentDecompileInput,
-      IntentDecompileOutput
-    >("intent", "intent_decompile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<IntentDecompileInput, IntentDecompileOutput>(
+    "intent",
+    "intent_decompile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.decompile(
         Convert.HexString.toUint8Array(inputVector.compiled),
@@ -431,17 +390,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(GeneratedConverter.Intent.toGenerated(output)).toEqual(
         outputVector
       );
-    });
-  });
+    }
+  );
 
-  it("Statically Validate Intent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      IntentStaticallyValidateInput,
-      IntentStaticallyValidateOutput
-    >("intent", "intent_statically_validate");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    IntentStaticallyValidateInput,
+    IntentStaticallyValidateOutput
+  >(
+    "intent",
+    "intent_statically_validate",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.staticallyValidate(
         GeneratedConverter.Intent.fromGenerated(inputVector.intent),
@@ -452,17 +410,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output.kind).toEqual(outputVector.kind);
-    });
-  });
+    }
+  );
 
-  it("Compile SignedIntent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      SignedIntentCompileInput,
-      SignedIntentCompileOutput
-    >("signed_intent", "signed_intent_compile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<SignedIntentCompileInput, SignedIntentCompileOutput>(
+    "signed_intent",
+    "signed_intent_compile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.SignedIntent.compile(
         GeneratedConverter.SignedIntent.fromGenerated(inputVector)
@@ -470,17 +424,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Hash SignedIntent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      SignedIntentHashInput,
-      SignedIntentHashOutput
-    >("signed_intent", "signed_intent_hash");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<SignedIntentHashInput, SignedIntentHashOutput>(
+    "signed_intent",
+    "signed_intent_hash",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.SignedIntent.hash(
         GeneratedConverter.SignedIntent.fromGenerated(inputVector)
@@ -488,17 +438,13 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Decompile SignedIntent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      SignedIntentDecompileInput,
-      SignedIntentDecompileOutput
-    >("signed_intent", "signed_intent_decompile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<SignedIntentDecompileInput, SignedIntentDecompileOutput>(
+    "signed_intent",
+    "signed_intent_decompile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.SignedIntent.decompile(
         Convert.HexString.toUint8Array(inputVector.compiled),
@@ -509,17 +455,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(GeneratedConverter.SignedIntent.toGenerated(output)).toEqual(
         outputVector
       );
-    });
-  });
+    }
+  );
 
-  it("Statically Validate SignedIntent works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      SignedIntentStaticallyValidateInput,
-      SignedIntentStaticallyValidateOutput
-    >("signed_intent", "signed_intent_statically_validate");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    SignedIntentStaticallyValidateInput,
+    SignedIntentStaticallyValidateOutput
+  >(
+    "signed_intent",
+    "signed_intent_statically_validate",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.SignedIntent.staticallyValidate(
         GeneratedConverter.SignedIntent.fromGenerated(
@@ -532,17 +477,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output.kind).toEqual(outputVector.kind);
-    });
-  });
+    }
+  );
 
-  it("Compile NotarizedTransaction works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      NotarizedTransactionCompileInput,
-      NotarizedTransactionCompileOutput
-    >("notarized_transaction", "notarized_transaction_compile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    NotarizedTransactionCompileInput,
+    NotarizedTransactionCompileOutput
+  >(
+    "notarized_transaction",
+    "notarized_transaction_compile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.NotarizedTransaction.compile(
         GeneratedConverter.NotarizedTransaction.fromGenerated(inputVector)
@@ -550,17 +494,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Hash NotarizedTransaction works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      NotarizedTransactionHashInput,
-      NotarizedTransactionHashOutput
-    >("notarized_transaction", "notarized_transaction_hash");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    NotarizedTransactionHashInput,
+    NotarizedTransactionHashOutput
+  >(
+    "notarized_transaction",
+    "notarized_transaction_hash",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.NotarizedTransaction.hash(
         GeneratedConverter.NotarizedTransaction.fromGenerated(inputVector)
@@ -568,17 +511,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
-    });
-  });
+    }
+  );
 
-  it("Decompile NotarizedTransaction works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      NotarizedTransactionDecompileInput,
-      NotarizedTransactionDecompileOutput
-    >("notarized_transaction", "notarized_transaction_decompile");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    NotarizedTransactionDecompileInput,
+    NotarizedTransactionDecompileOutput
+  >(
+    "notarized_transaction",
+    "notarized_transaction_decompile",
+    async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.NotarizedTransaction.decompile(
         Convert.HexString.toUint8Array(inputVector.compiled),
@@ -589,17 +531,16 @@ describe("Default Radix Engine Toolkit Tests", () => {
       expect(
         GeneratedConverter.NotarizedTransaction.toGenerated(output)
       ).toEqual(outputVector);
-    });
-  });
+    }
+  );
 
-  it("Statically Validate NotarizedTransaction works as expected", async () => {
-    // Arrange
-    const testVectorsProvider = new TestVectorsProvider<
-      NotarizedTransactionStaticallyValidateInput,
-      NotarizedTransactionStaticallyValidateOutput
-    >("notarized_transaction", "notarized_transaction_statically_validate");
-
-    await testVectorsProvider.forEach(async (inputVector, outputVector) => {
+  moduleTestVector<
+    NotarizedTransactionStaticallyValidateInput,
+    NotarizedTransactionStaticallyValidateOutput
+  >(
+    "notarized_transaction",
+    "notarized_transaction_statically_validate",
+    async (inputVector, outputVector) => {
       // Act
       const output =
         await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
@@ -613,8 +554,31 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
       // Assert
       expect(output.kind).toEqual(outputVector.kind);
-    });
-  });
+    }
+  );
+
+  moduleTestVector<
+    NotarizedTransactionStaticallyValidateInput,
+    NotarizedTransactionStaticallyValidateOutput
+  >(
+    "notarized_transaction",
+    "notarized_transaction_statically_validate",
+    async (inputVector, outputVector) => {
+      // Act
+      const output =
+        await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
+          GeneratedConverter.NotarizedTransaction.fromGenerated(
+            inputVector.notarized_transaction
+          ),
+          GeneratedConverter.ValidationConfig.fromGenerated(
+            inputVector.validation_config
+          )
+        );
+
+      // Assert
+      expect(output.kind).toEqual(outputVector.kind);
+    }
+  );
 
   it("Transaction Builder Produces Statically Valid Transactions", async () => {
     // Arrange
@@ -659,28 +623,30 @@ describe("Default Radix Engine Toolkit Tests", () => {
   });
 });
 
-class TestVectorsProvider<I, O> {
-  private testVectors: {
+const moduleTestVector = <I, O>(
+  moduleName: string,
+  functionName: string,
+  callback: (input: I, output: O) => Promise<void>
+): any => {
+  type TestVector = {
     input: I;
     output: O;
-  }[];
+  };
 
-  constructor(moduleName: string, functionName: string) {
-    const fileContent = fs.readFileSync(
-      `./resources/function_examples/${moduleName}.json`,
-      "utf8"
-    );
-    this.testVectors = JSON.parse(fileContent)[functionName];
-  }
-
-  async forEach(
-    callback: (input: I, output: O) => Promise<void>
-  ): Promise<void> {
-    for (const { input, output } of this.testVectors) {
-      await callback(input, output);
+  const fileContent = fs.readFileSync(
+    `./resources/function_examples/${moduleName}.json`,
+    "utf8"
+  );
+  const testVectors: TestVector[] = JSON.parse(fileContent)[functionName];
+  return describe.concurrent(
+    `Module: "${moduleName}", Function: "${functionName}"`,
+    () => {
+      test.each(testVectors)("Case Number: %#.", async ({ input, output }) => {
+        await callback(input, output);
+      });
     }
-  }
-}
+  );
+};
 
 function convertRecordValueToSet<K extends string | number | symbol, V>(
   map: Record<K, V[]>
