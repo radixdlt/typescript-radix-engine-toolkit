@@ -266,8 +266,7 @@ export type SerializableTransactionType =
       kind: "AccountDepositSettings";
       value: SerializableAccountDepositSettingsTransactionType;
     }
-  | { kind: "GeneralTransaction"; value: SerializableGeneralTransactionType }
-  | { kind: "NonConforming"; value?: undefined };
+  | { kind: "GeneralTransaction"; value: SerializableGeneralTransactionType };
 
 export interface ExecutionAnalyzeOutput {
   fee_locks: SerializableFeeLocks;
@@ -944,7 +943,6 @@ export type SerializableInstruction =
         proof_id: SerializableU32;
       };
     }
-  | { kind: "ClearAuthZone"; value?: undefined }
   | {
       kind: "CreateProofFromAuthZoneOfAmount";
       value: {
@@ -965,7 +963,11 @@ export type SerializableInstruction =
         resource_address: SerializableNodeId;
       };
     }
-  | { kind: "ClearSignatureProofs"; value?: undefined }
+  | { kind: "DropAllProofs"; value?: undefined }
+  | { kind: "DropNamedProofs"; value?: undefined }
+  | { kind: "DropAuthZoneProofs"; value?: undefined }
+  | { kind: "DropAuthZoneRegularProofs"; value?: undefined }
+  | { kind: "DropAuthZoneSignatureProofs"; value?: undefined }
   | {
       kind: "CreateProofFromBucketOfAmount";
       value: {
@@ -1053,7 +1055,6 @@ export type SerializableInstruction =
         args: SerializableManifestValue;
       };
     }
-  | { kind: "DropAllProofs"; value?: undefined }
   | {
       kind: "AllocateGlobalAddress";
       value: {

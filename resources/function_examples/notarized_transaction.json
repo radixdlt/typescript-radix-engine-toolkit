@@ -3776,7 +3776,7 @@
                     }
                   },
                   {
-                    "kind": "ClearAuthZone"
+                    "kind": "DropAuthZoneProofs"
                   },
                   {
                     "kind": "CallMethod",
@@ -3874,10 +3874,16 @@
                     }
                   },
                   {
-                    "kind": "ClearAuthZone"
+                    "kind": "DropAuthZoneSignatureProofs"
                   },
                   {
-                    "kind": "ClearSignatureProofs"
+                    "kind": "DropAuthZoneRegularProofs"
+                  },
+                  {
+                    "kind": "DropAuthZoneProofs"
+                  },
+                  {
+                    "kind": "DropNamedProofs"
                   },
                   {
                     "kind": "DropAllProofs"
@@ -3917,13 +3923,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -3931,10 +3937,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+          "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
         }
       },
-      "output": "2ccc7c94b388d0c9f508f4996257489e737654cf58923f9ce2d34bffc1cc6da0"
+      "output": "42629d8681e978631548de1ed1df09e8551539815a2f83cc1e555f927b14b47d"
     },
     {
       "input": {
@@ -3955,7 +3961,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nCLEAR_AUTH_ZONE;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nCLEAR_AUTH_ZONE;\nCLEAR_SIGNATURE_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nDROP_AUTH_ZONE_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nDROP_AUTH_ZONE_SIGNATURE_PROOFS;\nDROP_AUTH_ZONE_REGULAR_PROOFS;\nDROP_AUTH_ZONE_PROOFS;\nDROP_NAMED_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
               },
               "blobs": []
             },
@@ -3967,13 +3973,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -3981,10 +3987,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+          "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
         }
       },
-      "output": "2ccc7c94b388d0c9f508f4996257489e737654cf58923f9ce2d34bffc1cc6da0"
+      "output": "42629d8681e978631548de1ed1df09e8551539815a2f83cc1e555f927b14b47d"
     },
     {
       "input": {
@@ -12018,7 +12024,7 @@
                     }
                   },
                   {
-                    "kind": "ClearAuthZone"
+                    "kind": "DropAuthZoneProofs"
                   },
                   {
                     "kind": "CallMethod",
@@ -12116,10 +12122,16 @@
                     }
                   },
                   {
-                    "kind": "ClearAuthZone"
+                    "kind": "DropAuthZoneSignatureProofs"
                   },
                   {
-                    "kind": "ClearSignatureProofs"
+                    "kind": "DropAuthZoneRegularProofs"
+                  },
+                  {
+                    "kind": "DropAuthZoneProofs"
+                  },
+                  {
+                    "kind": "DropNamedProofs"
                   },
                   {
                     "kind": "DropAllProofs"
@@ -12159,13 +12171,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -12173,10 +12185,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+          "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221441032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b12001700500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b6701022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007407a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a220001210120074101103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221641032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b1700130012005200500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f220001210120074101c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
     },
     {
       "input": {
@@ -12197,7 +12209,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nCLEAR_AUTH_ZONE;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nCLEAR_AUTH_ZONE;\nCLEAR_SIGNATURE_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nDROP_AUTH_ZONE_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nDROP_AUTH_ZONE_SIGNATURE_PROOFS;\nDROP_AUTH_ZONE_REGULAR_PROOFS;\nDROP_AUTH_ZONE_PROOFS;\nDROP_NAMED_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
               },
               "blobs": []
             },
@@ -12209,13 +12221,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -12223,10 +12235,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+          "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221441032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b12001700500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b6701022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007407a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a220001210120074101103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221641032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b1700130012005200500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f220001210120074101c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
     },
     {
       "input": {
@@ -17864,7 +17876,7 @@
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221441032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b12001700500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b6701022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007407a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a220001210120074101103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221641032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b1700130012005200500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f220001210120074101c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9",
         "instructions_kind": "String"
       },
       "output": {
@@ -17885,7 +17897,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nCLEAR_AUTH_ZONE;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nCLEAR_AUTH_ZONE;\nCLEAR_SIGNATURE_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nDROP_AUTH_ZONE_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nDROP_AUTH_ZONE_SIGNATURE_PROOFS;\nDROP_AUTH_ZONE_REGULAR_PROOFS;\nDROP_AUTH_ZONE_PROOFS;\nDROP_NAMED_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
               },
               "blobs": []
             },
@@ -17897,13 +17909,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -17911,13 +17923,13 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+          "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
         }
       }
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221441032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b12001700500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b6701022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007407a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a220001210120074101103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020221641032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000f44482916345000000000000000000000000000000000000000000000000020180005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c62102810000000085000064a7b3b6e00d0000000000000000000000000000000000000000000000002202810000000020870101000000000000007b23018100000000300182020000003101820300000031018202000000120041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f4448291634500000000000000000000000000000000000000000000000010003101820400000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c166372656174655f70726f6f665f6f665f616d6f756e74210280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b99850000f44482916345000000000000000000000000000000000000000000000000140280005dd8ee1db7d7ed5217735e7766495477fe03f5a0aaa1617121aecee31b9985000064a7b3b6e00d000000000000000000000000000000000000000000000000150280009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b20870101000000000000007b160180009a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b1700130012005200500041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c0d6465706f7369745f62617463682101830020200022000020220200012101200741003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f220001210120074101c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9",
         "instructions_kind": "String"
       },
       "output": {
@@ -17938,7 +17950,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nCLEAR_AUTH_ZONE;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nCLEAR_AUTH_ZONE;\nCLEAR_SIGNATURE_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nDROP_AUTH_ZONE_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nDROP_AUTH_ZONE_SIGNATURE_PROOFS;\nDROP_AUTH_ZONE_REGULAR_PROOFS;\nDROP_AUTH_ZONE_PROOFS;\nDROP_NAMED_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
               },
               "blobs": []
             },
@@ -17950,13 +17962,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -17964,7 +17976,7 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+          "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
         }
       }
     },
@@ -23513,7 +23525,7 @@
                       }
                     },
                     {
-                      "kind": "ClearAuthZone"
+                      "kind": "DropAuthZoneProofs"
                     },
                     {
                       "kind": "CallMethod",
@@ -23611,10 +23623,16 @@
                       }
                     },
                     {
-                      "kind": "ClearAuthZone"
+                      "kind": "DropAuthZoneSignatureProofs"
                     },
                     {
-                      "kind": "ClearSignatureProofs"
+                      "kind": "DropAuthZoneRegularProofs"
+                    },
+                    {
+                      "kind": "DropAuthZoneProofs"
+                    },
+                    {
+                      "kind": "DropNamedProofs"
                     },
                     {
                       "kind": "DropAllProofs"
@@ -23654,13 +23672,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                  "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                  "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -23668,7 +23686,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+            "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
           }
         },
         "validation_config": {
@@ -23711,7 +23729,7 @@
               "manifest": {
                 "instructions": {
                   "kind": "String",
-                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nCLEAR_AUTH_ZONE;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nCLEAR_AUTH_ZONE;\nCLEAR_SIGNATURE_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"5\")\n;\nTAKE_ALL_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Bucket(\"bucket1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_AMOUNT\n    Bucket(\"bucket1\")\n    Decimal(\"1\")\n    Proof(\"proof1\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_NON_FUNGIBLES\n    Bucket(\"bucket1\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof2\")\n;\nCREATE_PROOF_FROM_BUCKET_OF_ALL\n    Bucket(\"bucket1\")\n    Proof(\"proof3\")\n;\nCLONE_PROOF\n    Proof(\"proof3\")\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof4\")\n;\nDROP_PROOF\n    Proof(\"proof3\")\n;\nDROP_AUTH_ZONE_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nPOP_FROM_AUTH_ZONE\n    Proof(\"proof5\")\n;\nDROP_PROOF\n    Proof(\"proof5\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"create_proof_of_amount\"\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"5\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_AMOUNT\n    Address(\"resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez\")\n    Decimal(\"1\")\n    Proof(\"proof6\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_NON_FUNGIBLES\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Array<NonFungibleLocalId>(\n        NonFungibleLocalId(\"#123#\")\n    )\n    Proof(\"proof7\")\n;\nCREATE_PROOF_FROM_AUTH_ZONE_OF_ALL\n    Address(\"resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha\")\n    Proof(\"proof8\")\n;\nDROP_AUTH_ZONE_SIGNATURE_PROOFS;\nDROP_AUTH_ZONE_REGULAR_PROOFS;\nDROP_AUTH_ZONE_PROOFS;\nDROP_NAMED_PROOFS;\nDROP_ALL_PROOFS;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"deposit_batch\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
                 },
                 "blobs": []
               },
@@ -23723,13 +23741,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "010f8330edaf53526f2215139d9e4dcea48dfdbf1072be0eea42a49fff6b5724c517d3c55545d8db078d3f692de7e48d72ecaf01be7e3199437d4296426b164b67"
+                  "signature": "003a6775782aca5c1852f091d86f2e6e03f593daec85372e8800aeb6ae392a3f0d3ce7f043cf9a1904de60942b58dc78caa07f0cd69cb8d066b74aca3896e601ac"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "7a04e0280d973070592c0ede48eec3f0187a8b24fcf4e02e8a9bca17a088cc48b1e18ba68751b43ede2dad063636c06098fc58d629ec7c8e98f60acbc720e10a",
+                  "signature": "328ba033ca8da0bf41581e65721ff8123714556bc71bf04b21f86640e9cb58f831a19b642f35d13c96db6260ef573785287a2f7e0b81e87f2d7d26dcc836fe0f",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -23737,7 +23755,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "01103fc9d7a38244011efc0114983b9aa0a040de4132875b637e91c12be715d3762180c0d57fdfdf242e26390615cbf9016029a7685d99a66a3e43144fe783ba83"
+            "value": "01c55bc26d29a0928bdae24ca07cd53e064550f75ab05d7cca178d1a159f7873c53c0adeb5292dd3433a436bc5bc07fbb17fae739bd9431f376a6c430d43204ac9"
           }
         },
         "validation_config": {

@@ -127,9 +127,9 @@ export class ManifestBuilder {
     return this;
   }
 
-  clearAuthZone(): this {
+  dropAuthZoneProofs(): this {
     const instruction: Instruction = {
-      kind: "ClearAuthZone",
+      kind: "DropAuthZoneProofs",
     };
     this.instructions.push(instruction);
     return this;
@@ -181,9 +181,9 @@ export class ManifestBuilder {
     return callback(this, proofId);
   }
 
-  clearSignatureProofs(): this {
+  dropAuthZoneSignatureProofs(): this {
     const instruction: Instruction = {
-      kind: "ClearSignatureProofs",
+      kind: "DropAuthZoneSignatureProofs",
     };
     this.instructions.push(instruction);
     return this;

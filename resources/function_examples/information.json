@@ -3,10 +3,10 @@
     {
       "input": {},
       "output": {
-        "version": "0.12.0",
+        "version": "0.12.0-fig.1",
         "scrypto_dependency": {
           "kind": "Tag",
-          "value": "develop-0e5d82a0"
+          "value": "develop-d663d07"
         }
       }
     }

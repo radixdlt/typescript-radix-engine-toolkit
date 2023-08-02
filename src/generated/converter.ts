@@ -578,7 +578,10 @@ export class GeneratedConverter {
               proof_id: Convert.Number.toString(value.proofId),
             },
           };
-        case "ClearAuthZone":
+        case "DropNamedProofs":
+        case "DropAuthZoneProofs":
+        case "DropAuthZoneRegularProofs":
+        case "DropAuthZoneSignatureProofs":
           return {
             kind: value.kind,
           };
@@ -605,10 +608,7 @@ export class GeneratedConverter {
               resource_address: value.resourceAddress,
             },
           };
-        case "ClearSignatureProofs":
-          return {
-            kind: value.kind,
-          };
+
         case "CreateProofFromBucketOfAmount":
           return {
             kind: value.kind,
@@ -753,7 +753,10 @@ export class GeneratedConverter {
             kind: value.kind,
             proofId: Convert.String.toNumber(value.value.proof_id),
           };
-        case "ClearAuthZone":
+        case "DropNamedProofs":
+        case "DropAuthZoneProofs":
+        case "DropAuthZoneRegularProofs":
+        case "DropAuthZoneSignatureProofs":
           return {
             kind: value.kind,
           };
@@ -773,10 +776,6 @@ export class GeneratedConverter {
           return {
             kind: value.kind,
             resourceAddress: value.value.resource_address,
-          };
-        case "ClearSignatureProofs":
-          return {
-            kind: value.kind,
           };
         case "CreateProofFromBucketOfAmount":
           return {
@@ -1512,10 +1511,6 @@ export class GeneratedConverter {
               metadata_of_newly_created_entities: {},
             },
           };
-        case "NonConforming":
-          return {
-            kind: value.kind,
-          };
       }
     }
 
@@ -1603,10 +1598,6 @@ export class GeneratedConverter {
                 ]),
               ]
             ),
-          };
-        case "NonConforming":
-          return {
-            kind: value.kind,
           };
       }
     }

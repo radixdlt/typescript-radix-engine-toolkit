@@ -51,8 +51,7 @@ export type TransactionType =
       accountDeposits: Record<string, ResourceTracker[]>;
       addressesInManifest: Record<string, string[]>;
       dataOfNewlyMintedNonFungibles: Record<string, Record<string, Uint8Array>>;
-    }
-  | { kind: "NonConforming" };
+    };
 
 export type ResourceSpecifier =
   | {

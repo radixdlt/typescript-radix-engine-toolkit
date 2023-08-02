@@ -56,7 +56,7 @@ export type Instruction =
       kind: "PushToAuthZone";
       proofId: number;
     }
-  | { kind: "ClearAuthZone" }
+  | { kind: "DropAuthZoneProofs" }
   | {
       kind: "CreateProofFromAuthZoneOfAmount";
       resourceAddress: string;
@@ -71,7 +71,9 @@ export type Instruction =
       kind: "CreateProofFromAuthZoneOfAll";
       resourceAddress: string;
     }
-  | { kind: "ClearSignatureProofs" }
+  | { kind: "DropNamedProofs" }
+  | { kind: "DropAuthZoneRegularProofs" }
+  | { kind: "DropAuthZoneSignatureProofs" }
   | {
       kind: "CreateProofFromBucketOfAmount";
       bucketId: number;
