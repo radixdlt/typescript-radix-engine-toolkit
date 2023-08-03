@@ -1495,7 +1495,10 @@ export class GeneratedConverter {
                 ]
               ),
               addresses_in_manifest: {
-                addresses: value.addressesInManifest,
+                addresses: recordMap(
+                  value.addressesInManifest,
+                  (key, value) => [key, [...value]]
+                ),
                 named_addresses: [],
               },
               data_of_newly_minted_non_fungibles: recordMap(
@@ -1587,7 +1590,10 @@ export class GeneratedConverter {
                 value.map(GeneratedConverter.ResourceTracker.fromGenerated),
               ]
             ),
-            addressesInManifest: value.value.addresses_in_manifest.addresses,
+            addressesInManifest: recordMap(
+              value.value.addresses_in_manifest.addresses,
+              (key, value) => [key, new Set(value)]
+            ),
             dataOfNewlyMintedNonFungibles: recordMap(
               value.value.data_of_newly_minted_non_fungibles,
               (key, value) => [

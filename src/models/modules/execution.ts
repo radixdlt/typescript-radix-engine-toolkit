@@ -49,7 +49,7 @@ export type TransactionType =
       accountProofs: string[];
       accountWithdraws: Record<string, ResourceTracker[]>;
       accountDeposits: Record<string, ResourceTracker[]>;
-      addressesInManifest: Record<string, string[]>;
+      addressesInManifest: Record<string, Set<string>>;
       dataOfNewlyMintedNonFungibles: Record<string, Record<string, Uint8Array>>;
     };
 
