@@ -5867,7 +5867,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "change_account_default_deposit_rule",
+                      "method_name": "set_default_deposit_rule",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -5891,7 +5891,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "change_account_default_deposit_rule",
+                      "method_name": "set_default_deposit_rule",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -5915,7 +5915,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "change_account_default_deposit_rule",
+                      "method_name": "set_default_deposit_rule",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -5939,73 +5939,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "configure_resource_deposit_rule",
-                      "args": {
-                        "kind": "Tuple",
-                        "value": {
-                          "fields": [
-                            {
-                              "kind": "Address",
-                              "value": {
-                                "value": {
-                                  "kind": "Static",
-                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                                }
-                              }
-                            },
-                            {
-                              "kind": "Enum",
-                              "value": {
-                                "discriminator": "1",
-                                "fields": []
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "kind": "CallMethod",
-                    "value": {
-                      "address": {
-                        "kind": "Static",
-                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                      },
-                      "method_name": "configure_resource_deposit_rule",
-                      "args": {
-                        "kind": "Tuple",
-                        "value": {
-                          "fields": [
-                            {
-                              "kind": "Address",
-                              "value": {
-                                "value": {
-                                  "kind": "Static",
-                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                                }
-                              }
-                            },
-                            {
-                              "kind": "Enum",
-                              "value": {
-                                "discriminator": "2",
-                                "fields": []
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "kind": "CallMethod",
-                    "value": {
-                      "address": {
-                        "kind": "Static",
-                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                      },
-                      "method_name": "configure_resource_deposit_rule",
+                      "method_name": "set_resource_preference",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -6024,6 +5958,65 @@
                               "value": {
                                 "discriminator": "0",
                                 "fields": []
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "kind": "CallMethod",
+                    "value": {
+                      "address": {
+                        "kind": "Static",
+                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                      },
+                      "method_name": "set_resource_preference",
+                      "args": {
+                        "kind": "Tuple",
+                        "value": {
+                          "fields": [
+                            {
+                              "kind": "Address",
+                              "value": {
+                                "value": {
+                                  "kind": "Static",
+                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                                }
+                              }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "1",
+                                "fields": []
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "kind": "CallMethod",
+                    "value": {
+                      "address": {
+                        "kind": "Static",
+                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                      },
+                      "method_name": "remove_resource_preference",
+                      "args": {
+                        "kind": "Tuple",
+                        "value": {
+                          "fields": [
+                            {
+                              "kind": "Address",
+                              "value": {
+                                "value": {
+                                  "kind": "Static",
+                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                                }
                               }
                             }
                           ]
@@ -6043,13 +6036,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -6057,10 +6050,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+          "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
         }
       },
-      "output": "671a1e960dcdea9d88d3b9eca1db8d8ba4da4140fbc852b9f909fb4af296a6b3"
+      "output": "6303020b128a8faba9e93810138383da894a99c3e24314d7cd7d2a2d273628a4"
     },
     {
       "input": {
@@ -6081,7 +6074,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
               },
               "blobs": []
             },
@@ -6093,13 +6086,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -6107,10 +6100,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+          "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
         }
       },
-      "output": "671a1e960dcdea9d88d3b9eca1db8d8ba4da4140fbc852b9f909fb4af296a6b3"
+      "output": "6303020b128a8faba9e93810138383da894a99c3e24314d7cd7d2a2d273628a4"
     },
     {
       "input": {
@@ -6211,6 +6204,13 @@
                               "value": {
                                 "value": "0"
                               }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
+                              }
                             }
                           ]
                         }
@@ -6240,6 +6240,13 @@
                               "kind": "Bucket",
                               "value": {
                                 "value": "1"
+                              }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
                               }
                             }
                           ]
@@ -6271,6 +6278,13 @@
                               "value": {
                                 "value": "2"
                               }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
+                              }
                             }
                           ]
                         }
@@ -6289,13 +6303,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -6303,10 +6317,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+          "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
         }
       },
-      "output": "514155d07506acf2e2949f9214d0547592884906785aeddac3b85fc5f220b14f"
+      "output": "73088af7ee128e5cdc1f2589f879ce26a89d5a6c6bf13e04e856d14c6b2081a2"
     },
     {
       "input": {
@@ -6327,7 +6341,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
               },
               "blobs": []
             },
@@ -6339,13 +6353,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -6353,10 +6367,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+          "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
         }
       },
-      "output": "514155d07506acf2e2949f9214d0547592884906785aeddac3b85fc5f220b14f"
+      "output": "73088af7ee128e5cdc1f2589f879ce26a89d5a6c6bf13e04e856d14c6b2081a2"
     },
     {
       "input": {
@@ -6601,6 +6615,13 @@
                               "value": {
                                 "value": "EntireWorktop"
                               }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
+                              }
                             }
                           ]
                         }
@@ -6619,13 +6640,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -6633,10 +6654,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+          "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
         }
       },
-      "output": "47ada1109bc886b03ad9d9fec3551a6572eace001a2befc50d2eae11780a79a5"
+      "output": "740ac4e73e9061b2a20565fd1c2c8cb21c4d16d0de20d65dc90841e0b418a70a"
     },
     {
       "input": {
@@ -6657,7 +6678,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
               },
               "blobs": []
             },
@@ -6669,13 +6690,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -6683,10 +6704,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+          "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
         }
       },
-      "output": "47ada1109bc886b03ad9d9fec3551a6572eace001a2befc50d2eae11780a79a5"
+      "output": "740ac4e73e9061b2a20565fd1c2c8cb21c4d16d0de20d65dc90841e0b418a70a"
     },
     {
       "input": {
@@ -14115,7 +14136,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "change_account_default_deposit_rule",
+                      "method_name": "set_default_deposit_rule",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -14139,7 +14160,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "change_account_default_deposit_rule",
+                      "method_name": "set_default_deposit_rule",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -14163,7 +14184,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "change_account_default_deposit_rule",
+                      "method_name": "set_default_deposit_rule",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -14187,73 +14208,7 @@
                         "kind": "Static",
                         "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                       },
-                      "method_name": "configure_resource_deposit_rule",
-                      "args": {
-                        "kind": "Tuple",
-                        "value": {
-                          "fields": [
-                            {
-                              "kind": "Address",
-                              "value": {
-                                "value": {
-                                  "kind": "Static",
-                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                                }
-                              }
-                            },
-                            {
-                              "kind": "Enum",
-                              "value": {
-                                "discriminator": "1",
-                                "fields": []
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "kind": "CallMethod",
-                    "value": {
-                      "address": {
-                        "kind": "Static",
-                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                      },
-                      "method_name": "configure_resource_deposit_rule",
-                      "args": {
-                        "kind": "Tuple",
-                        "value": {
-                          "fields": [
-                            {
-                              "kind": "Address",
-                              "value": {
-                                "value": {
-                                  "kind": "Static",
-                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                                }
-                              }
-                            },
-                            {
-                              "kind": "Enum",
-                              "value": {
-                                "discriminator": "2",
-                                "fields": []
-                              }
-                            }
-                          ]
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "kind": "CallMethod",
-                    "value": {
-                      "address": {
-                        "kind": "Static",
-                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                      },
-                      "method_name": "configure_resource_deposit_rule",
+                      "method_name": "set_resource_preference",
                       "args": {
                         "kind": "Tuple",
                         "value": {
@@ -14272,6 +14227,65 @@
                               "value": {
                                 "discriminator": "0",
                                 "fields": []
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "kind": "CallMethod",
+                    "value": {
+                      "address": {
+                        "kind": "Static",
+                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                      },
+                      "method_name": "set_resource_preference",
+                      "args": {
+                        "kind": "Tuple",
+                        "value": {
+                          "fields": [
+                            {
+                              "kind": "Address",
+                              "value": {
+                                "value": {
+                                  "kind": "Static",
+                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                                }
+                              }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "1",
+                                "fields": []
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "kind": "CallMethod",
+                    "value": {
+                      "address": {
+                        "kind": "Static",
+                        "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                      },
+                      "method_name": "remove_resource_preference",
+                      "args": {
+                        "kind": "Tuple",
+                        "value": {
+                          "fields": [
+                            {
+                              "kind": "Address",
+                              "value": {
+                                "value": {
+                                  "kind": "Static",
+                                  "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                                }
                               }
                             }
                           ]
@@ -14291,13 +14305,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -14305,10 +14319,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+          "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000020200022000020220200012101200741018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074071b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f22000121012007410032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f63982020002200002022020001210120074101e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a0301022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007408b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c22000121012007410052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
     },
     {
       "input": {
@@ -14329,7 +14343,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
               },
               "blobs": []
             },
@@ -14341,13 +14355,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -14355,10 +14369,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+          "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000020200022000020220200012101200741018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074071b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f22000121012007410032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f63982020002200002022020001210120074101e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a0301022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007408b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c22000121012007410052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
     },
     {
       "input": {
@@ -14459,6 +14473,13 @@
                               "value": {
                                 "value": "0"
                               }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
+                              }
                             }
                           ]
                         }
@@ -14488,6 +14509,13 @@
                               "kind": "Bucket",
                               "value": {
                                 "value": "1"
+                              }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
                               }
                             }
                           ]
@@ -14519,6 +14547,13 @@
                               "value": {
                                 "value": "2"
                               }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
+                              }
                             }
                           ]
                         }
@@ -14537,13 +14572,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -14551,10 +14586,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+          "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210181020000002020002200002022020001210120074101c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074050ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec0922000121012007410125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210281020000002200002020002200002022020001210120074101b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007406b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902220001210120074100c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
     },
     {
       "input": {
@@ -14575,7 +14610,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
               },
               "blobs": []
             },
@@ -14587,13 +14622,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -14601,10 +14636,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+          "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210181020000002020002200002022020001210120074101c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074050ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec0922000121012007410125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210281020000002200002020002200002022020001210120074101b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007406b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902220001210120074100c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
     },
     {
       "input": {
@@ -14849,6 +14884,13 @@
                               "value": {
                                 "value": "EntireWorktop"
                               }
+                            },
+                            {
+                              "kind": "Enum",
+                              "value": {
+                                "discriminator": "0",
+                                "fields": []
+                              }
                             }
                           ]
                         }
@@ -14867,13 +14909,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -14881,10 +14923,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+          "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f72742101830020200022000020220200012101200741008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee0022000121012007410039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f7274210283002200002020002200002022020001210120074101d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b4101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07220001210120074100ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
     },
     {
       "input": {
@@ -14905,7 +14947,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
               },
               "blobs": []
             },
@@ -14917,13 +14959,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -14931,10 +14973,10 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+          "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
         }
       },
-      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f72742101830020200022000020220200012101200741008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee0022000121012007410039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+      "output": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f7274210283002200002020002200002022020001210120074101d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b4101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07220001210120074100ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
     },
     {
       "input": {
@@ -18618,7 +18660,7 @@
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000020200022000020220200012101200741018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074071b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f22000121012007410032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f63982020002200002022020001210120074101e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a0301022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007408b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c22000121012007410052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299",
         "instructions_kind": "String"
       },
       "output": {
@@ -18639,7 +18681,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
               },
               "blobs": []
             },
@@ -18651,13 +18693,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -18665,13 +18707,13 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+          "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
         }
       }
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000020200022000020220200012101200741018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074071b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f22000121012007410032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f63982020002200002022020001210120074101e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a0301022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007408b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c22000121012007410052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299",
         "instructions_kind": "String"
       },
       "output": {
@@ -18692,7 +18734,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
               },
               "blobs": []
             },
@@ -18704,13 +18746,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -18718,13 +18760,13 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+          "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
         }
       }
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210181020000002020002200002022020001210120074101c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074050ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec0922000121012007410125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210281020000002200002020002200002022020001210120074101b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007406b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902220001210120074100c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265",
         "instructions_kind": "String"
       },
       "output": {
@@ -18745,7 +18787,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
               },
               "blobs": []
             },
@@ -18757,13 +18799,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -18771,13 +18813,13 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+          "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
         }
       }
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210181020000002020002200002022020001210120074101c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674210120074050ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec0922000121012007410125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f7274210281020000002200002020002200002022020001210120074101b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe267421012007406b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902220001210120074100c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265",
         "instructions_kind": "String"
       },
       "output": {
@@ -18798,7 +18840,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
               },
               "blobs": []
             },
@@ -18810,13 +18852,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -18824,60 +18866,7 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
-        }
-      }
-    },
-    {
-      "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817980101080000202202400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c0f6372656174655f616476616e6365642101220201220000400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c066372656174652100202000220000202202000121012007410107254b29ea798e768e8f6893e7e1070971d86d5bb801d32bdaa3906f1ef9596b4dacdfd8245e4b5f5e3c59881225e103d474da3a3024770127fb1942f321108001022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740c1f0a077ed66d34b613795b29a869cf84c4ad303ec58ffc251adf63a40146f21557f9b114b6e88c57e6f000dbf89bbee2e47c99070bdbaf192ca4d02a89f82032200012101200741017cc18d44899d8623d18cfe185af9b6d95b8e1bb312c921b26aed104f6ba07aed07bab146a0ed7656daf0ef3d21d4cf5f982b3193ff0cb0e49d79bbc6fb03c4a4",
-        "instructions_kind": "String"
-      },
-      "output": {
-        "signed_intent": {
-          "intent": {
-            "header": {
-              "network_id": "242",
-              "start_epoch_inclusive": "90",
-              "end_epoch_exclusive": "100",
-              "nonce": "100",
-              "notary_public_key": {
-                "kind": "Secp256k1",
-                "value": "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
-              },
-              "notary_is_signatory": true,
-              "tip_percentage": "0"
-            },
-            "manifest": {
-              "instructions": {
-                "kind": "String",
-                "value": "CREATE_ACCOUNT_ADVANCED\n    Enum<2u8>(\n        Enum<0u8>()\n    )\n;\nCREATE_ACCOUNT;\n"
-              },
-              "blobs": []
-            },
-            "message": {
-              "kind": "None"
-            }
-          },
-          "intent_signatures": [
-            {
-              "kind": "Secp256k1",
-              "value": {
-                "signature": "0107254b29ea798e768e8f6893e7e1070971d86d5bb801d32bdaa3906f1ef9596b4dacdfd8245e4b5f5e3c59881225e103d474da3a3024770127fb1942f3211080"
-              }
-            },
-            {
-              "kind": "Ed25519",
-              "value": {
-                "signature": "c1f0a077ed66d34b613795b29a869cf84c4ad303ec58ffc251adf63a40146f21557f9b114b6e88c57e6f000dbf89bbee2e47c99070bdbaf192ca4d02a89f8203",
-                "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
-              }
-            }
-          ]
-        },
-        "notary_signature": {
-          "kind": "Secp256k1",
-          "value": "017cc18d44899d8623d18cfe185af9b6d95b8e1bb312c921b26aed104f6ba07aed07bab146a0ed7656daf0ef3d21d4cf5f982b3193ff0cb0e49d79bbc6fb03c4a4"
+          "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
         }
       }
     },
@@ -18936,7 +18925,7 @@
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f72742101830020200022000020220200012101200741008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee0022000121012007410039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817980101080000202202400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c0f6372656174655f616476616e6365642101220201220000400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c066372656174652100202000220000202202000121012007410107254b29ea798e768e8f6893e7e1070971d86d5bb801d32bdaa3906f1ef9596b4dacdfd8245e4b5f5e3c59881225e103d474da3a3024770127fb1942f321108001022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740c1f0a077ed66d34b613795b29a869cf84c4ad303ec58ffc251adf63a40146f21557f9b114b6e88c57e6f000dbf89bbee2e47c99070bdbaf192ca4d02a89f82032200012101200741017cc18d44899d8623d18cfe185af9b6d95b8e1bb312c921b26aed104f6ba07aed07bab146a0ed7656daf0ef3d21d4cf5f982b3193ff0cb0e49d79bbc6fb03c4a4",
         "instructions_kind": "String"
       },
       "output": {
@@ -18957,7 +18946,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CREATE_ACCOUNT_ADVANCED\n    Enum<2u8>(\n        Enum<0u8>()\n    )\n;\nCREATE_ACCOUNT;\n"
               },
               "blobs": []
             },
@@ -18969,13 +18958,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                "signature": "0107254b29ea798e768e8f6893e7e1070971d86d5bb801d32bdaa3906f1ef9596b4dacdfd8245e4b5f5e3c59881225e103d474da3a3024770127fb1942f3211080"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                "signature": "c1f0a077ed66d34b613795b29a869cf84c4ad303ec58ffc251adf63a40146f21557f9b114b6e88c57e6f000dbf89bbee2e47c99070bdbaf192ca4d02a89f8203",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -18983,13 +18972,13 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+          "value": "017cc18d44899d8623d18cfe185af9b6d95b8e1bb312c921b26aed104f6ba07aed07bab146a0ed7656daf0ef3d21d4cf5f982b3193ff0cb0e49d79bbc6fb03c4a4"
         }
       }
     },
     {
       "input": {
-        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f72742101830020200022000020220200012101200741008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c01022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee0022000121012007410039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11",
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f7274210283002200002020002200002022020001210120074101d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b4101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07220001210120074100ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba",
         "instructions_kind": "String"
       },
       "output": {
@@ -19010,7 +18999,7 @@
             "manifest": {
               "instructions": {
                 "kind": "String",
-                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
               },
               "blobs": []
             },
@@ -19022,13 +19011,13 @@
             {
               "kind": "Secp256k1",
               "value": {
-                "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
               }
             },
             {
               "kind": "Ed25519",
               "value": {
-                "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
                 "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
               }
             }
@@ -19036,7 +19025,60 @@
         },
         "notary_signature": {
           "kind": "Secp256k1",
-          "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+          "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
+        }
+      }
+    },
+    {
+      "input": {
+        "compiled": "4d22030221022104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f7274210283002200002020002200002022020001210120074101d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b4101022007207422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe26742101200740b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07220001210120074100ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba",
+        "instructions_kind": "String"
+      },
+      "output": {
+        "signed_intent": {
+          "intent": {
+            "header": {
+              "network_id": "242",
+              "start_epoch_inclusive": "90",
+              "end_epoch_exclusive": "100",
+              "nonce": "100",
+              "notary_public_key": {
+                "kind": "Secp256k1",
+                "value": "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
+              },
+              "notary_is_signatory": true,
+              "tip_percentage": "0"
+            },
+            "manifest": {
+              "instructions": {
+                "kind": "String",
+                "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
+              },
+              "blobs": []
+            },
+            "message": {
+              "kind": "None"
+            }
+          },
+          "intent_signatures": [
+            {
+              "kind": "Secp256k1",
+              "value": {
+                "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
+              }
+            },
+            {
+              "kind": "Ed25519",
+              "value": {
+                "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
+                "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
+              }
+            }
+          ]
+        },
+        "notary_signature": {
+          "kind": "Secp256k1",
+          "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
         }
       }
     },
@@ -25882,7 +25924,7 @@
                           "kind": "Static",
                           "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                         },
-                        "method_name": "change_account_default_deposit_rule",
+                        "method_name": "set_default_deposit_rule",
                         "args": {
                           "kind": "Tuple",
                           "value": {
@@ -25906,7 +25948,7 @@
                           "kind": "Static",
                           "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                         },
-                        "method_name": "change_account_default_deposit_rule",
+                        "method_name": "set_default_deposit_rule",
                         "args": {
                           "kind": "Tuple",
                           "value": {
@@ -25930,7 +25972,7 @@
                           "kind": "Static",
                           "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                         },
-                        "method_name": "change_account_default_deposit_rule",
+                        "method_name": "set_default_deposit_rule",
                         "args": {
                           "kind": "Tuple",
                           "value": {
@@ -25954,73 +25996,7 @@
                           "kind": "Static",
                           "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                         },
-                        "method_name": "configure_resource_deposit_rule",
-                        "args": {
-                          "kind": "Tuple",
-                          "value": {
-                            "fields": [
-                              {
-                                "kind": "Address",
-                                "value": {
-                                  "value": {
-                                    "kind": "Static",
-                                    "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "Enum",
-                                "value": {
-                                  "discriminator": "1",
-                                  "fields": []
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "kind": "CallMethod",
-                      "value": {
-                        "address": {
-                          "kind": "Static",
-                          "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                        },
-                        "method_name": "configure_resource_deposit_rule",
-                        "args": {
-                          "kind": "Tuple",
-                          "value": {
-                            "fields": [
-                              {
-                                "kind": "Address",
-                                "value": {
-                                  "value": {
-                                    "kind": "Static",
-                                    "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                                  }
-                                }
-                              },
-                              {
-                                "kind": "Enum",
-                                "value": {
-                                  "discriminator": "2",
-                                  "fields": []
-                                }
-                              }
-                            ]
-                          }
-                        }
-                      }
-                    },
-                    {
-                      "kind": "CallMethod",
-                      "value": {
-                        "address": {
-                          "kind": "Static",
-                          "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                        },
-                        "method_name": "configure_resource_deposit_rule",
+                        "method_name": "set_resource_preference",
                         "args": {
                           "kind": "Tuple",
                           "value": {
@@ -26039,6 +26015,65 @@
                                 "value": {
                                   "discriminator": "0",
                                   "fields": []
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "CallMethod",
+                      "value": {
+                        "address": {
+                          "kind": "Static",
+                          "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                        },
+                        "method_name": "set_resource_preference",
+                        "args": {
+                          "kind": "Tuple",
+                          "value": {
+                            "fields": [
+                              {
+                                "kind": "Address",
+                                "value": {
+                                  "value": {
+                                    "kind": "Static",
+                                    "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                                  }
+                                }
+                              },
+                              {
+                                "kind": "Enum",
+                                "value": {
+                                  "discriminator": "1",
+                                  "fields": []
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "kind": "CallMethod",
+                      "value": {
+                        "address": {
+                          "kind": "Static",
+                          "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                        },
+                        "method_name": "remove_resource_preference",
+                        "args": {
+                          "kind": "Tuple",
+                          "value": {
+                            "fields": [
+                              {
+                                "kind": "Address",
+                                "value": {
+                                  "value": {
+                                    "kind": "Static",
+                                    "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                                  }
                                 }
                               }
                             ]
@@ -26058,13 +26093,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                  "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                  "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -26072,7 +26107,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+            "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
           }
         },
         "validation_config": {
@@ -26115,7 +26150,7 @@
               "manifest": {
                 "instructions": {
                   "kind": "String",
-                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
                 },
                 "blobs": []
               },
@@ -26127,13 +26162,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "018ba40812613fe2a07410b233f42c3a234a8cbdf1fd7668a29047797d50fccfad1b7002167aad3780812780724b6b86f60924a8cad71d7ea022831d1f9114033a"
+                  "signature": "01e9318332dfb263c14610970b944e455509f7daa9328e68c28ab59730b8a17ac720a8aefb361abe3f739efe304d02f4000e60f2b38a47eaf89a555cb91ebf6a03"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "71b111e44436ecafaea9d8c672b5544f26dae4416b111a37b0adc285b85ff757f2635d3fd35c36d8c1ea4f769b4c3217a33bf4e16eaaf9607bcf71719b18ac0f",
+                  "signature": "8b703a0c27ba81df41cb7595d319f9a234e39ef6464f942b27c352246fa4a85de115b467fdf8cdf1e8cc1f889f053aa2a2d31c5ae32c1bcd6900c8330e0f350c",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -26141,7 +26176,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "0032ea3d72a3581a8aeb770c09cc312a4be108c999bc7aff696fff70de34b9134770a0e99fa0cc20570fb025f6038a7a32fbea4f20b0ea6f70b2b99185f3085080"
+            "value": "0052c36a23ad8248c080c0502e8f8b07b2b020bb9c23dbe6fb4de8fa8b9ebbdfc548d331d9125599fa86c97274dc5b5a8c930f2d8c17a431b4947e7ccc4e7df299"
           }
         },
         "validation_config": {
@@ -26264,6 +26299,13 @@
                                 "value": {
                                   "value": "0"
                                 }
+                              },
+                              {
+                                "kind": "Enum",
+                                "value": {
+                                  "discriminator": "0",
+                                  "fields": []
+                                }
                               }
                             ]
                           }
@@ -26293,6 +26335,13 @@
                                 "kind": "Bucket",
                                 "value": {
                                   "value": "1"
+                                }
+                              },
+                              {
+                                "kind": "Enum",
+                                "value": {
+                                  "discriminator": "0",
+                                  "fields": []
                                 }
                               }
                             ]
@@ -26324,6 +26373,13 @@
                                 "value": {
                                   "value": "2"
                                 }
+                              },
+                              {
+                                "kind": "Enum",
+                                "value": {
+                                  "discriminator": "0",
+                                  "fields": []
+                                }
                               }
                             ]
                           }
@@ -26342,13 +26398,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                  "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                  "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -26356,7 +26412,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+            "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
           }
         },
         "validation_config": {
@@ -26399,7 +26455,7 @@
               "manifest": {
                 "instructions": {
                   "kind": "String",
-                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
                 },
                 "blobs": []
               },
@@ -26411,13 +26467,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "01c9eea003453e051888bea9f0781942bb6c456ec3605d90104ada8b27c91526074940f0f43e8abbfcb5bdf8b66f6459edd8cf599cc666ad23bfe87bccd3e13da1"
+                  "signature": "01b85ca97b5b058c60cb83a8bc86c5c1d56a4db7e1fe02ede35a0fe76db430df19141028e408237ee855588d93d8904bd6847261af8a0d40a369ab73f98893c79d"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "50ce0271e59845a05fcf2aa6ddb1b3a909f182f4e460ab3aaceb422a4253279ca01fd444ab2fd4416bab86b861b08cc3a52324ca284dc1eb26695c684ba2ec09",
+                  "signature": "6b3f02c9af615ad4e0c0f42e2e6a559d14d629142597e5ba52b95c710d2469d0b2f5d57506021b88c6fc4a28a9ab0592163368acf5e09b11683cb01f59259902",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -26425,7 +26481,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "0125a9d19aa05033ab0881f3fc89152e5de7c173141af030531449b1724dc560021130fa2bf44f04292a9fa4a82ef61bdf7fb7ffa400e4fbf5fca5a012049a53ab"
+            "value": "00c4c13cee0d838b9da5380670552cfbbe350e00dca91bbcbd4fe1553212b0a3b2545293e75693ca40e5ebe4e935c0a8c0c2aac89a3ae772744ac76af8b18c4265"
           }
         },
         "validation_config": {
@@ -26730,6 +26786,13 @@
                                 "value": {
                                   "value": "EntireWorktop"
                                 }
+                              },
+                              {
+                                "kind": "Enum",
+                                "value": {
+                                  "discriminator": "0",
+                                  "fields": []
+                                }
                               }
                             ]
                           }
@@ -26748,13 +26811,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                  "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                  "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -26762,7 +26825,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+            "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
           }
         },
         "validation_config": {
@@ -26805,7 +26868,7 @@
               "manifest": {
                 "instructions": {
                   "kind": "String",
-                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+                  "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
                 },
                 "blobs": []
               },
@@ -26817,13 +26880,13 @@
               {
                 "kind": "Secp256k1",
                 "value": {
-                  "signature": "008eb7ec517d2ec15e4282a35710465efe48a3b646edb83ce8190a6530ecd84c4977d8c2b46403620bd3d2e6caf8169af0be63977d2f6ba6974e27b4490278572c"
+                  "signature": "01d6ee7287da8fbcfb5c3a257d9b64878fe7f59bfc4c868cf5df2f0d7ea052621507c0da4ae10f67decf5deadf655a53a3ed82e64e3b3c1946b6cf18de51034b41"
                 }
               },
               {
                 "kind": "Ed25519",
                 "value": {
-                  "signature": "402e87fd8d20a9bb2f924592bab9458d6f6afeaade429137ebca2ed87ff6d37c74f497a1ac59da763d8d2069d0b746809d1030a32dc55360ee3a5f8d228dee00",
+                  "signature": "b4b9e7b807327e10499b50a85db9a02fd73560d971bb5e3607269feeb71113f0a9b39e2c659edaa4bfd1d40618b78bab94edb32a37a647ca91b81cedd54a0e07",
                   "public_key": "7422b9887598068e32c4448a949adb290d0f4e35b9e01b0ee5f1a1e600fe2674"
                 }
               }
@@ -26831,7 +26894,7 @@
           },
           "notary_signature": {
             "kind": "Secp256k1",
-            "value": "0039e0ed3e636a039a552d8d132cc09fc48d169f38fc8df2ac695272ff3fd09e7b7283bb7be076cd7c0f89148c99c939d178d9710997a36f1662aa679870e2cf11"
+            "value": "00ce3e7cd51982bd74e24e689b6804e4f328d46396e61335ab91a7cdec772fc9526fbf6eb52d470a3e9c83211d746395dc5d447769dfcbc689c0a60648059ed3ba"
           }
         },
         "validation_config": {

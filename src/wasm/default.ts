@@ -529,6 +529,14 @@ export class RadixEngineToolkit {
     }
   };
 
+  static Address = class {
+    static async entityType(address: string): Promise<EntityType> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.addressEntityType(address);
+      return GeneratedConverter.EntityType.fromGenerated(output);
+    }
+  };
+
   static Utils = class {
     static async knownAddresses(networkId: number): Promise<KnownAddresses> {
       const rawRet = await rawRadixEngineToolkit;
