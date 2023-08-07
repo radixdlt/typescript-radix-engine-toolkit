@@ -4945,7 +4945,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "change_account_default_deposit_rule",
+                  "method_name": "set_default_deposit_rule",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -4969,7 +4969,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "change_account_default_deposit_rule",
+                  "method_name": "set_default_deposit_rule",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -4993,7 +4993,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "change_account_default_deposit_rule",
+                  "method_name": "set_default_deposit_rule",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -5017,73 +5017,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "configure_resource_deposit_rule",
-                  "args": {
-                    "kind": "Tuple",
-                    "value": {
-                      "fields": [
-                        {
-                          "kind": "Address",
-                          "value": {
-                            "value": {
-                              "kind": "Static",
-                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                            }
-                          }
-                        },
-                        {
-                          "kind": "Enum",
-                          "value": {
-                            "discriminator": "1",
-                            "fields": []
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              },
-              {
-                "kind": "CallMethod",
-                "value": {
-                  "address": {
-                    "kind": "Static",
-                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                  },
-                  "method_name": "configure_resource_deposit_rule",
-                  "args": {
-                    "kind": "Tuple",
-                    "value": {
-                      "fields": [
-                        {
-                          "kind": "Address",
-                          "value": {
-                            "value": {
-                              "kind": "Static",
-                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                            }
-                          }
-                        },
-                        {
-                          "kind": "Enum",
-                          "value": {
-                            "discriminator": "2",
-                            "fields": []
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              },
-              {
-                "kind": "CallMethod",
-                "value": {
-                  "address": {
-                    "kind": "Static",
-                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                  },
-                  "method_name": "configure_resource_deposit_rule",
+                  "method_name": "set_resource_preference",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -5102,6 +5036,65 @@
                           "value": {
                             "discriminator": "0",
                             "fields": []
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "CallMethod",
+                "value": {
+                  "address": {
+                    "kind": "Static",
+                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                  },
+                  "method_name": "set_resource_preference",
+                  "args": {
+                    "kind": "Tuple",
+                    "value": {
+                      "fields": [
+                        {
+                          "kind": "Address",
+                          "value": {
+                            "value": {
+                              "kind": "Static",
+                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "1",
+                            "fields": []
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "CallMethod",
+                "value": {
+                  "address": {
+                    "kind": "Static",
+                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                  },
+                  "method_name": "remove_resource_preference",
+                  "args": {
+                    "kind": "Tuple",
+                    "value": {
+                      "fields": [
+                        {
+                          "kind": "Address",
+                          "value": {
+                            "value": {
+                              "kind": "Static",
+                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                            }
                           }
                         }
                       ]
@@ -5117,7 +5110,7 @@
           "kind": "None"
         }
       },
-      "output": "24a46fca3b000521de19d26e2e4c79d7e4399c0c6ac0fcc6df93c788b1a36a22"
+      "output": "41e45ee78913c03e3080799080f81711b02e07ef91daa6ec8152d146faa7c6ed"
     },
     {
       "input": {
@@ -5136,7 +5129,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
           },
           "blobs": []
         },
@@ -5144,7 +5137,7 @@
           "kind": "None"
         }
       },
-      "output": "24a46fca3b000521de19d26e2e4c79d7e4399c0c6ac0fcc6df93c788b1a36a22"
+      "output": "41e45ee78913c03e3080799080f81711b02e07ef91daa6ec8152d146faa7c6ed"
     },
     {
       "input": {
@@ -5243,6 +5236,13 @@
                           "value": {
                             "value": "0"
                           }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
+                          }
                         }
                       ]
                     }
@@ -5272,6 +5272,13 @@
                           "kind": "Bucket",
                           "value": {
                             "value": "1"
+                          }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
                           }
                         }
                       ]
@@ -5303,6 +5310,13 @@
                           "value": {
                             "value": "2"
                           }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
+                          }
                         }
                       ]
                     }
@@ -5317,7 +5331,7 @@
           "kind": "None"
         }
       },
-      "output": "a212c13196d529f7352fd10c2f01c94362e807887fe6428d5494ee07cdce1b24"
+      "output": "d67c52fa53773c7fadefe868d5938cfdd55347937d64984cc795a1aade78826d"
     },
     {
       "input": {
@@ -5336,7 +5350,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
           },
           "blobs": []
         },
@@ -5344,7 +5358,7 @@
           "kind": "None"
         }
       },
-      "output": "a212c13196d529f7352fd10c2f01c94362e807887fe6428d5494ee07cdce1b24"
+      "output": "d67c52fa53773c7fadefe868d5938cfdd55347937d64984cc795a1aade78826d"
     },
     {
       "input": {
@@ -5541,6 +5555,13 @@
                           "value": {
                             "value": "EntireWorktop"
                           }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
+                          }
                         }
                       ]
                     }
@@ -5555,7 +5576,7 @@
           "kind": "None"
         }
       },
-      "output": "0489a1166caf388c4d2fd5ab34eb7094a4eb3015c006b5844ba003aa4bc939be"
+      "output": "f299bfea5b14585607ab7536814442dc21fad0dde957d7781d60a25de5cc6d25"
     },
     {
       "input": {
@@ -5574,7 +5595,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
           },
           "blobs": []
         },
@@ -5582,7 +5603,7 @@
           "kind": "None"
         }
       },
-      "output": "0489a1166caf388c4d2fd5ab34eb7094a4eb3015c006b5844ba003aa4bc939be"
+      "output": "f299bfea5b14585607ab7536814442dc21fad0dde957d7781d60a25de5cc6d25"
     },
     {
       "input": {
@@ -11997,7 +12018,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "change_account_default_deposit_rule",
+                  "method_name": "set_default_deposit_rule",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -12021,7 +12042,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "change_account_default_deposit_rule",
+                  "method_name": "set_default_deposit_rule",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -12045,7 +12066,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "change_account_default_deposit_rule",
+                  "method_name": "set_default_deposit_rule",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -12069,73 +12090,7 @@
                     "kind": "Static",
                     "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                   },
-                  "method_name": "configure_resource_deposit_rule",
-                  "args": {
-                    "kind": "Tuple",
-                    "value": {
-                      "fields": [
-                        {
-                          "kind": "Address",
-                          "value": {
-                            "value": {
-                              "kind": "Static",
-                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                            }
-                          }
-                        },
-                        {
-                          "kind": "Enum",
-                          "value": {
-                            "discriminator": "1",
-                            "fields": []
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              },
-              {
-                "kind": "CallMethod",
-                "value": {
-                  "address": {
-                    "kind": "Static",
-                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                  },
-                  "method_name": "configure_resource_deposit_rule",
-                  "args": {
-                    "kind": "Tuple",
-                    "value": {
-                      "fields": [
-                        {
-                          "kind": "Address",
-                          "value": {
-                            "value": {
-                              "kind": "Static",
-                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                            }
-                          }
-                        },
-                        {
-                          "kind": "Enum",
-                          "value": {
-                            "discriminator": "2",
-                            "fields": []
-                          }
-                        }
-                      ]
-                    }
-                  }
-                }
-              },
-              {
-                "kind": "CallMethod",
-                "value": {
-                  "address": {
-                    "kind": "Static",
-                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                  },
-                  "method_name": "configure_resource_deposit_rule",
+                  "method_name": "set_resource_preference",
                   "args": {
                     "kind": "Tuple",
                     "value": {
@@ -12154,6 +12109,65 @@
                           "value": {
                             "discriminator": "0",
                             "fields": []
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "CallMethod",
+                "value": {
+                  "address": {
+                    "kind": "Static",
+                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                  },
+                  "method_name": "set_resource_preference",
+                  "args": {
+                    "kind": "Tuple",
+                    "value": {
+                      "fields": [
+                        {
+                          "kind": "Address",
+                          "value": {
+                            "value": {
+                              "kind": "Static",
+                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                            }
+                          }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "1",
+                            "fields": []
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "kind": "CallMethod",
+                "value": {
+                  "address": {
+                    "kind": "Static",
+                    "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                  },
+                  "method_name": "remove_resource_preference",
+                  "args": {
+                    "kind": "Tuple",
+                    "value": {
+                      "fields": [
+                        {
+                          "kind": "Address",
+                          "value": {
+                            "value": {
+                              "kind": "Static",
+                              "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                            }
                           }
                         }
                       ]
@@ -12169,7 +12183,7 @@
           "kind": "None"
         }
       },
-      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398220000202000220000"
+      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398202000220000"
     },
     {
       "input": {
@@ -12188,7 +12202,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
           },
           "blobs": []
         },
@@ -12196,7 +12210,7 @@
           "kind": "None"
         }
       },
-      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398220000202000220000"
+      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398202000220000"
     },
     {
       "input": {
@@ -12295,6 +12309,13 @@
                           "value": {
                             "value": "0"
                           }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
+                          }
                         }
                       ]
                     }
@@ -12324,6 +12345,13 @@
                           "kind": "Bucket",
                           "value": {
                             "value": "1"
+                          }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
                           }
                         }
                       ]
@@ -12355,6 +12383,13 @@
                           "value": {
                             "value": "2"
                           }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
+                          }
                         }
                       ]
                     }
@@ -12369,7 +12404,7 @@
           "kind": "None"
         }
       },
-      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421018102000000202000220000"
+      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421028102000000220000202000220000"
     },
     {
       "input": {
@@ -12388,7 +12423,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
           },
           "blobs": []
         },
@@ -12396,7 +12431,7 @@
           "kind": "None"
         }
       },
-      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421018102000000202000220000"
+      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421028102000000220000202000220000"
     },
     {
       "input": {
@@ -12593,6 +12628,13 @@
                           "value": {
                             "value": "EntireWorktop"
                           }
+                        },
+                        {
+                          "kind": "Enum",
+                          "value": {
+                            "discriminator": "0",
+                            "fields": []
+                          }
                         }
                       ]
                     }
@@ -12607,7 +12649,7 @@
           "kind": "None"
         }
       },
-      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421018300202000220000"
+      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421028300220000202000220000"
     },
     {
       "input": {
@@ -12626,7 +12668,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
           },
           "blobs": []
         },
@@ -12634,7 +12676,7 @@
           "kind": "None"
         }
       },
-      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421018300202000220000"
+      "output": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421028300220000202000220000"
     },
     {
       "input": {
@@ -15306,7 +15348,7 @@
     },
     {
       "input": {
-        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398220000202000220000",
+        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398202000220000",
         "instructions_kind": "String"
       },
       "output": {
@@ -15325,7 +15367,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
           },
           "blobs": []
         },
@@ -15336,7 +15378,7 @@
     },
     {
       "input": {
-        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c236368616e67655f6163636f756e745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1f636f6e6669677572655f7265736f757263655f6465706f7369745f72756c65210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398220000202000220000",
+        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220741032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c187365745f64656661756c745f6465706f7369745f72756c65210122020041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c177365745f7265736f757263655f707265666572656e6365210280005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f639822010041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c1a72656d6f76655f7265736f757263655f707265666572656e6365210180005df0833d311bbb9caffaf6370841950faa7b363095d68c97f5dea70f6398202000220000",
         "instructions_kind": "String"
       },
       "output": {
@@ -15355,7 +15397,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
           },
           "blobs": []
         },
@@ -15366,7 +15408,7 @@
     },
     {
       "input": {
-        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421018102000000202000220000",
+        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421028102000000220000202000220000",
         "instructions_kind": "String"
       },
       "output": {
@@ -15385,7 +15427,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
           },
           "blobs": []
         },
@@ -15396,7 +15438,7 @@
     },
     {
       "input": {
-        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421018100000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421018101000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421018102000000202000220000",
+        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220841032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000e8c69583abe3110000000000000000000000000000000000000000000000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c68500009814440dab2108000000000000000000000000000000000000000000000041032200018000c1f7cfdff420edabdeb2813ed0c29068c2f38e8c2bb90e05823200cbfc350c147472795f6465706f7369745f6f725f61626f727421028100000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6850000c8003bc71c0c07000000000000000000000000000000000000000000000041032200018000c1e0abf610a234ac59c1678e4392cd07e4bcad95667595e05aaa199258c20c147472795f6465706f7369745f6f725f61626f727421028101000000220000000280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000088b116afe3b502000000000000000000000000000000000000000000000041032200018000c1f0bd49b8700688a050b10dc23c458c539a512490b41a6bd178cb4e7c4e0c147472795f6465706f7369745f6f725f61626f727421028102000000220000202000220000",
         "instructions_kind": "String"
       },
       "output": {
@@ -15415,37 +15457,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
-          },
-          "blobs": []
-        },
-        "message": {
-          "kind": "None"
-        }
-      }
-    },
-    {
-      "input": {
-        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817980101080000202202400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c0f6372656174655f616476616e6365642101220201220000400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c066372656174652100202000220000",
-        "instructions_kind": "String"
-      },
-      "output": {
-        "header": {
-          "network_id": "242",
-          "start_epoch_inclusive": "90",
-          "end_epoch_exclusive": "100",
-          "nonce": "100",
-          "notary_public_key": {
-            "kind": "Secp256k1",
-            "value": "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
-          },
-          "notary_is_signatory": true,
-          "tip_percentage": "0"
-        },
-        "manifest": {
-          "instructions": {
-            "kind": "String",
-            "value": "CREATE_ACCOUNT_ADVANCED\n    Enum<2u8>(\n        Enum<0u8>()\n    )\n;\nCREATE_ACCOUNT;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
           },
           "blobs": []
         },
@@ -15486,7 +15498,7 @@
     },
     {
       "input": {
-        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421018300202000220000",
+        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f817980101080000202202400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c0f6372656174655f616476616e6365642101220201220000400422000180000d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c60c074163636f756e740c066372656174652100202000220000",
         "instructions_kind": "String"
       },
       "output": {
@@ -15505,7 +15517,7 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+            "value": "CREATE_ACCOUNT_ADVANCED\n    Enum<2u8>(\n        Enum<0u8>()\n    )\n;\nCREATE_ACCOUNT;\n"
           },
           "blobs": []
         },
@@ -15516,7 +15528,7 @@
     },
     {
       "input": {
-        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421018300202000220000",
+        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421028300220000202000220000",
         "instructions_kind": "String"
       },
       "output": {
@@ -15535,7 +15547,37 @@
         "manifest": {
           "instructions": {
             "kind": "String",
-            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
+          },
+          "blobs": []
+        },
+        "message": {
+          "kind": "None"
+        }
+      }
+    },
+    {
+      "input": {
+        "compiled": "4d220104210707f20a5a000000000000000a640000000000000009640000002200012007210279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798010108000020220341032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c086c6f636b5f666565210185000050efe2d6e41a1b000000000000000000000000000000000000000000000041032200018000c11883462f39796da83f2f82caefa679aaf1f189257ebd3c8c277d5ae1990c087769746864726177210280005da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c685000010632d5ec76b05000000000000000000000000000000000000000000000041032200018000c10499682aa5644d7ee3547d0f070138002d60fdb80bb9ea766c8c6375740c1a7472795f6465706f7369745f62617463685f6f725f61626f727421028300220000202000220000",
+        "instructions_kind": "String"
+      },
+      "output": {
+        "header": {
+          "network_id": "242",
+          "start_epoch_inclusive": "90",
+          "end_epoch_exclusive": "100",
+          "nonce": "100",
+          "notary_public_key": {
+            "kind": "Secp256k1",
+            "value": "0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
+          },
+          "notary_is_signatory": true,
+          "tip_percentage": "0"
+        },
+        "manifest": {
+          "instructions": {
+            "kind": "String",
+            "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
           },
           "blobs": []
         },
@@ -21372,7 +21414,7 @@
                       "kind": "Static",
                       "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                     },
-                    "method_name": "change_account_default_deposit_rule",
+                    "method_name": "set_default_deposit_rule",
                     "args": {
                       "kind": "Tuple",
                       "value": {
@@ -21396,7 +21438,7 @@
                       "kind": "Static",
                       "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                     },
-                    "method_name": "change_account_default_deposit_rule",
+                    "method_name": "set_default_deposit_rule",
                     "args": {
                       "kind": "Tuple",
                       "value": {
@@ -21420,7 +21462,7 @@
                       "kind": "Static",
                       "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                     },
-                    "method_name": "change_account_default_deposit_rule",
+                    "method_name": "set_default_deposit_rule",
                     "args": {
                       "kind": "Tuple",
                       "value": {
@@ -21444,73 +21486,7 @@
                       "kind": "Static",
                       "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
                     },
-                    "method_name": "configure_resource_deposit_rule",
-                    "args": {
-                      "kind": "Tuple",
-                      "value": {
-                        "fields": [
-                          {
-                            "kind": "Address",
-                            "value": {
-                              "value": {
-                                "kind": "Static",
-                                "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "Enum",
-                            "value": {
-                              "discriminator": "1",
-                              "fields": []
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                {
-                  "kind": "CallMethod",
-                  "value": {
-                    "address": {
-                      "kind": "Static",
-                      "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                    },
-                    "method_name": "configure_resource_deposit_rule",
-                    "args": {
-                      "kind": "Tuple",
-                      "value": {
-                        "fields": [
-                          {
-                            "kind": "Address",
-                            "value": {
-                              "value": {
-                                "kind": "Static",
-                                "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-                              }
-                            }
-                          },
-                          {
-                            "kind": "Enum",
-                            "value": {
-                              "discriminator": "2",
-                              "fields": []
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                {
-                  "kind": "CallMethod",
-                  "value": {
-                    "address": {
-                      "kind": "Static",
-                      "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-                    },
-                    "method_name": "configure_resource_deposit_rule",
+                    "method_name": "set_resource_preference",
                     "args": {
                       "kind": "Tuple",
                       "value": {
@@ -21529,6 +21505,65 @@
                             "value": {
                               "discriminator": "0",
                               "fields": []
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "kind": "CallMethod",
+                  "value": {
+                    "address": {
+                      "kind": "Static",
+                      "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                    },
+                    "method_name": "set_resource_preference",
+                    "args": {
+                      "kind": "Tuple",
+                      "value": {
+                        "fields": [
+                          {
+                            "kind": "Address",
+                            "value": {
+                              "value": {
+                                "kind": "Static",
+                                "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                              }
+                            }
+                          },
+                          {
+                            "kind": "Enum",
+                            "value": {
+                              "discriminator": "1",
+                              "fields": []
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "kind": "CallMethod",
+                  "value": {
+                    "address": {
+                      "kind": "Static",
+                      "value": "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+                    },
+                    "method_name": "remove_resource_preference",
+                    "args": {
+                      "kind": "Tuple",
+                      "value": {
+                        "fields": [
+                          {
+                            "kind": "Address",
+                            "value": {
+                              "value": {
+                                "kind": "Static",
+                                "value": "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+                              }
                             }
                           }
                         ]
@@ -21582,7 +21617,7 @@
           "manifest": {
             "instructions": {
               "kind": "String",
-              "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"change_account_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"configure_resource_deposit_rule\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\n"
+              "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_default_deposit_rule\"\n    Enum<2u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<0u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"set_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n    Enum<1u8>()\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"remove_resource_preference\"\n    Address(\"resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv\")\n;\n"
             },
             "blobs": []
           },
@@ -21708,6 +21743,13 @@
                             "value": {
                               "value": "0"
                             }
+                          },
+                          {
+                            "kind": "Enum",
+                            "value": {
+                              "discriminator": "0",
+                              "fields": []
+                            }
                           }
                         ]
                       }
@@ -21738,6 +21780,13 @@
                             "value": {
                               "value": "1"
                             }
+                          },
+                          {
+                            "kind": "Enum",
+                            "value": {
+                              "discriminator": "0",
+                              "fields": []
+                            }
                           }
                         ]
                       }
@@ -21767,6 +21816,13 @@
                             "kind": "Bucket",
                             "value": {
                               "value": "2"
+                            }
+                          },
+                          {
+                            "kind": "Enum",
+                            "value": {
+                              "discriminator": "0",
+                              "fields": []
                             }
                           }
                         ]
@@ -21820,7 +21876,7 @@
           "manifest": {
             "instructions": {
               "kind": "String",
-              "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n;\n"
+              "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"330\")\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"150\")\n    Bucket(\"bucket1\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket1\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"130\")\n    Bucket(\"bucket2\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket2\")\n    Enum<0u8>()\n;\nTAKE_FROM_WORKTOP\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"50\")\n    Bucket(\"bucket3\")\n;\nCALL_METHOD\n    Address(\"account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva\")\n    \"try_deposit_or_abort\"\n    Bucket(\"bucket3\")\n    Enum<0u8>()\n;\n"
             },
             "blobs": []
           },
@@ -22082,6 +22138,13 @@
                             "value": {
                               "value": "EntireWorktop"
                             }
+                          },
+                          {
+                            "kind": "Enum",
+                            "value": {
+                              "discriminator": "0",
+                              "fields": []
+                            }
                           }
                         ]
                       }
@@ -22134,7 +22197,7 @@
           "manifest": {
             "instructions": {
               "kind": "String",
-              "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n;\n"
+              "value": "CALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"lock_fee\"\n    Decimal(\"500\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q\")\n    \"withdraw\"\n    Address(\"resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3\")\n    Decimal(\"100\")\n;\nCALL_METHOD\n    Address(\"account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9\")\n    \"try_deposit_batch_or_abort\"\n    Expression(\"ENTIRE_WORKTOP\")\n    Enum<0u8>()\n;\n"
             },
             "blobs": []
           },

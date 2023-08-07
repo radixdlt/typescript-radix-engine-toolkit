@@ -39,9 +39,9 @@ export type TransactionType =
       kind: "AccountDepositSettings";
       resourcePreferenceChanges: Record<
         string,
-        Record<string, ResourceDepositRule>
+        Record<string, ResourcePreferenceAction>
       >;
-      defaultDepositRuleChanges: Record<string, AccountDefaultDepositRule>;
+      defaultDepositRuleChanges: Record<string, DefaultDepositRule>;
       authorizedDepositorsChanges: Record<string, AuthorizedDepositorsChanges>;
     }
   | {
@@ -69,13 +69,16 @@ export type Resources =
   | { kind: "Amount"; amount: Decimal }
   | { kind: "Ids"; nonFungibleLocalId: string[] };
 
-export enum ResourceDepositRule {
-  Neither = "Neither",
+export enum ResourcePreference {
   Allowed = "Allowed",
   Disallowed = "Disallowed",
 }
 
-export enum AccountDefaultDepositRule {
+export type ResourcePreferenceAction =
+  | { kind: "Set"; value: ResourcePreference }
+  | { kind: "Remove" };
+
+export enum DefaultDepositRule {
   Accept = "Accept",
   Reject = "Reject",
   AllowExisting = "AllowExisting",

@@ -17,6 +17,8 @@
 
 import wasmModule from "../../resources/radix_engine_toolkit.wasm";
 import {
+  AddressEntityTypeInput,
+  AddressEntityTypeOutput,
   BuildInformationInput,
   BuildInformationOutput,
   DeriveNodeAddressFromPublicKeyInput,
@@ -332,6 +334,12 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     return this.callFunction(input, this.exports.utils_known_addresses);
   }
 
+  public addressEntityType(
+    input: AddressEntityTypeInput
+  ): AddressEntityTypeOutput {
+    return this.callFunction(input, this.exports.address_entity_type);
+  }
+
   allocateMemory(capacity: number): number {
     return this.exports.toolkit_alloc(capacity);
   }
@@ -448,6 +456,9 @@ interface Exports {
 
   /* Utils Module */
   utils_known_addresses(pointer: number): number;
+
+  /* Address Module */
+  address_entity_type(pointer: number): number;
 
   /* Sys Functions */
   toolkit_alloc(capacity: number): number;

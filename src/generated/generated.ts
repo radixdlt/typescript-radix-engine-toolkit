@@ -21,6 +21,35 @@
 
 export type SerializableNodeId = string;
 
+export type AddressEntityTypeInput = SerializableNodeId;
+
+export enum SerializableEntityType {
+  GlobalPackage = "GlobalPackage",
+  GlobalConsensusManager = "GlobalConsensusManager",
+  GlobalValidator = "GlobalValidator",
+  GlobalTransactionTracker = "GlobalTransactionTracker",
+  GlobalGenericComponent = "GlobalGenericComponent",
+  GlobalAccount = "GlobalAccount",
+  GlobalIdentity = "GlobalIdentity",
+  GlobalAccessController = "GlobalAccessController",
+  GlobalOneResourcePool = "GlobalOneResourcePool",
+  GlobalTwoResourcePool = "GlobalTwoResourcePool",
+  GlobalMultiResourcePool = "GlobalMultiResourcePool",
+  GlobalVirtualSecp256k1Account = "GlobalVirtualSecp256k1Account",
+  GlobalVirtualSecp256k1Identity = "GlobalVirtualSecp256k1Identity",
+  GlobalVirtualEd25519Account = "GlobalVirtualEd25519Account",
+  GlobalVirtualEd25519Identity = "GlobalVirtualEd25519Identity",
+  GlobalFungibleResourceManager = "GlobalFungibleResourceManager",
+  InternalFungibleVault = "InternalFungibleVault",
+  GlobalNonFungibleResourceManager = "GlobalNonFungibleResourceManager",
+  InternalNonFungibleVault = "InternalNonFungibleVault",
+  InternalGenericComponent = "InternalGenericComponent",
+  InternalAccount = "InternalAccount",
+  InternalKeyValueStore = "InternalKeyValueStore",
+}
+
+export type AddressEntityTypeOutput = SerializableEntityType;
+
 export type DeriveVirtualAccountAddressFromPublicKeyOutput = SerializableNodeId;
 
 export type DeriveVirtualIdentityAddressFromPublicKeyOutput =
@@ -308,13 +337,11 @@ export interface SerializableTransferTransactionType {
   >;
 }
 
-export enum SerializableResourceDepositRule {
-  Neither = "Neither",
-  Allowed = "Allowed",
-  Disallowed = "Disallowed",
-}
+export type SerializableResourcePreferenceAction =
+  | { kind: "Set"; value: SerializableResourcePreference }
+  | { kind: "Remove"; value?: undefined };
 
-export enum SerializableAccountDefaultDepositRule {
+export enum SerializableDefaultDepositRule {
   Accept = "Accept",
   Reject = "Reject",
   AllowExisting = "AllowExisting",
@@ -332,11 +359,11 @@ export interface SerializableAuthorizedDepositorsChanges {
 export interface SerializableAccountDepositSettingsTransactionType {
   resource_preference_changes: Record<
     SerializableNodeId,
-    Record<SerializableNodeId, SerializableResourceDepositRule>
+    Record<SerializableNodeId, SerializableResourcePreferenceAction>
   >;
   default_deposit_rule_changes: Record<
     SerializableNodeId,
-    SerializableAccountDefaultDepositRule
+    SerializableDefaultDepositRule
   >;
   authorized_depositors_changes: Record<
     SerializableNodeId,
@@ -360,31 +387,6 @@ export type SerializableResourceTracker =
         ids: SerializableSource<SerializableNonFungibleLocalId[]>;
       };
     };
-
-export enum SerializableEntityType {
-  GlobalPackage = "GlobalPackage",
-  GlobalConsensusManager = "GlobalConsensusManager",
-  GlobalValidator = "GlobalValidator",
-  GlobalTransactionTracker = "GlobalTransactionTracker",
-  GlobalGenericComponent = "GlobalGenericComponent",
-  GlobalAccount = "GlobalAccount",
-  GlobalIdentity = "GlobalIdentity",
-  GlobalAccessController = "GlobalAccessController",
-  GlobalOneResourcePool = "GlobalOneResourcePool",
-  GlobalTwoResourcePool = "GlobalTwoResourcePool",
-  GlobalMultiResourcePool = "GlobalMultiResourcePool",
-  GlobalVirtualSecp256k1Account = "GlobalVirtualSecp256k1Account",
-  GlobalVirtualSecp256k1Identity = "GlobalVirtualSecp256k1Identity",
-  GlobalVirtualEd25519Account = "GlobalVirtualEd25519Account",
-  GlobalVirtualEd25519Identity = "GlobalVirtualEd25519Identity",
-  GlobalFungibleResourceManager = "GlobalFungibleResourceManager",
-  InternalFungibleVault = "InternalFungibleVault",
-  GlobalNonFungibleResourceManager = "GlobalNonFungibleResourceManager",
-  InternalNonFungibleVault = "InternalNonFungibleVault",
-  InternalGenericComponent = "InternalGenericComponent",
-  InternalAccount = "InternalAccount",
-  InternalKeyValueStore = "InternalKeyValueStore",
-}
 
 export interface InstructionsExtractAddressesOutput {
   addresses: Record<SerializableEntityType, SerializableNodeId[]>;
@@ -839,6 +841,11 @@ export type SerializableManifestValue =
 export interface SerializableMapEntry {
   key: SerializableManifestValue;
   value: SerializableManifestValue;
+}
+
+export enum SerializableResourcePreference {
+  Allowed = "Allowed",
+  Disallowed = "Disallowed",
 }
 
 export type SerializableSource<T> =

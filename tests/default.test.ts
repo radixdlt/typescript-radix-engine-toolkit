@@ -27,6 +27,8 @@ import {
   publicKey,
 } from "../src";
 import {
+  AddressEntityTypeInput,
+  AddressEntityTypeOutput,
   DeriveNodeAddressFromPublicKeyInput,
   DeriveNodeAddressFromPublicKeyOutput,
   DeriveOlympiaAccountAddressFromPublicKeyInput,
@@ -623,6 +625,20 @@ describe("Default Radix Engine Toolkit Tests", () => {
       // Act
       expect(output).toEqual(
         GeneratedConverter.ExecutionAnalysis.fromGenerated(outputVector)
+      );
+    }
+  );
+
+  moduleTestVector<AddressEntityTypeInput, AddressEntityTypeOutput>(
+    "address",
+    "address_entity_type",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Address.entityType(inputVector);
+
+      // Act
+      expect(output).toEqual(
+        GeneratedConverter.EntityType.fromGenerated(outputVector)
       );
     }
   );

@@ -16,10 +16,10 @@
 // under the License.
 
 import {
-  AccountDefaultDepositRule,
   AuthorizedDepositorsChanges,
   Convert,
   DecimalSource,
+  DefaultDepositRule,
   EntityType,
   ExecutionAnalysis,
   Expression,
@@ -35,8 +35,9 @@ import {
   NotarizedTransaction,
   OlympiaNetwork,
   PublicKey,
-  ResourceDepositRule,
   ResourceOrNonFungible,
+  ResourcePreference,
+  ResourcePreferenceAction,
   ResourceSpecifier,
   ResourceTracker,
   Resources,
@@ -53,9 +54,9 @@ import {
 } from "../index";
 import {
   ExecutionAnalyzeOutput,
-  SerializableAccountDefaultDepositRule,
   SerializableAuthorizedDepositorsChanges,
   SerializableDecimal,
+  SerializableDefaultDepositRule,
   SerializableEntityType,
   SerializableExpression,
   SerializableFeeLocks,
@@ -72,8 +73,9 @@ import {
   SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
   SerializablePublicKey,
-  SerializableResourceDepositRule,
   SerializableResourceOrNonFungible,
+  SerializableResourcePreference,
+  SerializableResourcePreferenceAction,
   SerializableResourceSpecifier,
   SerializableResourceTracker,
   SerializableResources,
@@ -1305,35 +1307,31 @@ export class GeneratedConverter {
     }
   };
 
-  static AccountDefaultDepositRule = class {
+  static DefaultDepositRule = class {
     static toGenerated(
-      value: AccountDefaultDepositRule
-    ): SerializableAccountDefaultDepositRule {
-      return SerializableAccountDefaultDepositRule[
-        AccountDefaultDepositRule[value]
-      ];
+      value: DefaultDepositRule
+    ): SerializableDefaultDepositRule {
+      return SerializableDefaultDepositRule[DefaultDepositRule[value]];
     }
 
     static fromGenerated(
-      value: SerializableAccountDefaultDepositRule
-    ): AccountDefaultDepositRule {
-      return AccountDefaultDepositRule[
-        SerializableAccountDefaultDepositRule[value]
-      ];
+      value: SerializableDefaultDepositRule
+    ): DefaultDepositRule {
+      return DefaultDepositRule[SerializableDefaultDepositRule[value]];
     }
   };
 
-  static ResourceDepositRule = class {
+  static ResourcePreference = class {
     static toGenerated(
-      value: ResourceDepositRule
-    ): SerializableResourceDepositRule {
-      return SerializableResourceDepositRule[ResourceDepositRule[value]];
+      value: ResourcePreference
+    ): SerializableResourcePreference {
+      return SerializableResourcePreference[ResourcePreference[value]];
     }
 
     static fromGenerated(
-      value: SerializableResourceDepositRule
-    ): ResourceDepositRule {
-      return ResourceDepositRule[SerializableResourceDepositRule[value]];
+      value: SerializableResourcePreference
+    ): ResourcePreference {
+      return ResourcePreference[SerializableResourcePreference[value]];
     }
   };
 
@@ -1413,6 +1411,44 @@ export class GeneratedConverter {
     }
   };
 
+  static ResourcePreferenceAction = class {
+    static toGenerated(
+      value: ResourcePreferenceAction
+    ): SerializableResourcePreferenceAction {
+      switch (value.kind) {
+        case "Set":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.ResourcePreference.toGenerated(
+              value.value
+            ),
+          };
+        case "Remove":
+          return {
+            kind: value.kind,
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableResourcePreferenceAction
+    ): ResourcePreferenceAction {
+      switch (value.kind) {
+        case "Set":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.ResourcePreference.fromGenerated(
+              value.value
+            ),
+          };
+        case "Remove":
+          return {
+            kind: value.kind,
+          };
+      }
+    }
+  };
+
   static TransactionType = class {
     static toGenerated(value: TransactionType): SerializableTransactionType {
       switch (value.kind) {
@@ -1451,7 +1487,9 @@ export class GeneratedConverter {
                   key,
                   recordMap(value, (key, value) => [
                     key,
-                    GeneratedConverter.ResourceDepositRule.toGenerated(value),
+                    GeneratedConverter.ResourcePreferenceAction.toGenerated(
+                      value
+                    ),
                   ]),
                 ]
               ),
@@ -1459,9 +1497,7 @@ export class GeneratedConverter {
                 value.defaultDepositRuleChanges,
                 (key, value) => [
                   key,
-                  GeneratedConverter.AccountDefaultDepositRule.toGenerated(
-                    value
-                  ),
+                  GeneratedConverter.DefaultDepositRule.toGenerated(value),
                 ]
               ),
               authorized_depositors_changes: recordMap(
@@ -1549,7 +1585,9 @@ export class GeneratedConverter {
                 key,
                 recordMap(value, (key, value) => [
                   key,
-                  GeneratedConverter.ResourceDepositRule.fromGenerated(value),
+                  GeneratedConverter.ResourcePreferenceAction.fromGenerated(
+                    value
+                  ),
                 ]),
               ]
             ),
@@ -1557,9 +1595,7 @@ export class GeneratedConverter {
               value.value.default_deposit_rule_changes,
               (key, value) => [
                 key,
-                GeneratedConverter.AccountDefaultDepositRule.fromGenerated(
-                  value
-                ),
+                GeneratedConverter.DefaultDepositRule.fromGenerated(value),
               ]
             ),
             authorizedDepositorsChanges: recordMap(
