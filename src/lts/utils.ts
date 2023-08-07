@@ -15,13 +15,31 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./builder";
-export * from "./convert";
-export * from "./lts";
-export * from "./models";
-export * from "./network";
-export * from "./utils";
-export * from "./wasm";
+import { Convert } from "..";
 
-import Decimal from "decimal.js";
-Decimal.config({ precision: 64 });
+export type Bytes = Uint8Array | string;
+
+export const resolveBytes = (bytes: Bytes): Uint8Array => {
+  if (typeof bytes === "string") {
+    return Convert.HexString.toUint8Array(bytes);
+  } else if (bytes.constructor === Uint8Array) {
+    return bytes;
+  } else {
+    throw new Error(
+      "Resolution of bytes can only happen on a HexString or a Uint8Array."
+    );
+  }
+};
+
+export const resolveBytesAndCheckLength = (
+  bytes: Bytes,
+  expectedLength: number
+): Uint8Array => {
+  const resolvedBytes = resolveBytes(bytes);
+  if (resolveBytes.length !== expectedLength) {
+    throw new Error(
+      `Expected bytes of length ${expectedLength} but was actually: ${bytes.length}`
+    );
+  }
+  return resolvedBytes;
+};

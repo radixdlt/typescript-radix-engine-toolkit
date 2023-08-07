@@ -15,13 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./builder";
-export * from "./convert";
-export * from "./lts";
-export * from "./models";
-export * from "./network";
-export * from "./utils";
-export * from "./wasm";
+export const ED25519_SIGNATURE_LENGTH: number = 64;
+export const SECP256K1_SIGNATURE_LENGTH: number = 65;
 
-import Decimal from "decimal.js";
-Decimal.config({ precision: 64 });
+export const ED25519_PUBLIC_KEY_LENGTH: number = 32;
+export const SECP256K1_PUBLIC_KEY_LENGTH: number = 33;
+
+export const ED25519_PRIVATE_KEY_LENGTH: number = 32;
+export const SECP256K1_PRIVATE_KEY_LENGTH: number = 32;

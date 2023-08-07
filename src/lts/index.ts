@@ -15,13 +15,27 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./builder";
-export * from "./convert";
-export * from "./lts";
-export * from "./models";
-export * from "./network";
-export * from "./utils";
-export * from "./wasm";
+import {
+  PrivateKey,
+  PublicKey,
+  Signature,
+  SignatureWithPublicKey,
+} from "./cryptography";
+import { RadixEngineToolkit } from "./toolkit";
 
-import Decimal from "decimal.js";
-Decimal.config({ precision: 64 });
+/**
+ * Class Re-exports.
+ *
+ * This class re-exports the classes defined in the LTS module as static class members under the LTS
+ * class. This allows classes in the LTS toolkit to be accessed through: LTS.ClassName.something.
+ */
+export class LTS {
+  /* Toolkit Wrapper */
+  static RadixEngineToolkit = RadixEngineToolkit;
+
+  /* Cryptography */
+  static PublicKey = PublicKey;
+  static Signature = Signature;
+  static PrivateKey = PrivateKey;
+  static SignatureWithPublicKey = SignatureWithPublicKey;
+}
