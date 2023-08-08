@@ -16,26 +16,41 @@
 // under the License.
 
 import {
-  PrivateKey,
-  PublicKey,
-  Signature,
-  SignatureWithPublicKey,
+  PrivateKey as LTSPrivateKey,
+  PublicKey as LTSPublicKey,
+  Signature as LTSSignature,
+  SignatureWithPublicKey as LTSSignatureWithPublicKey,
 } from "./cryptography";
-import { RadixEngineToolkit } from "./toolkit";
+import { RadixEngineToolkit as LTSRadixEngineToolkit } from "./toolkit";
+import {
+  CompiledNotarizedTransaction as LTSCompiledNotarizedTransaction,
+  CompiledSignedTransactionIntent as LTSCompiledSignedTransactionIntent,
+  NotarizedTransaction as LTSNotarizedTransaction,
+  SignedTransactionIntent as LTSSignedTransactionIntent,
+  TransactionIntent as LTSTransactionIntent,
+} from "./transaction";
 
 /**
  * Class Re-exports.
  *
- * This class re-exports the classes defined in the LTS module as static class members under the LTS
- * class. This allows classes in the LTS toolkit to be accessed through: LTS.ClassName.something.
+ * This namespace re-exports the classes defined in the LTS module as static class members under the
+ * LTS namespace.
  */
-export class LTS {
+export namespace LTS {
   /* Toolkit Wrapper */
-  static RadixEngineToolkit = RadixEngineToolkit;
+  export type RadixEngineToolkit = LTSRadixEngineToolkit;
 
   /* Cryptography */
-  static PublicKey = PublicKey;
-  static Signature = Signature;
-  static PrivateKey = PrivateKey;
-  static SignatureWithPublicKey = SignatureWithPublicKey;
+  export type PublicKey = LTSPublicKey;
+  export type Signature = LTSSignature;
+  export type PrivateKey = LTSPrivateKey;
+  export type SignatureWithPublicKey = LTSSignatureWithPublicKey;
+
+  /* Transaction */
+  export type TransactionIntent = LTSTransactionIntent;
+  export type SignedTransactionIntent = LTSSignedTransactionIntent;
+  export type NotarizedTransaction = LTSNotarizedTransaction;
+  export type CompiledSignedTransactionIntent =
+    LTSCompiledSignedTransactionIntent;
+  export type CompiledNotarizedTransaction = LTSCompiledNotarizedTransaction;
 }

@@ -15,7 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { Convert } from "..";
+import * as Default from "..";
 import {
   ED25519_PRIVATE_KEY_LENGTH,
   ED25519_PUBLIC_KEY_LENGTH,
@@ -61,7 +61,7 @@ export abstract class PublicKey {
   };
 
   rawBytes = (): Uint8Array => this.bytes;
-  hexString = (): string => Convert.Uint8Array.toHexString(this.bytes);
+  hexString = (): string => Default.Convert.Uint8Array.toHexString(this.bytes);
   toString = this.hexString;
 
   get publicKey(): Uint8Array {
@@ -97,7 +97,7 @@ export abstract class Signature {
   };
 
   rawBytes = (): Uint8Array => this.bytes;
-  hexString = (): string => Convert.Uint8Array.toHexString(this.bytes);
+  hexString = (): string => Default.Convert.Uint8Array.toHexString(this.bytes);
   toString = this.hexString;
 
   get signature(): Uint8Array {
@@ -143,14 +143,13 @@ export abstract class SignatureWithPublicKey {
   };
 }
 
-export abstract class PrivateKey implements IPrivateKey {
+export abstract class PrivateKey implements Signer {
   abstract readonly curve: Curve;
   abstract readonly bytes: Uint8Array;
 
-  static Secp256k1 = class extends PrivateKey implements IPrivateKey {
+  static Secp256k1 = class extends PrivateKey implements Signer {
     public readonly curve: Curve = Curve.Secp256k1;
     public readonly bytes: Uint8Array;
-    private readonly retPrivateKey: RetPrivateKey.PrivateKey;
 
     constructor(privateKey: Bytes) {
       super();
@@ -158,23 +157,25 @@ export abstract class PrivateKey implements IPrivateKey {
         privateKey,
         SECP256K1_PRIVATE_KEY_LENGTH
       );
-      this.retPrivateKey = {
-        kind: "Secp256k1",
-        privateKey: this.bytes,
-      };
     }
 
     publicKey(): PublicKey {
       return new PublicKey.Secp256k1(this.publicKeyBytes());
     }
     publicKeyBytes(): Uint8Array {
-      return RetPrivateKey.publicKey(this.retPrivateKey).publicKey;
+      return RetPrivateKey.publicKey({
+        privateKey: this.bytes,
+        kind: this.curve,
+      }).publicKey;
     }
     publicKeyHex(): string {
-      return Convert.Uint8Array.toHexString(this.publicKeyBytes());
+      return Default.Convert.Uint8Array.toHexString(this.publicKeyBytes());
     }
     sign(messageHash: Uint8Array): Uint8Array {
-      return RetPrivateKey.sign(this.retPrivateKey, messageHash);
+      return RetPrivateKey.sign(
+        { privateKey: this.bytes, kind: this.curve },
+        messageHash
+      );
     }
     signToSignature(messageHash: Uint8Array): Signature {
       return new Signature.Secp256k1(this.sign(messageHash));
@@ -184,12 +185,14 @@ export abstract class PrivateKey implements IPrivateKey {
     ): SignatureWithPublicKey {
       return new SignatureWithPublicKey.Secp256k1(this.sign(messageHash));
     }
+    produceSignature(messageHash: Uint8Array): SignerResponse {
+      return super.produceSignature(messageHash);
+    }
   };
 
-  static Ed25519 = class extends PrivateKey implements IPrivateKey {
+  static Ed25519 = class extends PrivateKey implements Signer {
     public readonly curve: Curve = Curve.Ed25519;
     public readonly bytes: Uint8Array;
-    private readonly retPrivateKey: RetPrivateKey.PrivateKey;
 
     constructor(privateKey: Bytes) {
       super();
@@ -197,23 +200,25 @@ export abstract class PrivateKey implements IPrivateKey {
         privateKey,
         ED25519_PRIVATE_KEY_LENGTH
       );
-      this.retPrivateKey = {
-        kind: "Ed25519",
-        privateKey: this.bytes,
-      };
     }
 
     publicKey(): PublicKey {
       return new PublicKey.Ed25519(this.publicKeyBytes());
     }
     publicKeyBytes(): Uint8Array {
-      return RetPrivateKey.publicKey(this.retPrivateKey).publicKey;
+      return RetPrivateKey.publicKey({
+        privateKey: this.bytes,
+        kind: this.curve,
+      }).publicKey;
     }
     publicKeyHex(): string {
-      return Convert.Uint8Array.toHexString(this.publicKeyBytes());
+      return Default.Convert.Uint8Array.toHexString(this.publicKeyBytes());
     }
     sign(messageHash: Uint8Array): Uint8Array {
-      return RetPrivateKey.sign(this.retPrivateKey, messageHash);
+      return RetPrivateKey.sign(
+        { privateKey: this.bytes, kind: this.curve },
+        messageHash
+      );
     }
     signToSignature(messageHash: Uint8Array): Signature {
       return new Signature.Ed25519(this.sign(messageHash));
@@ -226,6 +231,9 @@ export abstract class PrivateKey implements IPrivateKey {
         this.publicKeyBytes()
       );
     }
+    produceSignature(messageHash: Uint8Array): SignerResponse {
+      return super.produceSignature(messageHash);
+    }
   };
 
   abstract publicKey(): PublicKey;
@@ -236,15 +244,45 @@ export abstract class PrivateKey implements IPrivateKey {
   abstract signToSignatureWithPublicKey(
     messageHash: Uint8Array
   ): SignatureWithPublicKey;
+  produceSignature(messageHash: Uint8Array): SignerResponse {
+    let signature = this.sign(messageHash);
+    let publicKey = this.publicKeyBytes();
+    return {
+      curve: this.curve,
+      signature,
+      publicKey,
+    };
+  }
 }
 
-export interface IPrivateKey {
-  publicKey: () => PublicKey;
-  publicKeyBytes: () => Uint8Array;
-  publicKeyHex: () => string;
-  sign: (messageHash: Uint8Array) => Uint8Array;
-  signToSignature: (messageHash: Uint8Array) => Signature;
-  signToSignatureWithPublicKey: (
-    messageHash: Uint8Array
-  ) => SignatureWithPublicKey;
+export interface Signer {
+  produceSignature: (messageHash: Uint8Array) => SignerResponse;
 }
+
+export interface AsyncSigner {
+  produceSignature: (messageHash: Uint8Array) => Promise<SignerResponse>;
+}
+
+export type SignerResponse = {
+  curve: Curve;
+  signature: Uint8Array;
+  publicKey: Uint8Array;
+};
+
+export type SignatureSource<T> = Signer | T | Default.SignatureFunction<T>;
+
+export const resolveSignatureSource = <T>(
+  source: SignatureSource<T>,
+  messageHash: Uint8Array,
+  signerResponseCallback: (signerResponse: SignerResponse) => T
+): T => {
+  if (typeof source === "function") {
+    return (source as Default.SignatureFunction<T>)(messageHash);
+  } else if ("produceSignature" in (source as Signer)) {
+    return signerResponseCallback(
+      (source as Signer).produceSignature(messageHash)
+    );
+  } else {
+    return source as T;
+  }
+};

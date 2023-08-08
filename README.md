@@ -10,7 +10,7 @@
 
 More information to come after this change to the TypeScript toolkit.
 
-<!-- 
+<!--
 - [About](#about)
 - [Usage Guide](#usage-guide)
   - [`LTSRadixEngineToolkit`](./LTS.md)

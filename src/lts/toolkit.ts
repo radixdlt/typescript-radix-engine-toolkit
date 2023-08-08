@@ -15,14 +15,25 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { RadixEngineToolkit as DefaultRadixEngineToolkit, hash } from "..";
+import Decimal from "decimal.js";
+import * as Toolkit from "..";
 import { Curve, PublicKey } from "./cryptography";
 import {
   CompilableIntent,
+  HasCompiledIntent,
   NotarizedTransaction,
   SignedTransactionIntent,
   TransactionIntent,
+  TransactionSummary,
 } from "./transaction";
+import {
+  castValue,
+  destructManifestValueTuple,
+  isAccountDepositCallMethod,
+  isAccountWithdrawCallMethod,
+  isFreeXrdCallMethod,
+  isLockFeeCallMethod,
+} from "./utils";
 
 export abstract class RadixEngineToolkit {
   static Transaction = class {
@@ -68,6 +79,166 @@ export abstract class RadixEngineToolkit {
     ): Promise<Uint8Array> {
       return notarizedTransactionIntent.compile();
     }
+
+    /**
+     * Decompiles and summarizes a compiled intent extracting information such as locked fees,
+     * deposits, and withdrawals.
+     * @param compiledIntent The compiled intent to produce a summary for. This function accepts any
+     * object that we can extract the compiled intent from.
+     * @returns A summary on the transaction of the various withdraws, deposits, and locked fees
+     * that can be statically obtained from the manifest.
+     *
+     * @remarks
+     * This function only works for manifests that perform simple transfers which were created
+     * through the SimpleTransactionBuilder class and will not work for any other more complex
+     * transactions since this information might not be available to obtain statically from the
+     * manifest.
+     */
+    static async summarizeTransaction(
+      transaction: HasCompiledIntent
+    ): Promise<TransactionSummary> {
+      const transactionIntent = await transaction
+        .compiledIntent()
+        .then(Toolkit.RadixEngineToolkit.Intent.decompile);
+      const instructions =
+        await Toolkit.RadixEngineToolkit.Instructions.convert(
+          transactionIntent.manifest.instructions,
+          transactionIntent.header.networkId,
+          "String"
+        ).then((instructions) => instructions.value as Toolkit.Instruction[]);
+
+      const [faucetComponentAddress, xrdResourceAddress] =
+        await Toolkit.RadixEngineToolkit.Utils.knownAddresses(
+          transactionIntent.header.networkId
+        ).then((knownAddresses) => [
+          knownAddresses.componentAddresses.faucet,
+          knownAddresses.resourceAddresses.xrd,
+        ]);
+
+      // A map where the key is the bucket ID and the value is a tuple of the resource address and
+      // amount.
+      const bucketAmounts: Record<string, [string, Decimal]> = {};
+
+      // The bucket id to use for the next bucket allocation. This is similar to what the Scrypto id
+      // allocator does.
+      let bucketId = 0;
+
+      let feesLocked: TransactionSummary["feesLocked"] | undefined = undefined;
+      const withdraws: Record<string, Record<string, Decimal>> = {};
+      const deposits: Record<string, Record<string, Decimal>> = {};
+
+      for (const instruction of instructions) {
+        switch (instruction.kind) {
+          case "TakeFromWorktop":
+            const resourceAddress = instruction.resourceAddress;
+            const amount = instruction.amount;
+            bucketAmounts[bucketId++] = [resourceAddress, amount];
+            break;
+          case "CallMethod":
+            // Cases we support:
+            // 1. Withdraw by amount
+            // 2. Deposit by amount
+            // 3. Lock fee
+            // 4. Free XRD
+
+            if (
+              await isLockFeeCallMethod(instruction, faucetComponentAddress)
+            ) {
+              const [amountValue] = destructManifestValueTuple(
+                instruction.args
+              );
+              feesLocked = {
+                account: resolveManifestAddress(instruction.address).value,
+                amount: castValue<"Decimal">(amountValue, "Decimal").value,
+              };
+            } else if (await isAccountWithdrawCallMethod(instruction)) {
+              const [resourceAddressValue, amountValue] =
+                destructManifestValueTuple(instruction.args);
+              const accountAddress = resolveManifestAddress(
+                instruction.address
+              ).value;
+              const resourceAddress = resolveManifestAddress(
+                castValue<"Address">(resourceAddressValue, "Address").value
+              ).value;
+              const amount = castValue<"Decimal">(amountValue, "Decimal").value;
+
+              withdraws[accountAddress] ??= {};
+              withdraws[accountAddress][resourceAddress] ??= new Decimal("0");
+              withdraws[accountAddress][resourceAddress] =
+                withdraws[accountAddress][resourceAddress].add(amount);
+            } else if (await isAccountDepositCallMethod(instruction)) {
+              const [bucketValue] = destructManifestValueTuple(
+                instruction.args
+              );
+              const accountAddress = resolveManifestAddress(
+                instruction.address
+              ).value;
+              const bucket = castValue<"Bucket">(bucketValue, "Bucket").value;
+              const [resourceAddress, amount] = bucketAmounts[bucket];
+
+              deposits[accountAddress] ??= {};
+              deposits[accountAddress][resourceAddress] ??= new Decimal("0");
+              deposits[accountAddress][resourceAddress] =
+                deposits[accountAddress][resourceAddress].add(amount);
+
+              delete bucketAmounts[bucket];
+            } else if (
+              await isFreeXrdCallMethod(instruction, faucetComponentAddress)
+            ) {
+              withdraws[faucetComponentAddress] ??= {};
+              withdraws[faucetComponentAddress][xrdResourceAddress] ??=
+                new Decimal("0");
+              withdraws[faucetComponentAddress][xrdResourceAddress] = withdraws[
+                faucetComponentAddress
+              ][xrdResourceAddress].add(new Decimal("10000"));
+            } else {
+              throw new Error(`Unsupported CallMethod: ${instruction}`);
+            }
+            break;
+          case "TakeAllFromWorktop":
+          case "TakeNonFungiblesFromWorktop":
+          case "ReturnToWorktop":
+          case "AssertWorktopContainsAny":
+          case "AssertWorktopContains":
+          case "AssertWorktopContainsNonFungibles":
+          case "PopFromAuthZone":
+          case "PushToAuthZone":
+          case "DropAuthZoneProofs":
+          case "CreateProofFromAuthZoneOfAmount":
+          case "CreateProofFromAuthZoneOfNonFungibles":
+          case "CreateProofFromAuthZoneOfAll":
+          case "DropNamedProofs":
+          case "DropAuthZoneRegularProofs":
+          case "DropAuthZoneSignatureProofs":
+          case "CreateProofFromBucketOfAmount":
+          case "CreateProofFromBucketOfNonFungibles":
+          case "CreateProofFromBucketOfAll":
+          case "BurnResource":
+          case "CloneProof":
+          case "DropProof":
+          case "CallFunction":
+          case "CallRoyaltyMethod":
+          case "CallMetadataMethod":
+          case "CallRoleAssignmentMethod":
+          case "CallDirectVaultMethod":
+          case "DropAllProofs":
+          case "AllocateGlobalAddress":
+            throw new Error(
+              `LTS resolution of resource movements does not support this instructions: ${instruction.kind}`
+            );
+        }
+      }
+
+      if (feesLocked !== undefined) {
+        return {
+          feesLocked,
+          withdraws,
+          deposits,
+        };
+      } else {
+        throw new Error("No lock_fee instruction found in the manifest");
+      }
+    }
   };
 
   static Derive = class {
@@ -84,7 +255,7 @@ export abstract class RadixEngineToolkit {
       publicKey: PublicKey,
       networkId: number
     ): Promise<string> {
-      return DefaultRadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
+      return Toolkit.RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
         {
           kind: convertCurve(publicKey.curve),
           publicKey: publicKey.bytes,
@@ -108,12 +279,12 @@ export abstract class RadixEngineToolkit {
       networkId: number
     ): Promise<OlympiaToBabylonAddressMapping> {
       const address =
-        await DefaultRadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
+        await Toolkit.RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
           olympiaAddress,
           networkId
         );
       const publicKey =
-        await DefaultRadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(
+        await Toolkit.RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(
           olympiaAddress
         );
 
@@ -138,7 +309,7 @@ export abstract class RadixEngineToolkit {
       olympiaResourceAddress: string,
       networkId: number
     ): Promise<string> {
-      return DefaultRadixEngineToolkit.Derive.resourceAddressFromOlympiaResourceAddress(
+      return Toolkit.RadixEngineToolkit.Derive.resourceAddressFromOlympiaResourceAddress(
         olympiaResourceAddress,
         networkId
       );
@@ -150,7 +321,7 @@ export abstract class RadixEngineToolkit {
      * @returns An object containing the entity addresses on the network with the specified id.
      */
     static async knownAddresses(networkId: number): Promise<AddressBook> {
-      return DefaultRadixEngineToolkit.Utils.knownAddresses(networkId).then(
+      return Toolkit.RadixEngineToolkit.Utils.knownAddresses(networkId).then(
         (knownAddresses) => {
           return {
             packages: {
@@ -178,6 +349,33 @@ export abstract class RadixEngineToolkit {
     }
   };
 
+  static Address = class {
+    static async isGlobalAccount(address: string): Promise<boolean> {
+      const entityType = await Toolkit.RadixEngineToolkit.Address.entityType(
+        address
+      );
+      return (
+        entityType == Toolkit.EntityType.GlobalVirtualEd25519Account ||
+        entityType == Toolkit.EntityType.GlobalVirtualSecp256k1Account ||
+        entityType == Toolkit.EntityType.GlobalAccount
+      );
+    }
+
+    static async isFungibleResource(address: string): Promise<boolean> {
+      const entityType = await Toolkit.RadixEngineToolkit.Address.entityType(
+        address
+      );
+      return entityType == Toolkit.EntityType.GlobalFungibleResourceManager;
+    }
+
+    static async isNonFungibleResource(address: string): Promise<boolean> {
+      const entityType = await Toolkit.RadixEngineToolkit.Address.entityType(
+        address
+      );
+      return entityType == Toolkit.EntityType.GlobalNonFungibleResourceManager;
+    }
+  };
+
   static Utils = class {
     /**
      * This function hashes a given byte array of data through the hashing algorithm used by the
@@ -187,7 +385,7 @@ export abstract class RadixEngineToolkit {
      * @returns The hash of the data
      */
     static hash(data: Uint8Array): Uint8Array {
-      return hash(data);
+      return Toolkit.hash(data);
     }
   };
 }
@@ -232,5 +430,15 @@ const convertCurve = (curve: Curve): "Secp256k1" | "Ed25519" => {
       return "Secp256k1";
     case Curve.Ed25519:
       return "Ed25519";
+  }
+};
+
+const resolveManifestAddress = (
+  address: Toolkit.ManifestAddress
+): Extract<Toolkit.ManifestAddress, { kind: "Static" }> => {
+  if (address.kind == "Static") {
+    return address;
+  } else {
+    throw new Error("Not a static address");
   }
 };

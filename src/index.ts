@@ -17,7 +17,7 @@
 
 export * from "./builder";
 export * from "./convert";
-export * from "./lts";
+export * from "./exceptions";
 export * from "./models";
 export * from "./network";
 export * from "./utils";
@@ -25,3 +25,43 @@ export * from "./wasm";
 
 import Decimal from "decimal.js";
 Decimal.config({ precision: 64 });
+
+import {
+  PrivateKey as LTSPrivateKey,
+  PublicKey as LTSPublicKey,
+  Signature as LTSSignature,
+  SignatureWithPublicKey as LTSSignatureWithPublicKey,
+} from "./lts/cryptography";
+import { RadixEngineToolkit as LTSRadixEngineToolkit } from "./lts/toolkit";
+import {
+  CompiledNotarizedTransaction as LTSCompiledNotarizedTransaction,
+  CompiledSignedTransactionIntent as LTSCompiledSignedTransactionIntent,
+  NotarizedTransaction as LTSNotarizedTransaction,
+  SignedTransactionIntent as LTSSignedTransactionIntent,
+  TransactionIntent as LTSTransactionIntent,
+} from "./lts/transaction";
+
+/**
+ * Class Re-exports.
+ *
+ * This namespace re-exports the classes defined in the LTS module as static class members under the
+ * LTS namespace.
+ */
+export namespace LTS {
+  /* Toolkit Wrapper */
+  export type RadixEngineToolkit = LTSRadixEngineToolkit;
+
+  /* Cryptography */
+  export type PublicKey = LTSPublicKey;
+  export type Signature = LTSSignature;
+  export type PrivateKey = LTSPrivateKey;
+  export type SignatureWithPublicKey = LTSSignatureWithPublicKey;
+
+  /* Transaction */
+  export type TransactionIntent = LTSTransactionIntent;
+  export type SignedTransactionIntent = LTSSignedTransactionIntent;
+  export type NotarizedTransaction = LTSNotarizedTransaction;
+  export type CompiledSignedTransactionIntent =
+    LTSCompiledSignedTransactionIntent;
+  export type CompiledNotarizedTransaction = LTSCompiledNotarizedTransaction;
+}
