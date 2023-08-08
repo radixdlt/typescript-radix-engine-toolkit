@@ -23,12 +23,25 @@ jobs:
           always-auth: true
 
       - name: Install dependencies
+        working-directory: radix-engine-toolkit
         run: yarn
-
       - name: Build
+        working-directory: radix-engine-toolkit
         run: yarn run build
-
       - name: Release
+        working-directory: radix-engine-toolkit
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn publish --verbose
+      
+      - name: Install dependencies
+        working-directory: radix-engine-toolkit-lts
+        run: yarn
+      - name: Build
+        working-directory: radix-engine-toolkit-lts
+        run: yarn run build
+      - name: Release
+        working-directory: radix-engine-toolkit-lts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn publish --verbose

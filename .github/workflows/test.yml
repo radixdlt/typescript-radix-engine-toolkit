@@ -19,3 +19,9 @@ jobs:
       - name: Unit tests
         working-directory: radix-engine-toolkit
         run: yarn ci
+      - name: Install dependencies
+        working-directory: radix-engine-toolkit-lts
+        run: yarn
+      - name: Unit tests
+        working-directory: radix-engine-toolkit-lts
+        run: yarn ci
