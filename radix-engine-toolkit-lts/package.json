@@ -1,0 +1,58 @@
+{
+  "name": "@radixdlt/radix-engine-toolkit-lts",
+  "version": "0.3.0-fig.1",
+  "description": "A TypeScript wrapper for the Radix Engine Toolkit that provides many of the necessary tools to interact with the Radix ledger",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/radix-engine-toolkit-lts.umd.js",
+  "module": "./dist/radix-engine-toolkit-lts.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/radix-engine-toolkit-lts.mjs",
+      "require": "./dist/radix-engine-toolkit-lts.umd.js"
+    }
+  },
+  "readme": "README.md",
+  "keywords": [
+    "Radix",
+    "ledger",
+    "transaction",
+    "radixdlt"
+  ],
+  "homepage": "https://github.com/radixdlt/typescript-radix-engine-toolkit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radixdlt/typescript-radix-engine-toolkit"
+  },
+  "bugs": "https://github.com/radixdlt/typescript-radix-engine-toolkit/issues",
+  "files": [
+    "dist"
+  ],
+  "license": "Apache-2.0",
+  "scripts": {
+    "build": "rm -rf dist; vite build && yarn build:types",
+    "build:types": "tsc --project tsconfig.types.json --emitDeclarationOnly",
+    "format": "prettier --write .",
+    "test": "vitest",
+    "ci": "yarn build && vitest run",
+    "prep": "yarn run format; yarn run build; yarn run test",
+    "license": "python3 add_license.py"
+  },
+  "devDependencies": {
+    "@rollup/plugin-wasm": "6.1.2",
+    "@types/node": "18.15.11",
+    "@vitest/ui": "0.30.1",
+    "happy-dom": "9.1.0",
+    "prettier": "2.8.7",
+    "prettier-plugin-organize-imports": "3.2.2",
+    "ts-node": "10.9.1",
+    "typescript": "5.0.2",
+    "vite": "4.2.1",
+    "vitest": "0.29.8"
+  },
+  "dependencies": {
+    "@radixdlt/radix-engine-toolkit": "../radix-engine-toolkit"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  }
+}
