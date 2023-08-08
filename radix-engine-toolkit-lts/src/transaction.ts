@@ -24,7 +24,7 @@ import {
   SignerResponse,
   resolveSignatureSource,
 } from "./cryptography";
-import { RadixEngineToolkit } from "./toolkit";
+import { LTSRadixEngineToolkit } from "./toolkit";
 
 export class TransactionIntent implements CompilableIntent, HasCompiledIntent {
   private readonly intent: Toolkit.Intent;
@@ -223,7 +223,7 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
    * deposits, and withdrawals.
    */
   summarizeTransaction(): Promise<TransactionSummary> {
-    return RadixEngineToolkit.Transaction.summarizeTransaction(this);
+    return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
   }
 }
 
@@ -323,7 +323,7 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
    * withdrawals.
    */
   summarizeTransaction(): Promise<TransactionSummary> {
-    return RadixEngineToolkit.Transaction.summarizeTransaction(this);
+    return LTSRadixEngineToolkit.Transaction.summarizeTransaction(this);
   }
 }
 

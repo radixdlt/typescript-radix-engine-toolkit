@@ -42,9 +42,9 @@ export const resolveBytesAndCheckLength = (
   expectedLength: number
 ): Uint8Array => {
   const resolvedBytes = resolveBytes(bytes);
-  if (resolveBytes.length !== expectedLength) {
+  if (resolvedBytes.length != expectedLength) {
     throw new Error(
-      `Expected bytes of length ${expectedLength} but was actually: ${bytes.length}`
+      `Expected bytes of length ${expectedLength} but was actually: ${resolvedBytes.length}`
     );
   }
   return resolvedBytes;

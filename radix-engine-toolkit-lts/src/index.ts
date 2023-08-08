@@ -18,6 +18,7 @@
 export * from "./builders";
 export * from "./constants";
 export * from "./cryptography";
+export * from "./network";
 export * from "./toolkit";
 export * from "./transaction";
 export * from "./utils";

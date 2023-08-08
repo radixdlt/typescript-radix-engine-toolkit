@@ -24,7 +24,7 @@ import { defineConfig } from "vite";
 module.exports = defineConfig({
   build: {
     lib: {
-      name: "radix-engine-toolkit",
+      name: "radix-engine-toolkit-lts",
       entry: pathe.resolve(__dirname, "src/index.ts"),
     },
     rollupOptions: {

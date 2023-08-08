@@ -35,7 +35,7 @@ import {
   isLockFeeCallMethod,
 } from "./utils";
 
-export abstract class RadixEngineToolkit {
+export abstract class LTSRadixEngineToolkit {
   static Transaction = class {
     /**
      * Given a transaction intent of any type, this function compiles the transaction intent
@@ -95,16 +95,14 @@ export abstract class RadixEngineToolkit {
      * manifest.
      */
     static async summarizeTransaction(
-      transaction: HasCompiledIntent
+      transaction: HasCompiledIntent | Uint8Array
     ): Promise<TransactionSummary> {
-      const transactionIntent = await transaction
-        .compiledIntent()
-        .then(Toolkit.RadixEngineToolkit.Intent.decompile);
+      const transactionIntent = await resolveTransactionIntent(transaction);
       const instructions =
         await Toolkit.RadixEngineToolkit.Instructions.convert(
           transactionIntent.manifest.instructions,
           transactionIntent.header.networkId,
-          "String"
+          "Parsed"
         ).then((instructions) => instructions.value as Toolkit.Instruction[]);
 
       const [faucetComponentAddress, xrdResourceAddress] =
@@ -441,4 +439,38 @@ const resolveManifestAddress = (
   } else {
     throw new Error("Not a static address");
   }
+};
+
+const resolveTransactionIntent = (
+  intent: HasCompiledIntent | Uint8Array
+): Promise<Toolkit.Intent> => {
+  if (intent.constructor === Uint8Array) {
+    return resolveUnknownCompiledIntent(intent);
+  } else {
+    return (intent as HasCompiledIntent)
+      .compiledIntent()
+      .then(Toolkit.RadixEngineToolkit.Intent.decompile);
+  }
+};
+
+const resolveUnknownCompiledIntent = (
+  intent: Uint8Array
+): Promise<Toolkit.Intent> => {
+  try {
+    return Toolkit.RadixEngineToolkit.Intent.decompile(intent);
+  } catch {}
+
+  try {
+    return Toolkit.RadixEngineToolkit.SignedIntent.decompile(intent).then(
+      (signedIntent) => signedIntent.intent
+    );
+  } catch {}
+
+  try {
+    return Toolkit.RadixEngineToolkit.NotarizedTransaction.decompile(
+      intent
+    ).then((transaction) => transaction.signedIntent.intent);
+  } catch {}
+
+  throw new Error("The passed byte array is not a compiled intent.");
 };

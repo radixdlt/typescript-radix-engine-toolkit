@@ -20,9 +20,9 @@ import Decimal from "decimal.js";
 import {
   CompiledNotarizedTransaction,
   CompiledSignedTransactionIntent,
+  LTSRadixEngineToolkit,
   PrivateKey,
   PublicKey,
-  RadixEngineToolkit,
   SignedTransactionIntent,
   TransactionIntent,
   generateRandomNonce,
@@ -128,7 +128,7 @@ export class SimpleTransactionBuilder {
     const {
       components: { faucet: faucetComponentAddress },
       resources: { xrdResource: xrdResourceAddress },
-    } = await RadixEngineToolkit.Derive.knownAddresses(networkId);
+    } = await LTSRadixEngineToolkit.Derive.knownAddresses(networkId);
 
     const manifest = new Toolkit.ManifestBuilder()
       .callMethod(
@@ -240,18 +240,17 @@ export class SimpleTransactionBuilder {
     return this;
   }
 
-  transferFungible(
-    transfer: Omit<
-      Extract<Action, { kind: "FungibleResourceTransfer" }>,
-      "kind" | "from"
-    >
-  ): this {
+  transferFungible(transfer: {
+    toAccount: string;
+    resourceAddress: string;
+    amount: Amount;
+  }): this {
     this._actions.push({
       kind: "FungibleResourceTransfer",
       toAccount: transfer.toAccount,
       fromAccount: this._fromAccount,
       resourceAddress: transfer.resourceAddress,
-      amount: transfer.amount,
+      amount: resolveDecimal(transfer.amount),
     });
     return this;
   }
