@@ -114,4 +114,16 @@ describe("Address Class", () => {
     // Assert
     expect(babylonResourceAddress).toEqual(expectedBabylonResourceAddress);
   });
+
+  it("LTS TestUtils creation of disabled deposit account works.", async () => {
+    const { accountAddress, compiledNotarizedTransaction } =
+      await LTSRadixEngineToolkit.TestUtils.createAccountWithDisabledDeposits(
+        5702,
+        0x0d
+      );
+
+    compiledNotarizedTransaction
+      .staticallyValidate(0x0d)
+      .then((x) => x.throwIfInvalid());
+  });
 });

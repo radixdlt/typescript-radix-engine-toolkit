@@ -19,6 +19,8 @@ import Decimal from "decimal.js";
 import {
   CompiledNotarizedTransaction,
   CompiledSignedTransactionIntent,
+  ManifestBuilder,
+  TransactionBuilder,
 } from "../builders";
 import {
   EntityType,
@@ -26,12 +28,15 @@ import {
   InstructionList,
   ManifestAstValue,
   NotarizedTransaction,
+  PrivateKey,
   PublicKey,
   SignedTransactionIntent,
+  TransactionHeader,
   TransactionIntent,
 } from "../models";
-import { hash } from "../utils";
+import { generateRandomNonce, hash } from "../utils";
 import { OlympiaToBabylonAddressMapping, RadixEngineToolkit } from "./default";
+import { RET } from "./raw";
 
 export namespace LTSRadixEngineToolkit {
   /**
@@ -260,6 +265,101 @@ export namespace LTSRadixEngineToolkit {
      */
     static hash(data: Uint8Array): Uint8Array {
       return hash(data);
+    }
+  }
+
+  /**
+   * A sub-API of the toolkit that includes contains utility functions used for testing.
+   */
+  export class TestUtils {
+    /**
+     * Creates a new account that has a default deposit rule of disallowing resource deposits. The
+     * created account is a virtual account derived from the public key of a pseudo-random private
+     * key. Thus, this function should only be used for testing.
+     * @param currentEpoch The current epoch of the network that this transaction will be submitted
+     * to.
+     * @param networkId The id of the network that this transaction is constructed for.
+     * @returns An object containing the address of the soon-to-be-created account with deposits
+     * disabled and the compiled notarized transaction to submit the ledger to create the account.
+     */
+    static async createAccountWithDisabledDeposits(
+      currentEpoch: number,
+      networkId: number
+    ): Promise<{
+      accountAddress: string;
+      compiledNotarizedTransaction: CompiledNotarizedTransaction;
+    }> {
+      // NOTE: The following ephemeral key is intentionally NOT generated through a secure random
+      // number generator since in this case there are no risks associated with with this.
+      // The following are the reasons we do not see this as a security risk:
+      //
+      // * The transaction constructed here is to create an account with 0 funds and with the
+      //   deposits disabled for the purposes of TESTING and only testing.
+      // * The key used here is only used to notarize the transaction. It's not being used to create
+      //   a key to an account that would store actual funds.
+      // * The worst that can happen is that an attacker who could guess the private key can cancel
+      //   the faucet transaction (a feature which is not even implemented in Scrypto yet).
+      //
+      // Generating the following key through a secure random number generator requires the use of
+      // CryptoJS which is a library that's tough to get working with different versions of NodeJS,
+      // in different environments, and with different module systems. Thus, the choice was made not
+      // to make use of it.
+      //
+      // WARNING: DO NOT USE THE FOLLOWING CODE TO GENERATE YOUR OWN PRIVATE KEYS. THIS FUNCTION IS
+      //          ONLY USED FOR TESTING.
+      const ephemeralPrivateKey = new PrivateKey.Ed25519(
+        new Uint8Array(Array(32).map((_) => Math.floor(Math.random() * 0xff)))
+      );
+      const ephemeralPublicKey = ephemeralPrivateKey.publicKey();
+      const virtualAccount =
+        await LTSRadixEngineToolkit.Derive.virtualAccountAddress(
+          ephemeralPublicKey,
+          networkId
+        );
+      const faucetComponentAddress =
+        await LTSRadixEngineToolkit.Derive.knownAddresses(networkId).then(
+          (addresses) => addresses.components.faucet
+        );
+
+      const manifest = new ManifestBuilder()
+        .callMethod(faucetComponentAddress, "lock_fee", [
+          new ManifestAstValue.Decimal("10"),
+        ])
+        .callMethod(virtualAccount, "change_account_default_deposit_rule", [
+          new ManifestAstValue.Enum(
+            new ManifestAstValue.EnumU8Discriminator(1)
+          ),
+        ])
+        .build();
+      const notarizedTransaction = await TransactionBuilder.new().then(
+        (builder) =>
+          builder
+            .header(
+              new TransactionHeader(
+                networkId,
+                currentEpoch,
+                currentEpoch + 10,
+                generateRandomNonce(),
+                ephemeralPublicKey,
+                true,
+                0
+              )
+            )
+            .manifest(manifest)
+            .notarize(ephemeralPrivateKey)
+      );
+
+      const compiledNotarizedTransaction = new CompiledNotarizedTransaction(
+        await RET,
+        await notarizedTransaction.intentHash(),
+        await notarizedTransaction.compile(),
+        await notarizedTransaction.notarizedPayloadHash()
+      );
+
+      return {
+        accountAddress: virtualAccount,
+        compiledNotarizedTransaction,
+      };
     }
   }
 }

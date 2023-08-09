@@ -469,8 +469,7 @@ export class RadixEngineToolkit {
           accountPackageAddress: accountPackageAddress,
           xrdResourceAddress: xrdResourceAddress,
           systemTokenResourceAddress: systemTokenResourceAddress,
-          Secp256k1TokenResourceAddress:
-            Secp256k1TokenResourceAddress,
+          Secp256k1TokenResourceAddress: Secp256k1TokenResourceAddress,
           Ed25519TokenResourceAddress: Ed25519TokenResourceAddress,
           packageTokenResourceAddress: packageTokenResourceAddress,
           consensusManagerComponentAddress: consensusManagerSystemAddress,

@@ -637,8 +637,7 @@ export class Address extends Value implements IAddress {
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
       .then(
-        ({ Secp256k1TokenResourceAddress }) =>
-          Secp256k1TokenResourceAddress
+        ({ Secp256k1TokenResourceAddress }) => Secp256k1TokenResourceAddress
       )
       .then((address) => new Address(address));
   }
@@ -646,10 +645,7 @@ export class Address extends Value implements IAddress {
     networkId: number
   ): Promise<Address> {
     return Address.knownEntityAddresses(networkId)
-      .then(
-        ({ Ed25519TokenResourceAddress }) =>
-          Ed25519TokenResourceAddress
-      )
+      .then(({ Ed25519TokenResourceAddress }) => Ed25519TokenResourceAddress)
       .then((address) => new Address(address));
   }
   static async packageTokenResourceAddress(

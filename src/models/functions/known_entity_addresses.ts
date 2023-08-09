@@ -84,8 +84,7 @@ export class KnownEntityAddressesOutput {
     this.accountPackageAddress = accountPackageAddress;
     this.xrdResourceAddress = xrdResourceAddress;
     this.systemTokenResourceAddress = systemTokenResourceAddress;
-    this.Secp256k1TokenResourceAddress =
-      Secp256k1TokenResourceAddress;
+    this.Secp256k1TokenResourceAddress = Secp256k1TokenResourceAddress;
     this.Ed25519TokenResourceAddress = Ed25519TokenResourceAddress;
     this.packageTokenResourceAddress = packageTokenResourceAddress;
     this.consensusManagerSystemAddress = consensusManagerSystemAddress;
