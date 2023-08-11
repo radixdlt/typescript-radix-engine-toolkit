@@ -228,7 +228,7 @@ console.log(Convert.Uint8Array.toHexString(transactionId));
 
 The constructed transaction can then be compiled and submitted to the Network Gateway to be processed by the network.
 
-As can be seen in the calls to `sign` and `notarize` these methods take in a private key as an argument. However, some clients might wish not to expose their private keys to the transaction builder for various security concerns, or since an HSM is being used. In this case, the `sign` and `notarize` functions can be called with signature functions as an arguments. These functions would take in the hash to sign and would need to return back a `Signature.Signature` or a `SignatureWithPublicKey.SignatureWithPublicKey`. The following is an example of how that can be achieved.
+As can be seen in the calls to `sign` and `notarize` these methods take in a private key as an argument. However, some clients might wish not to expose their private keys to the transaction builder for various security concerns, or since an HSM is being used. In this case, the `sign` and `notarize` functions can be called with signature functions as an arguments. These functions would take in the hash to sign and would need to return back a `Signature` or a `SignatureWithPublicKey`. The following is an example of how that can be achieved.
 
 ```ts
 import {
@@ -246,15 +246,15 @@ import {
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore
-const signIntent = (hashToSign: Uint8Array): Signature.Signature => {
-  /* This method takes in the hash to sign, signs it, and then returns it as a Signature.Signature */
+const signIntent = (hashToSign: Uint8Array): Signature => {
+  /* This method takes in the hash to sign, signs it, and then returns it as a Signature */
 };
 
 // @ts-ignore
 const notarizeIntent = (
   hashToSign: Uint8Array
-): SignatureWithPublicKey.SignatureWithPublicKey => {
-  /* This method takes in the hash to sign, signs it, and then returns it as a SignatureWithPublicKey.SignatureWithPublicKey */
+): SignatureWithPublicKey => {
+  /* This method takes in the hash to sign, signs it, and then returns it as a SignatureWithPublicKey */
 };
 
 // We first begin by creating the transaction header that will be used for the transaction.

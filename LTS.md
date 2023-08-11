@@ -48,7 +48,7 @@ import {
   CompiledSignedTransactionIntent,
 } from "@radixdlt/radix-engine-toolkit";
 
-const sign = async (publicKey: PublicKey.PublicKey, hashToSign: Uint8Array): Promise<Signature.Signature> => {
+const sign = async (publicKey: PublicKey, hashToSign: Uint8Array): Promise<Signature> => {
   /*
     A function implemented in your internal systems that is able to sign a given hash using the
     private key corresponding to the given public key, and produce a signature.
