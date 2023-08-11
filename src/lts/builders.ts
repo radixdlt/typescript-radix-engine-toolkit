@@ -33,6 +33,9 @@ import {
   TransactionHeader,
   TransactionManifest,
   ValueKind,
+  bucket,
+  decimal,
+  enumeration,
   generateRandomNonce,
   rawRadixEngineToolkit,
 } from "..";
@@ -141,45 +144,16 @@ export class SimpleTransactionBuilder {
     } = await LTSRadixEngineToolkit.Derive.knownAddresses(networkId);
 
     const manifest = new ManifestBuilder()
-      .callMethod(
-        { kind: "Static", value: faucetComponentAddress },
-        "lock_fee",
-        {
-          kind: ValueKind.Tuple,
-          fields: [
-            {
-              kind: ValueKind.Decimal,
-              value: new Decimal("10"),
-            },
-          ],
-        }
-      )
-      .callMethod({ kind: "Static", value: faucetComponentAddress }, "free", {
-        kind: ValueKind.Tuple,
-        fields: [],
-      })
+      .callMethod(faucetComponentAddress, "lock_fee", [decimal("10")])
+      .callMethod(faucetComponentAddress, "free", [])
       .takeFromWorktop(
         xrdResourceAddress,
         new Decimal("10000"),
-        (builder, bucket) => {
-          return builder.callMethod(
-            { kind: "Static", value: toAccount },
-            "try_deposit_or_abort",
-            {
-              kind: ValueKind.Tuple,
-              fields: [
-                {
-                  kind: ValueKind.Bucket,
-                  value: bucket,
-                },
-                {
-                  kind: ValueKind.Enum,
-                  discriminator: 0,
-                  fields: [],
-                },
-              ],
-            }
-          );
+        (builder, bucketId) => {
+          return builder.callMethod(toAccount, "try_deposit_or_abort", [
+            bucket(bucketId),
+            enumeration(0),
+          ]);
         }
       )
       .build();

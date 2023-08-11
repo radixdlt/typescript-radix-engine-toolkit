@@ -21,7 +21,7 @@ import {
   Instruction,
   RadixEngineToolkit,
   Value,
-} from "../..";
+} from "..";
 
 export type Bytes = Uint8Array | string;
 
@@ -152,5 +152,3 @@ export const castValue = <T = Value["kind"]>(
     throw Error(`Failed to cast value to value of kind: ${kind}`);
   }
 };
-
-export const generateRandomNonce = () => Math.floor(Math.random() * 0xffffffff);
