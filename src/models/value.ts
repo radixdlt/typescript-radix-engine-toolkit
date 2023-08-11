@@ -105,7 +105,7 @@ export type Value =
     }
   | {
       kind: ValueKind.Blob;
-      value: string;
+      value: Uint8Array;
     }
   | {
       kind: ValueKind.Decimal;

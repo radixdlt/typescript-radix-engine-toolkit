@@ -340,6 +340,12 @@ export class GeneratedConverter {
           };
         /* String values */
         case ValueKind.Blob:
+          return {
+            kind: ValueKind[value.kind],
+            value: {
+              value: Convert.Uint8Array.toHexString(value.value),
+            },
+          };
         case ValueKind.String:
         case ValueKind.NonFungibleLocalId:
           return {
@@ -456,6 +462,10 @@ export class GeneratedConverter {
             value: Convert.String.toBigInt(value.value.value),
           };
         case "Blob":
+          return {
+            kind: ValueKind[value.kind],
+            value: Convert.HexString.toUint8Array(value.value.value),
+          };
         case "String":
         case "NonFungibleLocalId":
           return {
