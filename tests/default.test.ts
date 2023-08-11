@@ -24,7 +24,6 @@ import {
   TransactionBuilder,
   TransactionHeader,
   defaultValidationConfig,
-  publicKey,
 } from "../src";
 import {
   AddressEntityTypeInput,
@@ -645,18 +644,15 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
   it("Transaction Builder Produces Statically Valid Transactions", async () => {
     // Arrange
-    const notaryPrivateKey: PrivateKey = {
-      kind: "Ed25519",
-      privateKey: Convert.HexString.toUint8Array(
-        "f9d5cd3cbd7bd0defcad16f92f2c03f97d9441335e28411a0bfadb634e192738"
-      ),
-    };
+    const notaryPrivateKey: PrivateKey = new PrivateKey.Secp256k1(
+      "f9d5cd3cbd7bd0defcad16f92f2c03f97d9441335e28411a0bfadb634e192738"
+    );
     const header: TransactionHeader = {
       networkId: 0x01,
       startEpochInclusive: 0x00,
       endEpochExclusive: 0x10,
       nonce: 0x00,
-      notaryPublicKey: publicKey(notaryPrivateKey),
+      notaryPublicKey: notaryPrivateKey.publicKey(),
       notaryIsSignatory: true,
       tipPercentage: 0x00,
     };

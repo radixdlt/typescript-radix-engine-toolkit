@@ -15,13 +15,4 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export type SignatureWithPublicKey =
-  | {
-      kind: "Secp256k1";
-      signature: Uint8Array;
-    }
-  | {
-      kind: "Ed25519";
-      signature: Uint8Array;
-      publicKey: Uint8Array;
-    };
+export type Curve = "Secp256k1" | "Ed25519";

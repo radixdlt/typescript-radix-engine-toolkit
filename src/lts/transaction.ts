@@ -15,26 +15,34 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import * as Toolkit from "@radixdlt/radix-engine-toolkit";
 import Decimal from "decimal.js";
 import {
-  Curve,
+  Convert,
+  Intent,
+  LTSRadixEngineToolkit,
+  NotarizedTransaction,
+  RadixEngineToolkit,
+  RawRadixEngineToolkit,
   Signature,
   SignatureSource,
+  SignedIntent,
   SignerResponse,
+  defaultValidationConfig,
   resolveSignatureSource,
-} from "./cryptography";
-import { LTSRadixEngineToolkit } from "./toolkit";
+} from "..";
+import { GeneratedConverter } from "../generated";
 
-export class TransactionIntent implements CompilableIntent, HasCompiledIntent {
-  private readonly intent: Toolkit.Intent;
+export class LTSTransactionIntent
+  implements CompilableIntent, HasCompiledIntent
+{
+  private readonly intent: Intent;
 
-  constructor(intent: Toolkit.Intent) {
+  constructor(intent: Intent) {
     this.intent = intent;
   }
 
   compile(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.Intent.compile(this.intent);
+    return RadixEngineToolkit.Intent.compile(this.intent);
   }
 
   compiledIntent(): Promise<Uint8Array> {
@@ -42,25 +50,25 @@ export class TransactionIntent implements CompilableIntent, HasCompiledIntent {
   }
 
   async transactionId(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.Intent.hash(this.intent);
+    return RadixEngineToolkit.Intent.hash(this.intent);
   }
 }
 
-export class SignedTransactionIntent
+export class LTSSignedTransactionIntent
   implements CompilableIntent, HasCompiledIntent
 {
-  private readonly intent: Toolkit.SignedIntent;
+  private readonly intent: SignedIntent;
 
-  constructor(intent: Toolkit.SignedIntent) {
+  constructor(intent: SignedIntent) {
     this.intent = intent;
   }
 
   compile(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.SignedIntent.compile(this.intent);
+    return RadixEngineToolkit.SignedIntent.compile(this.intent);
   }
 
   compiledIntent(): Promise<Uint8Array> {
-    return new TransactionIntent(this.intent.intent).compile();
+    return new LTSTransactionIntent(this.intent.intent).compile();
   }
 
   async transactionId(): Promise<Uint8Array> {
@@ -68,31 +76,29 @@ export class SignedTransactionIntent
   }
 
   async intentHash(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.Intent.hash(this.intent.intent);
+    return RadixEngineToolkit.Intent.hash(this.intent.intent);
   }
 
   async signedIntentHash(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.SignedIntent.hash(this.intent);
+    return RadixEngineToolkit.SignedIntent.hash(this.intent);
   }
 }
 
-export class NotarizedTransaction
+export class LTSNotarizedTransaction
   implements CompilableIntent, HasCompiledIntent
 {
-  private readonly transaction: Toolkit.NotarizedTransaction;
+  private readonly transaction: NotarizedTransaction;
 
-  constructor(transaction: Toolkit.NotarizedTransaction) {
+  constructor(transaction: NotarizedTransaction) {
     this.transaction = transaction;
   }
 
   compile(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.NotarizedTransaction.compile(
-      this.transaction
-    );
+    return RadixEngineToolkit.NotarizedTransaction.compile(this.transaction);
   }
 
   compiledIntent(): Promise<Uint8Array> {
-    return new TransactionIntent(
+    return new LTSTransactionIntent(
       this.transaction.signedIntent.intent
     ).compile();
   }
@@ -102,21 +108,15 @@ export class NotarizedTransaction
   }
 
   async intentHash(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.Intent.hash(
-      this.transaction.signedIntent.intent
-    );
+    return RadixEngineToolkit.Intent.hash(this.transaction.signedIntent.intent);
   }
 
   async signedIntentHash(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.SignedIntent.hash(
-      this.transaction.signedIntent
-    );
+    return RadixEngineToolkit.SignedIntent.hash(this.transaction.signedIntent);
   }
 
   async notarizedPayloadHash(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.NotarizedTransaction.hash(
-      this.transaction
-    );
+    return RadixEngineToolkit.NotarizedTransaction.hash(this.transaction);
   }
 }
 
@@ -125,16 +125,16 @@ export interface CompilableIntent {
 }
 
 export class CompiledSignedTransactionIntent implements HasCompiledIntent {
-  private readonly retWrapper: Toolkit.RawRadixEngineToolkit;
-  private readonly signedIntent: Toolkit.SignedIntent;
+  private readonly retWrapper: RawRadixEngineToolkit;
+  private readonly signedIntent: SignedIntent;
   readonly intentHash: Uint8Array;
   readonly compiledSignedIntent: Uint8Array;
   readonly signedIntentHash: Uint8Array;
 
   constructor(
-    retWrapper: Toolkit.RawRadixEngineToolkit,
+    retWrapper: RawRadixEngineToolkit,
     intentHash: Uint8Array,
-    signedIntent: Toolkit.SignedIntent,
+    signedIntent: SignedIntent,
     compiledSignedIntent: Uint8Array,
     signedIntentHash: Uint8Array
   ) {
@@ -146,7 +146,7 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
   }
 
   compiledIntent(): Promise<Uint8Array> {
-    return new TransactionIntent(this.signedIntent.intent).compile();
+    return new LTSTransactionIntent(this.signedIntent.intent).compile();
   }
 
   /**
@@ -175,30 +175,27 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
       this.hashToNotarize,
       (signerResponse: SignerResponse): Signature => {
         switch (signerResponse.curve) {
-          case Curve.Secp256k1:
+          case "Secp256k1":
             return new Signature.Secp256k1(signerResponse.signature);
-          case Curve.Ed25519:
+          case "Ed25519":
             return new Signature.Ed25519(signerResponse.signature);
         }
       }
     );
-    const notarizedTransaction: Toolkit.NotarizedTransaction = {
+    const notarizedTransaction: NotarizedTransaction = {
       signedIntent: this.signedIntent,
-      notarySignature: {
-        kind: notarySignature.curve,
-        signature: notarySignature.bytes,
-      },
+      notarySignature: notarySignature,
     };
 
     const [compiledNotarizedTransaction, notarizedPayloadHash] = (() => {
       const input =
-        Toolkit.GeneratedConverter.NotarizedTransaction.toGenerated(
+        GeneratedConverter.NotarizedTransaction.toGenerated(
           notarizedTransaction
         );
-      const compiled = Toolkit.Convert.HexString.toUint8Array(
+      const compiled = Convert.HexString.toUint8Array(
         this.retWrapper.notarizedTransactionCompile(input)
       );
-      const hash = Toolkit.Convert.HexString.toUint8Array(
+      const hash = Convert.HexString.toUint8Array(
         this.retWrapper.notarizedTransactionHash(input)
       );
       return [compiled, hash];
@@ -215,7 +212,7 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
    * @returns The transaction identifier (also known as the intent hash) of the transaction, encoded into hex.
    */
   intentHashHex(): string {
-    return Toolkit.Convert.Uint8Array.toHexString(this.intentHash);
+    return Convert.Uint8Array.toHexString(this.intentHash);
   }
 
   /**
@@ -243,10 +240,10 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
   }
 
   compiledIntent(): Promise<Uint8Array> {
-    return Toolkit.RadixEngineToolkit.NotarizedTransaction.decompile(
+    return RadixEngineToolkit.NotarizedTransaction.decompile(
       this.compiled
     ).then((decompiled) =>
-      new NotarizedTransaction(decompiled).compiledIntent()
+      new LTSNotarizedTransaction(decompiled).compiledIntent()
     );
   }
 
@@ -262,14 +259,14 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
   }
 
   toHex(): string {
-    return Toolkit.Convert.Uint8Array.toHexString(this.compiled);
+    return Convert.Uint8Array.toHexString(this.compiled);
   }
 
   /**
    * @returns The transaction identifier (also known as the intent hash) of the transaction, encoded into hex.
    */
   intentHashHex(): string {
-    return Toolkit.Convert.Uint8Array.toHexString(this.intentHash);
+    return Convert.Uint8Array.toHexString(this.intentHash);
   }
 
   /**
@@ -283,17 +280,15 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
    * @returns The (notarized) payload hash, encoded into hex.
    */
   notarizedPayloadHashHex(): string {
-    return Toolkit.Convert.Uint8Array.toHexString(this.notarizedPayloadHash);
+    return Convert.Uint8Array.toHexString(this.notarizedPayloadHash);
   }
 
   async staticallyValidate(networkId: number): Promise<TransactionValidity> {
-    return Toolkit.RadixEngineToolkit.NotarizedTransaction.decompile(
-      this.compiled
-    )
+    return RadixEngineToolkit.NotarizedTransaction.decompile(this.compiled)
       .then((decompiled) =>
-        Toolkit.RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
+        RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
           decompiled,
-          Toolkit.defaultValidationConfig(networkId)
+          defaultValidationConfig(networkId)
         )
       )
       .then((validity) => {

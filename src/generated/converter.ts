@@ -98,32 +98,44 @@ export class GeneratedConverter {
   static PublicKey = class {
     static toGenerated(value: PublicKey): SerializablePublicKey {
       return {
-        kind: value.kind,
+        kind: value.curve,
         value: Convert.Uint8Array.toHexString(value.publicKey),
       };
     }
 
     static fromGenerated(value: SerializablePublicKey): PublicKey {
-      return {
-        kind: value.kind,
-        publicKey: Convert.HexString.toUint8Array(value.value),
-      };
+      switch (value.kind) {
+        case "Secp256k1":
+          return new PublicKey.Secp256k1(
+            Convert.HexString.toUint8Array(value.value)
+          );
+        case "Ed25519":
+          return new PublicKey.Ed25519(
+            Convert.HexString.toUint8Array(value.value)
+          );
+      }
     }
   };
 
   static Signature = class {
     static toGenerated(value: Signature): SerializableSignature {
       return {
-        kind: value.kind,
+        kind: value.curve,
         value: Convert.Uint8Array.toHexString(value.signature),
       };
     }
 
     static fromGenerated(value: SerializableSignature): Signature {
-      return {
-        kind: value.kind,
-        signature: Convert.HexString.toUint8Array(value.value),
-      };
+      switch (value.kind) {
+        case "Secp256k1":
+          return new Signature.Secp256k1(
+            Convert.HexString.toUint8Array(value.value)
+          );
+        case "Ed25519":
+          return new Signature.Ed25519(
+            Convert.HexString.toUint8Array(value.value)
+          );
+      }
     }
   };
 
@@ -131,12 +143,12 @@ export class GeneratedConverter {
     static toGenerated(
       value: SignatureWithPublicKey
     ): SerializableSignatureWithPublicKey {
-      switch (value.kind) {
+      switch (value.curve) {
         case "Ed25519":
           return {
             kind: "Ed25519",
             value: {
-              public_key: Convert.Uint8Array.toHexString(value.publicKey),
+              public_key: Convert.Uint8Array.toHexString(value.publicKey!),
               signature: Convert.Uint8Array.toHexString(value.signature),
             },
           };
@@ -154,17 +166,15 @@ export class GeneratedConverter {
       value: SerializableSignatureWithPublicKey
     ): SignatureWithPublicKey {
       switch (value.kind) {
-        case "Ed25519":
-          return {
-            kind: "Ed25519",
-            publicKey: Convert.HexString.toUint8Array(value.value.public_key),
-            signature: Convert.HexString.toUint8Array(value.value.signature),
-          };
         case "Secp256k1":
-          return {
-            kind: "Secp256k1",
-            signature: Convert.HexString.toUint8Array(value.value.signature),
-          };
+          return new SignatureWithPublicKey.Secp256k1(
+            Convert.HexString.toUint8Array(value.value.signature)
+          );
+        case "Ed25519":
+          return new SignatureWithPublicKey.Ed25519(
+            Convert.HexString.toUint8Array(value.value.signature),
+            Convert.HexString.toUint8Array(value.value.public_key)
+          );
       }
     }
   };

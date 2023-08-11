@@ -15,25 +15,29 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import * as Toolkit from "@radixdlt/radix-engine-toolkit";
 import Decimal from "decimal.js";
-import { Curve, PublicKey } from "./cryptography";
 import {
   CompilableIntent,
+  Curve,
+  EntityType,
   HasCompiledIntent,
-  NotarizedTransaction,
-  SignedTransactionIntent,
-  TransactionIntent,
+  Instruction,
+  Intent,
+  LTSNotarizedTransaction,
+  LTSSignedTransactionIntent,
+  LTSTransactionIntent,
+  ManifestAddress,
+  PublicKey,
+  RadixEngineToolkit,
   TransactionSummary,
-} from "./transaction";
-import {
   castValue,
   destructManifestValueTuple,
+  hash,
   isAccountDepositCallMethod,
   isAccountWithdrawCallMethod,
   isFreeXrdCallMethod,
   isLockFeeCallMethod,
-} from "./utils";
+} from "..";
 
 export abstract class LTSRadixEngineToolkit {
   static Transaction = class {
@@ -53,7 +57,7 @@ export abstract class LTSRadixEngineToolkit {
      * @returns The compiled transaction intent
      */
     static async compileTransactionIntent(
-      transactionIntent: TransactionIntent
+      transactionIntent: LTSTransactionIntent
     ): Promise<Uint8Array> {
       return transactionIntent.compile();
     }
@@ -64,7 +68,7 @@ export abstract class LTSRadixEngineToolkit {
      * @returns The compiled signed transaction intent
      */
     static async compileSignedTransactionIntent(
-      signedTransactionIntent: SignedTransactionIntent
+      signedTransactionIntent: LTSSignedTransactionIntent
     ): Promise<Uint8Array> {
       return signedTransactionIntent.compile();
     }
@@ -75,7 +79,7 @@ export abstract class LTSRadixEngineToolkit {
      * @returns The compiled signed transaction intent
      */
     static async compileNotarizedTransactionIntent(
-      notarizedTransactionIntent: NotarizedTransaction
+      notarizedTransactionIntent: LTSNotarizedTransaction
     ): Promise<Uint8Array> {
       return notarizedTransactionIntent.compile();
     }
@@ -98,15 +102,14 @@ export abstract class LTSRadixEngineToolkit {
       transaction: HasCompiledIntent | Uint8Array
     ): Promise<TransactionSummary> {
       const transactionIntent = await resolveTransactionIntent(transaction);
-      const instructions =
-        await Toolkit.RadixEngineToolkit.Instructions.convert(
-          transactionIntent.manifest.instructions,
-          transactionIntent.header.networkId,
-          "Parsed"
-        ).then((instructions) => instructions.value as Toolkit.Instruction[]);
+      const instructions = await RadixEngineToolkit.Instructions.convert(
+        transactionIntent.manifest.instructions,
+        transactionIntent.header.networkId,
+        "Parsed"
+      ).then((instructions) => instructions.value as Instruction[]);
 
       const [faucetComponentAddress, xrdResourceAddress] =
-        await Toolkit.RadixEngineToolkit.Utils.knownAddresses(
+        await RadixEngineToolkit.Utils.knownAddresses(
           transactionIntent.header.networkId
         ).then((knownAddresses) => [
           knownAddresses.componentAddresses.faucet,
@@ -253,11 +256,8 @@ export abstract class LTSRadixEngineToolkit {
       publicKey: PublicKey,
       networkId: number
     ): Promise<string> {
-      return Toolkit.RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
-        {
-          kind: convertCurve(publicKey.curve),
-          publicKey: publicKey.bytes,
-        },
+      return RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
+        publicKey,
         networkId
       );
     }
@@ -277,12 +277,12 @@ export abstract class LTSRadixEngineToolkit {
       networkId: number
     ): Promise<OlympiaToBabylonAddressMapping> {
       const address =
-        await Toolkit.RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
+        await RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
           olympiaAddress,
           networkId
         );
       const publicKey =
-        await Toolkit.RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(
+        await RadixEngineToolkit.Derive.publicKeyFromOlympiaAccountAddress(
           olympiaAddress
         );
 
@@ -307,7 +307,7 @@ export abstract class LTSRadixEngineToolkit {
       olympiaResourceAddress: string,
       networkId: number
     ): Promise<string> {
-      return Toolkit.RadixEngineToolkit.Derive.resourceAddressFromOlympiaResourceAddress(
+      return RadixEngineToolkit.Derive.resourceAddressFromOlympiaResourceAddress(
         olympiaResourceAddress,
         networkId
       );
@@ -319,7 +319,7 @@ export abstract class LTSRadixEngineToolkit {
      * @returns An object containing the entity addresses on the network with the specified id.
      */
     static async knownAddresses(networkId: number): Promise<AddressBook> {
-      return Toolkit.RadixEngineToolkit.Utils.knownAddresses(networkId).then(
+      return RadixEngineToolkit.Utils.knownAddresses(networkId).then(
         (knownAddresses) => {
           return {
             packages: {
@@ -349,28 +349,22 @@ export abstract class LTSRadixEngineToolkit {
 
   static Address = class {
     static async isGlobalAccount(address: string): Promise<boolean> {
-      const entityType = await Toolkit.RadixEngineToolkit.Address.entityType(
-        address
-      );
+      const entityType = await RadixEngineToolkit.Address.entityType(address);
       return (
-        entityType == Toolkit.EntityType.GlobalVirtualEd25519Account ||
-        entityType == Toolkit.EntityType.GlobalVirtualSecp256k1Account ||
-        entityType == Toolkit.EntityType.GlobalAccount
+        entityType == EntityType.GlobalVirtualEd25519Account ||
+        entityType == EntityType.GlobalVirtualSecp256k1Account ||
+        entityType == EntityType.GlobalAccount
       );
     }
 
     static async isFungibleResource(address: string): Promise<boolean> {
-      const entityType = await Toolkit.RadixEngineToolkit.Address.entityType(
-        address
-      );
-      return entityType == Toolkit.EntityType.GlobalFungibleResourceManager;
+      const entityType = await RadixEngineToolkit.Address.entityType(address);
+      return entityType == EntityType.GlobalFungibleResourceManager;
     }
 
     static async isNonFungibleResource(address: string): Promise<boolean> {
-      const entityType = await Toolkit.RadixEngineToolkit.Address.entityType(
-        address
-      );
-      return entityType == Toolkit.EntityType.GlobalNonFungibleResourceManager;
+      const entityType = await RadixEngineToolkit.Address.entityType(address);
+      return entityType == EntityType.GlobalNonFungibleResourceManager;
     }
   };
 
@@ -383,7 +377,7 @@ export abstract class LTSRadixEngineToolkit {
      * @returns The hash of the data
      */
     static hash(data: Uint8Array): Uint8Array {
-      return Toolkit.hash(data);
+      return hash(data);
     }
   };
 }
@@ -424,16 +418,16 @@ export interface AddressBook {
 
 const convertCurve = (curve: Curve): "Secp256k1" | "Ed25519" => {
   switch (curve) {
-    case Curve.Secp256k1:
+    case "Secp256k1":
       return "Secp256k1";
-    case Curve.Ed25519:
+    case "Ed25519":
       return "Ed25519";
   }
 };
 
 const resolveManifestAddress = (
-  address: Toolkit.ManifestAddress
-): Extract<Toolkit.ManifestAddress, { kind: "Static" }> => {
+  address: ManifestAddress
+): Extract<ManifestAddress, { kind: "Static" }> => {
   if (address.kind == "Static") {
     return address;
   } else {
@@ -443,33 +437,31 @@ const resolveManifestAddress = (
 
 const resolveTransactionIntent = (
   intent: HasCompiledIntent | Uint8Array
-): Promise<Toolkit.Intent> => {
+): Promise<Intent> => {
   if (intent.constructor === Uint8Array) {
     return resolveUnknownCompiledIntent(intent);
   } else {
     return (intent as HasCompiledIntent)
       .compiledIntent()
-      .then(Toolkit.RadixEngineToolkit.Intent.decompile);
+      .then(RadixEngineToolkit.Intent.decompile);
   }
 };
 
-const resolveUnknownCompiledIntent = (
-  intent: Uint8Array
-): Promise<Toolkit.Intent> => {
+const resolveUnknownCompiledIntent = (intent: Uint8Array): Promise<Intent> => {
   try {
-    return Toolkit.RadixEngineToolkit.Intent.decompile(intent);
+    return RadixEngineToolkit.Intent.decompile(intent);
   } catch {}
 
   try {
-    return Toolkit.RadixEngineToolkit.SignedIntent.decompile(intent).then(
+    return RadixEngineToolkit.SignedIntent.decompile(intent).then(
       (signedIntent) => signedIntent.intent
     );
   } catch {}
 
   try {
-    return Toolkit.RadixEngineToolkit.NotarizedTransaction.decompile(
-      intent
-    ).then((transaction) => transaction.signedIntent.intent);
+    return RadixEngineToolkit.NotarizedTransaction.decompile(intent).then(
+      (transaction) => transaction.signedIntent.intent
+    );
   } catch {}
 
   throw new Error("The passed byte array is not a compiled intent.");

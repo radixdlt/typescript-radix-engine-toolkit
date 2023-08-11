@@ -19,7 +19,6 @@ import {
   Convert,
   Intent,
   NotarizedTransaction,
-  PrivateKey,
   RawRadixEngineToolkit,
   Signature,
   SignatureFunction,
@@ -28,8 +27,7 @@ import {
   TransactionHeader,
   TransactionManifest,
   rawRadixEngineToolkit,
-  signToSignature,
-  signToSignatureWithPublicKey,
+  resolveSignatureSource,
 } from "..";
 import { GeneratedConverter } from "../generated";
 
@@ -96,7 +94,14 @@ export class TransactionBuilderIntentSignaturesStep {
     const signature = resolveSignatureSource(
       source,
       messageHash,
-      signToSignatureWithPublicKey
+      ({ curve, signature, publicKey }) => {
+        switch (curve) {
+          case "Secp256k1":
+            return new SignatureWithPublicKey.Secp256k1(signature);
+          case "Ed25519":
+            return new SignatureWithPublicKey.Ed25519(signature, publicKey);
+        }
+      }
     );
     this.intentSignatures.push(signature);
     throw this;
@@ -116,7 +121,14 @@ export class TransactionBuilderIntentSignaturesStep {
     const signature = resolveSignatureSource(
       source,
       messageHash,
-      signToSignature
+      ({ curve, signature }) => {
+        switch (curve) {
+          case "Secp256k1":
+            return new Signature.Secp256k1(signature);
+          case "Ed25519":
+            return new Signature.Ed25519(signature);
+        }
+      }
     );
     return {
       signedIntent: {
@@ -160,20 +172,3 @@ export class TransactionBuilderIntentSignaturesStep {
     return Convert.HexString.toUint8Array(output);
   }
 }
-
-const resolveSignatureSource = <T>(
-  source: SignatureSource<T>,
-  messageHash: Uint8Array,
-  privateKeyCallback: (privateKey: PrivateKey, messageHash: Uint8Array) => T
-): T => {
-  if (typeof source === "function") {
-    const fn = source as SignatureFunction<T>;
-    return fn(messageHash);
-  } else if ("privateKey" in (source as PrivateKey)) {
-    const privateKey = source as PrivateKey;
-    return privateKeyCallback(privateKey, messageHash);
-  } else {
-    const signature = source as T;
-    return signature;
-  }
-};

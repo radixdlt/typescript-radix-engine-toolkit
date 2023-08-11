@@ -15,8 +15,31 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { PrivateKey } from "../";
+import { Convert } from "../../";
 
-export type SignatureSource<T> = PrivateKey | T | SignatureFunction<T>;
+export type Bytes = Uint8Array | string;
 
-export type SignatureFunction<T> = (messageHash: Uint8Array) => T;
+export const resolveBytes = (bytes: Bytes): Uint8Array => {
+  if (typeof bytes === "string") {
+    return Convert.HexString.toUint8Array(bytes);
+  } else if (bytes.constructor === Uint8Array) {
+    return bytes;
+  } else {
+    throw new Error(
+      "Resolution of bytes can only happen on a HexString or a Uint8Array."
+    );
+  }
+};
+
+export const resolveBytesAndCheckLength = (
+  bytes: Bytes,
+  expectedLength: number
+): Uint8Array => {
+  const resolvedBytes = resolveBytes(bytes);
+  if (resolvedBytes.length != expectedLength) {
+    throw new Error(
+      `Expected bytes of length ${expectedLength} but was actually: ${resolvedBytes.length}`
+    );
+  }
+  return resolvedBytes;
+};

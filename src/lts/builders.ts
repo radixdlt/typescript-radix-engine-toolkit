@@ -15,18 +15,28 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import * as Toolkit from "@radixdlt/radix-engine-toolkit";
 import Decimal from "decimal.js";
 import {
   CompiledNotarizedTransaction,
   CompiledSignedTransactionIntent,
+  Convert,
+  Instruction,
   LTSRadixEngineToolkit,
+  LTSSignedTransactionIntent,
+  LTSTransactionIntent,
+  ManifestBuilder,
   PrivateKey,
   PublicKey,
-  SignedTransactionIntent,
-  TransactionIntent,
+  RawRadixEngineToolkit,
+  SignedIntent,
+  TransactionBuilderIntentSignaturesStep,
+  TransactionHeader,
+  TransactionManifest,
+  ValueKind,
   generateRandomNonce,
-} from ".";
+  rawRadixEngineToolkit,
+} from "..";
+import { GeneratedConverter } from "../generated";
 
 export interface SimpleTransactionBuilderSettings {
   networkId: number;
@@ -53,7 +63,7 @@ type Action = {
  * A builder class used for building single signature transactions with the notary as a signer.
  */
 export class SimpleTransactionBuilder {
-  private retWrapper: Toolkit.RawRadixEngineToolkit;
+  private retWrapper: RawRadixEngineToolkit;
 
   private _startEpoch: number;
   private _expiresAfterEpochs: number = 2;
@@ -68,7 +78,7 @@ export class SimpleTransactionBuilder {
   private _actions: Action[] = [];
 
   constructor(
-    retWrapper: Toolkit.RawRadixEngineToolkit,
+    retWrapper: RawRadixEngineToolkit,
     startEpoch: number,
     networkId: number,
     fromAccount: string,
@@ -90,7 +100,7 @@ export class SimpleTransactionBuilder {
       settings;
 
     return new SimpleTransactionBuilder(
-      await Toolkit.rawRadixEngineToolkit,
+      await rawRadixEngineToolkit,
       validFromEpoch,
       networkId,
       fromAccount,
@@ -130,22 +140,22 @@ export class SimpleTransactionBuilder {
       resources: { xrdResource: xrdResourceAddress },
     } = await LTSRadixEngineToolkit.Derive.knownAddresses(networkId);
 
-    const manifest = new Toolkit.ManifestBuilder()
+    const manifest = new ManifestBuilder()
       .callMethod(
         { kind: "Static", value: faucetComponentAddress },
         "lock_fee",
         {
-          kind: Toolkit.ValueKind.Tuple,
+          kind: ValueKind.Tuple,
           fields: [
             {
-              kind: Toolkit.ValueKind.Decimal,
+              kind: ValueKind.Decimal,
               value: new Decimal("10"),
             },
           ],
         }
       )
       .callMethod({ kind: "Static", value: faucetComponentAddress }, "free", {
-        kind: Toolkit.ValueKind.Tuple,
+        kind: ValueKind.Tuple,
         fields: [],
       })
       .takeFromWorktop(
@@ -156,14 +166,14 @@ export class SimpleTransactionBuilder {
             { kind: "Static", value: toAccount },
             "try_deposit_or_abort",
             {
-              kind: Toolkit.ValueKind.Tuple,
+              kind: ValueKind.Tuple,
               fields: [
                 {
-                  kind: Toolkit.ValueKind.Bucket,
+                  kind: ValueKind.Bucket,
                   value: bucket,
                 },
                 {
-                  kind: Toolkit.ValueKind.Enum,
+                  kind: ValueKind.Enum,
                   discriminator: 0,
                   fields: [],
                 },
@@ -173,26 +183,23 @@ export class SimpleTransactionBuilder {
         }
       )
       .build();
-    const header: Toolkit.TransactionHeader = {
+    const header: TransactionHeader = {
       networkId: networkId,
       startEpochInclusive: validFromEpoch,
       endEpochExclusive: validFromEpoch + 2,
       nonce: await generateRandomNonce(),
-      notaryPublicKey: {
-        kind: ephemeralPublicKey.curve,
-        publicKey: ephemeralPublicKey.bytes,
-      },
+      notaryPublicKey: ephemeralPrivateKey.publicKey(),
       notaryIsSignatory: false,
       tipPercentage: 0,
     };
-    const intent = new TransactionIntent({ header, manifest });
-    const signedIntent = new SignedTransactionIntent({
+    const intent = new LTSTransactionIntent({ header, manifest });
+    const signedIntent = new LTSSignedTransactionIntent({
       intent: { header, manifest },
       intentSignatures: [],
     });
 
     return new CompiledSignedTransactionIntent(
-      await Toolkit.rawRadixEngineToolkit,
+      await rawRadixEngineToolkit,
       await intent.transactionId(),
       {
         intent: { header, manifest },
@@ -266,23 +273,21 @@ export class SimpleTransactionBuilder {
     const intent = transitioned.intent;
     const intentSignatures = transitioned.intentSignatures;
 
-    const intentHash = Toolkit.Convert.HexString.toUint8Array(
-      this.retWrapper.intentHash(
-        Toolkit.GeneratedConverter.Intent.toGenerated(intent)
-      )
+    const intentHash = Convert.HexString.toUint8Array(
+      this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
     );
-    const signedIntent: Toolkit.SignedIntent = {
+    const signedIntent: SignedIntent = {
       intent,
       intentSignatures,
     };
-    const compiledSignedIntent = Toolkit.Convert.HexString.toUint8Array(
+    const compiledSignedIntent = Convert.HexString.toUint8Array(
       this.retWrapper.signedIntentCompile(
-        Toolkit.GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
       )
     );
-    const signedIntentHash = Toolkit.Convert.HexString.toUint8Array(
+    const signedIntentHash = Convert.HexString.toUint8Array(
       this.retWrapper.signedIntentHash(
-        Toolkit.GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
       )
     );
 
@@ -299,15 +304,15 @@ export class SimpleTransactionBuilder {
   // Private Methods
   //=================
 
-  private transition(): Toolkit.TransactionBuilderIntentSignaturesStep {
-    return new Toolkit.TransactionBuilderIntentSignaturesStep(
+  private transition(): TransactionBuilderIntentSignaturesStep {
+    return new TransactionBuilderIntentSignaturesStep(
       this.retWrapper,
       this.constructTransactionHeader(),
       this.constructTransactionManifest()
     );
   }
 
-  private constructTransactionHeader(): Toolkit.TransactionHeader {
+  private constructTransactionHeader(): TransactionHeader {
     const notaryIsSignatory = true;
     const endEpoch = this._startEpoch + this._expiresAfterEpochs;
     return {
@@ -315,18 +320,15 @@ export class SimpleTransactionBuilder {
       startEpochInclusive: this._startEpoch,
       endEpochExclusive: endEpoch,
       nonce: this._nonce,
-      notaryPublicKey: {
-        kind: this._notaryPublicKey.curve,
-        publicKey: this._notaryPublicKey.bytes,
-      },
+      notaryPublicKey: this._notaryPublicKey,
       notaryIsSignatory: notaryIsSignatory,
       tipPercentage: this._tipPercentage,
     };
   }
 
-  private constructTransactionManifest(): Toolkit.TransactionManifest {
+  private constructTransactionManifest(): TransactionManifest {
     const feeAmount = this.resolveFeeAmount();
-    const instructions: Toolkit.Instruction[] = [];
+    const instructions: Instruction[] = [];
     const { withdraws, deposits } = this.resolveActions();
 
     instructions.push({
@@ -334,10 +336,10 @@ export class SimpleTransactionBuilder {
       address: { kind: "Static", value: this._fromAccount },
       methodName: "lock_fee",
       args: {
-        kind: Toolkit.ValueKind.Tuple,
+        kind: ValueKind.Tuple,
         fields: [
           {
-            kind: Toolkit.ValueKind.Decimal,
+            kind: ValueKind.Decimal,
             value: feeAmount,
           },
         ],
@@ -353,14 +355,14 @@ export class SimpleTransactionBuilder {
           address: { kind: "Static", value: this._fromAccount },
           methodName: "withdraw",
           args: {
-            kind: Toolkit.ValueKind.Tuple,
+            kind: ValueKind.Tuple,
             fields: [
               {
-                kind: Toolkit.ValueKind.Address,
+                kind: ValueKind.Address,
                 value: { kind: "Static", value: resourceAddress },
               },
               {
-                kind: Toolkit.ValueKind.Decimal,
+                kind: ValueKind.Decimal,
                 value: amount,
               },
             ],
@@ -384,14 +386,14 @@ export class SimpleTransactionBuilder {
           address: { kind: "Static", value: to },
           methodName: "try_deposit_or_abort",
           args: {
-            kind: Toolkit.ValueKind.Tuple,
+            kind: ValueKind.Tuple,
             fields: [
               {
-                kind: Toolkit.ValueKind.Bucket,
+                kind: ValueKind.Bucket,
                 value: depositCounter++,
               },
               {
-                kind: Toolkit.ValueKind.Enum,
+                kind: ValueKind.Enum,
                 discriminator: 0,
                 fields: [],
               },

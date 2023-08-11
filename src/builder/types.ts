@@ -15,30 +15,23 @@
 // specific language governing permissions and limitations
 // under the License.
 
-/// <reference types="vitest" />
+import { Signer, SignerResponse } from "../";
 
-import { wasm } from "@rollup/plugin-wasm";
-import pathe from "pathe";
-import { defineConfig } from "vite";
+export type SignatureSource<T> = Signer | T | SignatureFunction<T>;
+export type SignatureFunction<T> = (messageHash: Uint8Array) => T;
 
-module.exports = defineConfig({
-  build: {
-    lib: {
-      name: "radix-engine-toolkit-lts",
-      entry: pathe.resolve(__dirname, "src/index.ts"),
-    },
-    rollupOptions: {
-      external: ["crypto"],
-    },
-    minify: false,
-  },
-  plugins: [wasm({ targetEnv: "auto-inline" })],
-  test: {
-    globals: true,
-    environment: "happy-dom",
-    deps: {
-      interopDefault: true,
-    },
-    exclude: ["examples", "node_modules"],
-  },
-});
+export const resolveSignatureSource = <T>(
+  source: SignatureSource<T>,
+  messageHash: Uint8Array,
+  signerResponseCallback: (signerResponse: SignerResponse) => T
+): T => {
+  if (typeof source === "function") {
+    return (source as SignatureFunction<T>)(messageHash);
+  } else if ("produceSignature" in (source as Signer)) {
+    return signerResponseCallback(
+      (source as Signer).produceSignature(messageHash)
+    );
+  } else {
+    return source as T;
+  }
+};

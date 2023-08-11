@@ -21,7 +21,7 @@ import {
   Instruction,
   RadixEngineToolkit,
   Value,
-} from "@radixdlt/radix-engine-toolkit";
+} from "../..";
 
 export type Bytes = Uint8Array | string;
 

@@ -15,13 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 import Decimal from "decimal.js";
 import { describe, expect, it } from "vitest";
 import {
   LTSRadixEngineToolkit,
   NetworkId,
   PrivateKey,
+  RadixEngineToolkit,
   SimpleTransactionBuilder,
   TransactionSummary,
 } from "../src";
