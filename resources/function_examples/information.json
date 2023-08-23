@@ -3,10 +3,10 @@
     {
       "input": {},
       "output": {
-        "version": "0.12.0-fig.1",
+        "version": "0.12.0-grape.1",
         "scrypto_dependency": {
           "kind": "Tag",
-          "value": "fig-715722bf65"
+          "value": "grape-d605b3a"
         }
       }
     }

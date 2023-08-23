@@ -284,8 +284,10 @@ export interface SerializableFeeLocks {
 }
 
 export interface SerializableFeeSummary {
-  network_fee: SerializableDecimal;
-  royalty_fee: SerializableDecimal;
+  execution_cost: SerializableDecimal;
+  finalization_cost: SerializableDecimal;
+  storage_expansion_cost: SerializableDecimal;
+  royalty_cost: SerializableDecimal;
 }
 
 export type SerializableTransactionType =
@@ -297,10 +299,19 @@ export type SerializableTransactionType =
     }
   | { kind: "GeneralTransaction"; value: SerializableGeneralTransactionType };
 
+export enum SerializableReservedInstruction {
+  AccountLockFee = "AccountLockFee",
+  AccountSecurify = "AccountSecurify",
+  IdentitySecurify = "IdentitySecurify",
+  AccountUpdateSettings = "AccountUpdateSettings",
+  AccessController = "AccessController",
+}
+
 export interface ExecutionAnalyzeOutput {
   fee_locks: SerializableFeeLocks;
   fee_summary: SerializableFeeSummary;
   transaction_types: SerializableTransactionType[];
+  reserved_instructions: SerializableReservedInstruction[];
 }
 
 export type SerializableResourceSpecifier =
@@ -510,8 +521,6 @@ export interface SerializableMessageValidationConfig {
 export interface SerializableValidationConfig {
   network_id: SerializableU8;
   max_notarized_payload_size: SerializableU64;
-  min_cost_unit_limit: SerializableU32;
-  max_cost_unit_limit: SerializableU32;
   min_tip_percentage: SerializableU16;
   max_tip_percentage: SerializableU16;
   max_epoch_range: SerializableU64;

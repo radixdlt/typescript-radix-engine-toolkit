@@ -35,6 +35,7 @@ import {
   NotarizedTransaction,
   OlympiaNetwork,
   PublicKey,
+  ReservedInstruction,
   ResourceOrNonFungible,
   ResourcePreference,
   ResourcePreferenceAction,
@@ -73,6 +74,7 @@ import {
   SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
   SerializablePublicKey,
+  SerializableReservedInstruction,
   SerializableResourceOrNonFungible,
   SerializableResourcePreference,
   SerializableResourcePreferenceAction,
@@ -1088,15 +1090,23 @@ export class GeneratedConverter {
   static FeeSummary = class {
     static toGenerated(value: FeeSummary): SerializableFeeSummary {
       return {
-        network_fee: Convert.Decimal.toString(value.networkFee),
-        royalty_fee: Convert.Decimal.toString(value.royaltyFee),
+        execution_cost: Convert.Decimal.toString(value.executionCost),
+        finalization_cost: Convert.Decimal.toString(value.finalizationCost),
+        storage_expansion_cost: Convert.Decimal.toString(
+          value.storageExpansionCost
+        ),
+        royalty_cost: Convert.Decimal.toString(value.royaltyCost),
       };
     }
 
     static fromGenerated(value: SerializableFeeSummary): FeeSummary {
       return {
-        networkFee: Convert.String.toDecimal(value.network_fee),
-        royaltyFee: Convert.String.toDecimal(value.royalty_fee),
+        executionCost: Convert.String.toDecimal(value.execution_cost),
+        finalizationCost: Convert.String.toDecimal(value.finalization_cost),
+        storageExpansionCost: Convert.String.toDecimal(
+          value.storage_expansion_cost
+        ),
+        royaltyCost: Convert.String.toDecimal(value.royalty_cost),
       };
     }
   };
@@ -1675,6 +1685,10 @@ export class GeneratedConverter {
         transaction_types: value.transactionTypes.map(
           GeneratedConverter.TransactionType.toGenerated
         ),
+        reserved_instructions: value.reservedInstructions.map(
+          (instruction) =>
+            SerializableReservedInstruction[ReservedInstruction[instruction]]
+        ),
       };
     }
 
@@ -1687,6 +1701,10 @@ export class GeneratedConverter {
         transactionTypes: value.transaction_types.map(
           GeneratedConverter.TransactionType.fromGenerated
         ),
+        reservedInstructions: value.reserved_instructions.map(
+          (instruction) =>
+            ReservedInstruction[SerializableReservedInstruction[instruction]]
+        ),
       };
     }
   };
@@ -1698,8 +1716,6 @@ export class GeneratedConverter {
         max_notarized_payload_size: Convert.BigInt.toString(
           value.maxNotarizedPayloadSize
         ),
-        min_cost_unit_limit: Convert.Number.toString(value.minCostUnitLimit),
-        max_cost_unit_limit: Convert.Number.toString(value.maxCostUnitLimit),
         min_tip_percentage: Convert.Number.toString(value.minTipPercentage),
         max_tip_percentage: Convert.Number.toString(value.maxTipPercentage),
         max_epoch_range: Convert.BigInt.toString(value.maxEpochRange),
@@ -1718,8 +1734,6 @@ export class GeneratedConverter {
         maxNotarizedPayloadSize: Convert.String.toBigInt(
           value.max_notarized_payload_size
         ),
-        minCostUnitLimit: Convert.String.toNumber(value.min_cost_unit_limit),
-        maxCostUnitLimit: Convert.String.toNumber(value.max_cost_unit_limit),
         minTipPercentage: Convert.String.toNumber(value.min_tip_percentage),
         maxTipPercentage: Convert.String.toNumber(value.max_tip_percentage),
         maxEpochRange: Convert.String.toBigInt(value.max_epoch_range),

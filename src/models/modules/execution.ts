@@ -21,6 +21,7 @@ export interface ExecutionAnalysis {
   feeLocks: FeeLocks;
   feeSummary: FeeSummary;
   transactionTypes: TransactionType[];
+  reservedInstructions: ReservedInstruction[];
 }
 
 export type TransactionType =
@@ -126,6 +127,16 @@ export interface FeeLocks {
 }
 
 export interface FeeSummary {
-  networkFee: Decimal;
-  royaltyFee: Decimal;
+  executionCost: Decimal;
+  finalizationCost: Decimal;
+  storageExpansionCost: Decimal;
+  royaltyCost: Decimal;
+}
+
+export enum ReservedInstruction {
+  AccountLockFee = "AccountLockFee",
+  AccountSecurify = "AccountSecurify",
+  IdentitySecurify = "IdentitySecurify",
+  AccountUpdateSettings = "AccountUpdateSettings",
+  AccessController = "AccessController",
 }

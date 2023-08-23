@@ -27,7 +27,7 @@ describe("Raw Radix Engine Toolkit Tests", () => {
     const buildInformation = ret.buildInformation({});
 
     // Assert
-    expect(buildInformation.version).toEqual("0.12.0-fig.1");
+    expect(buildInformation.version).toEqual("0.12.0-grape.1");
   });
 
   it("Raw Radix Engine Toolkit throws exceptions for invocation errors", async () => {
