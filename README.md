@@ -5,6 +5,7 @@
   </p>
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
 </div>
 
 # About
@@ -113,92 +114,92 @@ The following example shows the transaction builder can be used to construct a t
 
 ```ts
 import {
-    ManifestBuilder,
-    NetworkId,
-    NotarizedTransaction,
-    PrivateKey,
-    RadixEngineToolkit,
-    TransactionBuilder,
-    TransactionHeader,
-    TransactionManifest,
-    address,
-    bucket,
-    decimal,
-    defaultValidationConfig,
-    generateRandomNonce,
+  ManifestBuilder,
+  NetworkId,
+  NotarizedTransaction,
+  PrivateKey,
+  RadixEngineToolkit,
+  TransactionBuilder,
+  TransactionHeader,
+  TransactionManifest,
+  address,
+  bucket,
+  decimal,
+  defaultValidationConfig,
+  generateRandomNonce,
 } from "@radixdlt/radix-engine-toolkit";
 
 // For this transaction, we wish to have multiple signers (and of course, a single notary). So, we
 // define their cryptographic private keys.
 const notaryPrivateKey = new PrivateKey.Secp256k1(
-    "40c1b9deccc56c0da69821dd652782887b5d31fe6bf6ead519a23f9e9472b49b"
+  "40c1b9deccc56c0da69821dd652782887b5d31fe6bf6ead519a23f9e9472b49b"
 );
 
 const signer1PrivateKey = new PrivateKey.Ed25519(
-    "69366e446ad19a7540b4272c614bbc2b242656815eb03b1d29a53c950201ae76"
+  "69366e446ad19a7540b4272c614bbc2b242656815eb03b1d29a53c950201ae76"
 );
 const signer2PrivateKey = new PrivateKey.Secp256k1(
-    "5068952ca5aa655fe9257bf2d89f3b86f4dda6be6f5b76e4ed104c38fd21e8d7"
+  "5068952ca5aa655fe9257bf2d89f3b86f4dda6be6f5b76e4ed104c38fd21e8d7"
 );
 
 // We first begin by creating the transaction header that will be used for the transaction.
 const transactionHeader: TransactionHeader = {
-    networkId: NetworkId.Simulator,
-    startEpochInclusive: 3910,
-    endEpochExclusive: 3920,
-    nonce: await generateRandomNonce(),
-    notaryPublicKey: notaryPrivateKey.publicKey(),
-    notaryIsSignatory: true,
-    tipPercentage: 0,
+  networkId: NetworkId.Simulator,
+  startEpochInclusive: 3910,
+  endEpochExclusive: 3920,
+  nonce: await generateRandomNonce(),
+  notaryPublicKey: notaryPrivateKey.publicKey(),
+  notaryIsSignatory: true,
+  tipPercentage: 0,
 };
 
 // We then build the transaction manifest
 const transactionManifest: TransactionManifest = new ManifestBuilder()
-    .callMethod(
-        "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
-        "withdraw",
-        [
-            address(
-                "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
-            ),
-            decimal(10),
-        ]
-    )
-    .takeAllFromWorktop(
-        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
-        (builder, bucketId) =>
-            builder.callMethod(
-                "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
-                "try_deposit_or_abort",
-                [bucket(bucketId)]
-            )
-    )
-    .build();
+  .callMethod(
+    "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    "withdraw",
+    [
+      address(
+        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
+      ),
+      decimal(10),
+    ]
+  )
+  .takeAllFromWorktop(
+    "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
+    (builder, bucketId) =>
+      builder.callMethod(
+        "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
+        "try_deposit_or_abort",
+        [bucket(bucketId)]
+      )
+  )
+  .build();
 
 // We may now build the complete transaction through the transaction builder.
 const transaction: NotarizedTransaction = await TransactionBuilder.new().then(
-    (builder) =>
-        builder
-            .header(transactionHeader)
-            .manifest(transactionManifest)
-            .sign(signer1PrivateKey)
-            .sign(signer2PrivateKey)
-            .notarize(notaryPrivateKey)
+  (builder) =>
+    builder
+      .header(transactionHeader)
+      .manifest(transactionManifest)
+      .sign(signer1PrivateKey)
+      .sign(signer2PrivateKey)
+      .notarize(notaryPrivateKey)
 );
 
 const transactionId = await RadixEngineToolkit.NotarizedTransaction.intentHash(
-    transaction
+  transaction
 );
 console.log(transactionId);
 
 // Check that the transaction that we've just built is statically valid.
 await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-    transaction,
-    defaultValidationConfig(NetworkId.Simulator)
+  transaction,
+  defaultValidationConfig(NetworkId.Simulator)
 ).then((validation) => {
-    if (validation.kind === "Invalid") {
-        throw new Error("Transaction is invalid");
-    }
+  if (validation.kind === "Invalid") {
+    throw new Error("Transaction is invalid");
+  }
 });
 ```
 
@@ -208,90 +209,90 @@ As can be seen in the calls to `sign` and `notarize` these methods take in a pri
 
 ```ts
 import {
-    ManifestBuilder,
-    NetworkId,
-    NotarizedTransaction,
-    RadixEngineToolkit,
-    Signature,
-    SignatureWithPublicKey,
-    TransactionBuilder,
-    TransactionHeader,
-    TransactionManifest,
-    ValidationConfig,
-    address,
-    bucket,
-    decimal,
-    defaultValidationConfig,
-    generateRandomNonce,
+  ManifestBuilder,
+  NetworkId,
+  NotarizedTransaction,
+  RadixEngineToolkit,
+  Signature,
+  SignatureWithPublicKey,
+  TransactionBuilder,
+  TransactionHeader,
+  TransactionManifest,
+  ValidationConfig,
+  address,
+  bucket,
+  decimal,
+  defaultValidationConfig,
+  generateRandomNonce,
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore
 const signIntent = (hashToSign: Uint8Array): SignatureWithPublicKey => {
-    /* This method takes in the hash to sign, signs it, and then returns it as a SignatureWithPublicKey */
+  /* This method takes in the hash to sign, signs it, and then returns it as a SignatureWithPublicKey */
 };
 
 // @ts-ignore
 const notarizeIntent = (hashToSign: Uint8Array): Signature => {
-    /* This method takes in the hash to sign, signs it, and then returns it as a Signature */
-    throw new Error("Not implemented");
+  /* This method takes in the hash to sign, signs it, and then returns it as a Signature */
+  throw new Error("Not implemented");
 };
 
 // We first begin by creating the transaction header that will be used for the transaction.
 const transactionHeader: TransactionHeader = {
-    networkId: NetworkId.Simulator,
-    startEpochInclusive: 3910,
-    endEpochExclusive: 3920,
-    nonce: await generateRandomNonce(),
-    notaryPublicKey: notaryPublicKey,
-    notaryIsSignatory: true,
-    tipPercentage: 0,
+  networkId: NetworkId.Simulator,
+  startEpochInclusive: 3910,
+  endEpochExclusive: 3920,
+  nonce: await generateRandomNonce(),
+  notaryPublicKey: notaryPublicKey,
+  notaryIsSignatory: true,
+  tipPercentage: 0,
 };
 
 // We then build the transaction manifest
 const transactionManifest: TransactionManifest = new ManifestBuilder()
-    .callMethod(
-        "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
-        "withdraw",
-        [
-            address(
-                "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
-            ),
-            decimal(10),
-        ]
-    )
-    .takeAllFromWorktop(
-        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
-        (builder, bucketId) =>
-            builder.callMethod(
-                "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
-                "try_deposit_or_abort",
-                [bucket(bucketId)]
-            )
-    )
-    .build();
+  .callMethod(
+    "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    "withdraw",
+    [
+      address(
+        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
+      ),
+      decimal(10),
+    ]
+  )
+  .takeAllFromWorktop(
+    "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
+    (builder, bucketId) =>
+      builder.callMethod(
+        "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
+        "try_deposit_or_abort",
+        [bucket(bucketId)]
+      )
+  )
+  .build();
 
 // We may now build the complete transaction through the transaction builder.
 const transaction: NotarizedTransaction = await TransactionBuilder.new().then(
-    (builder) =>
-        builder
-            .header(transactionHeader)
-            .manifest(transactionManifest)
-            .sign(signIntent)
-            .notarize(notarizeIntent)
+  (builder) =>
+    builder
+      .header(transactionHeader)
+      .manifest(transactionManifest)
+      .sign(signIntent)
+      .notarize(notarizeIntent)
 );
 const transactionId = await RadixEngineToolkit.NotarizedTransaction.intentHash(
-    transaction
+  transaction
 );
 console.log(transactionId);
 
 // Check that the transaction that we've just built is statically valid.
 await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-    transaction,
-    defaultValidationConfig(NetworkId.Simulator)
+  transaction,
+  defaultValidationConfig(NetworkId.Simulator)
 ).then((validation) => {
-    if (validation.kind === "Invalid") {
-        throw new Error("Transaction is invalid");
-    }
+  if (validation.kind === "Invalid") {
+    throw new Error("Transaction is invalid");
+  }
 });
 ```
 
@@ -506,20 +507,19 @@ When converting the instructions of a `TransactionManifest` from one format to a
    - Validating that the addresses present in the manifest belong to the specified network.
    - Bech32m encoding the addresses during the conversion process.
 
-
 ```ts
 import {
-    TransactionManifest,
-    NetworkId,
-    RadixEngineToolkit,
+  TransactionManifest,
+  NetworkId,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore: You define your manifest
 const transactionManifest: TransactionManifest = undefined;
 const convertedInstructions = await RadixEngineToolkit.Instructions.convert(
-    transactionManifest.instructions,
-    NetworkId.Mainnet,
-    "String"
+  transactionManifest.instructions,
+  NetworkId.Mainnet,
+  "String"
 );
 ```
 
@@ -549,7 +549,7 @@ import { Intent, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 // @ts-ignore: defined by you
 const transactionIntent: Intent = undefined;
 const compiledIntent = await RadixEngineToolkit.Intent.compile(
-    transactionIntent
+  transactionIntent
 );
 ```
 
@@ -559,16 +559,15 @@ Given a `SignedTransactionIntent` object, the `RadixEngineToolkit` class can be 
 
 ```ts
 import {
-    SignedIntent,
-    RadixEngineToolkit,
+  SignedIntent,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore: defined by you
 const signedSignedIntent: SignedIntent = undefined;
 const compiledSignedIntent = await RadixEngineToolkit.SignedIntent.compile(
-    signedSignedIntent
+  signedSignedIntent
 );
-
 ```
 
 ### Compiling `NotarizedTransaction`s
@@ -577,14 +576,14 @@ Given a `NotarizedTransaction` object, the `RadixEngineToolkit` class can be use
 
 ```ts
 import {
-    NotarizedTransaction,
-    RadixEngineToolkit,
+  NotarizedTransaction,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore: defined by you
 const notarizedTransaction: NotarizedTransaction = undefined;
 const compiledNotarizedTransaction =
-    await RadixEngineToolkit.NotarizedTransaction.compile(notarizedTransaction);
+  await RadixEngineToolkit.NotarizedTransaction.compile(notarizedTransaction);
 ```
 
 ## Transaction Decompilation
@@ -599,15 +598,14 @@ During decompilation, the client is free to choose the format of the output mani
 
 Given a byte array (`Uint8Array`) which is known to be a compiled `TransactionIntent`, the Radix Engine Toolkit can be used to decompile it to a `TransactionIntent` object. As previously stated, the client can specify whether they wish for the instructions in the decompiled intent to be `String` or `Parsed` instructions. If no format is specified, then it defaults to `String` instructions.
 
-
 ```ts
 import { Intent, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore: defined by you
 const compiledIntent: Uint8Array = undefined;
 const transactionIntent: Intent = await RadixEngineToolkit.Intent.decompile(
-    compiledIntent,
-    "String"
+  compiledIntent,
+  "String"
 );
 console.log("Transaction Intent:", transactionIntent.toString());
 ```
@@ -618,44 +616,41 @@ Given a byte array (`Uint8Array`) which is known to be a compiled `SignedTransac
 
 ```ts
 import {
-    SignedIntent,
-    RadixEngineToolkit,
+  SignedIntent,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore: defined by you
 const compiledSignedIntent: Uint8Array = undefined;
 const transactionSignedIntent: SignedIntent =
-    await RadixEngineToolkit.SignedIntent.decompile(
-        compiledSignedIntent,
-        "String"
-    );
+  await RadixEngineToolkit.SignedIntent.decompile(
+    compiledSignedIntent,
+    "String"
+  );
 console.log("Transaction SignedIntent:", transactionSignedIntent.toString());
-
 ```
 
 ### Decompiling a `NotarizedTransaction`
 
 Given a byte array (`Uint8Array`) which is known to be a compiled `NotarizedTransaction`, the Radix Engine Toolkit can be used to decompile it to a `NotarizedTransaction` object. As previously stated, the client can specify whether they wish for the instructions in the decompiled intent to be `String` or `Parsed` instructions. If no format is specified, then it defaults to `String` instructions.
 
-
 ```ts
 import {
-    NotarizedTransaction,
-    RadixEngineToolkit,
+  NotarizedTransaction,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore: defined by you
 const compiledNotarizedTransaction: Uint8Array = undefined;
 const transactionNotarizedTransaction: NotarizedTransaction =
-    await RadixEngineToolkit.NotarizedTransaction.decompile(
-        compiledNotarizedTransaction,
-        "String"
-    );
+  await RadixEngineToolkit.NotarizedTransaction.decompile(
+    compiledNotarizedTransaction,
+    "String"
+  );
 console.log(
-    "Transaction NotarizedTransaction:",
-    transactionNotarizedTransaction.toString()
+  "Transaction NotarizedTransaction:",
+  transactionNotarizedTransaction.toString()
 );
-
 ```
 
 ## Static Transaction Validation
@@ -676,21 +671,21 @@ When performing static validation, configuration for the validator should be pas
 
 ```ts
 import {
-    NetworkId,
-    NotarizedTransaction,
-    RadixEngineToolkit,
-    defaultValidationConfig,
+  NetworkId,
+  NotarizedTransaction,
+  RadixEngineToolkit,
+  defaultValidationConfig,
 } from "@radixdlt/radix-engine-toolkit";
 
 // @ts-ignore: defined by you
 const notarizedTransaction: NotarizedTransaction = undefined;
 await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-    notarizedTransaction,
-    defaultValidationConfig(NetworkId.Simulator)
+  notarizedTransaction,
+  defaultValidationConfig(NetworkId.Simulator)
 ).then((validation) => {
-    if (validation.kind === "Invalid") {
-        throw new Error("Transaction is invalid");
-    }
+  if (validation.kind === "Invalid") {
+    throw new Error("Transaction is invalid");
+  }
 });
 ```
 
@@ -709,19 +704,19 @@ The Radix Engine Toolkit allows for virtual account component addresses to be de
 
 ```ts
 import {
-    PublicKey,
-    NetworkId,
-    RadixEngineToolkit,
+  PublicKey,
+  NetworkId,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 const publicKey = new PublicKey.Secp256k1(
-    "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 const virtualAccountAddress =
-    RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
-        publicKey,
-        NetworkId.Mainnet
-    );
+  RadixEngineToolkit.Derive.virtualAccountAddressFromPublicKey(
+    publicKey,
+    NetworkId.Mainnet
+  );
 console.log(virtualAccountAddress.toString());
 ```
 
@@ -731,19 +726,19 @@ The Radix Engine Toolkit allows for virtual identity component addresses to be d
 
 ```ts
 import {
-    PublicKey,
-    NetworkId,
-    RadixEngineToolkit,
+  PublicKey,
+  NetworkId,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 const publicKey = new PublicKey.Secp256k1(
-    "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
+  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 const virtualIdentityAddress =
-    RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(
-        publicKey,
-        NetworkId.Mainnet
-    );
+  RadixEngineToolkit.Derive.virtualIdentityAddressFromPublicKey(
+    publicKey,
+    NetworkId.Mainnet
+  );
 console.log(virtualIdentityAddress.toString());
 ```
 
@@ -755,14 +750,13 @@ The Radix Engine Toolkit is able to perform the deterministic mapping to convert
 import { NetworkId, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 
 const olympiaAddress =
-    "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
+  "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
 const babylonAddress =
-    RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
-        olympiaAddress,
-        NetworkId.Mainnet
-    );
+  RadixEngineToolkit.Derive.virtualAccountAddressFromOlympiaAccountAddress(
+    olympiaAddress,
+    NetworkId.Mainnet
+  );
 console.log(babylonAddress.toString());
-
 ```
 
 ### Derive Known Entity Addresses
@@ -773,7 +767,7 @@ There are various entities created at the Babylon genesis which have a known set
 import { NetworkId, RadixEngineToolkit } from "@radixdlt/radix-engine-toolkit";
 
 const xrd = await RadixEngineToolkit.Utils.knownAddresses(
-    NetworkId.Mainnet
+  NetworkId.Mainnet
 ).then((addressBook) => addressBook.resourceAddresses.xrd);
 ```
 

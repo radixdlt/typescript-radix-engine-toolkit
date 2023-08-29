@@ -1,5 +1,4 @@
 import {
-  Convert,
   RadixEngineToolkit,
   SimpleTransactionBuilder,
 } from "@radixdlt/radix-engine-toolkit";
