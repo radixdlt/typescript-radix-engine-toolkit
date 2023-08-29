@@ -7,8 +7,14 @@
   "module": "./dist/radix-engine-toolkit.mjs",
   "exports": {
     ".": {
-      "import": "./dist/radix-engine-toolkit.mjs",
-      "require": "./dist/radix-engine-toolkit.umd.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/radix-engine-toolkit.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/radix-engine-toolkit.umd.js"
+      }
     }
   },
   "readme": "README.md",
