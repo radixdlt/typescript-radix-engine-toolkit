@@ -153,8 +153,8 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
   /**
    * @returns The hash to notarize (the signed intent hash)
    */
-  get hashToNotarize(): TransactionHash {
-    return this.signedIntentHash;
+  get hashToNotarize(): Uint8Array {
+    return this.signedIntentHash.hash;
   }
 
   /**
@@ -173,7 +173,7 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
   ): CompiledNotarizedTransaction {
     const notarySignature = resolveSignatureSource(
       source,
-      this.hashToNotarize.hash,
+      this.hashToNotarize,
       (signerResponse: SignerResponse): Signature => {
         switch (signerResponse.curve) {
           case "Secp256k1":

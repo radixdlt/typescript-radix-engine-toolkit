@@ -39,13 +39,13 @@ address to public / private key for your accounts yourself.
 
 ```ts
 import {
-  NetworkId,
-  PrivateKey,
-  NotarizedTransaction,
-  SimpleTransactionBuilder,
-  Signature,
-  PublicKey,
-  CompiledSignedTransactionIntent,
+    NetworkId,
+    PrivateKey,
+    NotarizedTransaction,
+    SimpleTransactionBuilder,
+    Signature,
+    PublicKey,
+    CompiledSignedTransactionIntent,
 } from "@radixdlt/radix-engine-toolkit";
 
 const sign = async (publicKey: PublicKey, hashToSign: Uint8Array): Promise<Signature> => {
@@ -72,10 +72,10 @@ const currentEpoch = /* Sourced from /lts/transaction/construction in the Core A
 
 // Example of public key creation (you can also provide a Uint8Array instead of hex in the constructors)
 const exampleEd25519PublicKey = new PublicKey.Ed25519(
-  "026f08db98ef1d0231eb15580da9123db8e25aa1747c8c32e5fd2ec47b8db73d5c"
+    "026f08db98ef1d0231eb15580da9123db8e25aa1747c8c32e5fd2ec47b8db73d5c"
 );
 const exampleSecp256k1PublicKey = new PublicKey.Secp256k1(
-  "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
+    "03ce65a44a837dd5cd0e274c3280ab3d602e7ce1e1e3eaff769f2d2fc54cac733e"
 );
 
 // Account information
@@ -83,33 +83,47 @@ const exampleSecp256k1PublicKey = new PublicKey.Secp256k1(
 // or from an Olympia address with `LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress`-
 // discussed in more detail in the section below.
 const fromAccountPublicKey = exampleEd25519PublicKey;
-const fromAccountAddress = "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
+const fromAccountAddress =
+    "account_sim1qjdkmaevmu7ggs3jyruuykx2u5c2z7mp6wjk5f5tpy6swx5788";
 
 // Recipient/s
-const toAccountAddress1 = "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
-const toAccountAddress2 = "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
+const toAccountAddress1 =
+    "account_sim1qj0vpwp3l3y8jhk6nqtdplx4wh6mpu8mhu6mep4pua3q8tn9us";
+const toAccountAddress2 =
+    "account_sim1qjj40p52dnww68e594c3jq6h3s8xr75fgcnpvlwmypjqmqamld";
 
 // The fungible resource being transferred
-const resourceAddress = "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
+const resourceAddress =
+    "resource_sim1qyw4pk2ecwecslf55dznrv49xxndzffnmpcwjavn5y7qyr2l73";
 
 const builder = await SimpleTransactionBuilder.new({
-  networkId: NetworkId.RCNetV1,
-  validFromEpoch: currentEpoch,
-  fromAccount: fromAccountAddress,
-  signerPublicKey: fromAccountPublicKey,
+    networkId: NetworkId.RCNetV1,
+    validFromEpoch: currentEpoch,
+    fromAccount: fromAccountAddress,
+    signerPublicKey: fromAccountPublicKey,
 });
 
 const unsignedTransaction = builder
-  /* The following defaults are used:
-  .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
-  .tipPercentage(0)                // No tip
-  .lockedFee(5)                    // Maximum fee of 5 XRD - but requires at least 5 XRD in the account
-  */
-  .transferFungible({ toAccount: toAccountAddress1, resourceAddress: resourceAddress, amount: 100 })
-  .transferFungible({ toAccount: toAccountAddress2, resourceAddress: resourceAddress, amount: "23.12323312" })
-  .compileIntent();
+    /* The following defaults are used:
+    .permanentlyRejectAfterEpochs(2) // Transaction with expire after approximately 5-10 minutes.
+    .tipPercentage(0)                // No tip
+    */
+    .transferFungible({
+        toAccount: toAccountAddress1,
+        resourceAddress: resourceAddress,
+        amount: 100,
+    })
+    .transferFungible({
+        toAccount: toAccountAddress2,
+        resourceAddress: resourceAddress,
+        amount: "23.12323312",
+    })
+    .compileIntent();
 
-const signature = await sign(fromAccountPublicKey, unsignedTransaction.hashToNotarize);
+const signature = await sign(
+    fromAccountPublicKey,
+    unsignedTransaction.hashToNotarize
+);
 
 const transaction = unsignedTransaction.compileNotarized(signature);
 
@@ -163,14 +177,17 @@ The LTS Radix Engine Toolkit exposes a `summarizeTransaction` function that summ
 
 ```ts
 import {
-  CompiledNotarizedTransaction,
-  CompiledSignedTransactionIntent,
-  LTSRadixEngineToolkit
+    CompiledNotarizedTransaction,
+    CompiledSignedTransactionIntent,
+    LTSRadixEngineToolkit
 } from "@radixdlt/radix-engine-toolkit";
 
 let compiledIntent: Uint8Array = /* Some compiled intent */;
-let transactionSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransaction(compiledIntent);
-console.log(transactionSummary)
+let transactionSummary =
+await LTSRadixEngineToolkit.Transaction.summarizeTransaction(
+    compiledIntent
+);
+console.log(transactionSummary);
 ```
 
 ### Derive Module
@@ -204,19 +221,19 @@ The `Derive` Module of the `LTSRadixEngineToolkit` class exposes methods for der
 
 ```ts
 import {
-  LTSRadixEngineToolkit,
-  PublicKey,
-  NetworkId,
+    LTSRadixEngineToolkit,
+    PublicKey,
+    NetworkId,
 } from "@radixdlt/radix-engine-toolkit";
 
 const olympiaAccountAddress: string =
-  "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
+    "rdx1qspx7zxmnrh36q33av24srdfzg7m3cj65968erpjuh7ja3rm3kmn6hq4j9842";
 const { babylonAccountAddress, publicKey } =
-  await LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress(
-    olympiaAccountAddress,
-    NetworkId.Mainnet /* The ID of the network to derive the address for. */
-  );
-console.log(babylonAccountAddress);
+    await LTSRadixEngineToolkit.Derive.babylonAccountAddressFromOlympiaAccountAddress(
+        olympiaAccountAddress,
+        NetworkId.Mainnet /* The ID of the network to derive the address for. */
+    );
+console.log(babylonAccountA
 ```
 
 #### Deriving Known Addresses
@@ -259,7 +276,7 @@ The `Utils` Module of the `LTSRadixEngineToolkit` offers a method for hashing da
 
 ```ts
 import {
-  LTSRadixEngineToolkit,
+    LTSRadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 
 const data: Uint8Array = /* Some array of bytes */;
