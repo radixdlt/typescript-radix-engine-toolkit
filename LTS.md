@@ -15,9 +15,9 @@ The following set of classes currently are currently considered to be in LTS:
 
 - `SimpleTransactionBuilder`
 - `LTSRadixEngineToolkit`
-  - `Transaction` API Group
-  - `Derive` API Group
-  - `Utils` API Group
+  - `Transaction` Module
+  - `Derive` Module
+  - `Utils` Module
 
 ## `SimpleTransactionBuilder` - constructing transactions through high-level actions
 
@@ -153,9 +153,9 @@ const compiledNotarizedTransaction =
 
 This section discusses the functionality provided by the `LTSRadixEngineToolkit` class and provides a number of examples.
 
-### Transaction API Group
+### Transaction Module
 
-A majority of the functionality exposed by this API group is abstracted away by the `SimpleTransactionBuilder` which is responsible for handling the entire transaction construction process and making all of the necessary Radix Engine Toolkit invocations to construct transactions. However, not all of the functions in this group are available through the `SimpleTransactionBuilder` class. Namely, the `summarizeTransaction` function is not.
+A majority of the functionality exposed by this Module is abstracted away by the `SimpleTransactionBuilder` which is responsible for handling the entire transaction construction process and making all of the necessary Radix Engine Toolkit invocations to construct transactions. However, not all of the functions in this module are available through the `SimpleTransactionBuilder` class. Namely, the `summarizeTransaction` function is not.
 
 #### Summarize Transaction
 
@@ -173,13 +173,13 @@ let transactionSummary = await LTSRadixEngineToolkit.Transaction.summarizeTransa
 console.log(transactionSummary)
 ```
 
-### Derive API Group
+### Derive Module
 
-This is a group of functions exposed by the `LTSRadixEngineToolkit` that are used to perform various kinds of derivations. Typically, these are address derivations.
+This is a module of functions exposed by the `LTSRadixEngineToolkit` that are used to perform various kinds of derivations. Typically, these are address derivations.
 
 #### Deriving The (Virtual) Account Address from a Public Key
 
-The `Derive` API group of the `LTSRadixEngineToolkit` class exposes methods for deriving the (virtual) account component address associated with a public key.
+The `Derive` Module of the `LTSRadixEngineToolkit` class exposes methods for deriving the (virtual) account component address associated with a public key.
 
 ```ts
 import {
@@ -200,7 +200,7 @@ console.log(address);
 
 #### Deriving The Babylon (Virtual) Account Address from an Olympia Account Address
 
-The `Derive` API group of the `LTSRadixEngineToolkit` class exposes methods for deriving the Babylon (virtual) account component address associated with an Olympia account address.
+The `Derive` Module of the `LTSRadixEngineToolkit` class exposes methods for deriving the Babylon (virtual) account component address associated with an Olympia account address.
 
 ```ts
 import {
@@ -251,11 +251,11 @@ const knownAddresses = await LTSRadixEngineToolkit.Derive.knownAddresses(
 console.log(knownAddresses);
 ```
 
-### Utils API Group
+### Utils Module
 
 #### Hashing
 
-The `Utils` API group of the `LTSRadixEngineToolkit` offers a method for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests.
+The `Utils` Module of the `LTSRadixEngineToolkit` offers a method for hashing data through the hashing algorithm used in Scrypto and the Radix Engine which is Blake2b with 32 byte long digests.
 
 ```ts
 import {
