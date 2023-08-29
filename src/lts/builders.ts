@@ -21,6 +21,7 @@ import {
   CompiledSignedTransactionIntent,
   Convert,
   Instruction,
+  Intent,
   LTSRadixEngineToolkit,
   LTSSignedTransactionIntent,
   LTSTransactionIntent,
@@ -29,7 +30,6 @@ import {
   PublicKey,
   RawRadixEngineToolkit,
   SignedIntent,
-  TransactionBuilderIntentSignaturesStep,
   TransactionHeader,
   TransactionManifest,
   ValueKind,
@@ -242,17 +242,16 @@ export class SimpleTransactionBuilder {
    * @returns the compiled intent, along with the `hashToNotarize` which needs to be signed.
    */
   public compileIntent(): CompiledSignedTransactionIntent {
-    const transitioned = this.transition();
-
-    const intent = transitioned.intent;
-    const intentSignatures = transitioned.intentSignatures;
+    const header = this.constructTransactionHeader();
+    const manifest = this.constructTransactionManifest();
+    const intent: Intent = { header, manifest };
 
     const intentHash = GeneratedConverter.TransactionHash.fromGenerated(
       this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
     );
     const signedIntent: SignedIntent = {
       intent,
-      intentSignatures,
+      intentSignatures: [],
     };
     const compiledSignedIntent = Convert.HexString.toUint8Array(
       this.retWrapper.signedIntentCompile(
@@ -277,14 +276,6 @@ export class SimpleTransactionBuilder {
   //=================
   // Private Methods
   //=================
-
-  private transition(): TransactionBuilderIntentSignaturesStep {
-    return new TransactionBuilderIntentSignaturesStep(
-      this.retWrapper,
-      this.constructTransactionHeader(),
-      this.constructTransactionManifest()
-    );
-  }
 
   private constructTransactionHeader(): TransactionHeader {
     const notaryIsSignatory = true;

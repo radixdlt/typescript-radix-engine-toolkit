@@ -72,21 +72,26 @@ export class TransactionBuilderManifestStep {
 
 export class TransactionBuilderIntentSignaturesStep {
   private readonly radixEngineToolkit: RawRadixEngineToolkit;
-  public readonly intent: Intent;
-  public readonly intentSignatures: SignatureWithPublicKey[];
+  private readonly intent: Intent;
+  private readonly intentSignatures: (
+    | { kind: "Signature"; value: SignatureWithPublicKey }
+    | {
+        kind: "AsyncFunction";
+        value: SignatureFunction<Promise<SignatureWithPublicKey>>;
+      }
+  )[];
 
   constructor(
     radixEngineToolkit: RawRadixEngineToolkit,
     header: TransactionHeader,
-    manifest: TransactionManifest,
-    intentSignatures: SignatureWithPublicKey[] = []
+    manifest: TransactionManifest
   ) {
     this.radixEngineToolkit = radixEngineToolkit;
     this.intent = {
       header,
       manifest,
     };
-    this.intentSignatures = intentSignatures;
+    this.intentSignatures = [];
   }
 
   public sign(source: SignatureSource<SignatureWithPublicKey>): this {
@@ -103,21 +108,21 @@ export class TransactionBuilderIntentSignaturesStep {
         }
       }
     );
-    this.intentSignatures.push(signature);
-    throw this;
+    this.intentSignatures.push({ kind: "Signature", value: signature });
+    return this;
   }
 
-  public async signAsync(
+  public signAsync(
     source: SignatureFunction<Promise<SignatureWithPublicKey>>
-  ): Promise<this> {
-    const intentHash = this.intentHash();
-    const signature = await source(intentHash.hash);
-    this.intentSignatures.push(signature);
-    throw this;
+  ): this {
+    this.intentSignatures.push({ kind: "AsyncFunction", value: source });
+    return this;
   }
 
-  public notarize(source: SignatureSource<Signature>): NotarizedTransaction {
-    const signedIntentHash = this.signedIntentHash();
+  public async notarize(
+    source: SignatureSource<Signature>
+  ): Promise<NotarizedTransaction> {
+    const signedIntentHash = await this.signedIntentHash();
     const signature = resolveSignatureSource(
       source,
       signedIntentHash.hash,
@@ -133,7 +138,7 @@ export class TransactionBuilderIntentSignaturesStep {
     return {
       signedIntent: {
         intent: this.intent,
-        intentSignatures: this.intentSignatures,
+        intentSignatures: await this.resolveIntentSignatures(),
       },
       notarySignature: signature,
     };
@@ -142,15 +147,28 @@ export class TransactionBuilderIntentSignaturesStep {
   public async notarizeAsync(
     source: SignatureFunction<Promise<Signature>>
   ): Promise<NotarizedTransaction> {
-    const signedIntentHash = this.signedIntentHash();
+    const signedIntentHash = await this.signedIntentHash();
     const signature = await source(signedIntentHash.hash);
     return {
       signedIntent: {
         intent: this.intent,
-        intentSignatures: this.intentSignatures,
+        intentSignatures: await this.resolveIntentSignatures(),
       },
       notarySignature: signature,
     };
+  }
+
+  private async resolveIntentSignatures(): Promise<SignatureWithPublicKey[]> {
+    return Promise.all(
+      this.intentSignatures.map(async (intentSignature) => {
+        switch (intentSignature.kind) {
+          case "Signature":
+            return Promise.resolve(intentSignature.value);
+          case "AsyncFunction":
+            return intentSignature.value(this.intentHash().hash);
+        }
+      })
+    );
   }
 
   private intentHash(): TransactionHash {
@@ -161,10 +179,10 @@ export class TransactionBuilderIntentSignaturesStep {
     return GeneratedConverter.TransactionHash.fromGenerated(output);
   }
 
-  private signedIntentHash(): TransactionHash {
+  private async signedIntentHash(): Promise<TransactionHash> {
     const input = {
       intent: this.intent,
-      intentSignatures: this.intentSignatures,
+      intentSignatures: await this.resolveIntentSignatures(),
     };
     const output = this.radixEngineToolkit.signedIntentHash(
       GeneratedConverter.SignedIntent.toGenerated(input)

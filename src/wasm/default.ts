@@ -339,7 +339,7 @@ export class RadixEngineToolkit {
 
   static Intent = class {
     static async intentHash(intent: Intent): Promise<TransactionHash> {
-      return this.hash(intent)
+      return this.hash(intent);
     }
 
     static async hash(intent: Intent): Promise<TransactionHash> {
@@ -393,12 +393,16 @@ export class RadixEngineToolkit {
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
-    static async signedIntentHash(signedIntent: SignedIntent): Promise<TransactionHash> {
-      return this.hash(signedIntent)
+    static async signedIntentHash(
+      signedIntent: SignedIntent
+    ): Promise<TransactionHash> {
+      return this.hash(signedIntent);
     }
 
-    static async intentHash(signedIntent: SignedIntent): Promise<TransactionHash> {
-      return RadixEngineToolkit.Intent.hash(signedIntent.intent)
+    static async intentHash(
+      signedIntent: SignedIntent
+    ): Promise<TransactionHash> {
+      return RadixEngineToolkit.Intent.hash(signedIntent.intent);
     }
 
     static async compile(signedIntent: SignedIntent): Promise<Uint8Array> {
@@ -449,16 +453,26 @@ export class RadixEngineToolkit {
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
-    static async notarizedTransactionHash(notarizedTransaction: NotarizedTransaction): Promise<TransactionHash> {
-      return this.hash(notarizedTransaction)
+    static async notarizedTransactionHash(
+      notarizedTransaction: NotarizedTransaction
+    ): Promise<TransactionHash> {
+      return this.hash(notarizedTransaction);
     }
 
-    static async signedIntentHash(notarizedTransaction: NotarizedTransaction): Promise<TransactionHash> {
-      return RadixEngineToolkit.SignedIntent.hash(notarizedTransaction.signedIntent)
+    static async signedIntentHash(
+      notarizedTransaction: NotarizedTransaction
+    ): Promise<TransactionHash> {
+      return RadixEngineToolkit.SignedIntent.hash(
+        notarizedTransaction.signedIntent
+      );
     }
 
-    static async intentHash(notarizedTransaction: NotarizedTransaction): Promise<TransactionHash> {
-      return RadixEngineToolkit.Intent.hash(notarizedTransaction.signedIntent.intent)
+    static async intentHash(
+      notarizedTransaction: NotarizedTransaction
+    ): Promise<TransactionHash> {
+      return RadixEngineToolkit.Intent.hash(
+        notarizedTransaction.signedIntent.intent
+      );
     }
 
     static async compile(

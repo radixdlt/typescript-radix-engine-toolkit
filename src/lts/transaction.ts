@@ -24,6 +24,7 @@ import {
   RadixEngineToolkit,
   RawRadixEngineToolkit,
   Signature,
+  SignatureFunction,
   SignatureSource,
   SignedIntent,
   SignerResponse,
@@ -168,6 +169,13 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
     return this.compiledSignedIntent;
   }
 
+  async compileNotarizedAsync(
+    source: SignatureFunction<Promise<Signature>>
+  ): Promise<CompiledNotarizedTransaction> {
+    const notarySignature = await source(this.hashToNotarize);
+    return this.compileNotarizedInternal(notarySignature);
+  }
+
   compileNotarized(
     source: SignatureSource<Signature>
   ): CompiledNotarizedTransaction {
@@ -183,6 +191,12 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
         }
       }
     );
+    return this.compileNotarizedInternal(notarySignature);
+  }
+
+  private compileNotarizedInternal(
+    notarySignature: Signature
+  ): CompiledNotarizedTransaction {
     const notarizedTransaction: NotarizedTransaction = {
       signedIntent: this.signedIntent,
       notarySignature: notarySignature,
