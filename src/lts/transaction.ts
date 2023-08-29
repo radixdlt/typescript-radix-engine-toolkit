@@ -27,6 +27,7 @@ import {
   SignatureSource,
   SignedIntent,
   SignerResponse,
+  TransactionHash,
   defaultValidationConfig,
   resolveSignatureSource,
 } from "..";
@@ -49,7 +50,7 @@ export class LTSTransactionIntent
     return this.compile();
   }
 
-  async transactionId(): Promise<Uint8Array> {
+  async transactionId(): Promise<TransactionHash> {
     return RadixEngineToolkit.Intent.hash(this.intent);
   }
 }
@@ -71,15 +72,15 @@ export class LTSSignedTransactionIntent
     return new LTSTransactionIntent(this.intent.intent).compile();
   }
 
-  async transactionId(): Promise<Uint8Array> {
+  async transactionId(): Promise<TransactionHash> {
     return this.intentHash();
   }
 
-  async intentHash(): Promise<Uint8Array> {
+  async intentHash(): Promise<TransactionHash> {
     return RadixEngineToolkit.Intent.hash(this.intent.intent);
   }
 
-  async signedIntentHash(): Promise<Uint8Array> {
+  async signedIntentHash(): Promise<TransactionHash> {
     return RadixEngineToolkit.SignedIntent.hash(this.intent);
   }
 }
@@ -103,19 +104,19 @@ export class LTSNotarizedTransaction
     ).compile();
   }
 
-  async transactionId(): Promise<Uint8Array> {
+  async transactionId(): Promise<TransactionHash> {
     return this.intentHash();
   }
 
-  async intentHash(): Promise<Uint8Array> {
+  async intentHash(): Promise<TransactionHash> {
     return RadixEngineToolkit.Intent.hash(this.transaction.signedIntent.intent);
   }
 
-  async signedIntentHash(): Promise<Uint8Array> {
+  async signedIntentHash(): Promise<TransactionHash> {
     return RadixEngineToolkit.SignedIntent.hash(this.transaction.signedIntent);
   }
 
-  async notarizedPayloadHash(): Promise<Uint8Array> {
+  async notarizedPayloadHash(): Promise<TransactionHash> {
     return RadixEngineToolkit.NotarizedTransaction.hash(this.transaction);
   }
 }
@@ -127,16 +128,16 @@ export interface CompilableIntent {
 export class CompiledSignedTransactionIntent implements HasCompiledIntent {
   private readonly retWrapper: RawRadixEngineToolkit;
   private readonly signedIntent: SignedIntent;
-  readonly intentHash: Uint8Array;
+  readonly intentHash: TransactionHash;
   readonly compiledSignedIntent: Uint8Array;
-  readonly signedIntentHash: Uint8Array;
+  readonly signedIntentHash: TransactionHash;
 
   constructor(
     retWrapper: RawRadixEngineToolkit,
-    intentHash: Uint8Array,
+    intentHash: TransactionHash,
     signedIntent: SignedIntent,
     compiledSignedIntent: Uint8Array,
-    signedIntentHash: Uint8Array
+    signedIntentHash: TransactionHash
   ) {
     this.retWrapper = retWrapper;
     this.intentHash = intentHash;
@@ -152,14 +153,14 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
   /**
    * @returns The hash to notarize (the signed intent hash)
    */
-  get hashToNotarize(): Uint8Array {
+  get hashToNotarize(): TransactionHash {
     return this.signedIntentHash;
   }
 
   /**
    * @returns The transaction identifier (also known as the intent hash) of the transaction.
    */
-  get transactionId(): Uint8Array {
+  get transactionId(): TransactionHash {
     return this.intentHash;
   }
 
@@ -172,7 +173,7 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
   ): CompiledNotarizedTransaction {
     const notarySignature = resolveSignatureSource(
       source,
-      this.hashToNotarize,
+      this.hashToNotarize.hash,
       (signerResponse: SignerResponse): Signature => {
         switch (signerResponse.curve) {
           case "Secp256k1":
@@ -195,7 +196,7 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
       const compiled = Convert.HexString.toUint8Array(
         this.retWrapper.notarizedTransactionCompile(input)
       );
-      const hash = Convert.HexString.toUint8Array(
+      const hash = GeneratedConverter.TransactionHash.fromGenerated(
         this.retWrapper.notarizedTransactionHash(input)
       );
       return [compiled, hash];
@@ -212,7 +213,7 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
    * @returns The transaction identifier (also known as the intent hash) of the transaction, encoded into hex.
    */
   intentHashHex(): string {
-    return Convert.Uint8Array.toHexString(this.intentHash);
+    return Convert.Uint8Array.toHexString(this.intentHash.hash);
   }
 
   /**
@@ -226,13 +227,13 @@ export class CompiledSignedTransactionIntent implements HasCompiledIntent {
 
 export class CompiledNotarizedTransaction implements HasCompiledIntent {
   readonly compiled: Uint8Array;
-  readonly intentHash: Uint8Array;
-  readonly notarizedPayloadHash: Uint8Array;
+  readonly intentHash: TransactionHash;
+  readonly notarizedPayloadHash: TransactionHash;
 
   constructor(
-    intentHash: Uint8Array,
+    intentHash: TransactionHash,
     compiled: Uint8Array,
-    notarizedPayloadHash: Uint8Array
+    notarizedPayloadHash: TransactionHash
   ) {
     this.intentHash = intentHash;
     this.compiled = compiled;
@@ -250,7 +251,7 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
   /**
    * @returns The transaction identifier (also known as the intent hash) of the transaction.
    */
-  get transactionId(): Uint8Array {
+  get transactionId(): TransactionHash {
     return this.intentHash;
   }
 
@@ -266,7 +267,7 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
    * @returns The transaction identifier (also known as the intent hash) of the transaction, encoded into hex.
    */
   intentHashHex(): string {
-    return Convert.Uint8Array.toHexString(this.intentHash);
+    return Convert.Uint8Array.toHexString(this.intentHash.hash);
   }
 
   /**
@@ -280,7 +281,7 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
    * @returns The (notarized) payload hash, encoded into hex.
    */
   notarizedPayloadHashHex(): string {
-    return Convert.Uint8Array.toHexString(this.notarizedPayloadHash);
+    return Convert.Uint8Array.toHexString(this.notarizedPayloadHash.hash);
   }
 
   async staticallyValidate(networkId: number): Promise<TransactionValidity> {

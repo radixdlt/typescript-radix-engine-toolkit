@@ -130,7 +130,12 @@ export interface SerializableIntent {
 
 export type IntentHashInput = SerializableIntent;
 
-export type IntentHashOutput = SerializableHash;
+export interface SerializableTransactionHash {
+  hash: SerializableHash;
+  id: string;
+}
+
+export type IntentHashOutput = SerializableTransactionHash;
 
 export type IntentCompileInput = SerializableIntent;
 
@@ -177,7 +182,7 @@ export interface SerializableNotarizedTransaction {
 
 export type NotarizedTransactionHashInput = SerializableNotarizedTransaction;
 
-export type NotarizedTransactionHashOutput = SerializableHash;
+export type NotarizedTransactionHashOutput = SerializableTransactionHash;
 
 export type NotarizedTransactionCompileInput = SerializableNotarizedTransaction;
 
@@ -190,7 +195,7 @@ export type ScryptoSborDecodeToStringOutput = string;
 
 export type SignedIntentHashInput = SerializableSignedIntent;
 
-export type SignedIntentHashOutput = SerializableHash;
+export type SignedIntentHashOutput = SerializableTransactionHash;
 
 export type SignedIntentCompileInput = SerializableSignedIntent;
 

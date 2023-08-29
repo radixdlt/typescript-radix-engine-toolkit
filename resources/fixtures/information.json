@@ -1,0 +1,14 @@
+{
+  "build_information": [
+    {
+      "input": {},
+      "output": {
+        "version": "0.12.0-rcnetv3.1",
+        "scrypto_dependency": {
+          "kind": "Tag",
+          "value": "rcnet-v3-a74271b895"
+        }
+      }
+    }
+  ]
+}

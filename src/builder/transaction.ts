@@ -16,7 +16,6 @@
 // under the License.
 
 import {
-  Convert,
   Intent,
   NotarizedTransaction,
   RawRadixEngineToolkit,
@@ -24,6 +23,7 @@ import {
   SignatureFunction,
   SignatureSource,
   SignatureWithPublicKey,
+  TransactionHash,
   TransactionHeader,
   TransactionManifest,
   rawRadixEngineToolkit,
@@ -90,10 +90,10 @@ export class TransactionBuilderIntentSignaturesStep {
   }
 
   public sign(source: SignatureSource<SignatureWithPublicKey>): this {
-    const messageHash = this.intentHash();
+    const intentHash = this.intentHash();
     const signature = resolveSignatureSource(
       source,
-      messageHash,
+      intentHash.hash,
       ({ curve, signature, publicKey }) => {
         switch (curve) {
           case "Secp256k1":
@@ -110,17 +110,17 @@ export class TransactionBuilderIntentSignaturesStep {
   public async signAsync(
     source: SignatureFunction<Promise<SignatureWithPublicKey>>
   ): Promise<this> {
-    const messageHash = this.intentHash();
-    const signature = await source(messageHash);
+    const intentHash = this.intentHash();
+    const signature = await source(intentHash.hash);
     this.intentSignatures.push(signature);
     throw this;
   }
 
   public notarize(source: SignatureSource<Signature>): NotarizedTransaction {
-    const messageHash = this.signedIntentHash();
+    const signedIntentHash = this.signedIntentHash();
     const signature = resolveSignatureSource(
       source,
-      messageHash,
+      signedIntentHash.hash,
       ({ curve, signature }) => {
         switch (curve) {
           case "Secp256k1":
@@ -142,8 +142,8 @@ export class TransactionBuilderIntentSignaturesStep {
   public async notarizeAsync(
     source: SignatureFunction<Promise<Signature>>
   ): Promise<NotarizedTransaction> {
-    const messageHash = this.signedIntentHash();
-    const signature = await source(messageHash);
+    const signedIntentHash = this.signedIntentHash();
+    const signature = await source(signedIntentHash.hash);
     return {
       signedIntent: {
         intent: this.intent,
@@ -153,15 +153,15 @@ export class TransactionBuilderIntentSignaturesStep {
     };
   }
 
-  private intentHash(): Uint8Array {
+  private intentHash(): TransactionHash {
     const input = this.intent;
     const output = this.radixEngineToolkit.intentHash(
       GeneratedConverter.Intent.toGenerated(input)
     );
-    return Convert.HexString.toUint8Array(output);
+    return GeneratedConverter.TransactionHash.fromGenerated(output);
   }
 
-  private signedIntentHash(): Uint8Array {
+  private signedIntentHash(): TransactionHash {
     const input = {
       intent: this.intent,
       intentSignatures: this.intentSignatures,
@@ -169,6 +169,6 @@ export class TransactionBuilderIntentSignaturesStep {
     const output = this.radixEngineToolkit.signedIntentHash(
       GeneratedConverter.SignedIntent.toGenerated(input)
     );
-    return Convert.HexString.toUint8Array(output);
+    return GeneratedConverter.TransactionHash.fromGenerated(output);
   }
 }

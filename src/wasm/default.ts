@@ -30,6 +30,7 @@ import {
   SerializationMode,
   SignedIntent,
   StaticValidationResult,
+  TransactionHash,
   TransactionManifest,
   ValidationConfig,
   rawRadixEngineToolkit,
@@ -337,12 +338,16 @@ export class RadixEngineToolkit {
   };
 
   static Intent = class {
-    static async hash(intent: Intent): Promise<Uint8Array> {
+    static async intentHash(intent: Intent): Promise<TransactionHash> {
+      return this.hash(intent)
+    }
+
+    static async hash(intent: Intent): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.intentHash(
         GeneratedConverter.Intent.toGenerated(intent)
       );
-      return Convert.HexString.toUint8Array(output);
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
     static async compile(intent: Intent): Promise<Uint8Array> {
@@ -380,12 +385,20 @@ export class RadixEngineToolkit {
   };
 
   static SignedIntent = class {
-    static async hash(signedIntent: SignedIntent): Promise<Uint8Array> {
+    static async hash(signedIntent: SignedIntent): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedIntentHash(
         GeneratedConverter.SignedIntent.toGenerated(signedIntent)
       );
-      return Convert.HexString.toUint8Array(output);
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async signedIntentHash(signedIntent: SignedIntent): Promise<TransactionHash> {
+      return this.hash(signedIntent)
+    }
+
+    static async intentHash(signedIntent: SignedIntent): Promise<TransactionHash> {
+      return RadixEngineToolkit.Intent.hash(signedIntent.intent)
     }
 
     static async compile(signedIntent: SignedIntent): Promise<Uint8Array> {
@@ -426,14 +439,26 @@ export class RadixEngineToolkit {
   static NotarizedTransaction = class {
     static async hash(
       notarizedTransaction: NotarizedTransaction
-    ): Promise<Uint8Array> {
+    ): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionHash(
         GeneratedConverter.NotarizedTransaction.toGenerated(
           notarizedTransaction
         )
       );
-      return Convert.HexString.toUint8Array(output);
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async notarizedTransactionHash(notarizedTransaction: NotarizedTransaction): Promise<TransactionHash> {
+      return this.hash(notarizedTransaction)
+    }
+
+    static async signedIntentHash(notarizedTransaction: NotarizedTransaction): Promise<TransactionHash> {
+      return RadixEngineToolkit.SignedIntent.hash(notarizedTransaction.signedIntent)
+    }
+
+    static async intentHash(notarizedTransaction: NotarizedTransaction): Promise<TransactionHash> {
+      return RadixEngineToolkit.Intent.hash(notarizedTransaction.signedIntent.intent)
     }
 
     static async compile(

@@ -46,6 +46,7 @@ import {
   Signature,
   SignatureWithPublicKey,
   SignedIntent,
+  TransactionHash,
   TransactionHeader,
   TransactionManifest,
   TransactionType,
@@ -86,6 +87,7 @@ import {
   SerializableSignatureWithPublicKey,
   SerializableSignedIntent,
   SerializableSource,
+  SerializableTransactionHash,
   SerializableTransactionHeader,
   SerializableTransactionManifest,
   SerializableTransactionType,
@@ -968,6 +970,22 @@ export class GeneratedConverter {
         ),
         notaryIsSignatory: value.notary_is_signatory,
         tipPercentage: Convert.String.toNumber(value.tip_percentage),
+      };
+    }
+  };
+
+  static TransactionHash = class {
+    static toGenerated(value: TransactionHash): SerializableTransactionHash {
+      return {
+        hash: Convert.Uint8Array.toHexString(value.hash),
+        id: value.id,
+      };
+    }
+
+    static fromGenerated(value: SerializableTransactionHash): TransactionHash {
+      return {
+        hash: Convert.HexString.toUint8Array(value.hash),
+        id: value.id,
       };
     }
   };

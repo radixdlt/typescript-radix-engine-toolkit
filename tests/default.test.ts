@@ -93,7 +93,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     const buildInformation = await RadixEngineToolkit.Build.information();
 
     // Assert
-    expect(buildInformation.version).toEqual("0.12.0-grape.1");
+    expect(buildInformation.version).toEqual("0.12.0-rcnetv3.1");
   });
 
   moduleTestVector<
@@ -377,7 +377,9 @@ describe("Default Radix Engine Toolkit Tests", () => {
       );
 
       // Assert
-      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+      expect(output).toEqual(
+        GeneratedConverter.TransactionHash.fromGenerated(outputVector)
+      );
     }
   );
 
@@ -442,7 +444,9 @@ describe("Default Radix Engine Toolkit Tests", () => {
       );
 
       // Assert
-      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+      expect(output).toEqual(
+        GeneratedConverter.TransactionHash.fromGenerated(outputVector)
+      );
     }
   );
 
@@ -515,7 +519,9 @@ describe("Default Radix Engine Toolkit Tests", () => {
       );
 
       // Assert
-      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+      expect(output).toEqual(
+        GeneratedConverter.TransactionHash.fromGenerated(outputVector)
+      );
     }
   );
 
@@ -693,7 +699,7 @@ const moduleTestVector = <I, O>(
   };
 
   const fileContent = fs.readFileSync(
-    `./resources/function_examples/${moduleName}.json`,
+    `./resources/fixtures/${moduleName}.json`,
     "utf8"
   );
   const testVectors: TestVector[] = JSON.parse(fileContent)[functionName];

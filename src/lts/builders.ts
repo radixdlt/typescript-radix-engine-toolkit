@@ -247,7 +247,7 @@ export class SimpleTransactionBuilder {
     const intent = transitioned.intent;
     const intentSignatures = transitioned.intentSignatures;
 
-    const intentHash = Convert.HexString.toUint8Array(
+    const intentHash = GeneratedConverter.TransactionHash.fromGenerated(
       this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
     );
     const signedIntent: SignedIntent = {
@@ -259,7 +259,7 @@ export class SimpleTransactionBuilder {
         GeneratedConverter.SignedIntent.toGenerated(signedIntent)
       )
     );
-    const signedIntentHash = Convert.HexString.toUint8Array(
+    const signedIntentHash = GeneratedConverter.TransactionHash.fromGenerated(
       this.retWrapper.signedIntentHash(
         GeneratedConverter.SignedIntent.toGenerated(signedIntent)
       )
