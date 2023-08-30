@@ -36,6 +36,5 @@ export enum EntityType {
   GlobalNonFungibleResourceManager = "GlobalNonFungibleResourceManager",
   InternalNonFungibleVault = "InternalNonFungibleVault",
   InternalGenericComponent = "InternalGenericComponent",
-  InternalAccount = "InternalAccount",
   InternalKeyValueStore = "InternalKeyValueStore",
 }

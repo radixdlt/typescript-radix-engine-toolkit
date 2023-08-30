@@ -44,7 +44,6 @@ export enum SerializableEntityType {
   GlobalNonFungibleResourceManager = "GlobalNonFungibleResourceManager",
   InternalNonFungibleVault = "InternalNonFungibleVault",
   InternalGenericComponent = "InternalGenericComponent",
-  InternalAccount = "InternalAccount",
   InternalKeyValueStore = "InternalKeyValueStore",
 }
 

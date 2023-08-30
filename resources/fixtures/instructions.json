@@ -2707,7 +2707,9 @@
               "kind": "CreateProofFromBucketOfNonFungibles",
               "value": {
                 "bucket_id": "0",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -2821,7 +2823,9 @@
               "kind": "CreateProofFromAuthZoneOfNonFungibles",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -2980,7 +2984,9 @@
               "kind": "TakeNonFungiblesFromWorktop",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#1#"]
+                "ids": [
+                  "#1#"
+                ]
               }
             },
             {
@@ -11403,7 +11409,9 @@
               "kind": "CreateProofFromBucketOfNonFungibles",
               "value": {
                 "bucket_id": "0",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -11517,7 +11525,9 @@
               "kind": "CreateProofFromAuthZoneOfNonFungibles",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -11635,7 +11645,9 @@
             "kind": "CreateProofFromBucketOfNonFungibles",
             "value": {
               "bucket_id": "0",
-              "ids": ["#123#"]
+              "ids": [
+                "#123#"
+              ]
             }
           },
           {
@@ -11749,7 +11761,9 @@
             "kind": "CreateProofFromAuthZoneOfNonFungibles",
             "value": {
               "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-              "ids": ["#123#"]
+              "ids": [
+                "#123#"
+              ]
             }
           },
           {
@@ -11895,7 +11909,9 @@
               "kind": "TakeNonFungiblesFromWorktop",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#1#"]
+                "ids": [
+                  "#1#"
+                ]
               }
             },
             {
@@ -12034,7 +12050,9 @@
             "kind": "TakeNonFungiblesFromWorktop",
             "value": {
               "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-              "ids": ["#1#"]
+              "ids": [
+                "#1#"
+              ]
             }
           },
           {
@@ -20990,7 +21008,9 @@
               "kind": "CreateProofFromBucketOfNonFungibles",
               "value": {
                 "bucket_id": "0",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -21104,7 +21124,9 @@
               "kind": "CreateProofFromAuthZoneOfNonFungibles",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -21263,7 +21285,9 @@
               "kind": "TakeNonFungiblesFromWorktop",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#1#"]
+                "ids": [
+                  "#1#"
+                ]
               }
             },
             {
@@ -27819,7 +27843,9 @@
               "kind": "CreateProofFromBucketOfNonFungibles",
               "value": {
                 "bucket_id": "0",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -27933,7 +27959,9 @@
               "kind": "CreateProofFromAuthZoneOfNonFungibles",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -28096,7 +28124,9 @@
               "kind": "TakeNonFungiblesFromWorktop",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#1#"]
+                "ids": [
+                  "#1#"
+                ]
               }
             },
             {
@@ -31441,32 +31471,31 @@
       },
       "output": {
         "addresses": {
+          "GlobalGenericComponent": [],
+          "InternalNonFungibleVault": [],
+          "InternalKeyValueStore": [],
+          "GlobalValidator": [],
+          "GlobalTransactionTracker": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalOneResourcePool": [],
+          "GlobalAccount": [],
+          "GlobalFungibleResourceManager": [],
+          "InternalFungibleVault": [],
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          ],
           "GlobalIdentity": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalConsensusManager": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxcntrlrxxxxxxxxx000648572295xxxxxxxxxxc5z0l"
           ],
           "InternalGenericComponent": [],
-          "InternalAccount": [],
-          "GlobalAccessController": [],
-          "InternalKeyValueStore": [],
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
-          ],
-          "GlobalGenericComponent": [],
-          "GlobalAccount": [],
-          "GlobalVirtualSecp256k1Account": [],
           "GlobalVirtualEd25519Identity": [],
-          "InternalNonFungibleVault": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalValidator": [],
-          "GlobalOneResourcePool": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalConsensusManager": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalMultiResourcePool": [],
-          "GlobalTransactionTracker": [],
-          "InternalFungibleVault": [],
           "GlobalTwoResourcePool": [],
-          "GlobalVirtualEd25519Account": []
+          "GlobalAccessController": []
         },
         "named_addresses": []
       }
@@ -31481,32 +31510,31 @@
       },
       "output": {
         "addresses": {
+          "GlobalVirtualEd25519Account": [],
+          "InternalFungibleVault": [],
+          "GlobalAccount": [],
+          "GlobalConsensusManager": [],
+          "InternalGenericComponent": [],
+          "GlobalTransactionTracker": [],
+          "GlobalIdentity": [],
+          "InternalKeyValueStore": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalOneResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "GlobalMultiResourcePool": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxcntrlrxxxxxxxxx000648572295xxxxxxxxxxc5z0l"
           ],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalFungibleVault": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalGenericComponent": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "InternalNonFungibleVault": [],
-          "InternalAccount": [],
-          "InternalKeyValueStore": [],
+          "GlobalValidator": [],
           "GlobalNonFungibleResourceManager": [
             "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
           ],
-          "GlobalAccount": [],
-          "GlobalAccessController": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalTransactionTracker": [],
-          "GlobalIdentity": [],
-          "GlobalConsensusManager": [],
-          "GlobalVirtualEd25519Account": [],
           "GlobalGenericComponent": [],
-          "GlobalValidator": [],
-          "GlobalMultiResourcePool": []
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalAccessController": []
         },
         "named_addresses": []
       }
@@ -31607,32 +31635,31 @@
       },
       "output": {
         "addresses": {
+          "GlobalVirtualEd25519Identity": [],
+          "InternalGenericComponent": [],
+          "InternalKeyValueStore": [],
+          "GlobalTransactionTracker": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalMultiResourcePool": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalValidator": [],
+          "GlobalFungibleResourceManager": [],
+          "InternalNonFungibleVault": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalVirtualEd25519Account": [],
-          "GlobalTwoResourcePool": [],
+          "GlobalOneResourcePool": [],
+          "GlobalAccessController": [],
+          "GlobalConsensusManager": [],
           "InternalFungibleVault": [],
           "GlobalVirtualSecp256k1Account": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalAccount": [],
-          "GlobalConsensusManager": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalKeyValueStore": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalIdentity": [],
+          "GlobalValidator": [],
           "GlobalGenericComponent": [],
-          "InternalNonFungibleVault": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
           "GlobalPackage": [
             "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
           ],
-          "InternalGenericComponent": [],
-          "GlobalTransactionTracker": []
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalIdentity": []
         },
         "named_addresses": []
       }
@@ -31647,32 +31674,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalGenericComponent": [],
-          "GlobalIdentity": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalKeyValueStore": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "GlobalValidator": [],
-          "GlobalOneResourcePool": [],
-          "GlobalMultiResourcePool": [],
-          "InternalFungibleVault": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalGenericComponent": [],
           "GlobalPackage": [
             "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
           ],
-          "GlobalTransactionTracker": [],
-          "GlobalAccessController": [],
+          "GlobalIdentity": [],
+          "GlobalNonFungibleResourceManager": [],
           "GlobalVirtualSecp256k1Account": [],
-          "InternalAccount": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalConsensusManager": [],
-          "InternalNonFungibleVault": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "GlobalTwoResourcePool": []
+          "GlobalTwoResourcePool": [],
+          "InternalKeyValueStore": [],
+          "GlobalGenericComponent": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalConsensusManager": [],
+          "GlobalValidator": [],
+          "InternalFungibleVault": [],
+          "InternalNonFungibleVault": [],
+          "GlobalOneResourcePool": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "GlobalTransactionTracker": [],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalGenericComponent": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalAccessController": []
         },
         "named_addresses": []
       }
@@ -31962,34 +31988,33 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualEd25519Identity": [],
-          "InternalGenericComponent": [],
+          "GlobalAccessController": [],
           "GlobalTransactionTracker": [],
-          "GlobalVirtualEd25519Account": [],
+          "GlobalGenericComponent": [],
           "GlobalIdentity": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "InternalKeyValueStore": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "InternalFungibleVault": [],
+          "GlobalMultiResourcePool": [],
+          "InternalGenericComponent": [],
+          "GlobalPackage": [],
+          "InternalNonFungibleVault": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalOneResourcePool": [],
+          "GlobalValidator": [],
           "GlobalTwoResourcePool": [],
           "GlobalConsensusManager": [
             "consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl"
           ],
-          "GlobalVirtualSecp256k1Account": [],
-          "InternalKeyValueStore": [],
-          "GlobalMultiResourcePool": [],
+          "InternalFungibleVault": [],
           "GlobalNonFungibleResourceManager": [],
-          "GlobalGenericComponent": [],
-          "GlobalValidator": [],
-          "InternalNonFungibleVault": [],
-          "GlobalAccessController": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "GlobalOneResourcePool": [],
-          "InternalAccount": [],
-          "GlobalPackage": []
+          "GlobalVirtualSecp256k1Account": []
         },
         "named_addresses": []
       }
@@ -32004,34 +32029,33 @@
       },
       "output": {
         "addresses": {
-          "GlobalValidator": [],
-          "InternalFungibleVault": [],
-          "GlobalPackage": [],
+          "InternalNonFungibleVault": [],
+          "GlobalAccessController": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalTwoResourcePool": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
           "GlobalConsensusManager": [
             "consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl"
           ],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalTwoResourcePool": [],
-          "InternalGenericComponent": [],
-          "GlobalAccessController": [],
-          "InternalNonFungibleVault": [],
           "InternalKeyValueStore": [],
+          "GlobalPackage": [],
           "GlobalGenericComponent": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalVirtualEd25519Account": [],
+          "InternalGenericComponent": [],
+          "GlobalValidator": [],
+          "GlobalOneResourcePool": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalTransactionTracker": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalIdentity": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
           "GlobalVirtualSecp256k1Account": [],
-          "InternalAccount": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalIdentity": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalTransactionTracker": [],
-          "GlobalVirtualEd25519Identity": []
+          "InternalFungibleVault": []
         },
         "named_addresses": []
       }
@@ -32089,29 +32113,28 @@
       },
       "output": {
         "addresses": {
-          "GlobalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalGenericComponent": [],
           "InternalNonFungibleVault": [],
+          "InternalGenericComponent": [],
+          "InternalFungibleVault": [],
+          "GlobalValidator": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalOneResourcePool": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalTransactionTracker": [],
+          "InternalKeyValueStore": [],
+          "GlobalIdentity": [],
+          "GlobalAccessController": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalConsensusManager": [],
+          "GlobalGenericComponent": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxdntyxxxxxxxxxxx008560783089xxxxxxxxxnc59k6"
           ],
-          "GlobalFungibleResourceManager": [],
-          "InternalAccount": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalConsensusManager": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalKeyValueStore": [],
-          "GlobalTransactionTracker": [],
-          "InternalFungibleVault": [],
-          "GlobalValidator": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalIdentity": [],
           "GlobalAccount": []
         },
         "named_addresses": []
@@ -32127,30 +32150,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualSecp256k1Account": [],
+          "GlobalGenericComponent": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxdntyxxxxxxxxxxx008560783089xxxxxxxxxnc59k6"
           ],
-          "GlobalGenericComponent": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalAccount": [],
-          "GlobalConsensusManager": [],
-          "GlobalTwoResourcePool": [],
-          "InternalNonFungibleVault": [],
-          "GlobalTransactionTracker": [],
-          "GlobalAccessController": [],
-          "GlobalValidator": [],
-          "GlobalMultiResourcePool": [],
           "GlobalVirtualEd25519Account": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalConsensusManager": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalTransactionTracker": [],
+          "GlobalFungibleResourceManager": [],
           "InternalFungibleVault": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalNonFungibleResourceManager": [],
           "InternalGenericComponent": [],
+          "GlobalValidator": [],
+          "InternalNonFungibleVault": [],
+          "GlobalIdentity": [],
           "GlobalOneResourcePool": [],
+          "GlobalVirtualEd25519Identity": [],
           "InternalKeyValueStore": [],
           "GlobalAccount": [],
-          "GlobalIdentity": []
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalAccessController": [],
+          "GlobalTwoResourcePool": []
         },
         "named_addresses": []
       }
@@ -32291,33 +32313,32 @@
       },
       "output": {
         "addresses": {
+          "GlobalConsensusManager": [],
+          "GlobalValidator": [],
+          "GlobalTransactionTracker": [],
+          "GlobalAccessController": [],
+          "GlobalOneResourcePool": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalNonFungibleVault": [],
+          "GlobalMultiResourcePool": [],
+          "InternalKeyValueStore": [],
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
+            "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6"
+          ],
+          "GlobalIdentity": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalPackage": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
           "GlobalGenericComponent": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalNonFungibleVault": [],
-          "GlobalValidator": [],
-          "GlobalOneResourcePool": [],
-          "InternalGenericComponent": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalPackage": [],
-          "GlobalTransactionTracker": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalConsensusManager": [],
-          "InternalKeyValueStore": [],
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6",
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
-          ],
-          "GlobalTwoResourcePool": [],
           "InternalFungibleVault": [],
-          "GlobalIdentity": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalAccount": []
+          "InternalGenericComponent": []
         },
         "named_addresses": []
       }
@@ -32332,33 +32353,32 @@
       },
       "output": {
         "addresses": {
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalAccessController": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalKeyValueStore": [],
-          "GlobalTwoResourcePool": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalVirtualEd25519Account": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalPackage": [],
           "GlobalValidator": [],
-          "GlobalConsensusManager": [],
+          "InternalGenericComponent": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalVirtualEd25519Identity": [],
+          "InternalKeyValueStore": [],
+          "GlobalAccessController": [],
+          "GlobalConsensusManager": [],
           "GlobalGenericComponent": [],
-          "GlobalIdentity": [],
-          "InternalNonFungibleVault": [],
+          "InternalFungibleVault": [],
           "GlobalTransactionTracker": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalIdentity": [],
           "GlobalNonFungibleResourceManager": [
             "resource_sim1nfhtg7ttszgjwysfglx8jcjtvv8q02fg9s2y6qpnvtw5jsy3wvlhj6",
             "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
           ],
-          "InternalGenericComponent": [],
-          "GlobalMultiResourcePool": [],
-          "InternalFungibleVault": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalPackage": [],
-          "InternalAccount": []
+          "GlobalFungibleResourceManager": [],
+          "InternalNonFungibleVault": [],
+          "GlobalOneResourcePool": []
         },
         "named_addresses": []
       }
@@ -32475,34 +32495,33 @@
       },
       "output": {
         "addresses": {
-          "InternalNonFungibleVault": [],
-          "GlobalPackage": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "InternalGenericComponent": [],
+          "GlobalValidator": [],
           "GlobalTransactionTracker": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalOneResourcePool": [],
-          "GlobalTwoResourcePool": [],
           "GlobalVirtualEd25519Account": [],
-          "GlobalFungibleResourceManager": [
-            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
-          ],
-          "GlobalMultiResourcePool": [],
-          "InternalGenericComponent": [],
-          "GlobalVirtualSecp256k1Identity": [],
           "GlobalNonFungibleResourceManager": [
             "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
           ],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalValidator": [],
-          "GlobalGenericComponent": [],
+          "GlobalConsensusManager": [],
           "GlobalVirtualEd25519Identity": [],
-          "GlobalIdentity": [],
-          "InternalFungibleVault": [],
-          "InternalAccount": [],
+          "InternalNonFungibleVault": [],
+          "GlobalFungibleResourceManager": [
+            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
+          ],
           "InternalKeyValueStore": [],
+          "GlobalGenericComponent": [],
+          "GlobalTwoResourcePool": [],
           "GlobalAccessController": [],
-          "GlobalConsensusManager": []
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalPackage": [],
+          "InternalFungibleVault": [],
+          "GlobalOneResourcePool": []
         },
         "named_addresses": []
       }
@@ -32517,33 +32536,32 @@
       },
       "output": {
         "addresses": {
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "GlobalAccessController": [],
-          "GlobalIdentity": [],
-          "InternalKeyValueStore": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
           "GlobalVirtualEd25519Identity": [],
+          "InternalGenericComponent": [],
+          "GlobalAccessController": [],
+          "GlobalMultiResourcePool": [],
           "GlobalValidator": [],
           "GlobalTransactionTracker": [],
-          "GlobalMultiResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalIdentity": [],
           "GlobalConsensusManager": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "InternalFungibleVault": [],
+          "InternalKeyValueStore": [],
+          "GlobalPackage": [],
           "GlobalNonFungibleResourceManager": [
             "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
           ],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalOneResourcePool": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
           ],
-          "InternalAccount": [],
-          "InternalNonFungibleVault": [],
-          "GlobalPackage": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalOneResourcePool": [],
-          "InternalFungibleVault": [],
-          "InternalGenericComponent": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
           "GlobalGenericComponent": []
         },
         "named_addresses": []
@@ -32580,30 +32598,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualEd25519Identity": [],
-          "InternalKeyValueStore": [],
+          "GlobalPackage": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalConsensusManager": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalAccessController": [],
+          "GlobalTransactionTracker": [],
+          "GlobalVirtualSecp256k1Account": [],
           "InternalFungibleVault": [
             "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
           ],
-          "InternalGenericComponent": [],
-          "GlobalAccessController": [],
-          "GlobalNonFungibleResourceManager": [],
+          "InternalKeyValueStore": [],
           "GlobalMultiResourcePool": [],
-          "InternalAccount": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalAccount": [],
-          "GlobalPackage": [],
-          "GlobalVirtualEd25519Account": [],
           "GlobalTwoResourcePool": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalConsensusManager": [],
-          "GlobalGenericComponent": [],
           "GlobalIdentity": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalNonFungibleVault": [],
+          "GlobalVirtualEd25519Account": [],
+          "InternalGenericComponent": [],
+          "GlobalGenericComponent": [],
           "GlobalValidator": [],
-          "GlobalTransactionTracker": []
+          "GlobalAccount": [],
+          "GlobalOneResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "GlobalVirtualEd25519Identity": []
         },
         "named_addresses": []
       }
@@ -32618,30 +32635,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalKeyValueStore": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalTransactionTracker": [],
-          "InternalGenericComponent": [],
-          "GlobalIdentity": [],
-          "GlobalConsensusManager": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalAccount": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalFungibleVault": [
-            "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
-          ],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalValidator": [],
-          "GlobalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalPackage": [],
           "GlobalAccessController": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalVirtualEd25519Account": [],
+          "InternalNonFungibleVault": [],
+          "InternalKeyValueStore": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalOneResourcePool": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalGenericComponent": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalConsensusManager": [],
+          "GlobalValidator": [],
+          "GlobalTransactionTracker": [],
           "GlobalAccount": [],
           "GlobalMultiResourcePool": [],
-          "InternalNonFungibleVault": []
+          "GlobalVirtualSecp256k1Account": [],
+          "InternalGenericComponent": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalPackage": [],
+          "InternalFungibleVault": [
+            "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
+          ]
         },
         "named_addresses": []
       }
@@ -33027,32 +33043,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalConsensusManager": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalIdentity": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "InternalFungibleVault": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "GlobalValidator": [],
-          "InternalNonFungibleVault": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalKeyValueStore": [],
           "GlobalAccessController": [],
-          "InternalAccount": [],
-          "GlobalGenericComponent": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalVirtualEd25519Account": [],
+          "InternalGenericComponent": [],
+          "GlobalConsensusManager": [],
           "GlobalTransactionTracker": [],
+          "GlobalIdentity": [],
+          "GlobalMultiResourcePool": [],
+          "InternalKeyValueStore": [],
+          "GlobalPackage": [
+            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
+          ],
+          "GlobalFungibleResourceManager": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalPackage": [
-            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
-          ]
+          "GlobalGenericComponent": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "InternalFungibleVault": [],
+          "GlobalValidator": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalOneResourcePool": []
         },
         "named_addresses": []
       }
@@ -33067,32 +33082,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalPackage": [
-            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
-          ],
-          "GlobalIdentity": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalGenericComponent": [],
-          "InternalFungibleVault": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalConsensusManager": [],
           "GlobalVirtualEd25519Identity": [],
-          "GlobalTransactionTracker": [],
-          "InternalAccount": [],
-          "InternalKeyValueStore": [],
-          "GlobalOneResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalMultiResourcePool": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalGenericComponent": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualEd25519Account": [],
+          "GlobalAccessController": [],
+          "GlobalPackage": [
+            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
+          ],
+          "GlobalTransactionTracker": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalValidator": [],
-          "InternalNonFungibleVault": []
+          "GlobalIdentity": [],
+          "GlobalMultiResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "GlobalGenericComponent": [],
+          "InternalFungibleVault": [],
+          "InternalGenericComponent": [],
+          "GlobalTwoResourcePool": [],
+          "InternalKeyValueStore": [],
+          "GlobalConsensusManager": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalOneResourcePool": []
         },
         "named_addresses": []
       }
@@ -33531,32 +33545,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalMultiResourcePool": [],
           "GlobalGenericComponent": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalTwoResourcePool": [],
-          "InternalNonFungibleVault": [],
-          "InternalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalValidator": [],
-          "GlobalIdentity": [],
-          "GlobalConsensusManager": [],
-          "InternalKeyValueStore": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalTransactionTracker": [],
-          "InternalAccount": [],
-          "GlobalAccessController": [],
-          "GlobalPackage": [
-            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
-          ],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalVirtualSecp256k1Account": [],
+          "GlobalPackage": [
+            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
+          ],
+          "GlobalConsensusManager": [],
+          "GlobalValidator": [],
+          "GlobalIdentity": [],
+          "GlobalAccessController": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "InternalFungibleVault": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalOneResourcePool": [],
+          "GlobalNonFungibleResourceManager": [],
+          "InternalGenericComponent": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalTransactionTracker": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalVirtualEd25519Identity": [],
-          "GlobalNonFungibleResourceManager": []
+          "GlobalTwoResourcePool": [],
+          "InternalKeyValueStore": [],
+          "InternalNonFungibleVault": []
         },
         "named_addresses": []
       }
@@ -33571,32 +33584,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalPackage": [
-            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
-          ],
-          "GlobalGenericComponent": [],
-          "GlobalTransactionTracker": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalMultiResourcePool": [],
-          "InternalFungibleVault": [],
-          "InternalNonFungibleVault": [],
-          "InternalKeyValueStore": [],
-          "GlobalConsensusManager": [],
-          "InternalGenericComponent": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalOneResourcePool": [],
+          "GlobalIdentity": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalValidator": [],
+          "GlobalConsensusManager": [],
+          "InternalFungibleVault": [],
           "GlobalNonFungibleResourceManager": [],
-          "GlobalIdentity": [],
+          "InternalKeyValueStore": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalTwoResourcePool": [],
           "GlobalVirtualSecp256k1Account": [],
-          "InternalAccount": [],
+          "GlobalTransactionTracker": [],
+          "GlobalGenericComponent": [],
           "GlobalAccessController": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "GlobalFungibleResourceManager": []
+          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalValidator": [],
+          "GlobalPackage": [
+            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
+          ],
+          "GlobalOneResourcePool": [],
+          "GlobalFungibleResourceManager": [],
+          "InternalNonFungibleVault": []
         },
         "named_addresses": []
       }
@@ -33910,32 +33922,31 @@
       },
       "output": {
         "addresses": {
-          "InternalAccount": [],
-          "GlobalValidator": [],
-          "GlobalConsensusManager": [],
-          "GlobalAccessController": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalTwoResourcePool": [],
-          "InternalNonFungibleVault": [],
-          "GlobalIdentity": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalKeyValueStore": [],
-          "GlobalGenericComponent": [],
-          "InternalFungibleVault": [],
-          "GlobalTransactionTracker": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalVirtualEd25519Identity": [],
+          "GlobalMultiResourcePool": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
           ],
-          "GlobalOneResourcePool": [],
-          "GlobalMultiResourcePool": [],
           "GlobalVirtualSecp256k1Account": [],
-          "InternalGenericComponent": []
+          "GlobalVirtualEd25519Account": [],
+          "GlobalAccessController": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalTransactionTracker": [],
+          "InternalFungibleVault": [],
+          "GlobalIdentity": [],
+          "InternalKeyValueStore": [],
+          "GlobalConsensusManager": [],
+          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalValidator": [],
+          "GlobalGenericComponent": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalOneResourcePool": [],
+          "GlobalNonFungibleResourceManager": []
         },
         "named_addresses": []
       }
@@ -33950,32 +33961,31 @@
       },
       "output": {
         "addresses": {
+          "GlobalOneResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalConsensusManager": [],
           "GlobalMultiResourcePool": [],
-          "GlobalIdentity": [],
-          "GlobalPackage": [
-            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
-          ],
-          "GlobalFungibleResourceManager": [],
+          "InternalKeyValueStore": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalTwoResourcePool": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalValidator": [],
+          "InternalGenericComponent": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTransactionTracker": [],
+          "GlobalAccessController": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalGenericComponent": [],
           "InternalFungibleVault": [],
           "GlobalNonFungibleResourceManager": [],
+          "GlobalPackage": [
+            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
+          ],
           "GlobalVirtualEd25519Identity": [],
-          "GlobalTransactionTracker": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalNonFungibleVault": [],
-          "InternalAccount": [],
-          "GlobalOneResourcePool": [],
-          "InternalKeyValueStore": [],
-          "GlobalConsensusManager": [],
-          "InternalGenericComponent": [],
-          "GlobalGenericComponent": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalAccessController": [],
-          "GlobalValidator": []
+          "GlobalTwoResourcePool": []
         },
         "named_addresses": []
       }
@@ -34318,32 +34328,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalConsensusManager": [],
           "GlobalIdentity": [],
-          "GlobalTransactionTracker": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalPackage": [
-            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
-          ],
-          "GlobalOneResourcePool": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalNonFungibleVault": [],
-          "GlobalVirtualSecp256k1Account": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "InternalFungibleVault": [],
-          "GlobalValidator": [],
-          "InternalGenericComponent": [],
-          "InternalAccount": [],
+          "GlobalConsensusManager": [],
+          "GlobalOneResourcePool": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualEd25519Account": [],
           "InternalKeyValueStore": [],
+          "GlobalPackage": [
+            "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
+          ],
+          "GlobalTransactionTracker": [],
+          "InternalGenericComponent": [],
+          "GlobalTwoResourcePool": [],
           "GlobalVirtualSecp256k1Identity": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalFungibleResourceManager": [],
+          "InternalNonFungibleVault": [],
+          "GlobalNonFungibleResourceManager": [],
           "GlobalGenericComponent": [],
-          "GlobalAccessController": []
+          "GlobalAccessController": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalValidator": [],
+          "InternalFungibleVault": []
         },
         "named_addresses": []
       }
@@ -34358,32 +34367,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalMultiResourcePool": [],
-          "InternalFungibleVault": [],
-          "GlobalIdentity": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalAccount": [],
-          "InternalKeyValueStore": [],
-          "GlobalGenericComponent": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalFungibleResourceManager": [],
           "GlobalValidator": [],
-          "InternalGenericComponent": [],
-          "GlobalAccessController": [],
-          "GlobalOneResourcePool": [],
-          "InternalNonFungibleVault": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalConsensusManager": [],
+          "GlobalTransactionTracker": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9"
           ],
-          "GlobalTransactionTracker": []
+          "GlobalVirtualSecp256k1Identity": [],
+          "InternalFungibleVault": [],
+          "GlobalNonFungibleResourceManager": [],
+          "InternalKeyValueStore": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "InternalGenericComponent": [],
+          "GlobalAccessController": [],
+          "GlobalVirtualEd25519Account": [],
+          "InternalNonFungibleVault": [],
+          "GlobalConsensusManager": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalGenericComponent": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalIdentity": [],
+          "GlobalOneResourcePool": [],
+          "GlobalMultiResourcePool": []
         },
         "named_addresses": []
       }
@@ -34615,30 +34623,29 @@
       },
       "output": {
         "addresses": {
-          "InternalAccount": [],
-          "GlobalGenericComponent": [],
-          "GlobalPackage": [],
-          "GlobalTransactionTracker": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "InternalFungibleVault": [
             "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
           ],
-          "GlobalIdentity": [],
-          "InternalKeyValueStore": [],
-          "GlobalAccount": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalNonFungibleVault": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalConsensusManager": [],
-          "GlobalTwoResourcePool": [],
-          "InternalGenericComponent": [],
           "GlobalValidator": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalFungibleResourceManager": [],
+          "GlobalAccount": [],
           "GlobalOneResourcePool": [],
-          "GlobalAccessController": []
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalNonFungibleResourceManager": [],
+          "InternalGenericComponent": [],
+          "InternalKeyValueStore": [],
+          "GlobalPackage": [],
+          "InternalNonFungibleVault": [],
+          "GlobalConsensusManager": [],
+          "GlobalGenericComponent": [],
+          "GlobalAccessController": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalTransactionTracker": []
         },
         "named_addresses": []
       }
@@ -34653,30 +34660,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalValidator": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalIdentity": [],
-          "GlobalOneResourcePool": [],
           "GlobalVirtualSecp256k1Account": [],
-          "GlobalNonFungibleResourceManager": [],
+          "GlobalAccount": [],
+          "GlobalIdentity": [],
+          "GlobalAccessController": [],
+          "GlobalOneResourcePool": [],
+          "GlobalValidator": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTransactionTracker": [],
+          "GlobalConsensusManager": [],
+          "GlobalPackage": [],
           "InternalFungibleVault": [
             "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
           ],
-          "InternalAccount": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalGenericComponent": [],
           "GlobalMultiResourcePool": [],
-          "GlobalTransactionTracker": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalNonFungibleVault": [],
-          "GlobalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
           "InternalKeyValueStore": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "GlobalConsensusManager": [],
+          "GlobalGenericComponent": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalTwoResourcePool": [],
-          "GlobalAccount": [],
-          "GlobalPackage": []
+          "InternalGenericComponent": []
         },
         "named_addresses": []
       }
@@ -34726,30 +34732,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualEd25519Identity": [],
-          "InternalNonFungibleVault": [],
-          "InternalGenericComponent": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalConsensusManager": [],
-          "InternalKeyValueStore": [],
-          "GlobalAccount": [],
+          "GlobalOneResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalVirtualSecp256k1Account": [],
           "GlobalGenericComponent": [],
-          "GlobalVirtualEd25519Account": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalIdentity": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalAccount": [],
           "GlobalTransactionTracker": [],
+          "GlobalAccessController": [],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalNonFungibleVault": [],
+          "InternalKeyValueStore": [],
           "InternalFungibleVault": [
             "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
           ],
-          "GlobalOneResourcePool": [],
-          "GlobalAccessController": [],
-          "GlobalIdentity": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalAccount": [],
+          "InternalGenericComponent": [],
           "GlobalPackage": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
           "GlobalValidator": [],
-          "GlobalFungibleResourceManager": []
+          "GlobalTwoResourcePool": []
         },
         "named_addresses": []
       }
@@ -34764,30 +34769,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Account": [],
           "GlobalPackage": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "GlobalValidator": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalConsensusManager": [],
           "InternalNonFungibleVault": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalGenericComponent": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalFungibleResourceManager": [],
           "InternalFungibleVault": [
             "internal_vault_sim1tqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvevp72ff"
           ],
-          "InternalAccount": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalValidator": [],
+          "InternalGenericComponent": [],
+          "GlobalAccount": [],
           "InternalKeyValueStore": [],
           "GlobalNonFungibleResourceManager": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalGenericComponent": [],
+          "GlobalAccessController": [],
           "GlobalTransactionTracker": [],
+          "GlobalOneResourcePool": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalMultiResourcePool": [],
           "GlobalIdentity": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalAccount": []
+          "GlobalConsensusManager": []
         },
         "named_addresses": []
       }
@@ -34846,7 +34850,9 @@
               "kind": "CreateProofFromBucketOfNonFungibles",
               "value": {
                 "bucket_id": "0",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -34960,7 +34966,9 @@
               "kind": "CreateProofFromAuthZoneOfNonFungibles",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#123#"]
+                "ids": [
+                  "#123#"
+                ]
               }
             },
             {
@@ -35013,35 +35021,34 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalConsensusManager": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "GlobalOneResourcePool": [],
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          ],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalValidator": [],
+          "GlobalTransactionTracker": [],
+          "InternalKeyValueStore": [],
+          "GlobalGenericComponent": [],
+          "InternalFungibleVault": [],
+          "GlobalPackage": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTwoResourcePool": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez",
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
-          "GlobalOneResourcePool": [],
-          "InternalNonFungibleVault": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalPackage": [],
-          "GlobalConsensusManager": [],
-          "GlobalIdentity": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "InternalFungibleVault": [],
-          "GlobalGenericComponent": [],
-          "InternalGenericComponent": [],
           "GlobalAccessController": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalAccount": [],
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
-          ],
-          "InternalKeyValueStore": [],
-          "GlobalTransactionTracker": [],
-          "GlobalValidator": [],
-          "GlobalVirtualSecp256k1Account": []
+          "GlobalVirtualSecp256k1Identity": []
         },
         "named_addresses": []
       }
@@ -35056,35 +35063,34 @@
       },
       "output": {
         "addresses": {
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
-          ],
-          "GlobalGenericComponent": [],
-          "InternalAccount": [],
-          "GlobalIdentity": [],
+          "GlobalTransactionTracker": [],
+          "InternalKeyValueStore": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalValidator": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalConsensusManager": [],
-          "InternalGenericComponent": [],
-          "InternalKeyValueStore": [],
-          "GlobalPackage": [],
-          "InternalFungibleVault": [],
           "GlobalMultiResourcePool": [],
-          "GlobalFungibleResourceManager": [
-            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez",
-            "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
-          ],
-          "GlobalOneResourcePool": [],
-          "GlobalTwoResourcePool": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalConsensusManager": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalVirtualEd25519Identity": [],
           "InternalNonFungibleVault": [],
-          "GlobalTransactionTracker": []
+          "GlobalPackage": [],
+          "InternalGenericComponent": [],
+          "GlobalOneResourcePool": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalFungibleResourceManager": [
+            "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3",
+            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
+          ],
+          "GlobalTwoResourcePool": [],
+          "InternalFungibleVault": [],
+          "GlobalGenericComponent": [],
+          "GlobalAccessController": [],
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          ],
+          "GlobalIdentity": [],
+          "GlobalValidator": []
         },
         "named_addresses": []
       }
@@ -35185,7 +35191,9 @@
               "kind": "TakeNonFungiblesFromWorktop",
               "value": {
                 "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                "ids": ["#1#"]
+                "ids": [
+                  "#1#"
+                ]
               }
             },
             {
@@ -35217,37 +35225,36 @@
       },
       "output": {
         "addresses": {
-          "GlobalGenericComponent": [
-            "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
-          ],
-          "GlobalIdentity": [],
-          "GlobalMultiResourcePool": [],
-          "InternalAccount": [],
-          "InternalGenericComponent": [],
           "GlobalVirtualSecp256k1Identity": [],
+          "InternalFungibleVault": [],
+          "GlobalAccessController": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTransactionTracker": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3",
             "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
           ],
-          "GlobalConsensusManager": [],
-          "GlobalTransactionTracker": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
+          "GlobalOneResourcePool": [],
+          "GlobalIdentity": [],
+          "InternalKeyValueStore": [],
           "GlobalVirtualSecp256k1Account": [],
-          "InternalNonFungibleVault": [],
-          "GlobalTwoResourcePool": [],
           "GlobalPackage": [],
           "GlobalVirtualEd25519Account": [],
-          "InternalKeyValueStore": [],
-          "InternalFungibleVault": [],
+          "GlobalVirtualEd25519Identity": [],
           "GlobalNonFungibleResourceManager": [
             "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
           ],
+          "GlobalMultiResourcePool": [],
+          "GlobalTwoResourcePool": [],
           "GlobalValidator": [],
-          "GlobalAccessController": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualEd25519Identity": []
+          "GlobalGenericComponent": [
+            "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
+          ],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "GlobalConsensusManager": [],
+          "InternalGenericComponent": []
         },
         "named_addresses": []
       }
@@ -35262,37 +35269,36 @@
       },
       "output": {
         "addresses": {
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          "GlobalGenericComponent": [
+            "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
           ],
+          "GlobalOneResourcePool": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez",
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
+          "GlobalVirtualSecp256k1Account": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalConsensusManager": [],
+          "GlobalValidator": [],
           "GlobalPackage": [],
           "GlobalTwoResourcePool": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "InternalFungibleVault": [],
+          "InternalNonFungibleVault": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalIdentity": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "InternalGenericComponent": [],
+          "InternalKeyValueStore": [],
+          "GlobalConsensusManager": [],
           "GlobalTransactionTracker": [],
           "GlobalAccessController": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalIdentity": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalNonFungibleVault": [],
-          "InternalGenericComponent": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalValidator": [],
-          "GlobalGenericComponent": [
-            "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
-          ],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalKeyValueStore": [],
-          "InternalFungibleVault": [],
-          "InternalAccount": []
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          ]
         },
         "named_addresses": []
       }
@@ -36133,44 +36139,43 @@
       },
       "output": {
         "addresses": {
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
           "GlobalVirtualSecp256k1Account": [],
+          "InternalFungibleVault": [],
+          "GlobalTwoResourcePool": [],
           "GlobalVirtualEd25519Identity": [],
+          "GlobalValidator": [
+            "validator_sim1svzs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9wr6hj0"
+          ],
+          "GlobalVirtualEd25519Account": [],
+          "InternalNonFungibleVault": [],
+          "InternalGenericComponent": [],
+          "GlobalPackage": [
+            "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
+          ],
+          "GlobalOneResourcePool": [],
+          "GlobalAccessController": [
+            "accesscontroller_sim1cvvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvexaj7at"
+          ],
+          "GlobalIdentity": [],
+          "GlobalConsensusManager": [
+            "consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl"
+          ],
           "GlobalMultiResourcePool": [],
           "GlobalGenericComponent": [
             "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
           ],
-          "InternalFungibleVault": [],
-          "InternalAccount": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "GlobalTransactionTracker": [],
-          "GlobalFungibleResourceManager": [
-            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
-          ],
-          "InternalNonFungibleVault": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "GlobalValidator": [
-            "validator_sim1svzs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9wr6hj0"
-          ],
           "GlobalNonFungibleResourceManager": [
             "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
           ],
-          "GlobalIdentity": [],
-          "GlobalOneResourcePool": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalPackage": [
-            "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
-          ],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalConsensusManager": [
-            "consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl"
-          ],
-          "InternalGenericComponent": [],
           "InternalKeyValueStore": [],
-          "GlobalAccessController": [
-            "accesscontroller_sim1cvvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvexaj7at"
-          ]
+          "GlobalFungibleResourceManager": [
+            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
+          ],
+          "GlobalTransactionTracker": []
         },
         "named_addresses": []
       }
@@ -36185,44 +36190,43 @@
       },
       "output": {
         "addresses": {
-          "GlobalPackage": [
-            "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
-          ],
-          "GlobalAccessController": [
-            "accesscontroller_sim1cvvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvexaj7at"
-          ],
-          "GlobalIdentity": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalFungibleResourceManager": [
-            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
-          ],
-          "GlobalTransactionTracker": [],
-          "GlobalTwoResourcePool": [],
-          "InternalFungibleVault": [],
-          "InternalGenericComponent": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "InternalAccount": [],
-          "GlobalGenericComponent": [
-            "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
-          ],
-          "InternalKeyValueStore": [],
-          "GlobalOneResourcePool": [],
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
-          ],
           "GlobalValidator": [
             "validator_sim1svzs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9q5zs2pg9wr6hj0"
           ],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "GlobalFungibleResourceManager": [
+            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
+          ],
+          "GlobalIdentity": [],
+          "GlobalGenericComponent": [
+            "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
+          ],
           "GlobalConsensusManager": [
             "consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl"
           ],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalAccessController": [
+            "accesscontroller_sim1cvvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvexaj7at"
+          ],
           "GlobalMultiResourcePool": [],
-          "InternalNonFungibleVault": []
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          ],
+          "GlobalTransactionTracker": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalOneResourcePool": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalPackage": [
+            "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
+          ],
+          "GlobalVirtualSecp256k1Identity": [],
+          "InternalNonFungibleVault": [],
+          "InternalKeyValueStore": [],
+          "InternalGenericComponent": [],
+          "InternalFungibleVault": []
         },
         "named_addresses": []
       }
@@ -36350,30 +36354,29 @@
       },
       "output": {
         "addresses": {
-          "InternalAccount": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalTransactionTracker": [],
-          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalTwoResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "InternalGenericComponent": [],
+          "GlobalAccount": [],
           "GlobalFungibleResourceManager": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalTransactionTracker": [],
+          "GlobalMultiResourcePool": [],
+          "InternalKeyValueStore": [],
+          "GlobalAccessController": [],
+          "GlobalValidator": [],
           "GlobalIdentity": [],
           "GlobalPackage": [],
-          "InternalFungibleVault": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalGenericComponent": [],
-          "InternalKeyValueStore": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalAccount": [],
-          "GlobalValidator": [],
+          "GlobalConsensusManager": [],
           "GlobalOneResourcePool": [],
-          "InternalNonFungibleVault": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalGenericComponent": [
             "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
           ],
-          "GlobalConsensusManager": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalVirtualEd25519Account": []
+          "InternalFungibleVault": [],
+          "GlobalNonFungibleResourceManager": []
         },
         "named_addresses": []
       }
@@ -36388,30 +36391,29 @@
       },
       "output": {
         "addresses": {
-          "InternalNonFungibleVault": [],
-          "InternalFungibleVault": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalIdentity": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalAccount": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalValidator": [],
+          "InternalGenericComponent": [],
           "GlobalAccessController": [],
-          "GlobalConsensusManager": [],
-          "GlobalOneResourcePool": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalMultiResourcePool": [],
+          "GlobalPackage": [],
           "GlobalGenericComponent": [
             "component_sim1cqvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cvemygpmu"
           ],
-          "GlobalAccount": [],
-          "GlobalPackage": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "GlobalVirtualEd25519Identity": [],
+          "GlobalIdentity": [],
+          "GlobalMultiResourcePool": [],
           "GlobalTransactionTracker": [],
-          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalFungibleVault": [],
+          "InternalKeyValueStore": [],
+          "GlobalNonFungibleResourceManager": [],
           "GlobalFungibleResourceManager": [],
-          "InternalKeyValueStore": []
+          "GlobalTwoResourcePool": [],
+          "GlobalOneResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "GlobalAccount": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalConsensusManager": [],
+          "GlobalValidator": [],
+          "GlobalVirtualSecp256k1Account": []
         },
         "named_addresses": []
       }
@@ -36451,29 +36453,28 @@
       },
       "output": {
         "addresses": {
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalNonFungibleVault": [],
-          "GlobalConsensusManager": [],
-          "GlobalTransactionTracker": [],
           "GlobalVirtualEd25519Identity": [],
           "GlobalOneResourcePool": [],
-          "InternalAccount": [],
-          "GlobalIdentity": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalAccessController": [],
-          "GlobalAccount": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalKeyValueStore": [],
           "GlobalValidator": [],
           "GlobalPackage": [
             "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
           ],
           "GlobalGenericComponent": [],
-          "InternalGenericComponent": [],
+          "GlobalAccount": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalConsensusManager": [],
           "InternalFungibleVault": [],
+          "InternalNonFungibleVault": [],
+          "InternalKeyValueStore": [],
+          "InternalGenericComponent": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalAccessController": [],
+          "GlobalTransactionTracker": [],
           "GlobalFungibleResourceManager": []
         },
         "named_addresses": []
@@ -36489,30 +36490,29 @@
       },
       "output": {
         "addresses": {
+          "GlobalFungibleResourceManager": [],
+          "InternalFungibleVault": [],
           "InternalNonFungibleVault": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalGenericComponent": [],
-          "GlobalConsensusManager": [],
-          "GlobalTransactionTracker": [],
           "GlobalPackage": [
             "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
           ],
-          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalIdentity": [],
-          "GlobalValidator": [],
-          "GlobalGenericComponent": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalAccount": [],
-          "InternalAccount": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalTwoResourcePool": [],
           "GlobalOneResourcePool": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalFungibleVault": [],
-          "GlobalMultiResourcePool": [],
-          "InternalKeyValueStore": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalAccessController": [],
-          "GlobalNonFungibleResourceManager": []
+          "GlobalConsensusManager": [],
+          "GlobalTransactionTracker": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalGenericComponent": [],
+          "GlobalNonFungibleResourceManager": [],
+          "InternalGenericComponent": [],
+          "InternalKeyValueStore": [],
+          "GlobalValidator": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalAccount": []
         },
         "named_addresses": []
       }
@@ -36590,29 +36590,28 @@
       },
       "output": {
         "addresses": {
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalConsensusManager": [],
-          "GlobalIdentity": [],
           "GlobalNonFungibleResourceManager": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalTwoResourcePool": [],
+          "InternalFungibleVault": [],
+          "GlobalTransactionTracker": [],
           "GlobalMultiResourcePool": [],
+          "GlobalFungibleResourceManager": [],
+          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalPackage": [],
+          "InternalKeyValueStore": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "InternalAccount": [],
+          "GlobalAccessController": [],
+          "GlobalOneResourcePool": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalValidator": [],
           "InternalNonFungibleVault": [],
-          "InternalKeyValueStore": [],
-          "GlobalPackage": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalFungibleVault": [],
-          "GlobalTransactionTracker": [],
-          "InternalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalFungibleResourceManager": [],
+          "GlobalConsensusManager": [],
           "GlobalGenericComponent": [
             "component_sim1cptxxxxxxxxxfaucetxxxxxxxxx000527798379xxxxxxxxxhkrefh"
           ]
@@ -36630,32 +36629,31 @@
       },
       "output": {
         "addresses": {
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalPackage": [],
           "InternalGenericComponent": [],
           "InternalKeyValueStore": [],
           "GlobalMultiResourcePool": [],
           "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualSecp256k1Identity": [],
           "GlobalConsensusManager": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalOneResourcePool": [],
-          "GlobalGenericComponent": [
-            "component_sim1cptxxxxxxxxxfaucetxxxxxxxxx000527798379xxxxxxxxxhkrefh"
-          ],
+          "GlobalIdentity": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalIdentity": [],
-          "GlobalTransactionTracker": [],
+          "GlobalOneResourcePool": [],
+          "GlobalTwoResourcePool": [],
           "GlobalFungibleResourceManager": [],
-          "InternalFungibleVault": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalValidator": [],
-          "GlobalPackage": [],
           "GlobalVirtualEd25519Identity": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalAccount": [],
+          "GlobalGenericComponent": [
+            "component_sim1cptxxxxxxxxxfaucetxxxxxxxxx000527798379xxxxxxxxxhkrefh"
+          ],
           "InternalNonFungibleVault": [],
-          "GlobalAccessController": []
+          "GlobalAccessController": [],
+          "GlobalValidator": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalTransactionTracker": [],
+          "InternalFungibleVault": []
         },
         "named_addresses": []
       }
@@ -36748,30 +36746,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalAccount": [],
-          "GlobalIdentity": [],
-          "GlobalAccessController": [],
-          "GlobalTwoResourcePool": [],
           "GlobalVirtualEd25519Identity": [],
-          "InternalGenericComponent": [],
-          "GlobalValidator": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalGenericComponent": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalOneResourcePool": [],
           "GlobalPackage": [],
-          "GlobalConsensusManager": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "InternalAccount": [],
-          "InternalKeyValueStore": [],
+          "InternalGenericComponent": [],
           "InternalFungibleVault": [],
-          "InternalNonFungibleVault": [],
+          "GlobalVirtualEd25519Account": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
           ],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalTransactionTracker": []
+          "GlobalValidator": [],
+          "GlobalOneResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "InternalKeyValueStore": [],
+          "GlobalTransactionTracker": [],
+          "GlobalConsensusManager": [],
+          "GlobalAccessController": [],
+          "GlobalAccount": [],
+          "GlobalIdentity": [],
+          "GlobalGenericComponent": []
         },
         "named_addresses": []
       }
@@ -36786,30 +36783,29 @@
       },
       "output": {
         "addresses": {
-          "InternalNonFungibleVault": [],
-          "GlobalPackage": [],
-          "GlobalConsensusManager": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalFungibleVault": [],
-          "GlobalAccount": [],
+          "GlobalIdentity": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
           ],
+          "GlobalPackage": [],
+          "GlobalAccessController": [],
           "GlobalNonFungibleResourceManager": [],
-          "GlobalValidator": [],
-          "GlobalTwoResourcePool": [],
+          "GlobalGenericComponent": [],
+          "InternalNonFungibleVault": [],
           "GlobalMultiResourcePool": [],
           "GlobalVirtualSecp256k1Identity": [],
+          "GlobalValidator": [],
+          "GlobalOneResourcePool": [],
           "GlobalTransactionTracker": [],
-          "GlobalAccessController": [],
-          "GlobalGenericComponent": [],
-          "InternalGenericComponent": [],
-          "InternalAccount": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalFungibleVault": [],
+          "GlobalVirtualEd25519Account": [],
           "InternalKeyValueStore": [],
-          "GlobalIdentity": []
+          "InternalGenericComponent": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalAccount": [],
+          "GlobalConsensusManager": []
         },
         "named_addresses": []
       }
@@ -37013,31 +37009,30 @@
       "output": {
         "addresses": {
           "GlobalIdentity": [],
-          "GlobalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "InternalKeyValueStore": [],
-          "GlobalTransactionTracker": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalTwoResourcePool": [],
-          "InternalAccount": [],
-          "InternalFungibleVault": [],
-          "GlobalFungibleResourceManager": [
-            "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
-          ],
-          "GlobalPackage": [],
-          "GlobalConsensusManager": [],
-          "InternalNonFungibleVault": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalValidator": [],
-          "InternalGenericComponent": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalVirtualSecp256k1Identity": [],
           "GlobalAccessController": [],
+          "GlobalConsensusManager": [],
+          "GlobalGenericComponent": [],
+          "GlobalPackage": [],
+          "GlobalVirtualSecp256k1Account": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalVirtualEd25519Account": []
+          "GlobalFungibleResourceManager": [
+            "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
+          ],
+          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalNonFungibleVault": [],
+          "GlobalTwoResourcePool": [],
+          "InternalFungibleVault": [],
+          "GlobalTransactionTracker": [],
+          "InternalKeyValueStore": [],
+          "GlobalOneResourcePool": [],
+          "GlobalValidator": []
         },
         "named_addresses": []
       }
@@ -37052,32 +37047,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalTransactionTracker": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualEd25519Identity": [],
           "GlobalConsensusManager": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalTransactionTracker": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "InternalKeyValueStore": [],
+          "GlobalIdentity": [],
+          "GlobalAccessController": [],
+          "GlobalGenericComponent": [],
           "GlobalTwoResourcePool": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalNonFungibleVault": [],
-          "GlobalOneResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalValidator": [],
+          "InternalFungibleVault": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1thcgx0f3rwaeetl67cmsssv4p748kd3sjhtge9l4m6ns7cucs97tjv"
           ],
-          "GlobalGenericComponent": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalFungibleVault": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "InternalKeyValueStore": [],
-          "GlobalAccessController": [],
+          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalOneResourcePool": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "InternalGenericComponent": [],
-          "GlobalPackage": [],
-          "GlobalValidator": [],
-          "InternalAccount": [],
-          "GlobalIdentity": []
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalNonFungibleResourceManager": [],
+          "InternalNonFungibleVault": [],
+          "GlobalPackage": []
         },
         "named_addresses": []
       }
@@ -37259,35 +37253,34 @@
       },
       "output": {
         "addresses": {
-          "GlobalTwoResourcePool": [],
-          "GlobalMultiResourcePool": [],
-          "InternalNonFungibleVault": [],
-          "GlobalAccount": [
-            "account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr",
-            "account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva",
-            "account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz",
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "GlobalPackage": [],
-          "GlobalValidator": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalTransactionTracker": [],
           "GlobalNonFungibleResourceManager": [],
+          "GlobalValidator": [],
           "GlobalVirtualSecp256k1Identity": [],
-          "InternalGenericComponent": [],
           "GlobalIdentity": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalGenericComponent": [],
-          "InternalAccount": [],
-          "GlobalTransactionTracker": [],
-          "GlobalAccessController": [],
-          "GlobalConsensusManager": [],
-          "GlobalVirtualEd25519Account": [],
+          "GlobalTwoResourcePool": [],
+          "InternalKeyValueStore": [],
           "GlobalVirtualSecp256k1Account": [],
+          "InternalNonFungibleVault": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q",
+            "account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz",
+            "account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva",
+            "account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr"
+          ],
           "InternalFungibleVault": [],
-          "InternalKeyValueStore": []
+          "GlobalMultiResourcePool": [],
+          "GlobalGenericComponent": [],
+          "GlobalPackage": [],
+          "GlobalAccessController": [],
+          "GlobalOneResourcePool": [],
+          "InternalGenericComponent": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalConsensusManager": []
         },
         "named_addresses": []
       }
@@ -37302,35 +37295,34 @@
       },
       "output": {
         "addresses": {
-          "GlobalAccessController": [],
-          "GlobalMultiResourcePool": [],
-          "InternalFungibleVault": [],
-          "GlobalPackage": [],
-          "InternalAccount": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalGenericComponent": [],
-          "InternalKeyValueStore": [],
-          "GlobalTransactionTracker": [],
-          "GlobalOneResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalVirtualEd25519Account": [],
           "InternalGenericComponent": [],
-          "InternalNonFungibleVault": [],
-          "GlobalConsensusManager": [],
-          "GlobalIdentity": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q",
-            "account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr",
-            "account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva",
-            "account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz"
-          ],
+          "InternalKeyValueStore": [],
+          "GlobalGenericComponent": [],
+          "InternalFungibleVault": [],
+          "GlobalMultiResourcePool": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
+          "GlobalTransactionTracker": [],
+          "GlobalPackage": [],
+          "GlobalOneResourcePool": [],
           "GlobalTwoResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalConsensusManager": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualEd25519Identity": [],
           "GlobalValidator": [],
-          "GlobalNonFungibleResourceManager": []
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalAccessController": [],
+          "InternalNonFungibleVault": [],
+          "GlobalIdentity": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q",
+            "account_sim1c8s2hass5g62ckwpv78y8ykdqljtetv4ve6etcz64gveykxznj36tr",
+            "account_sim1c8mulhl5yrk6hh4jsyldps5sdrp08r5v9wusupvzxgqvhlp4c4nwjz",
+            "account_sim1c8ct6jdcwqrg3gzskyxuy0z933fe55fyjz6p56730r95ulzwl3ppva"
+          ]
         },
         "named_addresses": []
       }
@@ -37396,30 +37388,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalFungibleResourceManager": [],
-          "GlobalGenericComponent": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalGenericComponent": [],
-          "GlobalTransactionTracker": [],
-          "GlobalTwoResourcePool": [],
+          "InternalKeyValueStore": [],
+          "GlobalValidator": [],
+          "GlobalAccount": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalOneResourcePool": [],
-          "InternalAccount": [],
+          "GlobalMultiResourcePool": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxaccntxxxxxxxxxx000929625493xxxxxxxxxrn8jm6"
           ],
-          "GlobalAccount": [],
-          "GlobalValidator": [],
           "GlobalConsensusManager": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalNonFungibleVault": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalKeyValueStore": [],
+          "GlobalIdentity": [],
+          "GlobalTwoResourcePool": [],
+          "InternalGenericComponent": [],
+          "GlobalFungibleResourceManager": [],
           "GlobalAccessController": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalMultiResourcePool": [],
+          "InternalNonFungibleVault": [],
+          "GlobalVirtualSecp256k1Account": [],
           "InternalFungibleVault": [],
-          "GlobalIdentity": []
+          "GlobalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalTransactionTracker": [],
+          "GlobalNonFungibleResourceManager": []
         },
         "named_addresses": []
       }
@@ -37434,30 +37425,29 @@
       },
       "output": {
         "addresses": {
-          "GlobalGenericComponent": [],
-          "GlobalTransactionTracker": [],
-          "GlobalAccount": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalValidator": [],
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalFungibleResourceManager": [],
-          "InternalGenericComponent": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalOneResourcePool": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxaccntxxxxxxxxxx000929625493xxxxxxxxxrn8jm6"
           ],
-          "InternalKeyValueStore": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalNonFungibleResourceManager": [],
-          "GlobalIdentity": [],
           "GlobalConsensusManager": [],
-          "InternalFungibleVault": [],
           "GlobalAccessController": [],
+          "InternalFungibleVault": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalIdentity": [],
+          "GlobalOneResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalFungibleResourceManager": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalNonFungibleResourceManager": [],
           "InternalNonFungibleVault": [],
-          "InternalAccount": []
+          "GlobalValidator": [],
+          "GlobalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalAccount": [],
+          "GlobalTransactionTracker": [],
+          "GlobalTwoResourcePool": [],
+          "InternalKeyValueStore": [],
+          "InternalGenericComponent": []
         },
         "named_addresses": []
       }
@@ -37558,33 +37548,32 @@
       },
       "output": {
         "addresses": {
-          "GlobalGenericComponent": [],
-          "InternalKeyValueStore": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalOneResourcePool": [],
+          "GlobalVirtualEd25519Account": [],
+          "InternalFungibleVault": [],
+          "GlobalIdentity": [],
+          "GlobalAccount": [
+            "account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9",
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
           "GlobalFungibleResourceManager": [
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q",
-            "account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9"
-          ],
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalNonFungibleVault": [],
-          "GlobalIdentity": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalValidator": [],
-          "GlobalVirtualSecp256k1Account": [],
           "GlobalPackage": [],
-          "GlobalConsensusManager": [],
-          "GlobalMultiResourcePool": [],
           "GlobalTransactionTracker": [],
-          "GlobalOneResourcePool": [],
-          "InternalFungibleVault": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalVirtualEd25519Identity": [],
           "InternalGenericComponent": [],
-          "InternalAccount": [],
-          "GlobalVirtualEd25519Account": [],
-          "GlobalVirtualEd25519Identity": []
+          "InternalKeyValueStore": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalGenericComponent": [],
+          "GlobalConsensusManager": [],
+          "GlobalValidator": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalAccessController": [],
+          "InternalNonFungibleVault": []
         },
         "named_addresses": []
       }
@@ -37599,33 +37588,32 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualEd25519Identity": [],
-          "GlobalIdentity": [],
-          "InternalAccount": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalFungibleVault": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalConsensusManager": [],
-          "GlobalGenericComponent": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalValidator": [],
+          "GlobalVirtualSecp256k1Account": [],
           "InternalGenericComponent": [],
-          "GlobalOneResourcePool": [],
-          "InternalNonFungibleVault": [],
-          "InternalKeyValueStore": [],
+          "GlobalConsensusManager": [],
+          "GlobalPackage": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3"
           ],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q",
-            "account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9"
-          ],
-          "GlobalPackage": [],
-          "GlobalTransactionTracker": [],
-          "GlobalVirtualSecp256k1Account": [],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalAccessController": [],
-          "GlobalNonFungibleResourceManager": []
+          "GlobalTransactionTracker": [],
+          "GlobalGenericComponent": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalIdentity": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalAccount": [
+            "account_sim1cyzfj6p254jy6lhr237s7pcp8qqz6c8ahq9mn6nkdjxxxat5syrgz9",
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalFungibleVault": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalValidator": [],
+          "InternalNonFungibleVault": [],
+          "GlobalOneResourcePool": [],
+          "InternalKeyValueStore": []
         },
         "named_addresses": []
       }
@@ -38913,36 +38901,35 @@
       },
       "output": {
         "addresses": {
-          "GlobalConsensusManager": [],
-          "GlobalValidator": [],
-          "InternalFungibleVault": [],
-          "InternalKeyValueStore": [],
-          "GlobalPackage": [
-            "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
-          ],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalMultiResourcePool": [],
           "GlobalAccessController": [],
-          "InternalNonFungibleVault": [],
-          "GlobalOneResourcePool": [],
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
-          ],
-          "GlobalVirtualSecp256k1Account": [],
-          "InternalAccount": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ],
-          "GlobalTransactionTracker": [],
           "GlobalTwoResourcePool": [],
+          "InternalFungibleVault": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalGenericComponent": [],
           "GlobalFungibleResourceManager": [
             "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
           ],
-          "GlobalMultiResourcePool": [],
+          "GlobalConsensusManager": [],
+          "GlobalTransactionTracker": [],
+          "InternalNonFungibleVault": [],
+          "GlobalValidator": [],
+          "InternalGenericComponent": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
           "GlobalVirtualEd25519Identity": [],
           "GlobalIdentity": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalGenericComponent": [],
-          "GlobalVirtualEd25519Account": [],
-          "InternalGenericComponent": []
+          "GlobalPackage": [
+            "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
+          ],
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          ],
+          "InternalKeyValueStore": [],
+          "GlobalOneResourcePool": []
         },
         "named_addresses": []
       }
@@ -38957,36 +38944,35 @@
       },
       "output": {
         "addresses": {
+          "GlobalNonFungibleResourceManager": [
+            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
+          ],
           "GlobalOneResourcePool": [],
-          "InternalFungibleVault": [],
-          "GlobalTransactionTracker": [],
-          "InternalKeyValueStore": [],
+          "GlobalIdentity": [],
           "GlobalVirtualEd25519Account": [],
-          "GlobalGenericComponent": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalConsensusManager": [],
+          "InternalFungibleVault": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "InternalGenericComponent": [],
+          "InternalNonFungibleVault": [],
+          "GlobalGenericComponent": [],
+          "InternalKeyValueStore": [],
+          "GlobalValidator": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalMultiResourcePool": [],
+          "GlobalTransactionTracker": [],
+          "GlobalFungibleResourceManager": [
+            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
           ],
           "GlobalPackage": [
             "package_sim1p4r4955skdjq9swg8s5jguvcjvyj7tsxct87a9z6sw76cdfd2jg3zk"
           ],
-          "InternalGenericComponent": [],
-          "GlobalValidator": [],
-          "GlobalNonFungibleResourceManager": [
-            "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha"
-          ],
-          "GlobalVirtualEd25519Identity": [],
-          "InternalAccount": [],
-          "GlobalFungibleResourceManager": [
-            "resource_sim1thvwu8dh6lk4y9mntemkvj25wllq8adq42skzufp4m8wxxuemugnez"
-          ],
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "GlobalMultiResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalConsensusManager": [],
-          "InternalNonFungibleVault": [],
-          "GlobalIdentity": [],
-          "GlobalTwoResourcePool": []
+          "GlobalAccessController": []
         },
         "named_addresses": []
       }
@@ -39086,32 +39072,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalIdentity": [],
-          "InternalAccount": [],
-          "GlobalPackage": [
-            "package_sim1pkgxxxxxxxxxpackgexxxxxxxxx000726633226xxxxxxxxxlk8hc9"
-          ],
-          "GlobalOneResourcePool": [],
-          "GlobalAccessController": [],
-          "GlobalVirtualSecp256k1Identity": [],
-          "InternalFungibleVault": [],
-          "GlobalNonFungibleResourceManager": [],
-          "InternalNonFungibleVault": [],
-          "InternalGenericComponent": [],
           "GlobalFungibleResourceManager": [],
-          "GlobalConsensusManager": [],
+          "GlobalNonFungibleResourceManager": [],
+          "GlobalIdentity": [],
+          "InternalFungibleVault": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalGenericComponent": [],
+          "GlobalAccessController": [],
+          "GlobalVirtualEd25519Identity": [],
+          "GlobalOneResourcePool": [],
+          "InternalNonFungibleVault": [],
           "GlobalMultiResourcePool": [],
+          "GlobalValidator": [],
           "InternalKeyValueStore": [],
           "GlobalVirtualEd25519Account": [],
-          "GlobalTransactionTracker": [],
-          "GlobalGenericComponent": [],
+          "GlobalConsensusManager": [],
           "GlobalTwoResourcePool": [],
-          "GlobalVirtualSecp256k1Account": [],
           "GlobalAccount": [
             "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
           ],
-          "GlobalValidator": [],
-          "GlobalVirtualEd25519Identity": []
+          "InternalGenericComponent": [],
+          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalPackage": [
+            "package_sim1pkgxxxxxxxxxpackgexxxxxxxxx000726633226xxxxxxxxxlk8hc9"
+          ],
+          "GlobalTransactionTracker": []
         },
         "named_addresses": []
       }
@@ -39126,32 +39111,31 @@
       },
       "output": {
         "addresses": {
-          "GlobalVirtualEd25519Account": [],
-          "GlobalFungibleResourceManager": [],
-          "GlobalTransactionTracker": [],
-          "InternalAccount": [],
-          "GlobalValidator": [],
-          "GlobalConsensusManager": [],
-          "InternalGenericComponent": [],
-          "GlobalVirtualSecp256k1Account": [],
-          "GlobalAccessController": [],
-          "GlobalTwoResourcePool": [],
-          "GlobalVirtualEd25519Identity": [],
+          "GlobalAccount": [
+            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+          ],
+          "GlobalVirtualSecp256k1Identity": [],
           "GlobalPackage": [
             "package_sim1pkgxxxxxxxxxpackgexxxxxxxxx000726633226xxxxxxxxxlk8hc9"
           ],
-          "GlobalMultiResourcePool": [],
+          "GlobalConsensusManager": [],
           "GlobalGenericComponent": [],
-          "GlobalVirtualSecp256k1Identity": [],
+          "GlobalVirtualSecp256k1Account": [],
+          "GlobalFungibleResourceManager": [],
           "InternalFungibleVault": [],
           "GlobalNonFungibleResourceManager": [],
-          "GlobalOneResourcePool": [],
-          "GlobalIdentity": [],
-          "InternalKeyValueStore": [],
+          "GlobalTransactionTracker": [],
           "InternalNonFungibleVault": [],
-          "GlobalAccount": [
-            "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
-          ]
+          "GlobalMultiResourcePool": [],
+          "InternalKeyValueStore": [],
+          "GlobalVirtualEd25519Account": [],
+          "GlobalIdentity": [],
+          "GlobalOneResourcePool": [],
+          "GlobalAccessController": [],
+          "GlobalValidator": [],
+          "GlobalTwoResourcePool": [],
+          "GlobalVirtualEd25519Identity": [],
+          "InternalGenericComponent": []
         },
         "named_addresses": []
       }
