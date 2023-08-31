@@ -920,7 +920,7 @@ export class GeneratedConverter {
         instructions: GeneratedConverter.Instructions.toGenerated(
           value.instructions
         ),
-        blobs: value.blobs.map(Convert.Uint8Array.toString),
+        blobs: value.blobs.map(Convert.Uint8Array.toHexString),
       };
     }
 

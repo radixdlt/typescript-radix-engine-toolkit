@@ -22,8 +22,10 @@ export namespace NetworkId {
   export const Betanet: number = 0x0b;
   export const Kisharnet: number = 0x0c;
   export const Ansharnet: number = 0x0d;
+  export const Zabanet: number = 0x0e;
   export const RCNetV1: number = Kisharnet;
   export const RCNetV2: number = Ansharnet;
+  export const RCNetV3: number = Zabanet;
   export const Gilganet: number = 0x20;
   export const Enkinet: number = 0x21;
   export const Hammunet: number = 0x22;

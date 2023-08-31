@@ -22,7 +22,8 @@
     "Sandpitnet",
     "ttypescript",
     "wbindgen",
-    "xform"
+    "xform",
+    "Zabanet"
   ],
   "[typescript]": {
     "editor.tabSize": 2,
