@@ -561,12 +561,12 @@ export type SerializableManifestSborStringRepresentation =
   | { kind: "ManifestString"; value?: undefined }
   | { kind: "Json"; value: SerializableSerializationMode };
 
-export type SerializableLocalTypeIndex =
+export type SerializableLocalTypeId =
   | { kind: "WellKnown"; value: SerializableU8 }
   | { kind: "SchemaLocalIndex"; value: SerializableU64 };
 
 export interface PayloadSchema {
-  local_type_index: SerializableLocalTypeIndex;
+  local_type_id: SerializableLocalTypeId;
   schema: SerializableBytes;
 }
 
