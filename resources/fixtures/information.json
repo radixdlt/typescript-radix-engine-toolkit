@@ -6,7 +6,7 @@
         "version": "0.12.1",
         "scrypto_dependency": {
           "kind": "Tag",
-          "value": "rcnet-v3.1-d414dad35e"
+          "value": "rcnet-v3.1-d8dbe49f"
         }
       }
     }

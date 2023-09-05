@@ -3840,7 +3840,9 @@
                     "kind": "CreateProofFromBucketOfNonFungibles",
                     "value": {
                       "bucket_id": "0",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -3954,7 +3956,9 @@
                     "kind": "CreateProofFromAuthZoneOfNonFungibles",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -4199,7 +4203,9 @@
                     "kind": "TakeNonFungiblesFromWorktop",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#1#"]
+                      "ids": [
+                        "#1#"
+                      ]
                     }
                   },
                   {
@@ -12197,7 +12203,9 @@
                     "kind": "CreateProofFromBucketOfNonFungibles",
                     "value": {
                       "bucket_id": "0",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -12311,7 +12319,9 @@
                     "kind": "CreateProofFromAuthZoneOfNonFungibles",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -12550,7 +12560,9 @@
                     "kind": "TakeNonFungiblesFromWorktop",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#1#"]
+                      "ids": [
+                        "#1#"
+                      ]
                     }
                   },
                   {
@@ -23677,7 +23689,9 @@
                       "kind": "CreateProofFromBucketOfNonFungibles",
                       "value": {
                         "bucket_id": "0",
-                        "ids": ["#123#"]
+                        "ids": [
+                          "#123#"
+                        ]
                       }
                     },
                     {
@@ -23791,7 +23805,9 @@
                       "kind": "CreateProofFromAuthZoneOfNonFungibles",
                       "value": {
                         "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                        "ids": ["#123#"]
+                        "ids": [
+                          "#123#"
+                        ]
                       }
                     },
                     {
@@ -24064,7 +24080,9 @@
                       "kind": "TakeNonFungiblesFromWorktop",
                       "value": {
                         "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                        "ids": ["#1#"]
+                        "ids": [
+                          "#1#"
+                        ]
                       }
                     },
                     {
