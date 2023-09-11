@@ -54,6 +54,8 @@ export abstract class Signature {
   hexString = (): string => Convert.Uint8Array.toHexString(this.bytes);
   toString = this.hexString;
 
+  hex = this.hexString;
+
   get signature(): Uint8Array {
     return this.rawBytes();
   }

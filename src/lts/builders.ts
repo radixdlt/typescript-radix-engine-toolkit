@@ -38,6 +38,12 @@ import {
   enumeration,
   generateRandomNonce,
   rawRadixEngineToolkit,
+  SignatureFunction,
+  Signature,
+  SignatureSource,
+  resolveSignatureSource,
+  SignerResponse,
+  SignatureWithPublicKey,
 } from "..";
 import { GeneratedConverter } from "../generated";
 
@@ -77,6 +83,7 @@ export class SimpleTransactionBuilder {
   private _notaryPublicKey: PublicKey;
 
   private _fromAccount: string;
+  private _feePayer: string;
   private _feeAmount: Decimal | undefined;
   private _actions: Action[] = [];
 
@@ -92,6 +99,7 @@ export class SimpleTransactionBuilder {
     this._startEpoch = startEpoch;
     this._networkId = networkId;
     this._fromAccount = fromAccount;
+    this._feePayer = fromAccount;
     this._nonce = nonce;
     this._notaryPublicKey = notaryPublicKey;
   }
@@ -136,7 +144,6 @@ export class SimpleTransactionBuilder {
     const ephemeralPrivateKey = new PrivateKey.Ed25519(
       new Uint8Array(Array(32).map((_) => Math.floor(Math.random() * 0xff)))
     );
-    const ephemeralPublicKey = ephemeralPrivateKey.publicKey();
 
     const {
       components: { faucet: faucetComponentAddress },
@@ -161,7 +168,7 @@ export class SimpleTransactionBuilder {
       networkId: networkId,
       startEpochInclusive: validFromEpoch,
       endEpochExclusive: validFromEpoch + 2,
-      nonce: await generateRandomNonce(),
+      nonce: generateRandomNonce(),
       notaryPublicKey: ephemeralPrivateKey.publicKey(),
       notaryIsSignatory: false,
       tipPercentage: 0,
@@ -186,6 +193,11 @@ export class SimpleTransactionBuilder {
 
   nonce(nonce: number): this {
     this._nonce = nonce;
+    return this;
+  }
+
+  feePayer(address: string): this {
+    this._feePayer = address;
     return this;
   }
 
@@ -273,6 +285,96 @@ export class SimpleTransactionBuilder {
     );
   }
 
+  public compileIntentWithSignatures(
+    signatureSources: Array<SignatureSource<SignatureWithPublicKey>>
+  ): CompiledSignedTransactionIntent {
+    const header = this.constructTransactionHeader();
+    const manifest = this.constructTransactionManifest();
+    const intent: Intent = { header, manifest };
+
+    const intentHash = GeneratedConverter.TransactionHash.fromGenerated(
+      this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
+    );
+
+    const signatures = signatureSources.map((source) =>
+      resolveSignatureSource(
+        source,
+        intentHash.hash,
+        (signerResponse: SignerResponse): SignatureWithPublicKey => {
+          switch (signerResponse.curve) {
+            case "Secp256k1":
+              return new SignatureWithPublicKey.Secp256k1(
+                signerResponse.signature
+              );
+            case "Ed25519":
+              return new SignatureWithPublicKey.Ed25519(
+                signerResponse.signature,
+                signerResponse.publicKey
+              );
+          }
+        }
+      )
+    );
+
+    const signedIntent: SignedIntent = { intent, intentSignatures: signatures };
+
+    const compiledSignedIntent = Convert.HexString.toUint8Array(
+      this.retWrapper.signedIntentCompile(
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+      )
+    );
+    const signedIntentHash = GeneratedConverter.TransactionHash.fromGenerated(
+      this.retWrapper.signedIntentHash(
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+      )
+    );
+
+    return new CompiledSignedTransactionIntent(
+      this.retWrapper,
+      intentHash,
+      signedIntent,
+      compiledSignedIntent,
+      signedIntentHash
+    );
+  }
+
+  public async compileIntentWithSignaturesAsync(
+    signatureSources: Array<SignatureFunction<Promise<SignatureWithPublicKey>>>
+  ): Promise<CompiledSignedTransactionIntent> {
+    const header = this.constructTransactionHeader();
+    const manifest = this.constructTransactionManifest();
+    const intent: Intent = { header, manifest };
+
+    const intentHash = GeneratedConverter.TransactionHash.fromGenerated(
+      this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
+    );
+
+    const signatures = await Promise.all(
+      signatureSources.map((func) => func(intentHash.hash))
+    );
+
+    const signedIntent: SignedIntent = { intent, intentSignatures: signatures };
+
+    const compiledSignedIntent = Convert.HexString.toUint8Array(
+      this.retWrapper.signedIntentCompile(
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+      )
+    );
+    const signedIntentHash = GeneratedConverter.TransactionHash.fromGenerated(
+      this.retWrapper.signedIntentHash(
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+      )
+    );
+
+    return new CompiledSignedTransactionIntent(
+      this.retWrapper,
+      intentHash,
+      signedIntent,
+      compiledSignedIntent,
+      signedIntentHash
+    );
+  }
+
   //=================
   // Private Methods
   //=================
@@ -298,7 +400,7 @@ export class SimpleTransactionBuilder {
 
     instructions.push({
       kind: "CallMethod",
-      address: { kind: "Static", value: this._fromAccount },
+      address: { kind: "Static", value: this._feePayer },
       methodName: "lock_fee",
       args: {
         kind: ValueKind.Tuple,
@@ -317,7 +419,7 @@ export class SimpleTransactionBuilder {
       )) {
         instructions.push({
           kind: "CallMethod",
-          address: { kind: "Static", value: this._fromAccount },
+          address: { kind: "Static", value: from },
           methodName: "withdraw",
           args: {
             kind: ValueKind.Tuple,
@@ -388,7 +490,7 @@ export class SimpleTransactionBuilder {
       switch (action.kind) {
         case "FungibleResourceTransfer":
           const { fromAccount, toAccount, resourceAddress, amount } = action;
-          // Resolve the withdraws
+          // Resolve withdraws
           if (withdraws?.[fromAccount] === undefined) {
             withdraws[fromAccount] = {};
           }

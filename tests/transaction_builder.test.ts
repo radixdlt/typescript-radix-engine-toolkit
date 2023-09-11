@@ -15,6 +15,7 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import Decimal from "decimal.js";
 import { describe, expect, it } from "vitest";
 import {
   Convert,
@@ -28,6 +29,7 @@ import {
   TransactionBuilder,
   TransactionHeader,
   defaultValidationConfig,
+  TransactionSummary,
 } from "../src";
 
 describe("Transaction Builder & Simple Transaction Builder Tests", () => {
@@ -260,7 +262,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
       publicKey: notaryPublicKey,
       account: notaryAccount,
     } = await newAccount(1);
-    const { privateKey, account } = await newAccount(2);
+    const { account } = await newAccount(2);
     const xrd = await LTSRadixEngineToolkit.Derive.knownAddresses(
       NetworkId.Simulator
     ).then((addressBook) => addressBook.resources.xrdResource);
@@ -296,7 +298,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
       publicKey: notaryPublicKey,
       account: notaryAccount,
     } = await newAccount(1);
-    const { privateKey, account } = await newAccount(2);
+    const { account } = await newAccount(2);
     const xrd = await LTSRadixEngineToolkit.Derive.knownAddresses(
       NetworkId.Simulator
     ).then((addressBook) => addressBook.resources.xrdResource);
@@ -334,7 +336,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
       publicKey: notaryPublicKey,
       account: notaryAccount,
     } = await newAccount(1);
-    const { privateKey, account } = await newAccount(2);
+    const { account } = await newAccount(2);
     const xrd = await LTSRadixEngineToolkit.Derive.knownAddresses(
       NetworkId.Simulator
     ).then((addressBook) => addressBook.resources.xrdResource);
@@ -363,6 +365,180 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     transaction
       .staticallyValidate(NetworkId.Simulator)
       .then((validity) => validity.throwIfInvalid());
+  });
+
+  it("Simple transactions with different fee payer is summarized as expected.", async () => {
+    // Arrange
+    const {
+      privateKey: notaryPrivateKey,
+      publicKey: notaryPublicKey,
+      account: notaryAccount,
+    } = await newAccount(1);
+    const { account } = await newAccount(2);
+    const xrd = await LTSRadixEngineToolkit.Derive.knownAddresses(
+      NetworkId.Simulator
+    ).then((addressBook) => addressBook.resources.xrdResource);
+
+    // Act
+    const transaction = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 2,
+      fromAccount: notaryAccount,
+      signerPublicKey: notaryPublicKey,
+    }).then((builder) =>
+      builder
+        .lockedFee(10)
+        .feePayer(account)
+        .transferFungible({
+          amount: 100,
+          resourceAddress: xrd,
+          toAccount: account,
+        })
+        .compileIntent()
+        .compileNotarized(notaryPrivateKey)
+    );
+
+    // Assert
+    const summary = await transaction.summarizeTransaction();
+    expect(summary.feesLocked).toEqual({ account, amount: new Decimal(10) });
+  });
+
+  it("Simple transaction builder free XRD transactions are summarized as expected", async () => {
+    // Arrange
+    let account1 =
+      "account_sim1cyvafxgf9j252pexxlxuuh5vhepqw9t2js0wc9q4nngs4zv5l7hcph";
+
+    // Act
+    const notarizedTransaction =
+      await SimpleTransactionBuilder.freeXrdFromFaucet({
+        toAccount: account1,
+        networkId: 0xf2,
+        validFromEpoch: 10,
+      });
+
+    // Assert
+    let [faucetComponentAddress, xrdResourceAddress] =
+      await RadixEngineToolkit.Utils.knownAddresses(0xf2).then((x) => [
+        x.componentAddresses.faucet,
+        x.resourceAddresses.xrd,
+      ]);
+    let expectedSummary: TransactionSummary = {
+      feesLocked: {
+        account: faucetComponentAddress,
+        amount: new Decimal("10"),
+      },
+      withdraws: {
+        [faucetComponentAddress]: {
+          [xrdResourceAddress]: new Decimal("10000"),
+        },
+      },
+      deposits: {
+        [account1]: {
+          [xrdResourceAddress]: new Decimal("10000"),
+        },
+      },
+    };
+
+    let transactionSummary =
+      await LTSRadixEngineToolkit.Transaction.summarizeTransaction(
+        notarizedTransaction
+      );
+
+    expect(transactionSummary).toEqual(expectedSummary);
+  });
+
+  it("Simple transaction builder can generate transactions with more than a single signer", async () => {
+    // Arrange
+    let privateKey1 = new PrivateKey.Ed25519(
+      "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+    );
+    let privateKey2 = new PrivateKey.Ed25519(
+      "3d7f447bce7a669581452010226dc6437cf5efbdaee5ceff25894e8299410404"
+    );
+
+    let resourceAddress1 =
+      "resource_sim1t5xrnrtvwcww0rc94u5a8spkkwuh764rwt7g22g2gkuwjmk9zt727j";
+
+    let account1 =
+      "account_sim1cyvafxgf9j252pexxlxuuh5vhepqw9t2js0wc9q4nngs4zv5l7hcph";
+    let account2 =
+      "account_sim1c9w650rsdhew62vulr2kcds082738v5vrthj8nvnsk5uvp6aqu2rud";
+
+    // Act
+    const builder = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 10,
+      fromAccount: account1,
+      signerPublicKey: privateKey1.publicKey(),
+    });
+    const signedTransactionIntent = builder
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 100,
+      })
+      .compileIntentWithSignatures([
+        (hashToSign: Uint8Array) =>
+          privateKey2.signToSignatureWithPublicKey(hashToSign),
+      ]);
+
+    // Assert
+    expect(
+      signedTransactionIntent["signedIntent"].intentSignatures.length
+    ).toBe(1);
+
+    const notarizedTransaction =
+      signedTransactionIntent.compileNotarized(privateKey1);
+    notarizedTransaction
+      .staticallyValidate(0xf2)
+      .then((x) => x.throwIfInvalid());
+  });
+
+  it("Simple transaction builder can generate transactions with more than a single signer async", async () => {
+    // Arrange
+    let privateKey1 = new PrivateKey.Ed25519(
+      "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+    );
+    let privateKey2 = new PrivateKey.Ed25519(
+      "3d7f447bce7a669581452010226dc6437cf5efbdaee5ceff25894e8299410404"
+    );
+
+    let resourceAddress1 =
+      "resource_sim1t5xrnrtvwcww0rc94u5a8spkkwuh764rwt7g22g2gkuwjmk9zt727j";
+
+    let account1 =
+      "account_sim1cyvafxgf9j252pexxlxuuh5vhepqw9t2js0wc9q4nngs4zv5l7hcph";
+    let account2 =
+      "account_sim1c9w650rsdhew62vulr2kcds082738v5vrthj8nvnsk5uvp6aqu2rud";
+
+    // Act
+    const builder = await SimpleTransactionBuilder.new({
+      networkId: NetworkId.Simulator,
+      validFromEpoch: 10,
+      fromAccount: account1,
+      signerPublicKey: privateKey1.publicKey(),
+    });
+    const signedTransactionIntent = await builder
+      .transferFungible({
+        toAccount: account2,
+        resourceAddress: resourceAddress1,
+        amount: 100,
+      })
+      .compileIntentWithSignaturesAsync([
+        (hashToSign: Uint8Array) =>
+          Promise.resolve(privateKey2.signToSignatureWithPublicKey(hashToSign)),
+      ]);
+
+    // Assert
+    expect(
+      signedTransactionIntent["signedIntent"].intentSignatures.length
+    ).toBe(1);
+
+    const notarizedTransaction =
+      signedTransactionIntent.compileNotarized(privateKey1);
+    notarizedTransaction
+      .staticallyValidate(0xf2)
+      .then((x) => x.throwIfInvalid());
   });
 });
 
