@@ -49,6 +49,8 @@ export enum SerializableEntityType {
 
 export type AddressEntityTypeOutput = SerializableEntityType;
 
+export type AddressDecodeInput = string;
+
 export type DeriveVirtualAccountAddressFromPublicKeyOutput = SerializableNodeId;
 
 export type DeriveVirtualIdentityAddressFromPublicKeyOutput =
@@ -229,6 +231,13 @@ export type SerializableNonFungibleGlobalId = string;
 export type SerializableAesWrapped128BitKey = string;
 
 export type SerializablePublicKeyFingerprint = string;
+
+export interface AddressDecodeOutput {
+  network_id: SerializableU8;
+  entity_type: SerializableEntityType;
+  hrp: string;
+  data: SerializableBytes;
+}
 
 export interface DeriveVirtualAccountAddressFromPublicKeyInput {
   public_key: SerializablePublicKey;

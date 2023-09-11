@@ -112,5 +112,259 @@
       "input": "transactiontracker_sim1stxxxxxxxxxxtxtrakxxxxxxxxx006844685494xxxxxxxxx4d5zd2",
       "output": "GlobalTransactionTracker"
     }
+  ],
+  "address_decode": [
+    {
+      "input": "resource_sim1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxakj8n3",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "5da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxsecpsgxxxxxxxxx004638826440xxxxxxxxxwj8qq5",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c686701820c6318c6318cf7d75139d5aad5e6318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxed25sgxxxxxxxxx002236757237xxxxxxxxx8x44q5",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c6cb554820c6318c6318cf7a951d7a9e547c6318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxpkcllrxxxxxxxxx003652646977xxxxxxxxxla870l",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c60db1ff8cc6318c6318cf7c75456aba2fbc6318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxglcllrxxxxxxxxx002350006550xxxxxxxxxk5870l",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c647f1ff8cc6318c6318cf7aa347bdfaa51e6318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxsystxnxxxxxxxxx002683325037xxxxxxxxxw002k0",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c68120b34cc6318c6318cf7ab478c5547c7c6318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxpkgwnrxxxxxxxxx002558553505xxxxxxxxxlah0rl",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c60d90e98cc6318c6318cf7aa943d291a3e86318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxvdrwnrxxxxxxxxx004365253834xxxxxxxxxjxu0rl",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c66346e98cc6318c6318cf7d63aa2a913c6a6318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxaccwnrxxxxxxxxx006664022062xxxxxxxxxrn80rl",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c6ee30e98cc6318c6318cf7eb5aabd4a7e946318c6318c6"
+      }
+    },
+    {
+      "input": "resource_sim1nfxxxxxxxxxxdntwnrxxxxxxxxx002876444928xxxxxxxxxnc50rl",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalNonFungibleResourceManager",
+        "hrp": "resource_sim",
+        "data": "9a4c6318c6318c66cd6e98cc6318c6318cf7a8fed56b52a8e6318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxpackgexxxxxxxxx000726633226xxxxxxxxxlk8hc9",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c60f716464c6318c6318cf7bfcad6a3152b46318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxresrcexxxxxxxxx000538436477xxxxxxxxxaj0zg9",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c61e603c64c6318c6318cf7be913d63aafbc6318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxaccntxxxxxxxxxx000929625493xxxxxxxxxrn8jm6",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c6ee313598c6318c6318cf7bcaa2e954a9626318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxdntyxxxxxxxxxxx008560783089xxxxxxxxxnc59k6",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c66cd64318c6318c6318cf79e9a7f8f179ca6318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxcnsmgrxxxxxxxxx000746305335xxxxxxxxxxc06cl",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c6c4e1b40cc6318c6318cf7bfd5d45f48c686318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxcntrlrxxxxxxxxx000648572295xxxxxxxxxxc5z0l",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c6c4d63f8cc6318c6318cf7bf553d3ca51686318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxplxxxxxxxxxxxxx020379220524xxxxxxxxxl5e8k6",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c60fcc6318c6318c6318cf53e3e2a94fa2aa6318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxtxnpxrxxxxxxxxx002962227406xxxxxxxxx4dvqkl",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c659a6130cc6318c6318cf7a8ba5295eabf46318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxmtdataxxxxxxxxx005246577269xxxxxxxxx9qjump",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c6dadbd5f4c6318c6318cf7d155d53de568a6318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxryaltyxxxxxxxxx003849573396xxxxxxxxxa0z7mc",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c6193bf590c6318c6318cf7c4f52d3d189746318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxarulesxxxxxxxxx002304462983xxxxxxxxxrgr7fv",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c6e8f9fcc0c6318c6318cf7aa2fad74a29e26318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxgenssxxxxxxxxxx004372642773xxxxxxxxxkjv3q6",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c646670818c6318c6318cf7d63e56aaaf7a26318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxfaucetxxxxxxxxx000034355863xxxxxxxxxhkrefh",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c64f798cacc6318c6318cf7bdf1ac6943ea26318c6318c6"
+      }
+    },
+    {
+      "input": "package_sim1pkgxxxxxxxxxtxtrakxxxxxxxxx000595975309xxxxxxxxx4d5zd2",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalPackage",
+        "hrp": "package_sim",
+        "data": "0d906318c6318c659963ed8c6318c6318cf7be85a17d48bca6318c6318c6"
+      }
+    },
+    {
+      "input": "consensusmanager_sim1scxxxxxxxxxxcnsmgrxxxxxxxxx000999665565xxxxxxxxxxc06cl",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalConsensusManager",
+        "hrp": "consensusmanager_sim",
+        "data": "860c6318c6318c6c4e1b40cc6318c6318cf7bca52eb54a6a86318c6318c6"
+      }
+    },
+    {
+      "input": "component_sim1cptxxxxxxxxxgenssxxxxxxxxxx000977302539xxxxxxxxxkjv3q6",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalGenericComponent",
+        "hrp": "component_sim",
+        "data": "c0566318c6318c646670818c6318c6318cf7bcbef45eaa44a6318c6318c6"
+      }
+    },
+    {
+      "input": "component_sim1cptxxxxxxxxxfaucetxxxxxxxxx000527798379xxxxxxxxxhkrefh",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalGenericComponent",
+        "hrp": "component_sim",
+        "data": "c0566318c6318c64f798cacc6318c6318cf7be8af78a78f8a6318c6318c6"
+      }
+    },
+    {
+      "input": "transactiontracker_sim1stxxxxxxxxxxtxtrakxxxxxxxxx006844685494xxxxxxxxx4d5zd2",
+      "output": {
+        "network_id": "242",
+        "entity_type": "GlobalTransactionTracker",
+        "hrp": "transactiontracker_sim",
+        "data": "82cc6318c6318c659963ed8c6318c6318cf7e8f5ae8f4a96a6318c6318c6"
+      }
+    }
   ]
 }

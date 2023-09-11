@@ -28,8 +28,8 @@ import {
   SimpleTransactionBuilder,
   TransactionBuilder,
   TransactionHeader,
-  defaultValidationConfig,
   TransactionSummary,
+  defaultValidationConfig,
 } from "../src";
 
 describe("Transaction Builder & Simple Transaction Builder Tests", () => {

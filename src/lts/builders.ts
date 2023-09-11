@@ -29,7 +29,11 @@ import {
   PrivateKey,
   PublicKey,
   RawRadixEngineToolkit,
+  SignatureFunction,
+  SignatureSource,
+  SignatureWithPublicKey,
   SignedIntent,
+  SignerResponse,
   TransactionHeader,
   TransactionManifest,
   ValueKind,
@@ -38,12 +42,7 @@ import {
   enumeration,
   generateRandomNonce,
   rawRadixEngineToolkit,
-  SignatureFunction,
-  Signature,
-  SignatureSource,
   resolveSignatureSource,
-  SignerResponse,
-  SignatureWithPublicKey,
 } from "..";
 import { GeneratedConverter } from "../generated";
 

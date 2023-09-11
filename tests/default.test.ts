@@ -26,6 +26,8 @@ import {
   defaultValidationConfig,
 } from "../src";
 import {
+  AddressDecodeInput,
+  AddressDecodeOutput,
   AddressEntityTypeInput,
   AddressEntityTypeOutput,
   DeriveNodeAddressFromPublicKeyInput,
@@ -627,7 +629,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
         Convert.String.toNumber(inputVector.network_id)
       );
 
-      // Act
+      // Assert
       expect(output).toEqual(
         GeneratedConverter.ExecutionAnalysis.fromGenerated(outputVector)
       );
@@ -641,9 +643,30 @@ describe("Default Radix Engine Toolkit Tests", () => {
       // Act
       const output = await RadixEngineToolkit.Address.entityType(inputVector);
 
-      // Act
+      // Assert
       expect(output).toEqual(
         GeneratedConverter.EntityType.fromGenerated(outputVector)
+      );
+    }
+  );
+
+  moduleTestVector<AddressDecodeInput, AddressDecodeOutput>(
+    "address",
+    "address_decode",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Address.decode(inputVector);
+
+      // Assert
+      expect(output.networkId).toEqual(
+        Convert.String.toNumber(outputVector.network_id)
+      );
+      expect(output.entityType).toEqual(
+        GeneratedConverter.EntityType.fromGenerated(outputVector.entity_type)
+      );
+      expect(output.hrp).toEqual(outputVector.hrp);
+      expect(output.data).toEqual(
+        Convert.HexString.toUint8Array(outputVector.data)
       );
     }
   );

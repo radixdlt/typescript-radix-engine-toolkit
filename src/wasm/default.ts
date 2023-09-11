@@ -574,6 +574,26 @@ export class RadixEngineToolkit {
       const output = rawRet.addressEntityType(address);
       return GeneratedConverter.EntityType.fromGenerated(output);
     }
+
+    static async decode(
+      address: string
+    ): Promise<{
+      networkId: number;
+      entityType: EntityType;
+      hrp: String;
+      data: Uint8Array;
+    }> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.addressDecode(address);
+      return {
+        networkId: Convert.String.toNumber(output.network_id),
+        entityType: GeneratedConverter.EntityType.fromGenerated(
+          output.entity_type
+        ),
+        hrp: output.hrp,
+        data: Convert.HexString.toUint8Array(output.data),
+      };
+    }
   };
 
   static Utils = class {
