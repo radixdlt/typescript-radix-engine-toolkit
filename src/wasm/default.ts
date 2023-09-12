@@ -566,6 +566,16 @@ export class RadixEngineToolkit {
       });
       return output;
     }
+
+    static async encodeProgrammaticJson(object: any): Promise<Uint8Array> {
+      const encoded = JSON.stringify(object);
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.scryptoSborEncodeStringRepresentation({
+        kind: "ProgrammaticJson",
+        value: encoded,
+      });
+      return Convert.HexString.toUint8Array(output);
+    }
   };
 
   static Address = class {
@@ -575,9 +585,7 @@ export class RadixEngineToolkit {
       return GeneratedConverter.EntityType.fromGenerated(output);
     }
 
-    static async decode(
-      address: string
-    ): Promise<{
+    static async decode(address: string): Promise<{
       networkId: number;
       entityType: EntityType;
       hrp: String;

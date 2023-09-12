@@ -709,6 +709,23 @@ describe("Default Radix Engine Toolkit Tests", () => {
     // Assert
     expect(staticValidationResult.kind).toEqual("Valid");
   });
+
+  it("Programmatic JSON can be encoded through the toolkit", async () => {
+    // Arrange
+    const programmaticJson = {
+      kind: "Reference",
+      value:
+        "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd",
+    };
+
+    // Act
+    const encoded = await RadixEngineToolkit.ScryptoSbor.encodeProgrammaticJson(
+      programmaticJson
+    );
+
+    // Assert
+    expect(encoded[0]).toEqual(92); /* Scrypto SBOR prefix */
+  });
 });
 
 const moduleTestVector = <I, O>(

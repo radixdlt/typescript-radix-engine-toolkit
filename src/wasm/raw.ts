@@ -79,6 +79,8 @@ import {
   NotarizedTransactionStaticallyValidateOutput,
   ScryptoSborDecodeToStringInput,
   ScryptoSborDecodeToStringOutput,
+  ScryptoSborEncodeStringRepresentationInput,
+  ScryptoSborEncodeStringRepresentationOutput,
   SignedIntentCompileInput,
   SignedIntentCompileOutput,
   SignedIntentDecompileInput,
@@ -330,6 +332,15 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     return this.callFunction(input, this.exports.scrypto_sbor_decode_to_string);
   }
 
+  public scryptoSborEncodeStringRepresentation(
+    input: ScryptoSborEncodeStringRepresentationInput
+  ): ScryptoSborEncodeStringRepresentationOutput {
+    return this.callFunction(
+      input,
+      this.exports.scrypto_sbor_encode_string_representation
+    );
+  }
+
   public utilsKnownAddresses(
     input: UtilsKnownAddressesInput
   ): UtilsKnownAddressesOutput {
@@ -459,6 +470,7 @@ interface Exports {
   /* SBOR Modules */
   manifest_sbor_decode_to_string(pointer: number): number;
   scrypto_sbor_decode_to_string(pointer: number): number;
+  scrypto_sbor_encode_string_representation(pointer: number): number;
 
   /* Utils Module */
   utils_known_addresses(pointer: number): number;

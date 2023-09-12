@@ -194,6 +194,16 @@ export type NotarizedTransactionDecompileOutput =
 
 export type ScryptoSborDecodeToStringOutput = string;
 
+export type SerializableScryptoSborStringRepresentation = {
+  kind: "ProgrammaticJson";
+  value: string;
+};
+
+export type ScryptoSborEncodeStringRepresentationInput =
+  SerializableScryptoSborStringRepresentation;
+
+export type ScryptoSborEncodeStringRepresentationOutput = SerializableBytes;
+
 export type SignedIntentHashInput = SerializableSignedIntent;
 
 export type SignedIntentHashOutput = SerializableTransactionHash;
