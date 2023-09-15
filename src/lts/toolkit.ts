@@ -547,21 +547,13 @@ const resolveTransactionIntent = (
 };
 
 const resolveUnknownCompiledIntent = (intent: Uint8Array): Promise<Intent> => {
-  try {
-    return RadixEngineToolkit.Intent.decompile(intent);
-  } catch {}
-
-  try {
+  return RadixEngineToolkit.Intent.decompile(intent).catch(() => {
     return RadixEngineToolkit.SignedIntent.decompile(intent).then(
       (signedIntent) => signedIntent.intent
-    );
-  } catch {}
-
-  try {
-    return RadixEngineToolkit.NotarizedTransaction.decompile(intent).then(
-      (transaction) => transaction.signedIntent.intent
-    );
-  } catch {}
-
-  throw new Error("The passed byte array is not a compiled intent.");
+    ).catch(() => {
+      return RadixEngineToolkit.NotarizedTransaction.decompile(intent).then(
+        (transaction) => transaction.signedIntent.intent
+      )
+    })
+  })
 };
