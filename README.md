@@ -780,12 +780,12 @@ Objects of the `TransactionIntent`, `SignedTransactionIntent`, and `NotarizedTra
 
 ```ts
 import {
-    NotarizedTransaction,
-    RadixEngineToolkit
+  NotarizedTransaction,
+  RadixEngineToolkit,
 } from "@radixdlt/radix-engine-toolkit";
 const transaction: NotarizedTransaction = undefined; /* Some transaction */
 const transactionId = await RadixEngineToolkit.NotarizedTransaction.intentHash(
-     transaction
+  transaction
 );
 console.log(transactionId);
 ```

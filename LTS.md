@@ -444,3 +444,40 @@ import {
 const data: Uint8Array = /* Some array of bytes */;
 const blake2bHash: Uint8Array = LTSRadixEngineToolkit.Utils.hash(data);
 ```
+
+### TestUtils Module
+
+This module contains a number of utility function that you may need when writing tests. <u>**It's very important to note that you MUST NOT use any of these functions in your production code, only use them in tests**</u>. Some of these functions use things like unsecure randomness to make the functions easy to use in tests but that do not necessarily use things like secure randomness for private key generation, or anything of that sort. Additionally, a lot of these functions make strong assumptions about the environment in which they will be run. As an example, `createAccountWithDisabledDeposits` assumes that transactions constructed through it will be used for test networks; thus, it locks XRD for fees from the faucet.
+
+#### Creating an account with deposits disabled
+
+You may wish to test whether your system is able to gracefully handle cases when you do transfers to accounts that are not currently accepting deposits (or are rejecting deposits of the resource you're sending). The `createAccountWithDisabledDeposits` in this module can be used to set up the transaction that creates an account with all deposits disabled.
+
+This function takes in the current epoch and the network that the transaction will be run on and returns back an object containing the following:
+
+- `compiledNotarizedTransaction`: The compiled transaction payload that you must submit to the network through the Core/Gateway APIs in order to create the disabled deposits account.
+- `accountAddress`: The address of the account that is created after the `compiledNotarizedTransaction` is submitted to the network and confirmed.
+
+Note: the account created by this function has all of its deposits disabled, it doesn't accept XRD or any other resources on the network. Attempting to deposit resources into this account will always make the transaction fail. Failed transactions incur fees.
+
+The following is an example of this function in use:
+
+```ts
+import {
+  LTSRadixEngineToolkit,
+  NetworkId,
+} from "@radixdlt/radix-engine-toolkit";
+
+const currentEpoch = 12; /* Obtain this from the Core/Gateway API */
+const networkId =
+  NetworkId.Stokenet; /* Obtain this from the Core/Gateway API */
+
+const { accountAddress, compiledNotarizedTransaction } =
+  await LTSRadixEngineToolkit.TestUtils.createAccountWithDisabledDeposits(
+    currentEpoch,
+    networkId
+  );
+
+// Before you can start using your `accountAddress`, you must first submit the `compiledNotarizedTransaction`
+// transaction to the network through the Core/Gateway APIs.
+```

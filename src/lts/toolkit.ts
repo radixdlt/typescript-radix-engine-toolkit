@@ -410,7 +410,7 @@ export abstract class LTSRadixEngineToolkit {
       compiledNotarizedTransaction: CompiledNotarizedTransaction;
     }> {
       // NOTE: The following ephemeral key is intentionally NOT generated through a secure random
-      // number generator since in this case there are no risks associated with with this.
+      // number generator since in this case there are no risks associated with this.
       // The following are the reasons we do not see this as a security risk:
       //
       // * The transaction constructed here is to create an account with 0 funds and with the
@@ -548,12 +548,12 @@ const resolveTransactionIntent = (
 
 const resolveUnknownCompiledIntent = (intent: Uint8Array): Promise<Intent> => {
   return RadixEngineToolkit.Intent.decompile(intent).catch(() => {
-    return RadixEngineToolkit.SignedIntent.decompile(intent).then(
-      (signedIntent) => signedIntent.intent
-    ).catch(() => {
-      return RadixEngineToolkit.NotarizedTransaction.decompile(intent).then(
-        (transaction) => transaction.signedIntent.intent
-      )
-    })
-  })
+    return RadixEngineToolkit.SignedIntent.decompile(intent)
+      .then((signedIntent) => signedIntent.intent)
+      .catch(() => {
+        return RadixEngineToolkit.NotarizedTransaction.decompile(intent).then(
+          (transaction) => transaction.signedIntent.intent
+        );
+      });
+  });
 };
