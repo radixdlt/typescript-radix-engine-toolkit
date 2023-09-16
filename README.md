@@ -780,12 +780,14 @@ Objects of the `TransactionIntent`, `SignedTransactionIntent`, and `NotarizedTra
 
 ```ts
 import {
-    TransactionIntent,
-    SignedTransactionIntent,
-    NotarizedTransaction
+    NotarizedTransaction,
+    RadixEngineToolkit
 } from "@radixdlt/radix-engine-toolkit";
-const intent: TransactionIntent | SignedTransactionIntent | NotarizedTransaction = /* Some kind of intent */;
-const transactionId: Uint8Array = await intent.transactionId();
+const transaction: NotarizedTransaction = undefined; /* Some transaction */
+const transactionId = await RadixEngineToolkit.NotarizedTransaction.intentHash(
+     transaction
+);
+console.log(transactionId);
 ```
 
 In addition to the `transactionId` method, some of these classes also offer methods for calculating the notarized transaction hash (often times referred to as payload hash in the Gateway API) and the signed transaction intent hash. However, these hashes are rarely needed in day-to-day interactions with the network.
