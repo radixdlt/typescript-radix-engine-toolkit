@@ -339,13 +339,21 @@ describe("Address Class", () => {
   it("LTS TestUtils creation of disabled deposit account works.", async () => {
     const { accountAddress, compiledNotarizedTransaction } =
       await LTSRadixEngineToolkit.TestUtils.createAccountWithDisabledDeposits(
-        5702,
-        0x0d
+        3173,
+        14
       );
 
-    compiledNotarizedTransaction
-      .staticallyValidate(0x0d)
-      .then((x) => x.throwIfInvalid());
+    const instructions =
+      await RadixEngineToolkit.NotarizedTransaction.decompile(
+        compiledNotarizedTransaction.compiled
+      ).then((tx) => tx.signedIntent.intent.manifest.instructions);
+
+    const validity = await RadixEngineToolkit.Instructions.staticallyValidate(
+      instructions,
+      14
+    );
+
+    expect(validity.kind).toEqual("Valid");
   });
 
   it("Compiled untyped intent can be summarized by the LTS toolkit", async () => {

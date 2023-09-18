@@ -443,7 +443,7 @@ export abstract class LTSRadixEngineToolkit {
 
       const manifest = new ManifestBuilder()
         .callMethod(faucetComponentAddress, "lock_fee", [decimal("10")])
-        .callMethod(virtualAccount, "change_account_default_deposit_rule", [
+        .callMethod(virtualAccount, "set_default_deposit_rule", [
           enumeration(1),
         ])
         .build();
