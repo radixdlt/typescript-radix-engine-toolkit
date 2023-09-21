@@ -21,7 +21,6 @@ import {
   DecimalSource,
   DefaultDepositRule,
   EntityType,
-  ExecutionAnalysis,
   Expression,
   FeeLocks,
   FeeSummary,
@@ -35,7 +34,6 @@ import {
   NotarizedTransaction,
   OlympiaNetwork,
   PublicKey,
-  ReservedInstruction,
   ResourceOrNonFungible,
   ResourcePreference,
   ResourcePreferenceAction,
@@ -49,13 +47,11 @@ import {
   TransactionHash,
   TransactionHeader,
   TransactionManifest,
-  TransactionType,
   ValidationConfig,
   Value,
   ValueKind,
 } from "../index";
 import {
-  ExecutionAnalyzeOutput,
   SerializableAuthorizedDepositorsChanges,
   SerializableDecimal,
   SerializableDefaultDepositRule,
@@ -75,7 +71,6 @@ import {
   SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
   SerializablePublicKey,
-  SerializableReservedInstruction,
   SerializableResourceOrNonFungible,
   SerializableResourcePreference,
   SerializableResourcePreferenceAction,
@@ -90,7 +85,6 @@ import {
   SerializableTransactionHash,
   SerializableTransactionHeader,
   SerializableTransactionManifest,
-  SerializableTransactionType,
   SerializableValidationConfig,
 } from "./generated";
 
@@ -1494,236 +1488,6 @@ export class GeneratedConverter {
             kind: value.kind,
           };
       }
-    }
-  };
-
-  static TransactionType = class {
-    static toGenerated(value: TransactionType): SerializableTransactionType {
-      switch (value.kind) {
-        case "SimpleTransfer":
-          return {
-            kind: value.kind,
-            value: {
-              from: value.from,
-              to: value.to,
-              transferred: GeneratedConverter.ResourceSpecifier.toGenerated(
-                value.transferred
-              ),
-            },
-          };
-        case "Transfer":
-          return {
-            kind: value.kind,
-            value: {
-              from: value.from,
-              transfers: recordMap(value.transfers, (key, value) => [
-                key,
-                recordMap(value, (key, value) => [
-                  key,
-                  GeneratedConverter.Resources.toGenerated(value),
-                ]),
-              ]),
-            },
-          };
-        case "AccountDepositSettings":
-          return {
-            kind: value.kind,
-            value: {
-              resource_preference_changes: recordMap(
-                value.resourcePreferenceChanges,
-                (key, value) => [
-                  key,
-                  recordMap(value, (key, value) => [
-                    key,
-                    GeneratedConverter.ResourcePreferenceAction.toGenerated(
-                      value
-                    ),
-                  ]),
-                ]
-              ),
-              default_deposit_rule_changes: recordMap(
-                value.defaultDepositRuleChanges,
-                (key, value) => [
-                  key,
-                  GeneratedConverter.DefaultDepositRule.toGenerated(value),
-                ]
-              ),
-              authorized_depositors_changes: recordMap(
-                value.authorizedDepositorsChanges,
-                (key, value) => [
-                  key,
-                  GeneratedConverter.AuthorizedDepositorsChanges.toGenerated(
-                    value
-                  ),
-                ]
-              ),
-            },
-          };
-        case "GeneralTransaction":
-          return {
-            kind: value.kind,
-            value: {
-              account_proofs: value.accountProofs,
-              account_withdraws: recordMap(
-                value.accountWithdraws,
-                (key, value) => [
-                  key,
-                  value.map(GeneratedConverter.ResourceTracker.toGenerated),
-                ]
-              ),
-              account_deposits: recordMap(
-                value.accountDeposits,
-                (key, value) => [
-                  key,
-                  value.map(GeneratedConverter.ResourceTracker.toGenerated),
-                ]
-              ),
-              addresses_in_manifest: {
-                addresses: recordMap(
-                  value.addressesInManifest,
-                  (key, value) => [key, [...value]]
-                ),
-                named_addresses: [],
-              },
-              data_of_newly_minted_non_fungibles: recordMap(
-                value.dataOfNewlyMintedNonFungibles,
-                (key, value) => [
-                  key,
-                  recordMap(value, (key, value) => [
-                    key,
-                    Convert.Uint8Array.toHexString(value),
-                  ]),
-                ]
-              ),
-              metadata_of_newly_created_entities: {},
-            },
-          };
-      }
-    }
-
-    static fromGenerated(value: SerializableTransactionType): TransactionType {
-      switch (value.kind) {
-        case "SimpleTransfer":
-          return {
-            kind: value.kind,
-            from: value.value.from,
-            to: value.value.to,
-            transferred: GeneratedConverter.ResourceSpecifier.fromGenerated(
-              value.value.transferred
-            ),
-          };
-        case "Transfer":
-          return {
-            kind: value.kind,
-            from: value.value.from,
-            transfers: recordMap(value.value.transfers, (key, value) => [
-              key,
-              recordMap(value, (key, value) => [
-                key,
-                GeneratedConverter.Resources.fromGenerated(value),
-              ]),
-            ]),
-          };
-        case "AccountDepositSettings":
-          return {
-            kind: value.kind,
-            resourcePreferenceChanges: recordMap(
-              value.value.resource_preference_changes,
-              (key, value) => [
-                key,
-                recordMap(value, (key, value) => [
-                  key,
-                  GeneratedConverter.ResourcePreferenceAction.fromGenerated(
-                    value
-                  ),
-                ]),
-              ]
-            ),
-            defaultDepositRuleChanges: recordMap(
-              value.value.default_deposit_rule_changes,
-              (key, value) => [
-                key,
-                GeneratedConverter.DefaultDepositRule.fromGenerated(value),
-              ]
-            ),
-            authorizedDepositorsChanges: recordMap(
-              value.value.authorized_depositors_changes,
-              (key, value) => [
-                key,
-                GeneratedConverter.AuthorizedDepositorsChanges.fromGenerated(
-                  value
-                ),
-              ]
-            ),
-          };
-        case "GeneralTransaction":
-          return {
-            kind: value.kind,
-            accountProofs: value.value.account_proofs,
-            accountWithdraws: recordMap(
-              value.value.account_withdraws,
-              (key, value) => [
-                key,
-                value.map(GeneratedConverter.ResourceTracker.fromGenerated),
-              ]
-            ),
-            accountDeposits: recordMap(
-              value.value.account_deposits,
-              (key, value) => [
-                key,
-                value.map(GeneratedConverter.ResourceTracker.fromGenerated),
-              ]
-            ),
-            addressesInManifest: recordMap(
-              value.value.addresses_in_manifest.addresses,
-              (key, value) => [key, new Set(value)]
-            ),
-            dataOfNewlyMintedNonFungibles: recordMap(
-              value.value.data_of_newly_minted_non_fungibles,
-              (key, value) => [
-                key,
-                recordMap(value, (key, value) => [
-                  key,
-                  Convert.HexString.toUint8Array(value),
-                ]),
-              ]
-            ),
-          };
-      }
-    }
-  };
-
-  static ExecutionAnalysis = class {
-    static toGenerated(value: ExecutionAnalysis): ExecutionAnalyzeOutput {
-      return {
-        fee_locks: GeneratedConverter.FeeLocks.toGenerated(value.feeLocks),
-        fee_summary: GeneratedConverter.FeeSummary.toGenerated(
-          value.feeSummary
-        ),
-        transaction_types: value.transactionTypes.map(
-          GeneratedConverter.TransactionType.toGenerated
-        ),
-        reserved_instructions: value.reservedInstructions.map(
-          (instruction) =>
-            SerializableReservedInstruction[ReservedInstruction[instruction]]
-        ),
-      };
-    }
-
-    static fromGenerated(value: ExecutionAnalyzeOutput): ExecutionAnalysis {
-      return {
-        feeLocks: GeneratedConverter.FeeLocks.fromGenerated(value.fee_locks),
-        feeSummary: GeneratedConverter.FeeSummary.fromGenerated(
-          value.fee_summary
-        ),
-        transactionTypes: value.transaction_types.map(
-          GeneratedConverter.TransactionType.fromGenerated
-        ),
-        reservedInstructions: value.reserved_instructions.map(
-          (instruction) =>
-            ReservedInstruction[SerializableReservedInstruction[instruction]]
-        ),
-      };
     }
   };
 

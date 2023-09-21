@@ -320,6 +320,9 @@ export type SerializableTransactionType =
       kind: "AccountDepositSettings";
       value: SerializableAccountDepositSettingsTransactionType;
     }
+  | { kind: "Stake"; value: SerializableStakeTransactionType }
+  | { kind: "Unstake"; value: SerializableUnstakeTransactionType }
+  | { kind: "ClaimStake"; value: SerializableClaimStakeTransactionType }
   | { kind: "GeneralTransaction"; value: SerializableGeneralTransactionType };
 
 export enum SerializableReservedInstruction {
@@ -403,6 +406,50 @@ export interface SerializableAccountDepositSettingsTransactionType {
     SerializableNodeId,
     SerializableAuthorizedDepositorsChanges
   >;
+}
+
+export interface SerializableStakeInformation {
+  from_account: SerializableNodeId;
+  validator_address: SerializableNodeId;
+  stake_unit_resource: SerializableNodeId;
+  stake_unit_amount: SerializableDecimal;
+  staked_xrd: SerializableDecimal;
+}
+
+export interface SerializableStakeTransactionType {
+  stakes: SerializableStakeInformation[];
+}
+
+export interface SerializableUnstakeData {
+  name: string;
+  claim_epoch: SerializableU64;
+  claim_amount: SerializableDecimal;
+}
+
+export interface SerializableUnstakeInformation {
+  from_account: SerializableNodeId;
+  stake_unit_address: SerializableNodeId;
+  stake_unit_amount: SerializableDecimal;
+  validator_address: SerializableNodeId;
+  claim_nft_resource: SerializableNodeId;
+  claim_nft_local_id: SerializableNonFungibleLocalId;
+  claim_nft_data: SerializableUnstakeData;
+}
+
+export interface SerializableUnstakeTransactionType {
+  unstakes: SerializableUnstakeInformation[];
+}
+
+export interface SerializableClaimStakeInformation {
+  from_account: SerializableNodeId;
+  validator_address: SerializableNodeId;
+  claim_nft_resource: SerializableNodeId;
+  claim_nft_local_ids: SerializableNodeId[];
+  claimed_xrd: SerializableDecimal;
+}
+
+export interface SerializableClaimStakeTransactionType {
+  claims: SerializableClaimStakeInformation[];
 }
 
 export type SerializableResourceTracker =
