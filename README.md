@@ -10,7 +10,7 @@
 
 # License
 
-The TypeScript Radix Engine Toolkit code is released under the [Apache 2.0 license](./LICENSE).
+The TypeScript Radix Engine Toolkit code is released under the [Apache 2.0 license](./LICENSE). Binaries are licensed under the [Radix Generic EULA](https://www.radixdlt.com/terms/genericEULA).
 
 # About
 
