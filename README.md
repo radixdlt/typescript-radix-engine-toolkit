@@ -8,6 +8,10 @@
 
 </div>
 
+# License
+
+The TypeScript Radix Engine Toolkit code is released under the [Apache 2.0 license](./LICENSE).
+
 # About
 
 This library brings the same support offered to Rust for transaction construction, validation, and decompilation, manifest parsing, **S**crypto **B**inary **O**bject **R**epresentation (SBOR) encoding and decoding, address derivations, and more to TypeScript and JavaScript through a [Rust backend](https://www.github.com/radixdlt/radix-engine-toolkit) that powers it all. The following is a list of the features offered by this library:
