@@ -120,12 +120,14 @@ export class ManifestBuilder {
     return this;
   }
 
-  popFromAuthZone(): this {
+  popFromAuthZone(callback: (builder: this, proofId: number) => this): this {
     const instruction: Instruction = {
       kind: "PopFromAuthZone",
     };
     this.instructions.push(instruction);
-    return this;
+
+    const proofId = this.idAllocator.proof();
+    return callback(this, proofId);
   }
 
   pushToAuthZone(proofId: number): this {
