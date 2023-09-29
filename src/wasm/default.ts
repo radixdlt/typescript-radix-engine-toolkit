@@ -204,11 +204,21 @@ export class RadixEngineToolkit {
       networkId: number
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
-      const output = rawRet.deriveNodeAddressFromPublicKey({
+      return rawRet.deriveNodeAddressFromPublicKey({
         network_id: Convert.Number.toString(networkId),
         public_key: Convert.Uint8Array.toHexString(publicKey),
       });
-      return output;
+    }
+
+    static async bech32mTransactionIdentifierFromIntentHash(
+      transactionHash: Uint8Array,
+      networkId: number
+    ): Promise<string> {
+      const rawRet = await rawRadixEngineToolkit;
+      return rawRet.deriveBech32mTransactionIdentifierFromIntentHash({
+        network_id: Convert.Number.toString(networkId),
+        hash: Convert.Uint8Array.toHexString(transactionHash),
+      });
     }
   };
 

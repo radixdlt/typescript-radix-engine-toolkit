@@ -129,8 +129,8 @@ export class SimpleTransactionBuilder {
     //
     // * The transaction constructed here is a transaction to get funds from the faucet, an
     //   operation that only works on testnets and NOT on mainnet.
-    // * The key used here is only used to notarize the transaction. It's not being used to create
-    //   a key to an account that would store actual funds.
+    // * The key used here is only used to notarize the transaction. It's not being used to create a
+    //   key to an account that would store actual funds.
     // * The worst that can happen is that an attacker who could guess the private key can cancel
     //   the faucet transaction (a feature which is not even implemented in Scrypto yet).
     //

@@ -43,7 +43,7 @@ import {
   isAccountDepositCallMethod,
   isAccountWithdrawCallMethod,
   isFreeXrdCallMethod,
-  isLockFeeCallMethod,
+  isLockFeeCallMethod, rawRadixEngineToolkit, Convert,
 } from "..";
 
 export abstract class LTSRadixEngineToolkit {
@@ -351,6 +351,13 @@ export abstract class LTSRadixEngineToolkit {
           };
         }
       );
+    }
+
+    static async bech32mTransactionIdentifierFromIntentHash(
+      transactionHash: Uint8Array,
+      networkId: number
+    ): Promise<string> {
+      return RadixEngineToolkit.Derive.bech32mTransactionIdentifierFromIntentHash(transactionHash, networkId)
     }
   };
 

@@ -73,6 +73,8 @@ export type DeriveOlympiaAccountAddressFromPublicKeyOutput = string;
 
 export type DeriveNodeAddressFromPublicKeyOutput = string;
 
+export type DeriveBech32mTransactionIdentifierFromIntentHashOutput = string;
+
 export type SerializableHash = string;
 
 export type InstructionsHashOutput = SerializableHash;
@@ -154,18 +156,18 @@ export type ManifestSborDecodeToStringOutput = string;
 
 export type SerializableSignatureWithPublicKey =
   | {
-      kind: "Secp256k1";
-      value: {
-        signature: string;
-      };
-    }
+  kind: "Secp256k1";
+  value: {
+    signature: string;
+  };
+}
   | {
-      kind: "Ed25519";
-      value: {
-        signature: string;
-        public_key: string;
-      };
-    };
+  kind: "Ed25519";
+  value: {
+    signature: string;
+    public_key: string;
+  };
+};
 
 export interface SerializableSignedIntent {
   intent: SerializableIntent;
@@ -295,6 +297,11 @@ export interface DeriveNodeAddressFromPublicKeyInput {
   public_key: SerializableSecp256k1PublicKey;
 }
 
+export interface DeriveBech32mTransactionIdentifierFromIntentHashInput {
+  network_id: SerializableU8;
+  hash: SerializableHash;
+}
+
 export interface ExecutionAnalyzeInput {
   instructions: SerializableInstructions;
   network_id: SerializableU8;
@@ -317,9 +324,9 @@ export type SerializableTransactionType =
   | { kind: "SimpleTransfer"; value: SerializableSimpleTransferTransactionType }
   | { kind: "Transfer"; value: SerializableTransferTransactionType }
   | {
-      kind: "AccountDepositSettings";
-      value: SerializableAccountDepositSettingsTransactionType;
-    }
+  kind: "AccountDepositSettings";
+  value: SerializableAccountDepositSettingsTransactionType;
+}
   | { kind: "Stake"; value: SerializableStakeTransactionType }
   | { kind: "Unstake"; value: SerializableUnstakeTransactionType }
   | { kind: "ClaimStake"; value: SerializableClaimStakeTransactionType }
@@ -342,19 +349,19 @@ export interface ExecutionAnalyzeOutput {
 
 export type SerializableResourceSpecifier =
   | {
-      kind: "Amount";
-      value: {
-        resource_address: SerializableNodeId;
-        amount: SerializableDecimal;
-      };
-    }
+  kind: "Amount";
+  value: {
+    resource_address: SerializableNodeId;
+    amount: SerializableDecimal;
+  };
+}
   | {
-      kind: "Ids";
-      value: {
-        resource_address: SerializableNodeId;
-        ids: SerializableNonFungibleLocalId[];
-      };
-    };
+  kind: "Ids";
+  value: {
+    resource_address: SerializableNodeId;
+    ids: SerializableNonFungibleLocalId[];
+  };
+};
 
 export interface SerializableSimpleTransferTransactionType {
   from: SerializableNodeId;
@@ -454,20 +461,20 @@ export interface SerializableClaimStakeTransactionType {
 
 export type SerializableResourceTracker =
   | {
-      kind: "Fungible";
-      value: {
-        resource_address: SerializableNodeId;
-        amount: SerializableSource<SerializableDecimal>;
-      };
-    }
+  kind: "Fungible";
+  value: {
+    resource_address: SerializableNodeId;
+    amount: SerializableSource<SerializableDecimal>;
+  };
+}
   | {
-      kind: "NonFungible";
-      value: {
-        resource_address: SerializableNodeId;
-        amount: SerializableSource<SerializableDecimal>;
-        ids: SerializableSource<SerializableNonFungibleLocalId[]>;
-      };
-    };
+  kind: "NonFungible";
+  value: {
+    resource_address: SerializableNodeId;
+    amount: SerializableSource<SerializableDecimal>;
+    ids: SerializableSource<SerializableNonFungibleLocalId[]>;
+  };
+};
 
 export interface InstructionsExtractAddressesOutput {
   addresses: Record<SerializableEntityType, SerializableNodeId[]>;
@@ -502,9 +509,9 @@ export type SerializableMetadataValue =
   | { kind: "GlobalAddressArray"; value: SerializableNodeId[] }
   | { kind: "PublicKeyArray"; value: SerializablePublicKey[] }
   | {
-      kind: "NonFungibleGlobalIdArray";
-      value: SerializableNonFungibleGlobalId[];
-    }
+  kind: "NonFungibleGlobalIdArray";
+  value: SerializableNonFungibleGlobalId[];
+}
   | { kind: "NonFungibleLocalIdArray"; value: SerializableNonFungibleLocalId[] }
   | { kind: "InstantArray"; value: SerializableI64[] }
   | { kind: "UrlArray"; value: string[] }
@@ -733,25 +740,25 @@ export enum SerializableCurveType {
 
 export type SerializableDecryptorsByCurve =
   | {
-      kind: "Ed25519";
-      value: {
-        dh_ephemeral_public_key: SerializableEd25519PublicKey;
-        decryptors: Record<
-          SerializablePublicKeyFingerprint,
-          SerializableAesWrapped128BitKey
-        >;
-      };
-    }
+  kind: "Ed25519";
+  value: {
+    dh_ephemeral_public_key: SerializableEd25519PublicKey;
+    decryptors: Record<
+      SerializablePublicKeyFingerprint,
+      SerializableAesWrapped128BitKey
+    >;
+  };
+}
   | {
-      kind: "Secp256k1";
-      value: {
-        dh_ephemeral_public_key: SerializableSecp256k1PublicKey;
-        decryptors: Record<
-          SerializablePublicKeyFingerprint,
-          SerializableAesWrapped128BitKey
-        >;
-      };
-    };
+  kind: "Secp256k1";
+  value: {
+    dh_ephemeral_public_key: SerializableSecp256k1PublicKey;
+    decryptors: Record<
+      SerializablePublicKeyFingerprint,
+      SerializableAesWrapped128BitKey
+    >;
+  };
+};
 
 export interface SerializableEncryptedMessage {
   encrypted: SerializableBytes;
@@ -763,159 +770,159 @@ export interface SerializableEncryptedMessage {
 
 export type SerializableManifestValue =
   | {
-      kind: "Bool";
-      value: {
-        value: boolean;
-      };
-    }
+  kind: "Bool";
+  value: {
+    value: boolean;
+  };
+}
   | {
-      kind: "I8";
-      value: {
-        value: SerializableI8;
-      };
-    }
+  kind: "I8";
+  value: {
+    value: SerializableI8;
+  };
+}
   | {
-      kind: "I16";
-      value: {
-        value: SerializableI16;
-      };
-    }
+  kind: "I16";
+  value: {
+    value: SerializableI16;
+  };
+}
   | {
-      kind: "I32";
-      value: {
-        value: SerializableI32;
-      };
-    }
+  kind: "I32";
+  value: {
+    value: SerializableI32;
+  };
+}
   | {
-      kind: "I64";
-      value: {
-        value: SerializableI64;
-      };
-    }
+  kind: "I64";
+  value: {
+    value: SerializableI64;
+  };
+}
   | {
-      kind: "I128";
-      value: {
-        value: SerializableI128;
-      };
-    }
+  kind: "I128";
+  value: {
+    value: SerializableI128;
+  };
+}
   | {
-      kind: "U8";
-      value: {
-        value: SerializableU8;
-      };
-    }
+  kind: "U8";
+  value: {
+    value: SerializableU8;
+  };
+}
   | {
-      kind: "U16";
-      value: {
-        value: SerializableU16;
-      };
-    }
+  kind: "U16";
+  value: {
+    value: SerializableU16;
+  };
+}
   | {
-      kind: "U32";
-      value: {
-        value: SerializableU32;
-      };
-    }
+  kind: "U32";
+  value: {
+    value: SerializableU32;
+  };
+}
   | {
-      kind: "U64";
-      value: {
-        value: SerializableU64;
-      };
-    }
+  kind: "U64";
+  value: {
+    value: SerializableU64;
+  };
+}
   | {
-      kind: "U128";
-      value: {
-        value: SerializableU128;
-      };
-    }
+  kind: "U128";
+  value: {
+    value: SerializableU128;
+  };
+}
   | {
-      kind: "String";
-      value: {
-        value: string;
-      };
-    }
+  kind: "String";
+  value: {
+    value: string;
+  };
+}
   | {
-      kind: "Enum";
-      value: {
-        discriminator: SerializableU8;
-        fields: SerializableManifestValue[];
-      };
-    }
+  kind: "Enum";
+  value: {
+    discriminator: SerializableU8;
+    fields: SerializableManifestValue[];
+  };
+}
   | {
-      kind: "Array";
-      value: {
-        element_value_kind: SerializableManifestValueKind;
-        elements: SerializableManifestValue[];
-      };
-    }
+  kind: "Array";
+  value: {
+    element_value_kind: SerializableManifestValueKind;
+    elements: SerializableManifestValue[];
+  };
+}
   | {
-      kind: "Tuple";
-      value: {
-        fields: SerializableManifestValue[];
-      };
-    }
+  kind: "Tuple";
+  value: {
+    fields: SerializableManifestValue[];
+  };
+}
   | {
-      kind: "Map";
-      value: {
-        key_value_kind: SerializableManifestValueKind;
-        value_value_kind: SerializableManifestValueKind;
-        entries: SerializableMapEntry[];
-      };
-    }
+  kind: "Map";
+  value: {
+    key_value_kind: SerializableManifestValueKind;
+    value_value_kind: SerializableManifestValueKind;
+    entries: SerializableMapEntry[];
+  };
+}
   | {
-      kind: "Address";
-      value: {
-        value: SerializableManifestAddress;
-      };
-    }
+  kind: "Address";
+  value: {
+    value: SerializableManifestAddress;
+  };
+}
   | {
-      kind: "Bucket";
-      value: {
-        value: SerializableU32;
-      };
-    }
+  kind: "Bucket";
+  value: {
+    value: SerializableU32;
+  };
+}
   | {
-      kind: "Proof";
-      value: {
-        value: SerializableU32;
-      };
-    }
+  kind: "Proof";
+  value: {
+    value: SerializableU32;
+  };
+}
   | {
-      kind: "Expression";
-      value: {
-        value: SerializableExpression;
-      };
-    }
+  kind: "Expression";
+  value: {
+    value: SerializableExpression;
+  };
+}
   | {
-      kind: "Blob";
-      value: {
-        value: SerializableHash;
-      };
-    }
+  kind: "Blob";
+  value: {
+    value: SerializableHash;
+  };
+}
   | {
-      kind: "Decimal";
-      value: {
-        value: SerializableDecimal;
-      };
-    }
+  kind: "Decimal";
+  value: {
+    value: SerializableDecimal;
+  };
+}
   | {
-      kind: "PreciseDecimal";
-      value: {
-        value: SerializablePreciseDecimal;
-      };
-    }
+  kind: "PreciseDecimal";
+  value: {
+    value: SerializablePreciseDecimal;
+  };
+}
   | {
-      kind: "NonFungibleLocalId";
-      value: {
-        value: SerializableNonFungibleLocalId;
-      };
-    }
+  kind: "NonFungibleLocalId";
+  value: {
+    value: SerializableNonFungibleLocalId;
+  };
+}
   | {
-      kind: "AddressReservation";
-      value: {
-        value: SerializableU32;
-      };
-    };
+  kind: "AddressReservation";
+  value: {
+    value: SerializableU32;
+  };
+};
 
 export interface SerializableMapEntry {
   key: SerializableManifestValue;
@@ -929,18 +936,18 @@ export enum SerializableResourcePreference {
 
 export type SerializableSource<T> =
   | {
-      kind: "Guaranteed";
-      value: {
-        value: T;
-      };
-    }
+  kind: "Guaranteed";
+  value: {
+    value: T;
+  };
+}
   | {
-      kind: "Predicted";
-      value: {
-        value: T;
-        instruction_index: SerializableU64;
-      };
-    };
+  kind: "Predicted";
+  value: {
+    value: T;
+    instruction_index: SerializableU64;
+  };
+};
 
 export type InstructionsStaticallyValidateOutput =
   | { kind: "Valid"; value?: undefined }
@@ -977,177 +984,177 @@ export type SerializableManifestAddress =
 
 export type SerializableInstruction =
   | {
-      kind: "TakeAllFromWorktop";
-      value: {
-        resource_address: SerializableNodeId;
-      };
-    }
+  kind: "TakeAllFromWorktop";
+  value: {
+    resource_address: SerializableNodeId;
+  };
+}
   | {
-      kind: "TakeFromWorktop";
-      value: {
-        resource_address: SerializableNodeId;
-        amount: SerializableDecimal;
-      };
-    }
+  kind: "TakeFromWorktop";
+  value: {
+    resource_address: SerializableNodeId;
+    amount: SerializableDecimal;
+  };
+}
   | {
-      kind: "TakeNonFungiblesFromWorktop";
-      value: {
-        resource_address: SerializableNodeId;
-        ids: SerializableNonFungibleLocalId[];
-      };
-    }
+  kind: "TakeNonFungiblesFromWorktop";
+  value: {
+    resource_address: SerializableNodeId;
+    ids: SerializableNonFungibleLocalId[];
+  };
+}
   | {
-      kind: "ReturnToWorktop";
-      value: {
-        bucket_id: SerializableU32;
-      };
-    }
+  kind: "ReturnToWorktop";
+  value: {
+    bucket_id: SerializableU32;
+  };
+}
   | {
-      kind: "AssertWorktopContainsAny";
-      value: {
-        resource_address: SerializableNodeId;
-      };
-    }
+  kind: "AssertWorktopContainsAny";
+  value: {
+    resource_address: SerializableNodeId;
+  };
+}
   | {
-      kind: "AssertWorktopContains";
-      value: {
-        resource_address: SerializableNodeId;
-        amount: SerializableDecimal;
-      };
-    }
+  kind: "AssertWorktopContains";
+  value: {
+    resource_address: SerializableNodeId;
+    amount: SerializableDecimal;
+  };
+}
   | {
-      kind: "AssertWorktopContainsNonFungibles";
-      value: {
-        resource_address: SerializableNodeId;
-        ids: SerializableNonFungibleLocalId[];
-      };
-    }
+  kind: "AssertWorktopContainsNonFungibles";
+  value: {
+    resource_address: SerializableNodeId;
+    ids: SerializableNonFungibleLocalId[];
+  };
+}
   | { kind: "PopFromAuthZone"; value?: undefined }
   | {
-      kind: "PushToAuthZone";
-      value: {
-        proof_id: SerializableU32;
-      };
-    }
+  kind: "PushToAuthZone";
+  value: {
+    proof_id: SerializableU32;
+  };
+}
   | {
-      kind: "CreateProofFromAuthZoneOfAmount";
-      value: {
-        resource_address: SerializableNodeId;
-        amount: SerializableDecimal;
-      };
-    }
+  kind: "CreateProofFromAuthZoneOfAmount";
+  value: {
+    resource_address: SerializableNodeId;
+    amount: SerializableDecimal;
+  };
+}
   | {
-      kind: "CreateProofFromAuthZoneOfNonFungibles";
-      value: {
-        resource_address: SerializableNodeId;
-        ids: SerializableNonFungibleLocalId[];
-      };
-    }
+  kind: "CreateProofFromAuthZoneOfNonFungibles";
+  value: {
+    resource_address: SerializableNodeId;
+    ids: SerializableNonFungibleLocalId[];
+  };
+}
   | {
-      kind: "CreateProofFromAuthZoneOfAll";
-      value: {
-        resource_address: SerializableNodeId;
-      };
-    }
+  kind: "CreateProofFromAuthZoneOfAll";
+  value: {
+    resource_address: SerializableNodeId;
+  };
+}
   | { kind: "DropAllProofs"; value?: undefined }
   | { kind: "DropNamedProofs"; value?: undefined }
   | { kind: "DropAuthZoneProofs"; value?: undefined }
   | { kind: "DropAuthZoneRegularProofs"; value?: undefined }
   | { kind: "DropAuthZoneSignatureProofs"; value?: undefined }
   | {
-      kind: "CreateProofFromBucketOfAmount";
-      value: {
-        bucket_id: SerializableU32;
-        amount: SerializableDecimal;
-      };
-    }
+  kind: "CreateProofFromBucketOfAmount";
+  value: {
+    bucket_id: SerializableU32;
+    amount: SerializableDecimal;
+  };
+}
   | {
-      kind: "CreateProofFromBucketOfNonFungibles";
-      value: {
-        bucket_id: SerializableU32;
-        ids: SerializableNonFungibleLocalId[];
-      };
-    }
+  kind: "CreateProofFromBucketOfNonFungibles";
+  value: {
+    bucket_id: SerializableU32;
+    ids: SerializableNonFungibleLocalId[];
+  };
+}
   | {
-      kind: "CreateProofFromBucketOfAll";
-      value: {
-        bucket_id: SerializableU32;
-      };
-    }
+  kind: "CreateProofFromBucketOfAll";
+  value: {
+    bucket_id: SerializableU32;
+  };
+}
   | {
-      kind: "BurnResource";
-      value: {
-        bucket_id: SerializableU32;
-      };
-    }
+  kind: "BurnResource";
+  value: {
+    bucket_id: SerializableU32;
+  };
+}
   | {
-      kind: "CloneProof";
-      value: {
-        proof_id: SerializableU32;
-      };
-    }
+  kind: "CloneProof";
+  value: {
+    proof_id: SerializableU32;
+  };
+}
   | {
-      kind: "DropProof";
-      value: {
-        proof_id: SerializableU32;
-      };
-    }
+  kind: "DropProof";
+  value: {
+    proof_id: SerializableU32;
+  };
+}
   | {
-      kind: "CallFunction";
-      value: {
-        package_address: SerializableManifestAddress;
-        blueprint_name: string;
-        function_name: string;
-        args: SerializableManifestValue;
-      };
-    }
+  kind: "CallFunction";
+  value: {
+    package_address: SerializableManifestAddress;
+    blueprint_name: string;
+    function_name: string;
+    args: SerializableManifestValue;
+  };
+}
   | {
-      kind: "CallMethod";
-      value: {
-        address: SerializableManifestAddress;
-        method_name: string;
-        args: SerializableManifestValue;
-      };
-    }
+  kind: "CallMethod";
+  value: {
+    address: SerializableManifestAddress;
+    method_name: string;
+    args: SerializableManifestValue;
+  };
+}
   | {
-      kind: "CallRoyaltyMethod";
-      value: {
-        address: SerializableManifestAddress;
-        method_name: string;
-        args: SerializableManifestValue;
-      };
-    }
+  kind: "CallRoyaltyMethod";
+  value: {
+    address: SerializableManifestAddress;
+    method_name: string;
+    args: SerializableManifestValue;
+  };
+}
   | {
-      kind: "CallMetadataMethod";
-      value: {
-        address: SerializableManifestAddress;
-        method_name: string;
-        args: SerializableManifestValue;
-      };
-    }
+  kind: "CallMetadataMethod";
+  value: {
+    address: SerializableManifestAddress;
+    method_name: string;
+    args: SerializableManifestValue;
+  };
+}
   | {
-      kind: "CallRoleAssignmentMethod";
-      value: {
-        address: SerializableManifestAddress;
-        method_name: string;
-        args: SerializableManifestValue;
-      };
-    }
+  kind: "CallRoleAssignmentMethod";
+  value: {
+    address: SerializableManifestAddress;
+    method_name: string;
+    args: SerializableManifestValue;
+  };
+}
   | {
-      kind: "CallDirectVaultMethod";
-      value: {
-        address: SerializableNodeId;
-        method_name: string;
-        args: SerializableManifestValue;
-      };
-    }
+  kind: "CallDirectVaultMethod";
+  value: {
+    address: SerializableNodeId;
+    method_name: string;
+    args: SerializableManifestValue;
+  };
+}
   | {
-      kind: "AllocateGlobalAddress";
-      value: {
-        package_address: SerializableNodeId;
-        blueprint_name: string;
-      };
-    };
+  kind: "AllocateGlobalAddress";
+  value: {
+    package_address: SerializableNodeId;
+    blueprint_name: string;
+  };
+};
 
 export enum SerializableManifestValueKind {
   Bool = "Bool",

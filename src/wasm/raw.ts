@@ -23,6 +23,8 @@ import {
   AddressEntityTypeOutput,
   BuildInformationInput,
   BuildInformationOutput,
+  DeriveBech32mTransactionIdentifierFromIntentHashInput,
+  DeriveBech32mTransactionIdentifierFromIntentHashOutput,
   DeriveNodeAddressFromPublicKeyInput,
   DeriveNodeAddressFromPublicKeyOutput,
   DeriveOlympiaAccountAddressFromPublicKeyInput,
@@ -162,6 +164,15 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     return this.callFunction(
       input,
       this.exports.derive_olympia_account_address_from_public_key
+    );
+  }
+
+  public deriveBech32mTransactionIdentifierFromIntentHash(
+    input: DeriveBech32mTransactionIdentifierFromIntentHashInput
+  ): DeriveBech32mTransactionIdentifierFromIntentHashOutput {
+    return this.callFunction(
+      input,
+      this.exports.derive_bech32m_transaction_identifier_from_intent_hash
     );
   }
 
@@ -431,6 +442,7 @@ interface Exports {
   derive_public_key_from_olympia_account_address(pointer: number): number;
   derive_olympia_account_address_from_public_key(pointer: number): number;
   derive_node_address_from_public_key(pointer: number): number;
+  derive_bech32m_transaction_identifier_from_intent_hash(pointer: number): number;
 
   /* Execution Module */
   execution_analyze(pointer: number): number;
