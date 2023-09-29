@@ -46,10 +46,10 @@ async function generateEd25519PrivateKey(): Promise<PrivateKey> {
   return new PrivateKey.Ed25519(await generateSecureRandomBytes(32));
 }
 
-const networkId = NetworkId.Kisharnet;
-const logicalNetworkName = "kisharnet";
+const networkId = NetworkId.Stokenet; // For mainnet, use NetworkId.Mainnet
+const logicalNetworkName = "stokenet"; // For mainnet, use "mainnet"
 const coreApiBase = "http://127.0.0.1:3333/core"; // Note - in nodeJS, you may need to use 127.0.0.1 instead of localhost
-const dashboardBase = "https://rcnet-dashboard.radixdlt.com";
+const dashboardBase = "https://stokenet-dashboard.radixdlt.com"; // For mainnet, use "https://dashboard.radixdlt.com"
 
 async function generateNewEd25519VirtualAccount(networkId: number) {
   const privateKey = await generateEd25519PrivateKey();
@@ -68,26 +68,26 @@ async function generateNewEd25519VirtualAccount(networkId: number) {
 
 async function pollForCommit(
   coreApiClient: CoreApiClient,
-  intentHash: string
+  intentHashTransactionId: string
 ): Promise<void> {
   const pollAttempts = 200;
   const pollDelayMs = 5000;
 
   for (let i = 0; i < pollAttempts; i++) {
     const statusOutput = await coreApiClient.LTS.getTransactionStatus({
-      intent_hash: intentHash,
+      intent_hash: intentHashTransactionId,
     });
     switch (statusOutput.intent_status) {
       case "CommittedSuccess":
         console.info(
-          `Transaction ${intentHash} was committed successfully: ${dashboardBase}/transaction/${intentHash}`
+          `Transaction ${intentHashTransactionId} was committed successfully: ${dashboardBase}/transaction/${intentHashTransactionId}`
         );
         return;
       case "CommittedFailure":
       case "PermanentRejection":
         // You will typically wish to build a new transaction and try again.
         throw new Error(
-          `Transaction was not committed successfully - instead it resulted in: ${statusOutput.intent_status} with description: ${statusOutput.status_description}`
+          `Transaction ${intentHashTransactionId} was not committed successfully - instead it resulted in: ${statusOutput.intent_status} with description: ${statusOutput.status_description}`
         );
       case "NotSeen":
       case "InMempool":
@@ -96,7 +96,7 @@ async function pollForCommit(
         // We keep polling
         if (i < pollAttempts) {
           console.debug(
-            `Transaction ${intentHash} [status poll ${
+            `Transaction ${intentHashTransactionId} [status poll ${
               i + 1
             }/${pollAttempts} - retrying in ${pollDelayMs}ms] - STATUS: ${
               statusOutput.intent_status
@@ -105,7 +105,7 @@ async function pollForCommit(
           await new Promise((resolve) => setTimeout(resolve, pollDelayMs));
         } else {
           throw new Error(
-            `Transaction was not committed successfully within ${pollAttempts} poll attempts over ${
+            `Transaction ${intentHashTransactionId} was not committed successfully within ${pollAttempts} poll attempts over ${
               pollAttempts * pollDelayMs
             }ms - instead it resulted in STATUS: ${
               statusOutput.intent_status
@@ -124,22 +124,22 @@ async function getTestnetXrd(
     await coreApiClient.LTS.getConstructionMetadata();
 
   const notary = await generateNewEd25519VirtualAccount(networkId);
-  const freeXrdForAccount1Transaction =
+  const freeXrdForAccountTransaction =
     await SimpleTransactionBuilder.freeXrdFromFaucet({
       networkId,
       toAccount: accountAddress,
       validFromEpoch: constructionMetadata.current_epoch,
     });
 
-  const transactionIntentHashHex =
-    freeXrdForAccount1Transaction.intentHashHex();
+  const intentHashTransactionId =
+    freeXrdForAccountTransaction.transactionId.id;
 
   await coreApiClient.LTS.submitTransaction({
-    notarized_transaction_hex: freeXrdForAccount1Transaction.toHex(),
+    notarized_transaction_hex: freeXrdForAccountTransaction.toHex(),
   });
-  await pollForCommit(coreApiClient, transactionIntentHashHex);
+  await pollForCommit(coreApiClient, intentHashTransactionId);
 
-  return transactionIntentHashHex;
+  return intentHashTransactionId;
 }
 
 const main = async () => {
@@ -162,13 +162,14 @@ const main = async () => {
     httpsAgent: new https.Agent({ keepAlive: true }),
   });
 
-  const faucetTransactionIntentHash = await getTestnetXrd(
+  // NOTE - The faucet is empty on mainnet
+  const faucetIntentHashTransactionId = await getTestnetXrd(
     coreApiClient,
     account1.address
   );
 
   console.log(
-    `Account 1 has been topped up with 10000 Testnet XRD: ${dashboardBase}/transaction/${faucetTransactionIntentHash}`
+    `Account 1 has been topped up with 10000 Testnet XRD: ${dashboardBase}/transaction/${faucetIntentHashTransactionId}`
   );
 
   const constructionMetadata =
@@ -196,15 +197,15 @@ const main = async () => {
   const notarizedTransaction =
     unsignedTransaction.compileNotarized(notarySignature);
 
-  const intentHashHex = notarizedTransaction.intentHashHex();
+  const intentHashTransactionId = notarizedTransaction.transactionId.id;
 
   console.log(
-    `Submitting XRD transfer from account 1 to account 2: ${intentHashHex}`
+    `Submitting XRD transfer from account 1 to account 2: ${intentHashTransactionId}`
   );
   await coreApiClient.LTS.submitTransaction({
     notarized_transaction_hex: notarizedTransaction.toHex(),
   });
-  await pollForCommit(coreApiClient, intentHashHex);
+  await pollForCommit(coreApiClient, intentHashTransactionId);
 };
 
 main();
