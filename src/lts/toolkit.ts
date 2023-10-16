@@ -43,7 +43,9 @@ import {
   isAccountDepositCallMethod,
   isAccountWithdrawCallMethod,
   isFreeXrdCallMethod,
-  isLockFeeCallMethod, rawRadixEngineToolkit, Convert,
+  isLockFeeCallMethod,
+  rawRadixEngineToolkit,
+  Convert,
 } from "..";
 
 export abstract class LTSRadixEngineToolkit {
@@ -357,7 +359,10 @@ export abstract class LTSRadixEngineToolkit {
       transactionHash: Uint8Array,
       networkId: number
     ): Promise<string> {
-      return RadixEngineToolkit.Derive.bech32mTransactionIdentifierFromIntentHash(transactionHash, networkId)
+      return RadixEngineToolkit.Derive.bech32mTransactionIdentifierFromIntentHash(
+        transactionHash,
+        networkId
+      );
     }
   };
 

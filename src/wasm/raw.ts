@@ -442,7 +442,9 @@ interface Exports {
   derive_public_key_from_olympia_account_address(pointer: number): number;
   derive_olympia_account_address_from_public_key(pointer: number): number;
   derive_node_address_from_public_key(pointer: number): number;
-  derive_bech32m_transaction_identifier_from_intent_hash(pointer: number): number;
+  derive_bech32m_transaction_identifier_from_intent_hash(
+    pointer: number
+  ): number;
 
   /* Execution Module */
   execution_analyze(pointer: number): number;
