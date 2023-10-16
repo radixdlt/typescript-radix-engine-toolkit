@@ -19,7 +19,9 @@ import {
   AuthorizedDepositorsChanges,
   Convert,
   DecimalSource,
+  DecryptorsByCurve,
   DefaultDepositRule,
+  EncryptedMessage,
   EntityType,
   Expression,
   FeeLocks,
@@ -29,17 +31,20 @@ import {
   Intent,
   ManifestAddress,
   ManifestSborStringRepresentation,
+  Message,
+  MessageContent,
   MessageValidationConfig,
   NonFungibleLocalIdArraySource,
   NotarizedTransaction,
   OlympiaNetwork,
+  PlainTextMessage,
   PublicKey,
   ResourceOrNonFungible,
   ResourcePreference,
   ResourcePreferenceAction,
+  Resources,
   ResourceSpecifier,
   ResourceTracker,
-  Resources,
   SerializationMode,
   Signature,
   SignatureWithPublicKey,
@@ -53,8 +58,11 @@ import {
 } from "../index";
 import {
   SerializableAuthorizedDepositorsChanges,
+  SerializableCurveType,
   SerializableDecimal,
+  SerializableDecryptorsByCurve,
   SerializableDefaultDepositRule,
+  SerializableEncryptedMessage,
   SerializableEntityType,
   SerializableExpression,
   SerializableFeeLocks,
@@ -66,17 +74,20 @@ import {
   SerializableManifestSborStringRepresentation,
   SerializableManifestValue,
   SerializableManifestValueKind,
+  SerializableMessage,
+  SerializableMessageContent,
   SerializableMessageValidationConfig,
   SerializableNonFungibleLocalId,
   SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
+  SerializablePlainTextMessage,
   SerializablePublicKey,
   SerializableResourceOrNonFungible,
   SerializableResourcePreference,
   SerializableResourcePreferenceAction,
+  SerializableResources,
   SerializableResourceSpecifier,
   SerializableResourceTracker,
-  SerializableResources,
   SerializableSerializationMode,
   SerializableSignature,
   SerializableSignatureWithPublicKey,
@@ -1523,6 +1534,172 @@ export class GeneratedConverter {
           GeneratedConverter.MessageValidationConfig.fromGenerated(
             value.message_validation
           ),
+      };
+    }
+  };
+
+  static Message = class {
+    static toGenerated(value: Message): SerializableMessage {
+      switch (value.kind) {
+        case "None":
+          return { kind: value.kind };
+        case "PlainText":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.PlainTextMessage.toGenerated(value.value),
+          };
+        case "Encrypted":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.EncryptedMessage.toGenerated(value.value),
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableMessage): Message {
+      switch (value.kind) {
+        case "None":
+          return { kind: value.kind };
+        case "PlainText":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.PlainTextMessage.fromGenerated(
+              value.value
+            ),
+          };
+        case "Encrypted":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.EncryptedMessage.fromGenerated(
+              value.value
+            ),
+          };
+      }
+    }
+  };
+
+  static PlainTextMessage = class {
+    static toGenerated(value: PlainTextMessage): SerializablePlainTextMessage {
+      return {
+        mime_type: value.mimeType,
+        message: GeneratedConverter.MessageContent.toGenerated(value.message),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializablePlainTextMessage
+    ): PlainTextMessage {
+      return {
+        mimeType: value.mime_type,
+        message: GeneratedConverter.MessageContent.fromGenerated(value.message),
+      };
+    }
+  };
+
+  static MessageContent = class {
+    static toGenerated(value: MessageContent): SerializableMessageContent {
+      switch (value.kind) {
+        case "Bytes":
+          return {
+            kind: value.kind,
+            value: Convert.Uint8Array.toHexString(value.value),
+          };
+        case "String":
+          return {
+            kind: value.kind,
+            value: value.value,
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableMessageContent): MessageContent {
+      switch (value.kind) {
+        case "Bytes":
+          return {
+            kind: value.kind,
+            value: Convert.HexString.toUint8Array(value.value),
+          };
+        case "String":
+          return {
+            kind: value.kind,
+            value: value.value,
+          };
+      }
+    }
+  };
+
+  static EncryptedMessage = class {
+    static toGenerated(value: EncryptedMessage): SerializableEncryptedMessage {
+      return {
+        encrypted: Convert.Uint8Array.toHexString(value.encrypted),
+        decryptors_by_curve: recordMap(
+          value.decryptorsByCurve,
+          (key, value) => {
+            return [
+              key,
+              GeneratedConverter.DecryptorsByCurve.toGenerated(value),
+            ];
+          }
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableEncryptedMessage
+    ): EncryptedMessage {
+      return {
+        encrypted: Convert.HexString.toUint8Array(value.encrypted),
+        decryptorsByCurve: recordMap(
+          value.decryptors_by_curve,
+          (key, value) => {
+            return [
+              key,
+              GeneratedConverter.DecryptorsByCurve.fromGenerated(value),
+            ];
+          }
+        ),
+      };
+    }
+  };
+
+  static DecryptorsByCurve = class {
+    static toGenerated(
+      value: DecryptorsByCurve
+    ): SerializableDecryptorsByCurve {
+      return {
+        kind: value.kind,
+        value: {
+          dh_ephemeral_public_key: Convert.Uint8Array.toHexString(
+            value.value.dhEphemeralPublicKey
+          ),
+          decryptors: value.value.decryptors.reduce(
+            (obj: Record<string, string>, [key, value]) => {
+              obj[Convert.Uint8Array.toHexString(key)] =
+                Convert.Uint8Array.toHexString(value);
+              return obj;
+            },
+            {}
+          ),
+        },
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableDecryptorsByCurve
+    ): DecryptorsByCurve {
+      return {
+        kind: value.kind,
+        value: {
+          dhEphemeralPublicKey: Convert.HexString.toUint8Array(
+            value.value.dh_ephemeral_public_key
+          ),
+          decryptors: Object.entries(value.value.decryptors).map(
+            ([key, value]) => [
+              Convert.HexString.toUint8Array(key),
+              Convert.HexString.toUint8Array(value),
+            ]
+          ),
+        },
       };
     }
   };
