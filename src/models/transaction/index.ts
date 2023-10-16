@@ -24,3 +24,4 @@ export * from "./manifest";
 export * from "./notarized_transaction";
 export * from "./signed_intent";
 export * from "./validation_config";
+export * from "./message";
