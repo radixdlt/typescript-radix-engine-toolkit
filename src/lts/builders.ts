@@ -172,9 +172,13 @@ export class SimpleTransactionBuilder {
       notaryIsSignatory: false,
       tipPercentage: 0,
     };
-    const intent = new LTSTransactionIntent({ header, manifest });
+    const intent = new LTSTransactionIntent({
+      header,
+      manifest,
+      message: { kind: "None" },
+    });
     const signedIntent = new LTSSignedTransactionIntent({
-      intent: { header, manifest },
+      intent: { header, manifest, message: { kind: "None" } },
       intentSignatures: [],
     });
 
@@ -182,7 +186,7 @@ export class SimpleTransactionBuilder {
       await rawRadixEngineToolkit,
       await intent.transactionId(),
       {
-        intent: { header, manifest },
+        intent: { header, manifest, message: { kind: "None" } },
         intentSignatures: [],
       },
       await signedIntent.compile(),
@@ -255,7 +259,7 @@ export class SimpleTransactionBuilder {
   public compileIntent(): CompiledSignedTransactionIntent {
     const header = this.constructTransactionHeader();
     const manifest = this.constructTransactionManifest();
-    const intent: Intent = { header, manifest };
+    const intent: Intent = { header, manifest, message: { kind: "None" } };
 
     const intentHash = GeneratedConverter.TransactionHash.fromGenerated(
       this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
@@ -289,7 +293,7 @@ export class SimpleTransactionBuilder {
   ): CompiledSignedTransactionIntent {
     const header = this.constructTransactionHeader();
     const manifest = this.constructTransactionManifest();
-    const intent: Intent = { header, manifest };
+    const intent: Intent = { header, manifest, message: { kind: "None" } };
 
     const intentHash = GeneratedConverter.TransactionHash.fromGenerated(
       this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
@@ -342,7 +346,7 @@ export class SimpleTransactionBuilder {
   ): Promise<CompiledSignedTransactionIntent> {
     const header = this.constructTransactionHeader();
     const manifest = this.constructTransactionManifest();
-    const intent: Intent = { header, manifest };
+    const intent: Intent = { header, manifest, message: { kind: "None" } };
 
     const intentHash = GeneratedConverter.TransactionHash.fromGenerated(
       this.retWrapper.intentHash(GeneratedConverter.Intent.toGenerated(intent))
@@ -523,6 +527,7 @@ export class SimpleTransactionBuilder {
 }
 
 export type Amount = string | number | Decimal;
+
 export function resolveDecimal(amount: Amount): Decimal {
   if (typeof amount === "string" || typeof amount === "number") {
     return new Decimal(amount);
