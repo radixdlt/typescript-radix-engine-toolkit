@@ -94,6 +94,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     const intentSignature = await RadixEngineToolkit.Intent.hash({
       manifest,
       header,
+      message: { kind: "None" },
     })
       .then(({ hash }) => hash)
       .then((hash) => privateKey.signToSignatureWithPublicKey(hash));
@@ -227,6 +228,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     const intentSignature = await RadixEngineToolkit.Intent.hash({
       manifest,
       header,
+      message: { kind: "None" },
     })
       .then(({ hash }) => hash)
       .then((hash) => privateKey2.signToSignatureWithPublicKey(hash));
@@ -539,6 +541,42 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     notarizedTransaction
       .staticallyValidate(0xf2)
       .then((x) => x.throwIfInvalid());
+  });
+
+  it("A transaction that has a message is statically valid", async () => {
+    // Arrange
+    let privateKey = new PrivateKey.Ed25519(
+      "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+    );
+
+    const manifest = new ManifestBuilder().dropAllProofs().build();
+    const header: TransactionHeader = {
+      networkId: NetworkId.Simulator,
+      startEpochInclusive: 0x00,
+      endEpochExclusive: 0x10,
+      nonce: 0x00,
+      notaryPublicKey: privateKey.publicKey(),
+      notaryIsSignatory: true,
+      tipPercentage: 0x00,
+    };
+
+    // Act
+    const transaction = await TransactionBuilder.new().then((builder) =>
+      builder
+        .header(header)
+        .plainTextMessage("Hello World!")
+        .manifest(manifest)
+        .sign(privateKey)
+        .notarize(privateKey)
+    );
+
+    // Assert
+    const staticValidity =
+      await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
+        transaction,
+        defaultValidationConfig(NetworkId.Simulator)
+      );
+    expect(staticValidity.kind).toBe("Valid");
   });
 });
 

@@ -17,6 +17,7 @@
 
 import {
   Intent,
+  Message,
   NotarizedTransaction,
   RawRadixEngineToolkit,
   Signature,
@@ -32,7 +33,7 @@ import {
 import { GeneratedConverter } from "../generated";
 
 export class TransactionBuilder {
-  private radixEngineToolkit: RawRadixEngineToolkit;
+  private readonly radixEngineToolkit: RawRadixEngineToolkit;
 
   constructor(radixEngineToolkit: RawRadixEngineToolkit) {
     this.radixEngineToolkit = radixEngineToolkit;
@@ -48,8 +49,9 @@ export class TransactionBuilder {
 }
 
 export class TransactionBuilderManifestStep {
-  private radixEngineToolkit: RawRadixEngineToolkit;
-  private header: TransactionHeader;
+  private readonly radixEngineToolkit: RawRadixEngineToolkit;
+  private readonly header: TransactionHeader;
+  private intentMessage: Message = { kind: "None" };
 
   constructor(
     radixEngineToolkit: RawRadixEngineToolkit,
@@ -59,13 +61,29 @@ export class TransactionBuilderManifestStep {
     this.header = header;
   }
 
+  public message(message: Message): TransactionBuilderManifestStep {
+    this.intentMessage = message;
+    return this;
+  }
+
+  public plainTextMessage(message: string): TransactionBuilderManifestStep {
+    return this.message({
+      kind: "PlainText",
+      value: {
+        mimeType: "text/plain",
+        message: { kind: "String", value: message },
+      },
+    });
+  }
+
   public manifest(
     manifest: TransactionManifest
   ): TransactionBuilderIntentSignaturesStep {
     return new TransactionBuilderIntentSignaturesStep(
       this.radixEngineToolkit,
       this.header,
-      manifest
+      manifest,
+      this.intentMessage
     );
   }
 }
@@ -84,12 +102,14 @@ export class TransactionBuilderIntentSignaturesStep {
   constructor(
     radixEngineToolkit: RawRadixEngineToolkit,
     header: TransactionHeader,
-    manifest: TransactionManifest
+    manifest: TransactionManifest,
+    message: Message
   ) {
     this.radixEngineToolkit = radixEngineToolkit;
     this.intent = {
       header,
       manifest,
+      message,
     };
     this.intentSignatures = [];
   }
