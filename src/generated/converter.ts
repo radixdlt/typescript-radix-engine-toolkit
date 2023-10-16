@@ -58,7 +58,6 @@ import {
 } from "../index";
 import {
   SerializableAuthorizedDepositorsChanges,
-  SerializableCurveType,
   SerializableDecimal,
   SerializableDecryptorsByCurve,
   SerializableDefaultDepositRule,
@@ -1002,9 +1001,7 @@ export class GeneratedConverter {
         manifest: GeneratedConverter.TransactionManifest.toGenerated(
           value.manifest
         ),
-        message: {
-          kind: "None",
-        },
+        message: GeneratedConverter.Message.toGenerated(value.message),
       };
     }
 
@@ -1016,6 +1013,7 @@ export class GeneratedConverter {
         header: GeneratedConverter.TransactionHeader.fromGenerated(
           value.header
         ),
+        message: GeneratedConverter.Message.fromGenerated(value.message),
       };
     }
   };
