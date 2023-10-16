@@ -15,9 +15,10 @@
 // specific language governing permissions and limitations
 // under the License.
 
-import { TransactionHeader, TransactionManifest } from "../../";
+import { Message, TransactionHeader, TransactionManifest } from "../../";
 
 export interface Intent {
   header: TransactionHeader;
   manifest: TransactionManifest;
+  message: Message;
 }

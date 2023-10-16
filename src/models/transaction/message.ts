@@ -1,12 +1,12 @@
-import {Curve} from "../cryptographic";
+import { Curve } from "../cryptographic";
 
 export type Message =
   | { kind: "None" }
   | { kind: "PlainText"; value: PlainTextMessage }
   | {
-  kind: "Encrypted";
-  value: EncryptedMessage;
-};
+      kind: "Encrypted";
+      value: EncryptedMessage;
+    };
 
 export interface PlainTextMessage {
   mimeType: string;
@@ -24,16 +24,16 @@ export interface EncryptedMessage {
 
 export type DecryptorsByCurve =
   | {
-  kind: "Ed25519";
-  value: {
-    dhEphemeralPublicKey: Uint8Array;
-    decryptors: [Uint8Array, Uint8Array][];
-  };
-}
+      kind: "Ed25519";
+      value: {
+        dhEphemeralPublicKey: Uint8Array;
+        decryptors: [Uint8Array, Uint8Array][];
+      };
+    }
   | {
-  kind: "Secp256k1";
-  value: {
-    dhEphemeralPublicKey: Uint8Array;
-    decryptors: [Uint8Array, Uint8Array][];
-  };
-};
+      kind: "Secp256k1";
+      value: {
+        dhEphemeralPublicKey: Uint8Array;
+        decryptors: [Uint8Array, Uint8Array][];
+      };
+    };
