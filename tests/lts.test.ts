@@ -16,7 +16,7 @@
 // under the License.
 
 import Decimal from "decimal.js";
-import { describe, expect, it } from "vitest";
+import {describe, expect, it} from "vitest";
 import {
   Convert,
   LTSRadixEngineToolkit,
@@ -39,6 +39,12 @@ describe("Address Class", () => {
         publicKey,
         NetworkId.Mainnet
       );
+
+    publicKey.bytes
+
+    if (publicKey.curve !== "Secp256k1") {
+      console.log("Throw some error")
+    }
 
     // Act
     const isAccountAddress =
@@ -337,7 +343,7 @@ describe("Address Class", () => {
   });
 
   it("LTS TestUtils creation of disabled deposit account works.", async () => {
-    const { accountAddress, compiledNotarizedTransaction } =
+    const {accountAddress, compiledNotarizedTransaction} =
       await LTSRadixEngineToolkit.TestUtils.createAccountWithDisabledDeposits(
         3173,
         14

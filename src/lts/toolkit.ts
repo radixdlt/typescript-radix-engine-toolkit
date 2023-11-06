@@ -43,7 +43,7 @@ import {
   isAccountDepositCallMethod,
   isAccountWithdrawCallMethod,
   isFreeXrdCallMethod,
-  isLockFeeCallMethod,
+  isLockFeeCallMethod, Instructions,
 } from "..";
 
 export abstract class LTSRadixEngineToolkit {
@@ -198,7 +198,7 @@ export abstract class LTSRadixEngineToolkit {
                 new Decimal("0");
               withdraws[faucetComponentAddress][xrdResourceAddress] = withdraws[
                 faucetComponentAddress
-              ][xrdResourceAddress].add(new Decimal("10000"));
+                ][xrdResourceAddress].add(new Decimal("10000"));
             } else {
               throw new Error(`Unsupported CallMethod: ${instruction}`);
             }
@@ -339,14 +339,14 @@ export abstract class LTSRadixEngineToolkit {
             resources: {
               xrdResource: knownAddresses.resourceAddresses.xrd,
               secp256k1Resource:
-                knownAddresses.resourceAddresses.secp256k1SignatureVirtualBadge,
+              knownAddresses.resourceAddresses.secp256k1SignatureVirtualBadge,
               ed25519Resource:
-                knownAddresses.resourceAddresses.ed25519SignatureVirtualBadge,
+              knownAddresses.resourceAddresses.ed25519SignatureVirtualBadge,
               systemResource:
-                knownAddresses.resourceAddresses.systemTransactionBadge,
+              knownAddresses.resourceAddresses.systemTransactionBadge,
               packageBadgeResource:
-                knownAddresses.resourceAddresses
-                  .packageOfDirectCallerVirtualBadge,
+              knownAddresses.resourceAddresses
+                .packageOfDirectCallerVirtualBadge,
             },
           };
         }
