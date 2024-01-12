@@ -8,9 +8,6 @@
 
 </div>
 
-# License
-
-The TypeScript Radix Engine Toolkit code is released under the [Apache 2.0 license](./LICENSE). Binaries are licensed under the [Radix Generic EULA](https://www.radixdlt.com/terms/genericEULA).
 
 # About
 
@@ -797,3 +794,20 @@ console.log(transactionId);
 In addition to the `transactionId` method, some of these classes also offer methods for calculating the notarized transaction hash (often times referred to as payload hash in the Gateway API) and the signed transaction intent hash. However, these hashes are rarely needed in day-to-day interactions with the network.
 
 </details>
+
+# License
+
+The TypeScript Radix Engine Toolkit binaries are licensed under the [Radix Generic EULA](https://www.radixdlt.com/terms/genericEULA).
+
+The TypeScript Radix Engine Toolkit code is released under the [Apache 2.0 license](./LICENSE).
+
+
+      Copyright 2023 Radix Publishing Ltd
+
+      Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License.
+
+      You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+      See the License for the specific language governing permissions and limitations under the License.
