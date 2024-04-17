@@ -8,6 +8,8 @@
 
 </div>
 
+> [!NOTE]  
+> The TypeScript Radix Engine Toolkit is different from all of the other Radix Engine Toolkit wrappers available since its bindings are manually written while the others are all generated through Uniffi. It is an ideal choice to use in the frontend or in exchange integrations but not powerful enough to use for anything beyond transaction construction, signing, and derivations. For more advanced features consider using the other Radix Engine Toolkit wrappers. Please view the Radix Engine Toolkit's [Getting Started](https://docs.radixdlt.com/docs/radix-engine-toolkit-installation) guide for more information on choosing the appropriate wrapper to use.
 
 # About
 
