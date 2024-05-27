@@ -27,6 +27,7 @@ export enum EntityType {
   GlobalOneResourcePool = "GlobalOneResourcePool",
   GlobalTwoResourcePool = "GlobalTwoResourcePool",
   GlobalMultiResourcePool = "GlobalMultiResourcePool",
+  GlobalAccountLocker = "GlobalAccountLocker",
   GlobalVirtualSecp256k1Account = "GlobalVirtualSecp256k1Account",
   GlobalVirtualSecp256k1Identity = "GlobalVirtualSecp256k1Identity",
   GlobalVirtualEd25519Account = "GlobalVirtualEd25519Account",

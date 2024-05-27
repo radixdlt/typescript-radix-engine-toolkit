@@ -39,8 +39,6 @@ import {
   DeriveVirtualAccountAddressFromPublicKeyOutput,
   DeriveVirtualIdentityAddressFromPublicKeyInput,
   DeriveVirtualIdentityAddressFromPublicKeyOutput,
-  ExecutionAnalyzeInput,
-  ExecutionAnalyzeOutput,
   InstructionsCompileInput,
   InstructionsCompileOutput,
   InstructionsConvertInput,
@@ -183,12 +181,6 @@ export class RawRadixEngineToolkit extends Host<Exports> {
       input,
       this.exports.derive_node_address_from_public_key
     );
-  }
-
-  public executionAnalyze(
-    input: ExecutionAnalyzeInput
-  ): ExecutionAnalyzeOutput {
-    return this.callFunction(input, this.exports.execution_analyze);
   }
 
   public instructionsHash(

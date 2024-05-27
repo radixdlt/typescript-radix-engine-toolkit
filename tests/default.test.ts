@@ -93,7 +93,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     const buildInformation = await RadixEngineToolkit.Build.information();
 
     // Assert
-    expect(buildInformation.version).toEqual("1.0.0");
+    expect(buildInformation.version).toEqual("2.1.0-dev1");
   });
 
   moduleTestVector<

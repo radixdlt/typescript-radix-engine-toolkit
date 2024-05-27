@@ -16,16 +16,11 @@
 // under the License.
 
 import {
-  AuthorizedDepositorsChanges,
   Convert,
-  DecimalSource,
   DecryptorsByCurve,
-  DefaultDepositRule,
   EncryptedMessage,
   EntityType,
   Expression,
-  FeeLocks,
-  FeeSummary,
   Instruction,
   Instructions,
   Intent,
@@ -34,17 +29,10 @@ import {
   Message,
   MessageContent,
   MessageValidationConfig,
-  NonFungibleLocalIdArraySource,
   NotarizedTransaction,
   OlympiaNetwork,
   PlainTextMessage,
   PublicKey,
-  ResourceOrNonFungible,
-  ResourcePreference,
-  ResourcePreferenceAction,
-  Resources,
-  ResourceSpecifier,
-  ResourceTracker,
   SerializationMode,
   Signature,
   SignatureWithPublicKey,
@@ -57,15 +45,10 @@ import {
   ValueKind,
 } from "../index";
 import {
-  SerializableAuthorizedDepositorsChanges,
-  SerializableDecimal,
   SerializableDecryptorsByCurve,
-  SerializableDefaultDepositRule,
   SerializableEncryptedMessage,
   SerializableEntityType,
   SerializableExpression,
-  SerializableFeeLocks,
-  SerializableFeeSummary,
   SerializableInstruction,
   SerializableInstructions,
   SerializableIntent,
@@ -76,22 +59,14 @@ import {
   SerializableMessage,
   SerializableMessageContent,
   SerializableMessageValidationConfig,
-  SerializableNonFungibleLocalId,
   SerializableNotarizedTransaction,
   SerializableOlympiaNetwork,
   SerializablePlainTextMessage,
   SerializablePublicKey,
-  SerializableResourceOrNonFungible,
-  SerializableResourcePreference,
-  SerializableResourcePreferenceAction,
-  SerializableResources,
-  SerializableResourceSpecifier,
-  SerializableResourceTracker,
   SerializableSerializationMode,
   SerializableSignature,
   SerializableSignatureWithPublicKey,
   SerializableSignedIntent,
-  SerializableSource,
   SerializableTransactionHash,
   SerializableTransactionHeader,
   SerializableTransactionManifest,
@@ -1105,398 +1080,6 @@ export class GeneratedConverter {
         maxMimeTypeLength: Convert.String.toBigInt(value.max_mime_type_length),
         maxDecryptors: Convert.String.toBigInt(value.max_decryptors),
       };
-    }
-  };
-
-  static FeeSummary = class {
-    static toGenerated(value: FeeSummary): SerializableFeeSummary {
-      return {
-        execution_cost: Convert.Decimal.toString(value.executionCost),
-        finalization_cost: Convert.Decimal.toString(value.finalizationCost),
-        storage_expansion_cost: Convert.Decimal.toString(
-          value.storageExpansionCost
-        ),
-        royalty_cost: Convert.Decimal.toString(value.royaltyCost),
-      };
-    }
-
-    static fromGenerated(value: SerializableFeeSummary): FeeSummary {
-      return {
-        executionCost: Convert.String.toDecimal(value.execution_cost),
-        finalizationCost: Convert.String.toDecimal(value.finalization_cost),
-        storageExpansionCost: Convert.String.toDecimal(
-          value.storage_expansion_cost
-        ),
-        royaltyCost: Convert.String.toDecimal(value.royalty_cost),
-      };
-    }
-  };
-
-  static FeeLocks = class {
-    static toGenerated(value: FeeLocks): SerializableFeeLocks {
-      return {
-        lock: Convert.Decimal.toString(value.lock),
-        contingent_lock: Convert.Decimal.toString(value.contingentLock),
-      };
-    }
-
-    static fromGenerated(value: SerializableFeeLocks): FeeLocks {
-      return {
-        lock: Convert.String.toDecimal(value.lock),
-        contingentLock: Convert.String.toDecimal(value.contingent_lock),
-      };
-    }
-  };
-
-  static DecimalSource = class {
-    static toGenerated(
-      value: DecimalSource
-    ): SerializableSource<SerializableDecimal> {
-      switch (value.kind) {
-        case "Guaranteed":
-          return {
-            kind: value.kind,
-            value: {
-              value: Convert.Decimal.toString(value.value),
-            },
-          };
-        case "Predicted":
-          return {
-            kind: value.kind,
-            value: {
-              value: Convert.Decimal.toString(value.value),
-              instruction_index: Convert.Number.toString(
-                value.instructionIndex
-              ),
-            },
-          };
-      }
-    }
-
-    static fromGenerated(
-      value: SerializableSource<SerializableDecimal>
-    ): DecimalSource {
-      switch (value.kind) {
-        case "Guaranteed":
-          return {
-            kind: value.kind,
-            value: Convert.String.toDecimal(value.value.value),
-          };
-        case "Predicted":
-          return {
-            kind: value.kind,
-            value: Convert.String.toDecimal(value.value.value),
-            instructionIndex: Convert.String.toNumber(
-              value.value.instruction_index
-            ),
-          };
-      }
-    }
-  };
-
-  static NonFungibleLocalIdArraySource = class {
-    static toGenerated(
-      value: NonFungibleLocalIdArraySource
-    ): SerializableSource<SerializableNonFungibleLocalId[]> {
-      switch (value.kind) {
-        case "Guaranteed":
-          return {
-            kind: value.kind,
-            value: {
-              value: value.value,
-            },
-          };
-        case "Predicted":
-          return {
-            kind: value.kind,
-            value: {
-              value: value.value,
-              instruction_index: Convert.Number.toString(
-                value.instructionIndex
-              ),
-            },
-          };
-      }
-    }
-
-    static fromGenerated(
-      value: SerializableSource<SerializableNonFungibleLocalId[]>
-    ): NonFungibleLocalIdArraySource {
-      switch (value.kind) {
-        case "Guaranteed":
-          return {
-            kind: value.kind,
-            value: value.value.value,
-          };
-        case "Predicted":
-          return {
-            kind: value.kind,
-            value: value.value.value,
-            instructionIndex: Convert.String.toNumber(
-              value.value.instruction_index
-            ),
-          };
-      }
-    }
-  };
-
-  static ResourceTracker = class {
-    static toGenerated(value: ResourceTracker): SerializableResourceTracker {
-      switch (value.kind) {
-        case "Fungible":
-          return {
-            kind: value.kind,
-            value: {
-              resource_address: value.resourceAddress,
-              amount: GeneratedConverter.DecimalSource.toGenerated(
-                value.amount
-              ),
-            },
-          };
-        case "NonFungible":
-          return {
-            kind: value.kind,
-            value: {
-              resource_address: value.resourceAddress,
-              amount: GeneratedConverter.DecimalSource.toGenerated(
-                value.amount
-              ),
-              ids: GeneratedConverter.NonFungibleLocalIdArraySource.toGenerated(
-                value.ids
-              ),
-            },
-          };
-      }
-    }
-
-    static fromGenerated(value: SerializableResourceTracker): ResourceTracker {
-      switch (value.kind) {
-        case "Fungible":
-          return {
-            kind: value.kind,
-            resourceAddress: value.value.resource_address,
-            amount: GeneratedConverter.DecimalSource.fromGenerated(
-              value.value.amount
-            ),
-          };
-        case "NonFungible":
-          return {
-            kind: value.kind,
-            resourceAddress: value.value.resource_address,
-            amount: GeneratedConverter.DecimalSource.fromGenerated(
-              value.value.amount
-            ),
-            ids: GeneratedConverter.NonFungibleLocalIdArraySource.fromGenerated(
-              value.value.ids
-            ),
-          };
-      }
-    }
-  };
-
-  static ResourceOrNonFungible = class {
-    static toGenerated(
-      value: ResourceOrNonFungible
-    ): SerializableResourceOrNonFungible {
-      switch (value.kind) {
-        case "Resource":
-          return {
-            kind: value.kind,
-            value: value.resourceAddress,
-          };
-        case "NonFungible":
-          return {
-            kind: value.kind,
-            value: value.nonFungibleGlobalId,
-          };
-      }
-    }
-
-    static fromGenerated(
-      value: SerializableResourceOrNonFungible
-    ): ResourceOrNonFungible {
-      switch (value.kind) {
-        case "Resource":
-          return {
-            kind: value.kind,
-            resourceAddress: value.value,
-          };
-        case "NonFungible":
-          return {
-            kind: value.kind,
-            nonFungibleGlobalId: value.value,
-          };
-      }
-    }
-  };
-
-  static AuthorizedDepositorsChanges = class {
-    static toGenerated(
-      value: AuthorizedDepositorsChanges
-    ): SerializableAuthorizedDepositorsChanges {
-      return {
-        added: value.added.map(
-          GeneratedConverter.ResourceOrNonFungible.toGenerated
-        ),
-        removed: value.removed.map(
-          GeneratedConverter.ResourceOrNonFungible.toGenerated
-        ),
-      };
-    }
-
-    static fromGenerated(
-      value: SerializableAuthorizedDepositorsChanges
-    ): AuthorizedDepositorsChanges {
-      return {
-        added: value.added.map(
-          GeneratedConverter.ResourceOrNonFungible.fromGenerated
-        ),
-        removed: value.removed.map(
-          GeneratedConverter.ResourceOrNonFungible.fromGenerated
-        ),
-      };
-    }
-  };
-
-  static DefaultDepositRule = class {
-    static toGenerated(
-      value: DefaultDepositRule
-    ): SerializableDefaultDepositRule {
-      return SerializableDefaultDepositRule[DefaultDepositRule[value]];
-    }
-
-    static fromGenerated(
-      value: SerializableDefaultDepositRule
-    ): DefaultDepositRule {
-      return DefaultDepositRule[SerializableDefaultDepositRule[value]];
-    }
-  };
-
-  static ResourcePreference = class {
-    static toGenerated(
-      value: ResourcePreference
-    ): SerializableResourcePreference {
-      return SerializableResourcePreference[ResourcePreference[value]];
-    }
-
-    static fromGenerated(
-      value: SerializableResourcePreference
-    ): ResourcePreference {
-      return ResourcePreference[SerializableResourcePreference[value]];
-    }
-  };
-
-  static Resources = class {
-    static toGenerated(value: Resources): SerializableResources {
-      switch (value.kind) {
-        case "Amount":
-          return {
-            kind: value.kind,
-            value: Convert.Decimal.toString(value.amount),
-          };
-        case "Ids":
-          return {
-            kind: value.kind,
-            value: value.nonFungibleLocalId,
-          };
-      }
-    }
-
-    static fromGenerated(value: SerializableResources): Resources {
-      switch (value.kind) {
-        case "Amount":
-          return {
-            kind: value.kind,
-            amount: Convert.String.toDecimal(value.value),
-          };
-        case "Ids":
-          return {
-            kind: value.kind,
-            nonFungibleLocalId: value.value,
-          };
-      }
-    }
-  };
-
-  static ResourceSpecifier = class {
-    static toGenerated(
-      value: ResourceSpecifier
-    ): SerializableResourceSpecifier {
-      switch (value.kind) {
-        case "Amount":
-          return {
-            kind: value.kind,
-            value: {
-              resource_address: value.resourceAddress,
-              amount: Convert.Decimal.toString(value.amount),
-            },
-          };
-        case "Ids":
-          return {
-            kind: value.kind,
-            value: {
-              resource_address: value.resourceAddress,
-              ids: value.ids,
-            },
-          };
-      }
-    }
-
-    static fromGenerated(
-      value: SerializableResourceSpecifier
-    ): ResourceSpecifier {
-      switch (value.kind) {
-        case "Amount":
-          return {
-            kind: value.kind,
-            resourceAddress: value.value.resource_address,
-            amount: Convert.String.toDecimal(value.value.amount),
-          };
-        case "Ids":
-          return {
-            kind: value.kind,
-            resourceAddress: value.value.resource_address,
-            ids: value.value.ids,
-          };
-      }
-    }
-  };
-
-  static ResourcePreferenceAction = class {
-    static toGenerated(
-      value: ResourcePreferenceAction
-    ): SerializableResourcePreferenceAction {
-      switch (value.kind) {
-        case "Set":
-          return {
-            kind: value.kind,
-            value: GeneratedConverter.ResourcePreference.toGenerated(
-              value.value
-            ),
-          };
-        case "Remove":
-          return {
-            kind: value.kind,
-          };
-      }
-    }
-
-    static fromGenerated(
-      value: SerializableResourcePreferenceAction
-    ): ResourcePreferenceAction {
-      switch (value.kind) {
-        case "Set":
-          return {
-            kind: value.kind,
-            value: GeneratedConverter.ResourcePreference.fromGenerated(
-              value.value
-            ),
-          };
-        case "Remove":
-          return {
-            kind: value.kind,
-          };
-      }
     }
   };
 
