@@ -1,6 +1,6 @@
 {
   "name": "@radixdlt/radix-engine-toolkit",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A TypeScript wrapper for the Radix Engine Toolkit that provides many of the necessary tools to interact with the Radix ledger",
   "types": "./dist/index.d.ts",
   "main": "./dist/radix-engine-toolkit.umd.js",
@@ -68,5 +68,8 @@
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
+  },
+  "overrides": {
+    "elliptic": "6.5.7"
   }
 }
