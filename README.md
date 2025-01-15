@@ -87,20 +87,20 @@ import {
 
 const manifest = new ManifestBuilder()
   .callMethod(
-    "account_sim1q3cztnp4h232hsfmu0j63f7f7mz5wxhd0n0hqax6smjqznhzrp",
+    "account_sim1c9yeaya6pehau0fn7vgavuggeev64gahsh05dauae2uu25njk224xz",
     "withdraw",
     [
       address(
-        "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd"
+        "resource_sim1thzv5rnmlla89ff2w8pn3mn9rvdlmvht3qest28s5hqpwy0y0exq4r"
       ),
       decimal(10),
     ]
   )
   .takeAllFromWorktop(
-    "resource_sim1qf7mtmy9a6eczv9km4j4ul38cfvap0zy6juuj8m8xnxqlla6pd",
+    "resource_sim1thzv5rnmlla89ff2w8pn3mn9rvdlmvht3qest28s5hqpwy0y0exq4r",
     (builder, bucketId) =>
       builder.callMethod(
-        "account_sim1qs5mg6tcehg95mugc9d3lpl90clnl787zmhc92cf04wqvqvztr",
+        "account_sim1cxt6fpmrh02xayu96pxwp9ctr0vy0qsxxjwdmsudgulesfqwfpm3sj",
         "try_deposit_or_abort",
         [bucket(bucketId)]
       )
