@@ -12,8 +12,8 @@ jobs:
       - name: Use Node.js
         uses: RDXWorks-actions/setup-node@main
         with:
-          node-version: "18.x"
+          node-version: "20.x"
       - name: Install dependencies
-        run: yarn
+        run: yarn --frozen-lockfile
       - name: Unit tests
         run: yarn ci
