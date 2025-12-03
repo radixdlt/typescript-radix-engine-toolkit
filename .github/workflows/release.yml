@@ -23,7 +23,7 @@ jobs:
           always-auth: true
 
       - name: Install dependencies
-        run: yarn
+        run: yarn --frozen-lockfile
       - name: Build
         run: yarn run build
       - name: Release
