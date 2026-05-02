@@ -26,12 +26,14 @@ import {
   NotarizedTransaction,
   NotarizedTransactionV2,
   OlympiaNetwork,
+  PayloadSchema,
   PartialTransactionV2,
   PublicKey,
   SerializationMode,
   SignedIntent,
   SignedPartialTransactionV2,
   StaticManifestAnalysisResult,
+  StaticTransactionIntentV2AnalysisResult,
   SignedTransactionIntentV2,
   StaticValidationResult,
   SubintentV2,
@@ -236,6 +238,18 @@ export class RadixEngineToolkit {
    * instructions.
    */
   static Instructions = class {
+    static async hash(
+      instructions: Instructions,
+      networkId: number
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.instructionsHash({
+        instructions: GeneratedConverter.Instructions.toGenerated(instructions),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return Convert.HexString.toUint8Array(output);
+    }
+
     /**
      * Converts {@link Instructions} from one format to another. Currently, the supported formats
      * are `String` and `Parsed`.
@@ -310,6 +324,21 @@ export class RadixEngineToolkit {
   };
 
   static TransactionManifest = class {
+    static async hash(
+      transactionManifest: TransactionManifest,
+      networkId: number
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.manifestHash({
+        manifest:
+          GeneratedConverter.TransactionManifest.toGenerated(
+            transactionManifest
+          ),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return Convert.HexString.toUint8Array(output);
+    }
+
     static async compile(
       transactionManifest: TransactionManifest,
       networkId: number
@@ -573,6 +602,27 @@ export class RadixEngineToolkit {
       });
       return GeneratedConverter.TransactionIntentV2.fromGenerated(output);
     }
+
+    static async staticallyAnalyze(
+      intent: TransactionIntentV2
+    ): Promise<StaticTransactionIntentV2AnalysisResult> {
+      const rawRet = await rawRadixEngineToolkit;
+      const root_intent = rawRet.transactionIntentV2StaticallyAnalyze(
+        GeneratedConverter.TransactionIntentV2.toGenerated(intent)
+      );
+      const non_root_subintents = await Promise.all(
+        intent.nonRootSubintents.map((subintent) =>
+          rawRet.subintentV2StaticallyAnalyze(
+            GeneratedConverter.SubintentV2.toGenerated(subintent)
+          )
+        )
+      );
+
+      return {
+        root_intent,
+        non_root_subintents,
+      };
+    }
   };
 
   static SignedTransactionIntentV2 = class {
@@ -694,6 +744,15 @@ export class RadixEngineToolkit {
       });
       return GeneratedConverter.SubintentV2.fromGenerated(output);
     }
+
+    static async staticallyAnalyze(
+      subintent: SubintentV2
+    ): Promise<StaticManifestAnalysisResult> {
+      const rawRet = await rawRadixEngineToolkit;
+      return rawRet.subintentV2StaticallyAnalyze(
+        GeneratedConverter.SubintentV2.toGenerated(subintent)
+      );
+    }
   };
 
   static PartialTransactionV2 = class {
@@ -789,7 +848,8 @@ export class RadixEngineToolkit {
     static async decodeToString(
       payload: Uint8Array,
       networkId: number,
-      representation: ManifestSborStringRepresentation
+      representation: ManifestSborStringRepresentation,
+      schema?: PayloadSchema
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.manifestSborDecodeToString({
@@ -799,6 +859,7 @@ export class RadixEngineToolkit {
           GeneratedConverter.ManifestSborStringRepresentation.toGenerated(
             representation
           ),
+        schema,
       });
       return output;
     }
@@ -808,7 +869,8 @@ export class RadixEngineToolkit {
     static async decodeToString(
       payload: Uint8Array,
       networkId: number,
-      representation: SerializationMode
+      representation: SerializationMode,
+      schema?: PayloadSchema
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.scryptoSborDecodeToString({
@@ -816,6 +878,7 @@ export class RadixEngineToolkit {
         network_id: Convert.Number.toString(networkId),
         representation:
           GeneratedConverter.SerializationMode.toGenerated(representation),
+        schema,
       });
       return output;
     }

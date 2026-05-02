@@ -742,3 +742,33 @@ describe("Static Validation", () => {
     expect(validity.kind).toBe("Valid");
   });
 });
+
+// ── 6. Static Analysis ────────────────────────────────────────────────
+
+describe("Static Analysis", () => {
+  it("V2 root intent and child subintent can be statically analyzed.", async () => {
+    const childSubintent: SubintentV2 = {
+      intentCore: makeSubintentCoreV2(),
+    };
+    const childHash = await RadixEngineToolkit.SubintentV2.hash(childSubintent);
+    const rootIntent: TransactionIntentV2 = {
+      transactionHeader: makeTransactionHeaderV2(notaryPrivateKey.publicKey()),
+      rootIntentCore: makeIntentCoreV2({
+        instructions: rootInstructionsWithChildren([childHash.id]),
+        children: [childHash.hash],
+      }),
+      nonRootSubintents: [childSubintent],
+    };
+
+    const rootAndChildrenAnalysis =
+      await RadixEngineToolkit.TransactionIntentV2.staticallyAnalyze(rootIntent);
+    const childOnlyAnalysis =
+      await RadixEngineToolkit.SubintentV2.staticallyAnalyze(childSubintent);
+
+    expect(rootAndChildrenAnalysis.root_intent).toBeDefined();
+    expect(rootAndChildrenAnalysis.non_root_subintents).toHaveLength(1);
+    expect(rootAndChildrenAnalysis.non_root_subintents[0]).toEqual(
+      childOnlyAnalysis
+    );
+  });
+});

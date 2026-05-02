@@ -19,8 +19,11 @@ import * as fs from "fs";
 import { describe, expect, it, test } from "vitest";
 import {
   Convert,
+  ManifestSborStringRepresentation,
+  PayloadSchema,
   PrivateKey,
   RadixEngineToolkit,
+  SerializationMode,
   TransactionBuilder,
   TransactionHeader,
 } from "../src";
@@ -48,6 +51,8 @@ import {
   InstructionsConvertOutput,
   InstructionsDecompileInput,
   InstructionsDecompileOutput,
+  InstructionsHashInput,
+  InstructionsHashOutput,
   InstructionsExtractAddressesInput,
   InstructionsExtractAddressesOutput,
   InstructionsStaticallyValidateInput,
@@ -64,6 +69,8 @@ import {
   ManifestCompileOutput,
   ManifestDecompileInput,
   ManifestDecompileOutput,
+  ManifestHashInput,
+  ManifestHashOutput,
   ManifestStaticallyValidateInput,
   ManifestStaticallyValidateOutput,
   NotarizedTransactionCompileInput,
@@ -240,6 +247,21 @@ describe("Default Radix Engine Toolkit Tests", () => {
     }
   );
 
+  moduleTestVector<InstructionsHashInput, InstructionsHashOutput>(
+    "instructions",
+    "instructions_hash",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Instructions.hash(
+        GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    }
+  );
+
   moduleTestVector<InstructionsDecompileInput, InstructionsDecompileOutput>(
     "instructions",
     "instructions_decompile",
@@ -302,6 +324,23 @@ describe("Default Radix Engine Toolkit Tests", () => {
     async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.TransactionManifest.compile(
+        GeneratedConverter.TransactionManifest.fromGenerated(
+          inputVector.manifest
+        ),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    }
+  );
+
+  moduleTestVector<ManifestHashInput, ManifestHashOutput>(
+    "manifest",
+    "manifest_hash",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.TransactionManifest.hash(
         GeneratedConverter.TransactionManifest.fromGenerated(
           inputVector.manifest
         ),
@@ -737,6 +776,78 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
     // Assert
     expect(encoded[0]).toEqual(92); /* Scrypto SBOR prefix */
+  });
+
+  it("Scrypto SBOR decode accepts optional schema", async () => {
+    const payload = await RadixEngineToolkit.ScryptoSbor.encodeProgrammaticJson(
+      {
+        kind: "Tuple",
+        fields: [],
+      }
+    );
+
+    const baseline = await RadixEngineToolkit.ScryptoSbor.decodeToString(
+      payload,
+      242,
+      SerializationMode.Programmatic
+    );
+
+    const invalidSchema: PayloadSchema = {
+      local_type_id: {
+        kind: "WellKnown",
+        value: "1",
+      },
+      schema: "00",
+    };
+
+    await expect(
+      RadixEngineToolkit.ScryptoSbor.decodeToString(
+        payload,
+        242,
+        SerializationMode.Programmatic,
+        invalidSchema
+      )
+    ).rejects.toThrow();
+
+    expect(baseline.length).toBeGreaterThan(0);
+  });
+
+  it("Manifest SBOR decode accepts optional schema", async () => {
+    const compiledManifest = await RadixEngineToolkit.TransactionManifest.compile(
+      {
+        instructions: {
+          kind: "String",
+          value: "DROP_ALL_PROOFS;",
+        },
+        blobs: [],
+      },
+      242
+    );
+
+    const baseline = await RadixEngineToolkit.ManifestSbor.decodeToString(
+      compiledManifest,
+      242,
+      ManifestSborStringRepresentation.ManifestString
+    );
+
+    const invalidSchema: PayloadSchema = {
+      local_type_id: {
+        kind: "WellKnown",
+        value: "1",
+      },
+      schema: "00",
+    };
+
+    await expect(
+      RadixEngineToolkit.ManifestSbor.decodeToString(
+        compiledManifest,
+        242,
+        ManifestSborStringRepresentation.ManifestString,
+        invalidSchema
+      )
+    ).rejects.toThrow();
+
+    expect(baseline.length).toBeGreaterThan(0);
   });
 });
 

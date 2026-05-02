@@ -432,6 +432,15 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     );
   }
 
+  public transactionIntentV2StaticallyAnalyze(
+    input: TransactionIntentV2HashInput
+  ): ManifestStaticallyAnalyzeOutput {
+    return this.callFunction(
+      input,
+      this.exports.transaction_intent_v2_statically_analyze
+    );
+  }
+
   /* V2 Signed Transaction Intent */
 
   public signedTransactionIntentV2Hash(
@@ -517,6 +526,15 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     input: SubintentV2DecompileInput
   ): SubintentV2DecompileOutput {
     return this.callFunction(input, this.exports.subintent_v2_decompile);
+  }
+
+  public subintentV2StaticallyAnalyze(
+    input: SubintentV2HashInput
+  ): ManifestStaticallyAnalyzeOutput {
+    return this.callFunction(
+      input,
+      this.exports.subintent_v2_statically_analyze
+    );
   }
 
   /* V2 Partial Transaction */
@@ -701,6 +719,7 @@ interface Exports {
   transaction_intent_v2_hash(pointer: number): number;
   transaction_intent_v2_compile(pointer: number): number;
   transaction_intent_v2_decompile(pointer: number): number;
+  transaction_intent_v2_statically_analyze(pointer: number): number;
 
   /* V2 Signed Transaction Intent Module */
   signed_transaction_intent_v2_hash(pointer: number): number;
@@ -717,6 +736,7 @@ interface Exports {
   subintent_v2_hash(pointer: number): number;
   subintent_v2_compile(pointer: number): number;
   subintent_v2_decompile(pointer: number): number;
+  subintent_v2_statically_analyze(pointer: number): number;
 
   /* V2 Partial Transaction Module */
   partial_transaction_v2_hash(pointer: number): number;
