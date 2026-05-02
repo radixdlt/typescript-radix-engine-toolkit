@@ -837,6 +837,28 @@ const virtualIdentityAddress =
 console.log(virtualIdentityAddress.toString());
 ```
 
+### Deriving Virtual Signature Non-Fungible Global IDs from Public Keys
+
+The Radix Engine Toolkit allows virtual signature non-fungible global IDs to be derived from Ecdsa Secp256k1 and EdDSA Ed25519 public keys. These IDs can be used in access rules that require signature badges.
+
+```ts
+import {
+  PublicKey,
+  NetworkId,
+  RadixEngineToolkit,
+} from "@radixdlt/radix-engine-toolkit";
+
+const publicKey = new PublicKey.Ed25519(
+  "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
+);
+const virtualSignatureNonFungibleGlobalId =
+  await RadixEngineToolkit.Derive.virtualSignatureNonFungibleGlobalIdFromPublicKey(
+    publicKey,
+    NetworkId.Mainnet
+  );
+console.log(virtualSignatureNonFungibleGlobalId);
+```
+
 ### Deriving Babylon Account Addresses from Olympia Account Addresses
 
 The Radix Engine Toolkit is able to perform the deterministic mapping to convert Olympia account addresses to their respective Babylon Account addresses.

@@ -39,6 +39,8 @@ import {
   DeriveVirtualAccountAddressFromPublicKeyOutput,
   DeriveVirtualIdentityAddressFromPublicKeyInput,
   DeriveVirtualIdentityAddressFromPublicKeyOutput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput,
   InstructionsCompileInput,
   InstructionsCompileOutput,
   InstructionsConvertInput,
@@ -169,6 +171,15 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     return this.callFunction(
       input,
       this.exports.derive_virtual_identity_address_from_public_key
+    );
+  }
+
+  public deriveVirtualSignatureNonFungibleGlobalIdFromPublicKey(
+    input: DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput
+  ): DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput {
+    return this.callFunction(
+      input,
+      this.exports.derive_virtual_signature_non_fungible_global_id_from_public_key
     );
   }
 
@@ -666,6 +677,9 @@ interface Exports {
   /* Derivation Module */
   derive_virtual_account_address_from_public_key(pointer: number): number;
   derive_virtual_identity_address_from_public_key(pointer: number): number;
+  derive_virtual_signature_non_fungible_global_id_from_public_key(
+    pointer: number
+  ): number;
   derive_virtual_account_address_from_olympia_account_address(
     pointer: number
   ): number;

@@ -55,6 +55,8 @@ export type DeriveVirtualAccountAddressFromPublicKeyOutput = SerializableNodeId;
 
 export type DeriveVirtualIdentityAddressFromPublicKeyOutput = SerializableNodeId;
 
+export type DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput = SerializableNonFungibleGlobalId;
+
 export type SerializableBytes = string;
 
 export type InstructionsCompileOutput = SerializableBytes;

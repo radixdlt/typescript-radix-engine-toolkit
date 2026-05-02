@@ -128,6 +128,29 @@ export class RadixEngineToolkit {
     }
 
     /**
+     * Derives the virtual signature non-fungible global id associated with the provided public key
+     * on the given network.
+     * @param publicKey The public key to derive virtual signature non-fungible global id for.
+     * @param networkId The id of the network that this identifier is to be used for. This is an
+     * 8-bit unsigned integer in the range [0x00, 0xFF]
+     * @returns A string representation of the virtual signature non-fungible global id derived from
+     * the public key.
+     */
+    static async virtualSignatureNonFungibleGlobalIdFromPublicKey(
+      publicKey: PublicKey,
+      networkId: number
+    ): Promise<string> {
+      const rawRet = await rawRadixEngineToolkit;
+      const input = {
+        network_id: Convert.Number.toString(networkId),
+        public_key: GeneratedConverter.PublicKey.toGenerated(publicKey),
+      };
+      const output =
+        rawRet.deriveVirtualSignatureNonFungibleGlobalIdFromPublicKey(input);
+      return output;
+    }
+
+    /**
      * Derives the address of the account on the Babylon network associated with an account on the
      * Olympia network.
      * @param olympiaAccountAddress The address of the account on the Olympia network.

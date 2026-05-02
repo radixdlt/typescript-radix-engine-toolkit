@@ -44,6 +44,8 @@ import {
   DeriveVirtualAccountAddressFromPublicKeyOutput,
   DeriveVirtualIdentityAddressFromPublicKeyInput,
   DeriveVirtualIdentityAddressFromPublicKeyOutput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput,
   GeneratedConverter,
   InstructionsCompileInput,
   InstructionsCompileOutput,
@@ -134,6 +136,25 @@ describe("Default Radix Engine Toolkit Tests", () => {
           GeneratedConverter.PublicKey.fromGenerated(inputVector.public_key),
           Convert.String.toNumber(inputVector.network_id)
         );
+      // Assert
+      expect(output).toEqual(outputVector);
+    }
+  );
+
+  moduleTestVector<
+    DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput,
+    DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput
+  >(
+    "derive",
+    "derive_virtual_signature_non_fungible_global_id_from_public_key",
+    async (inputVector, outputVector) => {
+      // Act
+      const output =
+        await RadixEngineToolkit.Derive.virtualSignatureNonFungibleGlobalIdFromPublicKey(
+          GeneratedConverter.PublicKey.fromGenerated(inputVector.public_key),
+          Convert.String.toNumber(inputVector.network_id)
+        );
+
       // Assert
       expect(output).toEqual(outputVector);
     }
