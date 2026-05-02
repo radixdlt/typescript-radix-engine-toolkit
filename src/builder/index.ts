@@ -17,4 +17,5 @@
 
 export * from "./manifest";
 export * from "./transaction";
+export * from "./transaction_v2";
 export * from "./types";

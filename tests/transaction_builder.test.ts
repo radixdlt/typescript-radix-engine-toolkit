@@ -29,7 +29,6 @@ import {
   TransactionBuilder,
   TransactionHeader,
   TransactionSummary,
-  defaultValidationConfig,
 } from "../src";
 
 describe("Transaction Builder & Simple Transaction Builder Tests", () => {
@@ -64,8 +63,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     // Assert
     const staticValidity =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        transaction,
-        defaultValidationConfig(NetworkId.Simulator)
+        transaction
       );
     expect(staticValidity.kind).toBe("Valid");
     expect(transaction.signedIntent.intentSignatures.length).toBe(1);
@@ -109,8 +107,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     // Assert
     const staticValidity =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        transaction,
-        defaultValidationConfig(NetworkId.Simulator)
+        transaction
       );
     expect(staticValidity.kind).toBe("Valid");
     expect(transaction.signedIntent.intentSignatures.length).toBe(1);
@@ -149,8 +146,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     // Assert
     const staticValidity =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        transaction,
-        defaultValidationConfig(NetworkId.Simulator)
+        transaction
       );
     expect(staticValidity.kind).toBe("Valid");
     expect(transaction.signedIntent.intentSignatures.length).toBe(1);
@@ -189,8 +185,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     // Assert
     const staticValidity =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        transaction,
-        defaultValidationConfig(NetworkId.Simulator)
+        transaction
       );
     expect(staticValidity.kind).toBe("Valid");
     expect(transaction.signedIntent.intentSignatures.length).toBe(1);
@@ -250,8 +245,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     // Assert
     const staticValidity =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        transaction,
-        defaultValidationConfig(NetworkId.Simulator)
+        transaction
       );
     expect(staticValidity.kind).toBe("Valid");
     expect(transaction.signedIntent.intentSignatures.length).toBe(4);
@@ -573,8 +567,7 @@ describe("Transaction Builder & Simple Transaction Builder Tests", () => {
     // Assert
     const staticValidity =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        transaction,
-        defaultValidationConfig(NetworkId.Simulator)
+        transaction
       );
     expect(staticValidity.kind).toBe("Valid");
   });

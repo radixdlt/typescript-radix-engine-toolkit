@@ -19,11 +19,13 @@ import * as fs from "fs";
 import { describe, expect, it, test } from "vitest";
 import {
   Convert,
+  ManifestSborStringRepresentation,
+  PayloadSchema,
   PrivateKey,
   RadixEngineToolkit,
+  SerializationMode,
   TransactionBuilder,
   TransactionHeader,
-  defaultValidationConfig,
 } from "../src";
 import {
   AddressDecodeInput,
@@ -42,6 +44,8 @@ import {
   DeriveVirtualAccountAddressFromPublicKeyOutput,
   DeriveVirtualIdentityAddressFromPublicKeyInput,
   DeriveVirtualIdentityAddressFromPublicKeyOutput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput,
   GeneratedConverter,
   InstructionsCompileInput,
   InstructionsCompileOutput,
@@ -49,6 +53,8 @@ import {
   InstructionsConvertOutput,
   InstructionsDecompileInput,
   InstructionsDecompileOutput,
+  InstructionsHashInput,
+  InstructionsHashOutput,
   InstructionsExtractAddressesInput,
   InstructionsExtractAddressesOutput,
   InstructionsStaticallyValidateInput,
@@ -65,6 +71,8 @@ import {
   ManifestCompileOutput,
   ManifestDecompileInput,
   ManifestDecompileOutput,
+  ManifestHashInput,
+  ManifestHashOutput,
   ManifestStaticallyValidateInput,
   ManifestStaticallyValidateOutput,
   NotarizedTransactionCompileInput,
@@ -93,7 +101,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     const buildInformation = await RadixEngineToolkit.Build.information();
 
     // Assert
-    expect(buildInformation.version).toEqual("2.1.0-dev1");
+    expect(buildInformation.version).toEqual("2.3.4");
   });
 
   moduleTestVector<
@@ -128,6 +136,25 @@ describe("Default Radix Engine Toolkit Tests", () => {
           GeneratedConverter.PublicKey.fromGenerated(inputVector.public_key),
           Convert.String.toNumber(inputVector.network_id)
         );
+      // Assert
+      expect(output).toEqual(outputVector);
+    }
+  );
+
+  moduleTestVector<
+    DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput,
+    DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput
+  >(
+    "derive",
+    "derive_virtual_signature_non_fungible_global_id_from_public_key",
+    async (inputVector, outputVector) => {
+      // Act
+      const output =
+        await RadixEngineToolkit.Derive.virtualSignatureNonFungibleGlobalIdFromPublicKey(
+          GeneratedConverter.PublicKey.fromGenerated(inputVector.public_key),
+          Convert.String.toNumber(inputVector.network_id)
+        );
+
       // Assert
       expect(output).toEqual(outputVector);
     }
@@ -241,6 +268,21 @@ describe("Default Radix Engine Toolkit Tests", () => {
     }
   );
 
+  moduleTestVector<InstructionsHashInput, InstructionsHashOutput>(
+    "instructions",
+    "instructions_hash",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.Instructions.hash(
+        GeneratedConverter.Instructions.fromGenerated(inputVector.instructions),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    }
+  );
+
   moduleTestVector<InstructionsDecompileInput, InstructionsDecompileOutput>(
     "instructions",
     "instructions_decompile",
@@ -314,6 +356,23 @@ describe("Default Radix Engine Toolkit Tests", () => {
     }
   );
 
+  moduleTestVector<ManifestHashInput, ManifestHashOutput>(
+    "manifest",
+    "manifest_hash",
+    async (inputVector, outputVector) => {
+      // Act
+      const output = await RadixEngineToolkit.TransactionManifest.hash(
+        GeneratedConverter.TransactionManifest.fromGenerated(
+          inputVector.manifest
+        ),
+        Convert.String.toNumber(inputVector.network_id)
+      );
+
+      // Assert
+      expect(output).toEqual(Convert.HexString.toUint8Array(outputVector));
+    }
+  );
+
   moduleTestVector<ManifestDecompileInput, ManifestDecompileOutput>(
     "manifest",
     "manifest_decompile",
@@ -353,6 +412,54 @@ describe("Default Radix Engine Toolkit Tests", () => {
     }
   );
 
+  it("Manifest static analysis returns Python parity shape", async () => {
+    const manifest = GeneratedConverter.TransactionManifest.fromGenerated({
+      instructions: {
+        kind: "String",
+        value:
+          'CALL_METHOD\n    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q")\n    "lock_fee"\n    Decimal("5000")\n;\n',
+      },
+      blobs: [],
+    });
+
+    const output = await RadixEngineToolkit.TransactionManifest.staticallyAnalyze(
+      manifest,
+      242
+    );
+
+    expect(Object.keys(output).sort()).toEqual([
+      "accounts_deposited_into",
+      "accounts_requiring_auth",
+      "accounts_withdrawn_from",
+      "classification",
+      "encountered_entities",
+      "reserved_instructions",
+    ]);
+    expect(output.accounts_requiring_auth).toContain(
+      "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+    );
+    expect(output.reserved_instructions).toContain("AccountLockFee");
+    expect(output.classification.length).toBeGreaterThan(0);
+    expect(
+      output.encountered_entities.some((value) => value.startsWith("address_"))
+    ).toEqual(false);
+    expect(
+      output.accounts_requiring_auth.some((value) =>
+        value.startsWith("address_")
+      )
+    ).toEqual(false);
+    expect(
+      output.accounts_withdrawn_from.some((value) =>
+        value.startsWith("address_")
+      )
+    ).toEqual(false);
+    expect(
+      output.accounts_deposited_into.some((value) =>
+        value.startsWith("address_")
+      )
+    ).toEqual(false);
+  });
+
   moduleTestVector<IntentCompileInput, IntentCompileOutput>(
     "intent",
     "intent_compile",
@@ -369,7 +476,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
   moduleTestVector<IntentHashInput, IntentHashOutput>(
     "intent",
-    "intent_hash",
+    "transaction_intent_hash",
     async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.hash(
@@ -409,10 +516,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.staticallyValidate(
-        GeneratedConverter.Intent.fromGenerated(inputVector.intent),
-        GeneratedConverter.ValidationConfig.fromGenerated(
-          inputVector.validation_config
-        )
+        GeneratedConverter.Intent.fromGenerated(inputVector.intent)
       );
 
       // Assert
@@ -436,7 +540,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
   moduleTestVector<SignedIntentHashInput, SignedIntentHashOutput>(
     "signed_intent",
-    "signed_intent_hash",
+    "signed_transaction_intent_hash",
     async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.SignedIntent.hash(
@@ -478,9 +582,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
       const output = await RadixEngineToolkit.SignedIntent.staticallyValidate(
         GeneratedConverter.SignedIntent.fromGenerated(
           inputVector.signed_intent
-        ),
-        GeneratedConverter.ValidationConfig.fromGenerated(
-          inputVector.validation_config
         )
       );
 
@@ -557,9 +658,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
         await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
           GeneratedConverter.NotarizedTransaction.fromGenerated(
             inputVector.notarized_transaction
-          ),
-          GeneratedConverter.ValidationConfig.fromGenerated(
-            inputVector.validation_config
           )
         );
 
@@ -580,9 +678,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
         await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
           GeneratedConverter.NotarizedTransaction.fromGenerated(
             inputVector.notarized_transaction
-          ),
-          GeneratedConverter.ValidationConfig.fromGenerated(
-            inputVector.validation_config
           )
         );
 
@@ -665,8 +760,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
       notaryIsSignatory: true,
       tipPercentage: 0x00,
     };
-    const validationConfig = defaultValidationConfig(0x01);
-
     // Act
     let notarizedTransaction = await TransactionBuilder.new().then((builder) =>
       builder
@@ -682,8 +775,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     );
     const staticValidationResult =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        notarizedTransaction,
-        validationConfig
+        notarizedTransaction
       );
 
     // Assert
@@ -705,6 +797,78 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
     // Assert
     expect(encoded[0]).toEqual(92); /* Scrypto SBOR prefix */
+  });
+
+  it("Scrypto SBOR decode accepts optional schema", async () => {
+    const payload = await RadixEngineToolkit.ScryptoSbor.encodeProgrammaticJson(
+      {
+        kind: "Tuple",
+        fields: [],
+      }
+    );
+
+    const baseline = await RadixEngineToolkit.ScryptoSbor.decodeToString(
+      payload,
+      242,
+      SerializationMode.Programmatic
+    );
+
+    const invalidSchema: PayloadSchema = {
+      local_type_id: {
+        kind: "WellKnown",
+        value: "1",
+      },
+      schema: "00",
+    };
+
+    await expect(
+      RadixEngineToolkit.ScryptoSbor.decodeToString(
+        payload,
+        242,
+        SerializationMode.Programmatic,
+        invalidSchema
+      )
+    ).rejects.toThrow();
+
+    expect(baseline.length).toBeGreaterThan(0);
+  });
+
+  it("Manifest SBOR decode accepts optional schema", async () => {
+    const compiledManifest = await RadixEngineToolkit.TransactionManifest.compile(
+      {
+        instructions: {
+          kind: "String",
+          value: "DROP_ALL_PROOFS;",
+        },
+        blobs: [],
+      },
+      242
+    );
+
+    const baseline = await RadixEngineToolkit.ManifestSbor.decodeToString(
+      compiledManifest,
+      242,
+      ManifestSborStringRepresentation.ManifestString
+    );
+
+    const invalidSchema: PayloadSchema = {
+      local_type_id: {
+        kind: "WellKnown",
+        value: "1",
+      },
+      schema: "00",
+    };
+
+    await expect(
+      RadixEngineToolkit.ManifestSbor.decodeToString(
+        compiledManifest,
+        242,
+        ManifestSborStringRepresentation.ManifestString,
+        invalidSchema
+      )
+    ).rejects.toThrow();
+
+    expect(baseline.length).toBeGreaterThan(0);
   });
 });
 

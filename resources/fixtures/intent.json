@@ -1,5 +1,5 @@
 {
-  "intent_hash": [
+  "transaction_intent_hash": [
     {
       "input": {
         "header": {
@@ -3242,7 +3242,9 @@
                 "kind": "CreateProofFromBucketOfNonFungibles",
                 "value": {
                   "bucket_id": "0",
-                  "ids": ["#123#"]
+                  "ids": [
+                    "#123#"
+                  ]
                 }
               },
               {
@@ -3356,7 +3358,9 @@
                 "kind": "CreateProofFromAuthZoneOfNonFungibles",
                 "value": {
                   "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                  "ids": ["#123#"]
+                  "ids": [
+                    "#123#"
+                  ]
                 }
               },
               {
@@ -3555,7 +3559,9 @@
                 "kind": "TakeNonFungiblesFromWorktop",
                 "value": {
                   "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                  "ids": ["#1#"]
+                  "ids": [
+                    "#1#"
+                  ]
                 }
               },
               {
@@ -10405,7 +10411,9 @@
                 "kind": "CreateProofFromBucketOfNonFungibles",
                 "value": {
                   "bucket_id": "0",
-                  "ids": ["#123#"]
+                  "ids": [
+                    "#123#"
+                  ]
                 }
               },
               {
@@ -10519,7 +10527,9 @@
                 "kind": "CreateProofFromAuthZoneOfNonFungibles",
                 "value": {
                   "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                  "ids": ["#123#"]
+                  "ids": [
+                    "#123#"
+                  ]
                 }
               },
               {
@@ -10712,7 +10722,9 @@
                 "kind": "TakeNonFungiblesFromWorktop",
                 "value": {
                   "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                  "ids": ["#1#"]
+                  "ids": [
+                    "#1#"
+                  ]
                 }
               },
               {
@@ -15979,19 +15991,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -16022,19 +16021,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -16153,19 +16139,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -16196,19 +16169,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -16516,19 +16476,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -16559,19 +16506,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -16647,19 +16581,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -16690,19 +16611,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -16861,19 +16769,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -16904,19 +16799,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -17051,19 +16933,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -17094,19 +16963,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -17160,19 +17016,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -17203,19 +17046,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -17620,19 +17450,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -17663,19 +17480,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -18133,19 +17937,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -18176,19 +17967,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -18520,19 +18298,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -18563,19 +18328,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -18936,19 +18688,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -18979,19 +18718,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -19241,19 +18967,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -19284,19 +18997,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -19364,19 +19064,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -19407,19 +19094,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -19495,7 +19169,9 @@
                   "kind": "CreateProofFromBucketOfNonFungibles",
                   "value": {
                     "bucket_id": "0",
-                    "ids": ["#123#"]
+                    "ids": [
+                      "#123#"
+                    ]
                   }
                 },
                 {
@@ -19609,7 +19285,9 @@
                   "kind": "CreateProofFromAuthZoneOfNonFungibles",
                   "value": {
                     "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                    "ids": ["#123#"]
+                    "ids": [
+                      "#123#"
+                    ]
                   }
                 },
                 {
@@ -19663,23 +19341,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(DanglingBucket(ManifestBucket(0), \"BucketState { name: None, source_amount: AllOnWorktop { resource_address: ResourceAddress(5da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6) }, created_at: Instruction { index: 1 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -19707,23 +19373,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(DanglingBucket(ManifestBucket(0), \"BucketState { name: None, source_amount: AllOnWorktop { resource_address: ResourceAddress(5da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6) }, created_at: Instruction { index: 1 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -19836,7 +19490,9 @@
                   "kind": "TakeNonFungiblesFromWorktop",
                   "value": {
                     "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                    "ids": ["#1#"]
+                    "ids": [
+                      "#1#"
+                    ]
                   }
                 },
                 {
@@ -19869,23 +19525,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(DanglingBucket(ManifestBucket(2), \"BucketState { name: None, source_amount: NonFungiblesFromWorktop { resource_address: ResourceAddress(9a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b), ids: [#1#] }, created_at: Instruction { index: 7 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -19913,23 +19557,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(DanglingBucket(ManifestBucket(2), \"BucketState { name: None, source_amount: NonFungiblesFromWorktop { resource_address: ResourceAddress(9a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b), ids: [#1#] }, created_at: Instruction { index: 7 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -20783,23 +20415,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     },
     {
@@ -20827,23 +20447,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     },
     {
@@ -20984,19 +20592,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21027,19 +20622,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -21097,19 +20679,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21140,19 +20709,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -21248,19 +20804,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21291,19 +20834,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -21414,19 +20944,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21457,19 +20974,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -21690,19 +21194,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21733,19 +21224,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -21945,19 +21423,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21988,19 +21453,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -22084,19 +21536,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -22127,19 +21566,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -22258,19 +21684,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -22301,19 +21714,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -23619,19 +23019,6 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -23662,19 +23049,6 @@
           },
           "message": {
             "kind": "None"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -23792,23 +23166,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     },
     {
@@ -23836,23 +23198,11 @@
           "message": {
             "kind": "None"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(Unlocatable, ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     }
   ]

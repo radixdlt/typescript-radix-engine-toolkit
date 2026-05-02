@@ -22,29 +22,39 @@ export interface MessageValidationConfig {
   maxDecryptors: bigint;
 }
 
+export interface PreparationSettings {
+  v2TransactionsPermitted: boolean;
+  maxUserPayloadLength: bigint;
+  maxLedgerPayloadLength: bigint;
+  maxChildSubintentsPerIntent: bigint;
+  maxSubintentsPerTransaction: bigint;
+  maxBlobs: bigint;
+}
+
+export type ManifestValidationRuleset =
+  | { kind: "BabylonBasicValidator" }
+  | { kind: "Interpreter"; value: InterpreterValidationRulesetSpecifier };
+
+export enum InterpreterValidationRulesetSpecifier {
+  AllValidations = "AllValidations",
+  Cuttlefish = "Cuttlefish",
+}
+
 export interface ValidationConfig {
-  networkId: number;
-  maxNotarizedPayloadSize: bigint;
+  maxSignerSignaturesPerIntent: bigint;
+  maxReferencesPerIntent: bigint;
   minTipPercentage: number;
   maxTipPercentage: number;
   maxEpochRange: bigint;
+  maxInstructions: bigint;
   messageValidation: MessageValidationConfig;
+  v1TransactionsAllowNotaryToDuplicateSigner: boolean;
+  preparationSettings: PreparationSettings;
+  manifestValidation: ManifestValidationRuleset;
+  v2TransactionsAllowed: boolean;
+  minTipBasisPoints: number;
+  maxTipBasisPoints: number;
+  maxSubintentDepth: bigint;
+  maxTotalSignatureValidations: bigint;
+  maxTotalReferences: bigint;
 }
-
-export const defaultValidationConfig = (
-  networkId: number
-): ValidationConfig => {
-  return {
-    networkId: networkId,
-    maxNotarizedPayloadSize: BigInt(1048576),
-    minTipPercentage: 0,
-    maxTipPercentage: 65535,
-    maxEpochRange: BigInt(8640),
-    messageValidation: {
-      maxPlaintextMessageLength: BigInt(2048),
-      maxEncryptedMessageLength: BigInt(2076),
-      maxMimeTypeLength: BigInt(128),
-      maxDecryptors: BigInt(20),
-    },
-  };
-};

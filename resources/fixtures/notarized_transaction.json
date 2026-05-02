@@ -3842,7 +3842,9 @@
                     "kind": "CreateProofFromBucketOfNonFungibles",
                     "value": {
                       "bucket_id": "0",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -3956,7 +3958,9 @@
                     "kind": "CreateProofFromAuthZoneOfNonFungibles",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -4201,7 +4205,9 @@
                     "kind": "TakeNonFungiblesFromWorktop",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#1#"]
+                      "ids": [
+                        "#1#"
+                      ]
                     }
                   },
                   {
@@ -12201,7 +12207,9 @@
                     "kind": "CreateProofFromBucketOfNonFungibles",
                     "value": {
                       "bucket_id": "0",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -12315,7 +12323,9 @@
                     "kind": "CreateProofFromAuthZoneOfNonFungibles",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#123#"]
+                      "ids": [
+                        "#123#"
+                      ]
                     }
                   },
                   {
@@ -12554,7 +12564,9 @@
                     "kind": "TakeNonFungiblesFromWorktop",
                     "value": {
                       "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                      "ids": ["#1#"]
+                      "ids": [
+                        "#1#"
+                      ]
                     }
                   },
                   {
@@ -19590,19 +19602,6 @@
             "kind": "Secp256k1",
             "value": "00f3dc91a387817d7340f6fc7a643968d9dc70574a2163568cabd1a65b38c6b3cf2d414822db289cfb7a0b722b99c544d98578361d2df46fad7a969ec09ad7950a"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -19656,19 +19655,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "00f3dc91a387817d7340f6fc7a643968d9dc70574a2163568cabd1a65b38c6b3cf2d414822db289cfb7a0b722b99c544d98578361d2df46fad7a969ec09ad7950a"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -19810,19 +19796,6 @@
             "kind": "Secp256k1",
             "value": "0056dbada87a36ca5dcb0c51a19973625e572e15538aad03674bc93008c54567c163439bfb84b4b8c0d171671f13ca97d5a749ef6e8591f06ea5576290e43db606"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -19876,19 +19849,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "0056dbada87a36ca5dcb0c51a19973625e572e15538aad03674bc93008c54567c163439bfb84b4b8c0d171671f13ca97d5a749ef6e8591f06ea5576290e43db606"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -20219,19 +20179,6 @@
             "kind": "Secp256k1",
             "value": "0071afc81a596b0a6903b7df576e86e86c5dd6734592be934a9d5ab0fcd69c686909ea3191d8d808312f6fb9e9381bff7fda098bdde09737deac4227666beee369"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -20285,19 +20232,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "0071afc81a596b0a6903b7df576e86e86c5dd6734592be934a9d5ab0fcd69c686909ea3191d8d808312f6fb9e9381bff7fda098bdde09737deac4227666beee369"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -20396,19 +20330,6 @@
             "kind": "Secp256k1",
             "value": "011c169620e5172ba8b5331763d082c8cf6b0cc22f1e746df8b7318425358e7da82a1b370276df27ecc225d9ba2446f341ec347716fbdb1455b97b083c9a175ef1"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -20462,19 +20383,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "011c169620e5172ba8b5331763d082c8cf6b0cc22f1e746df8b7318425358e7da82a1b370276df27ecc225d9ba2446f341ec347716fbdb1455b97b083c9a175ef1"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -20656,19 +20564,6 @@
             "kind": "Secp256k1",
             "value": "01d83b6956c1d2709662f957d9a3eec0450a3e4898b43cb7703c7a8ea002a092d93fd97b01e612500d6f6ed338bc578f6293a832a839c321bd280de4b53af10ce5"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -20722,19 +20617,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "01d83b6956c1d2709662f957d9a3eec0450a3e4898b43cb7703c7a8ea002a092d93fd97b01e612500d6f6ed338bc578f6293a832a839c321bd280de4b53af10ce5"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -20892,19 +20774,6 @@
             "kind": "Secp256k1",
             "value": "01cfd26c468dc6dbdb3b247349469abc6a337f910ba9d7cf42c618c9fe6f7aaab6428c8f28e21b83c9c79eb2d501e77cd42d74e049151bd21fdc46defcc9836b8f"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -20958,19 +20827,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "01cfd26c468dc6dbdb3b247349469abc6a337f910ba9d7cf42c618c9fe6f7aaab6428c8f28e21b83c9c79eb2d501e77cd42d74e049151bd21fdc46defcc9836b8f"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -21047,19 +20903,6 @@
             "kind": "Secp256k1",
             "value": "00fabe3070cedcc5c606108b800608e17156ab9dbfe9bf1af3e65a7ba70e354d3e1f013ce8ef40b5adfdd3035443215918564e2ba5b519614c2ecd615cd20000da"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21113,19 +20956,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "00fabe3070cedcc5c606108b800608e17156ab9dbfe9bf1af3e65a7ba70e354d3e1f013ce8ef40b5adfdd3035443215918564e2ba5b519614c2ecd615cd20000da"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -21553,19 +21383,6 @@
             "kind": "Secp256k1",
             "value": "016b064651a5fabe621c8480103b1120adfab51b49b8e661a876ce58437e1fd02745dbad27e047140ade5b6808efc32507def21d7b85931c739e5ddee2c3d72f3c"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -21619,19 +21436,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "016b064651a5fabe621c8480103b1120adfab51b49b8e661a876ce58437e1fd02745dbad27e047140ade5b6808efc32507def21d7b85931c739e5ddee2c3d72f3c"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -22112,19 +21916,6 @@
             "kind": "Secp256k1",
             "value": "003574951bbaf2528f4773609ad045089c6a572486a23e5572fdeee23ceecf4aec1b5284ff02251954581034e27a0171b2740d8cbe51f830fa50d9c47e5023d7d1"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -22178,19 +21969,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "003574951bbaf2528f4773609ad045089c6a572486a23e5572fdeee23ceecf4aec1b5284ff02251954581034e27a0171b2740d8cbe51f830fa50d9c47e5023d7d1"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -22545,19 +22323,6 @@
             "kind": "Secp256k1",
             "value": "00f8f741c1dd4e6322576cbb2c74abac69310d2fd00f110459a3d2cb4e6586a48f1dd65a6e45729f60b1bb347726eeb3550b09d7387494af770a3f3cf75d0c698f"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -22611,19 +22376,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "00f8f741c1dd4e6322576cbb2c74abac69310d2fd00f110459a3d2cb4e6586a48f1dd65a6e45729f60b1bb347726eeb3550b09d7387494af770a3f3cf75d0c698f"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -23007,19 +22759,6 @@
             "kind": "Secp256k1",
             "value": "016a0281f1f5952131019e61cd5d66cbfa30a87748ee6f67ca5c84334fc0497ecd74961d6a79dae3f363f8e3406b2a9dc1706e342fe6118e34f2176cc4c90fb928"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -23073,19 +22812,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "016a0281f1f5952131019e61cd5d66cbfa30a87748ee6f67ca5c84334fc0497ecd74961d6a79dae3f363f8e3406b2a9dc1706e342fe6118e34f2176cc4c90fb928"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -23358,19 +23084,6 @@
             "kind": "Secp256k1",
             "value": "0063f7deb072514d8621a5a32c850678e44e45d1463547d9c6158379a6b1f138ad385216f0685924ab4d2f5b1233a7aac70ab86cc785f1bebbb8d13def364c201a"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -23424,19 +23137,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "0063f7deb072514d8621a5a32c850678e44e45d1463547d9c6158379a6b1f138ad385216f0685924ab4d2f5b1233a7aac70ab86cc785f1bebbb8d13def364c201a"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -23527,19 +23227,6 @@
             "kind": "Secp256k1",
             "value": "00c42e20cac810682ac606dcb2b5ad0da6614ff94417991653587d36f7e21cf878299c298e882602b09efaa4c7f8ca08f44c2e240371674ed67e098ff09bff4b01"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -23593,19 +23280,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "00c42e20cac810682ac606dcb2b5ad0da6614ff94417991653587d36f7e21cf878299c298e882602b09efaa4c7f8ca08f44c2e240371674ed67e098ff09bff4b01"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -23683,7 +23357,9 @@
                       "kind": "CreateProofFromBucketOfNonFungibles",
                       "value": {
                         "bucket_id": "0",
-                        "ids": ["#123#"]
+                        "ids": [
+                          "#123#"
+                        ]
                       }
                     },
                     {
@@ -23797,7 +23473,9 @@
                       "kind": "CreateProofFromAuthZoneOfNonFungibles",
                       "value": {
                         "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                        "ids": ["#123#"]
+                        "ids": [
+                          "#123#"
+                        ]
                       }
                     },
                     {
@@ -23872,23 +23550,11 @@
             "kind": "Secp256k1",
             "value": "0123b7c8450e25b5225f0b8471e6c85a1e2f5e5ddac683885adee39aa4e1ec4a700dbd06246ee55beaedfa588eaf293ecc7e30848e96215687f0d5c92fbd5a0058"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(1c67db83e595f3a8a7e46d127241614afe7effd4ced1e2ee72b429dad0016796)), ManifestValidationError(DanglingBucket(ManifestBucket(0), \"BucketState { name: None, source_amount: AllOnWorktop { resource_address: ResourceAddress(5da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6) }, created_at: Instruction { index: 1 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -23939,23 +23605,11 @@
             "kind": "Secp256k1",
             "value": "0123b7c8450e25b5225f0b8471e6c85a1e2f5e5ddac683885adee39aa4e1ec4a700dbd06246ee55beaedfa588eaf293ecc7e30848e96215687f0d5c92fbd5a0058"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(1c67db83e595f3a8a7e46d127241614afe7effd4ced1e2ee72b429dad0016796)), ManifestValidationError(DanglingBucket(ManifestBucket(0), \"BucketState { name: None, source_amount: AllOnWorktop { resource_address: ResourceAddress(5da66318c6318c61f5a61b4c6318c6318cf794aa8d295f14e6318c6318c6) }, created_at: Instruction { index: 1 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -24070,7 +23724,9 @@
                       "kind": "TakeNonFungiblesFromWorktop",
                       "value": {
                         "resource_address": "resource_sim1ngktvyeenvvqetnqwysevcx5fyvl6hqe36y3rkhdfdn6uzvt5366ha",
-                        "ids": ["#1#"]
+                        "ids": [
+                          "#1#"
+                        ]
                       }
                     },
                     {
@@ -24124,23 +23780,11 @@
             "kind": "Secp256k1",
             "value": "001a21f159ad6ef98e6f4b20d6f2b9641ed291d31fd431ef50303de9949b35d9b2454ed13ef0ac7b2c8e2129c138d2f27f8010a5c3820d059749ad3dd1928ac9aa"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(6af5341eeb9cb7d20f93ef4afa4b58e5b60978c2a522570aa221b077b5aad66b)), ManifestValidationError(DanglingBucket(ManifestBucket(2), \"BucketState { name: None, source_amount: NonFungiblesFromWorktop { resource_address: ResourceAddress(9a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b), ids: [#1#] }, created_at: Instruction { index: 7 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -24191,23 +23835,11 @@
             "kind": "Secp256k1",
             "value": "001a21f159ad6ef98e6f4b20d6f2b9641ed291d31fd431ef50303de9949b35d9b2454ed13ef0ac7b2c8e2129c138d2f27f8010a5c3820d059749ad3dd1928ac9aa"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(6af5341eeb9cb7d20f93ef4afa4b58e5b60978c2a522570aa221b077b5aad66b)), ManifestValidationError(DanglingBucket(ManifestBucket(2), \"BucketState { name: None, source_amount: NonFungiblesFromWorktop { resource_address: ResourceAddress(9a2cb613399b180cae6071219660d44919fd5c198e8911daed4b67ae098b), ids: [#1#] }, created_at: Instruction { index: 7 }, proof_locks: 0, consumed_at: None }\")))"
       }
     },
     {
@@ -25084,23 +24716,11 @@
             "kind": "Secp256k1",
             "value": "01f3611c9e41a535f62ca68871f52e1f75f982292332092a0642e4c498c9414c925039de70d3a2dc21c670d6f42abc24d5cf4721206c31b58906b2542f5a234244"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(50644081a979276cb7e839bc442fd471cfcbcbfc7b52ae2f6956cfae761c273c)), ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     },
     {
@@ -25151,23 +24771,11 @@
             "kind": "Secp256k1",
             "value": "01f3611c9e41a535f62ca68871f52e1f75f982292332092a0642e4c498c9414c925039de70d3a2dc21c670d6f42abc24d5cf4721206c31b58906b2542f5a234244"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(50644081a979276cb7e839bc442fd471cfcbcbfc7b52ae2f6956cfae761c273c)), ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     },
     {
@@ -25331,19 +24939,6 @@
             "kind": "Secp256k1",
             "value": "007d7cbb59d61ee426d3686cdd08eaac577058173d18a025ec1efd24f34ecc5bf55372eab547d5834afc82c099331cf0efccc6b82799219d3c3b64a09c87fbc7b5"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -25397,19 +24992,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "007d7cbb59d61ee426d3686cdd08eaac577058173d18a025ec1efd24f34ecc5bf55372eab547d5834afc82c099331cf0efccc6b82799219d3c3b64a09c87fbc7b5"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -25490,19 +25072,6 @@
             "kind": "Secp256k1",
             "value": "013cbd1ff039389c721f277a0778b4aa145d1af4df8a825a42935610a23394c0ab3d5ebad6d8b3f3e4dfc95393add70c72fa9f2dce1766ef87a3af611d307c039f"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -25556,19 +25125,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "013cbd1ff039389c721f277a0778b4aa145d1af4df8a825a42935610a23394c0ab3d5ebad6d8b3f3e4dfc95393add70c72fa9f2dce1766ef87a3af611d307c039f"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -25687,19 +25243,6 @@
             "kind": "Secp256k1",
             "value": "0085e9bc014a3bdc5392af2a85afdbe706a5a2a5942f35fdc05e6ff725898f5100731b9ac20bd0528f816dd36aa41d53fc78d386471cc50e177fa56f6d0f4a99d9"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -25753,19 +25296,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "0085e9bc014a3bdc5392af2a85afdbe706a5a2a5942f35fdc05e6ff725898f5100731b9ac20bd0528f816dd36aa41d53fc78d386471cc50e177fa56f6d0f4a99d9"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -25899,19 +25429,6 @@
             "kind": "Secp256k1",
             "value": "0188047fb73591bcfb56b11e64b509ca78198a85406dc9d5b494c92391a1cb2ac73c9dea3d2510fb38192a6fce25dd2a644cf53331bca432887a0330f15fbad797"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -25965,19 +25482,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "0188047fb73591bcfb56b11e64b509ca78198a85406dc9d5b494c92391a1cb2ac73c9dea3d2510fb38192a6fce25dd2a644cf53331bca432887a0330f15fbad797"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -26221,19 +25725,6 @@
             "kind": "Secp256k1",
             "value": "002c74b1fcf559cfa6c7d8805e03371615290ff7394bf853586856074ce3b155d504d80025f37216b5c16011a690542932733240fc535f632e14449a12ce0026c0"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -26287,19 +25778,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "002c74b1fcf559cfa6c7d8805e03371615290ff7394bf853586856074ce3b155d504d80025f37216b5c16011a690542932733240fc535f632e14449a12ce0026c0"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -26522,19 +26000,6 @@
             "kind": "Secp256k1",
             "value": "00f6daee5b612ea1f59863f96641aa76a5d21fdb1075119cb2c6a4860213ee458c10750396989286a8e060eace2e3d823537d1d48fa29a6838c3ffc30cccc234b5"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -26588,19 +26053,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "00f6daee5b612ea1f59863f96641aa76a5d21fdb1075119cb2c6a4860213ee458c10750396989286a8e060eace2e3d823537d1d48fa29a6838c3ffc30cccc234b5"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -26707,19 +26159,6 @@
             "kind": "Secp256k1",
             "value": "019a1bf67c4ec0f78b8f109c93726ff6c0f5acedde8294bd40f0da7f73e6f7caef2926cd746d0f63a6005f99cc0befea46b9f2ef104f25c9dee2b6ebe7af35a306"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -26773,19 +26212,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "019a1bf67c4ec0f78b8f109c93726ff6c0f5acedde8294bd40f0da7f73e6f7caef2926cd746d0f63a6005f99cc0befea46b9f2ef104f25c9dee2b6ebe7af35a306"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -26927,19 +26353,6 @@
             "kind": "Secp256k1",
             "value": "00367bd0c5974c5cfebf41a1d5366f752b35a314f2f383e4bc1b9b081fea2e977e68a64e093bc45128c198e4833aaaf2271e05d524f386fdad8faa8d074187ba19"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -26993,19 +26406,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "00367bd0c5974c5cfebf41a1d5366f752b35a314f2f383e4bc1b9b081fea2e977e68a64e093bc45128c198e4833aaaf2271e05d524f386fdad8faa8d074187ba19"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -28334,19 +27734,6 @@
             "kind": "Secp256k1",
             "value": "009dea45c63945d45ec7f6906c52b17f08723eb4bfecb2bedabb060117f09efb042dff0ccf61e57f86cf4070551711974fb9aba44cfe1d66daa7cdc183b70739e4"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
@@ -28400,19 +27787,6 @@
           "notary_signature": {
             "kind": "Secp256k1",
             "value": "009dea45c63945d45ec7f6906c52b17f08723eb4bfecb2bedabb060117f09efb042dff0ccf61e57f86cf4070551711974fb9aba44cfe1d66daa7cdc183b70739e4"
-          }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
           }
         }
       },
@@ -28553,23 +27927,11 @@
             "kind": "Secp256k1",
             "value": "0065d77c76d420fe743a846e3fb18d38244d2da19de8810431f855e58398e8c9cc687302ae85a44c73db934a1c184eb2d0d9756a46b7fbb4456ed39eb23c816ec3"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(d698c651505aaa0782dbbf89d598d8daa7b8cd8610f47486436108ccee5331cc)), ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     },
     {
@@ -28620,23 +27982,11 @@
             "kind": "Secp256k1",
             "value": "0065d77c76d420fe743a846e3fb18d38244d2da19de8810431f855e58398e8c9cc687302ae85a44c73db934a1c184eb2d0d9756a46b7fbb4456ed39eb23c816ec3"
           }
-        },
-        "validation_config": {
-          "network_id": "242",
-          "max_notarized_payload_size": "1048576",
-          "min_tip_percentage": "0",
-          "max_tip_percentage": "65535",
-          "max_epoch_range": "8640",
-          "message_validation": {
-            "max_plaintext_message_length": "2048",
-            "max_encrypted_message_length": "2076",
-            "max_mime_type_length": "128",
-            "max_decryptors": "20"
-          }
         }
       },
       "output": {
-        "kind": "Valid"
+        "kind": "Invalid",
+        "value": "IntentValidationError(RootTransactionIntent(TransactionIntentHash(d698c651505aaa0782dbbf89d598d8daa7b8cd8610f47486436108ccee5331cc)), ManifestValidationError(BlobNotRegistered(ManifestBlobRef([167, 16, 240, 149, 157, 142, 19, 155, 60, 28, 167, 74, 196, 252, 185, 169, 90, 218, 44, 130, 231, 245, 99, 48, 76, 84, 135, 224, 17, 112, 149, 192]))))"
       }
     }
   ]

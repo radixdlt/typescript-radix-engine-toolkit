@@ -15,9 +15,31 @@
 // specific language governing permissions and limitations
 // under the License.
 
+import type {
+  PayloadSchema as GeneratedPayloadSchema,
+  SerializableLocalTypeId as GeneratedSerializableLocalTypeId,
+} from "../../generated";
+
+export type SerializableLocalTypeId = GeneratedSerializableLocalTypeId;
+export type PayloadSchema = GeneratedPayloadSchema;
+
 export type StaticValidationResult =
   | { kind: "Valid" }
   | { kind: "Invalid"; error: string };
+
+export interface StaticManifestAnalysisResult {
+  encountered_entities: string[];
+  accounts_requiring_auth: string[];
+  accounts_withdrawn_from: string[];
+  accounts_deposited_into: string[];
+  classification: string[];
+  reserved_instructions: string[];
+}
+
+export interface StaticTransactionIntentV2AnalysisResult {
+  root_intent: StaticManifestAnalysisResult;
+  non_root_subintents: StaticManifestAnalysisResult[];
+}
 
 export enum SerializationMode {
   Programmatic = "Programmatic",

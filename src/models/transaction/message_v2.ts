@@ -15,13 +15,34 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export const wasmBindgenImports = {
-  __wbindgen_placeholder__: {
-    __wbindgen_describe: () => {},
-    __wbg___wbindgen_throw_dd24417ed36fc46e: () => {},
-  },
-  __wbindgen_externref_xform__: {
-    __wbindgen_externref_table_grow: () => {},
-    __wbindgen_externref_table_set_null: () => {},
-  },
-};
+import { Curve } from "../cryptographic";
+import { PlainTextMessage } from "./message";
+
+export type MessageV2 =
+  | { kind: "None" }
+  | { kind: "PlainText"; value: PlainTextMessage }
+  | {
+      kind: "Encrypted";
+      value: EncryptedMessageV2;
+    };
+
+export interface EncryptedMessageV2 {
+  encrypted: Uint8Array;
+  decryptorsByCurve: Record<Curve, DecryptorsByCurveV2>;
+}
+
+export type DecryptorsByCurveV2 =
+  | {
+      kind: "Ed25519";
+      value: {
+        dhEphemeralPublicKey: Uint8Array;
+        decryptors: Record<string, string>;
+      };
+    }
+  | {
+      kind: "Secp256k1";
+      value: {
+        dhEphemeralPublicKey: Uint8Array;
+        decryptors: Record<string, string>;
+      };
+    };

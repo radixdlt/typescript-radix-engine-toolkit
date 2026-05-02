@@ -692,6 +692,132 @@ await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
 });
 ```
 
+## Hashing Instructions and Manifests
+
+When building pre-signing workflows, clients may need deterministic hashes for instruction sets and full manifests.
+
+```ts
+import {
+  NetworkId,
+  RadixEngineToolkit,
+  TransactionManifest,
+} from "@radixdlt/radix-engine-toolkit";
+
+const manifest: TransactionManifest = {
+  instructions: {
+    kind: "String",
+    value: "DROP_ALL_PROOFS;",
+  },
+  blobs: [],
+};
+
+const instructionsHash = await RadixEngineToolkit.Instructions.hash(
+  manifest.instructions,
+  NetworkId.Simulator
+);
+
+const manifestHash = await RadixEngineToolkit.TransactionManifest.hash(
+  manifest,
+  NetworkId.Simulator
+);
+
+console.log(instructionsHash, manifestHash);
+```
+
+## SBOR Decoding with Schema
+
+`RadixEngineToolkit.ManifestSbor.decodeToString(...)` and `RadixEngineToolkit.ScryptoSbor.decodeToString(...)` accept an optional `schema` argument (`PayloadSchema`) for schema-aware decoding.
+
+```ts
+import {
+  NetworkId,
+  PayloadSchema,
+  RadixEngineToolkit,
+  SerializationMode,
+} from "@radixdlt/radix-engine-toolkit";
+
+const payload = await RadixEngineToolkit.ScryptoSbor.encodeProgrammaticJson({
+  kind: "Tuple",
+  fields: [],
+});
+
+const schema: PayloadSchema = {
+  local_type_id: { kind: "WellKnown", value: "1" },
+  schema: "...hex-encoded-schema-bytes...",
+};
+
+const decoded = await RadixEngineToolkit.ScryptoSbor.decodeToString(
+  payload,
+  NetworkId.Simulator,
+  SerializationMode.Programmatic,
+  schema
+);
+
+console.log(decoded);
+```
+
+## Transaction V2 APIs
+
+The TypeScript toolkit includes V2 transaction models and builders (`TransactionV2Builder`, `TransactionIntentV2`, `SubintentV2`, `PartialTransactionV2`, `SignedPartialTransactionV2`, `NotarizedTransactionV2`) for advanced intent/subintent workflows. For working examples, see `tests/transaction_v2.test.ts`.
+
+You can also build a V2 preview transaction object for preview workflows:
+
+```ts
+import {
+  NetworkId,
+  TransactionHeaderV2,
+  TransactionV2Builder,
+} from "@radixdlt/radix-engine-toolkit";
+
+const txHeader: TransactionHeaderV2 = {
+  notaryPublicKey: myNotaryPublicKey,
+  notaryIsSignatory: true,
+  tipBasisPoints: 0,
+};
+
+const previewTransaction = (await TransactionV2Builder.new())
+  .header(txHeader)
+  .rootIntentCore({
+    header: {
+      networkId: NetworkId.Simulator,
+      startEpochInclusive: 0,
+      endEpochExclusive: 16,
+      intentDiscriminator: 1,
+    },
+    instructions: "DROP_ALL_PROOFS;",
+    blobs: [],
+    message: { kind: "None" },
+    children: [],
+  })
+  .buildPreviewTransaction({
+    rootSignerPublicKeys: [mySignerPublicKey],
+  });
+```
+
+V2 static analysis is available for both a full transaction intent and standalone subintents:
+
+```ts
+import {
+  RadixEngineToolkit,
+  TransactionIntentV2,
+} from "@radixdlt/radix-engine-toolkit";
+
+// @ts-ignore: defined by you
+const transactionIntentV2: TransactionIntentV2 = undefined;
+
+const analysis = await RadixEngineToolkit.TransactionIntentV2.staticallyAnalyze(
+  transactionIntentV2
+);
+
+console.log("Root classification", analysis.root_intent.classification);
+console.log(
+  "Child subintent analyses",
+  analysis.non_root_subintents.length
+);
+```
+
+This supports V2 instruction flows (for example `USE_CHILD`, `YIELD_TO_CHILD`, and `YIELD_TO_PARENT`) which are not accepted by the V1 manifest analyzer.
+
 ## Address Derivations
 
 The Radix Engine Toolkit exposes a number of address derivation functions that can be useful to a wide variety of clients. This section discussed these address derivation functions and provides examples as to how they can be done.
@@ -743,6 +869,28 @@ const virtualIdentityAddress =
     NetworkId.Mainnet
   );
 console.log(virtualIdentityAddress.toString());
+```
+
+### Deriving Virtual Signature Non-Fungible Global IDs from Public Keys
+
+The Radix Engine Toolkit allows virtual signature non-fungible global IDs to be derived from Ecdsa Secp256k1 and EdDSA Ed25519 public keys. These IDs can be used in access rules that require signature badges.
+
+```ts
+import {
+  PublicKey,
+  NetworkId,
+  RadixEngineToolkit,
+} from "@radixdlt/radix-engine-toolkit";
+
+const publicKey = new PublicKey.Ed25519(
+  "4cb5abf6ad79fbf5abbccafcc269d85cd2651ed4b885b5869f241aedf0a5ba29"
+);
+const virtualSignatureNonFungibleGlobalId =
+  await RadixEngineToolkit.Derive.virtualSignatureNonFungibleGlobalIdFromPublicKey(
+    publicKey,
+    NetworkId.Mainnet
+  );
+console.log(virtualSignatureNonFungibleGlobalId);
 ```
 
 ### Deriving Babylon Account Addresses from Olympia Account Addresses

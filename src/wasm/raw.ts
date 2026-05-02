@@ -39,6 +39,8 @@ import {
   DeriveVirtualAccountAddressFromPublicKeyOutput,
   DeriveVirtualIdentityAddressFromPublicKeyInput,
   DeriveVirtualIdentityAddressFromPublicKeyOutput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput,
+  DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput,
   InstructionsCompileInput,
   InstructionsCompileOutput,
   InstructionsConvertInput,
@@ -67,6 +69,8 @@ import {
   ManifestHashOutput,
   ManifestSborDecodeToStringInput,
   ManifestSborDecodeToStringOutput,
+  ManifestStaticallyAnalyzeInput,
+  ManifestStaticallyAnalyzeOutput,
   ManifestStaticallyValidateInput,
   ManifestStaticallyValidateOutput,
   NotarizedTransactionCompileInput,
@@ -91,6 +95,49 @@ import {
   SignedIntentStaticallyValidateOutput,
   UtilsKnownAddressesInput,
   UtilsKnownAddressesOutput,
+  // V2 Transaction Types
+  TransactionIntentV2HashInput,
+  TransactionIntentV2HashOutput,
+  TransactionIntentV2CompileInput,
+  TransactionIntentV2CompileOutput,
+  TransactionIntentV2DecompileInput,
+  TransactionIntentV2DecompileOutput,
+  SignedTransactionIntentV2HashInput,
+  SignedTransactionIntentV2HashOutput,
+  SignedTransactionIntentV2CompileInput,
+  SignedTransactionIntentV2CompileOutput,
+  SignedTransactionIntentV2DecompileInput,
+  SignedTransactionIntentV2DecompileOutput,
+  NotarizedTransactionV2HashInput,
+  NotarizedTransactionV2HashOutput,
+  NotarizedTransactionV2CompileInput,
+  NotarizedTransactionV2CompileOutput,
+  NotarizedTransactionV2DecompileInput,
+  NotarizedTransactionV2DecompileOutput,
+  NotarizedTransactionV2StaticallyValidateInput,
+  NotarizedTransactionV2StaticallyValidateOutput,
+  SubintentV2HashInput,
+  SubintentV2HashOutput,
+  SubintentV2CompileInput,
+  SubintentV2CompileOutput,
+  SubintentV2DecompileInput,
+  SubintentV2DecompileOutput,
+  PartialTransactionV2HashInput,
+  PartialTransactionV2HashOutput,
+  PartialTransactionV2CompileInput,
+  PartialTransactionV2CompileOutput,
+  PartialTransactionV2DecompileInput,
+  PartialTransactionV2DecompileOutput,
+  PreviewTransactionV2CompileInput,
+  PreviewTransactionV2CompileOutput,
+  SignedPartialTransactionV2HashInput,
+  SignedPartialTransactionV2HashOutput,
+  SignedPartialTransactionV2CompileInput,
+  SignedPartialTransactionV2CompileOutput,
+  SignedPartialTransactionV2DecompileInput,
+  SignedPartialTransactionV2DecompileOutput,
+  SignedPartialTransactionV2StaticallyValidateInput,
+  SignedPartialTransactionV2StaticallyValidateOutput,
 } from "../generated";
 import { wasmBindgenImports } from "./constants";
 import { Host } from "./host";
@@ -106,122 +153,132 @@ import { Host } from "./host";
  */
 export class RawRadixEngineToolkit extends Host<Exports> {
   public buildInformation(
-    input: BuildInformationInput
+    input: BuildInformationInput,
   ): BuildInformationOutput {
     return this.callFunction(input, this.exports.build_information);
   }
 
   public deriveVirtualAccountAddressFromPublicKey(
-    input: DeriveVirtualAccountAddressFromPublicKeyInput
+    input: DeriveVirtualAccountAddressFromPublicKeyInput,
   ): DeriveVirtualAccountAddressFromPublicKeyOutput {
     return this.callFunction(
       input,
-      this.exports.derive_virtual_account_address_from_public_key
+      this.exports.derive_virtual_account_address_from_public_key,
     );
   }
 
   public deriveVirtualIdentityAddressFromPublicKey(
-    input: DeriveVirtualIdentityAddressFromPublicKeyInput
+    input: DeriveVirtualIdentityAddressFromPublicKeyInput,
   ): DeriveVirtualIdentityAddressFromPublicKeyOutput {
     return this.callFunction(
       input,
-      this.exports.derive_virtual_identity_address_from_public_key
+      this.exports.derive_virtual_identity_address_from_public_key,
+    );
+  }
+
+  public deriveVirtualSignatureNonFungibleGlobalIdFromPublicKey(
+    input: DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput,
+  ): DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput {
+    return this.callFunction(
+      input,
+      this.exports
+        .derive_virtual_signature_non_fungible_global_id_from_public_key,
     );
   }
 
   public derivePublicKeyFromOlympiaAccountAddress(
-    input: DerivePublicKeyFromOlympiaAccountAddressInput
+    input: DerivePublicKeyFromOlympiaAccountAddressInput,
   ): DerivePublicKeyFromOlympiaAccountAddressOutput {
     return this.callFunction(
       input,
-      this.exports.derive_public_key_from_olympia_account_address
+      this.exports.derive_public_key_from_olympia_account_address,
     );
   }
 
   public deriveVirtualAccountAddressFromOlympiaAccountAddress(
-    input: DeriveVirtualAccountAddressFromOlympiaAccountAddressInput
+    input: DeriveVirtualAccountAddressFromOlympiaAccountAddressInput,
   ): DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput {
     return this.callFunction(
       input,
-      this.exports.derive_virtual_account_address_from_olympia_account_address
+      this.exports.derive_virtual_account_address_from_olympia_account_address,
     );
   }
 
   public deriveResourceAddressFromOlympiaResourceAddress(
-    input: DeriveResourceAddressFromOlympiaResourceAddressInput
+    input: DeriveResourceAddressFromOlympiaResourceAddressInput,
   ): DeriveResourceAddressFromOlympiaResourceAddressOutput {
     return this.callFunction(
       input,
-      this.exports.derive_resource_address_from_olympia_resource_address
+      this.exports.derive_resource_address_from_olympia_resource_address,
     );
   }
 
   public deriveOlympiaAccountAddressFromPublicKey(
-    input: DeriveOlympiaAccountAddressFromPublicKeyInput
+    input: DeriveOlympiaAccountAddressFromPublicKeyInput,
   ): DeriveOlympiaAccountAddressFromPublicKeyOutput {
     return this.callFunction(
       input,
-      this.exports.derive_olympia_account_address_from_public_key
+      this.exports.derive_olympia_account_address_from_public_key,
     );
   }
 
   public deriveBech32mTransactionIdentifierFromIntentHash(
-    input: DeriveBech32mTransactionIdentifierFromIntentHashInput
+    input: DeriveBech32mTransactionIdentifierFromIntentHashInput,
   ): DeriveBech32mTransactionIdentifierFromIntentHashOutput {
     return this.callFunction(
       input,
-      this.exports.derive_bech32m_transaction_identifier_from_intent_hash
+      this.exports.derive_bech32m_transaction_identifier_from_intent_hash,
     );
   }
 
   public deriveNodeAddressFromPublicKey(
-    input: DeriveNodeAddressFromPublicKeyInput
+    input: DeriveNodeAddressFromPublicKeyInput,
   ): DeriveNodeAddressFromPublicKeyOutput {
     return this.callFunction(
       input,
-      this.exports.derive_node_address_from_public_key
+      this.exports.derive_node_address_from_public_key,
     );
   }
 
   public instructionsHash(
-    input: InstructionsHashInput
+    input: InstructionsHashInput,
   ): InstructionsHashOutput {
     return this.callFunction(input, this.exports.instructions_hash);
   }
 
   public instructionsConvert(
-    input: InstructionsConvertInput
+    input: InstructionsConvertInput,
   ): InstructionsConvertOutput {
     return this.callFunction(input, this.exports.instructions_convert);
   }
 
   public instructionsCompile(
-    input: InstructionsCompileInput
+    input: InstructionsCompileInput,
   ): InstructionsCompileOutput {
     return this.callFunction(input, this.exports.instructions_compile);
   }
 
   public instructionsDecompile(
-    input: InstructionsDecompileInput
+    input: InstructionsDecompileInput,
   ): InstructionsDecompileOutput {
     return this.callFunction(input, this.exports.instructions_decompile);
   }
 
   public instructionsExtractAddresses(
-    input: InstructionsExtractAddressesInput
+    input: InstructionsExtractAddressesInput,
   ): InstructionsExtractAddressesOutput {
     return this.callFunction(
       input,
-      this.exports.instructions_extract_addresses
+      this.exports.instructions_extract_addresses,
     );
   }
 
   public instructionsStaticallyValidate(
-    input: InstructionsStaticallyValidateInput
+    input: InstructionsStaticallyValidateInput,
   ): InstructionsStaticallyValidateOutput {
     return this.callFunction(
       input,
-      this.exports.instructions_statically_validate
+      this.exports.instructions_statically_validate,
     );
   }
 
@@ -234,15 +291,21 @@ export class RawRadixEngineToolkit extends Host<Exports> {
   }
 
   public manifestDecompile(
-    input: ManifestDecompileInput
+    input: ManifestDecompileInput,
   ): ManifestDecompileOutput {
     return this.callFunction(input, this.exports.manifest_decompile);
   }
 
   public manifestStaticallyValidate(
-    input: ManifestStaticallyValidateInput
+    input: ManifestStaticallyValidateInput,
   ): ManifestStaticallyValidateOutput {
     return this.callFunction(input, this.exports.manifest_statically_validate);
+  }
+
+  public manifestStaticallyAnalyze(
+    input: ManifestStaticallyAnalyzeInput,
+  ): ManifestStaticallyAnalyzeOutput {
+    return this.callFunction(input, this.exports.manifest_statically_analyze);
   }
 
   public intentHash(input: IntentHashInput): IntentHashOutput {
@@ -258,106 +321,304 @@ export class RawRadixEngineToolkit extends Host<Exports> {
   }
 
   public intentStaticallyValidate(
-    input: IntentStaticallyValidateInput
+    input: IntentStaticallyValidateInput,
   ): IntentStaticallyValidateOutput {
     return this.callFunction(input, this.exports.intent_statically_validate);
   }
 
   public signedIntentHash(
-    input: SignedIntentHashInput
+    input: SignedIntentHashInput,
   ): SignedIntentHashOutput {
     return this.callFunction(input, this.exports.signed_intent_hash);
   }
 
   public signedIntentCompile(
-    input: SignedIntentCompileInput
+    input: SignedIntentCompileInput,
   ): SignedIntentCompileOutput {
     return this.callFunction(input, this.exports.signed_intent_compile);
   }
 
   public signedIntentDecompile(
-    input: SignedIntentDecompileInput
+    input: SignedIntentDecompileInput,
   ): SignedIntentDecompileOutput {
     return this.callFunction(input, this.exports.signed_intent_decompile);
   }
 
   public signedIntentStaticallyValidate(
-    input: SignedIntentStaticallyValidateInput
+    input: SignedIntentStaticallyValidateInput,
   ): SignedIntentStaticallyValidateOutput {
     return this.callFunction(
       input,
-      this.exports.signed_intent_statically_validate
+      this.exports.signed_intent_statically_validate,
     );
   }
 
   public notarizedTransactionHash(
-    input: NotarizedTransactionHashInput
+    input: NotarizedTransactionHashInput,
   ): NotarizedTransactionHashOutput {
     return this.callFunction(input, this.exports.notarized_transaction_hash);
   }
 
   public notarizedTransactionCompile(
-    input: NotarizedTransactionCompileInput
+    input: NotarizedTransactionCompileInput,
   ): NotarizedTransactionCompileOutput {
     return this.callFunction(input, this.exports.notarized_transaction_compile);
   }
 
   public notarizedTransactionDecompile(
-    input: NotarizedTransactionDecompileInput
+    input: NotarizedTransactionDecompileInput,
   ): NotarizedTransactionDecompileOutput {
     return this.callFunction(
       input,
-      this.exports.notarized_transaction_decompile
+      this.exports.notarized_transaction_decompile,
     );
   }
 
   public notarizedTransactionStaticallyValidate(
-    input: NotarizedTransactionStaticallyValidateInput
+    input: NotarizedTransactionStaticallyValidateInput,
   ): NotarizedTransactionStaticallyValidateOutput {
     return this.callFunction(
       input,
-      this.exports.notarized_transaction_statically_validate
+      this.exports.notarized_transaction_statically_validate,
     );
   }
 
   public manifestSborDecodeToString(
-    input: ManifestSborDecodeToStringInput
+    input: ManifestSborDecodeToStringInput,
   ): ManifestSborDecodeToStringOutput {
     return this.callFunction(
       input,
-      this.exports.manifest_sbor_decode_to_string
+      this.exports.manifest_sbor_decode_to_string,
     );
   }
 
   public scryptoSborDecodeToString(
-    input: ScryptoSborDecodeToStringInput
+    input: ScryptoSborDecodeToStringInput,
   ): ScryptoSborDecodeToStringOutput {
     return this.callFunction(input, this.exports.scrypto_sbor_decode_to_string);
   }
 
   public scryptoSborEncodeStringRepresentation(
-    input: ScryptoSborEncodeStringRepresentationInput
+    input: ScryptoSborEncodeStringRepresentationInput,
   ): ScryptoSborEncodeStringRepresentationOutput {
     return this.callFunction(
       input,
-      this.exports.scrypto_sbor_encode_string_representation
+      this.exports.scrypto_sbor_encode_string_representation,
     );
   }
 
   public utilsKnownAddresses(
-    input: UtilsKnownAddressesInput
+    input: UtilsKnownAddressesInput,
   ): UtilsKnownAddressesOutput {
     return this.callFunction(input, this.exports.utils_known_addresses);
   }
 
   public addressEntityType(
-    input: AddressEntityTypeInput
+    input: AddressEntityTypeInput,
   ): AddressEntityTypeOutput {
     return this.callFunction(input, this.exports.address_entity_type);
   }
 
   public addressDecode(input: AddressDecodeInput): AddressDecodeOutput {
     return this.callFunction(input, this.exports.address_decode);
+  }
+
+  /* V2 Transaction Intent */
+
+  public transactionIntentV2Hash(
+    input: TransactionIntentV2HashInput,
+  ): TransactionIntentV2HashOutput {
+    return this.callFunction(input, this.exports.transaction_intent_v2_hash);
+  }
+
+  public transactionIntentV2Compile(
+    input: TransactionIntentV2CompileInput,
+  ): TransactionIntentV2CompileOutput {
+    return this.callFunction(input, this.exports.transaction_intent_v2_compile);
+  }
+
+  public transactionIntentV2Decompile(
+    input: TransactionIntentV2DecompileInput,
+  ): TransactionIntentV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.transaction_intent_v2_decompile,
+    );
+  }
+
+  public transactionIntentV2StaticallyAnalyze(
+    input: TransactionIntentV2HashInput,
+  ): ManifestStaticallyAnalyzeOutput {
+    return this.callFunction(
+      input,
+      this.exports.transaction_intent_v2_statically_analyze,
+    );
+  }
+
+  /* V2 Signed Transaction Intent */
+
+  public signedTransactionIntentV2Hash(
+    input: SignedTransactionIntentV2HashInput,
+  ): SignedTransactionIntentV2HashOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_transaction_intent_v2_hash,
+    );
+  }
+
+  public signedTransactionIntentV2Compile(
+    input: SignedTransactionIntentV2CompileInput,
+  ): SignedTransactionIntentV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_transaction_intent_v2_compile,
+    );
+  }
+
+  public signedTransactionIntentV2Decompile(
+    input: SignedTransactionIntentV2DecompileInput,
+  ): SignedTransactionIntentV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_transaction_intent_v2_decompile,
+    );
+  }
+
+  /* V2 Notarized Transaction */
+
+  public notarizedTransactionV2Hash(
+    input: NotarizedTransactionV2HashInput,
+  ): NotarizedTransactionV2HashOutput {
+    return this.callFunction(input, this.exports.notarized_transaction_v2_hash);
+  }
+
+  public notarizedTransactionV2Compile(
+    input: NotarizedTransactionV2CompileInput,
+  ): NotarizedTransactionV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.notarized_transaction_v2_compile,
+    );
+  }
+
+  public notarizedTransactionV2Decompile(
+    input: NotarizedTransactionV2DecompileInput,
+  ): NotarizedTransactionV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.notarized_transaction_v2_decompile,
+    );
+  }
+
+  public notarizedTransactionV2StaticallyValidate(
+    input: NotarizedTransactionV2StaticallyValidateInput,
+  ): NotarizedTransactionV2StaticallyValidateOutput {
+    return this.callFunction(
+      input,
+      this.exports.notarized_transaction_v2_statically_validate,
+    );
+  }
+
+  /* V2 Subintent */
+
+  public subintentV2Hash(input: SubintentV2HashInput): SubintentV2HashOutput {
+    return this.callFunction(input, this.exports.subintent_v2_hash);
+  }
+
+  public subintentV2Compile(
+    input: SubintentV2CompileInput,
+  ): SubintentV2CompileOutput {
+    return this.callFunction(input, this.exports.subintent_v2_compile);
+  }
+
+  public subintentV2Decompile(
+    input: SubintentV2DecompileInput,
+  ): SubintentV2DecompileOutput {
+    return this.callFunction(input, this.exports.subintent_v2_decompile);
+  }
+
+  public subintentV2StaticallyAnalyze(
+    input: SubintentV2HashInput,
+  ): ManifestStaticallyAnalyzeOutput {
+    return this.callFunction(
+      input,
+      this.exports.subintent_v2_statically_analyze,
+    );
+  }
+
+  /* V2 Partial Transaction */
+
+  public partialTransactionV2Hash(
+    input: PartialTransactionV2HashInput,
+  ): PartialTransactionV2HashOutput {
+    return this.callFunction(input, this.exports.partial_transaction_v2_hash);
+  }
+
+  public partialTransactionV2Compile(
+    input: PartialTransactionV2CompileInput,
+  ): PartialTransactionV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.partial_transaction_v2_compile,
+    );
+  }
+
+  public partialTransactionV2Decompile(
+    input: PartialTransactionV2DecompileInput,
+  ): PartialTransactionV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.partial_transaction_v2_decompile,
+    );
+  }
+
+  /* V2 Preview Transaction */
+
+  public previewTransactionV2Compile(
+    input: PreviewTransactionV2CompileInput,
+  ): PreviewTransactionV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.preview_transaction_v2_compile,
+    );
+  }
+
+  /* V2 Signed Partial Transaction */
+
+  public signedPartialTransactionV2Hash(
+    input: SignedPartialTransactionV2HashInput,
+  ): SignedPartialTransactionV2HashOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_hash,
+    );
+  }
+
+  public signedPartialTransactionV2Compile(
+    input: SignedPartialTransactionV2CompileInput,
+  ): SignedPartialTransactionV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_compile,
+    );
+  }
+
+  public signedPartialTransactionV2Decompile(
+    input: SignedPartialTransactionV2DecompileInput,
+  ): SignedPartialTransactionV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_decompile,
+    );
+  }
+
+  public signedPartialTransactionV2StaticallyValidate(
+    input: SignedPartialTransactionV2StaticallyValidateInput,
+  ): SignedPartialTransactionV2StaticallyValidateOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_statically_validate,
+    );
   }
 
   allocateMemory(capacity: number): number {
@@ -389,7 +650,7 @@ export class RawRadixEngineToolkit extends Host<Exports> {
       const inputString = JSON.stringify(input);
       const outputString = JSON.stringify(output);
       throw new Error(
-        `Radix Engine Toolkit error for invocation ${inputString} response is ${outputString}`
+        `Radix Engine Toolkit error for invocation ${inputString} response is ${outputString}`,
       );
     }
     return output;
@@ -425,17 +686,20 @@ interface Exports {
   /* Derivation Module */
   derive_virtual_account_address_from_public_key(pointer: number): number;
   derive_virtual_identity_address_from_public_key(pointer: number): number;
+  derive_virtual_signature_non_fungible_global_id_from_public_key(
+    pointer: number,
+  ): number;
   derive_virtual_account_address_from_olympia_account_address(
-    pointer: number
+    pointer: number,
   ): number;
   derive_resource_address_from_olympia_resource_address(
-    pointer: number
+    pointer: number,
   ): number;
   derive_public_key_from_olympia_account_address(pointer: number): number;
   derive_olympia_account_address_from_public_key(pointer: number): number;
   derive_node_address_from_public_key(pointer: number): number;
   derive_bech32m_transaction_identifier_from_intent_hash(
-    pointer: number
+    pointer: number,
   ): number;
 
   /* Execution Module */
@@ -454,6 +718,7 @@ interface Exports {
   manifest_compile(pointer: number): number;
   manifest_decompile(pointer: number): number;
   manifest_statically_validate(pointer: number): number;
+  manifest_statically_analyze(pointer: number): number;
 
   /* Intent Module */
   intent_hash(pointer: number): number;
@@ -473,6 +738,43 @@ interface Exports {
   notarized_transaction_decompile(pointer: number): number;
   notarized_transaction_statically_validate(pointer: number): number;
 
+  /* V2 Transaction Intent Module */
+  transaction_intent_v2_hash(pointer: number): number;
+  transaction_intent_v2_compile(pointer: number): number;
+  transaction_intent_v2_decompile(pointer: number): number;
+  transaction_intent_v2_statically_analyze(pointer: number): number;
+
+  /* V2 Signed Transaction Intent Module */
+  signed_transaction_intent_v2_hash(pointer: number): number;
+  signed_transaction_intent_v2_compile(pointer: number): number;
+  signed_transaction_intent_v2_decompile(pointer: number): number;
+
+  /* V2 Notarized Transaction Module */
+  notarized_transaction_v2_hash(pointer: number): number;
+  notarized_transaction_v2_compile(pointer: number): number;
+  notarized_transaction_v2_decompile(pointer: number): number;
+  notarized_transaction_v2_statically_validate(pointer: number): number;
+
+  /* V2 Subintent Module */
+  subintent_v2_hash(pointer: number): number;
+  subintent_v2_compile(pointer: number): number;
+  subintent_v2_decompile(pointer: number): number;
+  subintent_v2_statically_analyze(pointer: number): number;
+
+  /* V2 Partial Transaction Module */
+  partial_transaction_v2_hash(pointer: number): number;
+  partial_transaction_v2_compile(pointer: number): number;
+  partial_transaction_v2_decompile(pointer: number): number;
+
+  /* V2 Preview Transaction Module */
+  preview_transaction_v2_compile(pointer: number): number;
+
+  /* V2 Signed Partial Transaction Module */
+  signed_partial_transaction_v2_hash(pointer: number): number;
+  signed_partial_transaction_v2_compile(pointer: number): number;
+  signed_partial_transaction_v2_decompile(pointer: number): number;
+  signed_partial_transaction_v2_statically_validate(pointer: number): number;
+
   /* SBOR Modules */
   manifest_sbor_decode_to_string(pointer: number): number;
   scrypto_sbor_decode_to_string(pointer: number): number;
@@ -491,7 +793,7 @@ interface Exports {
 }
 
 export const rawRadixEngineToolkit: Promise<RawRadixEngineToolkit> = wasmModule(
-  wasmBindgenImports
+  wasmBindgenImports,
 ).then((instance) => {
   const exports = instance.instance.exports as unknown as Exports;
   return new RawRadixEngineToolkit(exports);

@@ -15,13 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export const wasmBindgenImports = {
-  __wbindgen_placeholder__: {
-    __wbindgen_describe: () => {},
-    __wbg___wbindgen_throw_dd24417ed36fc46e: () => {},
-  },
-  __wbindgen_externref_xform__: {
-    __wbindgen_externref_table_grow: () => {},
-    __wbindgen_externref_table_set_null: () => {},
-  },
-};
+import { SignatureWithPublicKey } from "../..";
+import { PartialTransactionV2 } from "./partial_transaction_v2";
+
+export interface SignedPartialTransactionV2 {
+  partialTransaction: PartialTransactionV2;
+  rootSubintentSignatures: SignatureWithPublicKey[];
+  nonRootSubintentSignatures: SignatureWithPublicKey[][];
+}

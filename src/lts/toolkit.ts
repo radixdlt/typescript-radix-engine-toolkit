@@ -339,14 +339,14 @@ export abstract class LTSRadixEngineToolkit {
             resources: {
               xrdResource: knownAddresses.resourceAddresses.xrd,
               secp256k1Resource:
-              knownAddresses.resourceAddresses.secp256k1SignatureVirtualBadge,
+              knownAddresses.resourceAddresses.secp256k1SignatureResource,
               ed25519Resource:
-              knownAddresses.resourceAddresses.ed25519SignatureVirtualBadge,
+              knownAddresses.resourceAddresses.ed25519SignatureResource,
               systemResource:
-              knownAddresses.resourceAddresses.systemTransactionBadge,
+              knownAddresses.resourceAddresses.systemExecutionResource,
               packageBadgeResource:
               knownAddresses.resourceAddresses
-                .packageOfDirectCallerVirtualBadge,
+                .packageOfDirectCallerResource,
             },
           };
         }
@@ -368,8 +368,8 @@ export abstract class LTSRadixEngineToolkit {
     static async isGlobalAccount(address: string): Promise<boolean> {
       const entityType = await RadixEngineToolkit.Address.entityType(address);
       return (
-        entityType == EntityType.GlobalVirtualEd25519Account ||
-        entityType == EntityType.GlobalVirtualSecp256k1Account ||
+        entityType == EntityType.GlobalPreallocatedEd25519Account ||
+        entityType == EntityType.GlobalPreallocatedSecp256k1Account ||
         entityType == EntityType.GlobalAccount
       );
     }
