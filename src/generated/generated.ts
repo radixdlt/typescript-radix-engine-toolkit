@@ -9,28 +9,28 @@ export type SerializableNodeId = string;
 export type AddressEntityTypeInput = SerializableNodeId;
 
 export enum SerializableEntityType {
-	GlobalPackage = "GlobalPackage",
-	GlobalConsensusManager = "GlobalConsensusManager",
-	GlobalValidator = "GlobalValidator",
-	GlobalTransactionTracker = "GlobalTransactionTracker",
-	GlobalGenericComponent = "GlobalGenericComponent",
-	GlobalAccount = "GlobalAccount",
-	GlobalIdentity = "GlobalIdentity",
-	GlobalAccessController = "GlobalAccessController",
-	GlobalOneResourcePool = "GlobalOneResourcePool",
-	GlobalTwoResourcePool = "GlobalTwoResourcePool",
-	GlobalMultiResourcePool = "GlobalMultiResourcePool",
-	GlobalAccountLocker = "GlobalAccountLocker",
-	GlobalPreallocatedSecp256k1Account = "GlobalPreallocatedSecp256k1Account",
-	GlobalPreallocatedSecp256k1Identity = "GlobalPreallocatedSecp256k1Identity",
-	GlobalPreallocatedEd25519Account = "GlobalPreallocatedEd25519Account",
-	GlobalPreallocatedEd25519Identity = "GlobalPreallocatedEd25519Identity",
-	GlobalFungibleResourceManager = "GlobalFungibleResourceManager",
-	InternalFungibleVault = "InternalFungibleVault",
-	GlobalNonFungibleResourceManager = "GlobalNonFungibleResourceManager",
-	InternalNonFungibleVault = "InternalNonFungibleVault",
-	InternalGenericComponent = "InternalGenericComponent",
-	InternalKeyValueStore = "InternalKeyValueStore",
+  GlobalPackage = "GlobalPackage",
+  GlobalConsensusManager = "GlobalConsensusManager",
+  GlobalValidator = "GlobalValidator",
+  GlobalTransactionTracker = "GlobalTransactionTracker",
+  GlobalGenericComponent = "GlobalGenericComponent",
+  GlobalAccount = "GlobalAccount",
+  GlobalIdentity = "GlobalIdentity",
+  GlobalAccessController = "GlobalAccessController",
+  GlobalOneResourcePool = "GlobalOneResourcePool",
+  GlobalTwoResourcePool = "GlobalTwoResourcePool",
+  GlobalMultiResourcePool = "GlobalMultiResourcePool",
+  GlobalAccountLocker = "GlobalAccountLocker",
+  GlobalPreallocatedSecp256k1Account = "GlobalPreallocatedSecp256k1Account",
+  GlobalPreallocatedSecp256k1Identity = "GlobalPreallocatedSecp256k1Identity",
+  GlobalPreallocatedEd25519Account = "GlobalPreallocatedEd25519Account",
+  GlobalPreallocatedEd25519Identity = "GlobalPreallocatedEd25519Identity",
+  GlobalFungibleResourceManager = "GlobalFungibleResourceManager",
+  InternalFungibleVault = "InternalFungibleVault",
+  GlobalNonFungibleResourceManager = "GlobalNonFungibleResourceManager",
+  InternalNonFungibleVault = "InternalNonFungibleVault",
+  InternalGenericComponent = "InternalGenericComponent",
+  InternalKeyValueStore = "InternalKeyValueStore",
 }
 
 export type AddressEntityTypeOutput = SerializableEntityType;
@@ -45,25 +45,30 @@ export type DerivePublicKeyFromOlympiaAccountAddressInput = string;
 
 export type SerializableSecp256k1PublicKey = string;
 
-export type DerivePublicKeyFromOlympiaAccountAddressOutput = SerializableSecp256k1PublicKey;
+export type DerivePublicKeyFromOlympiaAccountAddressOutput =
+  SerializableSecp256k1PublicKey;
 
-export type DeriveResourceAddressFromOlympiaResourceAddressOutput = SerializableNodeId;
+export type DeriveResourceAddressFromOlympiaResourceAddressOutput =
+  SerializableNodeId;
 
-export type DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput = SerializableNodeId;
+export type DeriveVirtualAccountAddressFromOlympiaAccountAddressOutput =
+  SerializableNodeId;
 
 export type DeriveVirtualAccountAddressFromPublicKeyOutput = SerializableNodeId;
 
-export type DeriveVirtualIdentityAddressFromPublicKeyOutput = SerializableNodeId;
+export type DeriveVirtualIdentityAddressFromPublicKeyOutput =
+  SerializableNodeId;
 
-export type DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput = SerializableNonFungibleGlobalId;
+export type DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyOutput =
+  SerializableNonFungibleGlobalId;
 
 export type SerializableBytes = string;
 
 export type InstructionsCompileOutput = SerializableBytes;
 
-export type SerializableInstructions = 
-	| { kind: "String", value: string }
-	| { kind: "Parsed", value: SerializableInstruction[] };
+export type SerializableInstructions =
+  | { kind: "String"; value: string }
+  | { kind: "Parsed"; value: SerializableInstruction[] };
 
 export type InstructionsConvertOutput = SerializableInstructions;
 
@@ -81,36 +86,36 @@ export type SerializableEpoch = SerializableU64;
 
 export type SerializableU32 = string;
 
-export type SerializablePublicKey = 
-	| { kind: "Secp256k1", value: string }
-	| { kind: "Ed25519", value: string };
+export type SerializablePublicKey =
+  | { kind: "Secp256k1"; value: string }
+  | { kind: "Ed25519"; value: string };
 
 export type SerializableU16 = string;
 
 export interface SerializableTransactionHeader {
-	network_id: SerializableU8;
-	start_epoch_inclusive: SerializableEpoch;
-	end_epoch_exclusive: SerializableEpoch;
-	nonce: SerializableU32;
-	notary_public_key: SerializablePublicKey;
-	notary_is_signatory: boolean;
-	tip_percentage: SerializableU16;
+  network_id: SerializableU8;
+  start_epoch_inclusive: SerializableEpoch;
+  end_epoch_exclusive: SerializableEpoch;
+  nonce: SerializableU32;
+  notary_public_key: SerializablePublicKey;
+  notary_is_signatory: boolean;
+  tip_percentage: SerializableU16;
 }
 
 export interface SerializableTransactionManifest {
-	instructions: SerializableInstructions;
-	blobs: SerializableBytes[];
+  instructions: SerializableInstructions;
+  blobs: SerializableBytes[];
 }
 
-export type SerializableMessage = 
-	| { kind: "None", value?: undefined }
-	| { kind: "PlainText", value: SerializablePlainTextMessage }
-	| { kind: "Encrypted", value: SerializableEncryptedMessage };
+export type SerializableMessage =
+  | { kind: "None"; value?: undefined }
+  | { kind: "PlainText"; value: SerializablePlainTextMessage }
+  | { kind: "Encrypted"; value: SerializableEncryptedMessage };
 
 export interface SerializableIntent {
-	header: SerializableTransactionHeader;
-	manifest: SerializableTransactionManifest;
-	message: SerializableMessage;
+  header: SerializableTransactionHeader;
+  manifest: SerializableTransactionManifest;
+  message: SerializableMessage;
 }
 
 export type IntentCompileInput = SerializableIntent;
@@ -122,8 +127,8 @@ export type IntentDecompileOutput = SerializableIntent;
 export type IntentHashInput = SerializableIntent;
 
 export interface SerializableTransactionHash {
-	hash: SerializableHash;
-	id: string;
+  hash: SerializableHash;
+  id: string;
 }
 
 export type IntentHashOutput = SerializableTransactionHash;
@@ -136,121 +141,145 @@ export type ManifestHashOutput = SerializableHash;
 
 export type ManifestSborDecodeToStringOutput = string;
 
-export type SerializableSignatureWithPublicKey = 
-	| { kind: "Secp256k1", value: {
-	signature: string;
-}}
-	| { kind: "Ed25519", value: {
-	signature: string;
-	public_key: string;
-}};
+export type SerializableSignatureWithPublicKey =
+  | {
+      kind: "Secp256k1";
+      value: {
+        signature: string;
+      };
+    }
+  | {
+      kind: "Ed25519";
+      value: {
+        signature: string;
+        public_key: string;
+      };
+    };
 
 export interface SerializableSignedIntent {
-	intent: SerializableIntent;
-	intent_signatures: SerializableSignatureWithPublicKey[];
+  intent: SerializableIntent;
+  intent_signatures: SerializableSignatureWithPublicKey[];
 }
 
-export type SerializableSignature = 
-	| { kind: "Secp256k1", value: string }
-	| { kind: "Ed25519", value: string };
+export type SerializableSignature =
+  | { kind: "Secp256k1"; value: string }
+  | { kind: "Ed25519"; value: string };
 
 export interface SerializableNotarizedTransaction {
-	signed_intent: SerializableSignedIntent;
-	notary_signature: SerializableSignature;
+  signed_intent: SerializableSignedIntent;
+  notary_signature: SerializableSignature;
 }
 
 export type NotarizedTransactionCompileInput = SerializableNotarizedTransaction;
 
 export type NotarizedTransactionCompileOutput = SerializableBytes;
 
-export type NotarizedTransactionDecompileOutput = SerializableNotarizedTransaction;
+export type NotarizedTransactionDecompileOutput =
+  SerializableNotarizedTransaction;
 
 export type NotarizedTransactionHashInput = SerializableNotarizedTransaction;
 
 export type NotarizedTransactionHashOutput = SerializableTransactionHash;
 
 export interface SerializableTransactionHeaderV2 {
-	notary_public_key: SerializablePublicKey;
-	notary_is_signatory: boolean;
-	tip_basis_points: SerializableU32;
+  notary_public_key: SerializablePublicKey;
+  notary_is_signatory: boolean;
+  tip_basis_points: SerializableU32;
 }
 
 export type SerializableI64 = string;
 
 export interface SerializableIntentHeaderV2 {
-	network_id: SerializableU8;
-	start_epoch_inclusive: SerializableU64;
-	end_epoch_exclusive: SerializableU64;
-	min_proposer_timestamp_inclusive?: SerializableI64;
-	max_proposer_timestamp_exclusive?: SerializableI64;
-	intent_discriminator: SerializableU64;
+  network_id: SerializableU8;
+  start_epoch_inclusive: SerializableU64;
+  end_epoch_exclusive: SerializableU64;
+  min_proposer_timestamp_inclusive?: SerializableI64;
+  max_proposer_timestamp_exclusive?: SerializableI64;
+  intent_discriminator: SerializableU64;
 }
 
-export type SerializableMessageV2 = 
-	| { kind: "None", value?: undefined }
-	| { kind: "PlainText", value: SerializablePlainTextMessage }
-	| { kind: "Encrypted", value: SerializableEncryptedMessageV2 };
+export type SerializableMessageV2 =
+  | { kind: "None"; value?: undefined }
+  | { kind: "PlainText"; value: SerializablePlainTextMessage }
+  | { kind: "Encrypted"; value: SerializableEncryptedMessageV2 };
 
 export interface SerializableIntentCoreV2 {
-	header: SerializableIntentHeaderV2;
-	instructions: string;
-	blobs: SerializableBytes[];
-	message: SerializableMessageV2;
-	children: SerializableHash[];
+  header: SerializableIntentHeaderV2;
+  instructions: string;
+  blobs: SerializableBytes[];
+  message: SerializableMessageV2;
+  children: SerializableHash[];
 }
 
 export interface SerializableSubintentV2 {
-	intent_core: SerializableIntentCoreV2;
+  intent_core: SerializableIntentCoreV2;
 }
 
 export interface SerializableTransactionIntentV2 {
-	transaction_header: SerializableTransactionHeaderV2;
-	root_intent_core: SerializableIntentCoreV2;
-	non_root_subintents: SerializableSubintentV2[];
+  transaction_header: SerializableTransactionHeaderV2;
+  root_intent_core: SerializableIntentCoreV2;
+  non_root_subintents: SerializableSubintentV2[];
 }
 
 export interface SerializableSignedTransactionIntentV2 {
-	transaction_intent: SerializableTransactionIntentV2;
-	transaction_intent_signatures: SerializableSignatureWithPublicKey[];
-	non_root_subintent_signatures: SerializableSignatureWithPublicKey[][];
+  transaction_intent: SerializableTransactionIntentV2;
+  transaction_intent_signatures: SerializableSignatureWithPublicKey[];
+  non_root_subintent_signatures: SerializableSignatureWithPublicKey[][];
 }
 
 export interface SerializableNotarizedTransactionV2 {
-	signed_transaction_intent: SerializableSignedTransactionIntentV2;
-	notary_signature: SerializableSignature;
+  signed_transaction_intent: SerializableSignedTransactionIntentV2;
+  notary_signature: SerializableSignature;
 }
 
-export type NotarizedTransactionV2CompileInput = SerializableNotarizedTransactionV2;
+export type NotarizedTransactionV2CompileInput =
+  SerializableNotarizedTransactionV2;
 
 export type NotarizedTransactionV2CompileOutput = SerializableBytes;
 
-export type NotarizedTransactionV2DecompileOutput = SerializableNotarizedTransactionV2;
+export type NotarizedTransactionV2DecompileOutput =
+  SerializableNotarizedTransactionV2;
 
-export type NotarizedTransactionV2HashInput = SerializableNotarizedTransactionV2;
+export type NotarizedTransactionV2HashInput =
+  SerializableNotarizedTransactionV2;
 
 export type NotarizedTransactionV2HashOutput = SerializableTransactionHash;
 
 export interface SerializablePartialTransactionV2 {
-	root_subintent: SerializableSubintentV2;
-	non_root_subintents: SerializableSubintentV2[];
+  root_subintent: SerializableSubintentV2;
+  non_root_subintents: SerializableSubintentV2[];
+}
+
+export interface SerializablePreviewTransactionV2 {
+  transaction_intent: SerializableTransactionIntentV2;
+  root_signer_public_keys: SerializablePublicKey[];
+  non_root_subintent_signer_public_keys: SerializablePublicKey[][];
 }
 
 export type PartialTransactionV2CompileInput = SerializablePartialTransactionV2;
 
 export type PartialTransactionV2CompileOutput = SerializableBytes;
 
-export type PartialTransactionV2DecompileOutput = SerializablePartialTransactionV2;
+export type PartialTransactionV2DecompileOutput =
+  SerializablePartialTransactionV2;
 
 export type PartialTransactionV2HashInput = SerializablePartialTransactionV2;
 
 export type PartialTransactionV2HashOutput = SerializableTransactionHash;
 
+export type PreviewTransactionV2CompileInput = SerializablePreviewTransactionV2;
+
+export type PreviewTransactionV2CompileOutput = SerializableBytes;
+
 export type ScryptoSborDecodeToStringOutput = string;
 
-export type SerializableScryptoSborStringRepresentation = 
-	| { kind: "ProgrammaticJson", value: string };
+export type SerializableScryptoSborStringRepresentation = {
+  kind: "ProgrammaticJson";
+  value: string;
+};
 
-export type ScryptoSborEncodeStringRepresentationInput = SerializableScryptoSborStringRepresentation;
+export type ScryptoSborEncodeStringRepresentationInput =
+  SerializableScryptoSborStringRepresentation;
 
 export type ScryptoSborEncodeStringRepresentationOutput = SerializableBytes;
 
@@ -291,28 +320,34 @@ export type SignedIntentHashInput = SerializableSignedIntent;
 export type SignedIntentHashOutput = SerializableTransactionHash;
 
 export interface SerializableSignedPartialTransactionV2 {
-	partial_transaction: SerializablePartialTransactionV2;
-	root_subintent_signatures: SerializableSignatureWithPublicKey[];
-	non_root_subintent_signatures: SerializableSignatureWithPublicKey[][];
+  partial_transaction: SerializablePartialTransactionV2;
+  root_subintent_signatures: SerializableSignatureWithPublicKey[];
+  non_root_subintent_signatures: SerializableSignatureWithPublicKey[][];
 }
 
-export type SignedPartialTransactionV2CompileInput = SerializableSignedPartialTransactionV2;
+export type SignedPartialTransactionV2CompileInput =
+  SerializableSignedPartialTransactionV2;
 
 export type SignedPartialTransactionV2CompileOutput = SerializableBytes;
 
-export type SignedPartialTransactionV2DecompileOutput = SerializableSignedPartialTransactionV2;
+export type SignedPartialTransactionV2DecompileOutput =
+  SerializableSignedPartialTransactionV2;
 
-export type SignedPartialTransactionV2HashInput = SerializableSignedPartialTransactionV2;
+export type SignedPartialTransactionV2HashInput =
+  SerializableSignedPartialTransactionV2;
 
 export type SignedPartialTransactionV2HashOutput = SerializableTransactionHash;
 
-export type SignedTransactionIntentV2CompileInput = SerializableSignedTransactionIntentV2;
+export type SignedTransactionIntentV2CompileInput =
+  SerializableSignedTransactionIntentV2;
 
 export type SignedTransactionIntentV2CompileOutput = SerializableBytes;
 
-export type SignedTransactionIntentV2DecompileOutput = SerializableSignedTransactionIntentV2;
+export type SignedTransactionIntentV2DecompileOutput =
+  SerializableSignedTransactionIntentV2;
 
-export type SignedTransactionIntentV2HashInput = SerializableSignedTransactionIntentV2;
+export type SignedTransactionIntentV2HashInput =
+  SerializableSignedTransactionIntentV2;
 
 export type SignedTransactionIntentV2HashOutput = SerializableTransactionHash;
 
@@ -330,7 +365,8 @@ export type TransactionIntentV2CompileInput = SerializableTransactionIntentV2;
 
 export type TransactionIntentV2CompileOutput = SerializableBytes;
 
-export type TransactionIntentV2DecompileOutput = SerializableTransactionIntentV2;
+export type TransactionIntentV2DecompileOutput =
+  SerializableTransactionIntentV2;
 
 export type TransactionIntentV2HashInput = SerializableTransactionIntentV2;
 
@@ -339,636 +375,815 @@ export type TransactionIntentV2HashOutput = SerializableTransactionHash;
 export type UtilsKnownAddressesInput = SerializableU8;
 
 export interface AddressDecodeOutput {
-	network_id: SerializableU8;
-	entity_type: SerializableEntityType;
-	hrp: string;
-	data: SerializableBytes;
+  network_id: SerializableU8;
+  entity_type: SerializableEntityType;
+  hrp: string;
+  data: SerializableBytes;
 }
 
-export interface BuildInformationInput {
-}
+export interface BuildInformationInput {}
 
-export type SerializableDependencyInformation = 
-	| { kind: "Version", value: string }
-	| { kind: "Tag", value: string }
-	| { kind: "Branch", value: string }
-	| { kind: "Rev", value: string };
+export type SerializableDependencyInformation =
+  | { kind: "Version"; value: string }
+  | { kind: "Tag"; value: string }
+  | { kind: "Branch"; value: string }
+  | { kind: "Rev"; value: string };
 
 export interface BuildInformationOutput {
-	version: string;
-	scrypto_dependency: SerializableDependencyInformation;
+  version: string;
+  scrypto_dependency: SerializableDependencyInformation;
 }
 
 export interface ComponentAddresses {
-	consensus_manager: SerializableNodeId;
-	genesis_helper: SerializableNodeId;
-	faucet: SerializableNodeId;
+  consensus_manager: SerializableNodeId;
+  genesis_helper: SerializableNodeId;
+  faucet: SerializableNodeId;
 }
 
 export interface DeriveBech32mTransactionIdentifierFromIntentHashInput {
-	network_id: SerializableU8;
-	hash: SerializableHash;
+  network_id: SerializableU8;
+  hash: SerializableHash;
 }
 
 export interface DeriveNodeAddressFromPublicKeyInput {
-	network_id: SerializableU8;
-	public_key: SerializableSecp256k1PublicKey;
+  network_id: SerializableU8;
+  public_key: SerializableSecp256k1PublicKey;
 }
 
 export enum SerializableOlympiaNetwork {
-	Mainnet = "Mainnet",
-	Stokenet = "Stokenet",
-	Releasenet = "Releasenet",
-	RCNet = "RCNet",
-	Milestonenet = "Milestonenet",
-	Devopsnet = "Devopsnet",
-	Sandpitnet = "Sandpitnet",
-	Localnet = "Localnet",
+  Mainnet = "Mainnet",
+  Stokenet = "Stokenet",
+  Releasenet = "Releasenet",
+  RCNet = "RCNet",
+  Milestonenet = "Milestonenet",
+  Devopsnet = "Devopsnet",
+  Sandpitnet = "Sandpitnet",
+  Localnet = "Localnet",
 }
 
 export interface DeriveOlympiaAccountAddressFromPublicKeyInput {
-	olympia_network: SerializableOlympiaNetwork;
-	public_key: SerializableSecp256k1PublicKey;
+  olympia_network: SerializableOlympiaNetwork;
+  public_key: SerializableSecp256k1PublicKey;
 }
 
 export interface DeriveResourceAddressFromOlympiaResourceAddressInput {
-	olympia_resource_address: string;
-	network_id: SerializableU8;
+  olympia_resource_address: string;
+  network_id: SerializableU8;
 }
 
 export interface DeriveVirtualAccountAddressFromOlympiaAccountAddressInput {
-	olympia_account_address: string;
-	network_id: SerializableU8;
+  olympia_account_address: string;
+  network_id: SerializableU8;
 }
 
 export interface DeriveVirtualAccountAddressFromPublicKeyInput {
-	public_key: SerializablePublicKey;
-	network_id: SerializableU8;
+  public_key: SerializablePublicKey;
+  network_id: SerializableU8;
 }
 
 export interface DeriveVirtualIdentityAddressFromPublicKeyInput {
-	public_key: SerializablePublicKey;
-	network_id: SerializableU8;
+  public_key: SerializablePublicKey;
+  network_id: SerializableU8;
 }
 
 export interface DeriveVirtualSignatureNonFungibleGlobalIdFromPublicKeyInput {
-	public_key: SerializablePublicKey;
-	network_id: SerializableU8;
+  public_key: SerializablePublicKey;
+  network_id: SerializableU8;
 }
 
 export interface InstructionsCompileInput {
-	instructions: SerializableInstructions;
-	network_id: SerializableU8;
+  instructions: SerializableInstructions;
+  network_id: SerializableU8;
 }
 
 export enum SerializableInstructionsKind {
-	String = "String",
-	Parsed = "Parsed",
+  String = "String",
+  Parsed = "Parsed",
 }
 
 export interface InstructionsConvertInput {
-	instructions: SerializableInstructions;
-	network_id: SerializableU8;
-	instructions_kind: SerializableInstructionsKind;
+  instructions: SerializableInstructions;
+  network_id: SerializableU8;
+  instructions_kind: SerializableInstructionsKind;
 }
 
 export interface InstructionsDecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
-	instructions_kind: SerializableInstructionsKind;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
+  instructions_kind: SerializableInstructionsKind;
 }
 
 export interface InstructionsExtractAddressesInput {
-	instructions: SerializableInstructions;
-	network_id: SerializableU8;
+  instructions: SerializableInstructions;
+  network_id: SerializableU8;
 }
 
 export interface InstructionsExtractAddressesOutput {
-	addresses: Record<SerializableEntityType, SerializableNodeId[]>;
-	named_addresses: SerializableU32[];
+  addresses: Record<SerializableEntityType, SerializableNodeId[]>;
+  named_addresses: SerializableU32[];
 }
 
 export interface InstructionsHashInput {
-	instructions: SerializableInstructions;
-	network_id: SerializableU8;
+  instructions: SerializableInstructions;
+  network_id: SerializableU8;
 }
 
 export interface InstructionsStaticallyValidateInput {
-	instructions: SerializableInstructions;
-	network_id: SerializableU8;
+  instructions: SerializableInstructions;
+  network_id: SerializableU8;
 }
 
 export interface IntentDecompileInput {
-	compiled: SerializableBytes;
-	instructions_kind: SerializableInstructionsKind;
+  compiled: SerializableBytes;
+  instructions_kind: SerializableInstructionsKind;
 }
 
 export interface IntentStaticallyValidateInput {
-	intent: SerializableIntent;
+  intent: SerializableIntent;
 }
 
 export interface ManifestCompileInput {
-	manifest: SerializableTransactionManifest;
-	network_id: SerializableU8;
+  manifest: SerializableTransactionManifest;
+  network_id: SerializableU8;
 }
 
 export interface ManifestDecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
-	instructions_kind: SerializableInstructionsKind;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
+  instructions_kind: SerializableInstructionsKind;
 }
 
 export interface ManifestHashInput {
-	manifest: SerializableTransactionManifest;
-	network_id: SerializableU8;
+  manifest: SerializableTransactionManifest;
+  network_id: SerializableU8;
 }
 
-export type SerializableManifestSborStringRepresentation = 
-	| { kind: "ManifestString", value?: undefined }
-	| { kind: "Json", value: SerializableSerializationMode };
+export type SerializableManifestSborStringRepresentation =
+  | { kind: "ManifestString"; value?: undefined }
+  | { kind: "Json"; value: SerializableSerializationMode };
 
-export type SerializableLocalTypeId = 
-	| { kind: "WellKnown", value: SerializableU8 }
-	| { kind: "SchemaLocalIndex", value: SerializableU64 };
+export type SerializableLocalTypeId =
+  | { kind: "WellKnown"; value: SerializableU8 }
+  | { kind: "SchemaLocalIndex"; value: SerializableU64 };
 
 export interface PayloadSchema {
-	local_type_id: SerializableLocalTypeId;
-	schema: SerializableBytes;
+  local_type_id: SerializableLocalTypeId;
+  schema: SerializableBytes;
 }
 
 export interface ManifestSborDecodeToStringInput {
-	encoded_payload: SerializableBytes;
-	representation: SerializableManifestSborStringRepresentation;
-	network_id: SerializableU8;
-	schema?: PayloadSchema;
+  encoded_payload: SerializableBytes;
+  representation: SerializableManifestSborStringRepresentation;
+  network_id: SerializableU8;
+  schema?: PayloadSchema;
 }
 
 export interface ManifestStaticallyValidateInput {
-	manifest: SerializableTransactionManifest;
-	network_id: SerializableU8;
+  manifest: SerializableTransactionManifest;
+  network_id: SerializableU8;
 }
 
 export interface ManifestStaticallyAnalyzeInput {
-	manifest: SerializableTransactionManifest;
-	network_id: SerializableU8;
+  manifest: SerializableTransactionManifest;
+  network_id: SerializableU8;
 }
 
 export interface NotarizedTransactionDecompileInput {
-	compiled: SerializableBytes;
-	instructions_kind: SerializableInstructionsKind;
+  compiled: SerializableBytes;
+  instructions_kind: SerializableInstructionsKind;
 }
 
 export interface NotarizedTransactionStaticallyValidateInput {
-	notarized_transaction: SerializableNotarizedTransaction;
+  notarized_transaction: SerializableNotarizedTransaction;
 }
 
 export interface NotarizedTransactionV2DecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
 }
 
 export interface NotarizedTransactionV2StaticallyValidateInput {
-	notarized_transaction: SerializableNotarizedTransactionV2;
-	network_id: SerializableU8;
+  notarized_transaction: SerializableNotarizedTransactionV2;
+  network_id: SerializableU8;
 }
 
 export interface PackageAddresses {
-	package_package: SerializableNodeId;
-	resource_package: SerializableNodeId;
-	account_package: SerializableNodeId;
-	identity_package: SerializableNodeId;
-	consensus_manager_package: SerializableNodeId;
-	access_controller_package: SerializableNodeId;
-	pool_package: SerializableNodeId;
-	transaction_processor_package: SerializableNodeId;
-	metadata_module_package: SerializableNodeId;
-	royalty_module_package: SerializableNodeId;
-	role_assignment_module_package: SerializableNodeId;
-	genesis_helper_package: SerializableNodeId;
-	faucet_package: SerializableNodeId;
+  package_package: SerializableNodeId;
+  resource_package: SerializableNodeId;
+  account_package: SerializableNodeId;
+  identity_package: SerializableNodeId;
+  consensus_manager_package: SerializableNodeId;
+  access_controller_package: SerializableNodeId;
+  pool_package: SerializableNodeId;
+  transaction_processor_package: SerializableNodeId;
+  metadata_module_package: SerializableNodeId;
+  royalty_module_package: SerializableNodeId;
+  role_assignment_module_package: SerializableNodeId;
+  genesis_helper_package: SerializableNodeId;
+  faucet_package: SerializableNodeId;
 }
 
 export interface PartialTransactionV2DecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
 }
 
 export interface ResourceAddresses {
-	xrd: SerializableNodeId;
-	secp256k1_signature_resource: SerializableNodeId;
-	ed25519_signature_resource: SerializableNodeId;
-	package_of_direct_caller_resource: SerializableNodeId;
-	global_caller_resource: SerializableNodeId;
-	system_execution_resource: SerializableNodeId;
-	package_owner_badge: SerializableNodeId;
-	validator_owner_badge: SerializableNodeId;
-	account_owner_badge: SerializableNodeId;
-	identity_owner_badge: SerializableNodeId;
+  xrd: SerializableNodeId;
+  secp256k1_signature_resource: SerializableNodeId;
+  ed25519_signature_resource: SerializableNodeId;
+  package_of_direct_caller_resource: SerializableNodeId;
+  global_caller_resource: SerializableNodeId;
+  system_execution_resource: SerializableNodeId;
+  package_owner_badge: SerializableNodeId;
+  validator_owner_badge: SerializableNodeId;
+  account_owner_badge: SerializableNodeId;
+  identity_owner_badge: SerializableNodeId;
 }
 
 export enum SerializableSerializationMode {
-	Programmatic = "Programmatic",
-	Model = "Model",
-	Natural = "Natural",
+  Programmatic = "Programmatic",
+  Model = "Model",
+  Natural = "Natural",
 }
 
 export interface ScryptoSborDecodeToStringInput {
-	encoded_payload: SerializableBytes;
-	representation: SerializableSerializationMode;
-	network_id: SerializableU8;
-	schema?: PayloadSchema;
+  encoded_payload: SerializableBytes;
+  representation: SerializableSerializationMode;
+  network_id: SerializableU8;
+  schema?: PayloadSchema;
 }
 
 export enum SerializableCurveType {
-	Ed25519 = "Ed25519",
-	Secp256k1 = "Secp256k1",
+  Ed25519 = "Ed25519",
+  Secp256k1 = "Secp256k1",
 }
 
-export type SerializableDecryptorsByCurve = 
-	| { kind: "Ed25519", value: {
-	dh_ephemeral_public_key: SerializableEd25519PublicKey;
-	decryptors: Record<SerializablePublicKeyFingerprint, SerializableAesWrapped128BitKey>;
-}}
-	| { kind: "Secp256k1", value: {
-	dh_ephemeral_public_key: SerializableSecp256k1PublicKey;
-	decryptors: Record<SerializablePublicKeyFingerprint, SerializableAesWrapped128BitKey>;
-}};
+export type SerializableDecryptorsByCurve =
+  | {
+      kind: "Ed25519";
+      value: {
+        dh_ephemeral_public_key: SerializableEd25519PublicKey;
+        decryptors: Record<
+          SerializablePublicKeyFingerprint,
+          SerializableAesWrapped128BitKey
+        >;
+      };
+    }
+  | {
+      kind: "Secp256k1";
+      value: {
+        dh_ephemeral_public_key: SerializableSecp256k1PublicKey;
+        decryptors: Record<
+          SerializablePublicKeyFingerprint,
+          SerializableAesWrapped128BitKey
+        >;
+      };
+    };
 
 export interface SerializableEncryptedMessage {
-	encrypted: SerializableBytes;
-	decryptors_by_curve: Record<SerializableCurveType, SerializableDecryptorsByCurve>;
+  encrypted: SerializableBytes;
+  decryptors_by_curve: Record<
+    SerializableCurveType,
+    SerializableDecryptorsByCurve
+  >;
 }
 
-export type SerializableDecryptorsByCurveV2 = 
-	| { kind: "Ed25519", value: {
-	dh_ephemeral_public_key: SerializableEd25519PublicKey;
-	decryptors: Record<SerializablePublicKeyFingerprint, SerializableAesWrapped256BitKey>;
-}}
-	| { kind: "Secp256k1", value: {
-	dh_ephemeral_public_key: SerializableSecp256k1PublicKey;
-	decryptors: Record<SerializablePublicKeyFingerprint, SerializableAesWrapped256BitKey>;
-}};
+export type SerializableDecryptorsByCurveV2 =
+  | {
+      kind: "Ed25519";
+      value: {
+        dh_ephemeral_public_key: SerializableEd25519PublicKey;
+        decryptors: Record<
+          SerializablePublicKeyFingerprint,
+          SerializableAesWrapped256BitKey
+        >;
+      };
+    }
+  | {
+      kind: "Secp256k1";
+      value: {
+        dh_ephemeral_public_key: SerializableSecp256k1PublicKey;
+        decryptors: Record<
+          SerializablePublicKeyFingerprint,
+          SerializableAesWrapped256BitKey
+        >;
+      };
+    };
 
 export interface SerializableEncryptedMessageV2 {
-	encrypted: SerializableBytes;
-	decryptors_by_curve: Record<SerializableCurveType, SerializableDecryptorsByCurveV2>;
+  encrypted: SerializableBytes;
+  decryptors_by_curve: Record<
+    SerializableCurveType,
+    SerializableDecryptorsByCurveV2
+  >;
 }
 
-export type SerializableManifestValue = 
-	| { kind: "Bool", value: {
-	value: boolean;
-}}
-	| { kind: "I8", value: {
-	value: SerializableI8;
-}}
-	| { kind: "I16", value: {
-	value: SerializableI16;
-}}
-	| { kind: "I32", value: {
-	value: SerializableI32;
-}}
-	| { kind: "I64", value: {
-	value: SerializableI64;
-}}
-	| { kind: "I128", value: {
-	value: SerializableI128;
-}}
-	| { kind: "U8", value: {
-	value: SerializableU8;
-}}
-	| { kind: "U16", value: {
-	value: SerializableU16;
-}}
-	| { kind: "U32", value: {
-	value: SerializableU32;
-}}
-	| { kind: "U64", value: {
-	value: SerializableU64;
-}}
-	| { kind: "U128", value: {
-	value: SerializableU128;
-}}
-	| { kind: "String", value: {
-	value: string;
-}}
-	| { kind: "Enum", value: {
-	discriminator: SerializableU8;
-	fields: SerializableManifestValue[];
-}}
-	| { kind: "Array", value: {
-	element_value_kind: SerializableManifestValueKind;
-	elements: SerializableManifestValue[];
-}}
-	| { kind: "Tuple", value: {
-	fields: SerializableManifestValue[];
-}}
-	| { kind: "Map", value: {
-	key_value_kind: SerializableManifestValueKind;
-	value_value_kind: SerializableManifestValueKind;
-	entries: SerializableMapEntry[];
-}}
-	| { kind: "Address", value: {
-	value: SerializableManifestAddress;
-}}
-	| { kind: "Bucket", value: {
-	value: SerializableU32;
-}}
-	| { kind: "Proof", value: {
-	value: SerializableU32;
-}}
-	| { kind: "Expression", value: {
-	value: SerializableExpression;
-}}
-	| { kind: "Blob", value: {
-	value: SerializableHash;
-}}
-	| { kind: "Decimal", value: {
-	value: SerializableDecimal;
-}}
-	| { kind: "PreciseDecimal", value: {
-	value: SerializablePreciseDecimal;
-}}
-	| { kind: "NonFungibleLocalId", value: {
-	value: SerializableNonFungibleLocalId;
-}}
-	| { kind: "AddressReservation", value: {
-	value: SerializableU32;
-}};
+export type SerializableManifestValue =
+  | {
+      kind: "Bool";
+      value: {
+        value: boolean;
+      };
+    }
+  | {
+      kind: "I8";
+      value: {
+        value: SerializableI8;
+      };
+    }
+  | {
+      kind: "I16";
+      value: {
+        value: SerializableI16;
+      };
+    }
+  | {
+      kind: "I32";
+      value: {
+        value: SerializableI32;
+      };
+    }
+  | {
+      kind: "I64";
+      value: {
+        value: SerializableI64;
+      };
+    }
+  | {
+      kind: "I128";
+      value: {
+        value: SerializableI128;
+      };
+    }
+  | {
+      kind: "U8";
+      value: {
+        value: SerializableU8;
+      };
+    }
+  | {
+      kind: "U16";
+      value: {
+        value: SerializableU16;
+      };
+    }
+  | {
+      kind: "U32";
+      value: {
+        value: SerializableU32;
+      };
+    }
+  | {
+      kind: "U64";
+      value: {
+        value: SerializableU64;
+      };
+    }
+  | {
+      kind: "U128";
+      value: {
+        value: SerializableU128;
+      };
+    }
+  | {
+      kind: "String";
+      value: {
+        value: string;
+      };
+    }
+  | {
+      kind: "Enum";
+      value: {
+        discriminator: SerializableU8;
+        fields: SerializableManifestValue[];
+      };
+    }
+  | {
+      kind: "Array";
+      value: {
+        element_value_kind: SerializableManifestValueKind;
+        elements: SerializableManifestValue[];
+      };
+    }
+  | {
+      kind: "Tuple";
+      value: {
+        fields: SerializableManifestValue[];
+      };
+    }
+  | {
+      kind: "Map";
+      value: {
+        key_value_kind: SerializableManifestValueKind;
+        value_value_kind: SerializableManifestValueKind;
+        entries: SerializableMapEntry[];
+      };
+    }
+  | {
+      kind: "Address";
+      value: {
+        value: SerializableManifestAddress;
+      };
+    }
+  | {
+      kind: "Bucket";
+      value: {
+        value: SerializableU32;
+      };
+    }
+  | {
+      kind: "Proof";
+      value: {
+        value: SerializableU32;
+      };
+    }
+  | {
+      kind: "Expression";
+      value: {
+        value: SerializableExpression;
+      };
+    }
+  | {
+      kind: "Blob";
+      value: {
+        value: SerializableHash;
+      };
+    }
+  | {
+      kind: "Decimal";
+      value: {
+        value: SerializableDecimal;
+      };
+    }
+  | {
+      kind: "PreciseDecimal";
+      value: {
+        value: SerializablePreciseDecimal;
+      };
+    }
+  | {
+      kind: "NonFungibleLocalId";
+      value: {
+        value: SerializableNonFungibleLocalId;
+      };
+    }
+  | {
+      kind: "AddressReservation";
+      value: {
+        value: SerializableU32;
+      };
+    };
 
 export interface SerializableMapEntry {
-	key: SerializableManifestValue;
-	value: SerializableManifestValue;
+  key: SerializableManifestValue;
+  value: SerializableManifestValue;
 }
 
 export interface SerializableMessageValidationConfig {
-	max_plaintext_message_length: SerializableU64;
-	max_encrypted_message_length: SerializableU64;
-	max_mime_type_length: SerializableU64;
-	max_decryptors: SerializableU64;
+  max_plaintext_message_length: SerializableU64;
+  max_encrypted_message_length: SerializableU64;
+  max_mime_type_length: SerializableU64;
+  max_decryptors: SerializableU64;
 }
 
-export type SerializableMessageContent = 
-	| { kind: "String", value: string }
-	| { kind: "Bytes", value: SerializableBytes };
+export type SerializableMessageContent =
+  | { kind: "String"; value: string }
+  | { kind: "Bytes"; value: SerializableBytes };
 
 export interface SerializablePlainTextMessage {
-	mime_type: string;
-	message: SerializableMessageContent;
+  mime_type: string;
+  message: SerializableMessageContent;
 }
 
 export interface SerializablePreparationSettings {
-	v2_transactions_permitted: boolean;
-	max_user_payload_length: SerializableU64;
-	max_ledger_payload_length: SerializableU64;
-	max_child_subintents_per_intent: SerializableU64;
-	max_subintents_per_transaction: SerializableU64;
-	max_blobs: SerializableU64;
+  v2_transactions_permitted: boolean;
+  max_user_payload_length: SerializableU64;
+  max_ledger_payload_length: SerializableU64;
+  max_child_subintents_per_intent: SerializableU64;
+  max_subintents_per_transaction: SerializableU64;
+  max_blobs: SerializableU64;
 }
 
-export type SerializableManifestValidationRuleset = 
-	| { kind: "BabylonBasicValidator", value?: undefined }
-	| { kind: "Interpreter", value: SerializableInterpreterValidationRulesetSpecifier };
+export type SerializableManifestValidationRuleset =
+  | { kind: "BabylonBasicValidator"; value?: undefined }
+  | {
+      kind: "Interpreter";
+      value: SerializableInterpreterValidationRulesetSpecifier;
+    };
 
 export interface SerializableValidationConfig {
-	max_signer_signatures_per_intent: SerializableU64;
-	max_references_per_intent: SerializableU64;
-	min_tip_percentage: SerializableU16;
-	max_tip_percentage: SerializableU16;
-	max_epoch_range: SerializableU64;
-	max_instructions: SerializableU64;
-	message_validation: SerializableMessageValidationConfig;
-	v1_transactions_allow_notary_to_duplicate_signer: boolean;
-	preparation_settings: SerializablePreparationSettings;
-	manifest_validation: SerializableManifestValidationRuleset;
-	v2_transactions_allowed: boolean;
-	min_tip_basis_points: SerializableU32;
-	max_tip_basis_points: SerializableU32;
-	max_subintent_depth: SerializableU64;
-	max_total_signature_validations: SerializableU64;
-	max_total_references: SerializableU64;
+  max_signer_signatures_per_intent: SerializableU64;
+  max_references_per_intent: SerializableU64;
+  min_tip_percentage: SerializableU16;
+  max_tip_percentage: SerializableU16;
+  max_epoch_range: SerializableU64;
+  max_instructions: SerializableU64;
+  message_validation: SerializableMessageValidationConfig;
+  v1_transactions_allow_notary_to_duplicate_signer: boolean;
+  preparation_settings: SerializablePreparationSettings;
+  manifest_validation: SerializableManifestValidationRuleset;
+  v2_transactions_allowed: boolean;
+  min_tip_basis_points: SerializableU32;
+  max_tip_basis_points: SerializableU32;
+  max_subintent_depth: SerializableU64;
+  max_total_signature_validations: SerializableU64;
+  max_total_references: SerializableU64;
 }
 
 export interface SignedIntentDecompileInput {
-	compiled: SerializableBytes;
-	instructions_kind: SerializableInstructionsKind;
+  compiled: SerializableBytes;
+  instructions_kind: SerializableInstructionsKind;
 }
 
 export interface SignedIntentStaticallyValidateInput {
-	signed_intent: SerializableSignedIntent;
+  signed_intent: SerializableSignedIntent;
 }
 
 export interface SignedPartialTransactionV2DecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
 }
 
 export interface SignedPartialTransactionV2StaticallyValidateInput {
-	signed_partial_transaction: SerializableSignedPartialTransactionV2;
-	network_id: SerializableU8;
+  signed_partial_transaction: SerializableSignedPartialTransactionV2;
+  network_id: SerializableU8;
 }
 
 export interface SignedTransactionIntentV2DecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
 }
 
 export interface SubintentV2DecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
 }
 
 export interface TransactionIntentV2DecompileInput {
-	compiled: SerializableBytes;
-	network_id: SerializableU8;
+  compiled: SerializableBytes;
+  network_id: SerializableU8;
 }
 
 export interface UtilsKnownAddressesOutput {
-	resource_addresses: ResourceAddresses;
-	package_addresses: PackageAddresses;
-	component_addresses: ComponentAddresses;
+  resource_addresses: ResourceAddresses;
+  package_addresses: PackageAddresses;
+  component_addresses: ComponentAddresses;
 }
 
-export type InstructionsStaticallyValidateOutput = 
-	| { kind: "Valid", value?: undefined }
-	| { kind: "Invalid", value: string };
+export type InstructionsStaticallyValidateOutput =
+  | { kind: "Valid"; value?: undefined }
+  | { kind: "Invalid"; value: string };
 
-export type IntentStaticallyValidateOutput = 
-	| { kind: "Valid", value?: undefined }
-	| { kind: "Invalid", value: string };
+export type IntentStaticallyValidateOutput =
+  | { kind: "Valid"; value?: undefined }
+  | { kind: "Invalid"; value: string };
 
-export type ManifestStaticallyValidateOutput = 
-	| { kind: "Valid", value?: undefined }
-	| { kind: "Invalid", value: string };
+export type ManifestStaticallyValidateOutput =
+  | { kind: "Valid"; value?: undefined }
+  | { kind: "Invalid"; value: string };
 
 export interface ManifestStaticallyAnalyzeOutput {
-	encountered_entities: string[];
-	accounts_requiring_auth: string[];
-	accounts_withdrawn_from: string[];
-	accounts_deposited_into: string[];
-	classification: string[];
-	reserved_instructions: string[];
+  encountered_entities: string[];
+  accounts_requiring_auth: string[];
+  accounts_withdrawn_from: string[];
+  accounts_deposited_into: string[];
+  classification: string[];
+  reserved_instructions: string[];
 }
 
-export type NotarizedTransactionStaticallyValidateOutput = 
-	| { kind: "Valid", value?: undefined }
-	| { kind: "Invalid", value: string };
+export type NotarizedTransactionStaticallyValidateOutput =
+  | { kind: "Valid"; value?: undefined }
+  | { kind: "Invalid"; value: string };
 
-export type NotarizedTransactionV2StaticallyValidateOutput = 
-	| { kind: "Valid", value?: undefined }
-	| { kind: "Invalid", value: string };
+export type NotarizedTransactionV2StaticallyValidateOutput =
+  | { kind: "Valid"; value?: undefined }
+  | { kind: "Invalid"; value: string };
 
 export enum SerializableExpression {
-	EntireWorktop = "EntireWorktop",
-	EntireAuthZone = "EntireAuthZone",
+  EntireWorktop = "EntireWorktop",
+  EntireAuthZone = "EntireAuthZone",
 }
 
-export type SerializableInstruction = 
-	| { kind: "TakeAllFromWorktop", value: {
-	resource_address: SerializableNodeId;
-}}
-	| { kind: "TakeFromWorktop", value: {
-	resource_address: SerializableNodeId;
-	amount: SerializableDecimal;
-}}
-	| { kind: "TakeNonFungiblesFromWorktop", value: {
-	resource_address: SerializableNodeId;
-	ids: SerializableNonFungibleLocalId[];
-}}
-	| { kind: "ReturnToWorktop", value: {
-	bucket_id: SerializableU32;
-}}
-	| { kind: "AssertWorktopContainsAny", value: {
-	resource_address: SerializableNodeId;
-}}
-	| { kind: "AssertWorktopContains", value: {
-	resource_address: SerializableNodeId;
-	amount: SerializableDecimal;
-}}
-	| { kind: "AssertWorktopContainsNonFungibles", value: {
-	resource_address: SerializableNodeId;
-	ids: SerializableNonFungibleLocalId[];
-}}
-	| { kind: "PopFromAuthZone", value?: undefined }
-	| { kind: "PushToAuthZone", value: {
-	proof_id: SerializableU32;
-}}
-	| { kind: "CreateProofFromAuthZoneOfAmount", value: {
-	resource_address: SerializableNodeId;
-	amount: SerializableDecimal;
-}}
-	| { kind: "CreateProofFromAuthZoneOfNonFungibles", value: {
-	resource_address: SerializableNodeId;
-	ids: SerializableNonFungibleLocalId[];
-}}
-	| { kind: "CreateProofFromAuthZoneOfAll", value: {
-	resource_address: SerializableNodeId;
-}}
-	| { kind: "DropAllProofs", value?: undefined }
-	| { kind: "DropNamedProofs", value?: undefined }
-	| { kind: "DropAuthZoneProofs", value?: undefined }
-	| { kind: "DropAuthZoneRegularProofs", value?: undefined }
-	| { kind: "DropAuthZoneSignatureProofs", value?: undefined }
-	| { kind: "CreateProofFromBucketOfAmount", value: {
-	bucket_id: SerializableU32;
-	amount: SerializableDecimal;
-}}
-	| { kind: "CreateProofFromBucketOfNonFungibles", value: {
-	bucket_id: SerializableU32;
-	ids: SerializableNonFungibleLocalId[];
-}}
-	| { kind: "CreateProofFromBucketOfAll", value: {
-	bucket_id: SerializableU32;
-}}
-	| { kind: "BurnResource", value: {
-	bucket_id: SerializableU32;
-}}
-	| { kind: "CloneProof", value: {
-	proof_id: SerializableU32;
-}}
-	| { kind: "DropProof", value: {
-	proof_id: SerializableU32;
-}}
-	| { kind: "CallFunction", value: {
-	package_address: SerializableManifestAddress;
-	blueprint_name: string;
-	function_name: string;
-	args: SerializableManifestValue;
-}}
-	| { kind: "CallMethod", value: {
-	address: SerializableManifestAddress;
-	method_name: string;
-	args: SerializableManifestValue;
-}}
-	| { kind: "CallRoyaltyMethod", value: {
-	address: SerializableManifestAddress;
-	method_name: string;
-	args: SerializableManifestValue;
-}}
-	| { kind: "CallMetadataMethod", value: {
-	address: SerializableManifestAddress;
-	method_name: string;
-	args: SerializableManifestValue;
-}}
-	| { kind: "CallRoleAssignmentMethod", value: {
-	address: SerializableManifestAddress;
-	method_name: string;
-	args: SerializableManifestValue;
-}}
-	| { kind: "CallDirectVaultMethod", value: {
-	address: SerializableNodeId;
-	method_name: string;
-	args: SerializableManifestValue;
-}}
-	| { kind: "AllocateGlobalAddress", value: {
-	package_address: SerializableNodeId;
-	blueprint_name: string;
-}};
+export type SerializableInstruction =
+  | {
+      kind: "TakeAllFromWorktop";
+      value: {
+        resource_address: SerializableNodeId;
+      };
+    }
+  | {
+      kind: "TakeFromWorktop";
+      value: {
+        resource_address: SerializableNodeId;
+        amount: SerializableDecimal;
+      };
+    }
+  | {
+      kind: "TakeNonFungiblesFromWorktop";
+      value: {
+        resource_address: SerializableNodeId;
+        ids: SerializableNonFungibleLocalId[];
+      };
+    }
+  | {
+      kind: "ReturnToWorktop";
+      value: {
+        bucket_id: SerializableU32;
+      };
+    }
+  | {
+      kind: "AssertWorktopContainsAny";
+      value: {
+        resource_address: SerializableNodeId;
+      };
+    }
+  | {
+      kind: "AssertWorktopContains";
+      value: {
+        resource_address: SerializableNodeId;
+        amount: SerializableDecimal;
+      };
+    }
+  | {
+      kind: "AssertWorktopContainsNonFungibles";
+      value: {
+        resource_address: SerializableNodeId;
+        ids: SerializableNonFungibleLocalId[];
+      };
+    }
+  | { kind: "PopFromAuthZone"; value?: undefined }
+  | {
+      kind: "PushToAuthZone";
+      value: {
+        proof_id: SerializableU32;
+      };
+    }
+  | {
+      kind: "CreateProofFromAuthZoneOfAmount";
+      value: {
+        resource_address: SerializableNodeId;
+        amount: SerializableDecimal;
+      };
+    }
+  | {
+      kind: "CreateProofFromAuthZoneOfNonFungibles";
+      value: {
+        resource_address: SerializableNodeId;
+        ids: SerializableNonFungibleLocalId[];
+      };
+    }
+  | {
+      kind: "CreateProofFromAuthZoneOfAll";
+      value: {
+        resource_address: SerializableNodeId;
+      };
+    }
+  | { kind: "DropAllProofs"; value?: undefined }
+  | { kind: "DropNamedProofs"; value?: undefined }
+  | { kind: "DropAuthZoneProofs"; value?: undefined }
+  | { kind: "DropAuthZoneRegularProofs"; value?: undefined }
+  | { kind: "DropAuthZoneSignatureProofs"; value?: undefined }
+  | {
+      kind: "CreateProofFromBucketOfAmount";
+      value: {
+        bucket_id: SerializableU32;
+        amount: SerializableDecimal;
+      };
+    }
+  | {
+      kind: "CreateProofFromBucketOfNonFungibles";
+      value: {
+        bucket_id: SerializableU32;
+        ids: SerializableNonFungibleLocalId[];
+      };
+    }
+  | {
+      kind: "CreateProofFromBucketOfAll";
+      value: {
+        bucket_id: SerializableU32;
+      };
+    }
+  | {
+      kind: "BurnResource";
+      value: {
+        bucket_id: SerializableU32;
+      };
+    }
+  | {
+      kind: "CloneProof";
+      value: {
+        proof_id: SerializableU32;
+      };
+    }
+  | {
+      kind: "DropProof";
+      value: {
+        proof_id: SerializableU32;
+      };
+    }
+  | {
+      kind: "CallFunction";
+      value: {
+        package_address: SerializableManifestAddress;
+        blueprint_name: string;
+        function_name: string;
+        args: SerializableManifestValue;
+      };
+    }
+  | {
+      kind: "CallMethod";
+      value: {
+        address: SerializableManifestAddress;
+        method_name: string;
+        args: SerializableManifestValue;
+      };
+    }
+  | {
+      kind: "CallRoyaltyMethod";
+      value: {
+        address: SerializableManifestAddress;
+        method_name: string;
+        args: SerializableManifestValue;
+      };
+    }
+  | {
+      kind: "CallMetadataMethod";
+      value: {
+        address: SerializableManifestAddress;
+        method_name: string;
+        args: SerializableManifestValue;
+      };
+    }
+  | {
+      kind: "CallRoleAssignmentMethod";
+      value: {
+        address: SerializableManifestAddress;
+        method_name: string;
+        args: SerializableManifestValue;
+      };
+    }
+  | {
+      kind: "CallDirectVaultMethod";
+      value: {
+        address: SerializableNodeId;
+        method_name: string;
+        args: SerializableManifestValue;
+      };
+    }
+  | {
+      kind: "AllocateGlobalAddress";
+      value: {
+        package_address: SerializableNodeId;
+        blueprint_name: string;
+      };
+    };
 
 export enum SerializableInterpreterValidationRulesetSpecifier {
-	AllValidations = "AllValidations",
-	Cuttlefish = "Cuttlefish",
+  AllValidations = "AllValidations",
+  Cuttlefish = "Cuttlefish",
 }
 
-export type SerializableManifestAddress = 
-	| { kind: "Static", value: SerializableNodeId }
-	| { kind: "Named", value: SerializableU32 };
+export type SerializableManifestAddress =
+  | { kind: "Static"; value: SerializableNodeId }
+  | { kind: "Named"; value: SerializableU32 };
 
 export enum SerializableManifestValueKind {
-	Bool = "Bool",
-	I8 = "I8",
-	I16 = "I16",
-	I32 = "I32",
-	I64 = "I64",
-	I128 = "I128",
-	U8 = "U8",
-	U16 = "U16",
-	U32 = "U32",
-	U64 = "U64",
-	U128 = "U128",
-	String = "String",
-	Enum = "Enum",
-	Array = "Array",
-	Tuple = "Tuple",
-	Map = "Map",
-	Address = "Address",
-	Bucket = "Bucket",
-	Proof = "Proof",
-	Expression = "Expression",
-	Blob = "Blob",
-	Decimal = "Decimal",
-	PreciseDecimal = "PreciseDecimal",
-	NonFungibleLocalId = "NonFungibleLocalId",
-	AddressReservation = "AddressReservation",
+  Bool = "Bool",
+  I8 = "I8",
+  I16 = "I16",
+  I32 = "I32",
+  I64 = "I64",
+  I128 = "I128",
+  U8 = "U8",
+  U16 = "U16",
+  U32 = "U32",
+  U64 = "U64",
+  U128 = "U128",
+  String = "String",
+  Enum = "Enum",
+  Array = "Array",
+  Tuple = "Tuple",
+  Map = "Map",
+  Address = "Address",
+  Bucket = "Bucket",
+  Proof = "Proof",
+  Expression = "Expression",
+  Blob = "Blob",
+  Decimal = "Decimal",
+  PreciseDecimal = "PreciseDecimal",
+  NonFungibleLocalId = "NonFungibleLocalId",
+  AddressReservation = "AddressReservation",
 }
 
-export type SerializablePublicKeyHash = 
-	| { kind: "Secp256k1", value: string }
-	| { kind: "Ed25519", value: string };
+export type SerializablePublicKeyHash =
+  | { kind: "Secp256k1"; value: string }
+  | { kind: "Ed25519"; value: string };
 
-export type SignedIntentStaticallyValidateOutput = 
-	| { kind: "Valid", value?: undefined }
-	| { kind: "Invalid", value: string };
+export type SignedIntentStaticallyValidateOutput =
+  | { kind: "Valid"; value?: undefined }
+  | { kind: "Invalid"; value: string };
 
-export type SignedPartialTransactionV2StaticallyValidateOutput = 
-	| { kind: "Valid", value?: undefined }
-	| { kind: "Invalid", value: string };
+export type SignedPartialTransactionV2StaticallyValidateOutput =
+  | { kind: "Valid"; value?: undefined }
+  | { kind: "Invalid"; value: string };

@@ -40,6 +40,7 @@ import {
   NotarizedTransactionV2,
   OlympiaNetwork,
   PartialTransactionV2,
+  PreviewTransactionV2,
   PlainTextMessage,
   PreparationSettings,
   PublicKey,
@@ -97,6 +98,7 @@ import {
   SerializableMessageV2,
   SerializableNotarizedTransactionV2,
   SerializablePartialTransactionV2,
+  SerializablePreviewTransactionV2,
   SerializableSignedPartialTransactionV2,
   SerializableSignedTransactionIntentV2,
   SerializableSubintentV2,
@@ -121,11 +123,11 @@ export class GeneratedConverter {
       switch (value.kind) {
         case "Secp256k1":
           return new PublicKey.Secp256k1(
-            Convert.HexString.toUint8Array(value.value)
+            Convert.HexString.toUint8Array(value.value),
           );
         case "Ed25519":
           return new PublicKey.Ed25519(
-            Convert.HexString.toUint8Array(value.value)
+            Convert.HexString.toUint8Array(value.value),
           );
       }
     }
@@ -143,11 +145,11 @@ export class GeneratedConverter {
       switch (value.kind) {
         case "Secp256k1":
           return new Signature.Secp256k1(
-            Convert.HexString.toUint8Array(value.value)
+            Convert.HexString.toUint8Array(value.value),
           );
         case "Ed25519":
           return new Signature.Ed25519(
-            Convert.HexString.toUint8Array(value.value)
+            Convert.HexString.toUint8Array(value.value),
           );
       }
     }
@@ -155,7 +157,7 @@ export class GeneratedConverter {
 
   static SignatureWithPublicKey = class {
     static toGenerated(
-      value: SignatureWithPublicKey
+      value: SignatureWithPublicKey,
     ): SerializableSignatureWithPublicKey {
       switch (value.curve) {
         case "Ed25519":
@@ -177,17 +179,17 @@ export class GeneratedConverter {
     }
 
     static fromGenerated(
-      value: SerializableSignatureWithPublicKey
+      value: SerializableSignatureWithPublicKey,
     ): SignatureWithPublicKey {
       switch (value.kind) {
         case "Secp256k1":
           return new SignatureWithPublicKey.Secp256k1(
-            Convert.HexString.toUint8Array(value.value.signature)
+            Convert.HexString.toUint8Array(value.value.signature),
           );
         case "Ed25519":
           return new SignatureWithPublicKey.Ed25519(
             Convert.HexString.toUint8Array(value.value.signature),
-            Convert.HexString.toUint8Array(value.value.public_key)
+            Convert.HexString.toUint8Array(value.value.public_key),
           );
       }
     }
@@ -205,13 +207,13 @@ export class GeneratedConverter {
 
   static SerializationMode = class {
     static toGenerated(
-      value: SerializationMode
+      value: SerializationMode,
     ): SerializableSerializationMode {
       return SerializableSerializationMode[SerializationMode[value]];
     }
 
     static fromGenerated(
-      value: SerializableSerializationMode
+      value: SerializableSerializationMode,
     ): SerializationMode {
       return SerializationMode[SerializableSerializationMode[value]];
     }
@@ -219,7 +221,7 @@ export class GeneratedConverter {
 
   static ManifestSborStringRepresentation = class {
     static toGenerated(
-      value: ManifestSborStringRepresentation
+      value: ManifestSborStringRepresentation,
     ): SerializableManifestSborStringRepresentation {
       switch (value) {
         case ManifestSborStringRepresentation.ManifestString:
@@ -245,7 +247,7 @@ export class GeneratedConverter {
     }
 
     static fromGenerated(
-      value: SerializableManifestSborStringRepresentation
+      value: SerializableManifestSborStringRepresentation,
     ): ManifestSborStringRepresentation {
       switch (value.kind) {
         case "ManifestString":
@@ -384,7 +386,7 @@ export class GeneratedConverter {
             value: {
               discriminator: Convert.Number.toString(value.discriminator),
               fields: value.fields.map(
-                GeneratedConverter.ManifestValue.toGenerated
+                GeneratedConverter.ManifestValue.toGenerated,
               ),
             },
           };
@@ -395,7 +397,7 @@ export class GeneratedConverter {
               element_value_kind:
                 SerializableManifestValueKind[value.elementValueKind],
               elements: value.elements.map(
-                GeneratedConverter.ManifestValue.toGenerated
+                GeneratedConverter.ManifestValue.toGenerated,
               ),
             },
           };
@@ -404,7 +406,7 @@ export class GeneratedConverter {
             kind: value.kind,
             value: {
               fields: value.fields.map(
-                GeneratedConverter.ManifestValue.toGenerated
+                GeneratedConverter.ManifestValue.toGenerated,
               ),
             },
           };
@@ -418,10 +420,10 @@ export class GeneratedConverter {
               entries: value.entries.map((mapEntry) => {
                 return {
                   key: GeneratedConverter.ManifestValue.toGenerated(
-                    mapEntry.key
+                    mapEntry.key,
                   ),
                   value: GeneratedConverter.ManifestValue.toGenerated(
-                    mapEntry.value
+                    mapEntry.value,
                   ),
                 };
               }),
@@ -433,7 +435,7 @@ export class GeneratedConverter {
             kind: value.kind,
             value: {
               value: GeneratedConverter.ManifestAddress.toGenerated(
-                value.value
+                value.value,
               ),
             },
           };
@@ -497,7 +499,7 @@ export class GeneratedConverter {
             kind: ValueKind.Enum,
             discriminator: Convert.String.toNumber(value.value.discriminator),
             fields: value.value.fields.map(
-              GeneratedConverter.ManifestValue.fromGenerated
+              GeneratedConverter.ManifestValue.fromGenerated,
             ),
           };
         case "Array":
@@ -505,14 +507,14 @@ export class GeneratedConverter {
             kind: ValueKind.Array,
             elementValueKind: ValueKind[value.value.element_value_kind],
             elements: value.value.elements.map(
-              GeneratedConverter.ManifestValue.fromGenerated
+              GeneratedConverter.ManifestValue.fromGenerated,
             ),
           };
         case "Tuple":
           return {
             kind: ValueKind.Tuple,
             fields: value.value.fields.map(
-              GeneratedConverter.ManifestValue.fromGenerated
+              GeneratedConverter.ManifestValue.fromGenerated,
             ),
           };
         case "Map":
@@ -524,7 +526,7 @@ export class GeneratedConverter {
               return {
                 key: GeneratedConverter.ManifestValue.fromGenerated(entry.key),
                 value: GeneratedConverter.ManifestValue.fromGenerated(
-                  entry.value
+                  entry.value,
                 ),
               };
             }),
@@ -533,14 +535,14 @@ export class GeneratedConverter {
           return {
             kind: ValueKind.Address,
             value: GeneratedConverter.ManifestAddress.fromGenerated(
-              value.value.value
+              value.value.value,
             ),
           };
         case "Expression":
           return {
             kind: ValueKind.Expression,
             value: GeneratedConverter.Expression.fromGenerated(
-              value.value.value
+              value.value.value,
             ),
           };
       }
@@ -694,7 +696,7 @@ export class GeneratedConverter {
             kind: value.kind,
             value: {
               package_address: GeneratedConverter.ManifestAddress.toGenerated(
-                value.packageAddress
+                value.packageAddress,
               ),
               blueprint_name: value.blueprintName,
               function_name: value.functionName,
@@ -709,7 +711,7 @@ export class GeneratedConverter {
             kind: value.kind,
             value: {
               address: GeneratedConverter.ManifestAddress.toGenerated(
-                value.address
+                value.address,
               ),
               method_name: value.methodName,
               args: GeneratedConverter.ManifestValue.toGenerated(value.args),
@@ -849,12 +851,12 @@ export class GeneratedConverter {
           return {
             kind: value.kind,
             packageAddress: GeneratedConverter.ManifestAddress.fromGenerated(
-              value.value.package_address
+              value.value.package_address,
             ),
             blueprintName: value.value.blueprint_name,
             functionName: value.value.function_name,
             args: GeneratedConverter.ManifestValue.fromGenerated(
-              value.value.args
+              value.value.args,
             ),
           };
         case "CallMethod":
@@ -864,11 +866,11 @@ export class GeneratedConverter {
           return {
             kind: value.kind,
             address: GeneratedConverter.ManifestAddress.fromGenerated(
-              value.value.address
+              value.value.address,
             ),
             methodName: value.value.method_name,
             args: GeneratedConverter.ManifestValue.fromGenerated(
-              value.value.args
+              value.value.args,
             ),
           };
         case "CallDirectVaultMethod":
@@ -877,7 +879,7 @@ export class GeneratedConverter {
             address: value.value.address,
             methodName: value.value.method_name,
             args: GeneratedConverter.ManifestValue.fromGenerated(
-              value.value.args
+              value.value.args,
             ),
           };
         case "DropAllProofs":
@@ -915,7 +917,7 @@ export class GeneratedConverter {
           return {
             kind: "Parsed",
             value: value.value.map(
-              GeneratedConverter.Instruction.fromGenerated
+              GeneratedConverter.Instruction.fromGenerated,
             ),
           };
       }
@@ -924,22 +926,22 @@ export class GeneratedConverter {
 
   static TransactionManifest = class {
     static toGenerated(
-      value: TransactionManifest
+      value: TransactionManifest,
     ): SerializableTransactionManifest {
       return {
         instructions: GeneratedConverter.Instructions.toGenerated(
-          value.instructions
+          value.instructions,
         ),
         blobs: value.blobs.map(Convert.Uint8Array.toHexString),
       };
     }
 
     static fromGenerated(
-      value: SerializableTransactionManifest
+      value: SerializableTransactionManifest,
     ): TransactionManifest {
       return {
         instructions: GeneratedConverter.Instructions.fromGenerated(
-          value.instructions
+          value.instructions,
         ),
         blobs: value.blobs.map(Convert.HexString.toUint8Array),
       };
@@ -948,35 +950,35 @@ export class GeneratedConverter {
 
   static TransactionHeader = class {
     static toGenerated(
-      value: TransactionHeader
+      value: TransactionHeader,
     ): SerializableTransactionHeader {
       return {
         network_id: Convert.Number.toString(value.networkId),
         start_epoch_inclusive: Convert.Number.toString(
-          value.startEpochInclusive
+          value.startEpochInclusive,
         ),
         end_epoch_exclusive: Convert.Number.toString(value.endEpochExclusive),
         nonce: Convert.Number.toString(value.nonce),
         notary_is_signatory: value.notaryIsSignatory,
         notary_public_key: GeneratedConverter.PublicKey.toGenerated(
-          value.notaryPublicKey
+          value.notaryPublicKey,
         ),
         tip_percentage: Convert.Number.toString(value.tipPercentage),
       };
     }
 
     static fromGenerated(
-      value: SerializableTransactionHeader
+      value: SerializableTransactionHeader,
     ): TransactionHeader {
       return {
         networkId: Convert.String.toNumber(value.network_id),
         startEpochInclusive: Convert.String.toNumber(
-          value.start_epoch_inclusive
+          value.start_epoch_inclusive,
         ),
         endEpochExclusive: Convert.String.toNumber(value.end_epoch_exclusive),
         nonce: Convert.String.toNumber(value.nonce),
         notaryPublicKey: GeneratedConverter.PublicKey.fromGenerated(
-          value.notary_public_key
+          value.notary_public_key,
         ),
         notaryIsSignatory: value.notary_is_signatory,
         tipPercentage: Convert.String.toNumber(value.tip_percentage),
@@ -1005,7 +1007,7 @@ export class GeneratedConverter {
       return {
         header: GeneratedConverter.TransactionHeader.toGenerated(value.header),
         manifest: GeneratedConverter.TransactionManifest.toGenerated(
-          value.manifest
+          value.manifest,
         ),
         message: GeneratedConverter.Message.toGenerated(value.message),
       };
@@ -1014,10 +1016,10 @@ export class GeneratedConverter {
     static fromGenerated(value: SerializableIntent): Intent {
       return {
         manifest: GeneratedConverter.TransactionManifest.fromGenerated(
-          value.manifest
+          value.manifest,
         ),
         header: GeneratedConverter.TransactionHeader.fromGenerated(
-          value.header
+          value.header,
         ),
         message: GeneratedConverter.Message.fromGenerated(value.message),
       };
@@ -1029,7 +1031,7 @@ export class GeneratedConverter {
       return {
         intent: GeneratedConverter.Intent.toGenerated(value.intent),
         intent_signatures: value.intentSignatures.map(
-          GeneratedConverter.SignatureWithPublicKey.toGenerated
+          GeneratedConverter.SignatureWithPublicKey.toGenerated,
         ),
       };
     }
@@ -1038,7 +1040,7 @@ export class GeneratedConverter {
       return {
         intent: GeneratedConverter.Intent.fromGenerated(value.intent),
         intentSignatures: value.intent_signatures.map(
-          GeneratedConverter.SignatureWithPublicKey.fromGenerated
+          GeneratedConverter.SignatureWithPublicKey.fromGenerated,
         ),
       };
     }
@@ -1046,27 +1048,27 @@ export class GeneratedConverter {
 
   static NotarizedTransaction = class {
     static toGenerated(
-      value: NotarizedTransaction
+      value: NotarizedTransaction,
     ): SerializableNotarizedTransaction {
       return {
         signed_intent: GeneratedConverter.SignedIntent.toGenerated(
-          value.signedIntent
+          value.signedIntent,
         ),
         notary_signature: GeneratedConverter.Signature.toGenerated(
-          value.notarySignature
+          value.notarySignature,
         ),
       };
     }
 
     static fromGenerated(
-      value: SerializableNotarizedTransaction
+      value: SerializableNotarizedTransaction,
     ): NotarizedTransaction {
       return {
         signedIntent: GeneratedConverter.SignedIntent.fromGenerated(
-          value.signed_intent
+          value.signed_intent,
         ),
         notarySignature: GeneratedConverter.Signature.fromGenerated(
-          value.notary_signature
+          value.notary_signature,
         ),
       };
     }
@@ -1084,14 +1086,14 @@ export class GeneratedConverter {
 
   static MessageValidationConfig = class {
     static toGenerated(
-      value: MessageValidationConfig
+      value: MessageValidationConfig,
     ): SerializableMessageValidationConfig {
       return {
         max_plaintext_message_length: Convert.BigInt.toString(
-          value.maxPlaintextMessageLength
+          value.maxPlaintextMessageLength,
         ),
         max_encrypted_message_length: Convert.BigInt.toString(
-          value.maxEncryptedMessageLength
+          value.maxEncryptedMessageLength,
         ),
         max_mime_type_length: Convert.BigInt.toString(value.maxMimeTypeLength),
         max_decryptors: Convert.BigInt.toString(value.maxDecryptors),
@@ -1099,14 +1101,14 @@ export class GeneratedConverter {
     }
 
     static fromGenerated(
-      value: SerializableMessageValidationConfig
+      value: SerializableMessageValidationConfig,
     ): MessageValidationConfig {
       return {
         maxPlaintextMessageLength: Convert.String.toBigInt(
-          value.max_plaintext_message_length
+          value.max_plaintext_message_length,
         ),
         maxEncryptedMessageLength: Convert.String.toBigInt(
-          value.max_encrypted_message_length
+          value.max_encrypted_message_length,
         ),
         maxMimeTypeLength: Convert.String.toBigInt(value.max_mime_type_length),
         maxDecryptors: Convert.String.toBigInt(value.max_decryptors),
@@ -1116,42 +1118,42 @@ export class GeneratedConverter {
 
   static PreparationSettings = class {
     static toGenerated(
-      value: PreparationSettings
+      value: PreparationSettings,
     ): SerializablePreparationSettings {
       return {
         v2_transactions_permitted: value.v2TransactionsPermitted,
         max_user_payload_length: Convert.BigInt.toString(
-          value.maxUserPayloadLength
+          value.maxUserPayloadLength,
         ),
         max_ledger_payload_length: Convert.BigInt.toString(
-          value.maxLedgerPayloadLength
+          value.maxLedgerPayloadLength,
         ),
         max_child_subintents_per_intent: Convert.BigInt.toString(
-          value.maxChildSubintentsPerIntent
+          value.maxChildSubintentsPerIntent,
         ),
         max_subintents_per_transaction: Convert.BigInt.toString(
-          value.maxSubintentsPerTransaction
+          value.maxSubintentsPerTransaction,
         ),
         max_blobs: Convert.BigInt.toString(value.maxBlobs),
       };
     }
 
     static fromGenerated(
-      value: SerializablePreparationSettings
+      value: SerializablePreparationSettings,
     ): PreparationSettings {
       return {
         v2TransactionsPermitted: value.v2_transactions_permitted,
         maxUserPayloadLength: Convert.String.toBigInt(
-          value.max_user_payload_length
+          value.max_user_payload_length,
         ),
         maxLedgerPayloadLength: Convert.String.toBigInt(
-          value.max_ledger_payload_length
+          value.max_ledger_payload_length,
         ),
         maxChildSubintentsPerIntent: Convert.String.toBigInt(
-          value.max_child_subintents_per_intent
+          value.max_child_subintents_per_intent,
         ),
         maxSubintentsPerTransaction: Convert.String.toBigInt(
-          value.max_subintents_per_transaction
+          value.max_subintents_per_transaction,
         ),
         maxBlobs: Convert.String.toBigInt(value.max_blobs),
       };
@@ -1160,7 +1162,7 @@ export class GeneratedConverter {
 
   static ManifestValidationRuleset = class {
     static toGenerated(
-      value: ManifestValidationRuleset
+      value: ManifestValidationRuleset,
     ): SerializableManifestValidationRuleset {
       switch (value.kind) {
         case "BabylonBasicValidator":
@@ -1177,7 +1179,7 @@ export class GeneratedConverter {
     }
 
     static fromGenerated(
-      value: SerializableManifestValidationRuleset
+      value: SerializableManifestValidationRuleset,
     ): ManifestValidationRuleset {
       switch (value.kind) {
         case "BabylonBasicValidator":
@@ -1198,10 +1200,10 @@ export class GeneratedConverter {
     static toGenerated(value: ValidationConfig): SerializableValidationConfig {
       return {
         max_signer_signatures_per_intent: Convert.BigInt.toString(
-          value.maxSignerSignaturesPerIntent
+          value.maxSignerSignaturesPerIntent,
         ),
         max_references_per_intent: Convert.BigInt.toString(
-          value.maxReferencesPerIntent
+          value.maxReferencesPerIntent,
         ),
         min_tip_percentage: Convert.Number.toString(value.minTipPercentage),
         max_tip_percentage: Convert.Number.toString(value.maxTipPercentage),
@@ -1209,40 +1211,38 @@ export class GeneratedConverter {
         max_instructions: Convert.BigInt.toString(value.maxInstructions),
         message_validation:
           GeneratedConverter.MessageValidationConfig.toGenerated(
-            value.messageValidation
+            value.messageValidation,
           ),
         v1_transactions_allow_notary_to_duplicate_signer:
           value.v1TransactionsAllowNotaryToDuplicateSigner,
         preparation_settings:
           GeneratedConverter.PreparationSettings.toGenerated(
-            value.preparationSettings
+            value.preparationSettings,
           ),
         manifest_validation:
           GeneratedConverter.ManifestValidationRuleset.toGenerated(
-            value.manifestValidation
+            value.manifestValidation,
           ),
         v2_transactions_allowed: value.v2TransactionsAllowed,
         min_tip_basis_points: Convert.Number.toString(value.minTipBasisPoints),
         max_tip_basis_points: Convert.Number.toString(value.maxTipBasisPoints),
         max_subintent_depth: Convert.BigInt.toString(value.maxSubintentDepth),
         max_total_signature_validations: Convert.BigInt.toString(
-          value.maxTotalSignatureValidations
+          value.maxTotalSignatureValidations,
         ),
-        max_total_references: Convert.BigInt.toString(
-          value.maxTotalReferences
-        ),
+        max_total_references: Convert.BigInt.toString(value.maxTotalReferences),
       };
     }
 
     static fromGenerated(
-      value: SerializableValidationConfig
+      value: SerializableValidationConfig,
     ): ValidationConfig {
       return {
         maxSignerSignaturesPerIntent: Convert.String.toBigInt(
-          value.max_signer_signatures_per_intent
+          value.max_signer_signatures_per_intent,
         ),
         maxReferencesPerIntent: Convert.String.toBigInt(
-          value.max_references_per_intent
+          value.max_references_per_intent,
         ),
         minTipPercentage: Convert.String.toNumber(value.min_tip_percentage),
         maxTipPercentage: Convert.String.toNumber(value.max_tip_percentage),
@@ -1250,28 +1250,26 @@ export class GeneratedConverter {
         maxInstructions: Convert.String.toBigInt(value.max_instructions),
         messageValidation:
           GeneratedConverter.MessageValidationConfig.fromGenerated(
-            value.message_validation
+            value.message_validation,
           ),
         v1TransactionsAllowNotaryToDuplicateSigner:
           value.v1_transactions_allow_notary_to_duplicate_signer,
         preparationSettings:
           GeneratedConverter.PreparationSettings.fromGenerated(
-            value.preparation_settings
+            value.preparation_settings,
           ),
         manifestValidation:
           GeneratedConverter.ManifestValidationRuleset.fromGenerated(
-            value.manifest_validation
+            value.manifest_validation,
           ),
         v2TransactionsAllowed: value.v2_transactions_allowed,
         minTipBasisPoints: Convert.String.toNumber(value.min_tip_basis_points),
         maxTipBasisPoints: Convert.String.toNumber(value.max_tip_basis_points),
         maxSubintentDepth: Convert.String.toBigInt(value.max_subintent_depth),
         maxTotalSignatureValidations: Convert.String.toBigInt(
-          value.max_total_signature_validations
+          value.max_total_signature_validations,
         ),
-        maxTotalReferences: Convert.String.toBigInt(
-          value.max_total_references
-        ),
+        maxTotalReferences: Convert.String.toBigInt(value.max_total_references),
       };
     }
   };
@@ -1302,14 +1300,14 @@ export class GeneratedConverter {
           return {
             kind: value.kind,
             value: GeneratedConverter.PlainTextMessage.fromGenerated(
-              value.value
+              value.value,
             ),
           };
         case "Encrypted":
           return {
             kind: value.kind,
             value: GeneratedConverter.EncryptedMessage.fromGenerated(
-              value.value
+              value.value,
             ),
           };
       }
@@ -1325,7 +1323,7 @@ export class GeneratedConverter {
     }
 
     static fromGenerated(
-      value: SerializablePlainTextMessage
+      value: SerializablePlainTextMessage,
     ): PlainTextMessage {
       return {
         mimeType: value.mime_type,
@@ -1377,13 +1375,13 @@ export class GeneratedConverter {
               key,
               GeneratedConverter.DecryptorsByCurve.toGenerated(value),
             ];
-          }
+          },
         ),
       };
     }
 
     static fromGenerated(
-      value: SerializableEncryptedMessage
+      value: SerializableEncryptedMessage,
     ): EncryptedMessage {
       return {
         encrypted: Convert.HexString.toUint8Array(value.encrypted),
@@ -1394,7 +1392,7 @@ export class GeneratedConverter {
               key,
               GeneratedConverter.DecryptorsByCurve.fromGenerated(value),
             ];
-          }
+          },
         ),
       };
     }
@@ -1407,7 +1405,7 @@ export class GeneratedConverter {
       return {
         network_id: Convert.Number.toString(value.networkId),
         start_epoch_inclusive: Convert.Number.toString(
-          value.startEpochInclusive
+          value.startEpochInclusive,
         ),
         end_epoch_exclusive: Convert.Number.toString(value.endEpochExclusive),
         min_proposer_timestamp_inclusive:
@@ -1419,7 +1417,7 @@ export class GeneratedConverter {
             ? Convert.Number.toString(value.maxProposerTimestampExclusive)
             : undefined,
         intent_discriminator: Convert.Number.toString(
-          value.intentDiscriminator
+          value.intentDiscriminator,
         ),
       };
     }
@@ -1428,7 +1426,7 @@ export class GeneratedConverter {
       return {
         networkId: Convert.String.toNumber(value.network_id),
         startEpochInclusive: Convert.String.toNumber(
-          value.start_epoch_inclusive
+          value.start_epoch_inclusive,
         ),
         endEpochExclusive: Convert.String.toNumber(value.end_epoch_exclusive),
         minProposerTimestampInclusive:
@@ -1440,7 +1438,7 @@ export class GeneratedConverter {
             ? Convert.String.toNumber(value.max_proposer_timestamp_exclusive)
             : undefined,
         intentDiscriminator: Convert.String.toNumber(
-          value.intent_discriminator
+          value.intent_discriminator,
         ),
       };
     }
@@ -1448,11 +1446,11 @@ export class GeneratedConverter {
 
   static TransactionHeaderV2 = class {
     static toGenerated(
-      value: TransactionHeaderV2
+      value: TransactionHeaderV2,
     ): SerializableTransactionHeaderV2 {
       return {
         notary_public_key: GeneratedConverter.PublicKey.toGenerated(
-          value.notaryPublicKey
+          value.notaryPublicKey,
         ),
         notary_is_signatory: value.notaryIsSignatory,
         tip_basis_points: Convert.Number.toString(value.tipBasisPoints),
@@ -1460,11 +1458,11 @@ export class GeneratedConverter {
     }
 
     static fromGenerated(
-      value: SerializableTransactionHeaderV2
+      value: SerializableTransactionHeaderV2,
     ): TransactionHeaderV2 {
       return {
         notaryPublicKey: GeneratedConverter.PublicKey.fromGenerated(
-          value.notary_public_key
+          value.notary_public_key,
         ),
         notaryIsSignatory: value.notary_is_signatory,
         tipBasisPoints: Convert.String.toNumber(value.tip_basis_points),
@@ -1486,7 +1484,7 @@ export class GeneratedConverter {
           return {
             kind: value.kind,
             value: GeneratedConverter.EncryptedMessageV2.toGenerated(
-              value.value
+              value.value,
             ),
           };
       }
@@ -1500,14 +1498,14 @@ export class GeneratedConverter {
           return {
             kind: value.kind,
             value: GeneratedConverter.PlainTextMessage.fromGenerated(
-              value.value!
+              value.value!,
             ),
           };
         case "Encrypted":
           return {
             kind: value.kind,
             value: GeneratedConverter.EncryptedMessageV2.fromGenerated(
-              value.value as SerializableEncryptedMessageV2
+              value.value as SerializableEncryptedMessageV2,
             ),
           };
       }
@@ -1516,7 +1514,7 @@ export class GeneratedConverter {
 
   static EncryptedMessageV2 = class {
     static toGenerated(
-      value: EncryptedMessageV2
+      value: EncryptedMessageV2,
     ): SerializableEncryptedMessageV2 {
       return {
         encrypted: Convert.Uint8Array.toHexString(value.encrypted),
@@ -1527,13 +1525,13 @@ export class GeneratedConverter {
               key,
               GeneratedConverter.DecryptorsByCurveV2.toGenerated(value),
             ];
-          }
+          },
         ),
       };
     }
 
     static fromGenerated(
-      value: SerializableEncryptedMessageV2
+      value: SerializableEncryptedMessageV2,
     ): EncryptedMessageV2 {
       return {
         encrypted: Convert.HexString.toUint8Array(value.encrypted),
@@ -1544,7 +1542,7 @@ export class GeneratedConverter {
               key,
               GeneratedConverter.DecryptorsByCurveV2.fromGenerated(value),
             ];
-          }
+          },
         ),
       };
     }
@@ -1552,13 +1550,13 @@ export class GeneratedConverter {
 
   static DecryptorsByCurveV2 = class {
     static toGenerated(
-      value: DecryptorsByCurveV2
+      value: DecryptorsByCurveV2,
     ): SerializableDecryptorsByCurveV2 {
       return {
         kind: value.kind,
         value: {
           dh_ephemeral_public_key: Convert.Uint8Array.toHexString(
-            value.value.dhEphemeralPublicKey
+            value.value.dhEphemeralPublicKey,
           ),
           decryptors: value.value.decryptors,
         },
@@ -1566,13 +1564,13 @@ export class GeneratedConverter {
     }
 
     static fromGenerated(
-      value: SerializableDecryptorsByCurveV2
+      value: SerializableDecryptorsByCurveV2,
     ): DecryptorsByCurveV2 {
       return {
         kind: value.kind,
         value: {
           dhEphemeralPublicKey: Convert.HexString.toUint8Array(
-            value.value.dh_ephemeral_public_key
+            value.value.dh_ephemeral_public_key,
           ),
           decryptors: value.value.decryptors,
         },
@@ -1606,7 +1604,7 @@ export class GeneratedConverter {
     static toGenerated(value: SubintentV2): SerializableSubintentV2 {
       return {
         intent_core: GeneratedConverter.IntentCoreV2.toGenerated(
-          value.intentCore
+          value.intentCore,
         ),
       };
     }
@@ -1614,7 +1612,7 @@ export class GeneratedConverter {
     static fromGenerated(value: SerializableSubintentV2): SubintentV2 {
       return {
         intentCore: GeneratedConverter.IntentCoreV2.fromGenerated(
-          value.intent_core
+          value.intent_core,
         ),
       };
     }
@@ -1622,65 +1620,101 @@ export class GeneratedConverter {
 
   static PartialTransactionV2 = class {
     static toGenerated(
-      value: PartialTransactionV2
+      value: PartialTransactionV2,
     ): SerializablePartialTransactionV2 {
       return {
         root_subintent: GeneratedConverter.SubintentV2.toGenerated(
-          value.rootSubintent
+          value.rootSubintent,
         ),
         non_root_subintents: value.nonRootSubintents.map(
-          GeneratedConverter.SubintentV2.toGenerated
+          GeneratedConverter.SubintentV2.toGenerated,
         ),
       };
     }
 
     static fromGenerated(
-      value: SerializablePartialTransactionV2
+      value: SerializablePartialTransactionV2,
     ): PartialTransactionV2 {
       return {
         rootSubintent: GeneratedConverter.SubintentV2.fromGenerated(
-          value.root_subintent
+          value.root_subintent,
         ),
         nonRootSubintents: value.non_root_subintents.map(
-          GeneratedConverter.SubintentV2.fromGenerated
+          GeneratedConverter.SubintentV2.fromGenerated,
         ),
+      };
+    }
+  };
+
+  static PreviewTransactionV2 = class {
+    static toGenerated(
+      value: PreviewTransactionV2,
+    ): SerializablePreviewTransactionV2 {
+      return {
+        transaction_intent: GeneratedConverter.TransactionIntentV2.toGenerated(
+          value.transactionIntent,
+        ),
+        root_signer_public_keys: value.rootSignerPublicKeys.map(
+          GeneratedConverter.PublicKey.toGenerated,
+        ),
+        non_root_subintent_signer_public_keys:
+          value.nonRootSubintentSignerPublicKeys.map((publicKeys) =>
+            publicKeys.map(GeneratedConverter.PublicKey.toGenerated),
+          ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializablePreviewTransactionV2,
+    ): PreviewTransactionV2 {
+      return {
+        transactionIntent: GeneratedConverter.TransactionIntentV2.fromGenerated(
+          value.transaction_intent,
+        ),
+        rootSignerPublicKeys: value.root_signer_public_keys.map(
+          GeneratedConverter.PublicKey.fromGenerated,
+        ),
+        nonRootSubintentSignerPublicKeys:
+          value.non_root_subintent_signer_public_keys.map((publicKeys) =>
+            publicKeys.map(GeneratedConverter.PublicKey.fromGenerated),
+          ),
       };
     }
   };
 
   static SignedPartialTransactionV2 = class {
     static toGenerated(
-      value: SignedPartialTransactionV2
+      value: SignedPartialTransactionV2,
     ): SerializableSignedPartialTransactionV2 {
       return {
         partial_transaction:
           GeneratedConverter.PartialTransactionV2.toGenerated(
-            value.partialTransaction
+            value.partialTransaction,
           ),
         root_subintent_signatures: value.rootSubintentSignatures.map(
-          GeneratedConverter.SignatureWithPublicKey.toGenerated
+          GeneratedConverter.SignatureWithPublicKey.toGenerated,
         ),
         non_root_subintent_signatures: value.nonRootSubintentSignatures.map(
           (sigs) =>
-            sigs.map(GeneratedConverter.SignatureWithPublicKey.toGenerated)
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.toGenerated),
         ),
       };
     }
 
     static fromGenerated(
-      value: SerializableSignedPartialTransactionV2
+      value: SerializableSignedPartialTransactionV2,
     ): SignedPartialTransactionV2 {
       return {
         partialTransaction:
           GeneratedConverter.PartialTransactionV2.fromGenerated(
-            value.partial_transaction
+            value.partial_transaction,
           ),
         rootSubintentSignatures: value.root_subintent_signatures.map(
-          GeneratedConverter.SignatureWithPublicKey.fromGenerated
+          GeneratedConverter.SignatureWithPublicKey.fromGenerated,
         ),
         nonRootSubintentSignatures: value.non_root_subintent_signatures.map(
           (sigs) =>
-            sigs.map(GeneratedConverter.SignatureWithPublicKey.fromGenerated)
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.fromGenerated),
         ),
       };
     }
@@ -1688,35 +1722,33 @@ export class GeneratedConverter {
 
   static TransactionIntentV2 = class {
     static toGenerated(
-      value: TransactionIntentV2
+      value: TransactionIntentV2,
     ): SerializableTransactionIntentV2 {
       return {
-        transaction_header:
-          GeneratedConverter.TransactionHeaderV2.toGenerated(
-            value.transactionHeader
-          ),
+        transaction_header: GeneratedConverter.TransactionHeaderV2.toGenerated(
+          value.transactionHeader,
+        ),
         root_intent_core: GeneratedConverter.IntentCoreV2.toGenerated(
-          value.rootIntentCore
+          value.rootIntentCore,
         ),
         non_root_subintents: value.nonRootSubintents.map(
-          GeneratedConverter.SubintentV2.toGenerated
+          GeneratedConverter.SubintentV2.toGenerated,
         ),
       };
     }
 
     static fromGenerated(
-      value: SerializableTransactionIntentV2
+      value: SerializableTransactionIntentV2,
     ): TransactionIntentV2 {
       return {
-        transactionHeader:
-          GeneratedConverter.TransactionHeaderV2.fromGenerated(
-            value.transaction_header
-          ),
+        transactionHeader: GeneratedConverter.TransactionHeaderV2.fromGenerated(
+          value.transaction_header,
+        ),
         rootIntentCore: GeneratedConverter.IntentCoreV2.fromGenerated(
-          value.root_intent_core
+          value.root_intent_core,
         ),
         nonRootSubintents: value.non_root_subintents.map(
-          GeneratedConverter.SubintentV2.fromGenerated
+          GeneratedConverter.SubintentV2.fromGenerated,
         ),
       };
     }
@@ -1724,69 +1756,65 @@ export class GeneratedConverter {
 
   static SignedTransactionIntentV2 = class {
     static toGenerated(
-      value: SignedTransactionIntentV2
+      value: SignedTransactionIntentV2,
     ): SerializableSignedTransactionIntentV2 {
       return {
-        transaction_intent:
-          GeneratedConverter.TransactionIntentV2.toGenerated(
-            value.transactionIntent
-          ),
-        transaction_intent_signatures:
-          value.transactionIntentSignatures.map(
-            GeneratedConverter.SignatureWithPublicKey.toGenerated
-          ),
-        non_root_subintent_signatures:
-          value.nonRootSubintentSignatures.map((sigs) =>
-            sigs.map(GeneratedConverter.SignatureWithPublicKey.toGenerated)
-          ),
+        transaction_intent: GeneratedConverter.TransactionIntentV2.toGenerated(
+          value.transactionIntent,
+        ),
+        transaction_intent_signatures: value.transactionIntentSignatures.map(
+          GeneratedConverter.SignatureWithPublicKey.toGenerated,
+        ),
+        non_root_subintent_signatures: value.nonRootSubintentSignatures.map(
+          (sigs) =>
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.toGenerated),
+        ),
       };
     }
 
     static fromGenerated(
-      value: SerializableSignedTransactionIntentV2
+      value: SerializableSignedTransactionIntentV2,
     ): SignedTransactionIntentV2 {
       return {
-        transactionIntent:
-          GeneratedConverter.TransactionIntentV2.fromGenerated(
-            value.transaction_intent
-          ),
-        transactionIntentSignatures:
-          value.transaction_intent_signatures.map(
-            GeneratedConverter.SignatureWithPublicKey.fromGenerated
-          ),
-        nonRootSubintentSignatures:
-          value.non_root_subintent_signatures.map((sigs) =>
-            sigs.map(GeneratedConverter.SignatureWithPublicKey.fromGenerated)
-          ),
+        transactionIntent: GeneratedConverter.TransactionIntentV2.fromGenerated(
+          value.transaction_intent,
+        ),
+        transactionIntentSignatures: value.transaction_intent_signatures.map(
+          GeneratedConverter.SignatureWithPublicKey.fromGenerated,
+        ),
+        nonRootSubintentSignatures: value.non_root_subintent_signatures.map(
+          (sigs) =>
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.fromGenerated),
+        ),
       };
     }
   };
 
   static NotarizedTransactionV2 = class {
     static toGenerated(
-      value: NotarizedTransactionV2
+      value: NotarizedTransactionV2,
     ): SerializableNotarizedTransactionV2 {
       return {
         signed_transaction_intent:
           GeneratedConverter.SignedTransactionIntentV2.toGenerated(
-            value.signedTransactionIntent
+            value.signedTransactionIntent,
           ),
         notary_signature: GeneratedConverter.Signature.toGenerated(
-          value.notarySignature
+          value.notarySignature,
         ),
       };
     }
 
     static fromGenerated(
-      value: SerializableNotarizedTransactionV2
+      value: SerializableNotarizedTransactionV2,
     ): NotarizedTransactionV2 {
       return {
         signedTransactionIntent:
           GeneratedConverter.SignedTransactionIntentV2.fromGenerated(
-            value.signed_transaction_intent
+            value.signed_transaction_intent,
           ),
         notarySignature: GeneratedConverter.Signature.fromGenerated(
-          value.notary_signature
+          value.notary_signature,
         ),
       };
     }
@@ -1794,13 +1822,13 @@ export class GeneratedConverter {
 
   static DecryptorsByCurve = class {
     static toGenerated(
-      value: DecryptorsByCurve
+      value: DecryptorsByCurve,
     ): SerializableDecryptorsByCurve {
       return {
         kind: value.kind,
         value: {
           dh_ephemeral_public_key: Convert.Uint8Array.toHexString(
-            value.value.dhEphemeralPublicKey
+            value.value.dhEphemeralPublicKey,
           ),
           decryptors: value.value.decryptors.reduce(
             (obj: Record<string, string>, [key, value]) => {
@@ -1808,26 +1836,26 @@ export class GeneratedConverter {
                 Convert.Uint8Array.toHexString(value);
               return obj;
             },
-            {}
+            {},
           ),
         },
       };
     }
 
     static fromGenerated(
-      value: SerializableDecryptorsByCurve
+      value: SerializableDecryptorsByCurve,
     ): DecryptorsByCurve {
       return {
         kind: value.kind,
         value: {
           dhEphemeralPublicKey: Convert.HexString.toUint8Array(
-            value.value.dh_ephemeral_public_key
+            value.value.dh_ephemeral_public_key,
           ),
           decryptors: Object.entries(value.value.decryptors).map(
             ([key, value]) => [
               Convert.HexString.toUint8Array(key),
               Convert.HexString.toUint8Array(value),
-            ]
+            ],
           ),
         },
       };
@@ -1839,10 +1867,10 @@ const recordMap = <
   K1 extends string | number | symbol,
   K2 extends string | number | symbol,
   V1,
-  V2
+  V2,
 >(
   record: Record<K1, V1>,
-  callback: (key: K1, value: V1) => [K2, V2]
+  callback: (key: K1, value: V1) => [K2, V2],
 ): Record<K2, V2> => {
   // @ts-ignore
   let newRecord: Record<K2, V2> = {};

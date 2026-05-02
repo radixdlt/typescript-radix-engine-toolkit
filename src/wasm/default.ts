@@ -28,6 +28,7 @@ import {
   OlympiaNetwork,
   PayloadSchema,
   PartialTransactionV2,
+  PreviewTransactionV2,
   PublicKey,
   SerializationMode,
   SignedIntent,
@@ -94,7 +95,7 @@ export class RadixEngineToolkit {
      */
     static async virtualAccountAddressFromPublicKey(
       publicKey: PublicKey,
-      networkId: number
+      networkId: number,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const input = {
@@ -116,7 +117,7 @@ export class RadixEngineToolkit {
      */
     static async virtualIdentityAddressFromPublicKey(
       publicKey: PublicKey,
-      networkId: number
+      networkId: number,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const input = {
@@ -138,7 +139,7 @@ export class RadixEngineToolkit {
      */
     static async virtualSignatureNonFungibleGlobalIdFromPublicKey(
       publicKey: PublicKey,
-      networkId: number
+      networkId: number,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const input = {
@@ -161,7 +162,7 @@ export class RadixEngineToolkit {
      */
     static async virtualAccountAddressFromOlympiaAccountAddress(
       olympiaAccountAddress: string,
-      networkId: number
+      networkId: number,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const output =
@@ -183,7 +184,7 @@ export class RadixEngineToolkit {
      */
     static async resourceAddressFromOlympiaResourceAddress(
       olympiaResourceAddress: string,
-      networkId: number
+      networkId: number,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.deriveResourceAddressFromOlympiaResourceAddress({
@@ -199,11 +200,11 @@ export class RadixEngineToolkit {
      * @returns A byte array of the Ecdsa Secp256k1 public key associated with the Olympia account.
      */
     static async publicKeyFromOlympiaAccountAddress(
-      olympiaAccountAddress: string
+      olympiaAccountAddress: string,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.derivePublicKeyFromOlympiaAccountAddress(
-        olympiaAccountAddress
+        olympiaAccountAddress,
       );
       return Convert.HexString.toUint8Array(output);
     }
@@ -216,7 +217,7 @@ export class RadixEngineToolkit {
      */
     static async olympiaAccountAddressFromPublicKey(
       publicKey: Uint8Array,
-      olympiaNetwork: OlympiaNetwork
+      olympiaNetwork: OlympiaNetwork,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.deriveOlympiaAccountAddressFromPublicKey({
@@ -235,7 +236,7 @@ export class RadixEngineToolkit {
      */
     static async nodeAddressFromPublicKey(
       publicKey: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       return rawRet.deriveNodeAddressFromPublicKey({
@@ -246,7 +247,7 @@ export class RadixEngineToolkit {
 
     static async bech32mTransactionIdentifierFromIntentHash(
       transactionHash: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       return rawRet.deriveBech32mTransactionIdentifierFromIntentHash({
@@ -263,7 +264,7 @@ export class RadixEngineToolkit {
   static Instructions = class {
     static async hash(
       instructions: Instructions,
-      networkId: number
+      networkId: number,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.instructionsHash({
@@ -284,7 +285,7 @@ export class RadixEngineToolkit {
     static async convert(
       instructions: Instructions,
       networkId: number,
-      instructionsKind: "String" | "Parsed"
+      instructionsKind: "String" | "Parsed",
     ): Promise<Instructions> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.instructionsConvert({
@@ -297,7 +298,7 @@ export class RadixEngineToolkit {
 
     static async compile(
       instructions: Instructions,
-      networkId: number
+      networkId: number,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.instructionsCompile({
@@ -310,7 +311,7 @@ export class RadixEngineToolkit {
     static async decompile(
       compiledInstructions: Uint8Array,
       networkId: number,
-      instructionsKind: "String" | "Parsed" = "Parsed"
+      instructionsKind: "String" | "Parsed" = "Parsed",
     ): Promise<Instructions> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.instructionsDecompile({
@@ -323,7 +324,7 @@ export class RadixEngineToolkit {
 
     static async extractAddresses(
       instructions: Instructions,
-      networkId: number
+      networkId: number,
     ): Promise<Record<EntityType, string[]>> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.instructionsExtractAddresses({
@@ -335,7 +336,7 @@ export class RadixEngineToolkit {
 
     static async staticallyValidate(
       instructions: Instructions,
-      networkId: number
+      networkId: number,
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.instructionsStaticallyValidate({
@@ -349,13 +350,13 @@ export class RadixEngineToolkit {
   static TransactionManifest = class {
     static async hash(
       transactionManifest: TransactionManifest,
-      networkId: number
+      networkId: number,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.manifestHash({
         manifest:
           GeneratedConverter.TransactionManifest.toGenerated(
-            transactionManifest
+            transactionManifest,
           ),
         network_id: Convert.Number.toString(networkId),
       });
@@ -364,13 +365,13 @@ export class RadixEngineToolkit {
 
     static async compile(
       transactionManifest: TransactionManifest,
-      networkId: number
+      networkId: number,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.manifestCompile({
         manifest:
           GeneratedConverter.TransactionManifest.toGenerated(
-            transactionManifest
+            transactionManifest,
           ),
         network_id: Convert.Number.toString(networkId),
       });
@@ -380,7 +381,7 @@ export class RadixEngineToolkit {
     static async decompile(
       compiledTransactionManifest: Uint8Array,
       networkId: number,
-      instructionsKind: "String" | "Parsed" = "Parsed"
+      instructionsKind: "String" | "Parsed" = "Parsed",
     ): Promise<TransactionManifest> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.manifestDecompile({
@@ -393,13 +394,13 @@ export class RadixEngineToolkit {
 
     static async staticallyValidate(
       transactionManifest: TransactionManifest,
-      networkId: number
+      networkId: number,
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.manifestStaticallyValidate({
         manifest:
           GeneratedConverter.TransactionManifest.toGenerated(
-            transactionManifest
+            transactionManifest,
           ),
         network_id: Convert.Number.toString(networkId),
       });
@@ -408,13 +409,13 @@ export class RadixEngineToolkit {
 
     static async staticallyAnalyze(
       transactionManifest: TransactionManifest,
-      networkId: number
+      networkId: number,
     ): Promise<StaticManifestAnalysisResult> {
       const rawRet = await rawRadixEngineToolkit;
       return rawRet.manifestStaticallyAnalyze({
         manifest:
           GeneratedConverter.TransactionManifest.toGenerated(
-            transactionManifest
+            transactionManifest,
           ),
         network_id: Convert.Number.toString(networkId),
       });
@@ -429,7 +430,7 @@ export class RadixEngineToolkit {
     static async hash(intent: Intent): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.intentHash(
-        GeneratedConverter.Intent.toGenerated(intent)
+        GeneratedConverter.Intent.toGenerated(intent),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
@@ -437,14 +438,14 @@ export class RadixEngineToolkit {
     static async compile(intent: Intent): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.intentCompile(
-        GeneratedConverter.Intent.toGenerated(intent)
+        GeneratedConverter.Intent.toGenerated(intent),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiledIntent: Uint8Array,
-      instructionsKind: "String" | "Parsed" = "Parsed"
+      instructionsKind: "String" | "Parsed" = "Parsed",
     ): Promise<Intent> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.intentDecompile({
@@ -455,7 +456,7 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyValidate(
-      intent: Intent
+      intent: Intent,
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.intentStaticallyValidate({
@@ -469,19 +470,19 @@ export class RadixEngineToolkit {
     static async hash(signedIntent: SignedIntent): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedIntentHash(
-        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
     static async signedIntentHash(
-      signedIntent: SignedIntent
+      signedIntent: SignedIntent,
     ): Promise<TransactionHash> {
       return this.hash(signedIntent);
     }
 
     static async intentHash(
-      signedIntent: SignedIntent
+      signedIntent: SignedIntent,
     ): Promise<TransactionHash> {
       return RadixEngineToolkit.Intent.hash(signedIntent.intent);
     }
@@ -489,14 +490,14 @@ export class RadixEngineToolkit {
     static async compile(signedIntent: SignedIntent): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedIntentCompile(
-        GeneratedConverter.SignedIntent.toGenerated(signedIntent)
+        GeneratedConverter.SignedIntent.toGenerated(signedIntent),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiledSignedIntent: Uint8Array,
-      instructionsKind: "String" | "Parsed" = "Parsed"
+      instructionsKind: "String" | "Parsed" = "Parsed",
     ): Promise<SignedIntent> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedIntentDecompile({
@@ -507,7 +508,7 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyValidate(
-      signedIntent: SignedIntent
+      signedIntent: SignedIntent,
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedIntentStaticallyValidate({
@@ -520,54 +521,54 @@ export class RadixEngineToolkit {
 
   static NotarizedTransaction = class {
     static async hash(
-      notarizedTransaction: NotarizedTransaction
+      notarizedTransaction: NotarizedTransaction,
     ): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionHash(
         GeneratedConverter.NotarizedTransaction.toGenerated(
-          notarizedTransaction
-        )
+          notarizedTransaction,
+        ),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
     static async notarizedTransactionHash(
-      notarizedTransaction: NotarizedTransaction
+      notarizedTransaction: NotarizedTransaction,
     ): Promise<TransactionHash> {
       return this.hash(notarizedTransaction);
     }
 
     static async signedIntentHash(
-      notarizedTransaction: NotarizedTransaction
+      notarizedTransaction: NotarizedTransaction,
     ): Promise<TransactionHash> {
       return RadixEngineToolkit.SignedIntent.hash(
-        notarizedTransaction.signedIntent
+        notarizedTransaction.signedIntent,
       );
     }
 
     static async intentHash(
-      notarizedTransaction: NotarizedTransaction
+      notarizedTransaction: NotarizedTransaction,
     ): Promise<TransactionHash> {
       return RadixEngineToolkit.Intent.hash(
-        notarizedTransaction.signedIntent.intent
+        notarizedTransaction.signedIntent.intent,
       );
     }
 
     static async compile(
-      notarizedTransaction: NotarizedTransaction
+      notarizedTransaction: NotarizedTransaction,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionCompile(
         GeneratedConverter.NotarizedTransaction.toGenerated(
-          notarizedTransaction
-        )
+          notarizedTransaction,
+        ),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiledNotarizedTransaction: Uint8Array,
-      instructionsKind: "String" | "Parsed" = "Parsed"
+      instructionsKind: "String" | "Parsed" = "Parsed",
     ): Promise<NotarizedTransaction> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionDecompile({
@@ -578,13 +579,13 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyValidate(
-      notarizedTransaction: NotarizedTransaction
+      notarizedTransaction: NotarizedTransaction,
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionStaticallyValidate({
         notarized_transaction:
           GeneratedConverter.NotarizedTransaction.toGenerated(
-            notarizedTransaction
+            notarizedTransaction,
           ),
       });
       return toStaticValidationResult(output);
@@ -594,29 +595,25 @@ export class RadixEngineToolkit {
   /* ── V2 Transaction Modules ───────────────────────────────────────── */
 
   static TransactionIntentV2 = class {
-    static async hash(
-      intent: TransactionIntentV2
-    ): Promise<TransactionHash> {
+    static async hash(intent: TransactionIntentV2): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.transactionIntentV2Hash(
-        GeneratedConverter.TransactionIntentV2.toGenerated(intent)
+        GeneratedConverter.TransactionIntentV2.toGenerated(intent),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
-    static async compile(
-      intent: TransactionIntentV2
-    ): Promise<Uint8Array> {
+    static async compile(intent: TransactionIntentV2): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.transactionIntentV2Compile(
-        GeneratedConverter.TransactionIntentV2.toGenerated(intent)
+        GeneratedConverter.TransactionIntentV2.toGenerated(intent),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiled: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<TransactionIntentV2> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.transactionIntentV2Decompile({
@@ -627,18 +624,18 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyAnalyze(
-      intent: TransactionIntentV2
+      intent: TransactionIntentV2,
     ): Promise<StaticTransactionIntentV2AnalysisResult> {
       const rawRet = await rawRadixEngineToolkit;
       const root_intent = rawRet.transactionIntentV2StaticallyAnalyze(
-        GeneratedConverter.TransactionIntentV2.toGenerated(intent)
+        GeneratedConverter.TransactionIntentV2.toGenerated(intent),
       );
       const non_root_subintents = await Promise.all(
         intent.nonRootSubintents.map((subintent) =>
           rawRet.subintentV2StaticallyAnalyze(
-            GeneratedConverter.SubintentV2.toGenerated(subintent)
-          )
-        )
+            GeneratedConverter.SubintentV2.toGenerated(subintent),
+          ),
+        ),
       );
 
       return {
@@ -650,28 +647,28 @@ export class RadixEngineToolkit {
 
   static SignedTransactionIntentV2 = class {
     static async hash(
-      signedIntent: SignedTransactionIntentV2
+      signedIntent: SignedTransactionIntentV2,
     ): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedTransactionIntentV2Hash(
-        GeneratedConverter.SignedTransactionIntentV2.toGenerated(signedIntent)
+        GeneratedConverter.SignedTransactionIntentV2.toGenerated(signedIntent),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
     static async compile(
-      signedIntent: SignedTransactionIntentV2
+      signedIntent: SignedTransactionIntentV2,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedTransactionIntentV2Compile(
-        GeneratedConverter.SignedTransactionIntentV2.toGenerated(signedIntent)
+        GeneratedConverter.SignedTransactionIntentV2.toGenerated(signedIntent),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiled: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<SignedTransactionIntentV2> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedTransactionIntentV2Decompile({
@@ -684,32 +681,32 @@ export class RadixEngineToolkit {
 
   static NotarizedTransactionV2 = class {
     static async hash(
-      notarizedTransaction: NotarizedTransactionV2
+      notarizedTransaction: NotarizedTransactionV2,
     ): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionV2Hash(
         GeneratedConverter.NotarizedTransactionV2.toGenerated(
-          notarizedTransaction
-        )
+          notarizedTransaction,
+        ),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
     static async compile(
-      notarizedTransaction: NotarizedTransactionV2
+      notarizedTransaction: NotarizedTransactionV2,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionV2Compile(
         GeneratedConverter.NotarizedTransactionV2.toGenerated(
-          notarizedTransaction
-        )
+          notarizedTransaction,
+        ),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiled: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<NotarizedTransactionV2> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionV2Decompile({
@@ -721,13 +718,13 @@ export class RadixEngineToolkit {
 
     static async staticallyValidate(
       notarizedTransaction: NotarizedTransactionV2,
-      networkId: number
+      networkId: number,
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionV2StaticallyValidate({
         notarized_transaction:
           GeneratedConverter.NotarizedTransactionV2.toGenerated(
-            notarizedTransaction
+            notarizedTransaction,
           ),
         network_id: Convert.Number.toString(networkId),
       });
@@ -736,29 +733,25 @@ export class RadixEngineToolkit {
   };
 
   static SubintentV2 = class {
-    static async hash(
-      subintent: SubintentV2
-    ): Promise<TransactionHash> {
+    static async hash(subintent: SubintentV2): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.subintentV2Hash(
-        GeneratedConverter.SubintentV2.toGenerated(subintent)
+        GeneratedConverter.SubintentV2.toGenerated(subintent),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
-    static async compile(
-      subintent: SubintentV2
-    ): Promise<Uint8Array> {
+    static async compile(subintent: SubintentV2): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.subintentV2Compile(
-        GeneratedConverter.SubintentV2.toGenerated(subintent)
+        GeneratedConverter.SubintentV2.toGenerated(subintent),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiled: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<SubintentV2> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.subintentV2Decompile({
@@ -769,39 +762,39 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyAnalyze(
-      subintent: SubintentV2
+      subintent: SubintentV2,
     ): Promise<StaticManifestAnalysisResult> {
       const rawRet = await rawRadixEngineToolkit;
       return rawRet.subintentV2StaticallyAnalyze(
-        GeneratedConverter.SubintentV2.toGenerated(subintent)
+        GeneratedConverter.SubintentV2.toGenerated(subintent),
       );
     }
   };
 
   static PartialTransactionV2 = class {
     static async hash(
-      partialTransaction: PartialTransactionV2
+      partialTransaction: PartialTransactionV2,
     ): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.partialTransactionV2Hash(
-        GeneratedConverter.PartialTransactionV2.toGenerated(partialTransaction)
+        GeneratedConverter.PartialTransactionV2.toGenerated(partialTransaction),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
     static async compile(
-      partialTransaction: PartialTransactionV2
+      partialTransaction: PartialTransactionV2,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.partialTransactionV2Compile(
-        GeneratedConverter.PartialTransactionV2.toGenerated(partialTransaction)
+        GeneratedConverter.PartialTransactionV2.toGenerated(partialTransaction),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiled: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<PartialTransactionV2> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.partialTransactionV2Decompile({
@@ -812,34 +805,46 @@ export class RadixEngineToolkit {
     }
   };
 
+  static PreviewTransactionV2 = class {
+    static async compile(
+      previewTransaction: PreviewTransactionV2,
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.previewTransactionV2Compile(
+        GeneratedConverter.PreviewTransactionV2.toGenerated(previewTransaction),
+      );
+      return Convert.HexString.toUint8Array(output);
+    }
+  };
+
   static SignedPartialTransactionV2 = class {
     static async hash(
-      signedPartialTransaction: SignedPartialTransactionV2
+      signedPartialTransaction: SignedPartialTransactionV2,
     ): Promise<TransactionHash> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedPartialTransactionV2Hash(
         GeneratedConverter.SignedPartialTransactionV2.toGenerated(
-          signedPartialTransaction
-        )
+          signedPartialTransaction,
+        ),
       );
       return GeneratedConverter.TransactionHash.fromGenerated(output);
     }
 
     static async compile(
-      signedPartialTransaction: SignedPartialTransactionV2
+      signedPartialTransaction: SignedPartialTransactionV2,
     ): Promise<Uint8Array> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedPartialTransactionV2Compile(
         GeneratedConverter.SignedPartialTransactionV2.toGenerated(
-          signedPartialTransaction
-        )
+          signedPartialTransaction,
+        ),
       );
       return Convert.HexString.toUint8Array(output);
     }
 
     static async decompile(
       compiled: Uint8Array,
-      networkId: number
+      networkId: number,
     ): Promise<SignedPartialTransactionV2> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedPartialTransactionV2Decompile({
@@ -847,19 +852,19 @@ export class RadixEngineToolkit {
         network_id: Convert.Number.toString(networkId),
       });
       return GeneratedConverter.SignedPartialTransactionV2.fromGenerated(
-        output
+        output,
       );
     }
 
     static async staticallyValidate(
       signedPartialTransaction: SignedPartialTransactionV2,
-      networkId: number
+      networkId: number,
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedPartialTransactionV2StaticallyValidate({
         signed_partial_transaction:
           GeneratedConverter.SignedPartialTransactionV2.toGenerated(
-            signedPartialTransaction
+            signedPartialTransaction,
           ),
         network_id: Convert.Number.toString(networkId),
       });
@@ -872,7 +877,7 @@ export class RadixEngineToolkit {
       payload: Uint8Array,
       networkId: number,
       representation: ManifestSborStringRepresentation,
-      schema?: PayloadSchema
+      schema?: PayloadSchema,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.manifestSborDecodeToString({
@@ -880,7 +885,7 @@ export class RadixEngineToolkit {
         network_id: Convert.Number.toString(networkId),
         representation:
           GeneratedConverter.ManifestSborStringRepresentation.toGenerated(
-            representation
+            representation,
           ),
         schema,
       });
@@ -893,7 +898,7 @@ export class RadixEngineToolkit {
       payload: Uint8Array,
       networkId: number,
       representation: SerializationMode,
-      schema?: PayloadSchema
+      schema?: PayloadSchema,
     ): Promise<string> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.scryptoSborDecodeToString({
@@ -935,7 +940,7 @@ export class RadixEngineToolkit {
       return {
         networkId: Convert.String.toNumber(output.network_id),
         entityType: GeneratedConverter.EntityType.fromGenerated(
-          output.entity_type
+          output.entity_type,
         ),
         hrp: output.hrp,
         data: Convert.HexString.toUint8Array(output.data),
@@ -947,7 +952,7 @@ export class RadixEngineToolkit {
     static async knownAddresses(networkId: number): Promise<KnownAddresses> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.utilsKnownAddresses(
-        Convert.Number.toString(networkId)
+        Convert.Number.toString(networkId),
       );
       return {
         resourceAddresses: {
@@ -1005,7 +1010,7 @@ const toStaticValidationResult = (
     | SignedIntentStaticallyValidateOutput
     | NotarizedTransactionStaticallyValidateOutput
     | NotarizedTransactionV2StaticallyValidateOutput
-    | SignedPartialTransactionV2StaticallyValidateOutput
+    | SignedPartialTransactionV2StaticallyValidateOutput,
 ): StaticValidationResult => {
   switch (input.kind) {
     case "Valid":

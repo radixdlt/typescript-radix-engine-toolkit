@@ -25,6 +25,7 @@ import {
   NotarizedTransactionV2,
   PartialTransactionV2,
   PrivateKey,
+  PreviewTransactionV2,
   PublicKey,
   RadixEngineToolkit,
   SignatureWithPublicKey,
@@ -39,22 +40,22 @@ import {
 // ── Test helpers ──────────────────────────────────────────────────────
 
 const notaryPrivateKey = new PrivateKey.Ed25519(
-  "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b"
+  "d52618de62aa37a9fdac229614ca931d9e509e00cd01ff9f465e5dba5e17be8b",
 );
 const signerKey1 = new PrivateKey.Secp256k1(
-  "78cf6cb9537af4bb130ba08c7df2f10ed8ee0efd4d2319ef6762042feca0f58e"
+  "78cf6cb9537af4bb130ba08c7df2f10ed8ee0efd4d2319ef6762042feca0f58e",
 );
 const signerKey2 = new PrivateKey.Ed25519(
-  "3d7f447bce7a669581452010226dc6437cf5efbdaee5ceff25894e8299410404"
+  "3d7f447bce7a669581452010226dc6437cf5efbdaee5ceff25894e8299410404",
 );
 const signerKey3 = new PrivateKey.Secp256k1(
-  "78cf6cb9537af4bb130ba08c7df2f10ed8ee0efd4d2319ef6762042feca0f58a"
+  "78cf6cb9537af4bb130ba08c7df2f10ed8ee0efd4d2319ef6762042feca0f58a",
 );
 
 let nextDiscriminator = 1;
 
 function makeIntentHeaderV2(
-  overrides?: Partial<IntentHeaderV2>
+  overrides?: Partial<IntentHeaderV2>,
 ): IntentHeaderV2 {
   return {
     networkId: NetworkId.Simulator,
@@ -74,13 +75,15 @@ function makeIntentCoreV2(overrides?: Partial<IntentCoreV2>): IntentCoreV2 {
     children: [],
     ...overrides,
     // Re-apply header after spread so partial header overrides work
-    ...(overrides?.header ? { header: makeIntentHeaderV2(overrides.header) } : {}),
+    ...(overrides?.header
+      ? { header: makeIntentHeaderV2(overrides.header) }
+      : {}),
   };
 }
 
 function makeTransactionHeaderV2(
   notaryKey: PublicKey,
-  overrides?: Partial<TransactionHeaderV2>
+  overrides?: Partial<TransactionHeaderV2>,
 ): TransactionHeaderV2 {
   return {
     notaryPublicKey: notaryKey,
@@ -90,23 +93,17 @@ function makeTransactionHeaderV2(
   };
 }
 
-function makeSubintentCoreV2(
-  overrides?: Partial<IntentCoreV2>
-): IntentCoreV2 {
+function makeSubintentCoreV2(overrides?: Partial<IntentCoreV2>): IntentCoreV2 {
   return makeIntentCoreV2({
     instructions: "YIELD_TO_PARENT;",
     ...overrides,
   });
 }
 
-function rootInstructionsWithChildren(
-  childIds: string[]
-): string {
+function rootInstructionsWithChildren(childIds: string[]): string {
   const lines: string[] = [];
   for (let i = 0; i < childIds.length; i++) {
-    lines.push(
-      `USE_CHILD NamedIntent("child${i}") Intent("${childIds[i]}");`
-    );
+    lines.push(`USE_CHILD NamedIntent("child${i}") Intent("${childIds[i]}");`);
   }
   for (let i = 0; i < childIds.length; i++) {
     lines.push(`YIELD_TO_CHILD NamedIntent("child${i}");`);
@@ -114,17 +111,15 @@ function rootInstructionsWithChildren(
   return lines.join("\n");
 }
 
-async function buildSimpleNotarizedV2(
-  opts?: {
-    rootIntentCoreOverrides?: Partial<IntentCoreV2>;
-    transactionHeaderOverrides?: Partial<TransactionHeaderV2>;
-    signers?: PrivateKey[];
-  }
-): Promise<NotarizedTransactionV2> {
+async function buildSimpleNotarizedV2(opts?: {
+  rootIntentCoreOverrides?: Partial<IntentCoreV2>;
+  transactionHeaderOverrides?: Partial<TransactionHeaderV2>;
+  signers?: PrivateKey[];
+}): Promise<NotarizedTransactionV2> {
   const builder = await TransactionV2Builder.new();
   const txHeader = makeTransactionHeaderV2(
     notaryPrivateKey.publicKey(),
-    opts?.transactionHeaderOverrides
+    opts?.transactionHeaderOverrides,
   );
   const rootIntentCore = makeIntentCoreV2(opts?.rootIntentCoreOverrides);
 
@@ -144,12 +139,12 @@ describe("TransactionV2Builder", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
-    expect(
-      tx.signedTransactionIntent.transactionIntentSignatures.length
-    ).toBe(1);
+    expect(tx.signedTransactionIntent.transactionIntentSignatures.length).toBe(
+      1,
+    );
   });
 
   it("A sync signature function can be used as a signer.", async () => {
@@ -160,20 +155,18 @@ describe("TransactionV2Builder", () => {
     const tx = builder
       .header(txHeader)
       .rootIntentCore(rootIntentCore)
-      .sign((hash: Uint8Array) =>
-        signerKey1.signToSignatureWithPublicKey(hash)
-      )
+      .sign((hash: Uint8Array) => signerKey1.signToSignatureWithPublicKey(hash))
       .notarize(notaryPrivateKey);
 
     const result = await tx;
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         result,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
     expect(
-      result.signedTransactionIntent.transactionIntentSignatures.length
+      result.signedTransactionIntent.transactionIntentSignatures.length,
     ).toBe(1);
   });
 
@@ -186,19 +179,19 @@ describe("TransactionV2Builder", () => {
       .header(txHeader)
       .rootIntentCore(rootIntentCore)
       .signAsync((hash: Uint8Array) =>
-        Promise.resolve(signerKey1.signToSignatureWithPublicKey(hash))
+        Promise.resolve(signerKey1.signToSignatureWithPublicKey(hash)),
       )
       .notarize(notaryPrivateKey);
 
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
-    expect(
-      tx.signedTransactionIntent.transactionIntentSignatures.length
-    ).toBe(1);
+    expect(tx.signedTransactionIntent.transactionIntentSignatures.length).toBe(
+      1,
+    );
   });
 
   it("An async notarize function can be used.", async () => {
@@ -211,18 +204,18 @@ describe("TransactionV2Builder", () => {
       .rootIntentCore(rootIntentCore)
       .sign(signerKey1)
       .notarizeAsync((hash: Uint8Array) =>
-        Promise.resolve(notaryPrivateKey.signToSignature(hash))
+        Promise.resolve(notaryPrivateKey.signToSignature(hash)),
       );
 
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
-    expect(
-      tx.signedTransactionIntent.transactionIntentSignatures.length
-    ).toBe(1);
+    expect(tx.signedTransactionIntent.transactionIntentSignatures.length).toBe(
+      1,
+    );
   });
 
   it("Multiple signers using all signing methods produce correct signature count.", async () => {
@@ -234,23 +227,21 @@ describe("TransactionV2Builder", () => {
       .header(txHeader)
       .rootIntentCore(rootIntentCore)
       .sign(signerKey1)
-      .sign((hash: Uint8Array) =>
-        signerKey2.signToSignatureWithPublicKey(hash)
-      )
+      .sign((hash: Uint8Array) => signerKey2.signToSignatureWithPublicKey(hash))
       .signAsync((hash: Uint8Array) =>
-        Promise.resolve(signerKey3.signToSignatureWithPublicKey(hash))
+        Promise.resolve(signerKey3.signToSignatureWithPublicKey(hash)),
       )
       .notarize(notaryPrivateKey);
 
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
-    expect(
-      tx.signedTransactionIntent.transactionIntentSignatures.length
-    ).toBe(3);
+    expect(tx.signedTransactionIntent.transactionIntentSignatures.length).toBe(
+      3,
+    );
   });
 
   it("Notary-only transaction with no signers is valid.", async () => {
@@ -259,12 +250,12 @@ describe("TransactionV2Builder", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
-    expect(
-      tx.signedTransactionIntent.transactionIntentSignatures.length
-    ).toBe(0);
+    expect(tx.signedTransactionIntent.transactionIntentSignatures.length).toBe(
+      0,
+    );
   });
 
   it("A transaction with a PlainText message is valid.", async () => {
@@ -282,7 +273,7 @@ describe("TransactionV2Builder", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
   });
@@ -300,16 +291,16 @@ describe("TransactionV2Builder", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
     expect(
       tx.signedTransactionIntent.transactionIntent.rootIntentCore.header
-        .minProposerTimestampInclusive
+        .minProposerTimestampInclusive,
     ).toBe(1000);
     expect(
       tx.signedTransactionIntent.transactionIntent.rootIntentCore.header
-        .maxProposerTimestampExclusive
+        .maxProposerTimestampExclusive,
     ).toBe(2000);
   });
 
@@ -322,16 +313,13 @@ describe("TransactionV2Builder", () => {
       .header(txHeader)
       .rootIntentCore(rootIntentCore)
       .buildPreviewTransaction({
-        rootSignerPublicKeys: [
-          signerKey1.publicKey(),
-          signerKey2.publicKey(),
-        ],
+        rootSignerPublicKeys: [signerKey1.publicKey(), signerKey2.publicKey()],
       });
 
     expect(preview.rootSignerPublicKeys.length).toBe(2);
     expect(preview.nonRootSubintentSignerPublicKeys.length).toBe(0);
     expect(
-      preview.transactionIntent.rootIntentCore.header.intentDiscriminator
+      preview.transactionIntent.rootIntentCore.header.intentDiscriminator,
     ).toBe(rootIntentCore.header.intentDiscriminator);
   });
 
@@ -339,7 +327,7 @@ describe("TransactionV2Builder", () => {
     const subintent: SubintentV2 = { intentCore: makeSubintentCoreV2() };
     const subintentHash = await RadixEngineToolkit.SubintentV2.hash(subintent);
     const subintentSig = signerKey1.signToSignatureWithPublicKey(
-      subintentHash.hash
+      subintentHash.hash,
     );
 
     const rootIntentCore = makeIntentCoreV2({
@@ -359,16 +347,14 @@ describe("TransactionV2Builder", () => {
 
     expect(preview.nonRootSubintentSignerPublicKeys.length).toBe(1);
     expect(preview.nonRootSubintentSignerPublicKeys[0].length).toBe(1);
-    expect(
-      preview.transactionIntent.nonRootSubintents.length
-    ).toBe(1);
+    expect(preview.transactionIntent.nonRootSubintents.length).toBe(1);
   });
 
   it("Throws if non-root subintent signer key arrays do not match non-root subintents.", async () => {
     const subintent: SubintentV2 = { intentCore: makeSubintentCoreV2() };
     const subintentHash = await RadixEngineToolkit.SubintentV2.hash(subintent);
     const subintentSig = signerKey1.signToSignatureWithPublicKey(
-      subintentHash.hash
+      subintentHash.hash,
     );
 
     const rootIntentCore = makeIntentCoreV2({
@@ -386,9 +372,9 @@ describe("TransactionV2Builder", () => {
       signStep.buildPreviewTransaction({
         rootSignerPublicKeys: [signerKey2.publicKey()],
         nonRootSubintentSignerPublicKeys: [],
-      })
+      }),
     ).toThrowError(
-      "nonRootSubintentSignerPublicKeys length must match non-root subintents length"
+      "nonRootSubintentSignerPublicKeys length must match non-root subintents length",
     );
   });
 });
@@ -402,7 +388,7 @@ describe("Subintent Composition", () => {
     };
     const subintentHash = await RadixEngineToolkit.SubintentV2.hash(subintent);
     const subintentSig = signerKey1.signToSignatureWithPublicKey(
-      subintentHash.hash
+      subintentHash.hash,
     );
 
     const rootIntentCore = makeIntentCoreV2({
@@ -420,11 +406,11 @@ describe("Subintent Composition", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
     expect(
-      tx.signedTransactionIntent.transactionIntent.nonRootSubintents.length
+      tx.signedTransactionIntent.transactionIntent.nonRootSubintents.length,
     ).toBe(1);
   });
 
@@ -454,15 +440,15 @@ describe("Subintent Composition", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
     expect(
-      tx.signedTransactionIntent.transactionIntent.nonRootSubintents.length
+      tx.signedTransactionIntent.transactionIntent.nonRootSubintents.length,
     ).toBe(2);
-    expect(
-      tx.signedTransactionIntent.nonRootSubintentSignatures.length
-    ).toBe(2);
+    expect(tx.signedTransactionIntent.nonRootSubintentSignatures.length).toBe(
+      2,
+    );
   });
 
   it("A subintent can have multiple signers.", async () => {
@@ -487,20 +473,18 @@ describe("Subintent Composition", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
     expect(
-      tx.signedTransactionIntent.nonRootSubintentSignatures[0].length
+      tx.signedTransactionIntent.nonRootSubintentSignatures[0].length,
     ).toBe(2);
   });
 
   it("Subintent hash computed standalone matches hash extracted from built transaction.", async () => {
     const subintent: SubintentV2 = { intentCore: makeIntentCoreV2() };
     const standaloneHash = await RadixEngineToolkit.SubintentV2.hash(subintent);
-    const subSig = signerKey1.signToSignatureWithPublicKey(
-      standaloneHash.hash
-    );
+    const subSig = signerKey1.signToSignatureWithPublicKey(standaloneHash.hash);
 
     const rootIntentCore = makeIntentCoreV2({
       children: [standaloneHash.hash],
@@ -517,7 +501,7 @@ describe("Subintent Composition", () => {
     const childHash =
       tx.signedTransactionIntent.transactionIntent.rootIntentCore.children[0];
     expect(Convert.Uint8Array.toHexString(childHash)).toBe(
-      Convert.Uint8Array.toHexString(standaloneHash.hash)
+      Convert.Uint8Array.toHexString(standaloneHash.hash),
     );
   });
 });
@@ -541,17 +525,17 @@ describe("Compile/Decompile Round-Trips", () => {
     const compiled = await RadixEngineToolkit.SubintentV2.compile(subintent);
     const decompiled = await RadixEngineToolkit.SubintentV2.decompile(
       compiled,
-      NetworkId.Simulator
+      NetworkId.Simulator,
     );
 
     expect(decompiled.intentCore.header.networkId).toBe(
-      subintent.intentCore.header.networkId
+      subintent.intentCore.header.networkId,
     );
     expect(decompiled.intentCore.header.startEpochInclusive).toBe(
-      subintent.intentCore.header.startEpochInclusive
+      subintent.intentCore.header.startEpochInclusive,
     );
     expect(decompiled.intentCore.header.endEpochExclusive).toBe(
-      subintent.intentCore.header.endEpochExclusive
+      subintent.intentCore.header.endEpochExclusive,
     );
     expect(decompiled.intentCore.message.kind).toBe("PlainText");
   });
@@ -561,30 +545,27 @@ describe("Compile/Decompile Round-Trips", () => {
     const subHash = await RadixEngineToolkit.SubintentV2.hash(sub);
 
     const intent: TransactionIntentV2 = {
-      transactionHeader: makeTransactionHeaderV2(
-        notaryPrivateKey.publicKey()
-      ),
+      transactionHeader: makeTransactionHeaderV2(notaryPrivateKey.publicKey()),
       rootIntentCore: makeIntentCoreV2({ children: [subHash.hash] }),
       nonRootSubintents: [sub],
     };
 
     const compiled =
       await RadixEngineToolkit.TransactionIntentV2.compile(intent);
-    const decompiled =
-      await RadixEngineToolkit.TransactionIntentV2.decompile(
-        compiled,
-        NetworkId.Simulator
-      );
+    const decompiled = await RadixEngineToolkit.TransactionIntentV2.decompile(
+      compiled,
+      NetworkId.Simulator,
+    );
 
     expect(decompiled.transactionHeader.notaryIsSignatory).toBe(
-      intent.transactionHeader.notaryIsSignatory
+      intent.transactionHeader.notaryIsSignatory,
     );
     expect(decompiled.transactionHeader.tipBasisPoints).toBe(
-      intent.transactionHeader.tipBasisPoints
+      intent.transactionHeader.tipBasisPoints,
     );
     expect(decompiled.nonRootSubintents.length).toBe(1);
     expect(decompiled.rootIntentCore.header.networkId).toBe(
-      NetworkId.Simulator
+      NetworkId.Simulator,
     );
   });
 
@@ -597,14 +578,14 @@ describe("Compile/Decompile Round-Trips", () => {
     const decompiled =
       await RadixEngineToolkit.SignedTransactionIntentV2.decompile(
         compiled,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
 
     expect(decompiled.transactionIntentSignatures.length).toBe(
-      signed.transactionIntentSignatures.length
+      signed.transactionIntentSignatures.length,
     );
     expect(decompiled.nonRootSubintentSignatures.length).toBe(
-      signed.nonRootSubintentSignatures.length
+      signed.nonRootSubintentSignatures.length,
     );
   });
 
@@ -630,19 +611,19 @@ describe("Compile/Decompile Round-Trips", () => {
     const decompiled =
       await RadixEngineToolkit.NotarizedTransactionV2.decompile(
         compiled,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
 
     expect(
-      decompiled.signedTransactionIntent.transactionIntentSignatures.length
+      decompiled.signedTransactionIntent.transactionIntentSignatures.length,
     ).toBe(1);
     expect(
       decompiled.signedTransactionIntent.transactionIntent.nonRootSubintents
-        .length
+        .length,
     ).toBe(1);
     expect(
       decompiled.signedTransactionIntent.transactionIntent.rootIntentCore.header
-        .networkId
+        .networkId,
     ).toBe(NetworkId.Simulator);
   });
 
@@ -661,15 +642,14 @@ describe("Compile/Decompile Round-Trips", () => {
 
     const compiled =
       await RadixEngineToolkit.PartialTransactionV2.compile(partial);
-    const decompiled =
-      await RadixEngineToolkit.PartialTransactionV2.decompile(
-        compiled,
-        NetworkId.Simulator
-      );
+    const decompiled = await RadixEngineToolkit.PartialTransactionV2.decompile(
+      compiled,
+      NetworkId.Simulator,
+    );
 
     expect(decompiled.nonRootSubintents.length).toBe(1);
     expect(decompiled.rootSubintent.intentCore.header.networkId).toBe(
-      NetworkId.Simulator
+      NetworkId.Simulator,
     );
   });
 
@@ -694,18 +674,37 @@ describe("Compile/Decompile Round-Trips", () => {
 
     const compiled =
       await RadixEngineToolkit.SignedPartialTransactionV2.compile(
-        signedPartial
+        signedPartial,
       );
     const decompiled =
       await RadixEngineToolkit.SignedPartialTransactionV2.decompile(
         compiled,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
 
     expect(decompiled.rootSubintentSignatures.length).toBe(1);
     expect(decompiled.nonRootSubintentSignatures.length).toBe(1);
     expect(decompiled.nonRootSubintentSignatures[0].length).toBe(1);
     expect(decompiled.partialTransaction.nonRootSubintents.length).toBe(1);
+  });
+
+  it("PreviewTransactionV2 can be compiled.", async () => {
+    const preview: PreviewTransactionV2 = {
+      transactionIntent: {
+        transactionHeader: makeTransactionHeaderV2(
+          notaryPrivateKey.publicKey(),
+        ),
+        rootIntentCore: makeIntentCoreV2(),
+        nonRootSubintents: [],
+      },
+      rootSignerPublicKeys: [signerKey1.publicKey()],
+      nonRootSubintentSignerPublicKeys: [],
+    };
+
+    const compiled =
+      await RadixEngineToolkit.PreviewTransactionV2.compile(preview);
+
+    expect(compiled.length).toBeGreaterThan(0);
   });
 });
 
@@ -718,22 +717,20 @@ describe("Hash Determinism", () => {
     const hash1 = await RadixEngineToolkit.SubintentV2.hash(sub);
     const hash2 = await RadixEngineToolkit.SubintentV2.hash(sub);
     expect(Convert.Uint8Array.toHexString(hash1.hash)).toBe(
-      Convert.Uint8Array.toHexString(hash2.hash)
+      Convert.Uint8Array.toHexString(hash2.hash),
     );
   });
 
   it("TransactionIntentV2 hash is deterministic.", async () => {
     const intent: TransactionIntentV2 = {
-      transactionHeader: makeTransactionHeaderV2(
-        notaryPrivateKey.publicKey()
-      ),
+      transactionHeader: makeTransactionHeaderV2(notaryPrivateKey.publicKey()),
       rootIntentCore: makeIntentCoreV2(),
       nonRootSubintents: [],
     };
     const hash1 = await RadixEngineToolkit.TransactionIntentV2.hash(intent);
     const hash2 = await RadixEngineToolkit.TransactionIntentV2.hash(intent);
     expect(Convert.Uint8Array.toHexString(hash1.hash)).toBe(
-      Convert.Uint8Array.toHexString(hash2.hash)
+      Convert.Uint8Array.toHexString(hash2.hash),
     );
   });
 
@@ -745,7 +742,7 @@ describe("Hash Determinism", () => {
     const hash2 =
       await RadixEngineToolkit.SignedTransactionIntentV2.hash(signed);
     expect(Convert.Uint8Array.toHexString(hash1.hash)).toBe(
-      Convert.Uint8Array.toHexString(hash2.hash)
+      Convert.Uint8Array.toHexString(hash2.hash),
     );
   });
 
@@ -754,7 +751,7 @@ describe("Hash Determinism", () => {
     const hash1 = await RadixEngineToolkit.NotarizedTransactionV2.hash(tx);
     const hash2 = await RadixEngineToolkit.NotarizedTransactionV2.hash(tx);
     expect(Convert.Uint8Array.toHexString(hash1.hash)).toBe(
-      Convert.Uint8Array.toHexString(hash2.hash)
+      Convert.Uint8Array.toHexString(hash2.hash),
     );
   });
 });
@@ -767,7 +764,7 @@ describe("Static Validation", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
   });
@@ -777,7 +774,7 @@ describe("Static Validation", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Mainnet
+        NetworkId.Mainnet,
       );
     expect(validity.kind).toBe("Invalid");
   });
@@ -794,7 +791,7 @@ describe("Static Validation", () => {
     const validity =
       await RadixEngineToolkit.NotarizedTransactionV2.staticallyValidate(
         tx,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Invalid");
   });
@@ -816,7 +813,7 @@ describe("Static Validation", () => {
     const validity =
       await RadixEngineToolkit.SignedPartialTransactionV2.staticallyValidate(
         signedPartial,
-        NetworkId.Simulator
+        NetworkId.Simulator,
       );
     expect(validity.kind).toBe("Valid");
   });
@@ -840,14 +837,16 @@ describe("Static Analysis", () => {
     };
 
     const rootAndChildrenAnalysis =
-      await RadixEngineToolkit.TransactionIntentV2.staticallyAnalyze(rootIntent);
+      await RadixEngineToolkit.TransactionIntentV2.staticallyAnalyze(
+        rootIntent,
+      );
     const childOnlyAnalysis =
       await RadixEngineToolkit.SubintentV2.staticallyAnalyze(childSubintent);
 
     expect(rootAndChildrenAnalysis.root_intent).toBeDefined();
     expect(rootAndChildrenAnalysis.non_root_subintents).toHaveLength(1);
     expect(rootAndChildrenAnalysis.non_root_subintents[0]).toEqual(
-      childOnlyAnalysis
+      childOnlyAnalysis,
     );
   });
 });
