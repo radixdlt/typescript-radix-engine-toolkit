@@ -18,6 +18,7 @@
 import {
   IntentCoreV2,
   NotarizedTransactionV2,
+  PreviewTransactionV2,
   RawRadixEngineToolkit,
   Signature,
   SignatureFunction,
@@ -181,6 +182,30 @@ export class TransactionV2BuilderSignStep {
         nonRootSubintentSignatures: this.nonRootSubintentSignatures,
       },
       notarySignature: signature,
+    };
+  }
+
+  public buildPreviewTransaction(options: {
+    rootSignerPublicKeys: PublicKey[];
+    nonRootSubintentSignerPublicKeys?: PublicKey[][];
+  }): PreviewTransactionV2 {
+    const nonRootSubintentSignerPublicKeys =
+      options.nonRootSubintentSignerPublicKeys ??
+      this.transactionIntent.nonRootSubintents.map(() => []);
+
+    if (
+      nonRootSubintentSignerPublicKeys.length !==
+      this.transactionIntent.nonRootSubintents.length
+    ) {
+      throw new Error(
+        "nonRootSubintentSignerPublicKeys length must match non-root subintents length"
+      );
+    }
+
+    return {
+      transactionIntent: this.transactionIntent,
+      rootSignerPublicKeys: options.rootSignerPublicKeys,
+      nonRootSubintentSignerPublicKeys,
     };
   }
 

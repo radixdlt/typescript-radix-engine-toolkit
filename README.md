@@ -760,6 +760,40 @@ console.log(decoded);
 
 The TypeScript toolkit includes V2 transaction models and builders (`TransactionV2Builder`, `TransactionIntentV2`, `SubintentV2`, `PartialTransactionV2`, `SignedPartialTransactionV2`, `NotarizedTransactionV2`) for advanced intent/subintent workflows. For working examples, see `tests/transaction_v2.test.ts`.
 
+You can also build a V2 preview transaction object for preview workflows:
+
+```ts
+import {
+  NetworkId,
+  TransactionHeaderV2,
+  TransactionV2Builder,
+} from "@radixdlt/radix-engine-toolkit";
+
+const txHeader: TransactionHeaderV2 = {
+  notaryPublicKey: myNotaryPublicKey,
+  notaryIsSignatory: true,
+  tipBasisPoints: 0,
+};
+
+const previewTransaction = (await TransactionV2Builder.new())
+  .header(txHeader)
+  .rootIntentCore({
+    header: {
+      networkId: NetworkId.Simulator,
+      startEpochInclusive: 0,
+      endEpochExclusive: 16,
+      intentDiscriminator: 1,
+    },
+    instructions: "DROP_ALL_PROOFS;",
+    blobs: [],
+    message: { kind: "None" },
+    children: [],
+  })
+  .buildPreviewTransaction({
+    rootSignerPublicKeys: [mySignerPublicKey],
+  });
+```
+
 V2 static analysis is available for both a full transaction intent and standalone subintents:
 
 ```ts

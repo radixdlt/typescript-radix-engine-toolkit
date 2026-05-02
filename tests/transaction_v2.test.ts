@@ -312,6 +312,85 @@ describe("TransactionV2Builder", () => {
         .maxProposerTimestampExclusive
     ).toBe(2000);
   });
+
+  it("Can build a preview transaction object.", async () => {
+    const builder = await TransactionV2Builder.new();
+    const txHeader = makeTransactionHeaderV2(notaryPrivateKey.publicKey());
+    const rootIntentCore = makeIntentCoreV2();
+
+    const preview = builder
+      .header(txHeader)
+      .rootIntentCore(rootIntentCore)
+      .buildPreviewTransaction({
+        rootSignerPublicKeys: [
+          signerKey1.publicKey(),
+          signerKey2.publicKey(),
+        ],
+      });
+
+    expect(preview.rootSignerPublicKeys.length).toBe(2);
+    expect(preview.nonRootSubintentSignerPublicKeys.length).toBe(0);
+    expect(
+      preview.transactionIntent.rootIntentCore.header.intentDiscriminator
+    ).toBe(rootIntentCore.header.intentDiscriminator);
+  });
+
+  it("Can include non-root subintent signer public keys in preview transaction.", async () => {
+    const subintent: SubintentV2 = { intentCore: makeSubintentCoreV2() };
+    const subintentHash = await RadixEngineToolkit.SubintentV2.hash(subintent);
+    const subintentSig = signerKey1.signToSignatureWithPublicKey(
+      subintentHash.hash
+    );
+
+    const rootIntentCore = makeIntentCoreV2({
+      children: [subintentHash.hash],
+      instructions: rootInstructionsWithChildren([subintentHash.id]),
+    });
+
+    const builder = await TransactionV2Builder.new();
+    const preview = builder
+      .header(makeTransactionHeaderV2(notaryPrivateKey.publicKey()))
+      .rootIntentCore(rootIntentCore)
+      .addSignedSubintent(subintent, [subintentSig])
+      .buildPreviewTransaction({
+        rootSignerPublicKeys: [signerKey2.publicKey()],
+        nonRootSubintentSignerPublicKeys: [[signerKey1.publicKey()]],
+      });
+
+    expect(preview.nonRootSubintentSignerPublicKeys.length).toBe(1);
+    expect(preview.nonRootSubintentSignerPublicKeys[0].length).toBe(1);
+    expect(
+      preview.transactionIntent.nonRootSubintents.length
+    ).toBe(1);
+  });
+
+  it("Throws if non-root subintent signer key arrays do not match non-root subintents.", async () => {
+    const subintent: SubintentV2 = { intentCore: makeSubintentCoreV2() };
+    const subintentHash = await RadixEngineToolkit.SubintentV2.hash(subintent);
+    const subintentSig = signerKey1.signToSignatureWithPublicKey(
+      subintentHash.hash
+    );
+
+    const rootIntentCore = makeIntentCoreV2({
+      children: [subintentHash.hash],
+      instructions: rootInstructionsWithChildren([subintentHash.id]),
+    });
+
+    const builder = await TransactionV2Builder.new();
+    const signStep = builder
+      .header(makeTransactionHeaderV2(notaryPrivateKey.publicKey()))
+      .rootIntentCore(rootIntentCore)
+      .addSignedSubintent(subintent, [subintentSig]);
+
+    expect(() =>
+      signStep.buildPreviewTransaction({
+        rootSignerPublicKeys: [signerKey2.publicKey()],
+        nonRootSubintentSignerPublicKeys: [],
+      })
+    ).toThrowError(
+      "nonRootSubintentSignerPublicKeys length must match non-root subintents length"
+    );
+  });
 });
 
 // ── 2. Subintent Composition ──────────────────────────────────────────

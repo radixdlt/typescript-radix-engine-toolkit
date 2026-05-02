@@ -15,24 +15,11 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export * from "./hash";
-export * from "./header";
-export * from "./instruction";
-export * from "./instructions";
-export * from "./intent";
-export * from "./manifest";
-export * from "./message";
-export * from "./notarized_transaction";
-export * from "./signed_intent";
-export * from "./validation_config";
-export * from "./intent_header_v2";
-export * from "./transaction_header_v2";
-export * from "./message_v2";
-export * from "./intent_core_v2";
-export * from "./subintent_v2";
-export * from "./partial_transaction_v2";
-export * from "./signed_partial_transaction_v2";
-export * from "./transaction_intent_v2";
-export * from "./signed_transaction_intent_v2";
-export * from "./notarized_transaction_v2";
-export * from "./preview_transaction_v2";
+import { PublicKey } from "../..";
+import { TransactionIntentV2 } from "./transaction_intent_v2";
+
+export interface PreviewTransactionV2 {
+  transactionIntent: TransactionIntentV2;
+  rootSignerPublicKeys: PublicKey[];
+  nonRootSubintentSignerPublicKeys: PublicKey[][];
+}
