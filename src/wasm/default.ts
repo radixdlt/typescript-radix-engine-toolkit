@@ -31,6 +31,7 @@ import {
   SerializationMode,
   SignedIntent,
   SignedPartialTransactionV2,
+  StaticManifestAnalysisResult,
   SignedTransactionIntentV2,
   StaticValidationResult,
   SubintentV2,
@@ -351,6 +352,20 @@ export class RadixEngineToolkit {
         network_id: Convert.Number.toString(networkId),
       });
       return toStaticValidationResult(output);
+    }
+
+    static async staticallyAnalyze(
+      transactionManifest: TransactionManifest,
+      networkId: number
+    ): Promise<StaticManifestAnalysisResult> {
+      const rawRet = await rawRadixEngineToolkit;
+      return rawRet.manifestStaticallyAnalyze({
+        manifest:
+          GeneratedConverter.TransactionManifest.toGenerated(
+            transactionManifest
+          ),
+        network_id: Convert.Number.toString(networkId),
+      });
     }
   };
 

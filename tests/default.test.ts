@@ -352,6 +352,54 @@ describe("Default Radix Engine Toolkit Tests", () => {
     }
   );
 
+  it("Manifest static analysis returns Python parity shape", async () => {
+    const manifest = GeneratedConverter.TransactionManifest.fromGenerated({
+      instructions: {
+        kind: "String",
+        value:
+          'CALL_METHOD\n    Address("account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q")\n    "lock_fee"\n    Decimal("5000")\n;\n',
+      },
+      blobs: [],
+    });
+
+    const output = await RadixEngineToolkit.TransactionManifest.staticallyAnalyze(
+      manifest,
+      242
+    );
+
+    expect(Object.keys(output).sort()).toEqual([
+      "accounts_deposited_into",
+      "accounts_requiring_auth",
+      "accounts_withdrawn_from",
+      "classification",
+      "encountered_entities",
+      "reserved_instructions",
+    ]);
+    expect(output.accounts_requiring_auth).toContain(
+      "account_sim1cyvgx33089ukm2pl97pv4max0x40ruvfy4lt60yvya744cve475w0q"
+    );
+    expect(output.reserved_instructions).toContain("AccountLockFee");
+    expect(output.classification.length).toBeGreaterThan(0);
+    expect(
+      output.encountered_entities.some((value) => value.startsWith("address_"))
+    ).toEqual(false);
+    expect(
+      output.accounts_requiring_auth.some((value) =>
+        value.startsWith("address_")
+      )
+    ).toEqual(false);
+    expect(
+      output.accounts_withdrawn_from.some((value) =>
+        value.startsWith("address_")
+      )
+    ).toEqual(false);
+    expect(
+      output.accounts_deposited_into.some((value) =>
+        value.startsWith("address_")
+      )
+    ).toEqual(false);
+  });
+
   moduleTestVector<IntentCompileInput, IntentCompileOutput>(
     "intent",
     "intent_compile",

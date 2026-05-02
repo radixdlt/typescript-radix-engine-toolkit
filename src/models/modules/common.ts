@@ -19,6 +19,15 @@ export type StaticValidationResult =
   | { kind: "Valid" }
   | { kind: "Invalid"; error: string };
 
+export interface StaticManifestAnalysisResult {
+  encountered_entities: string[];
+  accounts_requiring_auth: string[];
+  accounts_withdrawn_from: string[];
+  accounts_deposited_into: string[];
+  classification: string[];
+  reserved_instructions: string[];
+}
+
 export enum SerializationMode {
   Programmatic = "Programmatic",
   Model = "Model",

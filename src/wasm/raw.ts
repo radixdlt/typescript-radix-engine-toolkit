@@ -67,6 +67,8 @@ import {
   ManifestHashOutput,
   ManifestSborDecodeToStringInput,
   ManifestSborDecodeToStringOutput,
+  ManifestStaticallyAnalyzeInput,
+  ManifestStaticallyAnalyzeOutput,
   ManifestStaticallyValidateInput,
   ManifestStaticallyValidateOutput,
   NotarizedTransactionCompileInput,
@@ -284,6 +286,12 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     input: ManifestStaticallyValidateInput
   ): ManifestStaticallyValidateOutput {
     return this.callFunction(input, this.exports.manifest_statically_validate);
+  }
+
+  public manifestStaticallyAnalyze(
+    input: ManifestStaticallyAnalyzeInput
+  ): ManifestStaticallyAnalyzeOutput {
+    return this.callFunction(input, this.exports.manifest_statically_analyze);
   }
 
   public intentHash(input: IntentHashInput): IntentHashOutput {
@@ -669,6 +677,7 @@ interface Exports {
   manifest_compile(pointer: number): number;
   manifest_decompile(pointer: number): number;
   manifest_statically_validate(pointer: number): number;
+  manifest_statically_analyze(pointer: number): number;
 
   /* Intent Module */
   intent_hash(pointer: number): number;

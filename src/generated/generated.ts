@@ -506,6 +506,11 @@ export interface ManifestStaticallyValidateInput {
 	network_id: SerializableU8;
 }
 
+export interface ManifestStaticallyAnalyzeInput {
+	manifest: SerializableTransactionManifest;
+	network_id: SerializableU8;
+}
+
 export interface NotarizedTransactionDecompileInput {
 	compiled: SerializableBytes;
 	instructions_kind: SerializableInstructionsKind;
@@ -793,6 +798,15 @@ export type ManifestStaticallyValidateOutput =
 	| { kind: "Valid", value?: undefined }
 	| { kind: "Invalid", value: string };
 
+export interface ManifestStaticallyAnalyzeOutput {
+	encountered_entities: string[];
+	accounts_requiring_auth: string[];
+	accounts_withdrawn_from: string[];
+	accounts_deposited_into: string[];
+	classification: string[];
+	reserved_instructions: string[];
+}
+
 export type NotarizedTransactionStaticallyValidateOutput = 
 	| { kind: "Valid", value?: undefined }
 	| { kind: "Invalid", value: string };
@@ -956,4 +970,3 @@ export type SignedIntentStaticallyValidateOutput =
 export type SignedPartialTransactionV2StaticallyValidateOutput = 
 	| { kind: "Valid", value?: undefined }
 	| { kind: "Invalid", value: string };
-
