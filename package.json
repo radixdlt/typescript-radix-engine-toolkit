@@ -1,6 +1,6 @@
 {
-  "name": "@radixdlt/radix-engine-toolkit",
-  "version": "1.0.6",
+  "name": "@steleaio/radix-engine-toolkit",
+  "version": "2.0.0-dev",
   "description": "A TypeScript wrapper for the Radix Engine Toolkit that provides many of the necessary tools to interact with the Radix ledger",
   "types": "./dist/index.d.ts",
   "main": "./dist/radix-engine-toolkit.umd.js",

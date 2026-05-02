@@ -18,27 +18,42 @@
 import {
   Convert,
   DecryptorsByCurve,
+  DecryptorsByCurveV2,
   EncryptedMessage,
+  EncryptedMessageV2,
   EntityType,
   Expression,
   Instruction,
   Instructions,
   Intent,
+  IntentCoreV2,
+  IntentHeaderV2,
+  InterpreterValidationRulesetSpecifier,
   ManifestAddress,
   ManifestSborStringRepresentation,
+  ManifestValidationRuleset,
   Message,
   MessageContent,
+  MessageV2,
   MessageValidationConfig,
   NotarizedTransaction,
+  NotarizedTransactionV2,
   OlympiaNetwork,
+  PartialTransactionV2,
   PlainTextMessage,
+  PreparationSettings,
   PublicKey,
   SerializationMode,
   Signature,
   SignatureWithPublicKey,
   SignedIntent,
+  SignedPartialTransactionV2,
+  SignedTransactionIntentV2,
+  SubintentV2,
   TransactionHash,
   TransactionHeader,
+  TransactionHeaderV2,
+  TransactionIntentV2,
   TransactionManifest,
   ValidationConfig,
   Value,
@@ -71,6 +86,22 @@ import {
   SerializableTransactionHeader,
   SerializableTransactionManifest,
   SerializableValidationConfig,
+  SerializablePreparationSettings,
+  SerializableManifestValidationRuleset,
+  SerializableInterpreterValidationRulesetSpecifier,
+  // V2 generated types
+  SerializableDecryptorsByCurveV2,
+  SerializableEncryptedMessageV2,
+  SerializableIntentCoreV2,
+  SerializableIntentHeaderV2,
+  SerializableMessageV2,
+  SerializableNotarizedTransactionV2,
+  SerializablePartialTransactionV2,
+  SerializableSignedPartialTransactionV2,
+  SerializableSignedTransactionIntentV2,
+  SerializableSubintentV2,
+  SerializableTransactionHeaderV2,
+  SerializableTransactionIntentV2,
 } from "./generated";
 
 /**
@@ -1083,20 +1114,123 @@ export class GeneratedConverter {
     }
   };
 
+  static PreparationSettings = class {
+    static toGenerated(
+      value: PreparationSettings
+    ): SerializablePreparationSettings {
+      return {
+        v2_transactions_permitted: value.v2TransactionsPermitted,
+        max_user_payload_length: Convert.BigInt.toString(
+          value.maxUserPayloadLength
+        ),
+        max_ledger_payload_length: Convert.BigInt.toString(
+          value.maxLedgerPayloadLength
+        ),
+        max_child_subintents_per_intent: Convert.BigInt.toString(
+          value.maxChildSubintentsPerIntent
+        ),
+        max_subintents_per_transaction: Convert.BigInt.toString(
+          value.maxSubintentsPerTransaction
+        ),
+        max_blobs: Convert.BigInt.toString(value.maxBlobs),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializablePreparationSettings
+    ): PreparationSettings {
+      return {
+        v2TransactionsPermitted: value.v2_transactions_permitted,
+        maxUserPayloadLength: Convert.String.toBigInt(
+          value.max_user_payload_length
+        ),
+        maxLedgerPayloadLength: Convert.String.toBigInt(
+          value.max_ledger_payload_length
+        ),
+        maxChildSubintentsPerIntent: Convert.String.toBigInt(
+          value.max_child_subintents_per_intent
+        ),
+        maxSubintentsPerTransaction: Convert.String.toBigInt(
+          value.max_subintents_per_transaction
+        ),
+        maxBlobs: Convert.String.toBigInt(value.max_blobs),
+      };
+    }
+  };
+
+  static ManifestValidationRuleset = class {
+    static toGenerated(
+      value: ManifestValidationRuleset
+    ): SerializableManifestValidationRuleset {
+      switch (value.kind) {
+        case "BabylonBasicValidator":
+          return { kind: "BabylonBasicValidator" };
+        case "Interpreter":
+          return {
+            kind: "Interpreter",
+            value:
+              SerializableInterpreterValidationRulesetSpecifier[
+                InterpreterValidationRulesetSpecifier[value.value]
+              ],
+          };
+      }
+    }
+
+    static fromGenerated(
+      value: SerializableManifestValidationRuleset
+    ): ManifestValidationRuleset {
+      switch (value.kind) {
+        case "BabylonBasicValidator":
+          return { kind: "BabylonBasicValidator" };
+        case "Interpreter":
+          return {
+            kind: "Interpreter",
+            value:
+              InterpreterValidationRulesetSpecifier[
+                SerializableInterpreterValidationRulesetSpecifier[value.value!]
+              ],
+          };
+      }
+    }
+  };
+
   static ValidationConfig = class {
     static toGenerated(value: ValidationConfig): SerializableValidationConfig {
       return {
-        network_id: Convert.Number.toString(value.networkId),
-        max_notarized_payload_size: Convert.BigInt.toString(
-          value.maxNotarizedPayloadSize
+        max_signer_signatures_per_intent: Convert.BigInt.toString(
+          value.maxSignerSignaturesPerIntent
+        ),
+        max_references_per_intent: Convert.BigInt.toString(
+          value.maxReferencesPerIntent
         ),
         min_tip_percentage: Convert.Number.toString(value.minTipPercentage),
         max_tip_percentage: Convert.Number.toString(value.maxTipPercentage),
         max_epoch_range: Convert.BigInt.toString(value.maxEpochRange),
+        max_instructions: Convert.BigInt.toString(value.maxInstructions),
         message_validation:
           GeneratedConverter.MessageValidationConfig.toGenerated(
             value.messageValidation
           ),
+        v1_transactions_allow_notary_to_duplicate_signer:
+          value.v1TransactionsAllowNotaryToDuplicateSigner,
+        preparation_settings:
+          GeneratedConverter.PreparationSettings.toGenerated(
+            value.preparationSettings
+          ),
+        manifest_validation:
+          GeneratedConverter.ManifestValidationRuleset.toGenerated(
+            value.manifestValidation
+          ),
+        v2_transactions_allowed: value.v2TransactionsAllowed,
+        min_tip_basis_points: Convert.Number.toString(value.minTipBasisPoints),
+        max_tip_basis_points: Convert.Number.toString(value.maxTipBasisPoints),
+        max_subintent_depth: Convert.BigInt.toString(value.maxSubintentDepth),
+        max_total_signature_validations: Convert.BigInt.toString(
+          value.maxTotalSignatureValidations
+        ),
+        max_total_references: Convert.BigInt.toString(
+          value.maxTotalReferences
+        ),
       };
     }
 
@@ -1104,17 +1238,40 @@ export class GeneratedConverter {
       value: SerializableValidationConfig
     ): ValidationConfig {
       return {
-        networkId: Convert.String.toNumber(value.network_id),
-        maxNotarizedPayloadSize: Convert.String.toBigInt(
-          value.max_notarized_payload_size
+        maxSignerSignaturesPerIntent: Convert.String.toBigInt(
+          value.max_signer_signatures_per_intent
+        ),
+        maxReferencesPerIntent: Convert.String.toBigInt(
+          value.max_references_per_intent
         ),
         minTipPercentage: Convert.String.toNumber(value.min_tip_percentage),
         maxTipPercentage: Convert.String.toNumber(value.max_tip_percentage),
         maxEpochRange: Convert.String.toBigInt(value.max_epoch_range),
+        maxInstructions: Convert.String.toBigInt(value.max_instructions),
         messageValidation:
           GeneratedConverter.MessageValidationConfig.fromGenerated(
             value.message_validation
           ),
+        v1TransactionsAllowNotaryToDuplicateSigner:
+          value.v1_transactions_allow_notary_to_duplicate_signer,
+        preparationSettings:
+          GeneratedConverter.PreparationSettings.fromGenerated(
+            value.preparation_settings
+          ),
+        manifestValidation:
+          GeneratedConverter.ManifestValidationRuleset.fromGenerated(
+            value.manifest_validation
+          ),
+        v2TransactionsAllowed: value.v2_transactions_allowed,
+        minTipBasisPoints: Convert.String.toNumber(value.min_tip_basis_points),
+        maxTipBasisPoints: Convert.String.toNumber(value.max_tip_basis_points),
+        maxSubintentDepth: Convert.String.toBigInt(value.max_subintent_depth),
+        maxTotalSignatureValidations: Convert.String.toBigInt(
+          value.max_total_signature_validations
+        ),
+        maxTotalReferences: Convert.String.toBigInt(
+          value.max_total_references
+        ),
       };
     }
   };
@@ -1238,6 +1395,398 @@ export class GeneratedConverter {
               GeneratedConverter.DecryptorsByCurve.fromGenerated(value),
             ];
           }
+        ),
+      };
+    }
+  };
+
+  /* ── V2 Converters ────────────────────────────────────────────────── */
+
+  static IntentHeaderV2 = class {
+    static toGenerated(value: IntentHeaderV2): SerializableIntentHeaderV2 {
+      return {
+        network_id: Convert.Number.toString(value.networkId),
+        start_epoch_inclusive: Convert.Number.toString(
+          value.startEpochInclusive
+        ),
+        end_epoch_exclusive: Convert.Number.toString(value.endEpochExclusive),
+        min_proposer_timestamp_inclusive:
+          value.minProposerTimestampInclusive != null
+            ? Convert.Number.toString(value.minProposerTimestampInclusive)
+            : undefined,
+        max_proposer_timestamp_exclusive:
+          value.maxProposerTimestampExclusive != null
+            ? Convert.Number.toString(value.maxProposerTimestampExclusive)
+            : undefined,
+        intent_discriminator: Convert.Number.toString(
+          value.intentDiscriminator
+        ),
+      };
+    }
+
+    static fromGenerated(value: SerializableIntentHeaderV2): IntentHeaderV2 {
+      return {
+        networkId: Convert.String.toNumber(value.network_id),
+        startEpochInclusive: Convert.String.toNumber(
+          value.start_epoch_inclusive
+        ),
+        endEpochExclusive: Convert.String.toNumber(value.end_epoch_exclusive),
+        minProposerTimestampInclusive:
+          value.min_proposer_timestamp_inclusive != null
+            ? Convert.String.toNumber(value.min_proposer_timestamp_inclusive)
+            : undefined,
+        maxProposerTimestampExclusive:
+          value.max_proposer_timestamp_exclusive != null
+            ? Convert.String.toNumber(value.max_proposer_timestamp_exclusive)
+            : undefined,
+        intentDiscriminator: Convert.String.toNumber(
+          value.intent_discriminator
+        ),
+      };
+    }
+  };
+
+  static TransactionHeaderV2 = class {
+    static toGenerated(
+      value: TransactionHeaderV2
+    ): SerializableTransactionHeaderV2 {
+      return {
+        notary_public_key: GeneratedConverter.PublicKey.toGenerated(
+          value.notaryPublicKey
+        ),
+        notary_is_signatory: value.notaryIsSignatory,
+        tip_basis_points: Convert.Number.toString(value.tipBasisPoints),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableTransactionHeaderV2
+    ): TransactionHeaderV2 {
+      return {
+        notaryPublicKey: GeneratedConverter.PublicKey.fromGenerated(
+          value.notary_public_key
+        ),
+        notaryIsSignatory: value.notary_is_signatory,
+        tipBasisPoints: Convert.String.toNumber(value.tip_basis_points),
+      };
+    }
+  };
+
+  static MessageV2 = class {
+    static toGenerated(value: MessageV2): SerializableMessageV2 {
+      switch (value.kind) {
+        case "None":
+          return { kind: value.kind };
+        case "PlainText":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.PlainTextMessage.toGenerated(value.value),
+          };
+        case "Encrypted":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.EncryptedMessageV2.toGenerated(
+              value.value
+            ),
+          };
+      }
+    }
+
+    static fromGenerated(value: SerializableMessageV2): MessageV2 {
+      switch (value.kind) {
+        case "None":
+          return { kind: value.kind };
+        case "PlainText":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.PlainTextMessage.fromGenerated(
+              value.value!
+            ),
+          };
+        case "Encrypted":
+          return {
+            kind: value.kind,
+            value: GeneratedConverter.EncryptedMessageV2.fromGenerated(
+              value.value as SerializableEncryptedMessageV2
+            ),
+          };
+      }
+    }
+  };
+
+  static EncryptedMessageV2 = class {
+    static toGenerated(
+      value: EncryptedMessageV2
+    ): SerializableEncryptedMessageV2 {
+      return {
+        encrypted: Convert.Uint8Array.toHexString(value.encrypted),
+        decryptors_by_curve: recordMap(
+          value.decryptorsByCurve,
+          (key, value) => {
+            return [
+              key,
+              GeneratedConverter.DecryptorsByCurveV2.toGenerated(value),
+            ];
+          }
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableEncryptedMessageV2
+    ): EncryptedMessageV2 {
+      return {
+        encrypted: Convert.HexString.toUint8Array(value.encrypted),
+        decryptorsByCurve: recordMap(
+          value.decryptors_by_curve,
+          (key, value) => {
+            return [
+              key,
+              GeneratedConverter.DecryptorsByCurveV2.fromGenerated(value),
+            ];
+          }
+        ),
+      };
+    }
+  };
+
+  static DecryptorsByCurveV2 = class {
+    static toGenerated(
+      value: DecryptorsByCurveV2
+    ): SerializableDecryptorsByCurveV2 {
+      return {
+        kind: value.kind,
+        value: {
+          dh_ephemeral_public_key: Convert.Uint8Array.toHexString(
+            value.value.dhEphemeralPublicKey
+          ),
+          decryptors: value.value.decryptors,
+        },
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableDecryptorsByCurveV2
+    ): DecryptorsByCurveV2 {
+      return {
+        kind: value.kind,
+        value: {
+          dhEphemeralPublicKey: Convert.HexString.toUint8Array(
+            value.value.dh_ephemeral_public_key
+          ),
+          decryptors: value.value.decryptors,
+        },
+      };
+    }
+  };
+
+  static IntentCoreV2 = class {
+    static toGenerated(value: IntentCoreV2): SerializableIntentCoreV2 {
+      return {
+        header: GeneratedConverter.IntentHeaderV2.toGenerated(value.header),
+        instructions: value.instructions,
+        blobs: value.blobs.map(Convert.Uint8Array.toHexString),
+        message: GeneratedConverter.MessageV2.toGenerated(value.message),
+        children: value.children.map(Convert.Uint8Array.toHexString),
+      };
+    }
+
+    static fromGenerated(value: SerializableIntentCoreV2): IntentCoreV2 {
+      return {
+        header: GeneratedConverter.IntentHeaderV2.fromGenerated(value.header),
+        instructions: value.instructions,
+        blobs: value.blobs.map(Convert.HexString.toUint8Array),
+        message: GeneratedConverter.MessageV2.fromGenerated(value.message),
+        children: value.children.map(Convert.HexString.toUint8Array),
+      };
+    }
+  };
+
+  static SubintentV2 = class {
+    static toGenerated(value: SubintentV2): SerializableSubintentV2 {
+      return {
+        intent_core: GeneratedConverter.IntentCoreV2.toGenerated(
+          value.intentCore
+        ),
+      };
+    }
+
+    static fromGenerated(value: SerializableSubintentV2): SubintentV2 {
+      return {
+        intentCore: GeneratedConverter.IntentCoreV2.fromGenerated(
+          value.intent_core
+        ),
+      };
+    }
+  };
+
+  static PartialTransactionV2 = class {
+    static toGenerated(
+      value: PartialTransactionV2
+    ): SerializablePartialTransactionV2 {
+      return {
+        root_subintent: GeneratedConverter.SubintentV2.toGenerated(
+          value.rootSubintent
+        ),
+        non_root_subintents: value.nonRootSubintents.map(
+          GeneratedConverter.SubintentV2.toGenerated
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializablePartialTransactionV2
+    ): PartialTransactionV2 {
+      return {
+        rootSubintent: GeneratedConverter.SubintentV2.fromGenerated(
+          value.root_subintent
+        ),
+        nonRootSubintents: value.non_root_subintents.map(
+          GeneratedConverter.SubintentV2.fromGenerated
+        ),
+      };
+    }
+  };
+
+  static SignedPartialTransactionV2 = class {
+    static toGenerated(
+      value: SignedPartialTransactionV2
+    ): SerializableSignedPartialTransactionV2 {
+      return {
+        partial_transaction:
+          GeneratedConverter.PartialTransactionV2.toGenerated(
+            value.partialTransaction
+          ),
+        root_subintent_signatures: value.rootSubintentSignatures.map(
+          GeneratedConverter.SignatureWithPublicKey.toGenerated
+        ),
+        non_root_subintent_signatures: value.nonRootSubintentSignatures.map(
+          (sigs) =>
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.toGenerated)
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableSignedPartialTransactionV2
+    ): SignedPartialTransactionV2 {
+      return {
+        partialTransaction:
+          GeneratedConverter.PartialTransactionV2.fromGenerated(
+            value.partial_transaction
+          ),
+        rootSubintentSignatures: value.root_subintent_signatures.map(
+          GeneratedConverter.SignatureWithPublicKey.fromGenerated
+        ),
+        nonRootSubintentSignatures: value.non_root_subintent_signatures.map(
+          (sigs) =>
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.fromGenerated)
+        ),
+      };
+    }
+  };
+
+  static TransactionIntentV2 = class {
+    static toGenerated(
+      value: TransactionIntentV2
+    ): SerializableTransactionIntentV2 {
+      return {
+        transaction_header:
+          GeneratedConverter.TransactionHeaderV2.toGenerated(
+            value.transactionHeader
+          ),
+        root_intent_core: GeneratedConverter.IntentCoreV2.toGenerated(
+          value.rootIntentCore
+        ),
+        non_root_subintents: value.nonRootSubintents.map(
+          GeneratedConverter.SubintentV2.toGenerated
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableTransactionIntentV2
+    ): TransactionIntentV2 {
+      return {
+        transactionHeader:
+          GeneratedConverter.TransactionHeaderV2.fromGenerated(
+            value.transaction_header
+          ),
+        rootIntentCore: GeneratedConverter.IntentCoreV2.fromGenerated(
+          value.root_intent_core
+        ),
+        nonRootSubintents: value.non_root_subintents.map(
+          GeneratedConverter.SubintentV2.fromGenerated
+        ),
+      };
+    }
+  };
+
+  static SignedTransactionIntentV2 = class {
+    static toGenerated(
+      value: SignedTransactionIntentV2
+    ): SerializableSignedTransactionIntentV2 {
+      return {
+        transaction_intent:
+          GeneratedConverter.TransactionIntentV2.toGenerated(
+            value.transactionIntent
+          ),
+        transaction_intent_signatures:
+          value.transactionIntentSignatures.map(
+            GeneratedConverter.SignatureWithPublicKey.toGenerated
+          ),
+        non_root_subintent_signatures:
+          value.nonRootSubintentSignatures.map((sigs) =>
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.toGenerated)
+          ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableSignedTransactionIntentV2
+    ): SignedTransactionIntentV2 {
+      return {
+        transactionIntent:
+          GeneratedConverter.TransactionIntentV2.fromGenerated(
+            value.transaction_intent
+          ),
+        transactionIntentSignatures:
+          value.transaction_intent_signatures.map(
+            GeneratedConverter.SignatureWithPublicKey.fromGenerated
+          ),
+        nonRootSubintentSignatures:
+          value.non_root_subintent_signatures.map((sigs) =>
+            sigs.map(GeneratedConverter.SignatureWithPublicKey.fromGenerated)
+          ),
+      };
+    }
+  };
+
+  static NotarizedTransactionV2 = class {
+    static toGenerated(
+      value: NotarizedTransactionV2
+    ): SerializableNotarizedTransactionV2 {
+      return {
+        signed_transaction_intent:
+          GeneratedConverter.SignedTransactionIntentV2.toGenerated(
+            value.signedTransactionIntent
+          ),
+        notary_signature: GeneratedConverter.Signature.toGenerated(
+          value.notarySignature
+        ),
+      };
+    }
+
+    static fromGenerated(
+      value: SerializableNotarizedTransactionV2
+    ): NotarizedTransactionV2 {
+      return {
+        signedTransactionIntent:
+          GeneratedConverter.SignedTransactionIntentV2.fromGenerated(
+            value.signed_transaction_intent
+          ),
+        notarySignature: GeneratedConverter.Signature.fromGenerated(
+          value.notary_signature
         ),
       };
     }

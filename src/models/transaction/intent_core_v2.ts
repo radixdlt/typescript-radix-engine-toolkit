@@ -15,13 +15,13 @@
 // specific language governing permissions and limitations
 // under the License.
 
-export const wasmBindgenImports = {
-  __wbindgen_placeholder__: {
-    __wbindgen_describe: () => {},
-    __wbg___wbindgen_throw_dd24417ed36fc46e: () => {},
-  },
-  __wbindgen_externref_xform__: {
-    __wbindgen_externref_table_grow: () => {},
-    __wbindgen_externref_table_set_null: () => {},
-  },
-};
+import { IntentHeaderV2 } from "./intent_header_v2";
+import { MessageV2 } from "./message_v2";
+
+export interface IntentCoreV2 {
+  header: IntentHeaderV2;
+  instructions: string;
+  blobs: Uint8Array[];
+  message: MessageV2;
+  children: Uint8Array[];
+}

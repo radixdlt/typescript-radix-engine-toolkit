@@ -70,8 +70,8 @@ export const isLockFeeCallMethod = async (
       );
       const isAddressAccepted =
         entityType === EntityType.GlobalAccount ||
-        entityType === EntityType.GlobalVirtualEd25519Account ||
-        entityType === EntityType.GlobalVirtualSecp256k1Account ||
+        entityType === EntityType.GlobalPreallocatedEd25519Account ||
+        entityType === EntityType.GlobalPreallocatedSecp256k1Account ||
         instruction.address.value === faucetComponentAddress;
       const isMethodNameAccepted = instruction.methodName === "lock_fee";
 
@@ -110,8 +110,8 @@ export const isAccountWithdrawCallMethod = async (
       );
       const isAddressAccepted =
         entityType === EntityType.GlobalAccount ||
-        entityType === EntityType.GlobalVirtualEd25519Account ||
-        entityType === EntityType.GlobalVirtualSecp256k1Account;
+        entityType === EntityType.GlobalPreallocatedEd25519Account ||
+        entityType === EntityType.GlobalPreallocatedSecp256k1Account;
       const isMethodNameAccepted = instruction.methodName === "withdraw";
 
       return isMethodNameAccepted && isAddressAccepted;
@@ -130,8 +130,8 @@ export const isAccountDepositCallMethod = async (
       );
       const isAddressAccepted =
         entityType === EntityType.GlobalAccount ||
-        entityType === EntityType.GlobalVirtualEd25519Account ||
-        entityType === EntityType.GlobalVirtualSecp256k1Account;
+        entityType === EntityType.GlobalPreallocatedEd25519Account ||
+        entityType === EntityType.GlobalPreallocatedSecp256k1Account;
       const isMethodNameAccepted =
         instruction.methodName === "try_deposit_or_abort" ||
         instruction.methodName === "deposit";

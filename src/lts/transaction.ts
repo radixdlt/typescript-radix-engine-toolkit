@@ -29,7 +29,6 @@ import {
   SignedIntent,
   SignerResponse,
   TransactionHash,
-  defaultValidationConfig,
   resolveSignatureSource,
 } from "..";
 import { GeneratedConverter } from "../generated";
@@ -302,8 +301,7 @@ export class CompiledNotarizedTransaction implements HasCompiledIntent {
     return RadixEngineToolkit.NotarizedTransaction.decompile(this.compiled)
       .then((decompiled) =>
         RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-          decompiled,
-          defaultValidationConfig(networkId)
+          decompiled
         )
       )
       .then((validity) => {

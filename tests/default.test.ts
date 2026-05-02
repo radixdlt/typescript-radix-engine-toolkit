@@ -23,7 +23,6 @@ import {
   RadixEngineToolkit,
   TransactionBuilder,
   TransactionHeader,
-  defaultValidationConfig,
 } from "../src";
 import {
   AddressDecodeInput,
@@ -93,7 +92,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     const buildInformation = await RadixEngineToolkit.Build.information();
 
     // Assert
-    expect(buildInformation.version).toEqual("2.1.0-dev1");
+    expect(buildInformation.version).toEqual("2.3.4");
   });
 
   moduleTestVector<
@@ -369,7 +368,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
   moduleTestVector<IntentHashInput, IntentHashOutput>(
     "intent",
-    "intent_hash",
+    "transaction_intent_hash",
     async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.hash(
@@ -409,10 +408,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.Intent.staticallyValidate(
-        GeneratedConverter.Intent.fromGenerated(inputVector.intent),
-        GeneratedConverter.ValidationConfig.fromGenerated(
-          inputVector.validation_config
-        )
+        GeneratedConverter.Intent.fromGenerated(inputVector.intent)
       );
 
       // Assert
@@ -436,7 +432,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
 
   moduleTestVector<SignedIntentHashInput, SignedIntentHashOutput>(
     "signed_intent",
-    "signed_intent_hash",
+    "signed_transaction_intent_hash",
     async (inputVector, outputVector) => {
       // Act
       const output = await RadixEngineToolkit.SignedIntent.hash(
@@ -478,9 +474,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
       const output = await RadixEngineToolkit.SignedIntent.staticallyValidate(
         GeneratedConverter.SignedIntent.fromGenerated(
           inputVector.signed_intent
-        ),
-        GeneratedConverter.ValidationConfig.fromGenerated(
-          inputVector.validation_config
         )
       );
 
@@ -557,9 +550,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
         await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
           GeneratedConverter.NotarizedTransaction.fromGenerated(
             inputVector.notarized_transaction
-          ),
-          GeneratedConverter.ValidationConfig.fromGenerated(
-            inputVector.validation_config
           )
         );
 
@@ -580,9 +570,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
         await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
           GeneratedConverter.NotarizedTransaction.fromGenerated(
             inputVector.notarized_transaction
-          ),
-          GeneratedConverter.ValidationConfig.fromGenerated(
-            inputVector.validation_config
           )
         );
 
@@ -665,8 +652,6 @@ describe("Default Radix Engine Toolkit Tests", () => {
       notaryIsSignatory: true,
       tipPercentage: 0x00,
     };
-    const validationConfig = defaultValidationConfig(0x01);
-
     // Act
     let notarizedTransaction = await TransactionBuilder.new().then((builder) =>
       builder
@@ -682,8 +667,7 @@ describe("Default Radix Engine Toolkit Tests", () => {
     );
     const staticValidationResult =
       await RadixEngineToolkit.NotarizedTransaction.staticallyValidate(
-        notarizedTransaction,
-        validationConfig
+        notarizedTransaction
       );
 
     // Assert

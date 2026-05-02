@@ -23,11 +23,11 @@ export interface KnownAddresses {
 
 export interface ResourceAddresses {
   xrd: string;
-  secp256k1SignatureVirtualBadge: string;
-  ed25519SignatureVirtualBadge: string;
-  packageOfDirectCallerVirtualBadge: string;
-  globalCallerVirtualBadge: string;
-  systemTransactionBadge: string;
+  secp256k1SignatureResource: string;
+  ed25519SignatureResource: string;
+  packageOfDirectCallerResource: string;
+  globalCallerResource: string;
+  systemExecutionResource: string;
   packageOwnerBadge: string;
   validatorOwnerBadge: string;
   accountOwnerBadge: string;

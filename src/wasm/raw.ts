@@ -91,6 +91,47 @@ import {
   SignedIntentStaticallyValidateOutput,
   UtilsKnownAddressesInput,
   UtilsKnownAddressesOutput,
+  // V2 Transaction Types
+  TransactionIntentV2HashInput,
+  TransactionIntentV2HashOutput,
+  TransactionIntentV2CompileInput,
+  TransactionIntentV2CompileOutput,
+  TransactionIntentV2DecompileInput,
+  TransactionIntentV2DecompileOutput,
+  SignedTransactionIntentV2HashInput,
+  SignedTransactionIntentV2HashOutput,
+  SignedTransactionIntentV2CompileInput,
+  SignedTransactionIntentV2CompileOutput,
+  SignedTransactionIntentV2DecompileInput,
+  SignedTransactionIntentV2DecompileOutput,
+  NotarizedTransactionV2HashInput,
+  NotarizedTransactionV2HashOutput,
+  NotarizedTransactionV2CompileInput,
+  NotarizedTransactionV2CompileOutput,
+  NotarizedTransactionV2DecompileInput,
+  NotarizedTransactionV2DecompileOutput,
+  NotarizedTransactionV2StaticallyValidateInput,
+  NotarizedTransactionV2StaticallyValidateOutput,
+  SubintentV2HashInput,
+  SubintentV2HashOutput,
+  SubintentV2CompileInput,
+  SubintentV2CompileOutput,
+  SubintentV2DecompileInput,
+  SubintentV2DecompileOutput,
+  PartialTransactionV2HashInput,
+  PartialTransactionV2HashOutput,
+  PartialTransactionV2CompileInput,
+  PartialTransactionV2CompileOutput,
+  PartialTransactionV2DecompileInput,
+  PartialTransactionV2DecompileOutput,
+  SignedPartialTransactionV2HashInput,
+  SignedPartialTransactionV2HashOutput,
+  SignedPartialTransactionV2CompileInput,
+  SignedPartialTransactionV2CompileOutput,
+  SignedPartialTransactionV2DecompileInput,
+  SignedPartialTransactionV2DecompileOutput,
+  SignedPartialTransactionV2StaticallyValidateInput,
+  SignedPartialTransactionV2StaticallyValidateOutput,
 } from "../generated";
 import { wasmBindgenImports } from "./constants";
 import { Host } from "./host";
@@ -360,6 +401,180 @@ export class RawRadixEngineToolkit extends Host<Exports> {
     return this.callFunction(input, this.exports.address_decode);
   }
 
+  /* V2 Transaction Intent */
+
+  public transactionIntentV2Hash(
+    input: TransactionIntentV2HashInput
+  ): TransactionIntentV2HashOutput {
+    return this.callFunction(input, this.exports.transaction_intent_v2_hash);
+  }
+
+  public transactionIntentV2Compile(
+    input: TransactionIntentV2CompileInput
+  ): TransactionIntentV2CompileOutput {
+    return this.callFunction(input, this.exports.transaction_intent_v2_compile);
+  }
+
+  public transactionIntentV2Decompile(
+    input: TransactionIntentV2DecompileInput
+  ): TransactionIntentV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.transaction_intent_v2_decompile
+    );
+  }
+
+  /* V2 Signed Transaction Intent */
+
+  public signedTransactionIntentV2Hash(
+    input: SignedTransactionIntentV2HashInput
+  ): SignedTransactionIntentV2HashOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_transaction_intent_v2_hash
+    );
+  }
+
+  public signedTransactionIntentV2Compile(
+    input: SignedTransactionIntentV2CompileInput
+  ): SignedTransactionIntentV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_transaction_intent_v2_compile
+    );
+  }
+
+  public signedTransactionIntentV2Decompile(
+    input: SignedTransactionIntentV2DecompileInput
+  ): SignedTransactionIntentV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_transaction_intent_v2_decompile
+    );
+  }
+
+  /* V2 Notarized Transaction */
+
+  public notarizedTransactionV2Hash(
+    input: NotarizedTransactionV2HashInput
+  ): NotarizedTransactionV2HashOutput {
+    return this.callFunction(
+      input,
+      this.exports.notarized_transaction_v2_hash
+    );
+  }
+
+  public notarizedTransactionV2Compile(
+    input: NotarizedTransactionV2CompileInput
+  ): NotarizedTransactionV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.notarized_transaction_v2_compile
+    );
+  }
+
+  public notarizedTransactionV2Decompile(
+    input: NotarizedTransactionV2DecompileInput
+  ): NotarizedTransactionV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.notarized_transaction_v2_decompile
+    );
+  }
+
+  public notarizedTransactionV2StaticallyValidate(
+    input: NotarizedTransactionV2StaticallyValidateInput
+  ): NotarizedTransactionV2StaticallyValidateOutput {
+    return this.callFunction(
+      input,
+      this.exports.notarized_transaction_v2_statically_validate
+    );
+  }
+
+  /* V2 Subintent */
+
+  public subintentV2Hash(
+    input: SubintentV2HashInput
+  ): SubintentV2HashOutput {
+    return this.callFunction(input, this.exports.subintent_v2_hash);
+  }
+
+  public subintentV2Compile(
+    input: SubintentV2CompileInput
+  ): SubintentV2CompileOutput {
+    return this.callFunction(input, this.exports.subintent_v2_compile);
+  }
+
+  public subintentV2Decompile(
+    input: SubintentV2DecompileInput
+  ): SubintentV2DecompileOutput {
+    return this.callFunction(input, this.exports.subintent_v2_decompile);
+  }
+
+  /* V2 Partial Transaction */
+
+  public partialTransactionV2Hash(
+    input: PartialTransactionV2HashInput
+  ): PartialTransactionV2HashOutput {
+    return this.callFunction(input, this.exports.partial_transaction_v2_hash);
+  }
+
+  public partialTransactionV2Compile(
+    input: PartialTransactionV2CompileInput
+  ): PartialTransactionV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.partial_transaction_v2_compile
+    );
+  }
+
+  public partialTransactionV2Decompile(
+    input: PartialTransactionV2DecompileInput
+  ): PartialTransactionV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.partial_transaction_v2_decompile
+    );
+  }
+
+  /* V2 Signed Partial Transaction */
+
+  public signedPartialTransactionV2Hash(
+    input: SignedPartialTransactionV2HashInput
+  ): SignedPartialTransactionV2HashOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_hash
+    );
+  }
+
+  public signedPartialTransactionV2Compile(
+    input: SignedPartialTransactionV2CompileInput
+  ): SignedPartialTransactionV2CompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_compile
+    );
+  }
+
+  public signedPartialTransactionV2Decompile(
+    input: SignedPartialTransactionV2DecompileInput
+  ): SignedPartialTransactionV2DecompileOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_decompile
+    );
+  }
+
+  public signedPartialTransactionV2StaticallyValidate(
+    input: SignedPartialTransactionV2StaticallyValidateInput
+  ): SignedPartialTransactionV2StaticallyValidateOutput {
+    return this.callFunction(
+      input,
+      this.exports.signed_partial_transaction_v2_statically_validate
+    );
+  }
+
   allocateMemory(capacity: number): number {
     return this.exports.toolkit_alloc(capacity);
   }
@@ -472,6 +687,38 @@ interface Exports {
   notarized_transaction_compile(pointer: number): number;
   notarized_transaction_decompile(pointer: number): number;
   notarized_transaction_statically_validate(pointer: number): number;
+
+  /* V2 Transaction Intent Module */
+  transaction_intent_v2_hash(pointer: number): number;
+  transaction_intent_v2_compile(pointer: number): number;
+  transaction_intent_v2_decompile(pointer: number): number;
+
+  /* V2 Signed Transaction Intent Module */
+  signed_transaction_intent_v2_hash(pointer: number): number;
+  signed_transaction_intent_v2_compile(pointer: number): number;
+  signed_transaction_intent_v2_decompile(pointer: number): number;
+
+  /* V2 Notarized Transaction Module */
+  notarized_transaction_v2_hash(pointer: number): number;
+  notarized_transaction_v2_compile(pointer: number): number;
+  notarized_transaction_v2_decompile(pointer: number): number;
+  notarized_transaction_v2_statically_validate(pointer: number): number;
+
+  /* V2 Subintent Module */
+  subintent_v2_hash(pointer: number): number;
+  subintent_v2_compile(pointer: number): number;
+  subintent_v2_decompile(pointer: number): number;
+
+  /* V2 Partial Transaction Module */
+  partial_transaction_v2_hash(pointer: number): number;
+  partial_transaction_v2_compile(pointer: number): number;
+  partial_transaction_v2_decompile(pointer: number): number;
+
+  /* V2 Signed Partial Transaction Module */
+  signed_partial_transaction_v2_hash(pointer: number): number;
+  signed_partial_transaction_v2_compile(pointer: number): number;
+  signed_partial_transaction_v2_decompile(pointer: number): number;
+  signed_partial_transaction_v2_statically_validate(pointer: number): number;
 
   /* SBOR Modules */
   manifest_sbor_decode_to_string(pointer: number): number;

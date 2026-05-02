@@ -24,12 +24,18 @@ import {
   KnownAddresses,
   ManifestSborStringRepresentation,
   NotarizedTransaction,
+  NotarizedTransactionV2,
   OlympiaNetwork,
+  PartialTransactionV2,
   PublicKey,
   SerializationMode,
   SignedIntent,
+  SignedPartialTransactionV2,
+  SignedTransactionIntentV2,
   StaticValidationResult,
+  SubintentV2,
   TransactionHash,
+  TransactionIntentV2,
   TransactionManifest,
   ValidationConfig,
   rawRadixEngineToolkit,
@@ -40,8 +46,10 @@ import {
   IntentStaticallyValidateOutput,
   ManifestStaticallyValidateOutput,
   NotarizedTransactionStaticallyValidateOutput,
+  NotarizedTransactionV2StaticallyValidateOutput,
   SerializableInstructionsKind,
   SignedIntentStaticallyValidateOutput,
+  SignedPartialTransactionV2StaticallyValidateOutput,
 } from "../generated";
 
 export class RadixEngineToolkit {
@@ -380,14 +388,11 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyValidate(
-      intent: Intent,
-      validationConfig: ValidationConfig
+      intent: Intent
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.intentStaticallyValidate({
         intent: GeneratedConverter.Intent.toGenerated(intent),
-        validation_config:
-          GeneratedConverter.ValidationConfig.toGenerated(validationConfig),
       });
       return toStaticValidationResult(output);
     }
@@ -435,15 +440,12 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyValidate(
-      signedIntent: SignedIntent,
-      validationConfig: ValidationConfig
+      signedIntent: SignedIntent
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.signedIntentStaticallyValidate({
         signed_intent:
           GeneratedConverter.SignedIntent.toGenerated(signedIntent),
-        validation_config:
-          GeneratedConverter.ValidationConfig.toGenerated(validationConfig),
       });
       return toStaticValidationResult(output);
     }
@@ -509,8 +511,7 @@ export class RadixEngineToolkit {
     }
 
     static async staticallyValidate(
-      notarizedTransaction: NotarizedTransaction,
-      validationConfig: ValidationConfig
+      notarizedTransaction: NotarizedTransaction
     ): Promise<StaticValidationResult> {
       const rawRet = await rawRadixEngineToolkit;
       const output = rawRet.notarizedTransactionStaticallyValidate({
@@ -518,8 +519,252 @@ export class RadixEngineToolkit {
           GeneratedConverter.NotarizedTransaction.toGenerated(
             notarizedTransaction
           ),
-        validation_config:
-          GeneratedConverter.ValidationConfig.toGenerated(validationConfig),
+      });
+      return toStaticValidationResult(output);
+    }
+  };
+
+  /* ── V2 Transaction Modules ───────────────────────────────────────── */
+
+  static TransactionIntentV2 = class {
+    static async hash(
+      intent: TransactionIntentV2
+    ): Promise<TransactionHash> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.transactionIntentV2Hash(
+        GeneratedConverter.TransactionIntentV2.toGenerated(intent)
+      );
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async compile(
+      intent: TransactionIntentV2
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.transactionIntentV2Compile(
+        GeneratedConverter.TransactionIntentV2.toGenerated(intent)
+      );
+      return Convert.HexString.toUint8Array(output);
+    }
+
+    static async decompile(
+      compiled: Uint8Array,
+      networkId: number
+    ): Promise<TransactionIntentV2> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.transactionIntentV2Decompile({
+        compiled: Convert.Uint8Array.toHexString(compiled),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return GeneratedConverter.TransactionIntentV2.fromGenerated(output);
+    }
+  };
+
+  static SignedTransactionIntentV2 = class {
+    static async hash(
+      signedIntent: SignedTransactionIntentV2
+    ): Promise<TransactionHash> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.signedTransactionIntentV2Hash(
+        GeneratedConverter.SignedTransactionIntentV2.toGenerated(signedIntent)
+      );
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async compile(
+      signedIntent: SignedTransactionIntentV2
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.signedTransactionIntentV2Compile(
+        GeneratedConverter.SignedTransactionIntentV2.toGenerated(signedIntent)
+      );
+      return Convert.HexString.toUint8Array(output);
+    }
+
+    static async decompile(
+      compiled: Uint8Array,
+      networkId: number
+    ): Promise<SignedTransactionIntentV2> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.signedTransactionIntentV2Decompile({
+        compiled: Convert.Uint8Array.toHexString(compiled),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return GeneratedConverter.SignedTransactionIntentV2.fromGenerated(output);
+    }
+  };
+
+  static NotarizedTransactionV2 = class {
+    static async hash(
+      notarizedTransaction: NotarizedTransactionV2
+    ): Promise<TransactionHash> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.notarizedTransactionV2Hash(
+        GeneratedConverter.NotarizedTransactionV2.toGenerated(
+          notarizedTransaction
+        )
+      );
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async compile(
+      notarizedTransaction: NotarizedTransactionV2
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.notarizedTransactionV2Compile(
+        GeneratedConverter.NotarizedTransactionV2.toGenerated(
+          notarizedTransaction
+        )
+      );
+      return Convert.HexString.toUint8Array(output);
+    }
+
+    static async decompile(
+      compiled: Uint8Array,
+      networkId: number
+    ): Promise<NotarizedTransactionV2> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.notarizedTransactionV2Decompile({
+        compiled: Convert.Uint8Array.toHexString(compiled),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return GeneratedConverter.NotarizedTransactionV2.fromGenerated(output);
+    }
+
+    static async staticallyValidate(
+      notarizedTransaction: NotarizedTransactionV2,
+      networkId: number
+    ): Promise<StaticValidationResult> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.notarizedTransactionV2StaticallyValidate({
+        notarized_transaction:
+          GeneratedConverter.NotarizedTransactionV2.toGenerated(
+            notarizedTransaction
+          ),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return toStaticValidationResult(output);
+    }
+  };
+
+  static SubintentV2 = class {
+    static async hash(
+      subintent: SubintentV2
+    ): Promise<TransactionHash> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.subintentV2Hash(
+        GeneratedConverter.SubintentV2.toGenerated(subintent)
+      );
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async compile(
+      subintent: SubintentV2
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.subintentV2Compile(
+        GeneratedConverter.SubintentV2.toGenerated(subintent)
+      );
+      return Convert.HexString.toUint8Array(output);
+    }
+
+    static async decompile(
+      compiled: Uint8Array,
+      networkId: number
+    ): Promise<SubintentV2> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.subintentV2Decompile({
+        compiled: Convert.Uint8Array.toHexString(compiled),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return GeneratedConverter.SubintentV2.fromGenerated(output);
+    }
+  };
+
+  static PartialTransactionV2 = class {
+    static async hash(
+      partialTransaction: PartialTransactionV2
+    ): Promise<TransactionHash> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.partialTransactionV2Hash(
+        GeneratedConverter.PartialTransactionV2.toGenerated(partialTransaction)
+      );
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async compile(
+      partialTransaction: PartialTransactionV2
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.partialTransactionV2Compile(
+        GeneratedConverter.PartialTransactionV2.toGenerated(partialTransaction)
+      );
+      return Convert.HexString.toUint8Array(output);
+    }
+
+    static async decompile(
+      compiled: Uint8Array,
+      networkId: number
+    ): Promise<PartialTransactionV2> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.partialTransactionV2Decompile({
+        compiled: Convert.Uint8Array.toHexString(compiled),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return GeneratedConverter.PartialTransactionV2.fromGenerated(output);
+    }
+  };
+
+  static SignedPartialTransactionV2 = class {
+    static async hash(
+      signedPartialTransaction: SignedPartialTransactionV2
+    ): Promise<TransactionHash> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.signedPartialTransactionV2Hash(
+        GeneratedConverter.SignedPartialTransactionV2.toGenerated(
+          signedPartialTransaction
+        )
+      );
+      return GeneratedConverter.TransactionHash.fromGenerated(output);
+    }
+
+    static async compile(
+      signedPartialTransaction: SignedPartialTransactionV2
+    ): Promise<Uint8Array> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.signedPartialTransactionV2Compile(
+        GeneratedConverter.SignedPartialTransactionV2.toGenerated(
+          signedPartialTransaction
+        )
+      );
+      return Convert.HexString.toUint8Array(output);
+    }
+
+    static async decompile(
+      compiled: Uint8Array,
+      networkId: number
+    ): Promise<SignedPartialTransactionV2> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.signedPartialTransactionV2Decompile({
+        compiled: Convert.Uint8Array.toHexString(compiled),
+        network_id: Convert.Number.toString(networkId),
+      });
+      return GeneratedConverter.SignedPartialTransactionV2.fromGenerated(
+        output
+      );
+    }
+
+    static async staticallyValidate(
+      signedPartialTransaction: SignedPartialTransactionV2,
+      networkId: number
+    ): Promise<StaticValidationResult> {
+      const rawRet = await rawRadixEngineToolkit;
+      const output = rawRet.signedPartialTransactionV2StaticallyValidate({
+        signed_partial_transaction:
+          GeneratedConverter.SignedPartialTransactionV2.toGenerated(
+            signedPartialTransaction
+          ),
+        network_id: Convert.Number.toString(networkId),
       });
       return toStaticValidationResult(output);
     }
@@ -606,16 +851,16 @@ export class RadixEngineToolkit {
       return {
         resourceAddresses: {
           xrd: output.resource_addresses.xrd,
-          secp256k1SignatureVirtualBadge:
-            output.resource_addresses.secp256k1_signature_virtual_badge,
-          ed25519SignatureVirtualBadge:
-            output.resource_addresses.ed25519_signature_virtual_badge,
-          packageOfDirectCallerVirtualBadge:
-            output.resource_addresses.package_of_direct_caller_virtual_badge,
-          globalCallerVirtualBadge:
-            output.resource_addresses.global_caller_virtual_badge,
-          systemTransactionBadge:
-            output.resource_addresses.system_transaction_badge,
+          secp256k1SignatureResource:
+            output.resource_addresses.secp256k1_signature_resource,
+          ed25519SignatureResource:
+            output.resource_addresses.ed25519_signature_resource,
+          packageOfDirectCallerResource:
+            output.resource_addresses.package_of_direct_caller_resource,
+          globalCallerResource:
+            output.resource_addresses.global_caller_resource,
+          systemExecutionResource:
+            output.resource_addresses.system_execution_resource,
           packageOwnerBadge: output.resource_addresses.package_owner_badge,
           validatorOwnerBadge: output.resource_addresses.validator_owner_badge,
           accountOwnerBadge: output.resource_addresses.account_owner_badge,
@@ -658,6 +903,8 @@ const toStaticValidationResult = (
     | IntentStaticallyValidateOutput
     | SignedIntentStaticallyValidateOutput
     | NotarizedTransactionStaticallyValidateOutput
+    | NotarizedTransactionV2StaticallyValidateOutput
+    | SignedPartialTransactionV2StaticallyValidateOutput
 ): StaticValidationResult => {
   switch (input.kind) {
     case "Valid":
